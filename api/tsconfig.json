@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"experimentalDecorators": true,
+		"isolatedModules": true,
+		"skipLibCheck": true,
+		"emitDecoratorMetadata": true,
+		"outDir": "dist",
+		"module": "commonJs",
+		"target": "es6",
+		"allowJs": true,
+		"moduleResolution": "node",
+		"paths": {
+			"@models/*": ["src/models/*"],
+			"@graphql/*": ["src/graphql/*"],
+			"@controllers/*": ["src/controllers/*"]
+		}
+	},
+	"exclude": ["node_modules", ".cache"],
+	"include": ["./src/**/*.ts"]
+}
