@@ -1,14 +1,15 @@
-extend type Mutation {
-	login(input: LoginInput!): LoginResponse!
-}
-
 type LoginResponse {
 	success: Boolean
 	message: String
 	token: String
+	permissions: [String]
 }
 
 input LoginInput {
 	email: String
 	password: String
+}
+
+extend type Mutation {
+	login(input: LoginInput!): LoginResponse!
 }

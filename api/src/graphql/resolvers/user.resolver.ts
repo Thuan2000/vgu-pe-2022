@@ -1,5 +1,4 @@
 import UserController from "../../controllers/user.controller";
-import users from "../../users";
 
 const userController = new UserController();
 

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Form from "./form";
 
 // React-hook-form
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -13,6 +13,8 @@ import Button from "./ui/button";
 import Input from "./ui/input";
 import Checkbox from "./ui/checkbox";
 import Link from "./ui/link";
+import { useLoginMutation } from "../graphql/auth.graphql";
+import { setAuthCredentials } from "../utils/auth-utils";
 
 type FormValues = {
 	email: string;
@@ -36,12 +38,36 @@ const LoginForm = () => {
 	} = useForm<FormValues>({
 		resolver: yupResolver(loginSchema)
 	});
-	const { t } = useTranslation("form");
 
-	function submitHandler(e: FormValues) {}
+	const { t } = useTranslation("form");
+	const [login, { loading, error }] = useLoginMutation({
+		onError: (err) => console.log(err),
+		onCompleted: ({ login }) => {
+			const { success, message, token, permissions } = login;
+			if (success) {
+				// Set auth cred
+				setAuthCredentials(token as string, permissions);
+				// Redirect to homepage
+				return;
+			}
+
+			alert(t(message || ""));
+		}
+	});
+
+	async function onSubmit({ email, password }: FormValues) {
+		login({
+			variables: {
+				input: {
+					email,
+					password
+				}
+			}
+		});
+	}
 
 	return (
-		<Form onSubmit={handleSubmit(submitHandler)}>
+		<Form onSubmit={handleSubmit(onSubmit)}>
 			<div className="mb-3">
 				<Input
 					{...register("email")}
@@ -58,7 +84,7 @@ const LoginForm = () => {
 					type="password"
 					error={t(errors?.password?.message || "")}
 				/>
-				<Button variant="outline" size="small" className="w-full">
+				<Button size="small" className="w-full">
 					{t("submit")}
 				</Button>
 			</div>

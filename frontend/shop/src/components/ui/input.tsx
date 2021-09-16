@@ -64,7 +64,6 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 					className={rootClassName}
 					autoComplete="off"
 					autoCorrect="off"
-					autoCapitalize="off"
 					spellCheck="false"
 					aria-invalid={error ? "true" : "false"}
 					{...rest}
