@@ -1,0 +1,12 @@
+{
+	"email-label": "Email",
+	"email-placeholder": "fatwaanugerah@gmail.com",
+	"password-label": "Password",
+	"password-placeholder": "********",
+	"remember-me": "Remember me",
+	"forget-password": "Forget password?",
+	"email-invalid-error": "Please enter an valid email",
+	"email-required-error": "Please provide an password",
+	"password-required-error": "Please provide password",
+	"submit": "Submit"
+}
