@@ -7,9 +7,9 @@ import {
 import { ROUTES } from "../utils/routes";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const { token, permissions } = getAuthCredentials(ctx);
+	const { token, role } = getAuthCredentials(ctx);
 
-	if (!isAuthenticated({ token, permissions })) {
+	if (!token || !role || !isAuthenticated({ token, role })) {
 		return {
 			redirect: {
 				destination: ROUTES.LOGIN,
@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Home: NextPage = () => {
-	return <div className="text-red-700"></div>;
+	return <div>HOMEPAGE</div>;
 };
 
 export default Home;

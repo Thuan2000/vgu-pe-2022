@@ -1,5 +1,5 @@
-import { APP_NAME } from "../settings/site.settings";
+import { siteSettings } from "../settings/site.settings";
 
 export function generateHeadTitle(page: string): string {
-	return `${APP_NAME} | ${page}`;
+	return `${siteSettings.appName} | ${page}`;
 }

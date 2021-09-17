@@ -6,9 +6,11 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: "normal" | "outline" | "custom";
 	size?: "big" | "medium" | "small";
 	active?: boolean;
+	color?: string;
 	loading?: boolean;
 	disabled?: boolean;
 }
+
 const classes = {
 	root: "inline-flex items-center justify-center flex-shrink-0 font-semibold leading-none rounded outline-none transition duration-300 ease-in-out focus:outline-none focus:shadow focus:ring-1 focus:ring-green-main-700",
 	normal: "bg-green-main text-light border border-transparent hover:bg-green-hover",

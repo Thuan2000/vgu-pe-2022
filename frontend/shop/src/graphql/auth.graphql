@@ -3,6 +3,6 @@ mutation Login($input: LoginInput!) {
 		token
 		message
 		success
-		permissions
+		role
 	}
 }

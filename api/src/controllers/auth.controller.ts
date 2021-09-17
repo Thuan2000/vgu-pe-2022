@@ -22,7 +22,8 @@ class AuthController {
 		return {
 			message: "Success",
 			success: true,
-			token
+			token,
+			role: user.getDataValue("role")
 		};
 	}
 }

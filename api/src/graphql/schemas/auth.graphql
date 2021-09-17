@@ -2,7 +2,7 @@ type LoginResponse {
 	success: Boolean
 	message: String
 	token: String
-	permissions: [String]
+	role: ROLE
 }
 
 input LoginInput {

@@ -3,16 +3,9 @@ require("dotenv").config();
 
 if (process.env.NODE_ENV === "development") {
 	module.exports = {
-		config: path.resolve("src/config", "database.json"),
+		config: path.resolve("src/sequelize", "config.js"),
 		"models-path": path.resolve("src", "models"),
 		"migrations-path": path.resolve("src/db", "migrations"),
 		"seeders-path": path.resolve("src/db", "seeders")
-	};
-} else {
-	module.exports = {
-		config: path.resolve("build/config", "database.json"),
-		"models-path": path.resolve("build", "models"),
-		"migrations-path": path.resolve("build/db", "migrations"),
-		"seeders-path": path.resolve("build/db", "seeders")
 	};
 }

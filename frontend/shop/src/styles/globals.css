@@ -214,5 +214,13 @@ body {
 	@apply flex flex-col justify-center items-center;
 }
 
+.y-center {
+	@apply top-1/2 -translate-y-1/2;
+}
+
+.social-button {
+	@apply border-gray-600 hover:bg-gray-600  hover:border-gray-600;
+}
+
 @tailwind components;
 @tailwind utilities;
