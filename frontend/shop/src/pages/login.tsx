@@ -16,11 +16,6 @@ import Logo from "@components/ui/logo";
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { locale } = ctx;
 	const { token, role } = getAuthCredentials(ctx);
-	const [data] = useSession();
-
-	useEffect(() => {
-		if (data) console.log(data);
-	});
 
 	if (token && role && isAuthenticated({ token, role })) {
 		return {
@@ -38,6 +33,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Login = () => {
+	const [data] = useSession();
+
+	useEffect(() => {
+		if (data) console.log(data);
+	});
+
 	const { t } = useTranslation("common");
 
 	return (
