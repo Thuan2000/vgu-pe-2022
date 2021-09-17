@@ -14,7 +14,11 @@ const Navigations = () => {
 					const { href, label } = navigation;
 
 					return (
-						<Link href={href} className="mr-7 text-body text-sm">
+						<Link
+							href={href}
+							key={navigation.label + "Nav-item"}
+							className="mr-7 text-body text-sm"
+						>
 							{t(label)}
 						</Link>
 					);

@@ -16,7 +16,11 @@ const UnderDevelopment = () => {
 				<strong>Sorry :(</strong> this page is under development
 			</p>
 
-			<Image className="my-5" src={UnderConstructionIllustration} />
+			<Image
+				className="my-5"
+				src={UnderConstructionIllustration}
+				objectFit="cover"
+			/>
 
 			<p className="my-5">
 				It will be available soon. Please come back again later

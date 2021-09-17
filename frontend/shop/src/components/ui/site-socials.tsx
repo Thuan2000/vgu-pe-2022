@@ -18,6 +18,7 @@ const SiteSocials = ({ className, ...props }: ISiteSocialsProps) => {
 							href={href}
 							title={`${label} | ${href}`}
 							className="mr-3"
+							key={`${href}-${label}`}
 							target="_blank"
 						>
 							<Icon className="w-5 h-5" />
