@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { signIn } from "next-auth/client";
+import { signIn, useSession } from "next-auth/client";
 
 import Button, { ButtonProps } from "./ui/button";
 import FacebookIcon from "@assets/icons/socials/facebook-icon";
@@ -13,6 +13,14 @@ export interface ISocialButtonProps extends ButtonProps {
 
 const SocialLoginButton = ({ label, social, ...props }: ISocialButtonProps) => {
 	const { t } = useTranslation("common");
+	// const [sessionData] = useSession();
+
+	// useEffect(() => {
+	// 	if (sessionData) {
+	// 		console.log(sessionData);
+	// 		console.log("Storing session to database");
+	// 	}
+	// }, [sessionData]);
 
 	function handleClick() {
 		signIn(social);

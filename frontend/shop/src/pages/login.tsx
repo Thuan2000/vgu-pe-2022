@@ -1,22 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import Image from "next/image";
+import { useSession } from "next-auth/client";
 
 import LoginForm from "../components/login-form";
 import { generateHeadTitle } from "../utils/seo-utils";
-import { gql, useQuery } from "@apollo/client";
 import { getAuthCredentials, isAuthenticated } from "../utils/auth-utils";
 import { ROUTES } from "../utils/routes";
 import ImageIllustration from "@assets/login-page-image.png";
-import { siteSettings } from "@settings/site.settings";
 import Logo from "@components/ui/logo";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { locale } = ctx;
 	const { token, role } = getAuthCredentials(ctx);
+	const [data] = useSession();
+
+	useEffect(() => {
+		if (data) console.log(data);
+	});
+
 	if (token && role && isAuthenticated({ token, role })) {
 		return {
 			redirect: {
@@ -39,7 +44,7 @@ const Login = () => {
 		<>
 			<Head>
 				<title>{generateHeadTitle(t("common:login"))}</title>
-				<meta name="description" content="SDConnect login page"></meta>
+				<meta name="description" content="SDConnect login page" />
 			</Head>
 			<div className="flex">
 				<div className="w-4/6 bg-black relative h-screen">

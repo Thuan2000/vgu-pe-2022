@@ -81,7 +81,6 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
 						className={`${rootClassName} pl-7`}
 						autoComplete="off"
 						autoCorrect="off"
-						autoCapitalize="off"
 						spellCheck="false"
 						{...rest}
 					/>
