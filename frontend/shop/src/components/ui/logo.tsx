@@ -3,10 +3,26 @@ import Link from "@components/ui/link";
 import cn from "classnames";
 import { siteSettings } from "@settings/site.settings";
 
-const Logo: React.FC<React.AnchorHTMLAttributes<{}>> = ({
-	className,
-	...props
-}) => {
+interface ILogoProps extends React.AnchorHTMLAttributes<{}> {
+	size?: "big" | "medium" | "small";
+}
+
+const sizes = {
+	big: {
+		width: 200,
+		height: 100
+	},
+	medium: {
+		width: 150,
+		height: 50
+	},
+	small: {
+		width: 100,
+		height: 50
+	}
+};
+
+const Logo = ({ className, size, ...props }: ILogoProps) => {
 	return (
 		<Link
 			href={siteSettings.logo.href}
@@ -16,8 +32,8 @@ const Logo: React.FC<React.AnchorHTMLAttributes<{}>> = ({
 			<span
 				className="overflow-hidden relative"
 				style={{
-					width: siteSettings.logo.width,
-					height: siteSettings.logo.height
+					width: size ? sizes[size].width : siteSettings.logo.width,
+					height: size ? sizes[size].height : siteSettings.logo.height
 				}}
 			>
 				<Image

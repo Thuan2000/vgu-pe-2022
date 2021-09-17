@@ -10,7 +10,7 @@ import LoginForm from "../components/login-form";
 import { generateHeadTitle } from "../utils/seo-utils";
 import { getAuthCredentials, isAuthenticated } from "../utils/auth-utils";
 import { ROUTES } from "../utils/routes";
-import ImageIllustration from "@assets/login-page-image.png";
+import ImageIllustration from "@assets/login-page-illustration.jpg";
 import Logo from "@components/ui/logo";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
