@@ -49,7 +49,11 @@ const Login = () => {
 			</Head>
 			<div className="flex">
 				<div className="w-4/6 bg-black relative h-screen">
-					<Image src={ImageIllustration} layout="fill" />
+					<Image
+						src={ImageIllustration}
+						objectFit="cover"
+						layout="fill"
+					/>
 				</div>
 				<div className="center-child w-3/6">
 					<div className="w-3/5 flex flex-col items-center">

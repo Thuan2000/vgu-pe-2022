@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ROUTES } from "@utils/routes";
 import Link from "./ui/link";
 import Button from "./ui/storybook/button";
-import UnderConstructionIllustration from "@assets/under-construction-illustration.png";
+import UnderConstructionIllustration from "@assets/under-construction-illustration.gif";
 
 const UnderDevelopment = () => {
 	const { t } = useTranslation("common");
