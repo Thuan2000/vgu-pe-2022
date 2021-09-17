@@ -10,17 +10,12 @@ import LoginForm from "../components/login-form";
 import { generateHeadTitle } from "../utils/seo-utils";
 import { getAuthCredentials, isAuthenticated } from "../utils/auth-utils";
 import { ROUTES } from "../utils/routes";
-import ImageIllustration from "@assets/login-page-image.png";
+import ImageIllustration from "@assets/login-page-illustration.jpg";
 import Logo from "@components/ui/logo";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { locale } = ctx;
 	const { token, role } = getAuthCredentials(ctx);
-	const [data] = useSession();
-
-	useEffect(() => {
-		if (data) console.log(data);
-	});
 
 	if (token && role && isAuthenticated({ token, role })) {
 		return {
@@ -38,6 +33,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Login = () => {
+	const [data] = useSession();
+
+	useEffect(() => {
+		if (data) console.log(data);
+	});
+
 	const { t } = useTranslation("common");
 
 	return (
@@ -48,7 +49,11 @@ const Login = () => {
 			</Head>
 			<div className="flex">
 				<div className="w-4/6 bg-black relative h-screen">
-					<Image src={ImageIllustration} layout="fill" />
+					<Image
+						src={ImageIllustration}
+						objectFit="cover"
+						layout="fill"
+					/>
 				</div>
 				<div className="center-child w-3/6">
 					<div className="w-3/5 flex flex-col items-center">

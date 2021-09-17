@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { signIn, useSession } from "next-auth/client";
 
-import Button, { ButtonProps } from "./ui/button";
+import Button, { ButtonProps } from "./ui/storybook/button";
 import FacebookIcon from "@assets/icons/socials/facebook-icon";
 import GoogleIcon from "@assets/icons/socials/google-icon";
 
@@ -23,7 +23,8 @@ const SocialLoginButton = ({ label, social, ...props }: ISocialButtonProps) => {
 	// }, [sessionData]);
 
 	function handleClick() {
-		signIn(social);
+		// @TODO uncomment next line
+		// signIn(social);
 	}
 
 	return (

@@ -1,13 +1,23 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetServerSideProps } from "next";
+
 import {
 	getAuthCredentials,
 	hasAccess,
 	isAuthenticated
 } from "../utils/auth-utils";
+import PageLayout from "@components/layouts/page-layout";
 import { ROUTES } from "../utils/routes";
+import React from "react";
+import Head from "next/head";
+import { generateHeadTitle } from "@utils/seo-utils";
+import { useTranslation } from "react-i18next";
+import UnderDevelopment from "@components/under-development";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { token, role } = getAuthCredentials(ctx);
+
+	const { locale } = ctx;
 
 	if (!token || !role || !isAuthenticated({ token, role })) {
 		return {
@@ -18,12 +28,31 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		};
 	}
 	return {
-		props: {}
+		props: {
+			...(await serverSideTranslations(locale!, ["common"]))
+		}
 	};
 };
 
-const Home: NextPage = () => {
-	return <div>HOMEPAGE</div>;
+const Homepage = () => {
+	const { t } = useTranslation("common");
+
+	return (
+		<>
+			<Head>
+				<title>{generateHeadTitle(t("homepage"))}</title>
+				<meta
+					name="description"
+					content="DSConnect.VN | The best B2B Ecommerce in Vietnam provide a fast supply demain chain to fit your need"
+				/>
+			</Head>
+			<main>
+				<UnderDevelopment />
+			</main>
+		</>
+	);
 };
 
-export default Home;
+Homepage.Layout = PageLayout;
+
+export default Homepage;

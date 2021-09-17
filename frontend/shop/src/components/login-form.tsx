@@ -9,10 +9,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 // UI
-import Button from "./ui/button";
-import Input from "./ui/input";
-import Checkbox from "./ui/checkbox";
+import Button from "./ui/storybook/button";
+import Input from "./ui/storybook/input";
 import Link from "./ui/link";
+import Checkbox from "./ui/storybook/checkbox";
 import { LoginMutation, useLoginMutation } from "../graphql/auth.graphql";
 import { setAuthCredentials } from "../utils/auth-utils";
 import { useRouter } from "next/dist/client/router";
@@ -109,6 +109,7 @@ const LoginForm = () => {
 					<Link
 						className="text-xs text-blue-secondary"
 						href="/forget-password"
+						noDecoration
 					>
 						{t("forget-password")}
 					</Link>
