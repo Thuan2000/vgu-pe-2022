@@ -1,4 +1,5 @@
 {
 	"login-title": "Sign in",
-	"login": "Login Page"
+	"login": "Login Page",
+	"login-via-google-label": "Login using google"
 }

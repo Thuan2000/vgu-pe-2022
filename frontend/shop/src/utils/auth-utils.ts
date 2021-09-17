@@ -1,29 +1,27 @@
 import Cookie from "js-cookie";
 import SSRCookie from "cookie";
-import {
-	AUTH_CRED,
-	PERMISSIONS,
-	STAFF,
-	STORE_OWNER,
-	SUPER_ADMIN,
-	TOKEN
-} from "./constants";
+import { AUTH_CRED, ROLE, TOKEN } from "./constants";
 
-export function setAuthCredentials(token: string, permissions: any) {
+const cookieDomain = { domain: `.${process.env.NEXT_PUBLIC_DOMAIN}` };
+
+const isDevelopment = process.env.NODE_ENV === "development";
+
+export function setAuthCredentials(token: string, role: string) {
+	const authCred = { token, role };
 	Cookie.set(
 		AUTH_CRED,
-		{ token, permissions },
-		{ domain: process.env.COOKIE_DOMAIN }
+		JSON.stringify({ ...authCred }),
+		!isDevelopment ? { ...cookieDomain } : {}
 	);
 }
 
 export function removeAuthCredentials() {
-	Cookie.remove(AUTH_CRED, { domain: process.env.COOKIE_DOMAIN });
+	Cookie.remove(AUTH_CRED, !isDevelopment ? { ...cookieDomain } : {});
 }
 
 export function getAuthCredentials(context?: any): {
 	token: string | null;
-	permissions: string[] | null;
+	role: string | null;
 } {
 	let authCred;
 	if (context) {
@@ -31,10 +29,12 @@ export function getAuthCredentials(context?: any): {
 	} else {
 		authCred = Cookie.get(AUTH_CRED);
 	}
+
 	if (authCred) {
 		return JSON.parse(authCred);
 	}
-	return { token: null, permissions: null };
+
+	return { token: null, role: null };
 }
 
 export function parseSSRCookie(context: any) {
@@ -53,10 +53,6 @@ export function hasAccess(
 	return false;
 }
 
-export function isAuthenticated(_cookies: any) {
-	return (
-		!!_cookies[TOKEN] &&
-		Array.isArray(_cookies[PERMISSIONS]) &&
-		!!_cookies[PERMISSIONS].length
-	);
+export function isAuthenticated(_cookies: { token: string; role: string }) {
+	return _cookies.token && _cookies.role;
 }

@@ -10,6 +10,8 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	type?: string;
 	shadow?: boolean;
 	variant?: "normal" | "solid" | "outline";
+	prefix?: any;
+	suffix?: any;
 }
 const classes = {
 	root: "px-4 h-12 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
@@ -31,6 +33,8 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 			shadow = false,
 			type = "text",
 			inputClassName,
+			prefix,
+			suffix,
 			...rest
 		},
 		ref
@@ -56,19 +60,30 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 				>
 					{label}
 				</label>
-				<input
-					id={name}
-					name={name}
-					type={type}
-					ref={ref}
-					className={rootClassName}
-					autoComplete="off"
-					autoCorrect="off"
-					autoCapitalize="off"
-					spellCheck="false"
-					aria-invalid={error ? "true" : "false"}
-					{...rest}
-				/>
+				<div className="felx items-center align-middle relative">
+					<input
+						id={name}
+						name={name}
+						type={type}
+						ref={ref}
+						className={`${rootClassName} pl-7`}
+						autoComplete="off"
+						autoCorrect="off"
+						spellCheck="false"
+						aria-invalid={error ? "true" : "false"}
+						{...rest}
+					/>
+					{prefix && (
+						<label className="absolute y-center left-2 text-body">
+							{prefix}
+						</label>
+					)}
+					{suffix && (
+						<label className="absolute y-center right-4 text-body">
+							{suffix}
+						</label>
+					)}
+				</div>
 				{note && <p className="mt-2 text-xs text-body">{note}</p>}
 				{error && (
 					<p className="my-2 text-xs text-start text-red-500">

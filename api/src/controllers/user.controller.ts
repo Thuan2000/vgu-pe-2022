@@ -1,6 +1,5 @@
+import { errorResponse } from "../utils/responses";
 import User from "../models/User";
-import * as jwt from "jsonwebtoken";
-import { email } from "envalid";
 
 class UserController {
 	async getUsers() {
@@ -18,10 +17,7 @@ class UserController {
 			});
 
 			if (sameEmailUser) {
-				return {
-					message: "Duplicate user",
-					success: false
-				};
+				return errorResponse("DUPLICATE_USER");
 			}
 			const newUser = await User.create({ ...user });
 			newUser.save();
@@ -31,10 +27,7 @@ class UserController {
 			};
 		} catch (error) {
 			console.log(error);
-			return {
-				message: `Something went wrong`,
-				success: false
-			};
+			return errorResponse("SOMETHING_WENT_WRONG");
 		}
 	}
 }

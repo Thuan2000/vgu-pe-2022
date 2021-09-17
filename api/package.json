@@ -5,8 +5,11 @@
 	"private": true,
 	"scripts": {
 		"test": "jest",
+		"predb:migrate": "npx sequelize-cli db:migrate:undo:all",
+		"db:migrate": "npx sequelize-cli db:migrate",
+		"db:seed": "npx sequelize-cli db:seed:all",
 		"lint": "eslint --fix ./src/**/*.ts",
-		"dev": "nodemon --watch src -e ts --exec ts-node ./src/server.ts",
+		"dev": "cross-env NODE_ENV=development nodemon --watch src -e ts --exec ts-node ./src/server.ts",
 		"start": "npm-run-all clean lint compile start:server",
 		"start:server": "node ./dist/server.js",
 		"clean": "rimraf dist/*",
@@ -26,6 +29,7 @@
 		"@graphql-tools/merge": "^8.1.2",
 		"apollo-server": "^3.3.0",
 		"bcrypt": "^5.0.0",
+		"cross-env": "^7.0.3",
 		"dotenv": "^8.1.0",
 		"envalid": "^4.2.2",
 		"graphql": "^15.5.3",
@@ -33,6 +37,7 @@
 		"jsonwebtoken": "^8.5.1",
 		"mysql": "^2.18.1",
 		"mysql2": "^2.3.0",
+		"redis": "^3.1.2",
 		"sequelize": "^6.6.5"
 	},
 	"devDependencies": {
@@ -46,6 +51,8 @@
 		"@types/jsonwebtoken": "^8.3.2",
 		"@types/mock-req-res": "^1.1.0",
 		"@types/mysql": "^2.15.19",
+		"@types/redis": "^2.8.32",
+		"@types/validator": "^13.6.3",
 		"@typescript-eslint/eslint-plugin": "^2.3.3",
 		"@typescript-eslint/parser": "^2.3.3",
 		"eslint": "^6.5.1",

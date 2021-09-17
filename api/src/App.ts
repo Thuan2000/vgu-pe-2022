@@ -11,18 +11,25 @@ class App {
 	private apolloServer;
 
 	constructor() {
-		this.database.connect();
+		this.initRedis();
+		this.initDB();
 		this.initializeApollo();
 		this.initializeMiddlewares();
 	}
 
-	public initializeApollo(): void {
-		// Defining types
+	private initDB() {
+		this.database.connect();
+	}
+
+	private initRedis() {
+		require("./utils/redis");
+	}
+
+	private initializeApollo(): void {
+		// Defining all types
 		const typeDefs = this.loadSchemaTypes();
-
-		// Defining Resolvers
+		// Defining all Resolvers
 		const resolvers = this.loadResolvers();
-
 		this.apolloServer = new ApolloServer({ typeDefs, resolvers });
 	}
 

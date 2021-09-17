@@ -1,5 +1,5 @@
 schema: "./src/graphql/schemas/**/*.graphql"
-documents: "./src/**/*.graphql"
+# documents: "./src/**/*.graphql"
 plugins:
     - typescript-operations
 cacheDir: __generated__

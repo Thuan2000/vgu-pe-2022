@@ -1,8 +1,9 @@
 // import Model from "./Model";
 import { DataTypes, Model } from "sequelize";
 import Database from "../utils/database";
+import Roles from "./Roles";
 
-class User extends Model {}
+export default class User extends Model {}
 
 User.init(
 	{
@@ -24,6 +25,13 @@ User.init(
 		},
 		token: {
 			type: DataTypes.STRING
+		},
+		approved: {
+			type: DataTypes.BOOLEAN
+		},
+		// @foreign key of roles name
+		role: {
+			type: DataTypes.INTEGER
 		}
 	},
 	{
@@ -33,7 +41,3 @@ User.init(
 		modelName: "User" // We need to choose the model name
 	}
 );
-
-User.sync();
-
-export default User;
