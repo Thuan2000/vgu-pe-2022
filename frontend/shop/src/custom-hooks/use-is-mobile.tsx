@@ -8,11 +8,10 @@ import useScreen from "./use-screen";
 
 const useIsMobile = () => {
 	const { width } = useScreen();
-	console.log(width);
-	const [isMobile, setIsMobile] = useState(checkIsMobile(width));
+	const [isMobile, setIsMobile] = useState(checkIsMobile(width as number));
 
 	useEffect(() => {
-		setIsMobile(checkIsMobile(width));
+		setIsMobile(checkIsMobile(width as number));
 	}, [width]);
 
 	return isMobile;
