@@ -1,5 +1,5 @@
 # Change Dir
-cd /home/ubuntu/api
+cd /home/ubuntu/sdconnect/api
 
 # Install dependencies
 sudo yarn
