@@ -1,5 +1,5 @@
 # Change dir
-cd ~/sdconnect/frontend/shop
+cd /home/ubuntu/frontend/shop
 
 # Start shop
 pm2 start ecosystem.config.js --no-autorestart
