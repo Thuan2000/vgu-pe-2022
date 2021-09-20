@@ -12,7 +12,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, Props>(
 	({ className, label, name, error, ...rest }, ref) => {
 		return (
 			<div className={className}>
-				<div className="flex items-center justify-center">
+				<div className="flex items-center">
 					<input
 						id={name}
 						name={name}

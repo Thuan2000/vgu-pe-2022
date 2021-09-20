@@ -29,9 +29,9 @@ const SocialLoginButton = ({ label, social, ...props }: ISocialButtonProps) => {
 
 	return (
 		<Button variant="outline" {...props} onClick={handleClick}>
-			{social === "facebook" && <FacebookIcon className="w-7 h-7 " />}
-			{social === "google" && <GoogleIcon className="w-5 h-5" />}
-			{label && label}
+			{social === "facebook" && <FacebookIcon className="w-6 mr-2" />}
+			{social === "google" && <GoogleIcon className="w-6 mr-2" />}
+			{label}
 		</Button>
 	);
 };

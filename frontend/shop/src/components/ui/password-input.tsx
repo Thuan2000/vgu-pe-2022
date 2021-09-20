@@ -12,6 +12,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	name: string;
 	forgotPageLink?: string;
 	shadow?: boolean;
+	noPrefix?: boolean;
 	variant?: "normal" | "solid" | "outline";
 	error: string | undefined;
 }
@@ -35,6 +36,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
 			variant = "normal",
 			shadow = false,
 			type = "text",
+			noPrefix,
 			forgotPageLink = "",
 			...rest
 		},
@@ -78,7 +80,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
 						name={name}
 						type={show ? "text" : "password"}
 						ref={ref}
-						className={`${rootClassName} pl-7`}
+						className={`${rootClassName} ${!noPrefix && "pl-8"}`}
 						autoComplete="off"
 						autoCorrect="off"
 						spellCheck="false"

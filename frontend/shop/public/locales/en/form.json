@@ -8,5 +8,18 @@
 	"email-invalid-error": "Please enter an valid email",
 	"email-required-error": "Please provide an password",
 	"password-required-error": "Please provide password",
-	"submit": "Submit"
+	"submit": "Submit",
+	"first_name-label": "First Name",
+	"last_name-label": "Last Name",
+	"registration_code-label": "Registration Code",
+	"confirm_password-label": "Confirm Password",
+	"drop-zone": "Drop files here to upload",
+	"license-label": "License",
+	"upload-file": "Upload File",
+	"license-subLabel": "Please attach business registration legality, so we can verify your account",
+	"signup": "Sign Up",
+	"already-have-account": "Already have an account?",
+	"login": "Login",
+	"want-to-receive-email": "I want to receive email about SDConnect",
+	"want-to-receive-email": "I want to receive email about SDConnect"
 }

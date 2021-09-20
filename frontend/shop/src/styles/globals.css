@@ -219,6 +219,14 @@ body {
 	@apply top-1/2 -translate-y-1/2;
 }
 
+.x-center {
+	@apply left-1/2 -translate-x-1/2;
+}
+
+.position-normal {
+	@apply sm:top-0 sm:left-0 sm:-translate-x-0 sm:-translate-y-0;
+}
+
 .social-button {
 	@apply border-gray-700 hover:bg-gray-700 hover:border-gray-700;
 }
@@ -229,6 +237,10 @@ body {
 
 .link {
 	@apply text-body hover:text-green-hover active:text-green-main transition-colors duration-200;
+}
+
+.abs-center {
+	@apply absolute top-1/2 left-1/2 -translate-x-1/2;
 }
 
 @tailwind components;

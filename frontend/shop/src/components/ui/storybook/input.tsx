@@ -11,6 +11,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	shadow?: boolean;
 	variant?: "normal" | "solid" | "outline";
 	prefix?: any;
+	noPrefix?: boolean;
 	suffix?: any;
 }
 const classes = {
@@ -28,6 +29,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 			note,
 			name,
 			error,
+			noPrefix,
 			children,
 			variant = "normal",
 			shadow = false,
@@ -66,7 +68,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 						name={name}
 						type={type}
 						ref={ref}
-						className={`${rootClassName} pl-7`}
+						className={`${rootClassName} ${!noPrefix && "pl-8"}`}
 						autoComplete="off"
 						autoCorrect="off"
 						spellCheck="false"

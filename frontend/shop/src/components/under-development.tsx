@@ -12,17 +12,20 @@ const UnderDevelopment = () => {
 
 	return (
 		<div className="flex flex-col items-center my-5">
-			<p className="mb-5">
-				<strong>Sorry :(</strong> this page is under development
+			<p className="mb-5 text-2xl">
+				<strong className="text-dark-blue">Sorry :(</strong> this page
+				is under development
 			</p>
 
-			<Image
-				className="my-5"
-				src={UnderConstructionIllustration}
-				objectFit="cover"
-			/>
+			<div className="w-2/3">
+				<Image
+					className="my-5"
+					src={UnderConstructionIllustration}
+					objectFit="cover"
+				/>
+			</div>
 
-			<p className="my-5">
+			<p className="my-5 text-xl">
 				It will be available soon. Please come back again later
 			</p>
 			<Button size="small">

@@ -3,8 +3,8 @@ const FacebookIcon: React.FC<React.SVGAttributes<{}>> = (props) => {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			height="800"
-			width="1200"
+			height="48px"
+			width="48px"
 			viewBox="-204.79995 -341.33325 1774.9329 2047.9995"
 			{...props}
 		>

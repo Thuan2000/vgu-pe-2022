@@ -6,6 +6,10 @@ const Form = (props: React.FormHTMLAttributes<HTMLFormElement>) => {
 		if (props.onSubmit) props?.onSubmit(e);
 	}
 
-	return <form onSubmit={handleSubmit}>{props.children}</form>;
+	return (
+		<form onSubmit={handleSubmit} {...props}>
+			{props.children}
+		</form>
+	);
 };
 export default Form;
