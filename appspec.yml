@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+    - source: /
+      destination: /home/ubuntu/sdconnect
+hooks:
+    BeforeInstall:
+        - location: ci_scripts/before_install.sh
+          timeout: 300
+          runas: root
+    AfterInstall:
+        - location: ci_scripts/change_permissions.sh
+          timeout: 300
+          runas: root
+    ApplicationStart:
+        - location: ci_scripts/start-server/start-app.sh
+          timeout: 300
+          runas: root
+    ApplicationStop:
+        - location: ci_scripts/stop_server.sh
+          timeout: 300
+          runas: root
