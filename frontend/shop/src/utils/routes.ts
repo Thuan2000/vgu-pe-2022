@@ -1,7 +1,9 @@
 export const ROUTES = {
+	HOMEPAGE: "/",
 	LOGIN: "/login",
 	SIGNUP: "/signup",
 	FORGET_PASSWORD: "/forget-password",
-	HOMEPAGE: "/",
-	LOGOUT: "/logout"
+	LOGOUT: "/logout",
+	SETTINGS: "/settings",
+	NOTIFICATIONS: "/notifications"
 };

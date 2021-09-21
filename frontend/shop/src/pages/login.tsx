@@ -58,9 +58,9 @@ const Login = () => {
 				</div>
 				<div className="rounded-lg shadow-2xl min-h-screen py-5 px-7 md:px-0 center-child md:w-3/6">
 					<div className="md:w-3/5 flex flex-col items-center">
-						<Logo className="mb-5" />
+						<Logo className="mb-5 md:hidden" />
 						<div className="w-full">
-							<h1 className="font-semibold text-2xl text-dark-blue">
+							<h1 className="font-bold text-display-2 text-dark-blue">
 								{t("login-title")}
 							</h1>
 							<LoginForm />

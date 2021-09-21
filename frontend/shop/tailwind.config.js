@@ -9,6 +9,9 @@ module.exports = {
 			screens: {
 				"3xl": "1900px"
 			},
+			spacing: {
+				17: "70px"
+			},
 			fontFamily: {
 				body: ["Open Sans", "system-ui", "sans-serif"],
 				heading: ["Open Sans", "system-ui", "sans-serif"]
@@ -20,7 +23,7 @@ module.exports = {
 				paragraph: "16px",
 				md: "18px",
 				"display-1": "44px",
-				"display-2": "36",
+				"display-2": "36px",
 				"display-3": "30px",
 				"special-heading": "18px"
 			},
@@ -29,6 +32,7 @@ module.exports = {
 				light: "#FFFFFF",
 				green: {
 					DEFAULT: "#00D796",
+					10: "#E7F5F1",
 					hover: "#02BF86",
 					active: "#01AC75"
 				},

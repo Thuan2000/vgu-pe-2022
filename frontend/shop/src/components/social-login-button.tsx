@@ -13,7 +13,7 @@ export interface ISocialButtonProps extends ButtonProps {
 }
 
 const classes = {
-	root: "text-xs border-gray-300 hover:bg-gray-400 hover:border-gray-400 active:bg-gray-600 active:text-white"
+	root: "text-xs font-semibold text-dark-blue flex-center border rounded-md border-gray-200 hover:shadow-md transition-shadow duration-100"
 };
 
 const SocialLoginButton = ({
@@ -40,7 +40,7 @@ const SocialLoginButton = ({
 	}
 
 	return (
-		<Button
+		<button
 			variant="outline"
 			className={classesName}
 			{...props}
@@ -49,7 +49,7 @@ const SocialLoginButton = ({
 			{social === "facebook" && <FacebookIcon className="w-6 mr-2" />}
 			{social === "google" && <GoogleIcon className="w-6 mr-2" />}
 			{label}
-		</Button>
+		</button>
 	);
 };
 export default SocialLoginButton;
