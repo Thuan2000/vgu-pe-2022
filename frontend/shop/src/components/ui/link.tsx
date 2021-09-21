@@ -1,11 +1,16 @@
-import NextLink, { LinkProps as NextLinkProps } from "next/link";
 import { AnchorHTMLAttributes } from "react";
+import cn from "classnames";
+import NextLink from "next/link";
 
 interface ILinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 	href: string;
 	isActive?: boolean;
 	noDecoration?: boolean;
 }
+
+const classes = {
+	root: "text-sm active:text-green-active transition-colors duration-200"
+};
 
 const Link: React.FC<ILinkProps> = ({
 	href,
@@ -15,9 +20,7 @@ const Link: React.FC<ILinkProps> = ({
 	noDecoration,
 	...props
 }) => {
-	const classesName = `${noDecoration ? "" : "link"} ${className} ${
-		isActive ? "text-green-main" : ""
-	}`;
+	const classesName = cn(classes.root, className);
 
 	return (
 		<NextLink href={href}>

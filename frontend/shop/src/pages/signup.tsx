@@ -12,6 +12,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
 import Link from "@components/ui/link";
+import Logo from "@components/ui/logo";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { locale } = ctx;
@@ -46,7 +47,7 @@ const SignUp = () => {
 			</Head>
 
 			<div className="flex flex-col md:flex-row">
-				<div className="md:w-1/2 md:relative bg-black">
+				<div className="md:w-1/2 md:relative invisible sm:visible">
 					<Image
 						src={RegisterIllustration}
 						objectFit="cover"
@@ -54,16 +55,17 @@ const SignUp = () => {
 					/>
 				</div>
 				<div className="bg-white rounded-lg px-5 py-7 absolute x-center w-5/6 position-normal top-10 sm:top-0 md:relative md:w-full md:px-28">
+					<Logo />
 					<h1 className="font-semibold text-xl text-dark-blue mb-5">
 						{t("signup-title")}
 					</h1>
 					<SocialRegister />
 					<SignupForm />
-					<p className="mt-2 block text-body-dark font-semibold text-sm leading-none mb-3">
+					<p className="mt-4 block text-body-dark font-semibold text-sm leading-none mb-3">
 						{t("form:already-have-account")}
 						<Link
 							href={ROUTES.LOGIN}
-							className="text-blue-secondary ml-1"
+							className="text-blue ml-1"
 							noDecoration
 						>
 							{t("form:login")}
