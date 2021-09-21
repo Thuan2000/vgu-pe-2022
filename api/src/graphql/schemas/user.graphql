@@ -1,7 +1,7 @@
-type Query {
-	user(id: Int!): User
-	users: [User]
-}
+#
+#  Copyright Emolyze Tech ©2021
+#  Good codes make the world a better place!
+# 
 
 type User {
 	id: Int
@@ -9,20 +9,4 @@ type User {
 	lastName: String
 	password: String
 	email: String
-}
-
-type Response {
-	message: String
-	success: Boolean
-}
-
-input RegisterInput {
-	firstName: String
-	lastName: String
-	email: String
-	password: String
-}
-
-type Mutation {
-	register(input: RegisterInput!): Response
 }

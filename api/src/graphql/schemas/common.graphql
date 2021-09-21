@@ -1,6 +1,24 @@
+#
+#  Copyright Emolyze Tech ©2021
+#  Good codes make the world a better place!
+# 
+
 enum ROLE {
 	SUPER_ADMIN
 	COMPANY_OWNER
 	COMPANY_STAFF
 	GUESS
+}
+
+type Response {
+	message: String
+	success: Boolean
+}
+
+scalar Upload
+
+type File {
+	filename: String!
+	mimetype: String!
+	encoding: String!
 }

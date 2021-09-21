@@ -1,4 +1,8 @@
-// import Model from "./Model";
+/**
+ * Copyright Emolyze Tech ©2021
+ * Good codes make the world a better place!
+ */
+
 import { DataTypes, Model } from "sequelize";
 import Database from "../utils/database";
 import Roles from "./Roles";
