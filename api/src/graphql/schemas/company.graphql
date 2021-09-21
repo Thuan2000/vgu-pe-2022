@@ -1,0 +1,27 @@
+#
+#  Copyright Emolyze Tech ©2021
+#  Good codes make the world a better place!
+# 
+
+type Company {
+	id: Int
+	adminUser: User!
+	companyName: String!
+	licenseS3Uri: String!
+}
+
+input CompanyRegisterInput {
+	firstName: String!
+	lastName: String!
+	email: String!
+    countryCode: String!
+    phone: String!
+	password: String!
+    companyName: String!
+    licenseNumber: String!
+    licenseFile: Upload!
+}
+
+type Mutation {
+	companySignup(input: CompanyRegisterInput!): Response
+}

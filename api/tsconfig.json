@@ -14,7 +14,8 @@
 			"@models/*": ["src/models/*"],
 			"@graphql/*": ["src/graphql/*"],
 			"@controllers/*": ["src/controllers/*"]
-		}
+		},
+		"esModuleInterop": true
 	},
 	"exclude": ["node_modules", ".cache"],
 	"include": ["./src/**/*.ts"]
