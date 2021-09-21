@@ -20,6 +20,7 @@
 	"signup": "Sign Up",
 	"already-have-account": "Already have an account?",
 	"login": "Login",
-	"want-to-receive-email": "I want to receive email about SDConnect",
-	"want-to-receive-email": "I want to receive email about SDConnect"
+	"want-to-receive-email": "I agree to receive notification emails",
+	"agreement": "I agree with all terms of terms",
+	"no-account-yet": "Not have an account?"
 }

@@ -107,8 +107,8 @@ const LoginForm = () => {
 						label={`${t("remember-me")}`}
 					/>
 					<Link
-						className="text-xs text-blue-secondary"
-						href="/forget-password"
+						className="text-xs text-blue-blue text-blue"
+						href={ROUTES.FORGET_PASSWORD}
 						noDecoration
 					>
 						{t("forget-password")}

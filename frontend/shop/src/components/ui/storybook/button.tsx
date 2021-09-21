@@ -4,7 +4,7 @@ import React, { ButtonHTMLAttributes } from "react";
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	className?: string;
 	variant?: "normal" | "outline" | "custom";
-	size?: "big" | "medium" | "small";
+	size?: "big" | "medium" | "small" | "fluid";
 	active?: boolean;
 	color?: string;
 	loading?: boolean;
@@ -12,11 +12,11 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const classes = {
-	root: "inline-flex items-center justify-center flex-shrink-0 font-semibold leading-none rounded outline-none transition duration-300 ease-in-out focus:outline-none focus:shadow focus:ring-1 focus:ring-green-main-700",
-	normal: "bg-green-main text-light border border-transparent hover:bg-green-hover",
+	root: "inline-flex items-center justify-center flex-shrink-0 font-semibold leading-none rounded outline-none transition duration-300 ease-in-out focus:outline-none focus:shadow-lg focus:ring-1 focus:ring-green-700 active:bg-green-active",
+	normal: "bg-green text-light border border-transparent hover:bg-green-hover",
 	custom: "border border-transparent",
 	outline:
-		"border border-green-main bg-transparent text-body hover:text-light hover:bg-green-main hover:border-green-main",
+		"border border-green bg-transparent text-body hover:text-light hover:bg-green hover:border-green",
 	loading:
 		"h-4 w-4 ms-2 rounded-full border-2 border-transparent border-t-2 animate-spin",
 	disabled:
@@ -24,7 +24,8 @@ const classes = {
 	disabledOutline: "border border-border-base text-muted cursor-not-allowed",
 	small: "px-3 py-0 h-9 text-sm h-10",
 	medium: "px-5 py-0 h-12",
-	big: "px-10 py-0 h-14"
+	big: "px-10 py-0 h-14",
+	fluid: "px-20 h-9"
 };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -48,7 +49,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 				[classes.disabledOutline]: disabled && variant === "outline",
 				[classes.small]: size === "small",
 				[classes.medium]: size === "medium",
-				[classes.big]: size === "big"
+				[classes.big]: size === "big",
+				[classes.fluid]: size === "fluid"
 			},
 			className
 		);

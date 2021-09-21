@@ -17,7 +17,7 @@ const Navigations = () => {
 						<Link
 							href={href}
 							key={navigation.label + "Nav-item"}
-							className="mr-7 text-body text-sm"
+							className="mr-7 text-gray-200 text-sm"
 						>
 							{t(label)}
 						</Link>

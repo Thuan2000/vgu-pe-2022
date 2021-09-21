@@ -22,9 +22,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, Props>(
 						{...rest}
 					/>
 
-					<label htmlFor={name} className="text-body text-sm">
-						{label}
-					</label>
+					<label htmlFor={name}>{label}</label>
 				</div>
 
 				{error && (

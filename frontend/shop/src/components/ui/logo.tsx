@@ -13,8 +13,8 @@ const sizes = {
 		height: 100
 	},
 	medium: {
-		width: 150,
-		height: 50
+		width: 160,
+		height: 37
 	},
 	small: {
 		width: 100,

@@ -18,7 +18,7 @@ type FormValues = {
 	password: string;
 	confirm_password: string;
 	email_subscription: boolean;
-	second_question: boolean;
+	agreement: boolean;
 };
 
 const signupSchema = yup.object().shape({
@@ -107,18 +107,15 @@ const SignupForm = () => {
 				<Checkbox
 					{...register("email_subscription")}
 					label={t("want-to-receive-email")}
-					className="mt-5 mb-2 font-semibold"
+					className="mt-5 mb-2 text-dark-blue text-sm"
 				/>
 				<Checkbox
-					className="font-semibold"
-					// @TODO make this right
-					{...register("second_question")}
-					label={t("second-question")}
+					className="text-dark-blue text-sm"
+					{...register("agreement")}
+					label={t("agreement")}
 				/>
 			</div>
-			<Button size="small" className="px-20">
-				{t("signup")}
-			</Button>
+			<Button size="fluid">{t("signup")}</Button>
 		</Form>
 	);
 };

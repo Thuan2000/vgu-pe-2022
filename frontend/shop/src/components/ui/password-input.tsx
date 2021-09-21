@@ -18,9 +18,9 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 const classes = {
 	root: "px-4 h-12 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
-	normal: "bg-gray-100 border border-border-base focus:shadow focus:bg-light focus:border-accent",
-	solid: "bg-gray-100 border border-border-100 focus:bg-light focus:border-accent",
-	outline: "border border-border-base focus:border-accent",
+	normal: "bg-gray-100 border border-border-base focus:shadow focus:bg-light focus:border-green",
+	solid: "bg-gray-100 border border-border-100 focus:bg-light focus:border-green",
+	outline: "border border-border-base focus:border-green",
 	shadow: "focus:shadow"
 };
 const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
@@ -68,7 +68,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
 					{forgotPageLink && forgotPassHelpText && (
 						<Link
 							href={forgotPageLink}
-							className="text-xs text-accent transition-colors duration-200 focus:outline-none focus:text-accent-700 focus:font-semibold hover:text-accent-hover"
+							className="text-xs text-green transition-colors duration-200 focus:outline-none focus:text-green-700 focus:font-semibold hover:text-green-hover"
 						>
 							{forgotPassHelpText}
 						</Link>
