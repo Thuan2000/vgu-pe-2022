@@ -7,7 +7,7 @@ const SocialSignup = () => {
 
 	return (
 		<div>
-			<div className="flex-center flex-col sm:flex-row">
+			<div className="flex items-center flex-col sm:flex-row">
 				<SocialLoginButton
 					size="small"
 					social="google"

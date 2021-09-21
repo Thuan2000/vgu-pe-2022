@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import useScreen from "src/custom-hooks/use-screen";
 import SocialLoginButton from "./social-login-button";
 import OrWithLines from "./ui/or-with-lines";
 

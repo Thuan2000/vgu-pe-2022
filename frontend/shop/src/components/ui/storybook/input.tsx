@@ -13,6 +13,8 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	prefix?: any;
 	noPrefix?: boolean;
 	suffix?: any;
+	noLabel?: boolean;
+	noBorder?: boolean;
 }
 const classes = {
 	root: "px-4 h-12 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
@@ -37,6 +39,8 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 			inputClassName,
 			prefix,
 			suffix,
+			noLabel,
+			noBorder,
 			...rest
 		},
 		ref
@@ -56,19 +60,23 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 
 		return (
 			<div className={className}>
-				<label
-					htmlFor={name}
-					className="block text-body-dark font-semibold text-md leading-none mb-3"
-				>
-					{label}
-				</label>
+				{!noLabel && (
+					<label
+						htmlFor={name}
+						className="block text-body-dark font-semibold text-md leading-none mb-3"
+					>
+						{label}
+					</label>
+				)}
 				<div className="felx items-center align-middle relative">
 					<input
 						id={name}
 						name={name}
 						type={type}
 						ref={ref}
-						className={`${rootClassName} ${!noPrefix && "pl-8"}`}
+						className={`${rootClassName} ${!noPrefix && "pl-8"} ${
+							noBorder && "border-none"
+						}`}
 						autoComplete="off"
 						autoCorrect="off"
 						spellCheck="false"
