@@ -6,6 +6,10 @@ export const roles = {
 	GUESS: "GUESS"
 };
 
+export const AUTH_ERRORS = {
+	USER_NOT_FOUND: "USER_NOT_FOUND"
+};
+
 export const FILE_SIZE_LIMIT = 20000000;
 export const LIMIT = 10;
 

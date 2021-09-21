@@ -1,5 +1,5 @@
 import React from "react";
-const ProfileIcon: React.FC<React.SVGAttributes<{}>> = ({ fill, ...props }) => {
+const AvatarIcon: React.FC<React.SVGAttributes<{}>> = ({ fill, ...props }) => {
 	return (
 		<svg
 			width="18"
@@ -16,4 +16,4 @@ const ProfileIcon: React.FC<React.SVGAttributes<{}>> = ({ fill, ...props }) => {
 		</svg>
 	);
 };
-export default ProfileIcon;
+export default AvatarIcon;

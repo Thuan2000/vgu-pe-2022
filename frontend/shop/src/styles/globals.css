@@ -3,6 +3,7 @@
 :root {
 	--color-green: #00d796;
 	--color-gray-200: #b0bdc6;
+	--color-gray-10: #eef2f5;
 	--color-dark-blue: #15114e;
 }
 
@@ -20,37 +21,37 @@ h4,
 h5,
 h6 {
 	@apply font-heading font-semibold;
+	color: var(--dark-blue);
+}
+
+p {
+	font-size: 16px;
 }
 
 h1 {
 	font-size: 26px;
-	color: var(--dark-blue);
 }
 
 h2 {
 	font-size: 20px;
-	color: var(--dark-blue);
 }
 
 h3 {
 	font-size: 17px;
-	color: var(--dark-blue);
+
 	height: 24px;
 }
 
 h4 {
 	font-size: 14px;
-	color: var(--dark-blue);
 }
 
 h5 {
 	font-size: 13px;
-	color: var(--dark-blue);
 }
 
 h6 {
 	font-size: 11px;
-	color: var(--dark-blue);
 }
 
 .font-semibold {

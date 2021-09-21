@@ -29,7 +29,6 @@ const DocumentInput = ({
 				<>
 					<DocumentUploader
 						{...rest}
-						// multiple={multiple}
 						label={label}
 						subLabel={subLabel}
 					/>
