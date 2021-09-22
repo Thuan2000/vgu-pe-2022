@@ -9,43 +9,58 @@ import Input from "./ui/storybook/input";
 import Checkbox from "./ui/storybook/checkbox";
 import Button from "./ui/storybook/button";
 import PhoneNumberInput from "./ui/phone-number-input/phone-number-input";
-import DocumentUploader from "./ui/storybook/document-uploader";
 import DocumentInput from "./ui/storybook/document-input";
+import { useCompanySignupMutation } from "@graphql/company.graphql";
+import { Router, useRouter } from "next/dist/client/router";
+import { ROUTES } from "@utils/routes";
 
 type FormValues = {
-	first_name: string;
-	last_name: string;
+	firstName: string;
+	lastName: string;
 	email: string;
-	registration_code: string;
+	licenseNumber: string;
 	password: string;
-	confirm_password: string;
-	email_subscription: boolean;
+	confirmPassword: string;
+	emailSubscription: boolean;
 	agreement: boolean;
-	phone_number: string;
-	company_name: string;
+	phoneNumber: string;
+	companyName: string;
+	companyLicenses: Array<File>;
 };
 
 const signupSchema = yup.object().shape({
-	first_name: yup.string().required("form:first_name-required-error"),
-	last_name: yup.string().required("form:last_name-required-error"),
-	phone_number: yup.string().required("form:phone_number-required-error"),
-	company_name: yup.string().required("form:company_name-required-error"),
-	registration_code: yup
-		.string()
-		.required("form:registration_code-required-error"),
+	firstName: yup.string().required("form:firstName-required-error"),
+	lastName: yup.string().required("form:lastName-required-error"),
+	phoneNumber: yup.string().required("form:phoneNumber-required-error"),
+	companyName: yup.string().required("form:companyName-required-error"),
+	licenseNumber: yup.string().required("form:licenseNumber-required-error"),
 	email: yup
 		.string()
 		.required("form:email-required-error")
 		.email("form:email-invalid-error"),
 	password: yup.string().required("form:password-required-error"),
-	confirm_password: yup
+	confirmPassword: yup
 		.string()
 		.required("form:password-required-error")
-		.oneOf([yup.ref("password"), null], "form:password-not-match-error")
+		.oneOf([yup.ref("password"), null], "form:password-not-match-error"),
+	companyLicenses: yup
+		.array()
+		.min(1, "form:companyLicenses-is-required-error")
+		.required("form:companyLicenses-is-required-error")
 });
 
 const SignupForm = () => {
 	const { t } = useTranslation("form");
+	const router = useRouter();
+	const [signup, { loading }] = useCompanySignupMutation({
+		onCompleted: ({ companySignup: { success, message } }) => {
+			if (!success) {
+				alert(message);
+			}
+
+			router.push(ROUTES.LOGIN);
+		}
+	});
 
 	const {
 		register,
@@ -56,8 +71,19 @@ const SignupForm = () => {
 		resolver: yupResolver(signupSchema)
 	});
 
-	function onSubmit(values: FormValues) {
-		console.log(values);
+	async function onSubmit({
+		companyLicenses,
+		confirmPassword,
+		...values
+	}: FormValues) {
+		const input = {
+			licenseFiles: companyLicenses,
+			...values
+		};
+
+		await signup({
+			variables: { input }
+		});
 	}
 
 	return (
@@ -66,30 +92,31 @@ const SignupForm = () => {
 				<Input
 					noPrefix
 					className="my-5 md:my-0 md:w-96 md:mr-16"
-					{...register("first_name")}
-					label={t("first_name-label")}
-					placeholder={t("first_name-placeholder")}
-					error={t(errors?.first_name?.message || "")}
+					{...register("firstName")}
+					label={t("firstName-label")}
+					placeholder={t("firstName-placeholder")}
+					error={t(errors?.firstName?.message || "")}
 				/>
 				<Input
 					noPrefix
 					className="my-5 md:my-0 md:w-96"
-					{...register("last_name")}
-					label={t("last_name-label")}
-					placeholder={t("last_name-placeholder")}
-					error={t(errors?.last_name?.message || "")}
+					{...register("lastName")}
+					label={t("lastName-label")}
+					placeholder={t("lastName-placeholder")}
+					error={t(errors?.lastName?.message || "")}
 				/>
 			</div>
 			<div className="md:flex md:my-5">
 				<PhoneNumberInput
 					control={control}
 					className="my-5 md:my-0 md:w-96 md:mr-16"
-					{...register("phone_number")}
-					label={t("phone_number-label")}
+					{...register("phoneNumber")}
+					label={t("phoneNumber-label")}
 					variant="outline"
-					placeholder={t("phone_number-placeholder")}
-					error={t(errors?.phone_number?.message || "")}
+					placeholder={t("phoneNumber-placeholder")}
+					error={t(errors?.phoneNumber?.message || "")}
 				/>
+				{/* @TODO: OnBlur check if the email is exist */}
 				<Input
 					noPrefix
 					className="my-5 md:my-0 md:w-96"
@@ -112,42 +139,43 @@ const SignupForm = () => {
 				<Input
 					noPrefix
 					className="my-5 md:my-0 md:w-96"
-					{...register("confirm_password")}
-					label={t("confirm_password-label")}
+					{...register("confirmPassword")}
+					label={t("confirmPassword-label")}
 					type="password"
-					placeholder={t("confirm_password-label")}
-					error={t(errors?.confirm_password?.message || "")}
+					placeholder={t("confirmPassword-label")}
+					error={t(errors?.confirmPassword?.message || "")}
 				/>
 			</div>
 			<div className="md:flex md:my-5">
 				<Input
 					noPrefix
 					className="my-5 md:my-0 md:w-96 md:mr-16"
-					{...register("company_name")}
-					label={t("company_name-label")}
-					placeholder={t("company_name-placeholder")}
-					error={t(errors?.company_name?.message || "")}
+					{...register("companyName")}
+					label={t("companyName-label")}
+					placeholder={t("companyName-placeholder")}
+					error={t(errors?.companyName?.message || "")}
 				/>
 				<Input
 					noPrefix
 					className="my-5 md:my-0 md:w-96"
-					{...register("registration_code")}
-					label={t("registration_code-label")}
-					placeholder={t("registration_code-placeholder")}
-					error={t(errors?.registration_code?.message || "")}
+					{...register("licenseNumber")}
+					label={t("licenseNumber-label")}
+					placeholder={t("licenseNumber-placeholder")}
+					error={t(errors?.licenseNumber?.message || "")}
 				/>
 			</div>
 			<div className="mt-7">
 				<DocumentInput
 					control={control}
-					name="company_license"
+					name="companyLicenses"
 					label={t("license-label")}
 					subLabel={t("license-subLabel")}
+					error={t((errors?.companyLicenses as any)?.message || "")}
 				/>
 			</div>
 			<div className="my-4">
 				<Checkbox
-					{...register("email_subscription")}
+					{...register("emailSubscription")}
 					label={t("want-to-receive-email")}
 					className="mt-5 mb-2 text-dark-blue text-sm"
 				/>
@@ -157,7 +185,9 @@ const SignupForm = () => {
 					label={t("agreement")}
 				/>
 			</div>
-			<Button size="fluid">{t("signup")}</Button>
+			<Button loading={loading} size="fluid">
+				{t("signup")}
+			</Button>
 		</Form>
 	);
 };

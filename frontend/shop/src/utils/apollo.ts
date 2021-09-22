@@ -17,7 +17,9 @@ function createApolloClient() {
 	// Used for handling error
 	const errorLink = onError(({ graphQLErrors, networkError }) => {
 		if (graphQLErrors) {
-			alert("Graphql Error");
+			graphQLErrors.forEach((error) => {
+				console.log(error.message);
+			});
 		}
 	});
 

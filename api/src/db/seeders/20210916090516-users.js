@@ -18,7 +18,6 @@ module.exports = {
 				email: "fatwa@gmail.com",
 				password: "fatwa123",
 				role: "SUPER_ADMIN",
-				approved: true,
 				...require("../utils").timestampGenerator()
 			},
 			{
@@ -27,7 +26,6 @@ module.exports = {
 				email: "test1@emolyze.vn",
 				password: "PasswordIsPassword-123",
 				role: "SUPER_ADMIN",
-				approved: true,
 				...require("../utils").timestampGenerator()
 			},
 			{
@@ -36,7 +34,6 @@ module.exports = {
 				email: "test2@emolyze.vn",
 				password: "PasswordIsPassword-123",
 				role: "SUPER_ADMIN",
-				approved: true,
 				...require("../utils").timestampGenerator()
 			},
 			{
@@ -45,7 +42,6 @@ module.exports = {
 				email: "test2@emolyze.vn",
 				password: "PasswordIsPassword-123",
 				role: "SUPER_ADMIN",
-				approved: true,
 				...require("../utils").timestampGenerator()
 			},
 			{
@@ -54,7 +50,6 @@ module.exports = {
 				email: "test3@emolyze.vn",
 				password: "PasswordIsPassword-123",
 				role: "SUPER_ADMIN",
-				approved: true,
 				...require("../utils").timestampGenerator()
 			},
 			{
@@ -63,7 +58,6 @@ module.exports = {
 				email: "test4@emolyze.vn",
 				password: "PasswordIsPassword-123",
 				role: "SUPER_ADMIN",
-				approved: true,
 				...require("../utils").timestampGenerator()
 			},
 			{
@@ -72,7 +66,6 @@ module.exports = {
 				email: "test5@emolyze.vn",
 				password: "PasswordIsPassword-123",
 				role: "SUPER_ADMIN",
-				approved: true,
 				...require("../utils").timestampGenerator()
 			},
 			{
@@ -81,7 +74,6 @@ module.exports = {
 				email: "vietphat@emolyze.vn",
 				password: "PasswordIsPassword-123",
 				role: "SUPER_ADMIN",
-				approved: true,
 				...require("../utils").timestampGenerator()
 			},
 			{
@@ -90,7 +82,6 @@ module.exports = {
 				email: "thuan@emolyze.vn",
 				password: "PasswordIsPassword-123",
 				role: "SUPER_ADMIN",
-				approved: true,
 				...require("../utils").timestampGenerator()
 			}
 		]);

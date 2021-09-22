@@ -9,7 +9,3 @@ input LoginInput {
 	email: String
 	password: String
 }
-
-extend type Mutation {
-	login(input: LoginInput!): LoginResponse!
-}
