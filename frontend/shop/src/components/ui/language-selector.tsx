@@ -7,7 +7,7 @@ const LanguageSelector = () => {
 
 	return (
 		<div className="flex items-center w-36">
-			<span className="text-sm text-body mr-3">{t("language")}</span>
+			<span className="text-sm text-gray-200 mr-3">{t("language")}</span>
 			<div className="flex cursor-pointer items-center">
 				<VietnamFlagIcon className="w-7 h-7" />
 				<ArrowDownIcon className="ml-2" />

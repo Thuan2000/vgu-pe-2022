@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import cn from "classnames";
 import { signIn, useSession } from "next-auth/client";
 
 import Button, { ButtonProps } from "./ui/storybook/button";
@@ -11,8 +12,19 @@ export interface ISocialButtonProps extends ButtonProps {
 	label?: string;
 }
 
-const SocialLoginButton = ({ label, social, ...props }: ISocialButtonProps) => {
+const classes = {
+	root: "text-xs font-semibold text-dark-blue flex-center border rounded-md border-gray-200 hover:shadow-md transition-shadow duration-100"
+};
+
+const SocialLoginButton = ({
+	label,
+	social,
+	className,
+	...props
+}: ISocialButtonProps) => {
 	const { t } = useTranslation("common");
+
+	const classesName = cn(classes.root, className);
 	// const [sessionData] = useSession();
 
 	// useEffect(() => {
@@ -28,11 +40,16 @@ const SocialLoginButton = ({ label, social, ...props }: ISocialButtonProps) => {
 	}
 
 	return (
-		<Button variant="outline" {...props} onClick={handleClick}>
-			{social === "facebook" && <FacebookIcon className="w-7 h-7 " />}
-			{social === "google" && <GoogleIcon className="w-5 h-5" />}
-			{label && label}
-		</Button>
+		<button
+			variant="outline"
+			className={classesName}
+			{...props}
+			onClick={handleClick}
+		>
+			{social === "facebook" && <FacebookIcon className="w-6 mr-2" />}
+			{social === "google" && <GoogleIcon className="w-6 mr-2" />}
+			{label}
+		</button>
 	);
 };
 export default SocialLoginButton;

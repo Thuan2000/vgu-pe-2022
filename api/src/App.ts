@@ -1,19 +1,25 @@
-// Apollo
-import { ApolloServer } from "apollo-server";
+/**
+ * Copyright Emolyze Tech ©2021
+ * Good codes make the world a better place!
+ */
 
-// Graphql utils
+const express = require("express");
+
+import { ApolloServer } from "apollo-server-express";
+import { GraphQLUpload, graphqlUploadExpress } from "graphql-upload";
 import { loadFilesSync } from "@graphql-tools/load-files";
 import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
-import Database from "./utils/database";
+
+import Database from "./services/database.service";
 
 class App {
 	private database = new Database();
 	private apolloServer;
+	private app;
 
 	constructor() {
 		this.initRedis();
 		this.initDB();
-		this.initializeApollo();
 		this.initializeMiddlewares();
 	}
 
@@ -25,16 +31,29 @@ class App {
 		require("./utils/redis");
 	}
 
-	private initializeApollo(): void {
-		// Defining all types
-		const typeDefs = this.loadSchemaTypes();
-		// Defining all Resolvers
-		const resolvers = this.loadResolvers();
-		this.apolloServer = new ApolloServer({ typeDefs, resolvers });
-	}
+	public async start(): Promise<void> {
+		try {
+			// Apollo Server
+			const typeDefs = this.loadSchemaTypes();
+			const resolvers = this.loadResolvers();
+			this.apolloServer = new ApolloServer({
+				typeDefs,
+				resolvers
+			});
+			await this.apolloServer.start();
 
-	public listen(): void {
-		this.apolloServer.listen(process.env.PORT);
+			// Express Server
+			this.app = express();
+			this.app.use(graphqlUploadExpress());
+			const expressApp = this.app;
+
+			this.apolloServer.applyMiddleware({ app: this.app });
+			await new Promise(r =>
+				expressApp.listen({ port: process.env.PORT }, r)
+			);
+		} catch (err) {
+			console.error(err);
+		}
 	}
 
 	private loadSchemaTypes() {
@@ -52,6 +71,7 @@ class App {
 		const resolvers = mergeResolvers(resolverArray);
 
 		return {
+			Upload: GraphQLUpload,
 			...resolvers
 		};
 	}

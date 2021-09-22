@@ -12,6 +12,7 @@ import { getAuthCredentials, isAuthenticated } from "../utils/auth-utils";
 import { ROUTES } from "../utils/routes";
 import ImageIllustration from "@assets/login-page-illustration.jpg";
 import Logo from "@components/ui/logo";
+import Link from "@components/ui/link";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { locale } = ctx;
@@ -47,22 +48,31 @@ const Login = () => {
 				<title>{generateHeadTitle(t("common:login"))}</title>
 				<meta name="description" content="SDConnect login page" />
 			</Head>
-			<div className="flex">
-				<div className="w-4/6 bg-black relative h-screen">
+			<div className="relative md:flex">
+				<div className="md:w-4/6 hidden md:block relative h-screen">
 					<Image
 						src={ImageIllustration}
 						objectFit="cover"
 						layout="fill"
 					/>
 				</div>
-				<div className="center-child w-3/6">
-					<div className="w-3/5 flex flex-col items-center">
-						<Logo className="mb-5" />
+				<div className="rounded-lg shadow-2xl min-h-screen py-5 px-7 md:px-0 center-child md:w-3/6">
+					<div className="md:w-3/5 flex flex-col items-center">
+						<Logo className="mb-5 md:hidden" />
 						<div className="w-full">
-							<h1 className="font-semibold text-xl">
+							<h1 className="font-bold text-display-2 text-dark-blue">
 								{t("login-title")}
 							</h1>
 							<LoginForm />
+							<p className="font-semibold text-sm mt-4">
+								{t("form:no-account-yet")}
+								<Link
+									href={ROUTES.SIGNUP}
+									className="ml-2 text-blue"
+								>
+									{t("form:signup")}
+								</Link>
+							</p>
 						</div>
 					</div>
 				</div>

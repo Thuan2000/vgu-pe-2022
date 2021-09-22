@@ -4,8 +4,8 @@ const GoogleIcon: React.FC<React.SVGAttributes<{}>> = (props) => {
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 48 48"
-			width="48px"
 			height="48px"
+			width="48px"
 			{...props}
 		>
 			<path

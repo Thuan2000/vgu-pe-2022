@@ -1,13 +1,3 @@
-function withOpacity(variableName) {
-	return ({ opacityValue }) => {
-		if (opacityValue !== undefined) {
-			return `rgba(var(${variableName}), ${opacityValue})`;
-		} else {
-			return `rgb(var(${variableName}))`;
-		}
-	};
-}
-
 module.exports = {
 	mode: "jit",
 	purge: {
@@ -19,53 +9,56 @@ module.exports = {
 			screens: {
 				"3xl": "1900px"
 			},
+			spacing: {
+				17: "70px"
+			},
 			fontFamily: {
 				body: ["Open Sans", "system-ui", "sans-serif"],
 				heading: ["Open Sans", "system-ui", "sans-serif"]
 			},
+			fontSize: {
+				xs: "13px",
+				sm: "14px",
+				heading: "14px",
+				paragraph: "14px",
+				md: "16px",
+				"display-1": "40px",
+				"display-2": "32px",
+				"display-3": "26px",
+				"special-heading": "16px"
+			},
 			colors: {
-				light: withOpacity("--color-light"),
-				dark: withOpacity("--color-dark"),
-				accent: withOpacity("--color-accent"),
-				"green-main": "#00D796",
-				"green-hover": "#02BF86",
-				"blue-secondary": "#349EFF"
+				"dark-blue": "#15114E",
+				light: "#FFFFFF",
+				green: {
+					DEFAULT: "#00D796",
+					10: "#E7F5F1",
+					hover: "#02BF86",
+					active: "#01AC75"
+				},
+				blue: {
+					DEFAULT: "#349EFF",
+					hover: "#218BEC",
+					active: "#107ADB",
+					300: "#3C64B1"
+				},
+				gray: {
+					10: "#EEF2F5",
+					100: "#C5CDD4",
+					200: "#B0BDC6",
+					300: "#82868C",
+					400: "#555F6F"
+				},
+				semibold: "#15114E",
+				red: {
+					DEFAULT: "#FF3346"
+				}
 			},
-
 			textColor: {
-				body: withOpacity("--text-base"),
-				"body-dark": withOpacity("--text-base-dark"),
-				muted: withOpacity("--text-muted"),
-				"muted-light": withOpacity("--text-muted-light"),
-				heading: withOpacity("--text-heading"),
-				"sub-heading": withOpacity("--text-sub-heading"),
-				bolder: withOpacity("--text-text-bolder")
+				semibold: "#15114E"
 			},
-
-			height: {
-				13: "3.125rem",
-				double: "200%"
-			},
-			maxWidth: {
-				5: "1.25rem"
-			},
-			maxHeight: {
-				5: "1.25rem"
-			},
-			spacing: {
-				22: "5.5rem"
-			},
-
-			borderRadius: {
-				DEFAULT: "5px"
-			},
-
-			boxShadow: {
-				base: "rgba(0, 0, 0, 0.16) 0px 4px 16px"
-			},
-
-			gridTemplateColumns: {
-				fit: "repeat(auto-fit, minmax(0, 1fr))"
+			fontColor: {
+				semibold: "#15114E"
 			}
 		}
 	},

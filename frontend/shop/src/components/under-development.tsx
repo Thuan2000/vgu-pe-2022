@@ -11,25 +11,26 @@ const UnderDevelopment = () => {
 	const { t } = useTranslation("common");
 
 	return (
-		<div className="flex flex-col items-center my-5">
-			<p className="mb-5">
-				<strong>Sorry :(</strong> this page is under development
+		<div className="flex flex-col items-center py-5">
+			<p className="mb-5 text-2xl">
+				<strong className="text-dark-blue">Sorry :(</strong> this page
+				is under development
 			</p>
 
-			<Image
-				className="my-5"
-				src={UnderConstructionIllustration}
-				objectFit="cover"
-			/>
+			<div className="w-2/3">
+				<Image
+					className="my-5"
+					src={UnderConstructionIllustration}
+					objectFit="cover"
+				/>
+			</div>
 
-			<p className="my-5">
+			<p className="my-5 text-xl">
 				It will be available soon. Please come back again later
 			</p>
-			<Button size="small">
-				<Link href={ROUTES.HOMEPAGE} noDecoration>
-					{t("return-home")}
-				</Link>
-			</Button>
+			<Link href={ROUTES.HOMEPAGE} className="text-light">
+				<Button size="small">{t("return-home")}</Button>
+			</Link>
 		</div>
 	);
 };

@@ -9,20 +9,18 @@ const SocialLogin = () => {
 	return (
 		<div>
 			<OrWithLines />
-			<div className="flex items-center justify-center">
+			<div className="flex-center flex-col">
 				<SocialLoginButton
 					size="small"
 					social="google"
-					// label={t("login-via-google-label")}
-					// className="w-full mb-3 border-gray-600 hover:bg-gray-600 hover:border-gray-600"
-					className="mr-5 border-gray-600 hover:bg-gray-600 hover:border-gray-600"
+					label={t("login-via-google-label")}
+					className={`w-full mb-3`}
 				/>
 				<SocialLoginButton
 					size="small"
 					social="facebook"
-					// label={t("login-via-facebook-label")}
-					// className="w-full border-gray-600 hover:bg-gray-600 hover:border-gray-600"
-					className="border-gray-600 hover:bg-gray-600 hover:border-gray-600"
+					label={t("login-via-facebook-label")}
+					className={`w-full`}
 				/>
 			</div>
 		</div>

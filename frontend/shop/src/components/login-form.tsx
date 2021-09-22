@@ -7,6 +7,7 @@ import Form from "./form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Swal from "sweetalert2";
 
 // UI
 import Button from "./ui/storybook/button";
@@ -20,6 +21,8 @@ import { ROUTES } from "../utils/routes";
 import PasswordInput from "./ui/password-input";
 import EmailOutlineIcon from "@assets/icons/email-outline-icon";
 import SocialLogin from "./social-login";
+import { AUTH_ERRORS } from "@utils/constants";
+import { COLORS } from "@utils/colors";
 
 type FormValues = {
 	email: string;
@@ -61,7 +64,18 @@ const LoginForm = () => {
 			return;
 		}
 
-		alert(t(message || ""));
+		Swal.fire({
+			icon: "info",
+			iconColor: COLORS.GREEN,
+			titleText: t(`form:error-${message}-title`),
+			text: t(`form:error-${message}-message`),
+			confirmButtonText: t(`form:error-${message}-button`),
+			confirmButtonColor: COLORS.GREEN
+		}).then(({ isConfirmed }) => {
+			if (isConfirmed && message === AUTH_ERRORS.USER_NOT_FOUND) {
+				router.push(ROUTES.SIGNUP);
+			}
+		});
 	}
 
 	async function onSubmit({ email, password }: FormValues) {
@@ -107,8 +121,8 @@ const LoginForm = () => {
 						label={`${t("remember-me")}`}
 					/>
 					<Link
-						className="text-xs text-blue-secondary"
-						href="/forget-password"
+						className="text-xs text-blue-blue text-blue"
+						href={ROUTES.FORGET_PASSWORD}
 						noDecoration
 					>
 						{t("forget-password")}

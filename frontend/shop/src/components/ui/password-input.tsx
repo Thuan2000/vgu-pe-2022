@@ -12,14 +12,15 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	name: string;
 	forgotPageLink?: string;
 	shadow?: boolean;
+	noPrefix?: boolean;
 	variant?: "normal" | "solid" | "outline";
 	error: string | undefined;
 }
 const classes = {
-	root: "px-4 h-12 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
-	normal: "bg-gray-100 border border-border-base focus:shadow focus:bg-light focus:border-accent",
-	solid: "bg-gray-100 border border-border-100 focus:bg-light focus:border-accent",
-	outline: "border border-border-base focus:border-accent",
+	root: "px-4 h-10	 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
+	normal: "bg-gray-100 border border-border-base focus:shadow focus:bg-light focus:border-green",
+	solid: "bg-gray-100 border border-border-100 focus:bg-light focus:border-green",
+	outline: "border border-border-base focus:border-green",
 	shadow: "focus:shadow"
 };
 const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
@@ -35,6 +36,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
 			variant = "normal",
 			shadow = false,
 			type = "text",
+			noPrefix,
 			forgotPageLink = "",
 			...rest
 		},
@@ -66,7 +68,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
 					{forgotPageLink && forgotPassHelpText && (
 						<Link
 							href={forgotPageLink}
-							className="text-xs text-accent transition-colors duration-200 focus:outline-none focus:text-accent-700 focus:font-semibold hover:text-accent-hover"
+							className="text-xs text-green transition-colors duration-200 focus:outline-none focus:text-green-700 focus:font-semibold hover:text-green-hover"
 						>
 							{forgotPassHelpText}
 						</Link>
@@ -78,7 +80,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
 						name={name}
 						type={show ? "text" : "password"}
 						ref={ref}
-						className={`${rootClassName} pl-7`}
+						className={`${rootClassName} ${!noPrefix && "pl-8"}`}
 						autoComplete="off"
 						autoCorrect="off"
 						spellCheck="false"
