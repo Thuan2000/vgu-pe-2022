@@ -3,5 +3,5 @@
 
 # Install dependencies
 sudo yarn
-sudo yarn db:migrate 
-sudo yarn db:seed
+# sudo yarn db:migrate 
+# sudo yarn db:seed
