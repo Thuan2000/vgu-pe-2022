@@ -17,15 +17,15 @@ module.exports = {
 				heading: ["Open Sans", "system-ui", "sans-serif"]
 			},
 			fontSize: {
-				xs: "14px",
-				sm: "16px",
-				heading: "16px",
-				paragraph: "16px",
-				md: "18px",
-				"display-1": "44px",
-				"display-2": "36px",
-				"display-3": "30px",
-				"special-heading": "18px"
+				xs: "13px",
+				sm: "14px",
+				heading: "14px",
+				paragraph: "14px",
+				md: "16px",
+				"display-1": "40px",
+				"display-2": "32px",
+				"display-3": "26px",
+				"special-heading": "16px"
 			},
 			colors: {
 				"dark-blue": "#15114E",

@@ -10,7 +10,7 @@ import { GraphQLUpload, graphqlUploadExpress } from "graphql-upload";
 import { loadFilesSync } from "@graphql-tools/load-files";
 import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
 
-import Database from "./utils/database";
+import Database from "./services/database.service";
 
 class App {
 	private database = new Database();

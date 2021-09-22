@@ -30,11 +30,8 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false
 			},
-			token: {
+			phoneNumber: {
 				type: Sequelize.STRING
-			},
-			approved: {
-				type: Sequelize.BOOLEAN
 			},
 			role: {
 				type: Sequelize.STRING
@@ -50,7 +47,7 @@ module.exports = {
 		});
 	},
 
-	down: async (queryInterface, Sequelize) => {
+	down: async queryInterface => {
 		/**
 		 * Add reverting commands here.
 		 *

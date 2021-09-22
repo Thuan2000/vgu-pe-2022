@@ -5,15 +5,41 @@
 
 // TODO: handle the company registration (mutation companySignup). (See codes below from: https://www.apollographql.com/docs/apollo-server/data/file-uploads/)
 
-// async (parent, { file }) => {
-//     const { createReadStream, filename, mimetype, encoding } = await file;
-//     // Invoking the `createReadStream` will return a Readable Stream.
-//     // See https://nodejs.org/api/stream.html#stream_readable_streams
-//     const stream = createReadStream();
-//     // This is purely for demonstration purposes and will overwrite the
-//     // local-file-output.txt in the current working directory on EACH upload.
-//     const out = require('fs').createWriteStream('local-file-output.txt');
-//     stream.pipe(out);
-//     await finished(out);
-//     return { filename, mimetype, encoding };
-//   },
+import UserController from "../../controllers/user.controller";
+import { errorResponse } from "../../utils";
+import CompanyController from "../../controllers/company.controller";
+
+export const Mutation = {
+	companySignup: async (
+		_: any,
+		{
+			input: {
+				licenseFiles,
+				licenseNumber,
+				companyName,
+				countryCode,
+				...owner
+			}
+		}
+	) => {
+		const companyController = new CompanyController();
+		const userController = new UserController();
+
+		const {
+			id: ownerId,
+			success,
+			message
+		} = await userController.storeUser(owner);
+
+		// Problem on creating the user
+		if (!success) return errorResponse(message);
+
+		// Creating company
+		return await companyController.register({
+			ownerId,
+			licenseFiles,
+			licenseNumber,
+			companyName
+		});
+	}
+};

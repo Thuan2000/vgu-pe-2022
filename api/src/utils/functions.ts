@@ -18,6 +18,11 @@ export function handleError(err) {
 	}
 }
 
+export function generateSlug(companyName: string) {
+	const slug = companyName.toLowerCase().replace(" ", "-");
+	return slug;
+}
+
 export function checkTableName(tableName: string) {
 	if (!tableName) {
 		throw "NO_TABLE_NAME_EXCEPTION";

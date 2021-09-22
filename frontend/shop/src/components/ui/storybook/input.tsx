@@ -17,7 +17,7 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
 	noBorder?: boolean;
 }
 const classes = {
-	root: "px-4 h-12 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
+	root: "px-4 h-10 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
 	normal: "bg-light border border-border-base focus:shadow focus:bg-light focus:border-green",
 	solid: "bg-light border border-border-100 focus:bg-light focus:border-green",
 	outline: "border border-border-base focus:border-green",

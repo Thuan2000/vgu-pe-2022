@@ -4,7 +4,7 @@
  */
 
 import { DataTypes, Model } from "sequelize";
-import Database from "../utils/database";
+import Database from "../services/database.service";
 import Roles from "./Roles";
 
 export default class User extends Model {}
@@ -27,11 +27,8 @@ User.init(
 			type: DataTypes.STRING,
 			allowNull: false
 		},
-		token: {
+		phoneNumber: {
 			type: DataTypes.STRING
-		},
-		approved: {
-			type: DataTypes.BOOLEAN
 		},
 		// @foreign key of roles name
 		role: {

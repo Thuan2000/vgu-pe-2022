@@ -2,35 +2,66 @@
  * Copyright Emolyze Tech ©2021
  * Good codes make the world a better place!
  */
+import { generateSlug } from "../utils";
+import Company from "../models/Company";
+import { uploadCompanyLicenses } from "../repositories/upload-file.repository";
+import { errorResponse, successResponse } from "../utils/responses";
+import S3 from "../services/s3.service";
+import EmailService from "../services/email.service";
 
-import User from "../models/User";
-import * as jwt from "jsonwebtoken";
-import { redisClient } from "../utils/redis";
-import { errorResponse } from "../utils/responses";
+function setCompanyLicenses(data: Promise<any>[], company: Company) {
+	let doneCount = 0;
 
-class AuthController {
-	async login(email: string, password: string) {
-		const user = await User.findOne({
-			where: { email }
+	data.forEach(async d => {
+		d.then(file => {
+			++doneCount;
+			const currentLicenseFiles =
+				company.getDataValue("licenseFiles") || [];
+			company.set("licenseFiles", [...currentLicenseFiles, file]);
+
+			if (doneCount >= data.length - 1) {
+				company.save();
+			}
 		});
+	});
+}
 
-		if (!user) return errorResponse("USER_NOT_FOUND");
+class CompanyController {
+	s3 = new S3();
+	email = new EmailService();
 
-		if (user.getDataValue("password") !== password)
-			return errorResponse("WRONG_PASSWORD");
+	/**
+	 *
+	 * @param args CompanyRegisterInput!
+	 * @returns response
+	 */
+	async register({ ownerId, licenseFiles, licenseNumber, companyName }) {
+		try {
+			const duplicateCompany = await Company.findOne({
+				where: {
+					name: companyName,
+					licenseNumber
+				}
+			});
 
-		// Generate Token
-		const token = jwt.sign(JSON.stringify(user), process.env.JWT_SECRET);
-		// Save token to redis
-		redisClient.set(`${user.getDataValue("email")}-auth_token`, token);
-		// Return payload to frontend
-		return {
-			message: "Success",
-			success: true,
-			token,
-			role: user.getDataValue("role")
-		};
+			if (duplicateCompany) return errorResponse("COMPANY_EXIST");
+
+			// This will return [Promise]
+			const data = await uploadCompanyLicenses(companyName, licenseFiles);
+			const newCompany = await Company.create({
+				ownerId,
+				licenseNumber,
+				name: companyName,
+				slug: generateSlug(companyName)
+			});
+
+			setCompanyLicenses(data, newCompany);
+			return successResponse();
+		} catch (error) {
+			console.log(error);
+			return errorResponse();
+		}
 	}
 }
 
-export default AuthController;
+export default CompanyController;

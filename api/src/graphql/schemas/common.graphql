@@ -1,7 +1,7 @@
 #
 #  Copyright Emolyze Tech ©2021
 #  Good codes make the world a better place!
-# 
+#
 
 enum ROLE {
 	SUPER_ADMIN
@@ -15,10 +15,7 @@ type Response {
 	success: Boolean
 }
 
-scalar Upload
-
 type File {
 	filename: String!
-	mimetype: String!
-	encoding: String!
+	url: String!
 }
