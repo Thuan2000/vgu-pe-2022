@@ -5,7 +5,6 @@
 
 # This file contains all mutations.
 type Mutation {
-	companySignup(input: CompanyRegisterInput!): Response!
 	uploadFile(input: Upload!): File
-	login(input: LoginInput!): LoginResponse!
+	login(input: LoginInput!): AuthResponse!
 }

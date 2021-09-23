@@ -5,3 +5,7 @@ export enum ENODE_ENV {
 
 export const NODE_ENV: ENODE_ENV =
 	(process.env.NODE_ENV as ENODE_ENV) ?? ENODE_ENV.DEVELOPMENT;
+
+export const AUTH_CONSTANTS = {
+	AUTH_CONSTANT_KEY: "auth_token"
+};

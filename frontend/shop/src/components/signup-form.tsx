@@ -13,6 +13,7 @@ import DocumentInput from "./ui/storybook/document-input";
 import { useCompanySignupMutation } from "@graphql/company.graphql";
 import { Router, useRouter } from "next/dist/client/router";
 import { ROUTES } from "@utils/routes";
+import { setAuthCredentials } from "@utils/auth-utils";
 
 type FormValues = {
 	firstName: string;
@@ -53,12 +54,14 @@ const SignupForm = () => {
 	const { t } = useTranslation("form");
 	const router = useRouter();
 	const [signup, { loading }] = useCompanySignupMutation({
-		onCompleted: ({ companySignup: { success, message } }) => {
+		onCompleted: ({ companySignup: { success, message, token, role } }) => {
 			if (!success) {
 				alert(message);
+				return;
 			}
 
-			router.push(ROUTES.LOGIN);
+			setAuthCredentials(token || "", role || "");
+			router.push(ROUTES.HOMEPAGE);
 		}
 	});
 
@@ -173,11 +176,11 @@ const SignupForm = () => {
 					error={t((errors?.companyLicenses as any)?.message || "")}
 				/>
 			</div>
-			<div className="my-3 md:flex md:items-center">
+			<div className="my-3 md:items-center">
 				<Checkbox
 					{...register("emailSubscription")}
 					label={t("want-to-receive-email")}
-					className="mt-5 mb-2 md:m-0 md:mr-4 text-dark-blue text-sm"
+					className="mt-5 mb-2 text-dark-blue text-sm"
 				/>
 				<Checkbox
 					className="text-dark-blue text-sm"
