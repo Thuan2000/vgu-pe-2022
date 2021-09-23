@@ -1,6 +1,6 @@
-type LoginResponse {
-	success: Boolean
-	message: String
+type AuthResponse {
+	success: Boolean!
+	message: String!
 	token: String
 	role: ROLE
 }

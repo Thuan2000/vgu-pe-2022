@@ -28,7 +28,7 @@ class App {
 	}
 
 	private initRedis() {
-		require("./utils/redis");
+		require("./services/redis.service");
 	}
 
 	public async start(): Promise<void> {

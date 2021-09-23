@@ -1,0 +1,14 @@
+{
+	"login-title": "Sign in",
+	"login": "Login Page",
+	"login-via-google-label": "Login with google",
+	"login-via-facebook-label": "Login with facebook",
+	"language": "Language",
+	"return-home": "Return Home",
+	"logging-out": "Logging Out",
+	"signup-title": "Sign Up",
+	"signup": "Sign up",
+	"logout-menu": "Log Out",
+	"settings-menu": "Settings",
+	"not-verified": "Not verified"
+}

@@ -11,6 +11,12 @@ import CompanyController from "../../controllers/company.controller";
 import { EUserRole } from "../../utils/enums";
 
 export const Mutation = {
+	/**
+	 * Company registered along with the owner
+	 * @param _
+	 * @param param1 CompanyRegisterInput
+	 * @return AuthResponse
+	 */
 	companySignup: async (
 		_: any,
 		{
@@ -25,13 +31,14 @@ export const Mutation = {
 	) => {
 		const companyController = new CompanyController();
 		const userController = new UserController();
-
+		const role = EUserRole.COMPANY_OWNER;
 		const {
 			id: ownerId,
 			success,
-			message
-		} = await userController.storeUser({
-			role: EUserRole.COMPANY_OWNER,
+			message,
+			token
+		} = await userController.register({
+			role,
 			...owner
 		});
 
@@ -39,11 +46,15 @@ export const Mutation = {
 		if (!success) return errorResponse(message);
 
 		// Creating company
-		return await companyController.register({
-			ownerId,
-			licenseFiles,
-			licenseNumber,
-			companyName
-		});
+		return {
+			token,
+			role,
+			...(await companyController.register({
+				ownerId,
+				licenseFiles,
+				licenseNumber,
+				companyName
+			}))
+		};
 	}
 };

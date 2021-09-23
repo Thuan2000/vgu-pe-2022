@@ -48,16 +48,17 @@ const Login = () => {
 				<title>{generateHeadTitle(t("common:login"))}</title>
 				<meta name="description" content="SDConnect login page" />
 			</Head>
+			<div className="fixed h-screen w-screen">
+				<Image
+					src={ImageIllustration}
+					objectFit="cover"
+					layout="fill"
+				/>
+			</div>
 			<div className="relative md:flex">
-				<div className="md:w-4/6 hidden md:block relative h-screen">
-					<Image
-						src={ImageIllustration}
-						objectFit="cover"
-						layout="fill"
-					/>
-				</div>
-				<div className="rounded-lg shadow-2xl min-h-screen py-5 px-7 md:px-0 center-child md:w-3/6">
-					<div className="md:w-3/5 flex flex-col items-center">
+				<div className="md:w-4/6 hidden md:block relative h-screen"></div>
+				<div className="bg-white min-h-screen py-5 px-7 md:px-0 center-child md:w-3/6">
+					<div className=" md:w-3/5 flex flex-col items-center">
 						<Logo className="mb-5 md:hidden" />
 						<div className="w-full">
 							<h1 className="font-bold text-display-2 text-dark-blue">
