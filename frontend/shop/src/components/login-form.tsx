@@ -129,7 +129,7 @@ const LoginForm = () => {
 					</Link>
 				</div>
 			</Form>
-			<SocialLogin />
+			{/* <SocialLogin /> */}
 		</>
 	);
 };
