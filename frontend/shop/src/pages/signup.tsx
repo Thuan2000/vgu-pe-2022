@@ -54,7 +54,7 @@ const SignUp = () => {
 			</div>
 			<div className="flex flex-col md:flex-row">
 				<div className="md:w-1/2 md:relative invisible sm:visible"></div>
-				<div className="bg-white min-h-screen px-5 pt-4 pb-3 absolute x-center w-5/6 position-normal top-2 sm:top-0 md:relative md:w-full md:px-28">
+				<div className="bg-white min-h-screen px-10 pt-4 pb-3 absolute x-center w-full position-normal sm:top-0 md:relative md:w-full md:px-28">
 					<Logo className="sm:hidden" />
 					<h1 className="font-semibold text-display-2 text-dark-blue mb-5">
 						{t("signup-title")}
