@@ -54,7 +54,7 @@ const SignUp = () => {
 						layout="fill"
 					/>
 				</div>
-				<div className="bg-white rounded-lg px-5 py-4 absolute x-center w-5/6 position-normal top-2 sm:top-0 md:relative md:w-full md:px-28">
+				<div className="bg-white rounded-lg px-5 pt-4 pb-3 absolute x-center w-5/6 position-normal top-2 sm:top-0 md:relative md:w-full md:px-28">
 					<Logo className="sm:hidden" />
 					<h1 className="font-semibold text-display-2 text-dark-blue mb-5">
 						{t("signup-title")}
