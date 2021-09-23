@@ -8,6 +8,7 @@
 import UserController from "../../controllers/user.controller";
 import { errorResponse } from "../../utils";
 import CompanyController from "../../controllers/company.controller";
+import { EUserRole } from "../../utils/enums";
 
 export const Mutation = {
 	companySignup: async (
@@ -29,7 +30,10 @@ export const Mutation = {
 			id: ownerId,
 			success,
 			message
-		} = await userController.storeUser(owner);
+		} = await userController.storeUser({
+			role: EUserRole.COMPANY_OWNER,
+			...owner
+		});
 
 		// Problem on creating the user
 		if (!success) return errorResponse(message);
