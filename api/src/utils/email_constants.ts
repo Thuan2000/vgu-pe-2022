@@ -1,5 +1,5 @@
 export const EMAIL_SUBJECTS = {
-	REGISTERED: "Account Registered"
+	REGISTERED: "Tài khoản đã đăng ký"
 };
 
 export const EMAIL_MESSAGES = {
