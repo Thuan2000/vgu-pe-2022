@@ -1,14 +1,14 @@
 {
-	"login-title": "Sign in",
-	"login": "Login Page",
-	"login-via-google-label": "Login with google",
-	"login-via-facebook-label": "Login with facebook",
-	"language": "Language",
-	"return-home": "Return Home",
-	"logging-out": "Logging Out",
-	"signup-title": "Sign Up",
-	"signup": "Sign up",
-	"logout-menu": "Log Out",
-	"settings-menu": "Settings",
-	"not-verified": "Not verified"
+	"login-title": "Đăng nhập",
+	"login": "Đăng Nhập",
+	"login-via-google-label": "Đăng nhập với Google",
+	"login-via-facebook-label": "Đăng nhập với Facebook",
+	"language": "Ngôn Ngữ",
+	"return-home": "Về Trang Chủ",
+	"logging-out": "Đang đăng xuất",
+	"signup-title": "Đăng Ký",
+	"signup": "Đăng ký",
+	"logout-menu": "Đăng Xuất",
+	"settings-menu": "Cài đặt",
+	"not-verified": "Chưa xác thực"
 }
