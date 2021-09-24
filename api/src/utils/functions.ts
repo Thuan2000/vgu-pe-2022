@@ -28,3 +28,9 @@ export function checkTableName(tableName: string) {
 		throw "NO_TABLE_NAME_EXCEPTION";
 	}
 }
+
+export function getUserName(user) {
+	const name = `${user.firstName} ${user.lastName}`;
+
+	return name;
+}

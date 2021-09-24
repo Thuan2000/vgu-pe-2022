@@ -13,6 +13,7 @@ import DocumentInput from "./ui/storybook/document-input";
 import { useCompanySignupMutation } from "@graphql/company.graphql";
 import { Router, useRouter } from "next/dist/client/router";
 import { ROUTES } from "@utils/routes";
+import { setAuthCredentials } from "@utils/auth-utils";
 
 type FormValues = {
 	firstName: string;
@@ -53,12 +54,14 @@ const SignupForm = () => {
 	const { t } = useTranslation("form");
 	const router = useRouter();
 	const [signup, { loading }] = useCompanySignupMutation({
-		onCompleted: ({ companySignup: { success, message } }) => {
+		onCompleted: ({ companySignup: { success, message, token, role } }) => {
 			if (!success) {
 				alert(message);
+				return;
 			}
 
-			router.push(ROUTES.LOGIN);
+			setAuthCredentials(token || "", role || "");
+			router.push(ROUTES.HOMEPAGE);
 		}
 	});
 
@@ -87,11 +90,11 @@ const SignupForm = () => {
 	}
 
 	return (
-		<Form className="mt-10" onSubmit={handleSubmit(onSubmit)}>
-			<div className="md:flex md:my-5">
+		<Form className="mt-3" onSubmit={handleSubmit(onSubmit)}>
+			<div className="md:flex md:my-3">
 				<Input
 					noPrefix
-					className="my-5 md:my-0 md:w-96 md:mr-16"
+					className="my-3 md:my-0 md:w-96 md:mr-16"
 					{...register("firstName")}
 					label={t("firstName-label")}
 					placeholder={t("firstName-placeholder")}
@@ -99,17 +102,17 @@ const SignupForm = () => {
 				/>
 				<Input
 					noPrefix
-					className="my-5 md:my-0 md:w-96"
+					className="my-3 md:my-0 md:w-96"
 					{...register("lastName")}
 					label={t("lastName-label")}
 					placeholder={t("lastName-placeholder")}
 					error={t(errors?.lastName?.message || "")}
 				/>
 			</div>
-			<div className="md:flex md:my-5">
+			<div className="md:flex md:my-3">
 				<PhoneNumberInput
 					control={control}
-					className="my-5 md:my-0 md:w-96 md:mr-16"
+					className="my-3 md:my-0 md:w-96 md:mr-16"
 					{...register("phoneNumber")}
 					label={t("phoneNumber-label")}
 					variant="outline"
@@ -119,17 +122,17 @@ const SignupForm = () => {
 				{/* @TODO: OnBlur check if the email is exist */}
 				<Input
 					noPrefix
-					className="my-5 md:my-0 md:w-96"
+					className="my-3 md:my-0 md:w-96"
 					{...register("email")}
 					label={t("email-label")}
 					placeholder={t("email-placeholder")}
 					error={t(errors?.email?.message || "")}
 				/>
 			</div>
-			<div className="md:flex md:my-5">
+			<div className="md:flex md:my-3">
 				<Input
 					noPrefix
-					className="my-5 md:my-0 md:w-96 md:mr-16"
+					className="my-3 md:my-0 md:w-96 md:mr-16"
 					{...register("password")}
 					label={t("password-label")}
 					type="password"
@@ -138,7 +141,7 @@ const SignupForm = () => {
 				/>
 				<Input
 					noPrefix
-					className="my-5 md:my-0 md:w-96"
+					className="my-3 md:my-0 md:w-96"
 					{...register("confirmPassword")}
 					label={t("confirmPassword-label")}
 					type="password"
@@ -146,10 +149,10 @@ const SignupForm = () => {
 					error={t(errors?.confirmPassword?.message || "")}
 				/>
 			</div>
-			<div className="md:flex md:my-5">
+			<div className="md:flex md:my-3">
 				<Input
 					noPrefix
-					className="my-5 md:my-0 md:w-96 md:mr-16"
+					className="my-3 md:my-0 md:w-96 md:mr-16"
 					{...register("companyName")}
 					label={t("companyName-label")}
 					placeholder={t("companyName-placeholder")}
@@ -157,14 +160,14 @@ const SignupForm = () => {
 				/>
 				<Input
 					noPrefix
-					className="my-5 md:my-0 md:w-96"
+					className="my-3 md:my-0 md:w-96"
 					{...register("licenseNumber")}
 					label={t("licenseNumber-label")}
 					placeholder={t("licenseNumber-placeholder")}
 					error={t(errors?.licenseNumber?.message || "")}
 				/>
 			</div>
-			<div className="mt-7">
+			<div className="mt-1">
 				<DocumentInput
 					control={control}
 					name="companyLicenses"
@@ -173,7 +176,7 @@ const SignupForm = () => {
 					error={t((errors?.companyLicenses as any)?.message || "")}
 				/>
 			</div>
-			<div className="my-4">
+			<div className="my-3 md:items-center">
 				<Checkbox
 					{...register("emailSubscription")}
 					label={t("want-to-receive-email")}

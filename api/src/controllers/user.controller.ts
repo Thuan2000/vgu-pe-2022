@@ -1,9 +1,18 @@
-import { errorResponse, successResponse } from "../utils";
+import bcrypt from "bcrypt";
+
+import { errorResponse, getUserName, successResponse } from "../utils";
 import User from "../models/User";
 import EmailService from "../services/email.service";
+import AuthRepository from "../repositories/auth.repository";
+import {
+	EMailTemplates,
+	EMAIL_MESSAGES,
+	EMAIL_SUBJECTS
+} from "../utils/email_constants";
 
 class UserController {
 	emailer = new EmailService();
+	authRepo = new AuthRepository();
 
 	async getUsers() {
 		return await User.findAll();
@@ -16,9 +25,9 @@ class UserController {
 	/**
 	 *
 	 * @param user UserInput
-	 * @returns Response
+	 * @returns {...Response, token: string, id: number}
 	 */
-	async storeUser(user: any) {
+	async register(user: any) {
 		try {
 			const sameEmailUser = await User.findOne({
 				where: { email: user.email }
@@ -26,27 +35,51 @@ class UserController {
 
 			if (sameEmailUser) {
 				return {
+					token: null,
 					id: sameEmailUser.getDataValue("id"),
 					...errorResponse("USER_EXIST")
 				};
 			}
 
-			const newUser = await User.create({ ...user });
+			const newUser = await User.create({
+				...user,
+				password: this.encodePassword(user.password)
+			});
 			newUser.save();
 
-			// @TODO make this code cleaner
-			const emailMessage =
-				"We already received your registration and will contact you soon";
-			const targetName = `${user.firstName} ${user.lastName}`;
-			this.emailer.sendEmail(user.email, {
-				name: targetName,
-				message: emailMessage
-			});
-			return { id: newUser.getDataValue("id"), ...successResponse() };
+			const token = this.authRepo.storeUserToRedis(newUser);
+
+			this.sendRegistrationEmail(newUser);
+
+			return {
+				id: newUser.getDataValue("id"),
+				token,
+				...successResponse()
+			};
 		} catch (error) {
 			console.log(error);
-			return { id: null, ...errorResponse() };
+			return { token: null, id: null, ...errorResponse() };
 		}
+	}
+
+	/**
+	 * This will send registration email
+	 * @param user IUser
+	 */
+	private sendRegistrationEmail(user) {
+		this.emailer.sendEmail(user.email, {
+			name: getUserName(user),
+			message: EMAIL_MESSAGES.REGISTERED,
+			subject: EMAIL_SUBJECTS.REGISTERED,
+			template: EMailTemplates.REGISTRATION
+		});
+	}
+
+	private encodePassword(password: string) {
+		const salt = bcrypt.genSaltSync();
+		const encodedPass = bcrypt.hashSync(password, salt);
+
+		return encodedPass;
 	}
 }
 

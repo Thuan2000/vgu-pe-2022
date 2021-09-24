@@ -25,7 +25,7 @@ const classes = {
 	small: "px-3 py-0 h-9 text-sm h-10",
 	medium: "px-5 py-0 h-12",
 	big: "px-10 py-0 h-14",
-	fluid: "px-20 h-9"
+	fluid: "px-20 h-9 text-sm"
 };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

@@ -16,7 +16,8 @@ module.exports = {
 				firstName: "Fatwa",
 				lastName: "Anugerah",
 				email: "fatwa@gmail.com",
-				password: "fatwa123",
+				password:
+					"$2b$10$YMb7P7S0nJgT7PeyzZa9aOyldj5Gwysg6NrtabElyfAzPNIuFPfb2",
 				role: "SUPER_ADMIN",
 				...require("../utils").timestampGenerator()
 			},
@@ -24,7 +25,8 @@ module.exports = {
 				firstName: "test",
 				lastName: "1",
 				email: "test1@emolyze.vn",
-				password: "PasswordIsPassword-123",
+				password:
+					"$2b$10$Xlik2Ui8MvmcRV8Bzs4vkuDvReUCPhuCGWt4mBL34FVvKJT8UXR/.",
 				role: "SUPER_ADMIN",
 				...require("../utils").timestampGenerator()
 			},
@@ -32,7 +34,8 @@ module.exports = {
 				firstName: "test",
 				lastName: "2",
 				email: "test2@emolyze.vn",
-				password: "PasswordIsPassword-123",
+				password:
+					"$2b$10$Xlik2Ui8MvmcRV8Bzs4vkuDvReUCPhuCGWt4mBL34FVvKJT8UXR/.",
 				role: "SUPER_ADMIN",
 				...require("../utils").timestampGenerator()
 			},
@@ -40,7 +43,8 @@ module.exports = {
 				firstName: "test",
 				lastName: "2",
 				email: "test2@emolyze.vn",
-				password: "PasswordIsPassword-123",
+				password:
+					"$2b$10$Xlik2Ui8MvmcRV8Bzs4vkuDvReUCPhuCGWt4mBL34FVvKJT8UXR/.",
 				role: "SUPER_ADMIN",
 				...require("../utils").timestampGenerator()
 			},
@@ -48,7 +52,8 @@ module.exports = {
 				firstName: "test",
 				lastName: "3",
 				email: "test3@emolyze.vn",
-				password: "PasswordIsPassword-123",
+				password:
+					"$2b$10$Xlik2Ui8MvmcRV8Bzs4vkuDvReUCPhuCGWt4mBL34FVvKJT8UXR/.",
 				role: "SUPER_ADMIN",
 				...require("../utils").timestampGenerator()
 			},
@@ -56,7 +61,8 @@ module.exports = {
 				firstName: "test",
 				lastName: "4",
 				email: "test4@emolyze.vn",
-				password: "PasswordIsPassword-123",
+				password:
+					"$2b$10$Xlik2Ui8MvmcRV8Bzs4vkuDvReUCPhuCGWt4mBL34FVvKJT8UXR/.",
 				role: "SUPER_ADMIN",
 				...require("../utils").timestampGenerator()
 			},
@@ -64,7 +70,8 @@ module.exports = {
 				firstName: "test",
 				lastName: "5",
 				email: "test5@emolyze.vn",
-				password: "PasswordIsPassword-123",
+				password:
+					"$2b$10$Xlik2Ui8MvmcRV8Bzs4vkuDvReUCPhuCGWt4mBL34FVvKJT8UXR/.",
 				role: "SUPER_ADMIN",
 				...require("../utils").timestampGenerator()
 			},
@@ -72,7 +79,8 @@ module.exports = {
 				firstName: "Vietphat",
 				lastName: "Group",
 				email: "vietphat@emolyze.vn",
-				password: "PasswordIsPassword-123",
+				password:
+					"$2b$10$Xlik2Ui8MvmcRV8Bzs4vkuDvReUCPhuCGWt4mBL34FVvKJT8UXR/.",
 				role: "SUPER_ADMIN",
 				...require("../utils").timestampGenerator()
 			},
@@ -80,19 +88,11 @@ module.exports = {
 				firstName: "Thuan",
 				lastName: "Nguyen",
 				email: "thuan@emolyze.vn",
-				password: "PasswordIsPassword-123",
+				password:
+					"$2b$10$Xlik2Ui8MvmcRV8Bzs4vkuDvReUCPhuCGWt4mBL34FVvKJT8UXR/.",
 				role: "SUPER_ADMIN",
 				...require("../utils").timestampGenerator()
 			}
 		]);
-	},
-
-	down: async (queryInterface, Sequelize) => {
-		/**
-		 * Add commands to revert seed here.
-		 *
-		 * Example:
-		 * await queryInterface.bulkDelete('People', null, {});
-		 */
 	}
 };

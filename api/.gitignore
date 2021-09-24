@@ -15,3 +15,6 @@ yarn-error*
 *.graphql.d.ts
 *.graphqls.d.ts
 /.cache
+
+# PM2 Log
+.pm2*

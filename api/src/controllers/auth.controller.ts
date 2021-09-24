@@ -1,30 +1,39 @@
+import bcrypt from "bcrypt";
+
 import User from "../models/User";
-import * as jwt from "jsonwebtoken";
-import { redisClient } from "../utils/redis";
-import { errorResponse } from "../utils/responses";
+import { errorResponse, successResponse } from "../utils/responses";
+import AuthRepository from "../repositories/auth.repository";
 
 class AuthController {
+	authRepo = new AuthRepository();
+
 	async login(email: string, password: string) {
-		const user = await User.findOne({
-			where: { email }
-		});
+		try {
+			const user = await User.findOne({
+				where: { email }
+			});
 
-		if (!user) return errorResponse("USER_NOT_FOUND");
+			if (!user) return errorResponse("USER_NOT_FOUND");
 
-		if (user.getDataValue("password") !== password)
-			return errorResponse("WRONG_PASSWORD");
+			const isPasswordMatch = bcrypt.compareSync(
+				password,
+				user.getDataValue("password")
+			);
 
-		// Generate Token
-		const token = jwt.sign(JSON.stringify(user), process.env.JWT_SECRET);
-		// Save token to redis
-		redisClient.set(`${user.getDataValue("email")}-auth_token`, token);
-		// Return payload to frontend
-		return {
-			message: "Success",
-			success: true,
-			token,
-			role: user.getDataValue("role")
-		};
+			if (!isPasswordMatch) return errorResponse("WRONG_PASSWORD");
+
+			// Save token to redis
+			const token = this.authRepo.storeUserToRedis(user);
+
+			// Return payload to frontend
+			return {
+				...successResponse(),
+				token,
+				role: user.getDataValue("role")
+			};
+		} catch (err) {
+			console.log(err);
+		}
 	}
 }
 

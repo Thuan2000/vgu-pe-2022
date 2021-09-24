@@ -6,6 +6,7 @@ interface ILinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 	href: string;
 	isActive?: boolean;
 	noDecoration?: boolean;
+	className?: string;
 }
 
 const classes = {

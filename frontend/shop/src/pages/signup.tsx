@@ -45,21 +45,21 @@ const SignUp = () => {
 					content="Register to sdconnect.vn now to be part of our platform"
 				/>
 			</Head>
-
+			<div className="fixed w-screen h-screen">
+				<Image
+					src={RegisterIllustration}
+					objectFit="cover"
+					layout="fill"
+				/>
+			</div>
 			<div className="flex flex-col md:flex-row">
-				<div className="md:w-1/2 md:relative invisible sm:visible">
-					<Image
-						src={RegisterIllustration}
-						objectFit="cover"
-						layout="fill"
-					/>
-				</div>
-				<div className="bg-white rounded-lg px-5 pt-17 pb-16 absolute x-center w-5/6 position-normal top-10 sm:top-0 md:relative md:w-full md:px-28">
+				<div className="md:w-1/2 md:relative invisible sm:visible"></div>
+				<div className="bg-white min-h-screen px-10 pt-4 pb-3 absolute x-center w-full position-normal sm:top-0 md:relative md:w-full md:px-28">
 					<Logo className="sm:hidden" />
 					<h1 className="font-semibold text-display-2 text-dark-blue mb-5">
 						{t("signup-title")}
 					</h1>
-					<SocialRegister />
+					{/* <SocialRegister /> */}
 					<SignupForm />
 					<p className="mt-4 block text-body-dark font-semibold text-sm leading-none mb-3">
 						{t("form:already-have-account")}

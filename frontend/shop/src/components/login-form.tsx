@@ -39,15 +39,18 @@ const loginSchema = yup.object().shape({
 });
 
 const LoginForm = () => {
+	const router = useRouter();
+	const { query } = router;
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
 	} = useForm<FormValues>({
-		resolver: yupResolver(loginSchema)
+		resolver: yupResolver(loginSchema),
+		defaultValues: {
+			email: (query?.email as string) || ""
+		}
 	});
-	const router = useRouter();
-
 	const { t } = useTranslation("form");
 	const [login, { loading }] = useLoginMutation({
 		onError: (err) => console.log(err),
@@ -129,7 +132,7 @@ const LoginForm = () => {
 					</Link>
 				</div>
 			</Form>
-			<SocialLogin />
+			{/* <SocialLogin /> */}
 		</>
 	);
 };
