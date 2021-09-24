@@ -47,6 +47,7 @@ class EmailService {
 	) {
 		try {
 			const templateVariables = {
+				title: subject,
 				name,
 				message,
 				email: typeof targets === "string" ? targets : targets[0]
