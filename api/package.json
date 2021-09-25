@@ -15,7 +15,10 @@
 		"start:server": "node ./dist/server.js",
 		"clean": "rimraf dist/*",
 		"precompile": "tsc",
-		"compile": "tsc-alias"
+		"compile": "tsc-alias",
+		"postcompile": "npm run copyschemas",
+		"precopyschemas": "mkdirp ./dist/graphql/schemas",
+		"copyschemas": "cpx ./src/graphql/schemas/* ./dist/graphql/schemas/"
 	},
 	"husky": {
 		"hooks": {
@@ -63,12 +66,14 @@
 		"@types/validator": "^13.6.3",
 		"@typescript-eslint/eslint-plugin": "^2.3.3",
 		"@typescript-eslint/parser": "^2.3.3",
+		"cpx": "^1.5.0",
 		"eslint": "^6.5.1",
 		"eslint-config-prettier": "^6.4.0",
 		"eslint-plugin-prettier": "^3.1.1",
 		"graphql-let": "^0.18.5",
 		"husky": "^3.0.9",
 		"jest": "^24.9.0",
+		"mkdirp": "^1.0.4",
 		"mock-req-res": "^1.1.2",
 		"nodemon": "^1.18.10",
 		"npm-run-all": "^4.1.5",
