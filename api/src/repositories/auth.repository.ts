@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { redisClient } from "../services/redis.service";
-import { AUTH_CONSTANTS } from "../utils";
+import { redisClient } from "@services/redis.service";
+import { AUTH_CONSTANTS } from "@utils";
 
 class AuthRepository {
 	/**

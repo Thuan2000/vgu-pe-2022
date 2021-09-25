@@ -1,6 +1,6 @@
 import "dotenv/config";
 import * as mysql from "mysql";
-import { ENODE_ENV, handleError, NODE_ENV } from "../utils";
+import { ENODE_ENV, handleError, NODE_ENV } from "@utils";
 import { Sequelize } from "sequelize";
 
 export enum ESequelizeDialect {
