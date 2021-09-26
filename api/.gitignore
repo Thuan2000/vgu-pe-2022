@@ -12,6 +12,7 @@ yarn-error*
 
 # Graphql-let
 .cache
+*.d.ts
 *.graphql.d.ts
 *.graphqls.d.ts
 /.cache

@@ -18,7 +18,8 @@
 		"compile": "tsc-alias",
 		"postcompile": "npm run copyschemas",
 		"precopyschemas": "mkdirp ./dist/graphql/schemas",
-		"copyschemas": "cpx ./src/graphql/schemas/* ./dist/graphql/schemas/"
+		"copyschemas": "cpx ./src/graphql/schemas/* ./dist/graphql/schemas/",
+		"codegen": "graphql-codegen --config codegen.yml"
 	},
 	"husky": {
 		"hooks": {
@@ -51,9 +52,11 @@
 		"sequelize": "^6.6.5"
 	},
 	"devDependencies": {
-		"@graphql-codegen/cli": "^2.2.0",
+		"@graphql-codegen/cli": "2.2.0",
 		"@graphql-codegen/import-types-preset": "^2.1.4",
-		"@graphql-codegen/typescript": "^2.2.2",
+		"@graphql-codegen/introspection": "^2.1.0",
+		"@graphql-codegen/typescript": "2.2.2",
+		"@graphql-codegen/typescript-resolvers": "2.2.1",
 		"@types/bcrypt": "^3.0.0",
 		"@types/dotenv": "^6.1.0",
 		"@types/express": "^4.16.1",
