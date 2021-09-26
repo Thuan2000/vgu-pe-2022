@@ -10,5 +10,6 @@ generates:
         plugins:
             - "introspection"
 config:
-    onlyOperationTypes: true
-    avoidOptionals: true
+    enumsAsTypes: true
+    skipTypename: true
+    typesPrefix: I

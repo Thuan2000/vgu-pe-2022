@@ -18,7 +18,7 @@
 		"compile": "tsc-alias",
 		"postcompile": "npm run copyschemas",
 		"precopyschemas": "mkdirp ./dist/graphql/schemas",
-		"copyschemas": "cpx ./src/graphql/schemas/* ./dist/graphql/schemas/",
+		"copyschemas": "copyfiles ./src/graphql/schemas/* ./dist/graphql/schemas/",
 		"codegen": "graphql-codegen --config codegen.yml"
 	},
 	"husky": {
@@ -69,6 +69,7 @@
 		"@types/validator": "^13.6.3",
 		"@typescript-eslint/eslint-plugin": "^2.3.3",
 		"@typescript-eslint/parser": "^2.3.3",
+		"copyfiles": "^2.4.1",
 		"cpx": "^1.5.0",
 		"eslint": "^6.5.1",
 		"eslint-config-prettier": "^6.4.0",
