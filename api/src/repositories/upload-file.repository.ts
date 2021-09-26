@@ -9,7 +9,7 @@
 /**
  * This files is where upload files handler placed
  */
-import S3 from "../services/s3.service";
+import S3 from "@services/s3.service";
 
 const s3 = new S3();
 

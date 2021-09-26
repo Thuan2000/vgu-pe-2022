@@ -5,10 +5,10 @@
 
 // TODO: handle the company registration (mutation companySignup). (See codes below from: https://www.apollographql.com/docs/apollo-server/data/file-uploads/)
 
-import UserController from "../../controllers/user.controller";
-import { errorResponse } from "../../utils";
-import CompanyController from "../../controllers/company.controller";
-import { EUserRole } from "../../utils/enums";
+import UserController from "@controllers/user.controller";
+import { errorResponse } from "@utils";
+import CompanyController from "@controllers/company.controller";
+import { EUserRole } from "@utils/enums";
 
 export const Mutation = {
 	/**

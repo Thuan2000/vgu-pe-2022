@@ -3,14 +3,13 @@
  * Good codes make the world a better place!
  */
 
-const express = require("express");
-
+import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { GraphQLUpload, graphqlUploadExpress } from "graphql-upload";
 import { loadFilesSync } from "@graphql-tools/load-files";
 import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
 
-import Database from "./services/database.service";
+import Database from "@services/database.service";
 
 class App {
 	private database = new Database();
@@ -20,7 +19,7 @@ class App {
 	constructor() {
 		this.initRedis();
 		this.initDB();
-		this.initializeMiddlewares();
+		// this.initializeMiddlewares();
 	}
 
 	private initDB() {
@@ -76,7 +75,7 @@ class App {
 		};
 	}
 
-	private initializeMiddlewares(): void {}
+	// private initializeMiddlewares(): void {}
 }
 
 export default App;

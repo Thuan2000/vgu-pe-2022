@@ -1,14 +1,14 @@
 import bcrypt from "bcrypt";
 
-import { errorResponse, getUserName, successResponse } from "../utils";
-import User from "../models/User";
-import EmailService from "../services/email.service";
-import AuthRepository from "../repositories/auth.repository";
+import { errorResponse, getUserName, successResponse } from "@utils";
+import User from "@models/User";
+import EmailService from "@services/email.service";
+import AuthRepository from "@repositories/auth.repository";
 import {
 	EMailTemplates,
 	EMAIL_MESSAGES,
 	EMAIL_SUBJECTS
-} from "../utils/email_constants";
+} from "@utils/email_constants";
 
 class UserController {
 	emailer = new EmailService();

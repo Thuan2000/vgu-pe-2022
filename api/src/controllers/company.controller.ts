@@ -2,12 +2,11 @@
  * Copyright Emolyze Tech ©2021
  * Good codes make the world a better place!
  */
-import { generateSlug } from "../utils";
-import Company from "../models/Company";
-import { uploadCompanyLicenses } from "../repositories/upload-file.repository";
-import { errorResponse, successResponse } from "../utils/responses";
-import S3 from "../services/s3.service";
-import EmailService from "../services/email.service";
+import { generateSlug, errorResponse, successResponse } from "@utils";
+import Company from "@models/Company";
+import { uploadCompanyLicenses } from "@repositories/upload-file.repository";
+import S3 from "@services/s3.service";
+import EmailService from "@services/email.service";
 
 function setCompanyLicenses(data: Promise<any>[], company: Company) {
 	let doneCount = 0;

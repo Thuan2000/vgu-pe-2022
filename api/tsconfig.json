@@ -12,8 +12,18 @@
 		"moduleResolution": "node",
 		"paths": {
 			"@models/*": ["src/models/*"],
+			"@models": ["src/models"],
 			"@graphql/*": ["src/graphql/*"],
-			"@controllers/*": ["src/controllers/*"]
+			"@graphql": ["src/graphql"],
+			"@services/*": ["src/services/*"],
+			"@services": ["src/services"],
+			"@utils/*": ["src/utils/*"],
+			"@utils": ["src/utils"],
+			"@repositories/*": ["src/repositories/*"],
+			"@repositories": ["src/repositories"],
+			"@controllers/*": ["src/controllers/*"],
+			"@controllers": ["src/controllers"],
+			"@/*": ["src/*"]
 		},
 		"esModuleInterop": true
 	},

@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 
-import User from "../models/User";
-import { errorResponse, successResponse } from "../utils/responses";
-import AuthRepository from "../repositories/auth.repository";
+import { errorResponse, successResponse } from "@utils/responses";
+import User from "@models/User";
+import AuthRepository from "@repositories/auth.repository";
 
 class AuthController {
 	authRepo = new AuthRepository();
