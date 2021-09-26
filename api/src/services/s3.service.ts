@@ -1,5 +1,5 @@
 import AWS from "aws-sdk";
-import { ENODE_ENV, NODE_ENV } from "../utils";
+import { ENODE_ENV, NODE_ENV } from "@utils";
 
 class S3 {
 	private s3: AWS.S3;

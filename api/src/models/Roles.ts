@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import Database from "../services/database.service";
+import Database from "@services/database.service";
 import User from "./User";
 export default class Roles extends Model {}
 

@@ -3,7 +3,7 @@
  * Good codes make the world a better place!
  */
 
-import UserController from "../../controllers/user.controller";
+import UserController from "@controllers/user.controller";
 
 const userController = new UserController();
 
