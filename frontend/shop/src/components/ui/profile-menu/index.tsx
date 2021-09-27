@@ -8,50 +8,55 @@ import Link from "../link";
 import LogoutIcon from "@assets/icons/logout-icon";
 import SettingIcon from "@assets/icons/setting-icon";
 import styles from "./profile-menu.module.css";
+import { useLoggedInUserQuery } from "@graphql/auth.graphql";
 
 const variants = {
-	hidden: { opacity: 0.5, maxHeight: 0 },
-	visible: { opacity: 1, maxHeight: 500 }
+  hidden: { opacity: 0.5, maxHeight: 0 },
+  visible: { opacity: 1, maxHeight: 500 },
 };
 
 const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
-	const { t } = useTranslation("common");
+  const { t } = useTranslation("common");
+  const { data, loading, error } = useLoggedInUserQuery();
 
-	return (
-		<motion.div
-			className={`${styles["profile-menu"]} pt-3 w-64 z-50 overflow-hidden bg-white duration-200 shadow-sm ${className}`}
-			initial="hidden"
-			animate="visible"
-			variants={variants}
-		>
-			<div className="bg-gray-10 p-3 flex items-center">
-				<AvatarIcon className="mr-3" />
-				<p className="font-semibold text-heading">User Name</p>
-			</div>
-			<div className="bg-green-10 p-3 border">
-				<p className="text-heading font-semibold">Company Name</p>
-				<p className="text-xs text-gray-300 mt-1">
-					{t("not-verified")}
-				</p>
-			</div>
-			<div className="border border-t-0 rounded-md rounded-t-none">
-				<Link href={ROUTES.SETTINGS}>
-					<div className="px-3 py-2 flex items-center ">
-						<SettingIcon className="mr-4 h-4" />
-						<p className="text-gray-400 h-6">
-							{t("settings-menu")}
-						</p>
-					</div>
-				</Link>
-				<Link href={ROUTES.LOGOUT}>
-					<div className="px-3 py-2 flex items-center">
-						<LogoutIcon className="mr-4 h-6" />
-						<p className="text-gray-400 h-6">{t("logout-menu")}</p>
-					</div>
-				</Link>
-			</div>
-		</motion.div>
-	);
+  const user = data?.loggedInUser?.user;
+  const company = data?.loggedInUser?.company;
+
+  return (
+    <motion.div
+      className={`${styles["profile-menu"]} pt-3 w-64 z-50 overflow-hidden bg-white duration-200 shadow-sm ${className}`}
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+    >
+      <div className="bg-gray-10 p-3 flex items-center">
+        <AvatarIcon className="mr-3" />
+        <p className="font-semibold text-heading">
+          {user?.firstName} {user?.lastName}
+        </p>
+      </div>
+      <div className="bg-green-10 p-3 border">
+        <p className="text-heading font-semibold">{company?.name}</p>
+        {!company?.approved && (
+          <p className="text-xs text-gray-300 mt-1">{t("not-verified")}</p>
+        )}
+      </div>
+      <div className="border border-t-0 rounded-md rounded-t-none">
+        <Link href={ROUTES.SETTINGS}>
+          <div className="px-3 py-2 flex items-center ">
+            <SettingIcon className="mr-4 h-4" />
+            <p className="text-gray-400 h-6">{t("settings-menu")}</p>
+          </div>
+        </Link>
+        <Link href={ROUTES.LOGOUT}>
+          <div className="px-3 py-2 flex items-center">
+            <LogoutIcon className="mr-4 h-6" />
+            <p className="text-gray-400 h-6">{t("logout-menu")}</p>
+          </div>
+        </Link>
+      </div>
+    </motion.div>
+  );
 };
 
 export default ProfileMenu;

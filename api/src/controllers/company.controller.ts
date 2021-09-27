@@ -7,6 +7,8 @@ import Company from "@models/Company";
 import { uploadCompanyLicenses } from "@repositories/upload-file.repository";
 import S3 from "@services/s3.service";
 import EmailService from "@services/email.service";
+import UserController from "./user.controller";
+import UserRepository from "@repositories/user.repository";
 
 function setCompanyLicenses(data: Promise<any>[], company: Company) {
 	let doneCount = 0;
@@ -46,7 +48,6 @@ class CompanyController {
 			if (duplicateCompany) return errorResponse("COMPANY_EXIST");
 
 			// This will return [Promise]
-			const data = await uploadCompanyLicenses(companyName, licenseFiles);
 			const newCompany = await Company.create({
 				ownerId,
 				licenseNumber,
@@ -54,7 +55,15 @@ class CompanyController {
 				slug: generateSlug(companyName)
 			});
 
-			setCompanyLicenses(data, newCompany);
+			// Setting user company id
+			UserRepository.setCompanyId(ownerId, newCompany.getDataValue("id"));
+
+			// Setting company Licenses asynchronously
+			const companyLicenses = await uploadCompanyLicenses(
+				companyName,
+				licenseFiles
+			);
+			setCompanyLicenses(companyLicenses, newCompany);
 			return successResponse();
 		} catch (error) {
 			console.log(error);

@@ -10,4 +10,5 @@ type User {
 	password: String
 	role: ROLE
 	email: String
+	companyId: Int
 }

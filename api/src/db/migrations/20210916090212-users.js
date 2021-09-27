@@ -30,6 +30,9 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false
 			},
+			companyId: {
+				type: Sequelize.STRING
+			},
 			phoneNumber: {
 				type: Sequelize.STRING
 			},

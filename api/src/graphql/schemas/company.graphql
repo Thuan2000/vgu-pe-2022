@@ -3,11 +3,30 @@
 #  Good codes make the world a better place!
 #
 
+type LicenseFile {
+	location: String
+	path: String
+}
+
 type Company {
 	id: Int
-	adminUser: User!
-	companyName: String!
-	licenseS3Uri: String!
+	name: String
+	slug: String
+	licenseNumber: String
+	description: String
+	approved: Boolean
+	# coverImage: String
+	# gallery: String
+	# address: String
+	licenseFiles: [LicenseFile]
+	ownerId: Int
+	# logo: String
+	# settings: String
+
+	# id: Int
+	# adminUser: User!
+	# companyName: String!
+	# licenseS3Uri: String!
 }
 
 input CompanyRegisterInput {

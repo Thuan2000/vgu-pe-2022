@@ -1,8 +1,35 @@
 mutation Login($input: LoginInput!) {
-	login(input: $input) {
-		token
-		message
-		success
-		role
-	}
+  login(input: $input) {
+    token
+    message
+    success
+    role
+  }
+}
+
+query LoggedInUser {
+  loggedInUser {
+    user {
+      id
+      email
+      firstName
+      lastName
+      password
+      role
+    }
+
+    company {
+      id
+      name
+      slug
+      licenseNumber
+      description
+      approved
+      licenseFiles {
+        path
+        location
+      }
+      ownerId
+    }
+  }
 }

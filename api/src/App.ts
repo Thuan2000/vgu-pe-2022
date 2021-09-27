@@ -10,6 +10,7 @@ import { loadFilesSync } from "@graphql-tools/load-files";
 import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
 
 import Database from "@services/database.service";
+import { getUserFromToken } from "@utils/functions";
 
 class App {
 	private database = new Database();
@@ -37,7 +38,14 @@ class App {
 			const resolvers = this.loadResolvers();
 			this.apolloServer = new ApolloServer({
 				typeDefs,
-				resolvers
+				resolvers,
+				context: ({ req }) => {
+					const token = req.headers.authorization;
+
+					const user = getUserFromToken(token);
+
+					return { user };
+				}
 			});
 			await this.apolloServer.start();
 

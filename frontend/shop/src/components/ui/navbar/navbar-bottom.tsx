@@ -12,28 +12,23 @@ import UserProfile from "../user-profile";
 import Category from "../category";
 
 const NavbarBottom = () => {
-	return (
-		<div className="flex-center justify-between py-4">
-			<div className="flex-center ">
-				<Logo size="medium" className="mr-7" />
-				<Category />
-				<Search className="ml-4" />
-				<button>
-					<SaveIcon className="mx-4" />
-				</button>
-				<Link href={ROUTES.NOTIFICATIONS}>
-					<NotificationIcon />
-				</Link>
-			</div>
+  return (
+    <div className="flex-center justify-between py-4">
+      <div className="flex-center ">
+        <Logo size="medium" className="mr-7" />
+        <Category />
+        <Search className="ml-4" />
+        <button>
+          <SaveIcon className="mx-4" />
+        </button>
+        <Link href={ROUTES.NOTIFICATIONS} passHref>
+          <NotificationIcon />
+        </Link>
+      </div>
 
-			{/* User Profile */}
-			<UserProfile />
-
-			{/* @TEMP */}
-			{/* <Link href={ROUTES.LOGOUT}>
-				<Button size="small">Logout</Button>
-			</Link> */}
-		</div>
-	);
+      {/* User Profile */}
+      <UserProfile />
+    </div>
+  );
 };
 export default NavbarBottom;
