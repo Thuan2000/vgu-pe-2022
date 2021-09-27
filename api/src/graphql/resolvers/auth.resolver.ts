@@ -8,3 +8,7 @@ export const Mutation = {
 		return authController.login(email, password);
 	}
 };
+
+export const Query = {
+	loggedInUser: (_, __, { user }) => authController.loggedInUser(user)
+};

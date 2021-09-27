@@ -9,3 +9,12 @@ input LoginInput {
 	email: String
 	password: String
 }
+
+type LoggedInUserResponse {
+	user: User!
+	company: Company!
+}
+
+extend type Query {
+	loggedInUser: LoggedInUserResponse
+}

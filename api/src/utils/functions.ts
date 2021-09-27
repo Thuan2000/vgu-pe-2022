@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 export function generateDate(): string {
 	const date = new Date();
 	const [day, month, year] = [
@@ -33,4 +35,15 @@ export function getUserName(user) {
 	const name = `${user.firstName} ${user.lastName}`;
 
 	return name;
+}
+
+export function getUserFromToken(token) {
+	if (!token) return null;
+
+	const authToken = token.split(" ")[1];
+	console.log(authToken);
+
+	const user = jwt.verify(authToken, process.env.JWT_SECRET);
+
+	return user;
 }
