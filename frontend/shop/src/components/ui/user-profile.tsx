@@ -2,19 +2,23 @@ import { useLoggedInUserQuery } from "@graphql/auth.graphql";
 import { trimText } from "@utils/functions";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { AuthContext, useAuth } from "src/contexts/auth.context";
 
 import ProfileAvatar from "./profile-avatar";
 
 const UserProfile = () => {
   const { t } = useTranslation("common");
-  const { data, loading, error } = useLoggedInUserQuery();
+  const { user, company, authLogin } = useAuth();
+  const { data, loading, error } = useLoggedInUserQuery({
+    onCompleted: ({ loggedInUser }) => {
+      if (!loggedInUser) return;
+      authLogin(loggedInUser);
+    },
+  });
 
   if (error) {
     console.log(error);
   }
-
-  const user = data?.loggedInUser?.user;
-  const verified = data?.loggedInUser?.company.approved;
 
   return (
     <div className="flex-center">
@@ -23,7 +27,7 @@ const UserProfile = () => {
           {t("common:greeting")}
           <h3 className="ml-2">{trimText(`${user?.firstName}`, 10)}</h3>
         </p>
-        {!verified && (
+        {!company?.approved && (
           <p className="text-red-600 font-light">{t("not-verified")}</p>
         )}
       </div>

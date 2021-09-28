@@ -10,9 +10,11 @@ import {
 import { getUserName } from "@utils/functions";
 import { Model } from "sequelize/types";
 import User from "@models/User";
+import AuthRepository from "./auth.repository";
 
 class UserRepository {
 	static emailer = new EmailService();
+	static authRepo = new AuthRepository();
 
 	/**
 	 * This will send registration email
@@ -44,6 +46,9 @@ class UserRepository {
 
 		user.set("companyId", companyId);
 		user.save();
+
+		// Restoring it
+		return this.authRepo.storeUserToRedis(user);
 	}
 }
 

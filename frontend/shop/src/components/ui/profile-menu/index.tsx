@@ -9,6 +9,7 @@ import LogoutIcon from "@assets/icons/logout-icon";
 import SettingIcon from "@assets/icons/setting-icon";
 import styles from "./profile-menu.module.css";
 import { useLoggedInUserQuery } from "@graphql/auth.graphql";
+import { useAuth } from "src/contexts/auth.context";
 
 const variants = {
   hidden: { opacity: 0.5, maxHeight: 0 },
@@ -17,10 +18,7 @@ const variants = {
 
 const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   const { t } = useTranslation("common");
-  const { data, loading, error } = useLoggedInUserQuery();
-
-  const user = data?.loggedInUser?.user;
-  const company = data?.loggedInUser?.company;
+  const { user, company } = useAuth();
 
   return (
     <motion.div
