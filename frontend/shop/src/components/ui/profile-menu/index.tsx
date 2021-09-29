@@ -5,11 +5,10 @@ import { motion } from "framer-motion";
 import { ROUTES } from "@utils/routes";
 import AvatarIcon from "@assets/icons/avatar-icon";
 import Link from "../link";
-import LogoutIcon from "@assets/icons/logout-icon";
-import SettingIcon from "@assets/icons/setting-icon";
+import LogoutIcon from "@assets/icons/navigations/logout-icon";
+import SettingIcon from "@assets/icons/navigations/settings-icon";
 import styles from "./profile-menu.module.css";
-import { useLoggedInUserQuery } from "@graphql/auth.graphql";
-import { useAuth } from "src/contexts/auth.context";
+import { getMeData } from "@utils/auth-utils";
 
 const variants = {
   hidden: { opacity: 0.5, maxHeight: 0 },
@@ -18,7 +17,7 @@ const variants = {
 
 const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   const { t } = useTranslation("common");
-  const { user, company } = useAuth();
+  const { user, company } = getMeData();
 
   return (
     <motion.div

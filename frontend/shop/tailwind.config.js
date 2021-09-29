@@ -29,7 +29,10 @@ module.exports = {
       },
       colors: {
         "dark-blue": "#15114E",
-        light: "#FFFFFF",
+        light: {
+          DEFAULT: "#FFFFFF",
+          300: "#F1F3F3",
+        },
         green: {
           DEFAULT: "#00D796",
           10: "#E7F5F1",

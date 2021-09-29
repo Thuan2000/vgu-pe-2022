@@ -39,7 +39,7 @@ class AuthController {
 		}
 	}
 
-	async loggedInUser(user: IUser) {
+	async meInfo(user: IUser) {
 		const userCompany: Model<ICompany> = await Company.findByPk(
 			user.companyId
 		);

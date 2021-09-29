@@ -1,6 +1,7 @@
 import Cookie from "js-cookie";
 import SSRCookie from "cookie";
-import { AUTH_CRED, ROLE, TOKEN } from "./constants";
+import { AUTH_CRED, LOGGED_IN_USER, ROLE, TOKEN } from "./constants";
+import { ICompany, IUser } from "@graphql/types.graphql";
 
 const cookieDomain = { domain: `.${process.env.NEXT_PUBLIC_DOMAIN}` };
 
@@ -55,4 +56,29 @@ export function hasAccess(
 
 export function isAuthenticated(_cookies: { token: string; role: string }) {
   return _cookies.token && _cookies.role;
+}
+
+export function setMeData({
+  user,
+  company,
+}: {
+  user: IUser;
+  company: ICompany;
+}) {
+  Cookie.set(
+    LOGGED_IN_USER,
+    JSON.stringify({ user, company }),
+    !isDevelopment ? { ...cookieDomain } : {}
+  );
+}
+
+export function getMeData() {
+  const data = Cookie.get(LOGGED_IN_USER);
+  if (!data) return { company: null, user: null };
+
+  return JSON.parse(data);
+}
+
+export function removeMeData() {
+  Cookie.remove(LOGGED_IN_USER, !isDevelopment ? { ...cookieDomain } : {});
 }

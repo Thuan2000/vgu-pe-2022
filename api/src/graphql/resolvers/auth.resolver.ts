@@ -6,9 +6,6 @@ export const Mutation = {
 	login: (_, { input }) => {
 		const { email, password } = input;
 		return authController.login(email, password);
-	}
-};
-
-export const Query = {
-	loggedInUser: (_, __, { user }) => authController.loggedInUser(user)
+	},
+	meInfo: (_, __, { user }) => authController.meInfo(user)
 };

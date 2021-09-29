@@ -3,7 +3,6 @@ import type { AppProps } from "next/app";
 import { appWithTranslation, i18n } from "next-i18next";
 import { ApolloProvider, gql } from "@apollo/client";
 import { useApollo } from "../utils/apollo";
-import AuthProvider from "src/contexts/auth.context";
 
 const NoLayout: React.FC = ({ children }) => <>{children}</>;
 
@@ -13,11 +12,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <AuthProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </AuthProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </ApolloProvider>
   );
 }

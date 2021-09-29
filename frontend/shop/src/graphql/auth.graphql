@@ -7,8 +7,8 @@ mutation Login($input: LoginInput!) {
   }
 }
 
-query LoggedInUser {
-  loggedInUser {
+mutation MeInfo {
+  meInfo {
     user {
       id
       email

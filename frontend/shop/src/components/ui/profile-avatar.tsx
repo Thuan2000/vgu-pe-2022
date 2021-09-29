@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 
 import AvatarIcon from "@assets/icons/avatar-icon";
 import { useTranslation } from "react-i18next";
-import SettingIcon from "@assets/icons/setting-icon";
-import LogoutIcon from "@assets/icons/logout-icon";
+import SettingsIcon from "@assets/icons/navigations/settings-icon";
+import LogoutIcon from "@assets/icons/navigations/logout-icon";
 import Link from "./link";
 import { ROUTES } from "@utils/routes";
 import ProfileMenu from "./profile-menu";
@@ -16,6 +16,7 @@ const ProfileAvatar = () => {
     <div
       className="relative"
       onMouseEnter={() => setShowMenu(true)}
+      onClick={() => setShowMenu(true)}
       onMouseLeave={() => setShowMenu(false)}
     >
       <button className="border h-11 w-11 center-child rounded-md ml-4">
