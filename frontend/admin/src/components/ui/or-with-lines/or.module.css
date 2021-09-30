@@ -1,0 +1,32 @@
+.or {
+	text-align: center;
+	width: 100%;
+	padding: 5% 2%;
+	position: relative;
+}
+
+.or::before {
+	content: "";
+	display: block;
+	width: 42%;
+	height: 1px;
+	left: 0;
+	box-shadow: 0 2px 20px rgba(255, 255, 255, 0.329);
+	top: 50%;
+	background-color: #c5cdd4;
+	transform: translateY(-50%);
+	position: absolute;
+}
+
+.or::after {
+	content: "";
+	display: block;
+	width: 42%;
+	height: 1px;
+	background-color: #c5cdd4;
+	right: 0;
+	box-shadow: 0 2px 20px rgba(255, 255, 255, 0.397);
+	top: 50%;
+	transform: translateY(-50%);
+	position: absolute;
+}

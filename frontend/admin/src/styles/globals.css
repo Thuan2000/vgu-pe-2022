@@ -1,0 +1,113 @@
+@tailwind base;
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --color-green: #00d796;
+  --color-gray-200: #b0bdc6;
+  --color-gray-10: #eef2f5;
+  --color-dark-blue: #15114e;
+}
+
+#__next {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-heading font-semibold;
+  color: var(--dark-blue);
+}
+
+p {
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 26px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 17px;
+  height: 24px;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+h5 {
+  font-size: 13px;
+}
+
+h6 {
+  font-size: 11px;
+}
+
+strong {
+  color: var(--color-dark-blue);
+}
+
+.font-semibold {
+  color: var(--dark-blue);
+}
+
+input::placeholder {
+  color: var(--color-gray-200);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  @apply no-underline;
+}
+
+body {
+  @apply font-body;
+}
+
+.center-child {
+  @apply md:flex md:flex-col md:justify-center md:items-center;
+}
+
+.y-center {
+  @apply top-1/2 -translate-y-1/2;
+}
+
+.x-center {
+  @apply left-1/2 -translate-x-1/2;
+}
+
+.position-normal {
+  @apply sm:top-0 sm:left-0 sm:-translate-x-0 sm:-translate-y-0;
+}
+
+.social-button {
+  @apply border-gray-700 hover:bg-gray-700 hover:border-gray-700;
+}
+
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.abs-center {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2;
+}
+
+@tailwind components;
+@tailwind utilities;

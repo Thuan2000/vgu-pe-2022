@@ -1,0 +1,35 @@
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    token
+    message
+    success
+    role
+  }
+}
+
+mutation MeInfo {
+  meInfo {
+    user {
+      id
+      email
+      firstName
+      lastName
+      password
+      role
+    }
+
+    company {
+      id
+      name
+      slug
+      licenseNumber
+      description
+      approved
+      licenseFiles {
+        path
+        location
+      }
+      ownerId
+    }
+  }
+}
