@@ -1,0 +1,20 @@
+{
+  "login-title": "Sign in",
+  "login": "Login Page",
+  "login-via-google-label": "Login with google",
+  "login-via-facebook-label": "Login with facebook",
+  "language": "Language",
+  "return-home": "Return Home",
+  "logging-out": "Logging Out",
+  "signup-title": "Sign Up",
+  "signup": "Sign up",
+  "logout-menu": "Log Out",
+  "settings-menu": "Settings",
+  "not-verified": "Not verified",
+  "greeting": "Hello",
+  "post-request-link-button-label": "Post Request",
+  "post-request-paragraph": "Get started with posting request on our platform, and soon we can help find you right supplier for your business",
+  "post-request-image-label": "Post request image",
+  "home-nav-label": "Home",
+  "postRequest-nav-label": "Post Request"
+}

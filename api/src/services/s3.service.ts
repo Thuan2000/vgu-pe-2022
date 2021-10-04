@@ -74,8 +74,6 @@ class S3 {
 			Key: fileName
 		};
 
-		console.log(getObjectParams);
-
 		return this.s3.getObject(getObjectParams).promise();
 	}
 }

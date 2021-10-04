@@ -10,11 +10,11 @@ input LoginInput {
 	password: String
 }
 
-type LoggedInUserResponse {
+type MeInfoResponse {
 	user: User!
 	company: Company!
 }
 
-extend type Query {
-	loggedInUser: LoggedInUserResponse
+extend type Mutation {
+	meInfo: MeInfoResponse
 }

@@ -41,7 +41,6 @@ export function getUserFromToken(token) {
 	if (!token) return null;
 
 	const authToken = token.split(" ")[1];
-	console.log(authToken);
 
 	const user = jwt.verify(authToken, process.env.JWT_SECRET);
 
