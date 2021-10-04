@@ -15,18 +15,18 @@ import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  // const { token, role } = getAuthCredentials(ctx);
+  const { token, role } = getAuthCredentials(ctx);
 
   const { locale } = ctx;
 
-  // if (!token || !role || !isAuthenticated({ token, role })) {
-  //   return {
-  //     redirect: {
-  //       destination: ROUTES.LOGIN,
-  //       permanent: false,
-  //     },
-  //   };
-  // }
+  if (!token || !role || !isAuthenticated({ token, role })) {
+    return {
+      redirect: {
+        destination: ROUTES.LOGIN,
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale!, ["common"])),

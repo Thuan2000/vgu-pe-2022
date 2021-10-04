@@ -6,7 +6,7 @@
     "codegen": "yarn graphql-let && graphql-codegen",
     "dev": "yarn codegen && cross-env NODE_ENV=development PORT=3001 next dev",
     "build": "yarn codegen && next build",
-    "start": "next start",
+    "start": "cross-env PORT=3001 next start",
     "lint": "next lint",
     "type:codegen": "graphql-codegen --config codegen.yml"
   },

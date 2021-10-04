@@ -1,4 +1,5 @@
 import HomeIcon from "@assets/icons/navigations/home-icon";
+import LogoutIcon from "@assets/icons/navigations/logout-icon";
 import RequestIcon from "@assets/icons/navigations/request-icon";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";
@@ -19,6 +20,11 @@ const SidebarNavigations = () => {
       label: "postRequest-nav-label",
       href: ROUTES.POST_REQUEST,
       icon: RequestIcon,
+    },
+    {
+      label: "logout-nav-label",
+      href: ROUTES.LOGOUT,
+      icon: LogoutIcon,
     },
   ];
   // @TODO, make this right

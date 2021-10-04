@@ -16,5 +16,6 @@
   "post-request-paragraph": "Get started with posting request on our platform, and soon we can help find you right supplier for your business",
   "post-request-image-label": "Post request image",
   "home-nav-label": "Home",
-  "postRequest-nav-label": "Post Request"
+  "postRequest-nav-label": "Post Request",
+  "logout-nav-label": "Logout"
 }
