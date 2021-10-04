@@ -6,4 +6,4 @@ sudo fuser -k 8080/tcp
 sudo fuser -k 3000/tcp
 
 # Start app
-pm2 start ecosystem.config.js --no-autorestart
+pm2 start ecosystem.config.js
