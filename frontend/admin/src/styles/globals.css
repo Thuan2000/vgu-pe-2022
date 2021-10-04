@@ -67,7 +67,8 @@ strong {
   color: var(--dark-blue);
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: var(--color-gray-200);
 }
 

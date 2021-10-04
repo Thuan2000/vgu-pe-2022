@@ -6,6 +6,7 @@ import DetailsSection from "./check-section/details-section";
 import { useTranslation } from "react-i18next";
 import Divider from "@components/ui/divider";
 import AdditionalSection from "./check-section/additional-section";
+import { detailsInputNames, generalInputNames } from "./post-request-constants";
 
 interface ICheckSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   getValues: UseFormGetValues<PostRequestFormValue>;
@@ -22,6 +23,23 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
   const details = getValues("details");
   const general = getValues("general");
   const additional = getValues("additional");
+
+  useEffect(() => {
+    generalInputNames.forEach((name) => {
+      const value = getValues(`general.${name}`);
+      if (!value) {
+        changeSection(1);
+        return;
+      }
+    });
+    detailsInputNames.forEach((name) => {
+      const value = getValues(`details.${name}`);
+      if (!value) {
+        changeSection(2);
+        return;
+      }
+    });
+  });
 
   useEffect(() => {
     if (!general) {

@@ -38,7 +38,7 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
           placeholder={t("supplierExperience-placeholder")}
         />
       </div>
-      <div className="flex-items-center ml-8">
+      <div className="flex-items-center mb-3 ml-8">
         <p className="font-semibold">{t("rating-label")}</p>
         <p className="ml-2 mr-4">:</p>
         <NumberInput
