@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Control, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDropzone, FileRejection } from "react-dropzone";
 
@@ -11,39 +10,49 @@ import DocIcon from "@assets/icons/files/doc-icon";
 import ExcelIcon from "@assets/icons/files/excel-icon";
 import PdfIcon from "@assets/icons/files/pdf-icon";
 import { CloseIcon } from "@assets/icons/close-icon";
+import InputLabel from "./inputs/input-label";
 
 export interface IDocumentUploaderProps {
   label?: string;
-  subLabel?: string;
+  note?: string;
+  numberQueue?: number;
+  accept: string;
   defaultValue?: any;
   multiple?: boolean;
   onChange?: (e: any) => void;
   value?: any;
 }
 
-function getDocumentPreview(name: String) {
+function getDocumentPreview(name: string, url?: string) {
   const extension = name.split(".").pop()?.toLocaleLowerCase();
   const size = 40;
   if (extension?.includes("pdf")) return <PdfIcon width={size} height={size} />;
   else if (extension?.includes("csv") || extension?.includes("xls"))
     return <ExcelIcon width={size} height={size} />;
-  else return <DocIcon width={size} height={size} />;
+  else if (extension?.includes("csv") || extension?.includes("doc"))
+    return <DocIcon width={size} height={size} />;
+  // This sure be an image
+  else {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={url || ""} alt={name} />;
+  }
 }
 
 const DocumentUploader = ({
   label,
-  subLabel,
+  note,
   multiple,
+  accept,
+  numberQueue,
   onChange,
   value,
 }: IDocumentUploaderProps) => {
   const { t } = useTranslation("form");
   const [files, setFiles] = useState<any[]>(value || []);
-  const [fileUrls, setFileUrls] = useState<string[]>([]);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: ".pdf",
-    multiple: false,
+    accept,
+    multiple: multiple,
     onDropRejected: onDropRejected,
     onDrop: async (acceptedFiles) => {
       if (files.length) {
@@ -68,25 +77,20 @@ const DocumentUploader = ({
     if (onChange) {
       onChange(files);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
   function handleDelete(index: number) {
     // @ts-ignore
     files.splice(index, 1);
-    fileUrls.splice(index, 1);
     const newFiles = [...files];
-    const newUrls = [...fileUrls];
     setFiles(newFiles);
-    setFileUrls(newUrls);
-    if (onChange) {
-      onChange(newFiles);
-    }
   }
 
   const thumbs = files?.map((file, idx) => {
     return (
       <div
-        className="inline-flex mr-3 flex-col border border-border-200 rounded mt-2 me-2 relative"
+        className="inline-flex flex-col border border-border-200 mx-2 rounded mt-2 me-2 relative"
         key={`${file.name}-${idx}`}
         title={file.name}
       >
@@ -94,7 +98,7 @@ const DocumentUploader = ({
           onClick={() => window.open(file.localUrl)}
           className="flex items-center justify-center min-w-0 w-16 h-16 overflow-hidden cursor-pointer"
         >
-          {getDocumentPreview(file.name)}
+          {getDocumentPreview(file.name, file.localUrl)}
         </div>
         <button
           className="w-4 h-4 flex items-center justify-center rounded-full bg-red-600 text-xs text-light absolute -top-1 -right-1 shadow-xl outline-none"
@@ -119,10 +123,7 @@ const DocumentUploader = ({
 
   return (
     <div>
-      <label className="block text-body-dark font-semibold text-sm leading-none mb-1">
-        {label}
-      </label>
-      <p className="text-gray-200 text-xs mb-2">{subLabel}</p>
+      <InputLabel label={label} note={note} numberQueue={numberQueue} />
       <div
         {...getRootProps({
           className:
@@ -136,7 +137,9 @@ const DocumentUploader = ({
           </span>
         </p>
       </div>
-      <div className="flex flex-wrap">{thumbs?.length > 0 && thumbs}</div>
+      <div className="flex items-center flex-wrap">
+        {thumbs?.length > 0 && thumbs}
+      </div>
       <Button
         size="small"
         className="mt-3 bg-blue text-xs px-6 hover:bg-blue-700 active:bg-blue-900"
