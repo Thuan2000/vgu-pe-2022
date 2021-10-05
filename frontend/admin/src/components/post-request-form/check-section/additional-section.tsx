@@ -6,10 +6,12 @@ import { AdditionalFormValue } from "../post-request-schema";
 interface IAdditionalSectionProps {
   formValues: AdditionalFormValue;
   changeSection: (id: number) => void;
+  hasImage: boolean;
 }
 
 const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
   formValues,
+  hasImage,
   changeSection,
 }) => {
   const { t } = useTranslation();
@@ -52,7 +54,7 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
   return (
     <>
       <Divider className="mb-7" />
-      <div className="flex justify-between mb-5">
+      <div className={`flex justify-between mb-5 ${hasImage && "md:w-2/3"}`}>
         <h3>{t("general-information-check-title")}</h3>
         <p
           className="text-blue cursor-pointer"

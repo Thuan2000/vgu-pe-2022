@@ -5,16 +5,19 @@ import { DetailsFormValue } from "../post-request-schema";
 interface IGeneralSection {
   formValues: DetailsFormValue;
   changeSection: (id: number) => void;
+  hasImage: boolean;
 }
 
 const DetailsSection: React.FC<IGeneralSection> = ({
   formValues,
   changeSection,
+  hasImage,
 }) => {
   const { t } = useTranslation("form");
+
   return (
     <>
-      <div className="flex justify-between mb-5">
+      <div className={`flex justify-between mb-5 ${hasImage && "md:w-2/3"}`}>
         <h3>{t("details-information-title")}</h3>
         <p
           className="text-blue cursor-pointer"

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import Divider from "@components/ui/divider";
 import AdditionalSection from "./check-section/additional-section";
 import { detailsInputNames, generalInputNames } from "./post-request-constants";
+import ImagesSection from "./check-section/images-section";
 
 interface ICheckSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   getValues: UseFormGetValues<PostRequestFormValue>;
@@ -23,6 +24,8 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
   const details = getValues("details");
   const general = getValues("general");
   const additional = getValues("additional");
+
+  const hasImage = details?.images?.length > 0;
 
   useEffect(() => {
     generalInputNames.forEach((name) => {
@@ -56,30 +59,31 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
       <h3 className="text-md sm:text-lg my-10">
         {t("check-section-title-label")}
       </h3>
-      {details?.images?.length > 0 && (
-        <div className="relative border-2 border-gray-200 my-5 md:hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={details?.images[0]?.localUrl || ""}
-            alt={details?.productName?.name || ""}
-            width={340}
-            height={200}
-            className="p-3"
-          />
-          <p
-            className="absolute w-full bottom-0 text-white bg-primary flex-center py-3"
-            onClick={() => changeSection(2)}
-          >
-            {t("change-photo-label")}
-          </p>
-        </div>
+      {hasImage && (
+        <ImagesSection
+          className="md:hidden my-5"
+          imgWidth={300}
+          imgHeight={200}
+          images={details?.images}
+          changeSection={changeSection}
+        />
       )}
-      <div className="flex flex-col">
-        <GeneralSection formValues={general} changeSection={changeSection} />
+      <div className={`flex flex-col bg-white`}>
+        <GeneralSection
+          hasImage={hasImage}
+          images={details?.images}
+          formValues={general}
+          changeSection={changeSection}
+        />
         <Divider className="mb-7" />
-        <DetailsSection formValues={details} changeSection={changeSection} />
+        <DetailsSection
+          hasImage={hasImage}
+          formValues={details}
+          changeSection={changeSection}
+        />
         {additional && (
           <AdditionalSection
+            hasImage={hasImage}
             formValues={additional}
             changeSection={changeSection}
           />
