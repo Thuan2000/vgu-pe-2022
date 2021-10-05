@@ -117,7 +117,7 @@ const PostRequestForm = () => {
     const categoryIds = categories.map((category) => category.id);
 
     const { company } = getMeData();
-    const values = {
+    const values: any = {
       companyId: company.id,
       location: locationName,
       productName,
