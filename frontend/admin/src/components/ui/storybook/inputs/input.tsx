@@ -11,7 +11,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       note,
       name,
       error,
-      noPrefix,
+      transparentPrefix,
       children,
       variant = "normal",
       shadow = false,
@@ -58,7 +58,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             name={name}
             type={type}
             ref={ref}
-            className={`${rootClassName} ${!noPrefix && "pl-8"}`}
+            className={`${rootClassName} ${
+              (prefix || transparentPrefix) && "pl-8"
+            }`}
             autoComplete="off"
             autoCorrect="off"
             spellCheck="false"

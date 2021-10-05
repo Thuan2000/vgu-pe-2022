@@ -23,7 +23,6 @@ const Search = ({
       </button>
       <Input
         noLabel
-        noPrefix
         noBorder
         style={{ height: "45px", width: "300px" }}
         className="border-none"

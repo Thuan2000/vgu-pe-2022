@@ -29,10 +29,11 @@ const ImageThumb: React.FC<ImageThumbProps> = ({
   imagesLength,
 }) => {
   const { t } = useTranslation();
-
   return (
     <div
-      className="relative border-2 rounded-md flex-center"
+      className={`relative border-2 rounded-md flex-center ${
+        imagesLength <= 3 && "mr-3"
+      }`}
       style={{ width: "77px", height: "77px" }}
     >
       {isLast && imagesLength - 3 > 0 && (
@@ -58,16 +59,18 @@ const ImagesSection: React.FC<ImagesSectionProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const thumbs = images?.slice(0, 3)?.map((img, idx) => {
-    return (
-      <ImageThumb
-        img={img}
-        key={`${img.localUrl}-thumb-preview`}
-        isLast={idx === 2}
-        imagesLength={images.length}
-      />
-    );
-  });
+  const thumbs =
+    images.length > 1 &&
+    images?.slice(1, 4)?.map((img, idx) => {
+      return (
+        <ImageThumb
+          img={img}
+          key={`${img.localUrl}-thumb-preview`}
+          isLast={idx === 2}
+          imagesLength={images.length}
+        />
+      );
+    });
 
   return (
     <div className={className}>
@@ -90,7 +93,13 @@ const ImagesSection: React.FC<ImagesSectionProps> = ({
           {t("change-photo-label")}
         </p>
       </div>
-      <div className="flex mt-3 justify-between">{thumbs}</div>
+      <div
+        className={`flex mt-3 justify-start ${
+          images.length > 3 && "justify-between"
+        }`}
+      >
+        {thumbs}
+      </div>
     </div>
   );
 };

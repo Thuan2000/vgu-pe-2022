@@ -8,30 +8,31 @@ import Button from "./ui/storybook/button";
 import UnderConstructionIllustration from "@assets/under-construction-illustration.gif";
 
 const UnderDevelopment = () => {
-	const { t } = useTranslation("common");
+  const { t } = useTranslation("common");
 
-	return (
-		<div className="flex flex-col items-center py-5">
-			<p className="mb-5 text-2xl">
-				<strong className="text-dark-blue">Sorry :(</strong> this page
-				is under development
-			</p>
+  return (
+    <div className="flex flex-col items-center py-5">
+      <p className="mb-5 text-2xl">
+        <strong className="text-dark-blue">Sorry :(</strong> this page is under
+        development
+      </p>
 
-			<div className="w-2/3">
-				<Image
-					className="my-5"
-					src={UnderConstructionIllustration}
-					objectFit="cover"
-				/>
-			</div>
+      <div className="w-2/3">
+        <Image
+          className="my-5"
+          src={UnderConstructionIllustration}
+          objectFit="cover"
+          alt={t("under-development")}
+        />
+      </div>
 
-			<p className="my-5 text-xl">
-				It will be available soon. Please come back again later
-			</p>
-			<Link href={ROUTES.HOMEPAGE} className="text-light">
-				<Button size="small">{t("return-home")}</Button>
-			</Link>
-		</div>
-	);
+      <p className="my-5 text-xl">
+        It will be available soon. Please come back again later
+      </p>
+      <Link href={ROUTES.POST_REQUEST} className="text-light">
+        <Button size="small">{t("to-post-request")}</Button>
+      </Link>
+    </div>
+  );
 };
 export default UnderDevelopment;

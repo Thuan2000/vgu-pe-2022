@@ -115,6 +115,7 @@ const LoginForm = () => {
             error={t(errors?.email?.message || "")}
           />
           <PasswordInput
+            transparentPrefix
             {...register("password")}
             className="mb-5"
             label={`${t("password-label")}*`}

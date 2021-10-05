@@ -5,7 +5,8 @@ export type DetailsInputNames =
   | "minBudget"
   | "maxBudget"
   | "minOrder"
-  | "images";
+  | "unit"
+  | "gallery";
 
 // All general input names | key
 export const requiredGeneralInputNames: GeneralInputNames[] = [
@@ -20,6 +21,7 @@ export const requiredDetailsInputNames: DetailsInputNames[] = [
   "minBudget",
   "maxBudget",
   "minOrder",
+  "unit",
 ];
 
 export const GENERAL_FORM_INDEX = 1;

@@ -79,10 +79,8 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
           {formValues.categories.map((cetegory) => (
             <p
               className="font-semibold"
-              key={cetegory.label + "category-additional-section"}
-            >
-              {cetegory.label}
-            </p>
+              key={`${cetegory.name}-"category-additional-section"`}
+            ></p>
           ))}
         </div>
       )}

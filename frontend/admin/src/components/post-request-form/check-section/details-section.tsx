@@ -45,12 +45,10 @@ const DetailsSection: React.FC<IGeneralSection> = ({
         </p>
       </div>
       <div className="mb-5">
-        <p className="text-dark-blue">{t("maxBudget-label")}</p>
-        <p className="font-semibold">{formValues?.maxBudget}</p>
-      </div>
-      <div className="mb-5">
         <p className="text-dark-blue">{t("minOrder-label")}</p>
-        <p className="font-semibold">{formValues?.minOrder}</p>
+        <p className="font-semibold">
+          {formValues?.minOrder} {formValues?.unit}
+        </p>
       </div>
     </>
   );

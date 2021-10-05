@@ -21,7 +21,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   shadow?: boolean;
   variant?: "normal" | "solid" | "outline";
   prefix?: any;
-  noPrefix?: boolean;
+  transparentPrefix?: boolean;
   suffix?: any;
   numberQueue?: number;
   noLabel?: boolean;

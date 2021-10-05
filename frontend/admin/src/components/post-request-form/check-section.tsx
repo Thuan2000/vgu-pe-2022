@@ -28,7 +28,7 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
   const general = getValues("general");
   const additional = getValues("additional");
 
-  const hasImage = details?.images?.length > 0;
+  const hasImage = details?.gallery?.length > 0;
 
   useEffect(() => {
     function checkData() {
@@ -74,14 +74,14 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
           className="md:hidden my-5"
           imgWidth={300}
           imgHeight={200}
-          images={details?.images}
+          images={details?.gallery}
           changeSection={changeSection}
         />
       )}
       <div className={`flex flex-col bg-white`}>
         <GeneralSection
           hasImage={hasImage}
-          images={details?.images}
+          images={details?.gallery}
           formValues={general}
           changeSection={changeSection}
         />

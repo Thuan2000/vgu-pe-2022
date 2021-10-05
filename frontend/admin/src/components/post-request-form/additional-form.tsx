@@ -5,6 +5,7 @@ import SelectInput from "@components/ui/storybook/select-input";
 import { UseFormRegister, Control, FieldErrors } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
+import { useCategoriesQuery } from "@graphql/category.graphql";
 
 interface IAdditionalFormProps {
   register: UseFormRegister<PostRequestFormValue>;
@@ -18,6 +19,11 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
   errors,
 }) => {
   const { t } = useTranslation("form");
+  const { data, loading, error } = useCategoriesQuery();
+
+  const categories = data?.categories;
+
+  if (error) console.log(error);
 
   return (
     <>
@@ -65,10 +71,11 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
         getOptionLabel={(option) => option.label || option.name}
         getOptionValue={(option) => option.value || option.name}
         control={control}
-        options={[{ label: "Cool 1", value: "Fuck yeah" }]}
+        options={categories || []}
         queueBackground="blue"
         numberQueue="b"
         className="my-6"
+        loading={loading}
         isMulti
         name="additional.categories"
         label={t("categories-label")}

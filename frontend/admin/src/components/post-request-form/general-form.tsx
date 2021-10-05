@@ -31,7 +31,6 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
   return (
     <>
       <Input
-        noPrefix
         numberQueue={1}
         {...register("general.name")}
         className="my-6 w-full"

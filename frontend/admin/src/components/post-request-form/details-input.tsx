@@ -9,6 +9,10 @@ import { useProductNamesQuery } from "@graphql/product.graphql";
 import ProductNameSelect from "@components/ui/post-request/product-name-input";
 import { IProductName } from "@graphql/types.graphql";
 import InputLabel from "@components/ui/storybook/inputs/input-label";
+import InlineLabel from "./inline-label";
+import Input from "@components/ui/storybook/inputs/input";
+
+const INLINE_LABEL_WIDTH = "70px";
 
 interface IGeneralInputProps {
   register: UseFormRegister<PostRequestFormValue>;
@@ -54,10 +58,10 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         />
         <div className="flex flex-col md:flex-row md:items-center md:justify-between ml-8">
           <div className="flex-items-center mb-1 md:mb-0">
-            <div className="flex-items-center">
-              <p className="font-semibold min-w-12">{t("min-budget-label")}</p>
-              <p className="ml-2 mr-5">:</p>
-            </div>
+            <InlineLabel
+              labelWidth={INLINE_LABEL_WIDTH}
+              text={t("min-budget-label")}
+            />
             <NumberInput
               name="details.minBudget"
               noLabel
@@ -68,11 +72,11 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
               error={errors?.details?.minBudget?.message}
             />
           </div>
-          <div className="flex-items-center">
-            <div className="flex-items-center">
-              <p className="font-semibold min-w-12">{t("max-budget-label")}</p>
-              <p className="ml-2 mr-5">:</p>
-            </div>
+          <div className="flex-items-center md:ml-4">
+            <InlineLabel
+              labelWidth={INLINE_LABEL_WIDTH}
+              text={t("max-budget-label")}
+            />
             <NumberInput
               name="details.maxBudget"
               noLabel
@@ -85,24 +89,48 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
           </div>
         </div>
       </div>
-      <NumberInput
-        className="my-6 w-full"
-        label={`${t("post-request-minOrder-label")}*`}
-        placeholder={t("post-request-minOrder-placeholder")}
-        numberQueue={3}
-        name="details.minOrder"
-        control={control}
-        allowNegative={false}
-        error={errors?.details?.minOrder?.message}
-      />
+      <div className="my-6 w-full">
+        <InputLabel
+          label={`${t("post-request-minOrder-label")}*`}
+          numberQueue={3}
+        />
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between ml-8">
+          <div className="flex-items-center mb-1 md:mb-0">
+            <InlineLabel
+              labelWidth={INLINE_LABEL_WIDTH}
+              text={t("quantity-label")}
+            />
+            <NumberInput
+              noLabel
+              placeholder={t("post-request-minOrder-placeholder")}
+              name="details.minOrder"
+              control={control}
+              allowNegative={false}
+              error={errors?.details?.minOrder?.message}
+            />
+          </div>
+          <div className="flex-items-center md:ml-4">
+            <InlineLabel
+              labelWidth={INLINE_LABEL_WIDTH}
+              text={t("unit-label")}
+            />
+            <Input
+              noLabel
+              placeholder={t("post-request-minOrder-placeholder")}
+              {...register("details.unit")}
+              error={errors?.details?.minOrder?.message}
+            />
+          </div>
+        </div>
+      </div>
       <DocumentInput
         accept="image/*"
         control={control}
-        name="details.images"
+        name="details.gallery"
         multiple
         numberQueue={4}
-        label={t("post-request-images-label")}
-        error={errors?.details?.images?.message}
+        label={t("post-request-gallery-label")}
+        error={errors?.details?.gallery?.message}
       />
 
       <AdditionalForm register={register} control={control} errors={errors} />

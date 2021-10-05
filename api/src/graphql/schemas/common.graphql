@@ -15,6 +15,16 @@ type Response {
 	success: Boolean
 }
 
+enum POST_REQUEST_STATUS {
+	OPEN
+	CLOSE
+}
+
+type File {
+	location: String
+	path: String
+}
+
 type File {
 	filename: String!
 	url: String!

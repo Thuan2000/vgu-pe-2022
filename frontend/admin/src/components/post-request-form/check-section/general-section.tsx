@@ -38,7 +38,7 @@ const GeneralSection: React.FC<IGeneralSection> = ({
         <div className="mb-5">
           <p className="text-dark-blue">{t("check-dueTime-label")}</p>
           <p className="font-semibold">
-            {formValues?.endDate.toLocaleDateString("vi")}
+            {formValues?.endDate?.toLocaleDateString("vi")}
           </p>
         </div>
         <div className="mb-5">

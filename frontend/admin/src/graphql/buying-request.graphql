@@ -1,0 +1,20 @@
+query BuyingRequests($companyId: Int!) {
+  buyingRequests(companyId: $companyId) {
+    # id
+    name
+    categories
+    minBudget
+    maxBudget
+    minOrder
+    gallery {
+      path
+    }
+  }
+}
+
+mutation CreateBuyingRequest($input: BuyingRequestInput) {
+  createBuyingRequest(input: $input) {
+    success
+    message
+  }
+}

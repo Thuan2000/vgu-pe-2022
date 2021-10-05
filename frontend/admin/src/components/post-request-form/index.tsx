@@ -17,6 +17,12 @@ import {
   GENERAL_FORM_INDEX,
 } from "./post-request-constants";
 import CheckSection from "./check-section";
+import { getMeData } from "@utils/auth-utils";
+import { useCreateBuyingRequestMutation } from "@graphql/buying-request.graphql";
+import Swal from "sweetalert2";
+import { COLORS } from "@utils/colors";
+import { ROUTES } from "@utils/routes";
+import { IResponse } from "@graphql/types.graphql";
 
 const PostRequestForm = () => {
   const {
@@ -32,6 +38,28 @@ const PostRequestForm = () => {
   const { query, ...router } = useRouter();
   const formPosition = parseInt(query.formPosition as string) || 1;
   const { t } = useTranslation("form");
+  const [createBuyingRequest, { loading, error }] =
+    useCreateBuyingRequestMutation({
+      onCompleted: ({ createBuyingRequest }) => {
+        const { success, message } = createBuyingRequest as IResponse;
+        if (!success) {
+          console.log(message);
+          alert(t("SOMETHING_WENT_WRONG_ERROR"));
+          return;
+        }
+
+        Swal.fire({
+          icon: "success",
+          iconColor: COLORS.GREEN,
+          titleText: t("success-title"),
+          text: t("post-request-success-text"),
+          confirmButtonText: t("to-homepage-button-label"),
+          confirmButtonColor: COLORS.GREEN,
+        }).then(({ isConfirmed }) => {
+          if (isConfirmed) router.push(ROUTES.HOMEPAGE);
+        });
+      },
+    });
 
   function changeSection(newPosition: number) {
     const { pathname } = router;
@@ -40,7 +68,7 @@ const PostRequestForm = () => {
       query: { ...query, formPosition: newPosition },
     });
   }
-
+  // Change section when user come to formSection=2 directly not from 1
   useEffect(() => {
     if (formPosition > GENERAL_FORM_INDEX)
       requiredGeneralInputNames.forEach((name) => {
@@ -61,6 +89,7 @@ const PostRequestForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Changing section if there's an error
   useEffect(() => {
     if (errors) {
       if (errors.general) {
@@ -74,8 +103,34 @@ const PostRequestForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  function onSubmit(values: PostRequestFormValue) {
-    console.log(values);
+  async function onSubmit(inputValues: PostRequestFormValue) {
+    const { general, details, additional } = inputValues;
+
+    // All of this variable need tobe processed
+    const { location, endDate, ...generalRest } = general;
+    // @NOTE :: This should be changed later when programmer has nothing to do :V
+    const { productName: product, ...detailsRest } = details;
+    const { categories, ...allowedCompany } = additional;
+
+    const locationName = location.name;
+    const productName = product.name;
+    const categoryIds = categories.map((category) => category.id);
+
+    const { company } = getMeData();
+    const values = {
+      companyId: company.id,
+      location: locationName,
+      productName,
+      categories: categoryIds,
+      endDate: new Date(endDate).getTime(),
+      ...generalRest,
+      ...detailsRest,
+      allowedCompany,
+    };
+
+    const { data, errors } = await createBuyingRequest({
+      variables: { input: values },
+    });
   }
 
   function handleNextClick() {
@@ -113,6 +168,7 @@ const PostRequestForm = () => {
           type={formPosition < 3 ? "button" : "submit"}
           onClick={handleNextClick}
           size="small"
+          loading={loading}
         >
           {t("next-section-button-label")}
         </Button>
