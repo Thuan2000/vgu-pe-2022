@@ -1,8 +1,9 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { appWithTranslation } from "next-i18next";
 import { ApolloProvider } from "@apollo/client";
 import { useApollo } from "../utils/apollo";
+import "../styles/custom-datepicker.css";
+import "../styles/globals.css";
 
 const NoLayout: React.FC = ({ children }) => <>{children}</>;
 

@@ -34,7 +34,7 @@ export const PostRequestSchema = yup.object({
 
 export type GeneralFormValue = {
   name: string;
-  endDate: string;
+  endDate: Date;
   location: IVietnamCity;
   description?: string;
 };

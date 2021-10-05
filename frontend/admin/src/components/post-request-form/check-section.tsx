@@ -6,7 +6,10 @@ import DetailsSection from "./check-section/details-section";
 import { useTranslation } from "react-i18next";
 import Divider from "@components/ui/divider";
 import AdditionalSection from "./check-section/additional-section";
-import { detailsInputNames, generalInputNames } from "./post-request-constants";
+import {
+  requiredDetailsInputNames,
+  requiredGeneralInputNames,
+} from "./post-request-constants";
 import ImagesSection from "./check-section/images-section";
 
 interface ICheckSectionProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -28,20 +31,27 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
   const hasImage = details?.images?.length > 0;
 
   useEffect(() => {
-    generalInputNames.forEach((name) => {
-      const value = getValues(`general.${name}`);
-      if (!value) {
-        changeSection(1);
-        return;
-      }
-    });
-    detailsInputNames.forEach((name) => {
-      const value = getValues(`details.${name}`);
-      if (!value) {
-        changeSection(2);
-        return;
-      }
-    });
+    function checkData() {
+      // This only true if general input is null
+      let shouldReturn = false;
+      requiredGeneralInputNames.forEach((name) => {
+        const value = getValues(`general.${name}`);
+        if (!value) {
+          changeSection(1);
+          shouldReturn = true;
+          return;
+        }
+      });
+      if (shouldReturn) return;
+      requiredDetailsInputNames.forEach((name) => {
+        const value = getValues(`details.${name}`);
+        if (!value) {
+          changeSection(2);
+          return;
+        }
+      });
+    }
+    checkData();
   });
 
   useEffect(() => {

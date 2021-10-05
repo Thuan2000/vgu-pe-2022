@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next";
 import React from "react";
 import { GeneralFormValue } from "../post-request-schema";
 import ImagesSection from "./images-section";
+import { timestampToDate } from "@utils/functions";
 
 interface IGeneralSection {
   formValues: GeneralFormValue;
@@ -25,7 +26,7 @@ const GeneralSection: React.FC<IGeneralSection> = ({
           <h3>{t("general-information-check-title")}</h3>
           <p
             className="text-blue cursor-pointer"
-            onClick={() => changeSection(2)}
+            onClick={() => changeSection(1)}
           >
             {t("edit-label")}
           </p>
@@ -36,7 +37,9 @@ const GeneralSection: React.FC<IGeneralSection> = ({
         </div>
         <div className="mb-5">
           <p className="text-dark-blue">{t("check-dueTime-label")}</p>
-          <p className="font-semibold">{formValues?.endDate}</p>
+          <p className="font-semibold">
+            {formValues?.endDate.toLocaleDateString("vi")}
+          </p>
         </div>
         <div className="mb-5">
           <p className="text-dark-blue">{t("check-location-label")}</p>

@@ -11,9 +11,9 @@ import DetailsInput from "./details-input";
 import { PostRequestSchema, PostRequestFormValue } from "./post-request-schema";
 
 import {
-  detailsInputNames,
+  requiredDetailsInputNames,
   DETAILS_FORM_INDEX,
-  generalInputNames,
+  requiredGeneralInputNames,
   GENERAL_FORM_INDEX,
 } from "./post-request-constants";
 import CheckSection from "./check-section";
@@ -43,7 +43,7 @@ const PostRequestForm = () => {
 
   useEffect(() => {
     if (formPosition > GENERAL_FORM_INDEX)
-      generalInputNames.forEach((name) => {
+      requiredGeneralInputNames.forEach((name) => {
         const value = getValues(`general.${name}`);
         if (!value) {
           changeSection(1);
@@ -51,7 +51,7 @@ const PostRequestForm = () => {
         }
       });
     else if (formPosition > DETAILS_FORM_INDEX)
-      detailsInputNames.forEach((name) => {
+      requiredDetailsInputNames.forEach((name) => {
         const value = getValues(`details.${name}`);
         if (!value) {
           changeSection(2);

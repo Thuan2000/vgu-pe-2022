@@ -8,20 +8,18 @@ export type DetailsInputNames =
   | "images";
 
 // All general input names | key
-export const generalInputNames: GeneralInputNames[] = [
+export const requiredGeneralInputNames: GeneralInputNames[] = [
   "name",
   "endDate",
   "location",
-  "description",
 ];
 
 // All details input names | key
-export const detailsInputNames: DetailsInputNames[] = [
+export const requiredDetailsInputNames: DetailsInputNames[] = [
   "productName",
   "minBudget",
   "maxBudget",
   "minOrder",
-  "images",
 ];
 
 export const GENERAL_FORM_INDEX = 1;

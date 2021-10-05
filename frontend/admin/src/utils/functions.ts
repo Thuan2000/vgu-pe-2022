@@ -10,3 +10,13 @@ export function trimText(text: string, limit: number) {
 
   return `${text.substring(0, limit)}...`;
 }
+
+export function timestampToDate(timestamp: number) {
+  const date = new Date(timestamp);
+
+  const day = date.getDate() < 10 ? `0${date.getDay()}` : date.getDate();
+  const month = (date.getMonth() as number) + 1;
+  const year = date.getFullYear();
+
+  return `${day}-${month}-${year}`;
+}
