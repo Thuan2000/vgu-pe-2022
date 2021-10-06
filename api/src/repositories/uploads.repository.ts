@@ -29,8 +29,28 @@ export async function uploadCompanyLicenses(companyName, licenseFiles: any[]) {
 		const res = await s3.uploadCompanyLicense({
 			companyName,
 			fileName,
-			fileStream
+			fileStream,
+			type: "licenses"
 		});
+		const { Key: key, Location: location } = res;
+
+		return { key, location };
+	});
+}
+
+export async function uploadImages(companyName, images: any[]) {
+	return await (await images).map(async img => {
+		const { createReadStream, filename: fileName } = await img;
+
+		const fileStream = createReadStream();
+
+		const res = await s3.uploadPublicFile({
+			companyName,
+			fileName,
+			fileStream,
+			type: "br-images"
+		});
+
 		const { Key: key, Location: location } = res;
 
 		return { key, location };

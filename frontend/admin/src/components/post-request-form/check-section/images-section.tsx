@@ -17,7 +17,7 @@ interface ImageThumbProps {
 
 const CoverImage = ({ text }: { text: string }) => {
   return (
-    <div className="text-white font-semibold z-50 abs-fullsize bg-black border-2 border-black flex-center opacity-60 text-lg">
+    <div className="text-white font-semibold z-50 rounded-md abs-fullsize bg-black flex-center opacity-60 text-lg">
       {text}
     </div>
   );
@@ -29,16 +29,15 @@ const ImageThumb: React.FC<ImageThumbProps> = ({
   imagesLength,
 }) => {
   const { t } = useTranslation();
+  const withCover = isLast && imagesLength - 3 > 0;
   return (
     <div
-      className={`relative border-2 rounded-md flex-center ${
-        imagesLength <= 3 && "mr-3"
-      }`}
+      className={`relative ${
+        !withCover && "border-2"
+      } border-gray-100 rounded-md flex-center ${imagesLength <= 3 && "mr-3"}`}
       style={{ width: "77px", height: "77px" }}
     >
-      {isLast && imagesLength - 3 > 0 && (
-        <CoverImage text={`+${imagesLength - 3}`} />
-      )}
+      {withCover && <CoverImage text={`+${imagesLength - 3}`} />}
       <Image
         src={img.localUrl}
         width={50}

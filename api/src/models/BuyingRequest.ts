@@ -15,6 +15,7 @@ class BuyingRequest extends Model {
 BuyingRequest.init(
 	{
 		name: DataTypes.STRING,
+		slug: DataTypes.STRING,
 		endDate: DataTypes.DOUBLE,
 		location: DataTypes.STRING,
 		description: DataTypes.STRING,

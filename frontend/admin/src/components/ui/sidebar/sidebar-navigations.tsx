@@ -6,6 +6,7 @@ import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Link from "../link";
+import { SC_LEFT_SPACING } from "./sidebar-constants";
 const SidebarNavigations = () => {
   const { t } = useTranslation("common");
   const { pathname, ...router } = useRouter();
@@ -33,14 +34,20 @@ const SidebarNavigations = () => {
     const isActive = href.split("/")[1] === activePath;
     return (
       <Link href={href} key={`${label}-${href}-navigation`}>
-        <li
-          className={`mb-3 flex items-center text-md ${
-            isActive && "text-green"
+        <div
+          className={`h-12 pl-11 flex items-center pl-${SC_LEFT_SPACING} ${
+            isActive && "bg-primary bg-opacity-30 border-r-4 border-primary"
           }`}
         >
-          <Icon className="mr-3" isActive={isActive} />
-          {t(label)}
-        </li>
+          <li
+            className={`flex items-center text-md ${
+              isActive && "text-black font-semibold"
+            }`}
+          >
+            <Icon className="mr-3" isActive={isActive} />
+            {t(label)}
+          </li>
+        </div>
       </Link>
     );
   });

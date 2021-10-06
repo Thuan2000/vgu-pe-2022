@@ -17,5 +17,10 @@
   "post-request-image-label": "Post request image",
   "home-nav-label": "Home",
   "postRequest-nav-label": "Post Request",
-  "logout-nav-label": "Logout"
+  "logout-nav-label": "Logout",
+  "sorry-title": "Sorry",
+  "this-page-is-under-development-message": "this page is under development message",
+  "post-request-page-name": "Post Request",
+  "home-page-name": "Homepage",
+  "to-post-request": "To Post Request"
 }

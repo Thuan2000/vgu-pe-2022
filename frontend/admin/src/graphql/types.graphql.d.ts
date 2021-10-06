@@ -54,6 +54,7 @@ export type IBuyingRequestInput = {
   allowedCompany?: Maybe<IAllowedCompanyInput>;
   categories?: Maybe<Array<Maybe<Scalars['Int']>>>;
   companyId: Scalars['Int'];
+  companyName: Scalars['String'];
   description?: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
   gallery?: Maybe<Array<Maybe<Scalars['Upload']>>>;
@@ -151,6 +152,10 @@ export type IMutationLoginArgs = {
 export type IMutationUploadFileArgs = {
   input: Scalars['Upload'];
 };
+
+export type IPost_Request_Status =
+  | 'CLOSE'
+  | 'OPEN';
 
 export type IProductName = {
   name?: Maybe<Scalars['String']>;
@@ -290,6 +295,7 @@ export type IResolversTypes = {
   LoginInput: ILoginInput;
   MeInfoResponse: ResolverTypeWrapper<IMeInfoResponse>;
   Mutation: ResolverTypeWrapper<{}>;
+  POST_REQUEST_STATUS: IPost_Request_Status;
   ProductName: ResolverTypeWrapper<IProductName>;
   Query: ResolverTypeWrapper<{}>;
   ROLE: IRole;

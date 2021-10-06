@@ -11,10 +11,10 @@ const UnderDevelopment = () => {
   const { t } = useTranslation("common");
 
   return (
-    <div className="flex flex-col items-center py-5">
+    <div className="flex flex-col items-center py-5 mx-5">
       <p className="mb-5 text-2xl">
-        <strong className="text-dark-blue">Sorry :(</strong> this page is under
-        development
+        <strong className="text-dark-blue">{t("sorry-title")} :(</strong>
+        {t("this-page-is-under-development-message")}
       </p>
 
       <div className="w-2/3">

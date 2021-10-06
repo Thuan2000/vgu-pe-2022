@@ -42,7 +42,7 @@ const PostRequestNavigation: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
     return (
       <div
         key={label}
-        className={`w-24 md:w-1/3 ${extraClass} ${
+        className={`w-1/3 ${extraClass} ${
           currentFormPosition > idx + 1 ? "cursor-pointer" : "cursor-default"
         }`}
         onClick={() => setFormPosition(idx + 1)}

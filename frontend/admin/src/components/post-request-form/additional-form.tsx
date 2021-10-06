@@ -40,6 +40,8 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
           control={control}
           name="additional.minSupplierExperience"
           noLabel
+          min={0}
+          suffix={` ${t("experience-suffix-years")}`}
           error={errors?.additional?.minSupplierExperience?.message}
           placeholder={t("supplierExperience-placeholder")}
         />
@@ -51,6 +53,8 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
           control={control}
           name="additional.minSupplierRating"
           noLabel
+          min={0}
+          max={5}
           error={errors?.additional?.minSupplierRating?.message}
           placeholder={t("minSupplierRating-placeholder")}
         />
@@ -61,6 +65,7 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
         <NumberInput
           control={control}
           name="additional.minSuplierSells"
+          min={0}
           noLabel
           error={errors?.additional?.minSuplierSells?.message}
           placeholder={t("minSuplierSells-placeholder")}

@@ -55,7 +55,7 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
     <>
       <Divider className="mb-7" />
       <div className={`flex justify-between mb-5 ${hasImage && "md:w-2/3"}`}>
-        <h3>{t("general-information-check-title")}</h3>
+        <h3>{t("additional-information-check-title")}</h3>
         <p
           className="text-blue cursor-pointer"
           onClick={() => changeSection(2)}
@@ -76,12 +76,17 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
       {formValues?.categories?.length > 0 && (
         <div className="mb-5">
           <p className="text-dark-blue">{t("check-categories-label")}</p>
-          {formValues.categories.map((cetegory) => (
-            <p
-              className="font-semibold"
-              key={`${cetegory.name}-"category-additional-section"`}
-            ></p>
-          ))}
+          <div className="flex items-center">
+            {formValues.categories.map((category, idx) => (
+              <p
+                className="font-semibold mr-1"
+                key={`${category.name}-"category-additional-section"`}
+              >
+                {category.name}
+                {idx < formValues?.categories?.length - 1 && ", "}
+              </p>
+            ))}
+          </div>
         </div>
       )}
     </>

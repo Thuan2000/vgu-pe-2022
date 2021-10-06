@@ -1,24 +1,30 @@
 import VerifiedIcon from "@assets/icons/verified-icon";
 import { getMeData } from "@utils/auth-utils";
-import { ROUTES } from "@utils/routes";
 import React, { Attributes, ReactElement } from "react";
-import Link from "../link";
 import Logo from "../logo";
-import Button from "../storybook/button";
+import { SC_LEFT_SPACING } from "./sidebar-constants";
 import SidebarNavigations from "./sidebar-navigations";
 
 const Sidebar: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
   const { company } = getMeData();
 
-  const className = `flex flex-col px-11 shadow-md md:w-80 py-5 bg-white min-h-screen ${props.className}`;
-
   return (
-    <div className={className}>
-      <Logo size="big" />
-      <h3 className="flex items-center my-5">
-        {company?.name || ""} <VerifiedIcon className="w-4 h-4 ml-2" />
-      </h3>
-      <SidebarNavigations />
+    <div
+      className={`relative shadow-md py-5 md:w-80 bg-white min-h-screen ${props.className}`}
+      style={{ boxSizing: "border-box" }}
+    >
+      <div
+        className="fixed"
+        style={{ width: "inherit", boxSizing: "border-box" }}
+      >
+        <div className={`pl-11 pl-${SC_LEFT_SPACING}`}>
+          <Logo size="big" />
+          <h3 className="flex items-center mb-7 mt-4">
+            {company?.name || ""} <VerifiedIcon className="w-4 h-4 ml-2" />
+          </h3>
+        </div>
+        <SidebarNavigations />
+      </div>
     </div>
   );
 };

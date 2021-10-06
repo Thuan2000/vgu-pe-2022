@@ -27,7 +27,6 @@ type BuyingRequest {
 
 input BuyingRequestInput {
 	name: String!
-	# Timestamp
 	endDate: Date!
 	location: String!
 	description: String
@@ -40,6 +39,8 @@ input BuyingRequestInput {
 	categories: [Int]
 	allowedCompany: AllowedCompanyInput
 	companyId: Int!
+	# Only on input
+	companyName: String!
 }
 
 extend type Mutation {

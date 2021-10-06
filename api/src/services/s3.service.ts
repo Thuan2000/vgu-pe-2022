@@ -1,6 +1,13 @@
 import AWS from "aws-sdk";
 import { ENODE_ENV, NODE_ENV } from "@utils";
 
+interface S3UploadParams {
+	companyName: string;
+	fileName: string;
+	type: string;
+	fileStream: any;
+}
+
 class S3 {
 	private s3: AWS.S3;
 	private bucket: string;
@@ -50,18 +57,31 @@ class S3 {
 		});
 	}
 
+	public uploadPublicFile({
+		companyName,
+		type,
+		fileName,
+		fileStream
+	}: S3UploadParams) {
+		const uploadParams = {
+			Bucket: this.bucket,
+			Key: `${companyName}/${type}/${new Date().getTime()}-${fileName}`,
+			Body: fileStream,
+			ACL: "public-read-write"
+		};
+
+		return this.s3.upload(uploadParams).promise();
+	}
+
 	public uploadCompanyLicense({
 		companyName,
 		fileName,
+		type,
 		fileStream
-	}: {
-		companyName: string;
-		fileName: string;
-		fileStream: any;
-	}) {
+	}: S3UploadParams) {
 		const uploadParams = {
 			Bucket: this.bucket,
-			Key: `${companyName}-licenses/${fileName}`,
+			Key: `${companyName}/${type}/${new Date().getTime()}-${fileName}`,
 			Body: fileStream
 		};
 

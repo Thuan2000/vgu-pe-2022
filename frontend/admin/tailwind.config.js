@@ -11,6 +11,8 @@ module.exports = {
       },
       spacing: {
         17: "70px",
+        11: "44px",
+        80: "345px",
       },
       fontFamily: {
         body: ["Open Sans", "system-ui", "sans-serif"],

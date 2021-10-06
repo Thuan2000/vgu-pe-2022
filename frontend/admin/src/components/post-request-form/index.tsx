@@ -33,6 +33,11 @@ const PostRequestForm = () => {
     handleSubmit,
   } = useForm<PostRequestFormValue>({
     resolver: yupResolver(PostRequestSchema),
+    defaultValues: {
+      general: {
+        endDate: new Date(),
+      },
+    },
   });
 
   const { query, ...router } = useRouter();
@@ -118,7 +123,8 @@ const PostRequestForm = () => {
 
     const { company } = getMeData();
     const values: any = {
-      companyId: company.id,
+      companyId: company?.id,
+      companyName: company?.name,
       location: locationName,
       productName,
       categories: categoryIds,
@@ -141,7 +147,10 @@ const PostRequestForm = () => {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="pb-5">
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      className="relative pb-5 mb-0 md:mb-5 md:w-full"
+    >
       {formPosition === 1 && (
         <GeneralForm control={control} register={register} errors={errors} />
       )}
@@ -154,24 +163,26 @@ const PostRequestForm = () => {
         <CheckSection getValues={getValues} changeSection={changeSection} />
       )}
 
-      <div className="flex justify-between">
-        <Button
-          style={{ width: "47%" }}
-          type="button"
-          variant="outline"
-          size="small"
-        >
-          {t("save-draft-button-label")}
-        </Button>
-        <Button
-          style={{ width: "47%" }}
-          type={formPosition < 3 ? "button" : "submit"}
-          onClick={handleNextClick}
-          size="small"
-          loading={loading}
-        >
-          {t("next-section-button-label")}
-        </Button>
+      <div className="relative h-10 w-full">
+        <div className="flex justify-between md:w-1/3 md:absolute md:right-0">
+          <Button
+            style={{ width: "47%" }}
+            type="button"
+            variant="outline"
+            size="small"
+          >
+            {t("save-draft-button-label")}
+          </Button>
+          <Button
+            style={{ width: "47%" }}
+            type={formPosition < 3 ? "button" : "submit"}
+            onClick={handleNextClick}
+            size="small"
+            loading={loading}
+          >
+            {t("next-section-button-label")}
+          </Button>
+        </div>
       </div>
     </Form>
   );

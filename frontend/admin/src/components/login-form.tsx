@@ -46,7 +46,12 @@ const loginSchema = yup.object().shape({
 const LoginForm = () => {
   const router = useRouter();
   const { query } = router;
-  const [meInfo, { loading: meInfoLoading }] = useMeInfoMutation();
+  const [meInfo, { loading: meInfoLoading }] = useMeInfoMutation({
+    onCompleted: () => {
+      // Redirect to homepage
+      router.replace(ROUTES.HOMEPAGE);
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -68,8 +73,6 @@ const LoginForm = () => {
     if (success) {
       // Set auth cred
       setAuthCredentials(token!, role!);
-      // Redirect to homepage
-      router.replace(ROUTES.HOMEPAGE);
 
       // Fetch the Me data
       const { data } = await meInfo();

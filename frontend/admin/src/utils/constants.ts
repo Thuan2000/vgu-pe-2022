@@ -1,3 +1,5 @@
+import { ROUTES } from "./routes";
+
 // AUTH
 export const roles = {
   SUPER_ADMIN: "SUPER_ADMIN",
@@ -22,3 +24,8 @@ export const LOGGED_IN_USER = "LOGGED_IN_USER";
 
 // Settings
 export const MOBILE_SIZE = { min: 300, max: 480 };
+
+export const PAGE_NAME = {
+  [ROUTES.HOMEPAGE]: "home-page-name",
+  [ROUTES.POST_REQUEST]: "post-request-page-name",
+};

@@ -29,7 +29,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
   const { t } = useTranslation("form");
 
   return (
-    <>
+    <div className="md:w-2/3">
       <Input
         numberQueue={1}
         {...register("general.name")}
@@ -39,22 +39,12 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         placeholder="post-request-name-placeholder"
         error={errors?.general?.name?.message}
       />
-      {/* <Input
-        noPrefix
-        numberQueue={2}
-        {...register("general.endDate")}
-        className="my-6 w-full"
-        label={`${t("post-request-endDate-label")}*`}
-        placeholder={t("post-request-endDate-placeholder")}
-        error={errors?.general?.endDate?.message}
-      /> */}
       <DateInput
         control={control}
         name="general.endDate"
         className="my-6 w-full"
         locale="vi"
         minDate={new Date()}
-        initialValue={new Date()}
         placeholder={t("post-request-endDate-placeholder")}
         error={errors?.general?.endDate?.message}
         label={`${t("post-request-endDate-label")}*`}
@@ -79,7 +69,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         error={errors?.general?.description?.message}
         {...register("general.description")}
       />
-    </>
+    </div>
   );
 };
 export default GeneralForm;
