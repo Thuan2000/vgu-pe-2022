@@ -4,13 +4,13 @@ import React from "react";
 
 const navs = [
   {
-    label: "General",
+    label: "Thông tin chung",
   },
   {
-    label: "Details",
+    label: "Chi Tiết",
   },
   {
-    label: "Check",
+    label: "Kiểm tra",
   },
 ];
 

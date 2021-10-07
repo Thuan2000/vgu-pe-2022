@@ -36,7 +36,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         className="my-6 w-full"
         label={`${t("post-request-name-label")}*`}
         note={t("post-request-name-desc")}
-        placeholder="post-request-name-placeholder"
+        placeholder={t("post-request-name-placeholder")}
         error={errors?.general?.name?.message}
       />
       <DateInput
