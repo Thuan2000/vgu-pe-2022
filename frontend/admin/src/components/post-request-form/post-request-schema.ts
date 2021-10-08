@@ -8,9 +8,6 @@ export const PostRequestSchema = yup.object({
     name: yup.string().required("post-request-name-is-required-error"),
     endDate: yup.string().required("post-request-end-date-required-error"),
     location: yup.object().required("post-request-location-is-required-error"),
-    description: yup
-      .string()
-      .required("post-request-description-is-required-error"),
   }),
 
   // Details Form
@@ -55,10 +52,13 @@ export type DetailsFormValue = {
 
 export type AdditionalFormValue = {
   categories: any[];
-  minSupplierExperience: number;
-  minSupplierRating: number;
-  minSuplierSells: number;
+  allowedCompany: AllowedCompany[];
 };
+
+export type AllowedCompany =
+  | { minSupplierExperience?: number }
+  | { minSupplierRating?: number }
+  | { minSuplierSells?: number };
 
 export type PostRequestFormValue = {
   general: GeneralFormValue;

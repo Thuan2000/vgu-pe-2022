@@ -14,39 +14,26 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
   hasImage,
   changeSection,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("form");
 
   function isHaveParticipantFilter() {
-    return (
-      formValues.minSuplierSells ||
-      formValues.minSupplierExperience ||
-      formValues.minSupplierRating
-    );
+    return formValues?.allowedCompany?.length > 1;
   }
 
   function isHaveAdditional() {
     return isHaveParticipantFilter() || formValues.categories;
   }
 
-  function getMinRating() {
-    if (!formValues?.minSupplierRating) return "";
-    return ` ${t("suppliers-with-word")} ${formValues?.minSupplierRating} ${t(
-      "rating-word"
-    )}, `;
-  }
-
-  function getMinExperience() {
-    if (!formValues?.minSupplierExperience) return "";
-    return `${t("suppliers-with-word")} ${
-      formValues?.minSupplierExperience
-    } ${t("experience-word")}, `;
-  }
-
-  function getMinSuplierSells() {
-    if (!formValues?.minSuplierSells) return "";
-    return `${t("suppliers-with-word")} ${formValues?.minSuplierSells} ${t(
-      "sells-word"
-    )}, `;
+  function getParticipantFilter() {
+    let text = "";
+    console.log(formValues?.allowedCompany);
+    formValues?.allowedCompany?.map((fi: any) => {
+      if (!fi?.key) return;
+      text += `${t("company-with-label")} ${fi?.value} ${t(
+        fi?.key?.value + "-filter-key"
+      )}, `;
+    });
+    return text;
   }
 
   if (!isHaveAdditional()) return <></>;
@@ -65,17 +52,13 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
       </div>
       {isHaveParticipantFilter() && (
         <div className="mb-5">
-          <p className="text-dark-blue">{t("check-participantFilter-label")}</p>
-          <p className="font-semibold">
-            {getMinRating()}
-            {getMinExperience()}
-            {getMinSuplierSells()}
-          </p>
+          <p className="text-semibold">{t("check-participantFilter-label")}</p>
+          <p className="font-semibold">{getParticipantFilter()}</p>
         </div>
       )}
       {formValues?.categories?.length > 0 && (
         <div className="mb-5">
-          <p className="text-dark-blue">{t("check-categories-label")}</p>
+          <p className="text-semibold">{t("check-categories-label")}</p>
           <div className="flex items-center">
             {formValues.categories.map((category, idx) => (
               <p

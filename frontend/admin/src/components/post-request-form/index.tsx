@@ -15,6 +15,7 @@ import {
   DETAILS_FORM_INDEX,
   requiredGeneralInputNames,
   GENERAL_FORM_INDEX,
+  CHECK_FORM_INDEX,
 } from "./post-request-constants";
 import CheckSection from "./check-section";
 import { getMeData } from "@utils/auth-utils";
@@ -23,6 +24,19 @@ import Swal from "sweetalert2";
 import { COLORS } from "@utils/colors";
 import { ROUTES } from "@utils/routes";
 import { IResponse } from "@graphql/types.graphql";
+
+type KeyValueSelect = { key: { label: string; value: string }; value: any };
+
+function processRawAC(rawACs: KeyValueSelect[]) {
+  const allowedCompany: any = {};
+
+  rawACs.map((rawAC) => {
+    if (!rawAC?.key) return;
+    allowedCompany[rawAC.key.value] = rawAC.value;
+  });
+
+  return allowedCompany;
+}
 
 const PostRequestForm = () => {
   const {
@@ -73,24 +87,40 @@ const PostRequestForm = () => {
       query: { ...query, formPosition: newPosition },
     });
   }
+
+  function isValidGeneralForm() {
+    let isValid = true;
+    requiredGeneralInputNames.forEach((name) => {
+      const value = getValues(`general.${name}`);
+      if (!value) {
+        isValid = false;
+        return;
+      }
+    });
+    return isValid;
+  }
+
+  function isValidDetailsForm() {
+    let isValid = true;
+    requiredDetailsInputNames.forEach((name) => {
+      const value = getValues(`details.${name}`);
+      if (!value) {
+        isValid = false;
+        return;
+      }
+    });
+    return isValid;
+  }
+
   // Change section when user come to formSection=2 directly not from 1
   useEffect(() => {
-    if (formPosition > GENERAL_FORM_INDEX)
-      requiredGeneralInputNames.forEach((name) => {
-        const value = getValues(`general.${name}`);
-        if (!value) {
-          changeSection(1);
-          return;
-        }
-      });
-    else if (formPosition > DETAILS_FORM_INDEX)
-      requiredDetailsInputNames.forEach((name) => {
-        const value = getValues(`details.${name}`);
-        if (!value) {
-          changeSection(2);
-          return;
-        }
-      });
+    if (formPosition > GENERAL_FORM_INDEX && !isValidGeneralForm()) {
+      changeSection(GENERAL_FORM_INDEX);
+      return;
+    } else if (formPosition > DETAILS_FORM_INDEX && !isValidDetailsForm()) {
+      changeSection(GENERAL_FORM_INDEX);
+      return;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -115,11 +145,12 @@ const PostRequestForm = () => {
     const { location, endDate, ...generalRest } = general;
     // @NOTE :: This should be changed later when programmer has nothing to do :V
     const { productName: product, ...detailsRest } = details;
-    const { categories, ...allowedCompany } = additional;
+    const { categories, allowedCompany: rawACs } = additional;
 
+    const allowedCompany = processRawAC(rawACs as any);
     const locationName = location.name;
     const productName = product.name;
-    const categoryIds = categories.map((category) => category.id);
+    const categoryIds = categories?.map((category) => category.id);
 
     const { company } = getMeData();
     const values: any = {
@@ -134,16 +165,21 @@ const PostRequestForm = () => {
       allowedCompany,
     };
 
-    const { data, errors } = await createBuyingRequest({
+    await createBuyingRequest({
       variables: { input: values },
     });
   }
 
   function handleNextClick() {
-    if (formPosition < 3) {
-      changeSection(formPosition + 1);
+    if (formPosition === GENERAL_FORM_INDEX && !isValidGeneralForm()) return;
+    else if (formPosition === DETAILS_FORM_INDEX && !isValidDetailsForm())
       return;
-    }
+
+    changeSection(formPosition + 1);
+  }
+
+  function handleBackClick() {
+    changeSection(formPosition - 1);
   }
 
   return (
@@ -151,36 +187,53 @@ const PostRequestForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="relative pb-5 mb-0 md:mb-5 md:w-full"
     >
-      {formPosition === 1 && (
+      {formPosition === GENERAL_FORM_INDEX && (
         <GeneralForm control={control} register={register} errors={errors} />
       )}
 
-      {formPosition === 2 && (
+      {formPosition === DETAILS_FORM_INDEX && (
         <DetailsInput control={control} register={register} errors={errors} />
       )}
 
-      {formPosition === 3 && (
+      {formPosition === CHECK_FORM_INDEX && (
         <CheckSection getValues={getValues} changeSection={changeSection} />
       )}
 
-      <div className="relative h-10 w-full">
-        <div className="flex justify-between md:w-1/3 md:absolute md:right-0">
+      <div className="flex flex-col justify-between relative md:h-10 w-full">
+        <Button
+          type="button"
+          variant="outline"
+          size="small"
+          onClick={handleBackClick}
+          className={`${formPosition <= 1 && "invisible"} md:w-1/2.5`}
+        >
+          {t("saveDraft-button-label")}
+        </Button>
+        <div className="flex flex-col md:flex-row justify-between md:w-1/3 md:absolute md:right-0">
           <Button
-            style={{ width: "47%" }}
             type="button"
             variant="outline"
             size="small"
+            onClick={handleBackClick}
+            className={`${
+              formPosition <= 1 && "invisible"
+            } md:w-1/2.5 my-2 md:my-0`}
           >
-            {t("save-draft-button-label")}
+            {t("back-button-label")}
           </Button>
+
           <Button
-            style={{ width: "47%" }}
             type={formPosition < 3 ? "button" : "submit"}
             onClick={handleNextClick}
             size="small"
+            className="md:w-1/2.5"
             loading={loading}
           >
-            {t("next-section-button-label")}
+            {t(
+              formPosition === 3
+                ? "post-request-button-label"
+                : "next-section-button-label"
+            )}
           </Button>
         </div>
       </div>

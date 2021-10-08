@@ -50,6 +50,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         getOptionLabel={(option: any) => option.label || option.name}
         getOptionValue={(option: any) => option.label || option.name}
         error={(errors?.details?.productName as any)?.message}
+        autoFocus={true}
       />
       <div className="my-6 w-full">
         <InputLabel

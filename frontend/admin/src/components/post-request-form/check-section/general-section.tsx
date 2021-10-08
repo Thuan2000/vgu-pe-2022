@@ -17,7 +17,7 @@ const GeneralSection: React.FC<IGeneralSection> = ({
   hasImage,
   images,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("form");
 
   return (
     <div className="flex">
@@ -32,22 +32,22 @@ const GeneralSection: React.FC<IGeneralSection> = ({
           </p>
         </div>
         <div className="mb-5">
-          <p className="text-dark-blue">{t("check-request-name")}</p>
+          <p className="text-semibold">{t("check-request-name")}</p>
           <p className="font-semibold">{formValues?.name}</p>
         </div>
         <div className="mb-5">
-          <p className="text-dark-blue">{t("check-dueTime-label")}</p>
+          <p className="text-semibold">{t("check-dueTime-label")}</p>
           <p className="font-semibold">
             {formValues?.endDate?.toLocaleDateString("vi")}
           </p>
         </div>
         <div className="mb-5">
-          <p className="text-dark-blue">{t("check-location-label")}</p>
+          <p className="text-semibold">{t("check-location-label")}</p>
           <p className="font-semibold">{formValues?.location?.name}</p>
         </div>
         {formValues?.description && (
           <div className="mb-5">
-            <p className="text-dark-blue">{t("check-desctiption-label")}</p>
+            <p className="text-semibold">{t("check-desctiption-label")}</p>
             <p className="font-semibold">{formValues?.description}</p>
           </div>
         )}

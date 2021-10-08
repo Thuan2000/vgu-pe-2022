@@ -13,6 +13,7 @@ import { generateHeadTitle } from "@utils/seo-utils";
 import { useTranslation } from "react-i18next";
 import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { PAGE_NAME } from "@utils/constants";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { token, role } = getAuthCredentials(ctx);
@@ -54,5 +55,6 @@ const Homepage = () => {
 };
 
 Homepage.Layout = PageLayout;
+Homepage.PageName = PAGE_NAME.HOMEPAGE;
 
 export default Homepage;

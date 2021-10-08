@@ -39,7 +39,7 @@ export type IBuyingRequest = {
   allowedCompany?: Maybe<IAllowedCompany>;
   categories?: Maybe<Array<Maybe<Scalars['Int']>>>;
   description?: Maybe<Scalars['String']>;
-  endDate: Scalars['Int'];
+  endDate: Scalars['Date'];
   gallery?: Maybe<Array<Maybe<IFile>>>;
   location: Scalars['String'];
   maxBudget: Scalars['Int'];
@@ -350,7 +350,7 @@ export type IBuyingRequestResolvers<ContextType = any, ParentType extends IResol
   allowedCompany?: Resolver<Maybe<IResolversTypes['AllowedCompany']>, ParentType, ContextType>;
   categories?: Resolver<Maybe<Array<Maybe<IResolversTypes['Int']>>>, ParentType, ContextType>;
   description?: Resolver<Maybe<IResolversTypes['String']>, ParentType, ContextType>;
-  endDate?: Resolver<IResolversTypes['Int'], ParentType, ContextType>;
+  endDate?: Resolver<IResolversTypes['Date'], ParentType, ContextType>;
   gallery?: Resolver<Maybe<Array<Maybe<IResolversTypes['File']>>>, ParentType, ContextType>;
   location?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
   maxBudget?: Resolver<IResolversTypes['Int'], ParentType, ContextType>;

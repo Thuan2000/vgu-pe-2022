@@ -3,8 +3,9 @@ export const ROUTES = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   FORGET_PASSWORD: "/forget-password",
-  POST_REQUEST: "/post-request",
   LOGOUT: "/logout",
   SETTINGS: "/settings",
   NOTIFICATIONS: "/notifications",
+  POST_REQUEST: "/post-request",
+  POSTED_REQUESTS: "/posted-requests",
 };

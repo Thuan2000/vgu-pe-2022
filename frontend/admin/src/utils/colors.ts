@@ -1,3 +1,7 @@
 export const COLORS = {
-	GREEN: "#00D796"
+  PRIMARY: {
+    DEFAULT: "#00D796",
+  },
+  GREEN: "#00D796",
+  BOLDER_TEXT: "#15114E",
 };

@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import HelpIcon from "@assets/icons/navigations/help-icon";
 import NotificationIcon from "@assets/icons/notification-icon";
 import ArrowLeftIcon from "@assets/icons/arrow-left-icon";
+import { PageNameContext } from "src/contexts/page-name.context";
+import { useTranslation } from "react-i18next";
 
 interface IAdminNavbarProps extends React.HTMLAttributes<HTMLDivElement> {
-  pageName: string;
   userName: string;
   userRole: string;
   ppHeight?: number;
@@ -18,7 +19,6 @@ interface IAdminNavbarProps extends React.HTMLAttributes<HTMLDivElement> {
 const AdminNavbar: React.FC<IAdminNavbarProps> = ({
   userName,
   userRole,
-  pageName,
   className,
   showBackArrow,
   onBackClick,
@@ -27,6 +27,9 @@ const AdminNavbar: React.FC<IAdminNavbarProps> = ({
   userImg = "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/avatar-icon.svg",
   ...props
 }) => {
+  const { pageName } = useContext(PageNameContext);
+  const { t } = useTranslation();
+
   return (
     <div
       className={`flex items-center justify-between mt-5 px-3 md:px-0 ${className}`}
@@ -37,7 +40,7 @@ const AdminNavbar: React.FC<IAdminNavbarProps> = ({
         {showBackArrow && (
           <ArrowLeftIcon onClick={onBackClick} className="cursor-pointer" />
         )}
-        <h2 className="font-semibold ml-3">{pageName}</h2>
+        <h2 className="font-semibold ml-3">{t(pageName)}</h2>
       </div>
       <div className="user-info flex items-center">
         <HelpIcon className="mr-6" fill="#000" />
@@ -45,7 +48,7 @@ const AdminNavbar: React.FC<IAdminNavbarProps> = ({
         <div className="flex items-center">
           <div className="mr-4 text-right hidden md:block">
             <p className="font-semibold">{userName}</p>
-            <p className="font-light text-sm">{userRole}</p>
+            <p className="font-light text-sm">{t(userRole)}</p>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -53,7 +56,7 @@ const AdminNavbar: React.FC<IAdminNavbarProps> = ({
             src={userImg}
             width={ppWidth}
             height={ppHeight}
-            alt={`${userName}-prifle`}
+            alt={`${userName}-profile`}
           />
         </div>
       </div>

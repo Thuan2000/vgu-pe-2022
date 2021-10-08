@@ -2,12 +2,13 @@ query BuyingRequests($companyId: Int!) {
   buyingRequests(companyId: $companyId) {
     # id
     name
+    endDate
     categories
     minBudget
     maxBudget
     minOrder
     gallery {
-      path
+      location
     }
   }
 }

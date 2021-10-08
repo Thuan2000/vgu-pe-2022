@@ -18,7 +18,7 @@ export const selectStyles = {
   control: (_: any, state: any) => ({
     display: "flex",
     alignItems: "center",
-    minHeight: 40,
+    minHeight: 45,
     backgroundColor: "#ffffff",
     borderRadius: 5,
     border: "1px solid #D1D5DB",

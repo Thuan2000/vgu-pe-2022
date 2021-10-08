@@ -2,13 +2,18 @@ import React from "react";
 
 interface InlineLabelProps {
   text: string;
-  labelWidth: string;
+  labelWidth?: string;
+  textClass?: string;
 }
 
-const InlineLabel: React.FC<InlineLabelProps> = ({ text, labelWidth }) => {
+const InlineLabel: React.FC<InlineLabelProps> = ({
+  text,
+  labelWidth,
+  textClass,
+}) => {
   return (
     <div className="flex-items-center">
-      <p className="font-semibold" style={{ width: labelWidth }}>
+      <p className={`font-semibold ${textClass}`} style={{ width: labelWidth }}>
         {text}
       </p>
       <p className="ml-2 mr-5">:</p>

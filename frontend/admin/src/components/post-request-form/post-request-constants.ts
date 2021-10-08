@@ -26,3 +26,4 @@ export const requiredDetailsInputNames: DetailsInputNames[] = [
 
 export const GENERAL_FORM_INDEX = 1;
 export const DETAILS_FORM_INDEX = 2;
+export const CHECK_FORM_INDEX = 3;

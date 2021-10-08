@@ -1,54 +1,55 @@
-import HomeIcon from "@assets/icons/navigations/home-icon";
-import LogoutIcon from "@assets/icons/navigations/logout-icon";
-import RequestIcon from "@assets/icons/navigations/request-icon";
-import { ROUTES } from "@utils/routes";
+import React, { useState } from "react";
+
 import { useRouter } from "next/dist/client/router";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import Link from "../link";
-import { SC_LEFT_SPACING } from "./sidebar-constants";
+import { navigations } from "./sidebar-constants";
+import SidebarNavItem from "./sidebar-nav-item";
+import { getMeData } from "@utils/auth-utils";
+
 const SidebarNavigations = () => {
-  const { t } = useTranslation("common");
-  const { pathname, ...router } = useRouter();
-  const activePath = pathname.split("/")[1] || "";
-  const navigations = [
-    {
-      label: "home-nav-label",
-      href: ROUTES.HOMEPAGE,
-      icon: HomeIcon,
-    },
-    {
-      label: "postRequest-nav-label",
-      href: ROUTES.POST_REQUEST,
-      icon: RequestIcon,
-    },
-    {
-      label: "logout-nav-label",
-      href: ROUTES.LOGOUT,
-      icon: LogoutIcon,
-    },
-  ];
+  const [activeItemIdx, setActiveItemIdx] = useState(0);
+  const [activeChildIdx, setActiveChildIdx] = useState(0);
+
   // @TODO, make this right
-  const navs = navigations.map((nav, idx) => {
-    const { label, href, icon: Icon } = nav;
-    const isActive = href.split("/")[1] === activePath;
+  const navs = navigations.map(({ label, href, icon: Icon, children }, idx) => {
+    // const isActive = checkActiveNav(href || "", activePath);
+    const isActive = idx === activeItemIdx;
     return (
-      <Link href={href} key={`${label}-${href}-navigation`}>
-        <div
-          className={`h-12 pl-11 flex items-center pl-${SC_LEFT_SPACING} ${
-            isActive && "bg-primary bg-opacity-30 border-r-4 border-primary"
-          }`}
-        >
-          <li
-            className={`flex items-center text-md ${
-              isActive && "text-black font-semibold"
-            }`}
-          >
-            <Icon className="mr-3" isActive={isActive} />
-            {t(label)}
-          </li>
-        </div>
-      </Link>
+      <div
+        className={`overflow-hidden max-h-12 ${
+          isActive && "max-h-56 transition-all duration-300"
+        }`}
+        key={`${label}-${href}-navigation`}
+      >
+        <SidebarNavItem
+          isActive={idx === activeItemIdx}
+          href={href || ""}
+          Icon={Icon}
+          label={label}
+          onClick={() => {
+            setActiveItemIdx(idx);
+            setActiveChildIdx(0);
+          }}
+          hasChildren={children && children?.length > 0}
+        />
+        {children?.map(({ href, label, withCompanyParam }, childIdx) => {
+          const { company } = getMeData();
+          const param = withCompanyParam ? `/${company?.id}` : "";
+          return (
+            <SidebarNavItem
+              key={href + label}
+              label={label}
+              href={`${href}${param}`}
+              className={`ml-7 ${
+                childIdx === activeChildIdx && "text-primary"
+              }`}
+              onClick={() => {
+                setActiveChildIdx(childIdx);
+                setActiveItemIdx(idx);
+              }}
+            />
+          );
+        })}
+      </div>
     );
   });
 
