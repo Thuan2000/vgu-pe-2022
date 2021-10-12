@@ -8,7 +8,7 @@
 	"email-invalid-error": "Hãy nhập đúng cú pháp email",
 	"email-required-error": "Vui lòng nhập email",
 	"password-required-error": "Vui lòng nhập mật khẩu",
-	"submit": "Gửi yêu cầu",
+	"submit": "Đăng nhập",
 	"firstName-label": "Tên",
 	"firstName-placeholder": "Nhập tên",
 	"firstName-required-error": "Trường cần thiết",

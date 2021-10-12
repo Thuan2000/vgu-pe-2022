@@ -38,7 +38,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         autoFocus
         label={`${t("post-request-name-label")}*`}
         note={t("post-request-name-desc")}
-        placeholder="post-request-name-placeholder"
+        placeholder={t("post-request-name-placeholder")}
         error={errors?.general?.name?.message}
       />
       <DateInput
