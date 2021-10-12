@@ -67,7 +67,7 @@ const PostRequestForm = () => {
           return;
         }
 
-        router.push(ROUTES.BUYING_REQUESTS);
+        router.push(ROUTES.POSTED_REQUESTS);
 
         Swal.fire({
           icon: "success",
