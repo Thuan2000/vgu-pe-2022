@@ -19,7 +19,7 @@ export const PostRequestSchema = yup.object({
     maxBudget: yup
       .number()
       .required("maxBudget-required-error")
-      .moreThan(yup.ref("minBudget"), "post-request-maxBudget-more-than-error"),
+      .min(yup.ref("minBudget"), "post-request-maxBudget-more-than-error"),
     minOrder: yup.number().required("post-request-minOrder-required-error"),
     unit: yup.string().required("post-request-unit-required-error"),
   }),

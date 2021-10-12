@@ -95,18 +95,22 @@ const DateInput: React.FC<DateInputProps> = ({
 };
 export default DateInput;
 
-const Datepicker: React.FC<DatepickerProps> = ({ onChange, ...props }) => {
-  function handleChange(e: Date) {
-    // Prevent error
-    if (onChange) onChange(e, undefined);
+const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
+  ({ onChange, ...props }, ref) => {
+    function handleChange(e: Date) {
+      // Prevent error
+      if (onChange) onChange(e, undefined);
+    }
+    return (
+      <ReactDatepicker
+        autoComplete="hide"
+        selected={(props.value as any) || props.initialValue}
+        onChange={handleChange}
+        dateFormat={props.dateFormat || "dd/MM/yyyy"}
+        {...props}
+      />
+    );
   }
-  return (
-    <ReactDatepicker
-      autoComplete="hide"
-      selected={(props.value as any) || props.initialValue}
-      onChange={handleChange}
-      dateFormat={props.dateFormat || "dd/MM/yyyy"}
-      {...props}
-    />
-  );
-};
+);
+
+Datepicker.displayName = "DateInput";

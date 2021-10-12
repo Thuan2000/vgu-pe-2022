@@ -20,7 +20,8 @@ const Sidebar: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
         <div className={`pl-11 pl-${SC_LEFT_SPACING}`}>
           <Logo size="big" />
           <h3 className="flex items-center mb-7 mt-4">
-            {company?.name || ""} <VerifiedIcon className="w-4 h-4 ml-2" />
+            {company?.name || ""}{" "}
+            {company?.approved && <VerifiedIcon className="w-4 h-4 ml-2" />}
           </h3>
         </div>
         <SidebarNavigations />

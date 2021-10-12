@@ -1,8 +1,7 @@
 module.exports = {
   mode: "jit",
-  purge: {
-    content: ["./src/**/*.{js,ts,jsx,tsx}"],
-  },
+  purge: ["./src/**/*.{js,ts,jsx,tsx}"],
+
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -10,6 +9,7 @@ module.exports = {
         "3xl": "1900px",
       },
       spacing: {
+        1: "5px",
         17: "70px",
         11: "44px",
         80: "345px",

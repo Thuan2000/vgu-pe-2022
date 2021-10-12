@@ -26,60 +26,69 @@ export interface ICreateableSelectProps extends Props {
  * @param createNewOption function that take label, and return a new option
  *
  */
-const CreateableSelect = ({
-  options: defaultOptions,
-  createNewOption,
-  onCreateOption,
-  onChange,
-  label,
-  numberQueue,
-  note,
-  error,
-  loading,
-  className,
-  ...props
-}: ICreateableSelectProps) => {
-  const [options, setOptions] = useState(defaultOptions || []);
+const CreateableSelect = React.forwardRef(
+  (
+    {
+      options: defaultOptions,
+      createNewOption,
+      onCreateOption,
+      onChange,
+      label,
+      numberQueue,
+      note,
+      error,
+      loading,
+      className,
+      ...props
+    }: ICreateableSelectProps,
+    ref
+  ) => {
+    const [options, setOptions] = useState(defaultOptions || []);
 
-  useEffect(() => {
-    setOptions(defaultOptions);
-  }, [loading, defaultOptions]);
+    useEffect(() => {
+      setOptions(defaultOptions);
+    }, [loading, defaultOptions]);
 
-  function handleCreateOption(label: string) {
-    if (loading) return;
-    const newOption = createNewOption(label);
-    const newOptions =
-      options?.length > 0 ? [...options, newOption] : [newOption];
+    function handleCreateOption(label: string) {
+      if (loading) return;
+      const newOption = createNewOption(label);
+      const newOptions =
+        options?.length > 0 ? [...options, newOption] : [newOption];
 
-    setOptions(newOptions);
+      setOptions(newOptions);
 
-    const createMeta: CreateOptionActionMeta<any> = {
-      action: "create-option",
-      option: newOption,
-    };
+      const createMeta: CreateOptionActionMeta<any> = {
+        action: "create-option",
+        option: newOption,
+      };
 
-    if (onChange) onChange(newOption, createMeta);
+      if (onChange) onChange(newOption, createMeta);
 
-    if (onCreateOption) onCreateOption(label);
+      if (onCreateOption) onCreateOption(label);
+    }
+
+    return (
+      <div className={className}>
+        <InputLabel
+          numberQueue={numberQueue}
+          label={label}
+          note={note}
+          name={props.name}
+        />
+        <Createable
+          onChange={onChange}
+          onCreateOption={handleCreateOption}
+          options={options}
+          styles={createableStyles}
+          ref={ref as any}
+          {...props}
+        />
+        <InputErrorMessage error={error} />
+      </div>
+    );
   }
+);
 
-  return (
-    <div className={className}>
-      <InputLabel
-        numberQueue={numberQueue}
-        label={label}
-        note={note}
-        name={props.name}
-      />
-      <Createable
-        onChange={onChange}
-        onCreateOption={handleCreateOption}
-        options={options}
-        styles={createableStyles}
-        {...props}
-      />
-      <InputErrorMessage error={error} />
-    </div>
-  );
-};
+CreateableSelect.displayName = "CreateableSelect";
+
 export default CreateableSelect;

@@ -59,24 +59,15 @@ const PostRequestForm = () => {
   const { t } = useTranslation("form");
   const [createBuyingRequest, { loading, error }] =
     useCreateBuyingRequestMutation({
-      onCompleted: ({ createBuyingRequest }) => {
-        const { success, message } = createBuyingRequest as IResponse;
-        if (!success) {
+      onCompleted: ({ createBuyingRequest, ...rest }) => {
+        const { success, message } = (createBuyingRequest as IResponse) || {};
+        if (success === false) {
           console.log(message);
-          alert(t("SOMETHING_WENT_WRONG_ERROR"));
+          alert(t(message + "-ERROR-MESSAGE" || ""));
           return;
         }
-
-        router.push(ROUTES.POSTED_REQUESTS);
-
-        Swal.fire({
-          icon: "success",
-          iconColor: COLORS.GREEN,
-          titleText: t("success-title"),
-          text: t("post-request-success-text"),
-          confirmButtonText: t("okay-button-label"),
-          confirmButtonColor: COLORS.GREEN,
-        });
+        console.log(success);
+        setTimeout(() => router.push(ROUTES.POSTED_REQUESTS), 1000);
       },
     });
 
@@ -172,8 +163,8 @@ const PostRequestForm = () => {
 
   function handleNextClick() {
     if (formPosition === GENERAL_FORM_INDEX && !isValidGeneralForm()) return;
-    else if (formPosition === DETAILS_FORM_INDEX && !isValidDetailsForm())
-      return;
+    if (formPosition === DETAILS_FORM_INDEX && !isValidDetailsForm()) return;
+    if (formPosition >= 3) return;
 
     changeSection(formPosition + 1);
   }

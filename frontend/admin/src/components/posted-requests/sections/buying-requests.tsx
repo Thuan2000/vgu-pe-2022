@@ -8,11 +8,15 @@ import { IBuyingRequest } from "@graphql/types.graphql";
 import { getMeData } from "@utils/auth-utils";
 import { BUYING_REQUESTS_GET_LIMIT } from "@utils/constants";
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { BuyingRequestContextProvider } from "src/contexts/buying-request.context";
 import NoBuyingRequests from "@components/posted-requests/no-buying-requests";
 
 interface IBuyingRequestsProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+function getParameter(companyId: number, offset: number) {
+  return { variables: { companyId, offset } };
+}
 
 const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
   className,
@@ -32,9 +36,20 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
     });
   }
 
-  const { data, loading } = useBuyingRequestsAndCountQuery({
-    variables: { companyId: company?.id as number, offset: 0 },
+  function getOffset() {
+    return (activePageIdx - 1) * BUYING_REQUESTS_GET_LIMIT;
+  }
+
+  const { data, loading, fetchMore } = useBuyingRequestsAndCountQuery({
+    ...getParameter(company?.id as number, getOffset()),
   });
+
+  useEffect(() => {
+    fetchMore({
+      ...getParameter(company?.id as number, getOffset()),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activePageIdx, company?.id]);
 
   const totalBRs = data?.buyingRequestsAndCount.totalDataCount;
 
@@ -67,7 +82,7 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
         activeIdx={activePageIdx}
         onChangePage={handlePageChange}
         totalCount={totalBRs || 1}
-        color="gray-100"
+        color="gray-200"
         activeColor="primary"
         displayPageAmount={5}
         limit={BUYING_REQUESTS_GET_LIMIT}

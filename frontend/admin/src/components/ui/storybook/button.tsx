@@ -18,7 +18,7 @@ const classes = {
   outline:
     "border border-green bg-transparent hover:text-light hover:bg-green hover:border-green",
   loading:
-    "h-4 w-4 ms-2 rounded-full border-2 border-transparent border-t-2 animate-spin",
+    "ml-2 h-4 w-4 ms-2 rounded-full border-2 border-transparent border-t-2 animate-spin",
   disabled:
     "border border-border-base bg-gray-300 border-border-400 cursor-not-allowed",
   disabledOutline: "border border-border-base text-muted cursor-not-allowed",
