@@ -4,7 +4,6 @@ import { useRouter } from "next/dist/client/router";
 import { navigations } from "./sidebar-constants";
 import SidebarNavItem from "./sidebar-nav-item";
 import { getMeData } from "@utils/auth-utils";
-import { useEffect } from "hoist-non-react-statics/node_modules/@types/react";
 
 const SidebarNavigations = () => {
   const [activeItemIdx, setActiveItemIdx] = useState(0);
