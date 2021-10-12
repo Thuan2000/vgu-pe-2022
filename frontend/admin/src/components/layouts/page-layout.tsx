@@ -24,7 +24,7 @@ const PageLayout: React.FC = ({ children }) => {
   return (
     <div className="flex bg-light-300">
       {isPhone ? <BottomNavigation /> : <Sidebar className="flex-shrink-0" />}
-      <main className="md:mx-8 w-full">
+      <main className="md:mx-8 w-full mb-16">
         {isPhone ? <PhoneAdminNavbar /> : <DesktopAdminNavbar />}
         {children}
       </main>
