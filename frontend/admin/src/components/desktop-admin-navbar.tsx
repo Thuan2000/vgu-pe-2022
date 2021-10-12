@@ -6,23 +6,18 @@ import ArrowLeftIcon from "@assets/icons/arrow-left-icon";
 import { PageNameContext } from "src/contexts/page-name.context";
 import { useTranslation } from "react-i18next";
 import { COLORS } from "@utils/colors";
+import { useRouter } from "next/dist/client/router";
+import { getMeData } from "@utils/auth-utils";
+import { IUser } from "@graphql/types.graphql";
 
 interface IAdminNavbarProps extends React.HTMLAttributes<HTMLDivElement> {
-  userName: string;
-  userRole: string;
   ppHeight?: number;
   ppWidth?: number;
   userImg?: string;
-  showBackArrow?: boolean;
-  onBackClick: () => void;
 }
 
-const AdminNavbar: React.FC<IAdminNavbarProps> = ({
-  userName,
-  userRole,
+const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
   className,
-  showBackArrow,
-  onBackClick,
   ppHeight = 40,
   ppWidth = 40,
   userImg = "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/avatar-icon.svg",
@@ -30,6 +25,18 @@ const AdminNavbar: React.FC<IAdminNavbarProps> = ({
 }) => {
   const { pageName } = useContext(PageNameContext);
   const { t } = useTranslation();
+  const { user } = getMeData();
+
+  const { firstName, lastName, role } = (user as IUser) || {};
+  const { pathname, ...router } = useRouter();
+
+  const userName = `${firstName} ${lastName}`;
+
+  const showBackArrow = !!pathname.split("/")[1];
+
+  function handleBackClick() {
+    router.back();
+  }
 
   return (
     <div
@@ -40,7 +47,7 @@ const AdminNavbar: React.FC<IAdminNavbarProps> = ({
       <div className="page-info flex items-center">
         {showBackArrow && (
           <ArrowLeftIcon
-            onClick={onBackClick}
+            onClick={handleBackClick}
             className="cursor-pointer"
             fill={COLORS.BOLDER}
           />
@@ -53,7 +60,7 @@ const AdminNavbar: React.FC<IAdminNavbarProps> = ({
         <div className="flex items-center">
           <div className="mr-4 text-right hidden md:block">
             <p className="font-semibold text-semibold">{userName}</p>
-            <p className="text-sm text-gray-400">{t(userRole)}</p>
+            <p className="text-sm text-gray-400">{t(role as string)}</p>
           </div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -68,4 +75,4 @@ const AdminNavbar: React.FC<IAdminNavbarProps> = ({
     </div>
   );
 };
-export default AdminNavbar;
+export default DesktopAdminNavbar;

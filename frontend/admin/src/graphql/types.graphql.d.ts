@@ -52,6 +52,7 @@ export type IBuyingRequest = {
   name: Scalars['String'];
   productName: Scalars['String'];
   projectsCount: Scalars['Int'];
+  slug: Scalars['String'];
   status: Scalars['String'];
   unit: Scalars['String'];
   updatedAt: Scalars['Date'];
@@ -175,11 +176,17 @@ export type IProductName = {
 };
 
 export type IQuery = {
+  buyingRequest: IBuyingRequest;
   buyingRequestsAndCount: IBuyingRequestsResponse;
   categories: Array<Maybe<ICategory>>;
   productNames?: Maybe<Array<Maybe<IProductName>>>;
   user?: Maybe<IUser>;
   users?: Maybe<Array<Maybe<IUser>>>;
+};
+
+
+export type IQueryBuyingRequestArgs = {
+  slug: Scalars['String'];
 };
 
 
@@ -382,6 +389,7 @@ export type IBuyingRequestResolvers<ContextType = any, ParentType extends IResol
   name?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
   productName?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
   projectsCount?: Resolver<IResolversTypes['Int'], ParentType, ContextType>;
+  slug?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
   unit?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<IResolversTypes['Date'], ParentType, ContextType>;
@@ -447,6 +455,7 @@ export type IProductNameResolvers<ContextType = any, ParentType extends IResolve
 };
 
 export type IQueryResolvers<ContextType = any, ParentType extends IResolversParentTypes['Query'] = IResolversParentTypes['Query']> = {
+  buyingRequest?: Resolver<IResolversTypes['BuyingRequest'], ParentType, ContextType, RequireFields<IQueryBuyingRequestArgs, 'slug'>>;
   buyingRequestsAndCount?: Resolver<IResolversTypes['BuyingRequestsResponse'], ParentType, ContextType, RequireFields<IQueryBuyingRequestsAndCountArgs, 'companyId' | 'offset'>>;
   categories?: Resolver<Array<Maybe<IResolversTypes['Category']>>, ParentType, ContextType>;
   productNames?: Resolver<Maybe<Array<Maybe<IResolversTypes['ProductName']>>>, ParentType, ContextType>;

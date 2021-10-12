@@ -3,6 +3,7 @@ query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
     buyingRequests {
       id
       name
+      slug
       endDate
       categories
       minBudget
@@ -21,6 +22,36 @@ query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
       projectsCount
     }
     totalDataCount
+  }
+}
+
+query BuyingRequest($slug: String!) {
+  buyingRequest(slug: $slug) {
+    id
+    name
+    slug
+    endDate
+    categories
+    minBudget
+    maxBudget
+    minOrder
+    unit
+    status
+    gallery {
+      location
+    }
+    createdAt
+    updatedAt
+    location
+    commentsCount
+    bidsCount
+    projectsCount
+    description
+    allowedCompany {
+      minSupplierExperience
+      minSupplierRating
+      minSuplierSells
+    }
   }
 }
 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 import { useRouter } from "next/dist/client/router";
-import { navigations } from "./sidebar-constants";
 import SidebarNavItem from "./sidebar-nav-item";
 import { getMeData } from "@utils/auth-utils";
+import { navigations } from "@utils/navigations";
 
 const SidebarNavigations = () => {
   const [activeItemIdx, setActiveItemIdx] = useState(0);

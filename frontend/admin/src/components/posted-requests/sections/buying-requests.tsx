@@ -10,7 +10,7 @@ import { BUYING_REQUESTS_GET_LIMIT } from "@utils/constants";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { BuyingRequestContextProvider } from "src/contexts/buying-request.context";
-import NoBuyingRequests from "./no-buying-requests";
+import NoBuyingRequests from "@components/posted-requests/no-buying-requests";
 
 interface IBuyingRequestsProps extends React.HTMLAttributes<HTMLDivElement> {}
 

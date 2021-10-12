@@ -7,7 +7,7 @@ import { useRouter } from "next/dist/client/router";
 import PageLayout from "@components/layouts/page-layout";
 import PostedRequestsNav from "@components/posted-requests/posted-requests-nav";
 import { POSTED_REQUEST_VIEWS } from "@components/posted-requests/posted-requests-nav/prn-constants";
-import BuyingRequests from "./buying-requests";
+import BuyingRequests from "../components/posted-requests/sections/buying-requests";
 import { PAGE_NAME } from "@utils/constants";
 import UnderDevelopment from "@components/under-development";
 

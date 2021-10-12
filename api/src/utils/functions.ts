@@ -21,7 +21,7 @@ export function handleError(err) {
 }
 
 export function generateSlug(companyName: string) {
-	const slug = companyName.toLowerCase().replace(" ", "-");
+	const slug = companyName.toLowerCase().replace(/\ /g, "-");
 	return slug;
 }
 

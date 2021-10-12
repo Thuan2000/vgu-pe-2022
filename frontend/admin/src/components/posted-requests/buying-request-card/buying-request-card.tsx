@@ -10,6 +10,7 @@ import BrcExtras from "./brc-extras";
 import BRCExternalInfo from "./brc-external-info";
 import { useBRContext } from "src/contexts/buying-request.context";
 import { indexOf, remove } from "lodash";
+import { useRouter } from "next/dist/client/router";
 
 interface IBuyingRequestCardProps extends React.HTMLAttributes<HTMLDivElement> {
   br: IBuyingRequest;
@@ -21,6 +22,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   ...props
 }) => {
   const { t } = useTranslation("common");
+  const { query, pathname, ...router } = useRouter();
   const { selecteds, setSelecteds } = useBRContext();
 
   const isSelected = indexOf(selecteds, parseInt(br.id)) !== -1;
@@ -47,11 +49,18 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
     else if (!e.target.checked) removeFromSelecteds(parseInt(e.target.id));
   }
 
+  function toBRDetails() {
+    router.push({
+      pathname: `buying-requests/${br.slug}`,
+    });
+  }
+
   return (
     <div
       className={`border rounded-md shadow-md flex relative bg-${
         isSelected ? "primary bg-opacity-20 border-primary" : "white"
       } md:w-49p ${className} max-h-44`}
+      onClick={toBRDetails}
       {...props}
     >
       <div className="absolute left-4 top-4 z-50">
