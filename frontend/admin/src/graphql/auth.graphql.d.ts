@@ -42,7 +42,7 @@ export declare type MeInfoMutation = {
       approved?: Types.Maybe<boolean>;
       ownerId?: Types.Maybe<number>;
       licenseFiles?: Types.Maybe<Array<Types.Maybe<{
-        __typename?: 'LicenseFile';
+        __typename?: 'File';
         path?: Types.Maybe<string>;
         location?: Types.Maybe<string>;
       }>>>;

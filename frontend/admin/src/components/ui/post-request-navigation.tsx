@@ -1,22 +1,24 @@
 import UnderlineIcon from "@assets/icons/navigations/underline-icon";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const navs = [
   {
-    label: "General",
+    label: "general-nav-label",
   },
   {
-    label: "Details",
+    label: "details-nav-label",
   },
   {
-    label: "Check",
+    label: "check-nav-label",
   },
 ];
 
 const PostRequestNavigation: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
   props
 ) => {
+  const { t } = useTranslation("form");
   const { query, ...router } = useRouter();
 
   const currentFormPosition = parseInt(query.formPosition as string) || 1;
@@ -42,13 +44,13 @@ const PostRequestNavigation: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
     return (
       <div
         key={label}
-        className={`w-24 md:w-1/3 ${extraClass} ${
+        className={`w-1/3 ${extraClass} ${
           currentFormPosition > idx + 1 ? "cursor-pointer" : "cursor-default"
         }`}
         onClick={() => setFormPosition(idx + 1)}
       >
         <h4 className="md:text-md">
-          {idx + 1}. {label}
+          {idx + 1}. {t(label)}
         </h4>
         <UnderlineIcon
           className="w-full"

@@ -9,3 +9,5 @@ export const NODE_ENV: ENODE_ENV =
 export const AUTH_CONSTANTS = {
 	AUTH_CONSTANT_KEY: "auth_token"
 };
+
+export const BUYING_REQUESTS_GET_LIMIT = 8;

@@ -11,7 +11,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       note,
       name,
       error,
-      noPrefix,
+      transparentPrefix,
       children,
       variant = "normal",
       shadow = false,
@@ -21,7 +21,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       prefix,
       suffix,
       noLabel,
+      valuePrefix,
       noBorder,
+      value,
+      onChange,
       ...rest
     },
     ref
@@ -42,6 +45,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       inputClassName
     );
 
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+      if (!onChange) return;
+
+      onChange(e);
+    }
+
     return (
       <div className={className}>
         {!noLabel && (
@@ -58,11 +67,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             name={name}
             type={type}
             ref={ref}
-            className={`${rootClassName} ${!noPrefix && "pl-8"}`}
+            className={`${rootClassName} ${
+              (prefix || transparentPrefix) && "pl-8"
+            }`}
             autoComplete="off"
             autoCorrect="off"
             spellCheck="false"
             aria-invalid={error ? "true" : "false"}
+            onChange={handleChange}
+            value={!!valuePrefix ? `${valuePrefix}${value}` : value}
             {...rest}
           />
           {prefix && (

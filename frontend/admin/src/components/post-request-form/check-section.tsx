@@ -6,7 +6,11 @@ import DetailsSection from "./check-section/details-section";
 import { useTranslation } from "react-i18next";
 import Divider from "@components/ui/divider";
 import AdditionalSection from "./check-section/additional-section";
-import { detailsInputNames, generalInputNames } from "./post-request-constants";
+import {
+  requiredDetailsInputNames,
+  requiredGeneralInputNames,
+} from "./post-request-constants";
+import ImagesSection from "./check-section/images-section";
 
 interface ICheckSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   getValues: UseFormGetValues<PostRequestFormValue>;
@@ -18,27 +22,36 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
   changeSection,
   ...props
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("form");
 
   const details = getValues("details");
   const general = getValues("general");
   const additional = getValues("additional");
 
+  const hasImage = details?.gallery?.length > 0;
+
   useEffect(() => {
-    generalInputNames.forEach((name) => {
-      const value = getValues(`general.${name}`);
-      if (!value) {
-        changeSection(1);
-        return;
-      }
-    });
-    detailsInputNames.forEach((name) => {
-      const value = getValues(`details.${name}`);
-      if (!value) {
-        changeSection(2);
-        return;
-      }
-    });
+    function checkData() {
+      // This only true if general input is null
+      let shouldReturn = false;
+      requiredGeneralInputNames.forEach((name) => {
+        const value = getValues(`general.${name}`);
+        if (!value) {
+          changeSection(1);
+          shouldReturn = true;
+          return;
+        }
+      });
+      if (shouldReturn) return;
+      requiredDetailsInputNames.forEach((name) => {
+        const value = getValues(`details.${name}`);
+        if (!value) {
+          changeSection(2);
+          return;
+        }
+      });
+    }
+    checkData();
   });
 
   useEffect(() => {
@@ -56,30 +69,31 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
       <h3 className="text-md sm:text-lg my-10">
         {t("check-section-title-label")}
       </h3>
-      {details?.images?.length > 0 && (
-        <div className="relative border-2 border-gray-200 my-5 md:hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={details?.images[0]?.localUrl || ""}
-            alt={details?.productName?.name || ""}
-            width={340}
-            height={200}
-            className="p-3"
-          />
-          <p
-            className="absolute w-full bottom-0 text-white bg-primary flex-center py-3"
-            onClick={() => changeSection(2)}
-          >
-            {t("change-photo-label")}
-          </p>
-        </div>
+      {hasImage && (
+        <ImagesSection
+          className="md:hidden my-5"
+          imgWidth={300}
+          imgHeight={200}
+          images={details?.gallery}
+          changeSection={changeSection}
+        />
       )}
-      <div className="flex flex-col">
-        <GeneralSection formValues={general} changeSection={changeSection} />
+      <div className={`flex flex-col bg-white`}>
+        <GeneralSection
+          hasImage={hasImage}
+          images={details?.gallery}
+          formValues={general}
+          changeSection={changeSection}
+        />
         <Divider className="mb-7" />
-        <DetailsSection formValues={details} changeSection={changeSection} />
+        <DetailsSection
+          hasImage={hasImage}
+          formValues={details}
+          changeSection={changeSection}
+        />
         {additional && (
           <AdditionalSection
+            hasImage={hasImage}
             formValues={additional}
             changeSection={changeSection}
           />

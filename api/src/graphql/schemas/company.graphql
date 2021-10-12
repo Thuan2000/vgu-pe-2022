@@ -3,11 +3,6 @@
 #  Good codes make the world a better place!
 #
 
-type LicenseFile {
-	location: String
-	path: String
-}
-
 type Company {
 	id: Int
 	name: String
@@ -18,7 +13,7 @@ type Company {
 	# coverImage: String
 	# gallery: String
 	# address: String
-	licenseFiles: [LicenseFile]
+	licenseFiles: [File]
 	ownerId: Int
 	# logo: String
 	# settings: String

@@ -4,7 +4,7 @@
  */
 import { generateSlug, errorResponse, successResponse } from "@utils";
 import Company from "@models/Company";
-import { uploadCompanyLicenses } from "@repositories/upload-file.repository";
+import { uploadCompanyLicenses } from "@repositories/uploads.repository";
 import S3 from "@services/s3.service";
 import EmailService from "@services/email.service";
 import UserRepository from "@repositories/user.repository";

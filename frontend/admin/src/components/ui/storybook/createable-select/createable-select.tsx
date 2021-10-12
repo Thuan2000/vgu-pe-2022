@@ -48,7 +48,8 @@ const CreateableSelect = ({
   function handleCreateOption(label: string) {
     if (loading) return;
     const newOption = createNewOption(label);
-    const newOptions = [...options, newOption];
+    const newOptions =
+      options?.length > 0 ? [...options, newOption] : [newOption];
 
     setOptions(newOptions);
 

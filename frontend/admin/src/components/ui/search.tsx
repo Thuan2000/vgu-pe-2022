@@ -18,12 +18,11 @@ const Search = ({
         style={{ height: "45px", width: "166px" }}
         className="flex-center border-r-2"
       >
-        <p className="text-paragraph text-dark-blue">Suppliers</p>
+        <p className="text-paragraph text-semibold">Suppliers</p>
         <ArrowDownIcon className="ml-3" />
       </button>
       <Input
         noLabel
-        noPrefix
         noBorder
         style={{ height: "45px", width: "300px" }}
         className="border-none"

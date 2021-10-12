@@ -33,12 +33,14 @@ const SelectInput: React.FC<ISelectInput> = ({
 }) => {
   return (
     <div className={className}>
-      <InputLabel
-        queueBackground={queueBackground}
-        label={label}
-        numberQueue={numberQueue}
-        note={note}
-      />
+      {label && (
+        <InputLabel
+          queueBackground={queueBackground}
+          label={label}
+          numberQueue={numberQueue}
+          note={note}
+        />
+      )}
       <SelectController
         options={options}
         control={control}

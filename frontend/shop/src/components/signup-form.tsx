@@ -31,7 +31,7 @@ type FormValues = {
   companyLicenses: Array<File>;
 };
 
-const signupSchema = yup.object().shape({
+const signupSchema: any = yup.object({
   firstName: yup.string().required("form:firstName-required-error"),
   lastName: yup.string().required("form:lastName-required-error"),
   phoneNumber: yup.string().required("form:phoneNumber-required-error"),

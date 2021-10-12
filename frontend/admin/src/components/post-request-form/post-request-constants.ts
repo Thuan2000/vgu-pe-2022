@@ -5,24 +5,25 @@ export type DetailsInputNames =
   | "minBudget"
   | "maxBudget"
   | "minOrder"
-  | "images";
+  | "unit"
+  | "gallery";
 
 // All general input names | key
-export const generalInputNames: GeneralInputNames[] = [
+export const requiredGeneralInputNames: GeneralInputNames[] = [
   "name",
   "endDate",
   "location",
-  "description",
 ];
 
 // All details input names | key
-export const detailsInputNames: DetailsInputNames[] = [
+export const requiredDetailsInputNames: DetailsInputNames[] = [
   "productName",
   "minBudget",
   "maxBudget",
   "minOrder",
-  "images",
+  "unit",
 ];
 
 export const GENERAL_FORM_INDEX = 1;
 export const DETAILS_FORM_INDEX = 2;
+export const CHECK_FORM_INDEX = 3;

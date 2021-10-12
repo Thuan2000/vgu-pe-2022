@@ -1,0 +1,32 @@
+query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
+  buyingRequestsAndCount(companyId: $companyId, offset: $offset) {
+    buyingRequests {
+      id
+      name
+      endDate
+      categories
+      minBudget
+      maxBudget
+      minOrder
+      unit
+      status
+      gallery {
+        location
+      }
+      createdAt
+      updatedAt
+      location
+      commentsCount
+      bidsCount
+      projectsCount
+    }
+    totalDataCount
+  }
+}
+
+mutation CreateBuyingRequest($input: BuyingRequestInput) {
+  createBuyingRequest(input: $input) {
+    success
+    message
+  }
+}

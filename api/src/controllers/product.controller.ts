@@ -1,7 +1,9 @@
+import ProductName from "../models/ProductName";
+
 class ProductController {
-	getProductNames() {
+	async getProductNames() {
 		// Fetch product names
-		const productNames = [{ name: "Apple", searchedCount: 4 }];
+		const productNames = await ProductName.findAll();
 
 		return productNames;
 	}

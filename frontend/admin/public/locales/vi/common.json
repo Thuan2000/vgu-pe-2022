@@ -11,5 +11,15 @@
   "logout-menu": "Đăng Xuất",
   "settings-menu": "Cài đặt",
   "not-verified": "Chưa xác thực",
-  "post-request-link-button-label": "Dang Nhu Cau Mua"
+  "post-request-link-button-label": "Đăng Nhu Cầu Mua",
+  "post-request-paragraph": "Hãy đăng thông tin NCTM, bắt đầu kết nối với nhà cung ứng phù hợp.",
+  "post-request-image-label": "Post request image",
+  "home-nav-label": "Trang Chủ",
+  "postRequest-nav-label": "Đăng thông tin NCTM",
+  "logout-nav-label": "Đăng xuất",
+  "sorry-title": "Xin lỗi",
+  "this-page-is-under-development-message": "tính năng này đang được phát triển",
+  "post-request-page-name": "Đăng NCTM",
+  "home-page-name": "Tổng quan",
+  "to-post-request": "Đến \"Đăng Nhu Cầu Mua\""
 }

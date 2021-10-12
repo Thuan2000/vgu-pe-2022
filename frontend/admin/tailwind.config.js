@@ -11,6 +11,11 @@ module.exports = {
       },
       spacing: {
         17: "70px",
+        11: "44px",
+        80: "345px",
+        "1/2.5": "47%",
+        "49p": "49%",
+        "fit-content": "fit-content",
       },
       fontFamily: {
         body: ["Open Sans", "system-ui", "sans-serif"],
@@ -34,6 +39,7 @@ module.exports = {
           DEFAULT: "#FFFFFF",
           300: "#F1F3F3",
         },
+        "bold-color": "#15114E",
         primary: {
           DEFAULT: "#00D796",
           hover: "#02BF86",
@@ -74,6 +80,13 @@ module.exports = {
       },
       fontColor: {
         semibold: "#15114E",
+      },
+      borderRadius: {
+        sm: "5px",
+        md: "7px",
+      },
+      borderWidth: {
+        1: "1px",
       },
     },
   },

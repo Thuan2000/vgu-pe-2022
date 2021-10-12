@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Control, Controller } from "react-hook-form";
 import NumberFormat, { NumberFormatProps } from "react-number-format";
 import cn from "classnames";
@@ -22,13 +22,33 @@ interface INumberInputProps extends INumInputProps {
   control: Control<any>;
 }
 
-const NumberInput: React.FC<INumberInputProps> = (props) => {
+const NumberInput: React.FC<INumberInputProps> = ({
+  label,
+  className,
+  numberQueue,
+  note,
+  name,
+  control,
+  ...props
+}) => {
   return (
     <Controller
-      name={props.name}
-      control={props.control}
+      name={name}
+      control={control}
       render={({ field }) => {
-        return <NumInput {...field} {...props} />;
+        return (
+          <div className={className}>
+            {label && (
+              <InputLabel
+                numberQueue={numberQueue}
+                note={note}
+                label={label}
+                name={name}
+              />
+            )}
+            <NumInput {...field} {...props} />
+          </div>
+        );
       }}
     />
   );
@@ -40,6 +60,9 @@ const NumInput: React.FC<INumInputProps> = ({
   label,
   onChange,
   error,
+  value,
+  min,
+  max,
   name,
   variant = "normal",
   shadow = false,
@@ -67,26 +90,27 @@ const NumInput: React.FC<INumInputProps> = ({
   function handleChange(e: any) {
     if (onChange) onChange(e.floatValue);
   }
+
+  useEffect(() => {
+    if (!value || !onChange) return;
+    if (max && value > max) onChange(max as any);
+    else if (min && value < min) onChange(min as any);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, max, min]);
+
   return (
-    <div className={className}>
-      {!noLabel && (
-        <InputLabel
-          numberQueue={numberQueue}
-          note={note}
-          label={label}
-          name={name}
-        />
-      )}
+    <>
       <NumberFormat
         className={rootClassName}
         thousandSeparator={thousandSeparator}
         decimalSeparator={decimalSeparator}
         onValueChange={(e) => handleChange(e)}
+        value={value}
         {...props}
       />
-
       {error && <p className="my-2 text-xs text-start text-red-500">{error}</p>}
-    </div>
+    </>
   );
 };
 

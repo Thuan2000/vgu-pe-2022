@@ -22,15 +22,45 @@ const s3 = new S3();
  */
 export async function uploadCompanyLicenses(companyName, licenseFiles: any[]) {
 	return await licenseFiles.map(async file => {
-		const { createReadStream, filename: fileName } = await file;
+		const {
+			createReadStream,
+			filename: fileName,
+			mimetype: contentType
+		} = await file;
 
 		const fileStream = createReadStream();
 
 		const res = await s3.uploadCompanyLicense({
 			companyName,
 			fileName,
-			fileStream
+			fileStream,
+			type: "licenses",
+			contentType
 		});
+		const { Key: key, Location: location } = res;
+
+		return { key, location };
+	});
+}
+
+export async function uploadImages(companyName, images: any[]) {
+	return await (await images).map(async img => {
+		const {
+			createReadStream,
+			filename: fileName,
+			mimetype: contentType
+		} = await img;
+
+		const fileStream = createReadStream();
+
+		const res = await s3.uploadPublicFile({
+			companyName,
+			fileName,
+			fileStream,
+			type: "br-images",
+			contentType
+		});
+
 		const { Key: key, Location: location } = res;
 
 		return { key, location };

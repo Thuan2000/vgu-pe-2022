@@ -5,7 +5,9 @@ const { i18n } = require("./next-i18next.config");
 module.exports = {
   i18n,
   reactStrictMode: true,
-
+  images: {
+    domains: ["sdconnect-dev.s3.ap-southeast-1.amazonaws.com"],
+  },
   webpack(config, options) {
     config.module.rules.push({
       test: /\.graphql$/,

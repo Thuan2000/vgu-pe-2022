@@ -1,4 +1,5 @@
 import Divider from "@components/ui/divider";
+import { thousandSeparator } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import { AdditionalFormValue } from "../post-request-schema";
@@ -6,45 +7,33 @@ import { AdditionalFormValue } from "../post-request-schema";
 interface IAdditionalSectionProps {
   formValues: AdditionalFormValue;
   changeSection: (id: number) => void;
+  hasImage: boolean;
 }
 
 const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
   formValues,
+  hasImage,
   changeSection,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("form");
 
   function isHaveParticipantFilter() {
-    return (
-      formValues.minSuplierSells ||
-      formValues.minSupplierExperience ||
-      formValues.minSupplierRating
-    );
+    return formValues?.allowedCompany?.length > 1;
   }
 
   function isHaveAdditional() {
     return isHaveParticipantFilter() || formValues.categories;
   }
 
-  function getMinRating() {
-    if (!formValues?.minSupplierRating) return "";
-    return ` ${t("suppliers-with-word")} ${formValues?.minSupplierRating} ${t(
-      "rating-word"
-    )}, `;
-  }
-
-  function getMinExperience() {
-    if (!formValues?.minSupplierExperience) return "";
-    return `${t("suppliers-with-word")} ${
-      formValues?.minSupplierExperience
-    } ${t("experience-word")}, `;
-  }
-
-  function getMinSuplierSells() {
-    if (!formValues?.minSuplierSells) return "";
-    return `${t("suppliers-with-word")} ${formValues?.minSuplierSells} ${t(
-      "sells-word"
-    )}, `;
+  function getParticipantFilter() {
+    let text = "";
+    formValues?.allowedCompany?.map((fi: any) => {
+      if (!fi?.key) return;
+      text += `${t("company-with-label")} ${thousandSeparator(fi?.value)} ${t(
+        fi?.key?.value + "-filter-key"
+      )}, `;
+    });
+    return text;
   }
 
   if (!isHaveAdditional()) return <></>;
@@ -52,8 +41,8 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
   return (
     <>
       <Divider className="mb-7" />
-      <div className="flex justify-between mb-5">
-        <h3>{t("general-information-check-title")}</h3>
+      <div className={`flex justify-between mb-5 ${hasImage && "md:w-2/3"}`}>
+        <h3>{t("additional-information-check-title")}</h3>
         <p
           className="text-blue cursor-pointer"
           onClick={() => changeSection(2)}
@@ -63,25 +52,24 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
       </div>
       {isHaveParticipantFilter() && (
         <div className="mb-5">
-          <p className="text-dark-blue">{t("check-participantFilter-label")}</p>
-          <p className="font-semibold">
-            {getMinRating()}
-            {getMinExperience()}
-            {getMinSuplierSells()}
-          </p>
+          <p className="text-semibold">{t("check-participantFilter-label")}</p>
+          <p className="font-semibold">{getParticipantFilter()}</p>
         </div>
       )}
       {formValues?.categories?.length > 0 && (
         <div className="mb-5">
-          <p className="text-dark-blue">{t("check-categories-label")}</p>
-          {formValues.categories.map((cetegory) => (
-            <p
-              className="font-semibold"
-              key={cetegory.label + "category-additional-section"}
-            >
-              {cetegory.label}
-            </p>
-          ))}
+          <p className="text-semibold">{t("check-categories-label")}</p>
+          <div className="flex items-center">
+            {formValues.categories.map((category, idx) => (
+              <p
+                className="font-semibold mr-1"
+                key={`${category.name}-"category-additional-section"`}
+              >
+                {category.name}
+                {idx < formValues?.categories?.length - 1 && ", "}
+              </p>
+            ))}
+          </div>
         </div>
       )}
     </>

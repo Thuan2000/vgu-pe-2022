@@ -1,7 +1,7 @@
 import Cookie from "js-cookie";
 import SSRCookie from "cookie";
 import { AUTH_CRED, LOGGED_IN_USER, ROLE, TOKEN } from "./constants";
-import { ICompany, IUser } from "@graphql/types.graphql";
+import { ICompany, IMeInfoResponse, IUser } from "@graphql/types.graphql";
 
 const cookieDomain = { domain: `.${process.env.NEXT_PUBLIC_DOMAIN}` };
 
@@ -72,7 +72,7 @@ export function setMeData({
   );
 }
 
-export function getMeData() {
+export function getMeData(): IMeInfoResponse | { company: null; user: null } {
   const data = Cookie.get(LOGGED_IN_USER);
   if (!data) return { company: null, user: null };
 

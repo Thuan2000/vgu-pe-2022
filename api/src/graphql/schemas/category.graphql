@@ -1,0 +1,18 @@
+type Category {
+	id: Int
+	name: String
+	slug: String
+}
+
+input CategoryInput {
+	name: String
+	slug: String
+}
+
+extend type Query {
+	categories: [Category]!
+}
+
+extend type Mutation {
+	createCategory(input: CategoryInput!): Response
+}

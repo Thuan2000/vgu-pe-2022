@@ -1,0 +1,66 @@
+type AllowedCompany {
+	minSupplierExperience: Float
+	minSupplierRating: Float
+	minSuplierSells: Float
+}
+
+input AllowedCompanyInput {
+	minSupplierExperience: Float
+	minSupplierRating: Float
+	minSuplierSells: Float
+}
+
+type BuyingRequest {
+	id: ID!
+	name: String!
+	endDate: Date!
+	location: String!
+	description: String
+	productName: String!
+	minBudget: Date!
+	maxBudget: Date!
+	minOrder: Int!
+	status: String!
+	createdAt: Date!
+	updatedAt: Date!
+	unit: String!
+	categories: [Int]
+	gallery: [File]
+	allowedCompany: AllowedCompany
+	commentsCount: Int!
+	bidsCount: Int!
+	projectsCount: Int!
+}
+
+input BuyingRequestInput {
+	name: String!
+	endDate: Date!
+	location: String!
+	description: String
+	productName: String!
+	minBudget: Date!
+	maxBudget: Date!
+	minOrder: Int!
+	gallery: [Upload]
+	unit: String!
+	categories: [Int]
+	allowedCompany: AllowedCompanyInput
+	companyId: Int!
+	companyName: String!
+}
+
+extend type Mutation {
+	createBuyingRequest(input: BuyingRequestInput): Response
+}
+
+type BuyingRequestsResponse {
+	buyingRequests: [BuyingRequest]!
+	totalDataCount: Int
+}
+
+extend type Query {
+	buyingRequestsAndCount(
+		companyId: Int!
+		offset: Int!
+	): BuyingRequestsResponse!
+}

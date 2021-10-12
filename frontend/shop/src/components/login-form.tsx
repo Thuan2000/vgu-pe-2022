@@ -35,7 +35,7 @@ type FormValues = {
   rememberMe?: boolean;
 };
 
-const loginSchema = yup.object().shape({
+const loginSchema = yup.object({
   email: yup
     .string()
     .email("form:email-invalid-error")

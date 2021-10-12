@@ -8,33 +8,35 @@ export const PostRequestSchema = yup.object({
     name: yup.string().required("post-request-name-is-required-error"),
     endDate: yup.string().required("post-request-end-date-required-error"),
     location: yup.object().required("post-request-location-is-required-error"),
-    description: yup
-      .string()
-      .required("post-request-description-is-required-error"),
   }),
 
   // Details Form
   details: yup.object({
-    productName: yup.object().required("productName-required-error"),
-    minBudget: yup.number().required("minBudget-required-error"),
+    productName: yup
+      .object()
+      .required("post-request-productName-required-error"),
+    minBudget: yup.number().required("post-request-minBudget-required-error"),
     maxBudget: yup
       .number()
       .required("maxBudget-required-error")
-      .moreThan(yup.ref("minBudget"), "maxBudget-more-than-error"),
-    minOrder: yup.number().required("minOrder-required-error"),
+      .moreThan(yup.ref("minBudget"), "post-request-maxBudget-more-than-error"),
+    minOrder: yup.number().required("post-request-minOrder-required-error"),
+    unit: yup.string().required("post-request-unit-required-error"),
   }),
 
   additional: yup.object({
     minSupplierExperience: yup
       .number()
-      .max(50, "supplierExperience-not-valid-error"),
-    minSupplierRating: yup.number().max(5, "supplierRating-not-valid-error"),
+      .max(50, "post-request-supplierExperience-not-valid-error"),
+    minSupplierRating: yup
+      .number()
+      .max(5, "post-request-supplierRating-not-valid-error"),
   }),
 });
 
 export type GeneralFormValue = {
   name: string;
-  endDate: string;
+  endDate: Date;
   location: IVietnamCity;
   description?: string;
 };
@@ -44,15 +46,19 @@ export type DetailsFormValue = {
   minBudget: number;
   maxBudget: number;
   minOrder: number;
-  images: any;
+  unit: string;
+  gallery: any;
 };
 
 export type AdditionalFormValue = {
   categories: any[];
-  minSupplierExperience: number;
-  minSupplierRating: number;
-  minSuplierSells: number;
+  allowedCompany: AllowedCompany[];
 };
+
+export type AllowedCompany =
+  | { minSupplierExperience?: number }
+  | { minSupplierRating?: number }
+  | { minSuplierSells?: number };
 
 export type PostRequestFormValue = {
   general: GeneralFormValue;
