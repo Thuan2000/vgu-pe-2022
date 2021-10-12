@@ -38,5 +38,15 @@
   "add-to-project-button-label": "Add To Project",
   "text-loading": "Loading",
   "loading-text": "Loading",
-  "no-buying-request-yet-text-info": "Your company has no buying request yet"
+  "no-buying-request-yet-text-info": "Your company has no buying request yet",
+  "delivery-location-text": "Delivery Location",
+  "due-time-text": "Due Time",
+  "categories-text": "Type of Product",
+  "budget-text": "Budget",
+  "minimum-order-text": "Minimum Order",
+  "participants-text": "Participants",
+  "application": "Application",
+  "no-type": "None",
+  "delete-button-label": "Delete",
+  "edit-button-label": "Edit"
 }

@@ -13,6 +13,7 @@ input AllowedCompanyInput {
 type BuyingRequest {
 	id: ID!
 	name: String!
+	slug: String!
 	endDate: Date!
 	location: String!
 	description: String
@@ -63,4 +64,5 @@ extend type Query {
 		companyId: Int!
 		offset: Int!
 	): BuyingRequestsResponse!
+	buyingRequest(slug: String!): BuyingRequest!
 }

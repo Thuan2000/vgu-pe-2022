@@ -26,6 +26,15 @@ function setBrGallery(data: Promise<unknown>[], br: BuyingRequest) {
 }
 
 class BuyingRequestController {
+	async getBuyingRequest(slug: string) {
+		const buyingRequest = await BuyingRequest.findOne({
+			where: { slug }
+		});
+		console.log(buyingRequest);
+
+		return buyingRequest;
+	}
+
 	async getBuyingRequests(companyId: number, offset: number) {
 		const { rows, count } = await BuyingRequest.findAndCountAll({
 			offset,

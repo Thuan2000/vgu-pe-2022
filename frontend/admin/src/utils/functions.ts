@@ -1,4 +1,3 @@
-import { TFunction } from "next-i18next";
 import {
   BILLION,
   BILLION_COUNT,
@@ -28,7 +27,7 @@ export function timestampToDate(timestamp: number) {
   return `${day}-${month}-${year}`;
 }
 
-export function viDateFormat(dateString: string) {
+export function viDateFormat(dateString: string | number) {
   const date = new Date(dateString);
   const day = date.getDate() < 10 ? `0${date.getDay()}` : date.getDate();
   const month = (date.getMonth() as number) + 1;
@@ -59,6 +58,7 @@ export function formatMoneyAmount(ma: number) {
 }
 
 export function thousandSeparator(x: string | number) {
+  if (!x) return;
   return (typeof x === "number" ? x.toString() : x).replace(
     /\B(?=(\d{3})+(?!\d))/g,
     "."
