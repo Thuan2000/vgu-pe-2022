@@ -18,43 +18,41 @@ export const Mutation = {
 	 * @return AuthResponse
 	 */
 	companySignup: async (
-		_: any,
-		{
-			input: {
-				licenseFiles,
-				licenseNumber,
-				companyName,
-				countryCode,
-				...owner
-			}
-		}
+		_,
+		{ input: { licenseFiles, licenseNumber, companyName, ...owner } }
 	) => {
 		const companyController = new CompanyController();
 		const userController = new UserController();
 		const role = EUserRole.COMPANY_OWNER;
-		const {
-			id: ownerId,
-			success,
-			message,
-			token
-		} = await userController.register({
-			role,
-			...owner
-		});
+
+		// @TODO check if the user and company exist first before create the user and company
+
+		// Creating the owner
+		const { id: ownerId, success, message } = await userController.register(
+			{
+				role,
+				...owner
+			}
+		);
 
 		// Problem on creating the user
 		if (!success) return errorResponse(message);
 
 		// Creating company
+		const {
+			userNewToken,
+			...newCompanyResp
+		} = await companyController.register({
+			ownerId,
+			licenseFiles,
+			licenseNumber,
+			companyName
+		});
+
 		return {
-			token,
+			token: userNewToken,
 			role,
-			...(await companyController.register({
-				ownerId,
-				licenseFiles,
-				licenseNumber,
-				companyName
-			}))
+			...newCompanyResp
 		};
 	}
 };

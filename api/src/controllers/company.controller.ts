@@ -7,8 +7,10 @@ import Company from "@models/Company";
 import { uploadCompanyLicenses } from "@repositories/upload-file.repository";
 import S3 from "@services/s3.service";
 import EmailService from "@services/email.service";
+import UserRepository from "@repositories/user.repository";
+import User from "@models/User";
 
-function setCompanyLicenses(data: Promise<any>[], company: Company) {
+function setCompanyLicenses(data: Promise<unknown>[], company: Company) {
 	let doneCount = 0;
 
 	data.forEach(async d => {
@@ -25,6 +27,12 @@ function setCompanyLicenses(data: Promise<any>[], company: Company) {
 	});
 }
 
+type IRegisterResp = {
+	success: boolean;
+	message: string;
+	userNewToken?: string;
+};
+
 class CompanyController {
 	s3 = new S3();
 	email = new EmailService();
@@ -34,7 +42,12 @@ class CompanyController {
 	 * @param args CompanyRegisterInput!
 	 * @returns response
 	 */
-	async register({ ownerId, licenseFiles, licenseNumber, companyName }) {
+	async register({
+		ownerId,
+		licenseFiles,
+		licenseNumber,
+		companyName
+	}): Promise<IRegisterResp> {
 		try {
 			const duplicateCompany = await Company.findOne({
 				where: {
@@ -43,10 +56,18 @@ class CompanyController {
 				}
 			});
 
-			if (duplicateCompany) return errorResponse("COMPANY_EXIST");
+			if (duplicateCompany) {
+				// Delete the user
+				User.destroy({
+					where: {
+						attribute: "id",
+						val: ownerId
+					}
+				});
+				return errorResponse("COMPANY_EXIST");
+			}
 
 			// This will return [Promise]
-			const data = await uploadCompanyLicenses(companyName, licenseFiles);
 			const newCompany = await Company.create({
 				ownerId,
 				licenseNumber,
@@ -54,8 +75,22 @@ class CompanyController {
 				slug: generateSlug(companyName)
 			});
 
-			setCompanyLicenses(data, newCompany);
-			return successResponse();
+			// Setting user company id
+			const userNewToken = await UserRepository.setCompanyId(
+				ownerId,
+				newCompany.getDataValue("id")
+			);
+
+			// Setting company Licenses asynchronously
+			const companyLicenses = await uploadCompanyLicenses(
+				companyName,
+				licenseFiles
+			);
+			setCompanyLicenses(companyLicenses, newCompany);
+			return {
+				userNewToken,
+				...successResponse()
+			};
 		} catch (error) {
 			console.log(error);
 			return errorResponse();

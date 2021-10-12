@@ -9,3 +9,12 @@ input LoginInput {
 	email: String
 	password: String
 }
+
+type MeInfoResponse {
+	user: User!
+	company: Company!
+}
+
+extend type Mutation {
+	meInfo: MeInfoResponse
+}

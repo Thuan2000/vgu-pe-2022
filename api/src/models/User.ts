@@ -19,6 +19,9 @@ User.init(
 		lastName: {
 			type: DataTypes.STRING
 		},
+		companyId: {
+			type: DataTypes.INTEGER
+		},
 		email: {
 			type: DataTypes.STRING,
 			allowNull: false

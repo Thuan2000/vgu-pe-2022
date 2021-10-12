@@ -1,0 +1,8 @@
+type ProductName {
+	name: String
+	searchedCount: Int
+}
+
+extend type Query {
+	productNames: [ProductName]
+}
