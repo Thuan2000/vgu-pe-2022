@@ -23,6 +23,8 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   const { t } = useTranslation("common");
   const { selecteds, setSelecteds } = useBRContext();
 
+  const isSelected = indexOf(selecteds, parseInt(br.id)) !== -1;
+
   function addToSelecteds(id: number) {
     const index = indexOf(selecteds, id);
     if (index !== -1) return;
@@ -47,7 +49,9 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
 
   return (
     <div
-      className={`border rounded-md shadow-md flex relative bg-white md:w-49p ${className} max-h-44`}
+      className={`border rounded-md shadow-md flex relative bg-${
+        isSelected ? "primary bg-opacity-20 border-primary" : "white"
+      } md:w-49p ${className} max-h-44`}
       {...props}
     >
       <div className="absolute left-4 top-4 z-50">

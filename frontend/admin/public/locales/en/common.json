@@ -34,5 +34,9 @@
   "all-request-nav-title": "All Requests",
   "projects-nav-title": "Projects",
   "million-suffix": "tr",
-  "billion-suffix": "tỷ"
+  "billion-suffix": "tỷ",
+  "add-to-project-button-label": "Add To Project",
+  "text-loading": "Loading",
+  "loading-text": "Loading",
+  "no-buying-request-yet-text-info": "Your company has no buying request yet"
 }

@@ -20,15 +20,23 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({
   const { t } = useTranslation();
   const { selecteds } = useBRContext();
 
-  function getButtonText() {
-    if (!!selecteds.length) return t("add-to-project-button-label");
-    return t("create-post-button-label");
-  }
+  const addToProjectButton = (
+    <Link href={ROUTES.POST_REQUEST} className="w-1/2.5 h-10 md:w-fit-content">
+      <Button className="w-full h-full">
+        <FolderDownloadIcon className="mr-2" />
+        {t("add-to-project-button-label")}
+      </Button>
+    </Link>
+  );
 
-  function getButtonIcon() {
-    if (!!selecteds.length) return <FolderDownloadIcon className="mr-2" />;
-    return <DocumentAddIcon className="mr-2" />;
-  }
+  const createPostRequestButton = (
+    <Link href={ROUTES.POST_REQUEST} className="w-1/2.5 h-10 md:w-fit-content">
+      <Button className="w-full h-full">
+        <DocumentAddIcon className="mr-2" /> {t("create-post-button-label")}
+      </Button>
+    </Link>
+  );
+
   return (
     <div className="flex items-center mt-4 mx-4">
       <div className="md:ml-auto flex items-center justify-between w-full md:w-fit-content">
@@ -39,14 +47,9 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({
           title={t("select-all")}
           label={t("select-all-label")}
         />
-        <Link
-          href={ROUTES.POST_REQUEST}
-          className="w-1/2.5 h-10 md:w-fit-content"
-        >
-          <Button className="w-full h-full">
-            {getButtonIcon()} {getButtonText()}
-          </Button>
-        </Link>
+        {!selecteds.length && createPostRequestButton}
+
+        {!!selecteds.length && addToProjectButton}
       </div>
     </div>
   );
