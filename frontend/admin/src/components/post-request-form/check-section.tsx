@@ -22,7 +22,7 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
   changeSection,
   ...props
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("form");
 
   const details = getValues("details");
   const general = getValues("general");

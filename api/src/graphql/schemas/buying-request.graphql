@@ -1,28 +1,35 @@
 type AllowedCompany {
-	minSupplierExperience: Int
-	minSupplierRating: Int
-	minSuplierSells: Int
+	minSupplierExperience: Float
+	minSupplierRating: Float
+	minSuplierSells: Float
 }
 
 input AllowedCompanyInput {
-	minSupplierExperience: Int
-	minSupplierRating: Int
-	minSuplierSells: Int
+	minSupplierExperience: Float
+	minSupplierRating: Float
+	minSuplierSells: Float
 }
 
 type BuyingRequest {
+	id: ID!
 	name: String!
-	endDate: Int!
+	endDate: Date!
 	location: String!
 	description: String
 	productName: String!
-	minBudget: Int!
-	maxBudget: Int!
+	minBudget: Date!
+	maxBudget: Date!
 	minOrder: Int!
+	status: String!
+	createdAt: Date!
+	updatedAt: Date!
 	unit: String!
 	categories: [Int]
 	gallery: [File]
 	allowedCompany: AllowedCompany
+	commentsCount: Int!
+	bidsCount: Int!
+	projectsCount: Int!
 }
 
 input BuyingRequestInput {
@@ -31,15 +38,14 @@ input BuyingRequestInput {
 	location: String!
 	description: String
 	productName: String!
-	minBudget: Int!
-	maxBudget: Int!
+	minBudget: Date!
+	maxBudget: Date!
 	minOrder: Int!
 	gallery: [Upload]
 	unit: String!
 	categories: [Int]
 	allowedCompany: AllowedCompanyInput
 	companyId: Int!
-	# Only on input
 	companyName: String!
 }
 
@@ -47,6 +53,14 @@ extend type Mutation {
 	createBuyingRequest(input: BuyingRequestInput): Response
 }
 
+type BuyingRequestsResponse {
+	buyingRequests: [BuyingRequest]!
+	totalDataCount: Int
+}
+
 extend type Query {
-	buyingRequests(companyId: Int!): [BuyingRequest]!
+	buyingRequestsAndCount(
+		companyId: Int!
+		offset: Int!
+	): BuyingRequestsResponse!
 }

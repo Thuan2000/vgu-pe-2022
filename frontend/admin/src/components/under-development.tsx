@@ -13,7 +13,7 @@ const UnderDevelopment = () => {
   return (
     <div className="flex flex-col items-center py-5 mx-5">
       <p className="mb-5 text-2xl">
-        <strong className="text-dark-blue">{t("sorry-title")} :(</strong>
+        <strong className="text-semibold">{t("sorry-title")} :( </strong>
         {t("this-page-is-under-development-message")}
       </p>
 
@@ -29,8 +29,8 @@ const UnderDevelopment = () => {
       <p className="my-5 text-xl">
         It will be available soon. Please come back again later
       </p>
-      <Link href={ROUTES.POST_REQUEST} className="text-light">
-        <Button size="small">{t("to-post-request")}</Button>
+      <Link href={ROUTES.POSTED_REQUESTS} className="text-light">
+        <Button size="small">{t("to-posted-request")}</Button>
       </Link>
     </div>
   );

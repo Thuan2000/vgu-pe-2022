@@ -64,7 +64,7 @@
   "post-request-minOrder-label": "Minimum Order",
   "post-request-gallery-label": "Buying Request Gallery",
   "who-can-participate-to-bid": "Who Can Participate To Bid",
-  "supplierExperience-label": "Experience",
+  "supplierExperience-label": "Year of Establishment",
   "supplierExperience-placeholder": "10",
   "rating-label": "Rating",
   "rating-placeholder": "5",
@@ -85,5 +85,18 @@
   "additional-information-check-title": "Additional Information",
   "check-participantFilter-label": "Participant Requirement",
   "check-categories-label": "Buying Request Categories",
-  "experience-suffix-years": "Years"
+  "experience-suffix-years": "Years",
+  "rating-suffix": "Stars",
+  "sells-suffix": "Sells",
+  "general-nav-label": "General",
+  "details-nav-label": "Details",
+  "check-nav-label": "Check",
+  "requestName-input-prefix": "Request",
+  "saveDraft-button-label": "Save to draft",
+  "back-button-label": "Back",
+  "post-request-button-label": "Post Request",
+  "company-with-label": "Company with minimum",
+  "minSupplierRating-filter-key": "Stars Rating",
+  "minSupplierExperience-filter-key": "Years of establishment",
+  "minSuplierSells-filter-key": "Sells"
 }

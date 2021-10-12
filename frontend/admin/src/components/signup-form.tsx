@@ -181,10 +181,10 @@ const SignupForm = () => {
         <Checkbox
           {...register("emailSubscription")}
           label={t("want-to-receive-email")}
-          className="mt-5 mb-2 text-dark-blue text-sm"
+          className="mt-5 mb-2 text-semibold text-sm"
         />
         <Checkbox
-          className="text-dark-blue text-sm"
+          className="text-semibold text-sm"
           {...register("agreement")}
           label={t("agreement")}
         />

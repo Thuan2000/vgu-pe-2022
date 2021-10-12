@@ -26,6 +26,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   numberQueue?: number;
   noLabel?: boolean;
   noBorder?: boolean;
+  valuePrefix?: string | number;
 }
 
 export interface TextAreaProps

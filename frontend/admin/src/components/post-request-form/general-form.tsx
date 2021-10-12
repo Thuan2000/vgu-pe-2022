@@ -32,8 +32,10 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
     <div className="md:w-2/3">
       <Input
         numberQueue={1}
+        // valuePrefix={t("requestName-input-prefix") as string}
         {...register("general.name")}
         className="my-6 w-full"
+        autoFocus
         label={`${t("post-request-name-label")}*`}
         note={t("post-request-name-desc")}
         placeholder={t("post-request-name-placeholder")}

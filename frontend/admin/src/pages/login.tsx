@@ -62,7 +62,7 @@ const Login = () => {
           <div className=" md:w-3/5 flex flex-col items-center">
             <Logo className="mb-5 md:hidden" />
             <div className="w-full">
-              <h1 className="font-bold text-display-2 text-dark-blue">
+              <h1 className="font-bold text-display-2 text-semibold">
                 {t("login-title")}
               </h1>
               <LoginForm />

@@ -22,5 +22,17 @@
   "this-page-is-under-development-message": "this page is under development message",
   "post-request-page-name": "Post Request",
   "home-page-name": "Homepage",
-  "to-post-request": "To Post Request"
+  "to-posted-request": "To Posted Request",
+  "posted-requests-page-name": "Posted Requests",
+  "postedRequests-nav-label": "Posted Requests",
+  "request-nav-label": "Request",
+  "SUPER_ADMIN": "SUPER_ADMIN",
+  "posted-label": "Posted",
+  "OPEN": "OPEN",
+  "select-all-label": "Select",
+  "create-post-button-label": "Create Request",
+  "all-request-nav-title": "All Requests",
+  "projects-nav-title": "Projects",
+  "million-suffix": "tr",
+  "billion-suffix": "tỷ"
 }

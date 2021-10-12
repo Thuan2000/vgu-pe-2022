@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import InputLabel from "@components/ui/storybook/inputs/input-label";
-import NumberInput from "@components/ui/storybook/inputs/number-input";
 import SelectInput from "@components/ui/storybook/select-input";
-import { UseFormRegister, Control, FieldErrors } from "react-hook-form";
+import {
+  UseFormRegister,
+  Control,
+  FieldErrors,
+  useFieldArray,
+} from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
 import { useCategoriesQuery } from "@graphql/category.graphql";
+import BidParticipantFilterInput from "./bid-participant-filter-input";
+import { ALLOWED_COMPANY_QUESTIONS } from "./additional-constants";
 
 interface IAdditionalFormProps {
   register: UseFormRegister<PostRequestFormValue>;
@@ -20,57 +26,66 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
 }) => {
   const { t } = useTranslation("form");
   const { data, loading, error } = useCategoriesQuery();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "additional.allowedCompany",
+  });
+  const [pOptions, setPOptions] = useState(ALLOWED_COMPANY_QUESTIONS);
+
+  // Append to fields on first run
+  useEffect(() => {
+    if (!fields.length) append({});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    removeParticipantKeyDuplication();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fields]);
 
   const categories = data?.categories;
 
   if (error) console.log(error);
 
+  function removeParticipantKeyDuplication() {
+    const notDuplicated: any = [];
+    // @TODO find better algorithm than this
+    ALLOWED_COMPANY_QUESTIONS.forEach((acq) => {
+      let isDuplicate = false;
+      fields.forEach((f: any) => {
+        // (f.key === acq)
+        if (f?.key?.value === acq.value) isDuplicate = true;
+      });
+
+      if (!isDuplicate) notDuplicated.push(acq);
+    });
+
+    setPOptions(notDuplicated);
+  }
+
   return (
     <>
-      <h3 className="mt-7 mb-3">Additional Information</h3>
+      <h3 className="mt-7 mb-3">{t("additional-information-check-title")}</h3>
       <InputLabel
         numberQueue={"a"}
         queueBackground="blue"
         label={t("who-can-participate-to-bid")}
       />
-      <div className="flex-items-center mb-3 ml-8">
-        <p className="font-semibold">{t("supplierExperience-label")}</p>
-        <p className="ml-2 mr-4">:</p>
-        <NumberInput
-          control={control}
-          name="additional.minSupplierExperience"
-          noLabel
-          min={0}
-          suffix={` ${t("experience-suffix-years")}`}
-          error={errors?.additional?.minSupplierExperience?.message}
-          placeholder={t("supplierExperience-placeholder")}
-        />
-      </div>
-      <div className="flex-items-center mb-3 ml-8">
-        <p className="font-semibold">{t("rating-label")}</p>
-        <p className="ml-2 mr-4">:</p>
-        <NumberInput
-          control={control}
-          name="additional.minSupplierRating"
-          noLabel
-          min={0}
-          max={5}
-          error={errors?.additional?.minSupplierRating?.message}
-          placeholder={t("minSupplierRating-placeholder")}
-        />
-      </div>
-      <div className="flex-items-center ml-8">
-        <p className="font-semibold">{t("minSuplierSells-label")}</p>
-        <p className="ml-2 mr-4">:</p>
-        <NumberInput
-          control={control}
-          name="additional.minSuplierSells"
-          min={0}
-          noLabel
-          error={errors?.additional?.minSuplierSells?.message}
-          placeholder={t("minSuplierSells-placeholder")}
-        />
-      </div>
+      {fields
+        .slice(0, ALLOWED_COMPANY_QUESTIONS.length)
+        .map((field: any, idx) => {
+          return (
+            <BidParticipantFilterInput
+              key={field?.id}
+              field={field}
+              idx={idx}
+              control={control}
+              pOptions={pOptions}
+              remove={remove}
+              append={append}
+            />
+          );
+        })}
 
       <SelectInput
         getOptionLabel={(option) => option.label || option.name}

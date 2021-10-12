@@ -54,6 +54,18 @@ module.exports = {
 				type: Sequelize.STRING,
 				defaultValue: "OPEN"
 			},
+			commentsCount: {
+				type: Sequelize.INTEGER,
+				defaultValue: 0
+			},
+			bidsCount: {
+				type: Sequelize.INTEGER,
+				defaultValue: 0
+			},
+			projectsCount: {
+				type: Sequelize.INTEGER,
+				defaultValue: 0
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE

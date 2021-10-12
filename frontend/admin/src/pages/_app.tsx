@@ -1,11 +1,15 @@
+import React, { useContext, useEffect } from "react";
 import type { AppProps } from "next/app";
 import { appWithTranslation } from "next-i18next";
 import { ApolloProvider } from "@apollo/client";
+
 import { useApollo } from "../utils/apollo";
+import PageNameProvider, { usePageName } from "src/contexts/page-name.context";
+
 import "../styles/custom-datepicker.css";
 import "../styles/globals.css";
 
-const NoLayout: React.FC = ({ children }) => <>{children}</>;
+const NoLayout: React.FC<any> = ({ children }) => <>{children}</>;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);
@@ -13,9 +17,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <PageNameProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </PageNameProvider>
     </ApolloProvider>
   );
 }
