@@ -26,7 +26,8 @@ const PostedRequests = (props: any) => {
 
   const { query } = useRouter();
 
-  const activeView = query?.view;
+  // Default value is buying-requests
+  const activeView = query?.view || POSTED_REQUEST_VIEWS.BUYING_REQUESTS;
 
   return (
     <>
