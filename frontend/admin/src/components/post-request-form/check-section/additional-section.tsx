@@ -1,4 +1,5 @@
 import Divider from "@components/ui/divider";
+import { thousandSeparator } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import { AdditionalFormValue } from "../post-request-schema";
@@ -26,10 +27,9 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
 
   function getParticipantFilter() {
     let text = "";
-    console.log(formValues?.allowedCompany);
     formValues?.allowedCompany?.map((fi: any) => {
       if (!fi?.key) return;
-      text += `${t("company-with-label")} ${fi?.value} ${t(
+      text += `${t("company-with-label")} ${thousandSeparator(fi?.value)} ${t(
         fi?.key?.value + "-filter-key"
       )}, `;
     });

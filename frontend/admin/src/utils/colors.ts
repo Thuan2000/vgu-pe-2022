@@ -3,5 +3,8 @@ export const COLORS = {
     DEFAULT: "#00D796",
   },
   GREEN: "#00D796",
-  BOLDER_TEXT: "#15114E",
+  BOLDER: "#15114E",
+  GRAY: {
+    100: "#C5CDD4",
+  },
 };

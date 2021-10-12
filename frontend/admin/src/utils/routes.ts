@@ -8,4 +8,5 @@ export const ROUTES = {
   NOTIFICATIONS: "/notifications",
   POST_REQUEST: "/post-request",
   POSTED_REQUESTS: "/posted-requests",
+  PROJECTS: "/projects",
 };

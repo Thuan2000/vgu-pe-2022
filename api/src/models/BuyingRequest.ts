@@ -28,7 +28,10 @@ BuyingRequest.init(
 		categories: DataTypes.JSON,
 		allowedCompany: DataTypes.JSON,
 		status: DataTypes.STRING,
-		companyId: DataTypes.INTEGER
+		companyId: DataTypes.INTEGER,
+		commentsCount: DataTypes.INTEGER,
+		bidsCount: DataTypes.INTEGER,
+		projectsCount: DataTypes.INTEGER
 	},
 	{
 		tableName: "buying_requests",

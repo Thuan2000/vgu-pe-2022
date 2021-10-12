@@ -3,8 +3,8 @@ import BuyingRequestController from "@controllers/buying-request.controller";
 const buyingRequestController = new BuyingRequestController();
 
 export const Query = {
-	buyingRequests: (_, { companyId }) =>
-		buyingRequestController.getBuyingRequests(companyId)
+	buyingRequestsAndCount: (_, { companyId, offset }) =>
+		buyingRequestController.getBuyingRequests(companyId, offset)
 };
 
 export const Mutation = {

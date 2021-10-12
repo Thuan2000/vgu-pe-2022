@@ -1,15 +1,26 @@
-query BuyingRequests($companyId: Int!) {
-  buyingRequests(companyId: $companyId) {
-    # id
-    name
-    endDate
-    categories
-    minBudget
-    maxBudget
-    minOrder
-    gallery {
+query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
+  buyingRequestsAndCount(companyId: $companyId, offset: $offset) {
+    buyingRequests {
+      id
+      name
+      endDate
+      categories
+      minBudget
+      maxBudget
+      minOrder
+      unit
+      status
+      gallery {
+        location
+      }
+      createdAt
+      updatedAt
       location
+      commentsCount
+      bidsCount
+      projectsCount
     }
+    totalDataCount
   }
 }
 

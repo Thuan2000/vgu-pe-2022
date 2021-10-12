@@ -6,6 +6,7 @@ interface S3UploadParams {
 	fileName: string;
 	type: string;
 	fileStream: any;
+	contentType: string;
 }
 
 class S3 {
@@ -61,12 +62,14 @@ class S3 {
 		companyName,
 		type,
 		fileName,
-		fileStream
+		fileStream,
+		contentType
 	}: S3UploadParams) {
 		const uploadParams = {
 			Bucket: this.bucket,
 			Key: `${companyName}/${type}/${new Date().getTime()}-${fileName}`,
 			Body: fileStream,
+			ContentType: contentType,
 			ACL: "public-read-write"
 		};
 

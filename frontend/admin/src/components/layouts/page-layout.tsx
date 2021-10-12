@@ -15,7 +15,6 @@ const PageLayout: React.FC = ({ children }) => {
   // Just do console.log(children) everything will show up this is why
   // every page compoent has this PageComponent.PageName = {pagename}
   const childrenPageName = (children as any)?.type?.PageName;
-
   function handleBackClick() {
     router.back();
   }

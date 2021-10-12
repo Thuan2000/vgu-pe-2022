@@ -14,6 +14,8 @@ module.exports = {
         11: "44px",
         80: "345px",
         "1/2.5": "47%",
+        "49p": "49%",
+        "fit-content": "fit-content",
       },
       fontFamily: {
         body: ["Open Sans", "system-ui", "sans-serif"],
@@ -78,6 +80,13 @@ module.exports = {
       },
       fontColor: {
         semibold: "#15114E",
+      },
+      borderRadius: {
+        sm: "5px",
+        md: "7px",
+      },
+      borderWidth: {
+        1: "1px",
       },
     },
   },

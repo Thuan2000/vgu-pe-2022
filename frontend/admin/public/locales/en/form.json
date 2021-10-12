@@ -94,5 +94,9 @@
   "requestName-input-prefix": "Request",
   "saveDraft-button-label": "Save to draft",
   "back-button-label": "Back",
-  "post-request-button-label": "Post Request"
+  "post-request-button-label": "Post Request",
+  "company-with-label": "Company with minimum",
+  "minSupplierRating-filter-key": "Stars Rating",
+  "minSupplierExperience-filter-key": "Years of establishment",
+  "minSuplierSells-filter-key": "Sells"
 }

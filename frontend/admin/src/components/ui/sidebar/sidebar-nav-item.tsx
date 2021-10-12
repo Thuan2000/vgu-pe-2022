@@ -34,7 +34,7 @@ const SidebarNavItem: React.FC<SidebarNavItem> = ({
       >
         <li
           className={`flex items-center text-md ${
-            isActive && "text-black font-semibold"
+            isActive && "text-semibold font-semibold"
           }`}
         >
           {Icon && <Icon className="mr-3" isActive={isActive} />}

@@ -4,10 +4,13 @@ import { useRouter } from "next/dist/client/router";
 import { navigations } from "./sidebar-constants";
 import SidebarNavItem from "./sidebar-nav-item";
 import { getMeData } from "@utils/auth-utils";
+import { useEffect } from "hoist-non-react-statics/node_modules/@types/react";
 
 const SidebarNavigations = () => {
   const [activeItemIdx, setActiveItemIdx] = useState(0);
   const [activeChildIdx, setActiveChildIdx] = useState(0);
+  const { query, ...router } = useRouter();
+  const { company } = getMeData();
 
   // @TODO, make this right
   const navs = navigations.map(({ label, href, icon: Icon, children }, idx) => {
@@ -22,7 +25,7 @@ const SidebarNavigations = () => {
       >
         <SidebarNavItem
           isActive={idx === activeItemIdx}
-          href={href || ""}
+          href={`${href}` || ""}
           Icon={Icon}
           label={label}
           onClick={() => {
@@ -31,14 +34,12 @@ const SidebarNavigations = () => {
           }}
           hasChildren={children && children?.length > 0}
         />
-        {children?.map(({ href, label, withCompanyParam }, childIdx) => {
-          const { company } = getMeData();
-          const param = withCompanyParam ? `/${company?.id}` : "";
+        {children?.map(({ href, label }, childIdx) => {
           return (
             <SidebarNavItem
               key={href + label}
               label={label}
-              href={`${href}${param}`}
+              href={`${href}` || ""}
               className={`ml-7 ${
                 childIdx === activeChildIdx && "text-primary"
               }`}

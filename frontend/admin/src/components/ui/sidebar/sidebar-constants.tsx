@@ -11,7 +11,6 @@ export const requestChildren = [
   {
     label: "postedRequests-nav-label",
     href: ROUTES.POSTED_REQUESTS,
-    withCompanyParam: true,
   },
 ];
 

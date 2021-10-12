@@ -1,3 +1,5 @@
+import { BILLION } from "@utils/constants";
+import { formatMoneyAmount, getSuffix } from "@utils/functions";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { DetailsFormValue } from "../post-request-schema";
@@ -34,13 +36,17 @@ const DetailsSection: React.FC<IGeneralSection> = ({
         <p className="text-semibold">{t("budget-label")}</p>
         <p className="font-semibold flex">
           <p className="mr-5">
-            {formValues?.minBudget}
-            {` ${t("budget-sign")}`}
+            {formatMoneyAmount(formValues?.minBudget)}
+            {`${t("common:" + getSuffix(formValues?.maxBudget))} ${t(
+              "budget-sign"
+            )}`}
           </p>
           {" - "}
           <p className="ml-5">
-            {formValues?.maxBudget}
-            {` ${t("budget-sign")}`}
+            {formatMoneyAmount(formValues?.maxBudget)}
+            {`${t("common:" + getSuffix(formValues?.maxBudget))} ${t(
+              "budget-sign"
+            )}`}
           </p>
         </p>
       </div>

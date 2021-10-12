@@ -13,12 +13,18 @@ PageNameContext.displayName = "PageNameContext";
 const PageNameProvider: React.FC = ({ children }) => {
   const [pageName, setPageName] = useState("");
 
-  const value = { pageName, setPageName };
+  const value = useMemo(
+    () => ({
+      pageName,
+      setPageName,
+    }),
+    [pageName]
+  );
 
   if (pageName === "homepage-page-name") console.log("mantul");
 
   return (
-    <PageNameContext.Provider value={{ pageName, setPageName }}>
+    <PageNameContext.Provider value={value}>
       {children}
     </PageNameContext.Provider>
   );

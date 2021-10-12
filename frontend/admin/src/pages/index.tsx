@@ -2,11 +2,10 @@ import type { GetServerSideProps } from "next";
 
 import {
   getAuthCredentials,
-  hasAccess,
+  getMeData,
   isAuthenticated,
 } from "../utils/auth-utils";
 import PageLayout from "@components/layouts/page-layout";
-import { ROUTES } from "../utils/routes";
 import React from "react";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
@@ -14,20 +13,25 @@ import { useTranslation } from "react-i18next";
 import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { PAGE_NAME } from "@utils/constants";
+import { loginRedirect } from "@utils/redirects";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { token, role } = getAuthCredentials(ctx);
 
   const { locale } = ctx;
 
-  if (!token || !role || !isAuthenticated({ token, role })) {
-    return {
-      redirect: {
-        destination: ROUTES.LOGIN,
-        permanent: false,
-      },
-    };
-  }
+  if (!token || !role || !isAuthenticated({ token, role }))
+    return loginRedirect;
+
+  // Redirecting to company slug
+  const { company } = getMeData();
+  console.log(company);
+
+  // if (company?.slug)
+  //   return {
+  //     redirect: { destination: `/${company.slug}` },
+  //   };
+
   return {
     props: {
       ...(await serverSideTranslations(locale!, ["common"])),
