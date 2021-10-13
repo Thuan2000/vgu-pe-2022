@@ -11,5 +11,7 @@ export const Query = {
 
 export const Mutation = {
 	createBuyingRequest: (_, { input }) =>
-		buyingRequestController.createBuyingRequest(input)
+		buyingRequestController.createBuyingRequest(input),
+	deleteBuyingRequest: (_, { id }) =>
+		buyingRequestController.deleteBuyingRequest(id)
 };

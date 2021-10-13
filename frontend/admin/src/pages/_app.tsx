@@ -8,6 +8,8 @@ import PageNameProvider, { usePageName } from "src/contexts/page-name.context";
 
 import "../styles/custom-datepicker.css";
 import "../styles/globals.css";
+import ModalContainer from "@components/modal-container";
+import { ModalProvider } from "src/contexts/modal.context";
 
 const NoLayout: React.FC<any> = ({ children }) => <>{children}</>;
 
@@ -17,11 +19,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <PageNameProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </PageNameProvider>
+      <ModalProvider>
+        <ModalContainer />
+        <PageNameProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </PageNameProvider>
+      </ModalProvider>
     </ApolloProvider>
   );
 }

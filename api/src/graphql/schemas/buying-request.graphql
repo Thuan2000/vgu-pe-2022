@@ -52,6 +52,7 @@ input BuyingRequestInput {
 
 extend type Mutation {
 	createBuyingRequest(input: BuyingRequestInput): Response
+	deleteBuyingRequest(id: Int!): Response!
 }
 
 type BuyingRequestsResponse {

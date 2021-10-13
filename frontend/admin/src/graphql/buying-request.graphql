@@ -61,3 +61,10 @@ mutation CreateBuyingRequest($input: BuyingRequestInput) {
     message
   }
 }
+
+mutation DeleteBuyingRequest($id: Int!) {
+  deleteBuyingRequest(id: $id) {
+    success
+    message
+  }
+}
