@@ -48,19 +48,30 @@ class BuyingRequestController {
 		};
 	}
 
-	// @TODO Make this thing typed
+	async deleteBuyingRequest(id: number) {
+		try {
+			await BuyingRequest.destroy({ where: { id } });
+
+			return successResponse();
+		} catch (e) {
+			console.log(e);
+			return errorResponse(e);
+		}
+	}
+
 	async createBuyingRequest({
 		gallery,
 		companyName,
 		...buyingRequestInput
 	}: IBuyingRequestInput) {
 		try {
-			const { name, productName } = buyingRequestInput;
+			const { name, productName, companyId } = buyingRequestInput;
 
 			// Check duplicate
 			const duplicateBr = await BuyingRequest.findOne({
 				where: {
-					name
+					name,
+					companyId
 				}
 			});
 
@@ -71,12 +82,15 @@ class BuyingRequestController {
 			);
 
 			// Creating product name for later use
-			if (duplicateProductName)
+			if (duplicateProductName) {
 				duplicateProductName.set(
 					"searchedCount",
-					duplicateProductName.getDataValue("searchedCount") + 1
+					parseInt(
+						duplicateProductName.getDataValue("searchedCount")
+					) + 1
 				);
-			else {
+				duplicateProductName.save();
+			} else {
 				const newProductName = await ProductName.create({
 					name: productName,
 					searchedCount: 0
@@ -96,8 +110,7 @@ class BuyingRequestController {
 
 			setBrGallery(brGallery, newBuyingRequest);
 
-			(await newBuyingRequest).save();
-			return successResponse();
+			newBuyingRequest.save().then(() => successResponse());
 		} catch (error) {
 			console.log(error);
 			return errorResponse(error);

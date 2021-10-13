@@ -23,15 +23,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!token || !role || !isAuthenticated({ token, role }))
     return loginRedirect;
 
-  // Redirecting to company slug
-  const { company } = getMeData();
-  console.log(company);
-
-  // if (company?.slug)
-  //   return {
-  //     redirect: { destination: `/${company.slug}` },
-  //   };
-
   return {
     props: {
       ...(await serverSideTranslations(locale!, ["common"])),

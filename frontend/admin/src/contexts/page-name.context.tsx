@@ -21,8 +21,6 @@ const PageNameProvider: React.FC = ({ children }) => {
     [pageName]
   );
 
-  if (pageName === "homepage-page-name") console.log("mantul");
-
   return (
     <PageNameContext.Provider value={value}>
       {children}

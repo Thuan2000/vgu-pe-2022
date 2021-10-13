@@ -48,5 +48,11 @@
   "application": "Application",
   "no-type": "None",
   "delete-button-label": "Delete",
-  "edit-button-label": "Edit"
+  "edit-button-label": "Edit",
+  "remove-br-title": "Remove requests",
+  "remove-br-message": "Are you sure you want to Remove",
+  "singular-request-text": "Request",
+  "plural-request-text": "Requests",
+  "cancel-remove-br-button-label": "Cancel",
+  "confirm-remove-br-button-label": "Remove request"
 }

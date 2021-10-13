@@ -6,7 +6,7 @@ import Chip from "@components/ui/chip";
 import Loading from "@components/ui/loading";
 import Button from "@components/ui/storybook/button";
 import { useBuyingRequestQuery } from "@graphql/buying-request.graphql";
-import { IAllowedCompany } from "@graphql/types.graphql";
+import { IAllowedCompany, IBuyingRequest } from "@graphql/types.graphql";
 import { getMeData } from "@utils/auth-utils";
 import { PAGE_NAME } from "@utils/constants";
 import {
@@ -56,7 +56,10 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
     <div className="bg-white p-4">
       <div className="flex">
         <div className="md:w-2/3 flex-shrink-0 w-full">
-          <EditDeleteButton className="mb-4 md:hidden" />
+          <EditDeleteButton
+            className="mb-4 md:hidden"
+            br={br as IBuyingRequest}
+          />
           <h2 className="text-secondary-1 font-semibold">{br?.name}</h2>
           <p className="text-lg text-gray-300">{company?.licenseNumber}</p>
           <Chip
@@ -138,7 +141,7 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
           </div>
         </div>
         <div className="w-1/3 hidden md:block ml-16">
-          <EditDeleteButton className="mb-7" />
+          <EditDeleteButton className="mb-7" br={br as IBuyingRequest} />
           {!!br?.gallery?.length && (
             <div className="relative border rounded-md h-56 w-full overflow-hidden">
               <Image src={br.gallery[0]?.location || ""} layout="fill" alt="" />

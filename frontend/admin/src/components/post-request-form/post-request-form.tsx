@@ -61,13 +61,12 @@ const PostRequestForm = () => {
     useCreateBuyingRequestMutation({
       onCompleted: ({ createBuyingRequest, ...rest }) => {
         const { success, message } = (createBuyingRequest as IResponse) || {};
-        if (success === false) {
+        if (success) router.push(ROUTES.POSTED_REQUESTS);
+        else if (success === false) {
           console.log(message);
           alert(t(message + "-ERROR-MESSAGE" || ""));
           return;
         }
-        console.log(success);
-        setTimeout(() => router.push(ROUTES.POSTED_REQUESTS), 1000);
       },
     });
 

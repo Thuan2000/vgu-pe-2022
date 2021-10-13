@@ -136,6 +136,7 @@ export type IMutation = {
   companySignup: IAuthResponse;
   createBuyingRequest?: Maybe<IResponse>;
   createCategory?: Maybe<IResponse>;
+  deleteBuyingRequest: IResponse;
   login: IAuthResponse;
   meInfo?: Maybe<IMeInfoResponse>;
   uploadFile?: Maybe<IFile>;
@@ -154,6 +155,11 @@ export type IMutationCreateBuyingRequestArgs = {
 
 export type IMutationCreateCategoryArgs = {
   input: ICategoryInput;
+};
+
+
+export type IMutationDeleteBuyingRequestArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -443,6 +449,7 @@ export type IMutationResolvers<ContextType = any, ParentType extends IResolversP
   companySignup?: Resolver<IResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<IMutationCompanySignupArgs, 'input'>>;
   createBuyingRequest?: Resolver<Maybe<IResolversTypes['Response']>, ParentType, ContextType, RequireFields<IMutationCreateBuyingRequestArgs, never>>;
   createCategory?: Resolver<Maybe<IResolversTypes['Response']>, ParentType, ContextType, RequireFields<IMutationCreateCategoryArgs, 'input'>>;
+  deleteBuyingRequest?: Resolver<IResolversTypes['Response'], ParentType, ContextType, RequireFields<IMutationDeleteBuyingRequestArgs, 'id'>>;
   login?: Resolver<IResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<IMutationLoginArgs, 'input'>>;
   meInfo?: Resolver<Maybe<IResolversTypes['MeInfoResponse']>, ParentType, ContextType>;
   uploadFile?: Resolver<Maybe<IResolversTypes['File']>, ParentType, ContextType, RequireFields<IMutationUploadFileArgs, 'input'>>;
