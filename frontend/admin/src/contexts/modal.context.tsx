@@ -39,7 +39,7 @@ const initCtxValue: ModalContextType = {
 
 const ModalContext = React.createContext<ModalContextType>(initCtxValue);
 
-export const ModalProvider: React.FC<any> | Element = ({ children }) => {
+export const ModalProvider: React.FC<any> = ({ children }) => {
   const [state, dispatch] = useReducer(modalReducer, initState);
 
   function openModal(component: React.FC<any> | Element) {
