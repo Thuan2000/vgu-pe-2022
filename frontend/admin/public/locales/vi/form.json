@@ -85,5 +85,18 @@
   "additional-information-check-title": "Thông tin khác",
   "check-participantFilter-label": "Yêu cầu nhà thầu",
   "check-categories-label": "Buying Request Categories",
-  "experience-suffix-years": "Năm"
+  "experience-suffix-years": "Năm",
+  "rating-suffix": "Stars",
+  "sells-suffix": "Sells",
+  "general-nav-label": "Thông tin chung",
+  "details-nav-label": "Thông tin chi tiết",
+  "check-nav-label": "Xác nhận thông tin",
+  "requestName-input-prefix": "Request",
+  "saveDraft-button-label": "Lưu nháp",
+  "back-button-label": "Back",
+  "post-request-button-label": "Post Request",
+  "company-with-label": "Company with minimum",
+  "minSupplierRating-filter-key": "Stars Rating",
+  "minSupplierExperience-filter-key": "Years of establishment",
+  "minSuplierSells-filter-key": "Sells"
 }
