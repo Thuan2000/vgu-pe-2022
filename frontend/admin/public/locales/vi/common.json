@@ -21,5 +21,12 @@
   "this-page-is-under-development-message": "tính năng này đang được phát triển",
   "post-request-page-name": "Đăng NCTM",
   "home-page-name": "Tổng quan",
-  "to-post-request": "Đến \"Đăng Nhu Cầu Mua\""
+  "to-post-request": "Đến \"Đăng Nhu Cầu Mua\"",
+  "postedRequests-nav-label": "Tin mua đã đăng",
+  "request-nav-label": "Nhu cầu mua",
+  "no-buying-request-yet-text-info": "Công ty chưa đăng thông tin mua nào.",
+  "posted-requests-page-name": "Đăng tin mua",
+  "create-post-button-label": "Đăng tin NCTM",
+  "all-request-nav-title": "Tất cả nhu cầu",
+  "projects-nav-title": "Dự án"
 }
