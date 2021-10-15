@@ -9,7 +9,10 @@ import { getMeData } from "@utils/auth-utils";
 import { BUYING_REQUESTS_GET_LIMIT } from "@utils/constants";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect } from "react";
-import { BuyingRequestContextProvider } from "src/contexts/buying-request.context";
+import {
+  BuyingRequestContextProvider,
+  useBRContext,
+} from "src/contexts/buying-request.context";
 import NoBuyingRequests from "@components/posted-requests/no-buying-requests";
 import CreateProject from "@components/create-project";
 
@@ -23,10 +26,27 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
   className,
   ...props
 }) => {
-  const { company } = getMeData();
   const { query, ...router } = useRouter();
-
   const activePageIdx = parseInt((query?.page as string) || "1");
+  const { company } = getMeData();
+  const companyId = company?.id as number;
+
+  const { shouldRefetchBrs } = useBRContext();
+  const { data, loading, fetchMore, refetch } = useBuyingRequestsAndCountQuery({
+    ...getParameter(companyId, getOffset()),
+  });
+
+  useEffect(() => {
+    fetchMore({
+      ...getParameter(companyId, getOffset()),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activePageIdx, company?.id]);
+
+  useEffect(() => {
+    refetch({ companyId, offset: getOffset() });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldRefetchBrs]);
 
   function handlePageChange(newIdx: number) {
     const { pathname } = router;
@@ -37,24 +57,9 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
     });
   }
 
-  function handleRefreshBr() {
-    refetch({ ...getParameter(company?.id as number, getOffset()) } as any);
-  }
-
   function getOffset() {
     return (activePageIdx - 1) * BUYING_REQUESTS_GET_LIMIT;
   }
-
-  const { data, loading, fetchMore, refetch } = useBuyingRequestsAndCountQuery({
-    ...getParameter(company?.id as number, getOffset()),
-  });
-
-  useEffect(() => {
-    fetchMore({
-      ...getParameter(company?.id as number, getOffset()),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activePageIdx, company?.id]);
 
   const totalBRs = data?.buyingRequestsAndCount.totalDataCount;
 
@@ -68,7 +73,6 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
     if (!br) return;
     return (
       <BuyingRequestCard
-        refreshBr={handleRefreshBr}
         br={br}
         key={br?.name + br?.endDate + ""}
         className="mb-3"
@@ -80,7 +84,7 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
     <>
       <BuyingRequestContextProvider>
         <CreateProject />
-        <BuyingRequestHeader refreshBrList={handleRefreshBr} brs={brs} />
+        <BuyingRequestHeader brs={brs} />
         <div className="mt-4 mx-4 md:flex flex-wrap justify-between">
           {brChips}
         </div>

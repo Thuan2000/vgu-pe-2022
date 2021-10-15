@@ -22,20 +22,17 @@ import { IBuyingRequest } from "@graphql/types.graphql";
 
 interface IBuyingRequestSearchProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  refreshBrList: () => void;
   brs: IBuyingRequest[];
 }
 
-const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({
-  refreshBrList,
-  brs,
-}) => {
+const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
   const { t } = useTranslation();
   const { selecteds, openCreateProject, setSelecteds } = useBRContext();
   const { openModal, closeModal } = useModal();
   const isPhone = useIsPhone();
+  const { refetchBrs } = useBRContext();
   const [deleteBrs, { loading }] = useDeleteBuyingRequestsMutation({
-    onCompleted: refreshBrList,
+    onCompleted: refetchBrs,
   });
 
   const [isSelectAll, setIsSelectAll] = useState<boolean>(false);

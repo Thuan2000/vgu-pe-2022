@@ -9,32 +9,34 @@ import { COLORS } from "@utils/colors";
 import { viDateFormat } from "@utils/functions";
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useBRContext } from "src/contexts/buying-request.context";
 import { useModal } from "src/contexts/modal.context";
 
 interface IBrcExtrasProps extends React.HTMLAttributes<HTMLDivElement> {
   updatedAt: string;
   brId: number;
-  refreshBr: () => void;
 }
 
 const BrcExtras: React.FC<IBrcExtrasProps> = ({
   brId,
   updatedAt,
-  refreshBr,
   ...props
 }) => {
   const { t } = useTranslation();
 
   const [showThreeDotMenu, setShowThreeDotMenu] = useState(false);
   const { openModal, closeModal } = useModal();
+  const { refetchBrs } = useBRContext();
   const [deleteBr, { loading: deleteLoading }] =
     useDeleteBuyingRequestMutation();
 
   function addToProject() {}
+
   async function onDelete() {
     await deleteBr({ variables: { id: brId } });
-    refreshBr();
+    refetchBrs();
   }
+
   function handleDeleteBrClick() {
     openModal(
       (
@@ -69,38 +71,41 @@ const BrcExtras: React.FC<IBrcExtrasProps> = ({
         </div>
         <div className="ml-auto relative">
           <button
-            className="p-1 pb-0"
-            onClick={() => setShowThreeDotMenu(!showThreeDotMenu)}
-            // onBlur={() => setShowThreeDotMenu(false)}
+            className="p-1 pb-0 bg-red"
+            onClick={() => setShowThreeDotMenu(true)}
+            onBlur={() => setShowThreeDotMenu(false)}
           >
             <ThreeDotIcon />
+            {showThreeDotMenu && (
+              <div
+                className={`border min-w-[215px] bg-white absolute right-0 z-50 rounded-md`}
+              >
+                <ul>
+                  <li className="border-b border-gray-100">
+                    <div
+                      className="pl-7 flex py-4 items-center w-full h-full"
+                      onClick={addToProject}
+                    >
+                      <PlusIcon
+                        className="ml-1 mr-4"
+                        stroke={COLORS.GRAY[200]}
+                      />
+                      {t("addToProject-button-label")}
+                    </div>
+                  </li>
+                  <li>
+                    <div
+                      className="pl-7 py-4 flex items-center w-full h-full"
+                      onClick={handleDeleteBrClick}
+                    >
+                      <TrashCanIcon className="mr-3" />
+                      {t("delete-button-label")}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            )}
           </button>
-          <div
-            className={`border min-w-[215px] bg-white absolute right-0 z-50 rounded-md ${
-              showThreeDotMenu ? "block" : "hidden"
-            }`}
-          >
-            <ul>
-              <li className="border-b border-gray-100">
-                <button
-                  className="pl-7 flex py-4 items-center w-full h-full"
-                  onClick={addToProject}
-                >
-                  <PlusIcon className="ml-1 mr-4" stroke={COLORS.GRAY[200]} />
-                  {t("addToProject-button-label")}
-                </button>
-              </li>
-              <li>
-                <button
-                  className="pl-7 py-4 flex items-center w-full h-full"
-                  onClick={handleDeleteBrClick}
-                >
-                  <TrashCanIcon className="mr-3" />
-                  {t("delete-button-label")}
-                </button>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>

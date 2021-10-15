@@ -14,13 +14,11 @@ import { useRouter } from "next/dist/client/router";
 
 interface IBuyingRequestCardProps extends React.HTMLAttributes<HTMLDivElement> {
   br: IBuyingRequest;
-  refreshBr: () => void;
 }
 
 const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   br,
   className,
-  refreshBr,
   ...props
 }) => {
   const { t } = useTranslation("common");
@@ -107,11 +105,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
           projectsCount={br.projectIds?.length || 0}
           commentsCount={br.commentIds?.length || 0}
         />
-        <BrcExtras
-          refreshBr={refreshBr}
-          brId={parseInt(br.id)}
-          updatedAt={br.updatedAt}
-        />
+        <BrcExtras brId={parseInt(br.id)} updatedAt={br.updatedAt} />
       </div>
     </div>
   );

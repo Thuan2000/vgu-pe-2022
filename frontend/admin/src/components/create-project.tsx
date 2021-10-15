@@ -41,14 +41,20 @@ const CreateProject = () => {
     control,
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<CreateProjectFormValues>({
     resolver: yupResolver(cpSchema),
   });
   const { t } = useTranslation("form");
 
-  const { selecteds, setSelecteds, isCreatingProject, closeCreateProject } =
-    useBRContext();
+  const {
+    selecteds,
+    setSelecteds,
+    isCreatingProject,
+    closeCreateProject,
+    refetchBrs,
+  } = useBRContext();
 
   const [createProject, { loading }] = useCreateProjectMutation({
     onCompleted: handleOnCreateProjectComplete,
@@ -65,7 +71,9 @@ const CreateProject = () => {
     }
     if (success) {
       closeCreateProject();
+      refetchBrs();
       setSelecteds([]);
+      reset();
     }
   }
   function handleBrSelectionChange(
