@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes } from "react";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-  variant?: "normal" | "outline" | "custom";
+  variant?: "normal" | "outline" | "custom" | "cancel";
   size?: "big" | "medium" | "small" | "fluid";
   active?: boolean;
   color?: string;
@@ -14,6 +14,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const classes = {
   root: "inline-flex items-center justify-center flex-shrink-0 font-semibold leading-none rounded outline-none transition duration-300 ease-in-out focus:outline-none focus:shadow-lg focus:ring-1 focus:ring-green-700 active:bg-green-active",
   normal: "bg-green text-light border border-transparent hover:bg-green-hover",
+  cancel: "bg-transparent text-gray border border-gray",
   custom: "border border-transparent",
   outline:
     "border border-green bg-transparent hover:text-light hover:bg-green hover:border-green",
@@ -38,12 +39,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       active,
       loading = false,
       disabled = false,
+      type,
       ...rest
     } = props;
     const classesName = cn(
       classes.root,
       {
         [classes.normal]: !disabled && variant === "normal",
+        [classes.cancel]: !disabled && variant === "cancel",
         [classes.disabled]: disabled && variant === "normal",
         [classes.outline]: !disabled && variant === "outline",
         [classes.disabledOutline]: disabled && variant === "outline",
@@ -62,6 +65,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled}
         className={classesName}
+        type={type || "button"}
         {...rest}
       >
         {children}

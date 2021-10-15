@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 
 import { IBuyingRequest } from "@graphql/types.graphql";
@@ -9,34 +9,54 @@ import { siteSettings } from "@settings/site.settings";
 import BrcExtras from "./brc-extras";
 import BRCExternalInfo from "./brc-external-info";
 import { useBRContext } from "src/contexts/buying-request.context";
-import { indexOf, remove } from "lodash";
+import { findIndex, indexOf, remove } from "lodash";
 import { useRouter } from "next/dist/client/router";
 
 interface IBuyingRequestCardProps extends React.HTMLAttributes<HTMLDivElement> {
   br: IBuyingRequest;
+  refreshBr: () => void;
 }
 
 const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   br,
   className,
+  refreshBr,
   ...props
 }) => {
   const { t } = useTranslation("common");
   const { query, pathname, ...router } = useRouter();
   const { selecteds, setSelecteds } = useBRContext();
+  const [isSelected, setIsSelected] = useState(false);
+  useEffect(() => {
+    const indexOnSelecteds = findIndex(
+      selecteds,
+      (selected) => selected.id === br.id
+    );
+    const isSelected =
+      indexOnSelecteds !== -1 &&
+      !(selecteds?.at(indexOnSelecteds) as any)?.unChecked === true;
 
-  const isSelected = indexOf(selecteds, parseInt(br.id)) !== -1;
+    setIsSelected(isSelected);
+  }, [br.id, selecteds]);
 
-  function addToSelecteds(id: number) {
-    const index = indexOf(selecteds, id);
+  function addToSelecteds() {
+    const index = findIndex(
+      selecteds,
+      (selected: any) => selected.id === br.id
+    );
+
     if (index !== -1) return;
 
-    const newSelecteds: any = [...selecteds, id];
+    const newSelecteds: any = [...selecteds, br];
     setSelecteds(newSelecteds);
   }
 
-  function removeFromSelecteds(id: number) {
-    const index = indexOf(selecteds, id);
+  function removeFromSelecteds() {
+    const index = findIndex(
+      selecteds,
+      (selected: any) => selected.id === br.id
+    );
+
     if (index === -1) return;
 
     selecteds.splice(index, 1);
@@ -45,14 +65,8 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   }
 
   function handleSelectChange(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) addToSelecteds(parseInt(e.target.id));
-    else if (!e.target.checked) removeFromSelecteds(parseInt(e.target.id));
-  }
-
-  function toBRDetails() {
-    router.push({
-      pathname: `buying-requests/${br.slug}`,
-    });
+    if (e.target.checked) addToSelecteds();
+    else if (!e.target.checked) removeFromSelecteds();
   }
 
   return (
@@ -60,11 +74,15 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
       className={`border rounded-md shadow-md flex relative bg-${
         isSelected ? "primary bg-opacity-20 border-primary" : "white"
       } md:w-49p ${className} max-h-44`}
-      onClick={toBRDetails}
       {...props}
     >
-      <div className="absolute left-4 top-4 z-50">
-        <Checkbox name={br.id} className="z-50" onChange={handleSelectChange} />
+      <div className="absolute left-4 top-4 z-20">
+        <Checkbox
+          name={`${br.id}${br.name}`}
+          className="z-10"
+          onChange={handleSelectChange}
+          checked={isSelected}
+        />
       </div>
       <div className="relative w-32 md:w-40 flex-center flex-shrink-0">
         <Image
@@ -81,14 +99,19 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
           status={br.status}
           location={br.location}
           unit={br.unit}
+          slug={br.slug}
         />
         <BRCExternalInfo
           className="my-2"
-          commentsCount={br.commentsCount}
-          bidsCount={br.bidsCount}
-          projectsCount={br.projectsCount}
+          bidsCount={br.bidIds?.length || 0}
+          projectsCount={br.projectIds?.length || 0}
+          commentsCount={br.commentIds?.length || 0}
         />
-        <BrcExtras updatedAt={br.updatedAt} />
+        <BrcExtras
+          refreshBr={refreshBr}
+          brId={parseInt(br.id)}
+          updatedAt={br.updatedAt}
+        />
       </div>
     </div>
   );

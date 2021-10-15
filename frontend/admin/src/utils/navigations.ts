@@ -3,6 +3,13 @@ import LogoutIcon from "@assets/icons/navigations/logout-icon";
 import RequestIcon from "@assets/icons/navigations/request-icon";
 import { ROUTES } from "@utils/routes";
 
+export type INavigation = {
+  label: string;
+  href: string;
+  icon?: any;
+  children?: INavigation[];
+};
+
 export const requestChildren = [
   {
     label: "postRequest-nav-label",

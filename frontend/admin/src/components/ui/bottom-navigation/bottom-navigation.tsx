@@ -1,5 +1,7 @@
 import { COLORS } from "@utils/colors";
+import { getActivePath } from "@utils/functions";
 import { navigations } from "@utils/navigations";
+import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Link from "../link";
@@ -7,17 +9,19 @@ import Link from "../link";
 interface IPhoneBottomNavigationProps
   extends React.HTMLAttributes<HTMLDivElement> {}
 
-const BottomNavigation: React.FC<IPhoneBottomNavigationProps> = ({
-  className,
-  ...props
-}) => {
+const BottomNavigation: React.FC<IPhoneBottomNavigationProps> = (props) => {
   const { t } = useTranslation("common");
-  const [activeIdx, setActiveIdx] = useState(0);
+  const { pathname } = useRouter();
+
+  function checkIsActive(href: string) {
+    return getActivePath(pathname) === href;
+  }
+
   const navs = navigations.map((nav, idx) => {
     const { href, label, icon: Icon } = nav;
-    const isActive = idx === activeIdx;
+    const isActive = checkIsActive(href);
     return (
-      <Link href={href} key={href + label} onClick={() => setActiveIdx(idx)}>
+      <Link href={href} key={href + label}>
         <div className="flex flex-col items-center justify-end w-20">
           <Icon
             className="w-6 h-5"
@@ -33,11 +37,10 @@ const BottomNavigation: React.FC<IPhoneBottomNavigationProps> = ({
   });
 
   return (
-    <div
-      className="fixed bottom-0 flex items-end justify-between w-full py-3 bg-white z-50"
-      style={{ boxShadow: "0 0 10px rgba(0,0,0,.3)" }}
-    >
-      {navs}
+    <div {...props}>
+      <div className="fixed bottom-0 flex items-end justify-between w-full py-3 bg-white z-50 max-w-full shadow-top">
+        {navs}
+      </div>
     </div>
   );
 };

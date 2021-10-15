@@ -1,0 +1,28 @@
+type Project {
+	name: String!
+	endDate: Date!
+	image: Upload
+	description: String
+	buyingRequests: [Int!]!
+	companyId: Int!
+	createdById: Int!
+}
+
+input ProjectInput {
+	name: String!
+	endDate: Date!
+	image: Upload
+	description: String
+	buyingRequests: [Int!]!
+	companyId: Int!
+	createdById: Int!
+	companyName: String!
+}
+
+extend type Query {
+	projects(companyId: Int!): [Project!]!
+}
+
+extend type Mutation {
+	createProject(input: ProjectInput!): Response!
+}

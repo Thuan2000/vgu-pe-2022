@@ -70,3 +70,7 @@ export function getSuffix(amount: number) {
   if (amount > MILLION) return "million-suffix";
   return "";
 }
+
+export function getActivePath(pathname: string) {
+  return `/${pathname.split("/")[1]}`;
+}

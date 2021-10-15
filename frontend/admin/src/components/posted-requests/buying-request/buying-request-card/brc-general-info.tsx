@@ -1,5 +1,7 @@
 import Chip from "@components/ui/chip";
+import Link from "@components/ui/link";
 import { IBuyingRequest } from "@graphql/types.graphql";
+import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 interface IBRCGeneralInfoProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -7,6 +9,7 @@ interface IBRCGeneralInfoProps extends React.HTMLAttributes<HTMLDivElement> {
   minOrder: number;
   status: string;
   location: string;
+  slug: string;
   unit: string;
 }
 const BRCGeneralInfo: React.FC<IBRCGeneralInfoProps> = ({
@@ -14,13 +17,17 @@ const BRCGeneralInfo: React.FC<IBRCGeneralInfoProps> = ({
   minOrder,
   status,
   location,
+  slug,
   unit,
   ...props
 }) => {
   const { t } = useTranslation("common");
+
   return (
     <div {...props}>
-      <h5 className="text-dark-blue md:text-md">{name}</h5>
+      <Link href={`buying-requests/${slug}`}>
+        <h5 className="text-dark-blue md:text-md cursor-pointer">{name}</h5>
+      </Link>
       <p className="text-xs md:text-sm text-gray-300 md:my-1">
         {minOrder} {unit}
       </p>
