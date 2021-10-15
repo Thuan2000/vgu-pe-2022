@@ -13,7 +13,7 @@ const PageLayout: React.FC = ({ children }) => {
   const { t } = useTranslation();
   const { pathname } = useRouter();
 
-  const acivePath = getActivePath(pathname);
+  const activePath = getActivePath(pathname);
 
   const isHomepage = activePath === ROUTES.HOMEPAGE;
   const pageName = PAGE_NAME_BY_ROUTE[activePath];
