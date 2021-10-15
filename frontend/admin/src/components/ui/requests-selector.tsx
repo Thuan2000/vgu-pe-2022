@@ -14,8 +14,7 @@ interface IRequestSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: string;
   queueBackground?: string;
   loading: boolean;
-  createNewLabel: string;
-  noProjectMessage: string;
+  noRequestMessage: string;
   requests: any[];
   getBrCoverSrc: (br: any) => any;
   getBrLabel: (br: any) => any;
@@ -30,7 +29,7 @@ const RequestSelector: React.FC<IRequestSelectorProps> = ({
   numberQueue,
   note,
   queueBackground,
-  noProjectMessage,
+  noRequestMessage,
   onBrSelectionChange,
   getBrCoverSrc,
   getBrLabel,
@@ -91,7 +90,7 @@ const RequestSelector: React.FC<IRequestSelectorProps> = ({
               {!!projectList.length ? (
                 projectList
               ) : (
-                <h3 className="text-center mt-5">{noProjectMessage}</h3>
+                <h3 className="text-center mt-5">{noRequestMessage}</h3>
               )}
             </div>
           )}

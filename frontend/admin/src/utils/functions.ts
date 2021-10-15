@@ -1,3 +1,4 @@
+import { getMeData } from "./auth-utils";
 import {
   BILLION,
   BILLION_COUNT,
@@ -73,4 +74,10 @@ export function getSuffix(amount: number) {
 
 export function getActivePath(pathname: string) {
   return `/${pathname.split("/")[1]}`;
+}
+
+export function getCompanyId() {
+  const { company } = getMeData();
+
+  return company?.id as number;
 }

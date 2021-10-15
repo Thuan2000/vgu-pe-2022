@@ -18,7 +18,10 @@ import { useDeleteBuyingRequestsMutation } from "@graphql/buying-request.graphql
 import Loading from "@components/ui/loading";
 import SpinLoading from "@components/ui/storybook/spin-loading";
 import { COLORS } from "@utils/colors";
-import { IBuyingRequest } from "@graphql/types.graphql";
+import { IBuyingRequest, IProject } from "@graphql/types.graphql";
+import AddToProject from "@components/ui/add-to-project";
+import { useProjectsQuery } from "@graphql/project.graphql";
+import { getCompanyId } from "@utils/functions";
 
 interface IBuyingRequestSearchProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -34,6 +37,10 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
   const [deleteBrs, { loading }] = useDeleteBuyingRequestsMutation({
     onCompleted: refetchBrs,
   });
+  const { data } = useProjectsQuery({
+    variables: { companyId: getCompanyId() },
+  });
+  const projects = data?.projects;
 
   const [isSelectAll, setIsSelectAll] = useState<boolean>(false);
 
@@ -61,14 +68,9 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
   function handleAddToProjectClick() {
     openModal(
       (
-        <SelectProject
-          loading={false}
+        <AddToProject
           onNewClick={handleCreateProject}
           onProjectClick={handleProjectClick}
-          projects={[]}
-          title={t("move-to-project-title")}
-          createNewLabel={t("create-new-label")}
-          noProjectMessage={t("no-project-yet-message")}
         />
       ) as any
     );

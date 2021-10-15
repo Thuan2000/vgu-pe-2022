@@ -97,11 +97,7 @@ const CreateProject = () => {
   }
 
   function handleCloseModal() {
-    const removedUnchecked = selecteds.filter(
-      (selected) => !(selected as any).unChecked
-    );
-
-    setSelecteds(removedUnchecked);
+    setSelecteds([]);
     closeCreateProject();
   }
 
@@ -162,7 +158,7 @@ const CreateProject = () => {
               <div className="w-full space-y-4">
                 <Input
                   {...register("name")}
-                  label={t("project-name-input-label")}
+                  label={`${t("project-name-input-label")}*`}
                   placeholder={t("project-name-input-placeholder")}
                   error={errors?.name?.message}
                 />
@@ -170,7 +166,7 @@ const CreateProject = () => {
                   control={control}
                   name="endDate"
                   minDate={new Date()}
-                  label={t("endDate-input-label")}
+                  label={`${t("endDate-input-label")}*`}
                   error={errors?.endDate?.message}
                   placeholder={t("project-endDate-input-placeholder")}
                 />
@@ -186,15 +182,13 @@ const CreateProject = () => {
           </div>
           <RequestSelector
             onBrSelectionChange={handleBrSelectionChange}
-            createNewLabel="Create new"
             loading={false}
-            label="Add Requests"
+            label={t("project-addRequests-label")}
             getBrCoverSrc={(br: any) => br?.gallery?.at(0)?.location}
             getBrLabel={(br: any) => br?.name}
             getBrChecked={(br: any) => !br?.unChecked}
             className="w-full px-5"
-            noProjectMessage="No Project"
-            title="good"
+            noRequestMessage={t("noRequests-message")}
             requests={selecteds}
           />
           <div className="fixed shadow-top sm:absolute bottom-0 flex justify-between sm:justify-end sm:space-x-5 bg-white z-[500] w-full px-5 py-3">
