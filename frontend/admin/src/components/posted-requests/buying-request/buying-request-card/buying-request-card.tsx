@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 
-import { IBuyingRequest } from "@graphql/types.graphql";
+import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import { useTranslation } from "react-i18next";
 import BRCGeneralInfo from "./brc-general-info";
 import Checkbox from "@components/ui/storybook/checkbox";
@@ -10,7 +10,17 @@ import BrcExtras from "./brc-extras";
 import BRCExternalInfo from "./brc-external-info";
 import { useBRContext } from "src/contexts/buying-request.context";
 import { findIndex, indexOf, remove } from "lodash";
-import { useRouter } from "next/dist/client/router";
+import {
+  useDeleteBuyingRequestMutation,
+  useDeleteBuyingRequestsMutation,
+} from "@graphql/buying-request.graphql";
+import { useModal } from "src/contexts/modal.context";
+import DeleteBrAlert from "@components/ui/delete-br-alert";
+import SelectProject from "@components/ui/select-project";
+import AddToProject from "@components/ui/add-to-project";
+import UnderDevelopment from "@components/under-development";
+import { useProjectsQuery } from "@graphql/project.graphql";
+import { getCompanyId } from "@utils/functions";
 
 interface IBuyingRequestCardProps extends React.HTMLAttributes<HTMLDivElement> {
   br: IBuyingRequest;
@@ -21,10 +31,15 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   className,
   ...props
 }) => {
-  const { t } = useTranslation("common");
-  const { query, pathname, ...router } = useRouter();
-  const { selecteds, setSelecteds } = useBRContext();
+  const { t } = useTranslation();
+  const { selecteds, setSelecteds, refetchBrs, openCreateProject } =
+    useBRContext();
   const [isSelected, setIsSelected] = useState(false);
+  const { openModal, closeModal } = useModal();
+
+  const [deleteBr, { loading: deleteLoading }] =
+    useDeleteBuyingRequestMutation();
+
   useEffect(() => {
     const indexOnSelecteds = findIndex(
       selecteds,
@@ -67,6 +82,39 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
     else if (!e.target.checked) removeFromSelecteds();
   }
 
+  function handleCreateProject() {
+    openCreateProject();
+    closeModal();
+  }
+
+  function handleProjectClick(projectId: number) {}
+
+  function handleAddToProject() {
+    setSelecteds([br]);
+
+    openModal(
+      (
+        <AddToProject
+          onNewClick={handleCreateProject}
+          onProjectClick={handleProjectClick}
+        />
+      ) as any
+    );
+  }
+
+  async function onDelete() {
+    await deleteBr({ variables: { id: parseInt(br.id) } });
+    refetchBrs();
+  }
+
+  function handleDeleteBrClick() {
+    openModal(
+      (
+        <DeleteBrAlert isLoading={deleteLoading} onDeleteClick={onDelete} />
+      ) as any
+    );
+  }
+
   return (
     <div
       className={`border rounded-md shadow-md flex relative bg-${
@@ -105,7 +153,15 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
           projectsCount={br.projectIds?.length || 0}
           commentsCount={br.commentIds?.length || 0}
         />
-        <BrcExtras brId={parseInt(br.id)} updatedAt={br.updatedAt} />
+        <BrcExtras
+          brId={parseInt(br.id)}
+          updatedAt={br.updatedAt}
+          onAddToProjectClick={handleAddToProject}
+          onDeleteClick={handleDeleteBrClick}
+          postedTextLabel={t("posted-label")}
+          deleteButtonLabel={t("delete-button-label")}
+          addToProjectButtonLabel={t("addToProject-button-label")}
+        />
       </div>
     </div>
   );

@@ -98,5 +98,13 @@
   "company-with-label": "Company with minimum",
   "minSupplierRating-filter-key": "Stars Rating",
   "minSupplierExperience-filter-key": "Years of establishment",
-  "minSuplierSells-filter-key": "Sells"
+  "minSuplierSells-filter-key": "Sells",
+  "create-project-title": "Create New Project",
+  "project-name-input-label": "Project Name",
+  "endDate-input-label": "Due Date",
+  "project-description-input-label": "Description",
+  "project-addRequests-label": "Add Requests",
+  "noRequests-message": "No Reuquests",
+  "create-project-button-label": "Create Project",
+  "cancel-button-label": "Cancel"
 }

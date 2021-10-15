@@ -1,77 +1,47 @@
-import CircleDashIcon from "@assets/icons/circle-dash-icon";
 import { PlusIcon } from "@assets/icons/plus-icon";
 import ThreeDotIcon from "@assets/icons/three-dot-icon";
 import TrashCanIcon from "@assets/icons/trash-can-icon";
-import Alert from "@components/ui/alert";
-import loading from "@components/ui/loading";
-import { useDeleteBuyingRequestMutation } from "@graphql/buying-request.graphql";
 import { COLORS } from "@utils/colors";
 import { viDateFormat } from "@utils/functions";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useBRContext } from "src/contexts/buying-request.context";
-import { useModal } from "src/contexts/modal.context";
 
 interface IBrcExtrasProps extends React.HTMLAttributes<HTMLDivElement> {
   updatedAt: string;
   brId: number;
+  onDeleteClick: () => void;
+  onAddToProjectClick: () => void;
+  deleteButtonLabel: string;
+  addToProjectButtonLabel: string;
+  postedTextLabel: string;
 }
 
 const BrcExtras: React.FC<IBrcExtrasProps> = ({
   brId,
   updatedAt,
+  onDeleteClick,
+  deleteButtonLabel,
+  addToProjectButtonLabel,
+  onAddToProjectClick,
+  postedTextLabel,
   ...props
 }) => {
   const { t } = useTranslation();
 
   const [showThreeDotMenu, setShowThreeDotMenu] = useState(false);
-  const { openModal, closeModal } = useModal();
-  const { refetchBrs } = useBRContext();
-  const [deleteBr, { loading: deleteLoading }] =
-    useDeleteBuyingRequestMutation();
-
-  function addToProject() {}
-
-  async function onDelete() {
-    await deleteBr({ variables: { id: brId } });
-    refetchBrs();
-  }
-
-  function handleDeleteBrClick() {
-    openModal(
-      (
-        <Alert
-          icon={CircleDashIcon}
-          title={t("remove-br-title")}
-          message={`${t("remove-br-message")} ${t("singular-request-text")}?`}
-          positifButtonText={t("confirm-remove-br-button-label")}
-          positifButtonColor={COLORS.ERROR}
-          isLoadingPositif={deleteLoading}
-          onPositifClick={onDelete}
-          onClose={closeModal}
-          negativeButtonText={t("cancel-remove-br-button-label")}
-          negativeButtonColor={COLORS.WHITE}
-          negativeButtonStyle={{
-            color: COLORS.GRAY[200],
-            borderColor: COLORS.GRAY[200],
-          }}
-        />
-      ) as any
-    );
-  }
 
   return (
     <div {...props}>
       <div className="flex items-center w-full pr-6">
         <div className="flex items-center">
-          <h5 className="text-gray mr-1 md:text-sm">{t("posted-label")}:</h5>
+          <h5 className="text-gray mr-1 md:text-sm">{postedTextLabel}:</h5>
           <h5 className="text-secondary-1 md:text-sm">
             {viDateFormat(updatedAt)}
           </h5>
         </div>
         <div className="ml-auto relative">
           <button
-            className="p-1 pb-0 bg-red"
+            className="p-1 pb-0"
             onClick={() => setShowThreeDotMenu(true)}
             onBlur={() => setShowThreeDotMenu(false)}
           >
@@ -84,22 +54,22 @@ const BrcExtras: React.FC<IBrcExtrasProps> = ({
                   <li className="border-b border-gray-100">
                     <div
                       className="pl-7 flex py-4 items-center w-full h-full"
-                      onClick={addToProject}
+                      onClick={onAddToProjectClick}
                     >
                       <PlusIcon
                         className="ml-1 mr-4"
                         stroke={COLORS.GRAY[200]}
                       />
-                      {t("addToProject-button-label")}
+                      {addToProjectButtonLabel}
                     </div>
                   </li>
                   <li>
                     <div
                       className="pl-7 py-4 flex items-center w-full h-full"
-                      onClick={handleDeleteBrClick}
+                      onClick={onDeleteClick}
                     >
                       <TrashCanIcon className="mr-3" />
-                      {t("delete-button-label")}
+                      {deleteButtonLabel}
                     </div>
                   </li>
                 </ul>

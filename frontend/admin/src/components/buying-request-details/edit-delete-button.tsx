@@ -1,13 +1,9 @@
-import CircleDashIcon from "@assets/icons/circle-dash-icon";
-import PdfIcon from "@assets/icons/files/pdf-icon";
 import PencilIcon from "@assets/icons/pencil-icon";
 import TrashCanIcon from "@assets/icons/trash-can-icon";
-import Alert from "@components/ui/alert";
+import DeleteBrAlert from "@components/ui/delete-br-alert";
 import Button from "@components/ui/storybook/button";
-import UnderDevelopment from "@components/under-development";
 import { useDeleteBuyingRequestMutation } from "@graphql/buying-request.graphql";
 import { IBuyingRequest } from "@graphql/types.graphql";
-import { COLORS } from "@utils/colors";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
@@ -44,24 +40,7 @@ const EditDeleteButton: React.FC<IEditDeleteButtonProps> = ({
 
   function deleteBr() {
     openModal(
-      (
-        <Alert
-          icon={CircleDashIcon}
-          title={t("remove-br-title")}
-          message={`${t("remove-br-message")} ${t("singular-request-text")}?`}
-          positifButtonText={t("confirm-remove-br-button-label")}
-          positifButtonColor={COLORS.ERROR}
-          isLoadingPositif={loading}
-          onPositifClick={onDelete}
-          onClose={handleClose}
-          negativeButtonText={t("cancel-remove-br-button-label")}
-          negativeButtonColor={COLORS.WHITE}
-          negativeButtonStyle={{
-            color: COLORS.GRAY[200],
-            borderColor: COLORS.GRAY[200],
-          }}
-        />
-      ) as any
+      (<DeleteBrAlert onDeleteClick={onDelete} isLoading={loading} />) as any
     );
   }
 

@@ -1,7 +1,9 @@
 fragment ProjectFragment on Project {
   name
   endDate
-  image
+  image {
+    location
+  }
   description
   buyingRequests
   companyId

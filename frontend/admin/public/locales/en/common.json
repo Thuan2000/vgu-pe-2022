@@ -57,5 +57,7 @@
   "confirm-remove-br-button-label": "Remove request",
   "PROJECT-DUPLICATE-ERROR": "Project with that name is exist",
   "BUYING_REQUEST-DUPLICATE-ERROR": "Buying Request with that name is exist",
-  "addToProject-button-label": "Add To Project"
+  "addToProject-button-label": "Add To Project",
+  "move-to-project-title": "Move To Project",
+  "create-new-label": "Create New"
 }
