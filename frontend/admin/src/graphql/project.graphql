@@ -1,0 +1,13 @@
+# import ProjectFragment from "./project.fragment.graphql"
+mutation CreateProject($input: ProjectInput!) {
+  createProject(input: $input) {
+    success
+    message
+  }
+}
+
+query Projects($companyId: Int!) {
+  projects(companyId: $companyId) {
+    ...ProjectFragment
+  }
+}

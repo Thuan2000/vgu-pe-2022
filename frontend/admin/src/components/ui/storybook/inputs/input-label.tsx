@@ -1,7 +1,7 @@
 import React from "react";
 import NumberLabel from "./queue-number";
 
-interface IInputLabelProps {
+export interface IInputLabelProps {
   numberQueue?: number | string;
   name?: string;
   note?: string;

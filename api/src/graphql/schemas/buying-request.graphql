@@ -13,6 +13,7 @@ input AllowedCompanyInput {
 type BuyingRequest {
 	id: ID!
 	name: String!
+	slug: String!
 	endDate: Date!
 	location: String!
 	description: String
@@ -27,9 +28,9 @@ type BuyingRequest {
 	categories: [Int]
 	gallery: [File]
 	allowedCompany: AllowedCompany
-	commentsCount: Int!
-	bidsCount: Int!
-	projectsCount: Int!
+	commentIds: [Int]
+	bidIds: [Int]
+	projectIds: [Int]
 }
 
 input BuyingRequestInput {
@@ -51,6 +52,8 @@ input BuyingRequestInput {
 
 extend type Mutation {
 	createBuyingRequest(input: BuyingRequestInput): Response
+	deleteBuyingRequest(id: Int!): Response!
+	deleteBuyingRequests(ids: [Int!]!): Response!
 }
 
 type BuyingRequestsResponse {
@@ -63,4 +66,6 @@ extend type Query {
 		companyId: Int!
 		offset: Int!
 	): BuyingRequestsResponse!
+	buyingRequest(slug: String!): BuyingRequest!
+	getBuyingRequestsByIds(ids: [Int]!): [BuyingRequest]!
 }

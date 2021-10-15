@@ -1,20 +1,31 @@
 import React, { useState } from "react";
 
 import { useRouter } from "next/dist/client/router";
-import { navigations } from "./sidebar-constants";
 import SidebarNavItem from "./sidebar-nav-item";
 import { getMeData } from "@utils/auth-utils";
+import { INavigation, navigations } from "@utils/navigations";
+import { getActivePath } from "@utils/functions";
 
 const SidebarNavigations = () => {
-  const [activeItemIdx, setActiveItemIdx] = useState(0);
-  const [activeChildIdx, setActiveChildIdx] = useState(0);
-  const { query, ...router } = useRouter();
-  const { company } = getMeData();
+  const { pathname } = useRouter();
 
-  // @TODO, make this right
+  function checkIsActive(href: string) {
+    return getActivePath(pathname) === href;
+  }
+
+  function checkIsActiveChildren(children: INavigation[]) {
+    let haveActiveChild = false;
+    children.forEach((child) => {
+      if (child.href === getActivePath(pathname)) haveActiveChild = true;
+    });
+
+    return haveActiveChild;
+  }
+
   const navs = navigations.map(({ label, href, icon: Icon, children }, idx) => {
-    // const isActive = checkActiveNav(href || "", activePath);
-    const isActive = idx === activeItemIdx;
+    const isActive = !!children
+      ? checkIsActiveChildren(children)
+      : checkIsActive(href);
     return (
       <div
         className={`overflow-hidden max-h-12 ${
@@ -23,29 +34,21 @@ const SidebarNavigations = () => {
         key={`${label}-${href}-navigation`}
       >
         <SidebarNavItem
-          isActive={idx === activeItemIdx}
+          isActive={isActive}
           href={`${href}` || ""}
           Icon={Icon}
           label={label}
-          onClick={() => {
-            setActiveItemIdx(idx);
-            setActiveChildIdx(0);
-          }}
           hasChildren={children && children?.length > 0}
         />
-        {children?.map(({ href, label }, childIdx) => {
+        {children?.map(({ href, label }) => {
+          const isActiveChild = checkIsActive(href);
           return (
             <SidebarNavItem
+              isActive={isActiveChild}
+              isChildren
               key={href + label}
               label={label}
               href={`${href}` || ""}
-              className={`ml-7 ${
-                childIdx === activeChildIdx && "text-primary"
-              }`}
-              onClick={() => {
-                setActiveChildIdx(childIdx);
-                setActiveItemIdx(idx);
-              }}
             />
           );
         })}

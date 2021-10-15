@@ -59,24 +59,14 @@ const PostRequestForm = () => {
   const { t } = useTranslation("form");
   const [createBuyingRequest, { loading, error }] =
     useCreateBuyingRequestMutation({
-      onCompleted: ({ createBuyingRequest }) => {
-        const { success, message } = createBuyingRequest as IResponse;
-        if (!success) {
-          console.log(message);
-          alert(t("SOMETHING_WENT_WRONG_ERROR"));
+      onCompleted: ({ createBuyingRequest, ...rest }) => {
+        console.log(createBuyingRequest);
+        const { success, message } = (createBuyingRequest as IResponse) || {};
+        if (success) router.push(ROUTES.POSTED_REQUESTS);
+        else if (success === false) {
+          alert(t(`BUYING_REQUEST-${message}-ERROR`));
           return;
         }
-
-        router.push(ROUTES.POSTED_REQUESTS);
-
-        Swal.fire({
-          icon: "success",
-          iconColor: COLORS.GREEN,
-          titleText: t("success-title"),
-          text: t("post-request-success-text"),
-          confirmButtonText: t("okay-button-label"),
-          confirmButtonColor: COLORS.GREEN,
-        });
       },
     });
 
@@ -172,8 +162,8 @@ const PostRequestForm = () => {
 
   function handleNextClick() {
     if (formPosition === GENERAL_FORM_INDEX && !isValidGeneralForm()) return;
-    else if (formPosition === DETAILS_FORM_INDEX && !isValidDetailsForm())
-      return;
+    if (formPosition === DETAILS_FORM_INDEX && !isValidDetailsForm()) return;
+    if (formPosition >= 3) return;
 
     changeSection(formPosition + 1);
   }
@@ -202,10 +192,10 @@ const PostRequestForm = () => {
       <div className="flex flex-col justify-between relative md:h-10 w-full">
         <Button
           type="button"
-          variant="outline"
+          variant="cancel"
           size="small"
           onClick={handleBackClick}
-          className={`${formPosition <= 1 && "invisible hidden"} md:w-1/2.5`}
+          className={`${formPosition <= 1 && "invisible hidden"} md:w-40`}
         >
           {t("saveDraft-button-label")}
         </Button>
@@ -217,7 +207,7 @@ const PostRequestForm = () => {
             onClick={handleBackClick}
             className={`${
               formPosition <= 1 && "invisible hidden md:block"
-            } md:w-1/2.5 my-2 md:my-0`}
+            } md:w-1/2.5 my-2 md:my-0 text-primary`}
           >
             {t("back-button-label")}
           </Button>

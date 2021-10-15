@@ -5,6 +5,7 @@ import {
 	BUYING_REQUESTS_GET_LIMIT,
 	errorResponse,
 	generateSlug,
+	RESPONSE_MESSAGE,
 	successResponse
 } from "@utils";
 import ProductName from "../models/ProductName";
@@ -26,6 +27,22 @@ function setBrGallery(data: Promise<unknown>[], br: BuyingRequest) {
 }
 
 class BuyingRequestController {
+	async getBuyingRequest(slug: string) {
+		const buyingRequest = await BuyingRequest.findOne({
+			where: { slug }
+		});
+
+		return buyingRequest;
+	}
+
+	async getBuyingRequestsByIds(ids: number[]) {
+		const allBuyingRequests = await BuyingRequest.findAll({
+			where: { id: ids }
+		});
+
+		return allBuyingRequests;
+	}
+
 	async getBuyingRequests(companyId: number, offset: number) {
 		const { rows, count } = await BuyingRequest.findAndCountAll({
 			offset,
@@ -39,19 +56,41 @@ class BuyingRequestController {
 		};
 	}
 
-	// @TODO Make this thing typed
+	async deleteBuyingRequest(id: number) {
+		try {
+			await BuyingRequest.destroy({ where: { id } });
+
+			return successResponse();
+		} catch (e) {
+			console.log(e);
+			return errorResponse(e);
+		}
+	}
+
+	async deleteBuyingRequests(ids: number[]) {
+		try {
+			await BuyingRequest.destroy({ where: { id: ids } });
+
+			return successResponse();
+		} catch (e) {
+			console.log(e);
+			return errorResponse(e);
+		}
+	}
+
 	async createBuyingRequest({
 		gallery,
 		companyName,
 		...buyingRequestInput
 	}: IBuyingRequestInput) {
 		try {
-			const { name, productName } = buyingRequestInput;
+			const { name, productName, companyId } = buyingRequestInput;
 
 			// Check duplicate
 			const duplicateBr = await BuyingRequest.findOne({
 				where: {
-					name
+					name,
+					companyId
 				}
 			});
 
@@ -62,12 +101,15 @@ class BuyingRequestController {
 			);
 
 			// Creating product name for later use
-			if (duplicateProductName)
+			if (duplicateProductName) {
 				duplicateProductName.set(
 					"searchedCount",
-					duplicateProductName.getDataValue("searchedCount") + 1
+					parseInt(
+						duplicateProductName.getDataValue("searchedCount")
+					) + 1
 				);
-			else {
+				duplicateProductName.save();
+			} else {
 				const newProductName = await ProductName.create({
 					name: productName,
 					searchedCount: 0
@@ -75,7 +117,7 @@ class BuyingRequestController {
 				newProductName.save();
 			}
 
-			if (duplicateBr) return errorResponse("DUPLICATE_BR");
+			if (duplicateBr) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
 
 			const newBuyingRequest = await BuyingRequest.create({
 				...buyingRequestInput,
@@ -87,8 +129,7 @@ class BuyingRequestController {
 
 			setBrGallery(brGallery, newBuyingRequest);
 
-			(await newBuyingRequest).save();
-			return successResponse();
+			return newBuyingRequest.save().then(() => successResponse());
 		} catch (error) {
 			console.log(error);
 			return errorResponse(error);

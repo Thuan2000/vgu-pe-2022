@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Copyright © 2021 - Present, Emolyze Tech Limited
  * All rights reserved.
@@ -43,8 +44,30 @@ export async function uploadCompanyLicenses(companyName, licenseFiles: any[]) {
 	});
 }
 
+export async function uploadImage(companyName, img: any) {
+	const {
+		createReadStream,
+		filename: fileName,
+		mimetype: contentType
+	} = await img;
+
+	const fileStream = createReadStream();
+
+	const res = await s3.uploadPublicFile({
+		companyName,
+		fileName,
+		fileStream,
+		type: "images",
+		contentType
+	});
+
+	const { Key: key, Location: location } = res;
+
+	return await { key, location };
+}
+
 export async function uploadImages(companyName, images: any[]) {
-	return await (await images).map(async img => {
+	return await (await images)?.map(async img => {
 		const {
 			createReadStream,
 			filename: fileName,
@@ -57,7 +80,7 @@ export async function uploadImages(companyName, images: any[]) {
 			companyName,
 			fileName,
 			fileStream,
-			type: "br-images",
+			type: "images",
 			contentType
 		});
 

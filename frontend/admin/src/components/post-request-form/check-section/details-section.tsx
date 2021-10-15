@@ -37,7 +37,7 @@ const DetailsSection: React.FC<IGeneralSection> = ({
         <p className="font-semibold flex">
           <p className="mr-5">
             {formatMoneyAmount(formValues?.minBudget)}
-            {`${t("common:" + getSuffix(formValues?.maxBudget))} ${t(
+            {`${t("common:" + getSuffix(formValues?.minBudget))} ${t(
               "budget-sign"
             )}`}
           </p>

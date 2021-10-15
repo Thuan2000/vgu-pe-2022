@@ -1,31 +1,41 @@
+# import BuyingRequestParts from "./buying-request.fragment.graphql"
 query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
   buyingRequestsAndCount(companyId: $companyId, offset: $offset) {
     buyingRequests {
-      id
-      name
-      endDate
-      categories
-      minBudget
-      maxBudget
-      minOrder
-      unit
-      status
-      gallery {
-        location
-      }
-      createdAt
-      updatedAt
-      location
-      commentsCount
-      bidsCount
-      projectsCount
+      ...BuyingRequestParts
     }
     totalDataCount
   }
 }
 
+query BuyingRequest($slug: String!) {
+  buyingRequest(slug: $slug) {
+    ...BuyingRequestParts
+  }
+}
+
+query GetBuyingRequestsByIds($ids: [Int]!) {
+  getBuyingRequestsByIds(ids: $ids) {
+    ...BuyingRequestParts
+  }
+}
+
 mutation CreateBuyingRequest($input: BuyingRequestInput) {
   createBuyingRequest(input: $input) {
+    success
+    message
+  }
+}
+
+mutation DeleteBuyingRequest($id: Int!) {
+  deleteBuyingRequest(id: $id) {
+    success
+    message
+  }
+}
+
+mutation DeleteBuyingRequests($ids: [Int!]!) {
+  deleteBuyingRequests(ids: $ids) {
     success
     message
   }

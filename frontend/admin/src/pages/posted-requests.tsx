@@ -7,9 +7,9 @@ import { useRouter } from "next/dist/client/router";
 import PageLayout from "@components/layouts/page-layout";
 import PostedRequestsNav from "@components/posted-requests/posted-requests-nav";
 import { POSTED_REQUEST_VIEWS } from "@components/posted-requests/posted-requests-nav/prn-constants";
-import BuyingRequests from "./buying-requests";
-import { PAGE_NAME } from "@utils/constants";
+import BuyingRequests from "../components/posted-requests/sections/buying-requests";
 import UnderDevelopment from "@components/under-development";
+import Projects from "@components/posted-requests/sections/projects";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale, query } = ctx;
@@ -36,13 +36,12 @@ const PostedRequests = (props: any) => {
         {activeView === POSTED_REQUEST_VIEWS.BUYING_REQUESTS && (
           <BuyingRequests />
         )}
-        {activeView === POSTED_REQUEST_VIEWS.PROJECTS && <UnderDevelopment />}
+        {activeView === POSTED_REQUEST_VIEWS.PROJECTS && <Projects />}
       </div>
     </>
   );
 };
 
 PostedRequests.Layout = PageLayout;
-PostedRequests.PageName = PAGE_NAME.POSTED_REQUESTS;
 
 export default PostedRequests;

@@ -9,7 +9,7 @@ const NoBuyingRequests: React.FC = () => {
   const { t } = useTranslation("common");
 
   return (
-    <div className="bg-white md:py-10 rounded-sm md:rounded-lg py-10">
+    <div className="bg-white md:py-10 rounded-sm md:rounded-lg py-10 text-dark-blue">
       <div className="font-semibold flex-center flex-col">
         <p className="mb-5">{t("no-buying-request-yet-text-info")}</p>
         <Link href={ROUTES.POST_REQUEST}>

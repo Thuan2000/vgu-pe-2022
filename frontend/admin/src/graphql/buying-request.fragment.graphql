@@ -1,0 +1,27 @@
+fragment BuyingRequestParts on BuyingRequest {
+  id
+  name
+  slug
+  endDate
+  categories
+  minBudget
+  maxBudget
+  minOrder
+  unit
+  status
+  gallery {
+    location
+  }
+  createdAt
+  updatedAt
+  location
+  commentIds
+  projectIds
+  bidIds
+  description
+  allowedCompany {
+    minSupplierExperience
+    minSupplierRating
+    minSuplierSells
+  }
+}

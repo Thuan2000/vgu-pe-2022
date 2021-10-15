@@ -53,65 +53,73 @@ const NumberInput: React.FC<INumberInputProps> = ({
     />
   );
 };
-const NumInput: React.FC<INumInputProps> = ({
-  numberQueue,
-  note,
-  noLabel,
-  label,
-  onChange,
-  error,
-  value,
-  min,
-  max,
-  name,
-  variant = "normal",
-  shadow = false,
-  className,
-  inputClassName,
-  ...props
-}) => {
-  const rootClassName = cn(
-    inputClasses.root,
+const NumInput: React.FC<INumInputProps> = React.forwardRef(
+  (
     {
-      [inputClasses.normal]: variant === "normal",
-      [inputClasses.solid]: variant === "solid",
-      [inputClasses.outline]: variant === "outline",
+      numberQueue,
+      note,
+      noLabel,
+      label,
+      onChange,
+      error,
+      value,
+      min,
+      max,
+      name,
+      variant = "normal",
+      shadow = false,
+      className,
+      inputClassName,
+      ...props
     },
-    {
-      [inputClasses.shadow]: shadow,
-    },
-    inputClasses.numberInput,
-    inputClassName
-  );
+    ref
+  ) => {
+    const rootClassName = cn(
+      inputClasses.root,
+      {
+        [inputClasses.normal]: variant === "normal",
+        [inputClasses.solid]: variant === "solid",
+        [inputClasses.outline]: variant === "outline",
+      },
+      {
+        [inputClasses.shadow]: shadow,
+      },
+      inputClasses.numberInput,
+      inputClassName
+    );
 
-  const thousandSeparator = ".";
-  const decimalSeparator = ",";
+    const thousandSeparator = ".";
+    const decimalSeparator = ",";
 
-  function handleChange(e: any) {
-    if (onChange) onChange(e.floatValue);
+    function handleChange(e: any) {
+      if (onChange) onChange(e.floatValue);
+    }
+
+    useEffect(() => {
+      if (!value || !onChange) return;
+      if (max && value > max) onChange(max as any);
+      else if (min && value < min) onChange(min as any);
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value, max, min]);
+
+    return (
+      <>
+        <NumberFormat
+          className={rootClassName}
+          thousandSeparator={thousandSeparator}
+          decimalSeparator={decimalSeparator}
+          onValueChange={(e) => handleChange(e)}
+          value={value}
+          getInputRef={ref}
+          {...props}
+        />
+        {error && (
+          <p className="my-2 text-xs text-start text-red-500">{error}</p>
+        )}
+      </>
+    );
   }
-
-  useEffect(() => {
-    if (!value || !onChange) return;
-    if (max && value > max) onChange(max as any);
-    else if (min && value < min) onChange(min as any);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value, max, min]);
-
-  return (
-    <>
-      <NumberFormat
-        className={rootClassName}
-        thousandSeparator={thousandSeparator}
-        decimalSeparator={decimalSeparator}
-        onValueChange={(e) => handleChange(e)}
-        value={value}
-        {...props}
-      />
-      {error && <p className="my-2 text-xs text-start text-red-500">{error}</p>}
-    </>
-  );
-};
+);
 
 export default NumberInput;

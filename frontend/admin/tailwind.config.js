@@ -1,8 +1,7 @@
 module.exports = {
   mode: "jit",
-  purge: {
-    content: ["./src/**/*.{js,ts,jsx,tsx}"],
-  },
+  purge: ["./src/**/*.{js,ts,jsx,tsx}"],
+
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -10,8 +9,11 @@ module.exports = {
         "3xl": "1900px",
       },
       spacing: {
+        1: "5px",
         17: "70px",
         11: "44px",
+        13: "50px",
+        36: "150px",
         80: "345px",
         "1/2.5": "47%",
         "49p": "49%",
@@ -33,7 +35,11 @@ module.exports = {
         "special-heading": "16px",
         lg: "18px",
       },
+      boxShadow: {
+        top: "0 0 10px rgba(0,0,0,.3)",
+      },
       colors: {
+        black: "#15114E",
         "dark-blue": "#15114E",
         light: {
           DEFAULT: "#FFFFFF",

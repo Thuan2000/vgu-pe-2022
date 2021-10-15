@@ -37,9 +37,9 @@ export type IAuthResponse = {
 
 export type IBuyingRequest = {
   allowedCompany?: Maybe<IAllowedCompany>;
-  bidsCount: Scalars['Int'];
+  bidIds?: Maybe<Array<Maybe<Scalars['Int']>>>;
   categories?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  commentsCount: Scalars['Int'];
+  commentIds?: Maybe<Array<Maybe<Scalars['Int']>>>;
   createdAt: Scalars['Date'];
   description?: Maybe<Scalars['String']>;
   endDate: Scalars['Date'];
@@ -51,7 +51,8 @@ export type IBuyingRequest = {
   minOrder: Scalars['Int'];
   name: Scalars['String'];
   productName: Scalars['String'];
-  projectsCount: Scalars['Int'];
+  projectIds?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  slug: Scalars['String'];
   status: Scalars['String'];
   unit: Scalars['String'];
   updatedAt: Scalars['Date'];
@@ -135,6 +136,9 @@ export type IMutation = {
   companySignup: IAuthResponse;
   createBuyingRequest?: Maybe<IResponse>;
   createCategory?: Maybe<IResponse>;
+  createProject: IResponse;
+  deleteBuyingRequest: IResponse;
+  deleteBuyingRequests: IResponse;
   login: IAuthResponse;
   meInfo?: Maybe<IMeInfoResponse>;
   uploadFile?: Maybe<IFile>;
@@ -156,6 +160,21 @@ export type IMutationCreateCategoryArgs = {
 };
 
 
+export type IMutationCreateProjectArgs = {
+  input: IProjectInput;
+};
+
+
+export type IMutationDeleteBuyingRequestArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type IMutationDeleteBuyingRequestsArgs = {
+  ids: Array<Scalars['Int']>;
+};
+
+
 export type IMutationLoginArgs = {
   input: ILoginInput;
 };
@@ -174,18 +193,57 @@ export type IProductName = {
   searchedCount?: Maybe<Scalars['Int']>;
 };
 
+export type IProject = {
+  buyingRequests: Array<Scalars['Int']>;
+  companyId: Scalars['Int'];
+  createdById: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  endDate: Scalars['Date'];
+  image?: Maybe<Scalars['Upload']>;
+  name: Scalars['String'];
+};
+
+export type IProjectInput = {
+  buyingRequests: Array<Scalars['Int']>;
+  companyId: Scalars['Int'];
+  companyName: Scalars['String'];
+  createdById: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
+  endDate: Scalars['Date'];
+  image?: Maybe<Scalars['Upload']>;
+  name: Scalars['String'];
+};
+
 export type IQuery = {
+  buyingRequest: IBuyingRequest;
   buyingRequestsAndCount: IBuyingRequestsResponse;
   categories: Array<Maybe<ICategory>>;
+  getBuyingRequestsByIds: Array<Maybe<IBuyingRequest>>;
   productNames?: Maybe<Array<Maybe<IProductName>>>;
+  projects: Array<IProject>;
   user?: Maybe<IUser>;
   users?: Maybe<Array<Maybe<IUser>>>;
+};
+
+
+export type IQueryBuyingRequestArgs = {
+  slug: Scalars['String'];
 };
 
 
 export type IQueryBuyingRequestsAndCountArgs = {
   companyId: Scalars['Int'];
   offset: Scalars['Int'];
+};
+
+
+export type IQueryGetBuyingRequestsByIdsArgs = {
+  ids: Array<Maybe<Scalars['Int']>>;
+};
+
+
+export type IQueryProjectsArgs = {
+  companyId: Scalars['Int'];
 };
 
 
@@ -313,6 +371,8 @@ export type IResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   POST_REQUEST_STATUS: IPost_Request_Status;
   ProductName: ResolverTypeWrapper<IProductName>;
+  Project: ResolverTypeWrapper<IProject>;
+  ProjectInput: IProjectInput;
   Query: ResolverTypeWrapper<{}>;
   ROLE: IRole;
   Response: ResolverTypeWrapper<IResponse>;
@@ -343,6 +403,8 @@ export type IResolversParentTypes = {
   MeInfoResponse: IMeInfoResponse;
   Mutation: {};
   ProductName: IProductName;
+  Project: IProject;
+  ProjectInput: IProjectInput;
   Query: {};
   Response: IResponse;
   String: Scalars['String'];
@@ -367,9 +429,9 @@ export type IAuthResponseResolvers<ContextType = any, ParentType extends IResolv
 
 export type IBuyingRequestResolvers<ContextType = any, ParentType extends IResolversParentTypes['BuyingRequest'] = IResolversParentTypes['BuyingRequest']> = {
   allowedCompany?: Resolver<Maybe<IResolversTypes['AllowedCompany']>, ParentType, ContextType>;
-  bidsCount?: Resolver<IResolversTypes['Int'], ParentType, ContextType>;
+  bidIds?: Resolver<Maybe<Array<Maybe<IResolversTypes['Int']>>>, ParentType, ContextType>;
   categories?: Resolver<Maybe<Array<Maybe<IResolversTypes['Int']>>>, ParentType, ContextType>;
-  commentsCount?: Resolver<IResolversTypes['Int'], ParentType, ContextType>;
+  commentIds?: Resolver<Maybe<Array<Maybe<IResolversTypes['Int']>>>, ParentType, ContextType>;
   createdAt?: Resolver<IResolversTypes['Date'], ParentType, ContextType>;
   description?: Resolver<Maybe<IResolversTypes['String']>, ParentType, ContextType>;
   endDate?: Resolver<IResolversTypes['Date'], ParentType, ContextType>;
@@ -381,7 +443,8 @@ export type IBuyingRequestResolvers<ContextType = any, ParentType extends IResol
   minOrder?: Resolver<IResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
   productName?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
-  projectsCount?: Resolver<IResolversTypes['Int'], ParentType, ContextType>;
+  projectIds?: Resolver<Maybe<Array<Maybe<IResolversTypes['Int']>>>, ParentType, ContextType>;
+  slug?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
   unit?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<IResolversTypes['Date'], ParentType, ContextType>;
@@ -435,6 +498,9 @@ export type IMutationResolvers<ContextType = any, ParentType extends IResolversP
   companySignup?: Resolver<IResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<IMutationCompanySignupArgs, 'input'>>;
   createBuyingRequest?: Resolver<Maybe<IResolversTypes['Response']>, ParentType, ContextType, RequireFields<IMutationCreateBuyingRequestArgs, never>>;
   createCategory?: Resolver<Maybe<IResolversTypes['Response']>, ParentType, ContextType, RequireFields<IMutationCreateCategoryArgs, 'input'>>;
+  createProject?: Resolver<IResolversTypes['Response'], ParentType, ContextType, RequireFields<IMutationCreateProjectArgs, 'input'>>;
+  deleteBuyingRequest?: Resolver<IResolversTypes['Response'], ParentType, ContextType, RequireFields<IMutationDeleteBuyingRequestArgs, 'id'>>;
+  deleteBuyingRequests?: Resolver<IResolversTypes['Response'], ParentType, ContextType, RequireFields<IMutationDeleteBuyingRequestsArgs, 'ids'>>;
   login?: Resolver<IResolversTypes['AuthResponse'], ParentType, ContextType, RequireFields<IMutationLoginArgs, 'input'>>;
   meInfo?: Resolver<Maybe<IResolversTypes['MeInfoResponse']>, ParentType, ContextType>;
   uploadFile?: Resolver<Maybe<IResolversTypes['File']>, ParentType, ContextType, RequireFields<IMutationUploadFileArgs, 'input'>>;
@@ -446,10 +512,24 @@ export type IProductNameResolvers<ContextType = any, ParentType extends IResolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type IProjectResolvers<ContextType = any, ParentType extends IResolversParentTypes['Project'] = IResolversParentTypes['Project']> = {
+  buyingRequests?: Resolver<Array<IResolversTypes['Int']>, ParentType, ContextType>;
+  companyId?: Resolver<IResolversTypes['Int'], ParentType, ContextType>;
+  createdById?: Resolver<IResolversTypes['Int'], ParentType, ContextType>;
+  description?: Resolver<Maybe<IResolversTypes['String']>, ParentType, ContextType>;
+  endDate?: Resolver<IResolversTypes['Date'], ParentType, ContextType>;
+  image?: Resolver<Maybe<IResolversTypes['Upload']>, ParentType, ContextType>;
+  name?: Resolver<IResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type IQueryResolvers<ContextType = any, ParentType extends IResolversParentTypes['Query'] = IResolversParentTypes['Query']> = {
+  buyingRequest?: Resolver<IResolversTypes['BuyingRequest'], ParentType, ContextType, RequireFields<IQueryBuyingRequestArgs, 'slug'>>;
   buyingRequestsAndCount?: Resolver<IResolversTypes['BuyingRequestsResponse'], ParentType, ContextType, RequireFields<IQueryBuyingRequestsAndCountArgs, 'companyId' | 'offset'>>;
   categories?: Resolver<Array<Maybe<IResolversTypes['Category']>>, ParentType, ContextType>;
+  getBuyingRequestsByIds?: Resolver<Array<Maybe<IResolversTypes['BuyingRequest']>>, ParentType, ContextType, RequireFields<IQueryGetBuyingRequestsByIdsArgs, 'ids'>>;
   productNames?: Resolver<Maybe<Array<Maybe<IResolversTypes['ProductName']>>>, ParentType, ContextType>;
+  projects?: Resolver<Array<IResolversTypes['Project']>, ParentType, ContextType, RequireFields<IQueryProjectsArgs, 'companyId'>>;
   user?: Resolver<Maybe<IResolversTypes['User']>, ParentType, ContextType, RequireFields<IQueryUserArgs, 'id'>>;
   users?: Resolver<Maybe<Array<Maybe<IResolversTypes['User']>>>, ParentType, ContextType>;
 };
@@ -487,6 +567,7 @@ export type IResolvers<ContextType = any> = {
   MeInfoResponse?: IMeInfoResponseResolvers<ContextType>;
   Mutation?: IMutationResolvers<ContextType>;
   ProductName?: IProductNameResolvers<ContextType>;
+  Project?: IProjectResolvers<ContextType>;
   Query?: IQueryResolvers<ContextType>;
   Response?: IResponseResolvers<ContextType>;
   Upload?: GraphQLScalarType;

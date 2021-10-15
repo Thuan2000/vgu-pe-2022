@@ -29,7 +29,7 @@ const Chip: React.FC<IChipProps> = ({
 
   return (
     <div className={className} {...props}>
-      <h6 className="md:text-xs">{text}</h6>
+      <h6 className="md:text-xs text-white">{text}</h6>
     </div>
   );
 };
