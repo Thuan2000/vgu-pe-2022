@@ -16,8 +16,7 @@ module.exports = {
       cwd: "./frontend/shop",
       script:
         "sudo bash ../../ci_scripts/install-dependencies/shop.sh && sudo yarn start",
-      max_restarts: 1,
-      kill_timeout: 1600,
+      max_restarts: 3,
       autorestart: true,
       // 5 Minutes
       restart_delay: 180000,
@@ -29,8 +28,7 @@ module.exports = {
       cwd: "./frontend/admin",
       script:
         "sudo bash ../../ci_scripts/install-dependencies/admin.sh && sudo yarn start",
-      max_restarts: 1,
-      kill_timeout: 1600,
+      max_restarts: 3,
       autorestart: true,
       // 5 Minutes
       restart_delay: 180000,
