@@ -4,12 +4,12 @@ import { appWithTranslation } from "next-i18next";
 import { ApolloProvider } from "@apollo/client";
 
 import { useApollo } from "../utils/apollo";
-import PageNameProvider, { usePageName } from "src/contexts/page-name.context";
+
+import ModalContainer from "@components/modal-container";
+import { ModalProvider } from "src/contexts/modal.context";
 
 import "../styles/custom-datepicker.css";
 import "../styles/globals.css";
-import ModalContainer from "@components/modal-container";
-import { ModalProvider } from "src/contexts/modal.context";
 
 const NoLayout: React.FC<any> = ({ children }) => <>{children}</>;
 
@@ -21,11 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={apolloClient}>
       <ModalProvider>
         <ModalContainer />
-        <PageNameProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </PageNameProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ModalProvider>
     </ApolloProvider>
   );

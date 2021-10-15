@@ -1,21 +1,45 @@
+import { IBuyingRequest } from "@graphql/types.graphql";
 import React, { useContext, useMemo, useState } from "react";
 
 type BRContext = {
-  selecteds: number[];
-  setSelecteds: (number: []) => void;
+  selecteds: IBuyingRequest[];
+  isCreatingProject: boolean;
+  setSelecteds: (br: IBuyingRequest[]) => void;
+  openCreateProject: () => void;
+  closeCreateProject: () => void;
 };
 
 const initVal: BRContext = {
   selecteds: [],
+  isCreatingProject: false,
   setSelecteds: (value) => console.log("new selected prs ", value),
+  openCreateProject: () => console.log("new selected prs "),
+  closeCreateProject: () => console.log("new selected prs "),
 };
 
 const BuyingRequestsContext = React.createContext<BRContext>(initVal);
 
 export const BuyingRequestContextProvider: React.FC = ({ children }) => {
-  const [selecteds, setSelecteds] = useState<number[]>([]);
+  const [selecteds, setSelecteds] = useState<IBuyingRequest[]>([]);
+  const [isCreatingProject, setIsCreatingProject] = useState(false);
 
-  const value = useMemo(() => ({ selecteds, setSelecteds }), [selecteds]);
+  function openCreateProject() {
+    setIsCreatingProject(true);
+  }
+  function closeCreateProject() {
+    setIsCreatingProject(false);
+  }
+
+  const value = useMemo(
+    () => ({
+      selecteds,
+      setSelecteds,
+      isCreatingProject,
+      openCreateProject,
+      closeCreateProject,
+    }),
+    [isCreatingProject, selecteds]
+  );
   return (
     <BuyingRequestsContext.Provider value={value}>
       {children}

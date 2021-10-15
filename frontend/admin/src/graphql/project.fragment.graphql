@@ -1,0 +1,9 @@
+fragment ProjectFragment on Project {
+  name
+  endDate
+  image
+  description
+  buyingRequests
+  companyId
+  createdById
+}

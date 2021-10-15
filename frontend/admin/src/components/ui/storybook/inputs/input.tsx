@@ -61,7 +61,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             label={label}
           />
         )}
-        <div className="flex items-center align-middle relative">
+        <div className="flex z-0 items-center align-middle relative">
           <input
             id={name}
             name={name}

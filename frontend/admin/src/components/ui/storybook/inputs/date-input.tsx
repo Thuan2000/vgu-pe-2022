@@ -7,6 +7,7 @@ import InputLabel from "./input-label";
 import { inputClasses } from "./input-config";
 import "react-datepicker/dist/react-datepicker.css";
 import { Control, Controller } from "react-hook-form";
+import DateIcon from "@assets/icons/date-icon";
 
 interface DateInputProps extends Partial<DatepickerProps> {
   label: string;
@@ -96,19 +97,36 @@ const DateInput: React.FC<DateInputProps> = ({
 export default DateInput;
 
 const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
-  ({ onChange, ...props }, ref) => {
+  ({ onChange, ...props }, _) => {
+    const inputId = Math.random().toString() + "-date-input";
+
     function handleChange(e: Date) {
       // Prevent error
       if (onChange) onChange(e, undefined);
     }
+
+    function focusDateInput() {
+      const dom = document.getElementById(inputId);
+      dom?.focus();
+    }
+
     return (
-      <ReactDatepicker
-        autoComplete="hide"
-        selected={(props.value as any) || props.initialValue}
-        onChange={handleChange}
-        dateFormat={props.dateFormat || "dd/MM/yyyy"}
-        {...props}
-      />
+      <div className="relative" onClick={focusDateInput}>
+        <ReactDatepicker
+          id={inputId}
+          shouldCloseOnSelect
+          closeOnScroll
+          autoComplete="hide"
+          selected={(props.value as any) || props.initialValue}
+          onChange={handleChange}
+          dateFormat={props.dateFormat || "dd/MM/yyyy"}
+          {...props}
+        />
+        <DateIcon
+          onClick={focusDateInput}
+          className="absolute y-center right-5 cursor-pointer"
+        />
+      </div>
     );
   }
 );

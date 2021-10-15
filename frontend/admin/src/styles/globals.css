@@ -27,7 +27,7 @@ h4,
 h5,
 h6 {
   @apply font-heading font-semibold;
-  color: var(--dark-blue);
+  color: var(--color-dark-blue);
 }
 
 p {
@@ -63,7 +63,7 @@ strong {
 }
 
 .font-semibold {
-  color: var(--dark-blue);
+  color: var(--color-dark-blue);
 }
 
 input::placeholder,
@@ -121,6 +121,10 @@ body {
 
 .all-transition {
   @apply transition-all duration-200;
+}
+
+.load-necessary-styles {
+  @apply fixed bottom-0;
 }
 
 @tailwind components;

@@ -60,11 +60,11 @@ const PostRequestForm = () => {
   const [createBuyingRequest, { loading, error }] =
     useCreateBuyingRequestMutation({
       onCompleted: ({ createBuyingRequest, ...rest }) => {
+        console.log(createBuyingRequest);
         const { success, message } = (createBuyingRequest as IResponse) || {};
         if (success) router.push(ROUTES.POSTED_REQUESTS);
         else if (success === false) {
-          console.log(message);
-          alert(t(message + "-ERROR-MESSAGE" || ""));
+          alert(t(`BUYING_REQUEST-${message}-ERROR`));
           return;
         }
       },
@@ -192,10 +192,10 @@ const PostRequestForm = () => {
       <div className="flex flex-col justify-between relative md:h-10 w-full">
         <Button
           type="button"
-          variant="outline"
+          variant="cancel"
           size="small"
           onClick={handleBackClick}
-          className={`${formPosition <= 1 && "invisible hidden"} md:w-1/2.5`}
+          className={`${formPosition <= 1 && "invisible hidden"} md:w-40`}
         >
           {t("saveDraft-button-label")}
         </Button>
@@ -207,7 +207,7 @@ const PostRequestForm = () => {
             onClick={handleBackClick}
             className={`${
               formPosition <= 1 && "invisible hidden md:block"
-            } md:w-1/2.5 my-2 md:my-0`}
+            } md:w-1/2.5 my-2 md:my-0 text-primary`}
           >
             {t("back-button-label")}
           </Button>

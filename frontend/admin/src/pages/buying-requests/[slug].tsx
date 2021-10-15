@@ -8,7 +8,6 @@ import Button from "@components/ui/storybook/button";
 import { useBuyingRequestQuery } from "@graphql/buying-request.graphql";
 import { IAllowedCompany, IBuyingRequest } from "@graphql/types.graphql";
 import { getMeData } from "@utils/auth-utils";
-import { PAGE_NAME } from "@utils/constants";
 import {
   formatMoneyAmount,
   thousandSeparator,
@@ -154,6 +153,5 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
 };
 
 BuyingRequestDetails.Layout = PageLayout;
-BuyingRequestDetails.PageName = PAGE_NAME.POSTED_REQUESTS;
 
 export default BuyingRequestDetails;

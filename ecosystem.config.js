@@ -20,7 +20,7 @@ module.exports = {
       kill_timeout: 1600,
       autorestart: true,
       // 5 Minutes
-      restart_delay: 300000,
+      restart_delay: 180000,
       error_file: "./.pm2error.log",
       out_file: "./.pm2out.log",
     },
@@ -33,7 +33,7 @@ module.exports = {
       kill_timeout: 1600,
       autorestart: true,
       // 5 Minutes
-      restart_delay: 300000,
+      restart_delay: 180000,
       error_file: "./.pm2error.log",
       out_file: "./.pm2out.log",
     },

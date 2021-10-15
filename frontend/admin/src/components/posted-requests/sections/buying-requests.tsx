@@ -1,5 +1,5 @@
-import BuyingRequestSearch from "@components/posted-requests/brc-search";
-import BuyingRequestCard from "@components/posted-requests/buying-request-card";
+import BuyingRequestHeader from "@components/posted-requests/buying-request/brc-search";
+import BuyingRequestCard from "@components/posted-requests/buying-request/buying-request-card";
 import PostedRequestsNav from "@components/posted-requests/posted-requests-nav";
 import Loading from "@components/ui/loading";
 import Pagination from "@components/ui/pagination";
@@ -11,6 +11,7 @@ import { useRouter } from "next/dist/client/router";
 import React, { useEffect } from "react";
 import { BuyingRequestContextProvider } from "src/contexts/buying-request.context";
 import NoBuyingRequests from "@components/posted-requests/no-buying-requests";
+import CreateProject from "@components/create-project";
 
 interface IBuyingRequestsProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -36,11 +37,15 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
     });
   }
 
+  function handleRefreshBr() {
+    refetch({ ...getParameter(company?.id as number, getOffset()) } as any);
+  }
+
   function getOffset() {
     return (activePageIdx - 1) * BUYING_REQUESTS_GET_LIMIT;
   }
 
-  const { data, loading, fetchMore } = useBuyingRequestsAndCountQuery({
+  const { data, loading, fetchMore, refetch } = useBuyingRequestsAndCountQuery({
     ...getParameter(company?.id as number, getOffset()),
   });
 
@@ -57,13 +62,13 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
 
   if (!data?.buyingRequestsAndCount.buyingRequests.length)
     return <NoBuyingRequests />;
+  const brs = data?.buyingRequestsAndCount.buyingRequests as IBuyingRequest[];
 
-  const brChips = (
-    data?.buyingRequestsAndCount.buyingRequests as IBuyingRequest[]
-  )?.map((br: IBuyingRequest) => {
+  const brChips = brs?.map((br: IBuyingRequest) => {
     if (!br) return;
     return (
       <BuyingRequestCard
+        refreshBr={handleRefreshBr}
         br={br}
         key={br?.name + br?.endDate + ""}
         className="mb-3"
@@ -72,22 +77,25 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
   });
 
   return (
-    <BuyingRequestContextProvider>
-      <BuyingRequestSearch />
-      <div className="mt-4 mx-4 md:flex flex-wrap justify-between">
-        {brChips}
-      </div>
-      <Pagination
-        align="end"
-        activeIdx={activePageIdx}
-        onChangePage={handlePageChange}
-        totalCount={totalBRs || 1}
-        color="gray-200"
-        activeColor="primary"
-        displayPageAmount={5}
-        limit={BUYING_REQUESTS_GET_LIMIT}
-      />
-    </BuyingRequestContextProvider>
+    <>
+      <BuyingRequestContextProvider>
+        <CreateProject />
+        <BuyingRequestHeader refreshBrList={handleRefreshBr} brs={brs} />
+        <div className="mt-4 mx-4 md:flex flex-wrap justify-between">
+          {brChips}
+        </div>
+        <Pagination
+          align="end"
+          activeIdx={activePageIdx}
+          onChangePage={handlePageChange}
+          totalCount={totalBRs || 1}
+          color="gray-200"
+          activeColor="primary"
+          displayPageAmount={5}
+          limit={BUYING_REQUESTS_GET_LIMIT}
+        />
+      </BuyingRequestContextProvider>
+    </>
   );
 };
 export default BuyingRequests;

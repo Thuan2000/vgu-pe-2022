@@ -1,3 +1,5 @@
+import TrashCanIcon from "@assets/icons/trash-can-icon";
+import XIcon from "@assets/icons/x-icon";
 import React, {
   HTMLAttributes,
   StyleHTMLAttributes,
@@ -5,7 +7,8 @@ import React, {
 } from "react";
 import Button from "./storybook/button";
 
-interface IAlertProps extends React.HTMLAttributes<HTMLDivElement> {
+interface IAlertProps {
+  className?: string;
   title: string;
   message?: string;
   iconProps?: HTMLAttributes<SVGAttributes<{}>>;
@@ -38,7 +41,6 @@ const Alert: React.FC<IAlertProps> = ({
   onNegativeClick,
   onClose,
   onPositifClick,
-  ...props
 }) => {
   function handleNegative() {
     if (onNegativeClick) onNegativeClick();
@@ -51,13 +53,15 @@ const Alert: React.FC<IAlertProps> = ({
 
   return (
     <div
-      className={`flex flex-col items-center text-center min-w-[320px] sm:min-w-[461px] ${className}`}
-      {...props}
+      className={`flex flex-col items-center text-center relative min-w-[320px] sm:min-w-[461px] min-h-[315px] bg-white px-4 py-6 pt-8 rounded-lg shadow-xl ${className}`}
     >
+      <button onClick={() => onClose(false)}>
+        <XIcon className="absolute right-5 top-5" />
+      </button>
       {Icon && <Icon {...iconProps} />}
       <h1 className="mt-5">{title}</h1>
-      <p className="mb-5">{message}</p>
-      <div className="flex items-center justify-between w-full mx-10">
+      <p className="mt-1">{message}</p>
+      <div className="flex items-center justify-between w-full mx-10 mt-10">
         <Button
           className="border-gray-200 border p-3 w-[48%]"
           onClick={handleNegative}

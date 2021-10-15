@@ -54,5 +54,8 @@
   "singular-request-text": "Request",
   "plural-request-text": "Requests",
   "cancel-remove-br-button-label": "Cancel",
-  "confirm-remove-br-button-label": "Remove request"
+  "confirm-remove-br-button-label": "Remove request",
+  "PROJECT-DUPLICATE-ERROR": "Project with that name is exist",
+  "BUYING_REQUEST-DUPLICATE-ERROR": "Buying Request with that name is exist",
+  "addToProject-button-label": "Add To Project"
 }

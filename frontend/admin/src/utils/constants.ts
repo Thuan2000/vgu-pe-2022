@@ -30,9 +30,3 @@ export const LOGGED_IN_USER = "LOGGED_IN_USER";
 
 // Settings
 export const MOBILE_SIZE = { min: 300, max: 480 };
-
-export const PAGE_NAME = {
-  HOMEPAGE: "home-page-name",
-  POST_REQUEST: "post-request-page-name",
-  POSTED_REQUESTS: "posted-requests-page-name",
-};

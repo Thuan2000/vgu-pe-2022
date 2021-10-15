@@ -5,6 +5,7 @@ import {
 	BUYING_REQUESTS_GET_LIMIT,
 	errorResponse,
 	generateSlug,
+	RESPONSE_MESSAGE,
 	successResponse
 } from "@utils";
 import ProductName from "../models/ProductName";
@@ -30,9 +31,16 @@ class BuyingRequestController {
 		const buyingRequest = await BuyingRequest.findOne({
 			where: { slug }
 		});
-		console.log(buyingRequest);
 
 		return buyingRequest;
+	}
+
+	async getBuyingRequestsByIds(ids: number[]) {
+		const allBuyingRequests = await BuyingRequest.findAll({
+			where: { id: ids }
+		});
+
+		return allBuyingRequests;
 	}
 
 	async getBuyingRequests(companyId: number, offset: number) {
@@ -51,6 +59,17 @@ class BuyingRequestController {
 	async deleteBuyingRequest(id: number) {
 		try {
 			await BuyingRequest.destroy({ where: { id } });
+
+			return successResponse();
+		} catch (e) {
+			console.log(e);
+			return errorResponse(e);
+		}
+	}
+
+	async deleteBuyingRequests(ids: number[]) {
+		try {
+			await BuyingRequest.destroy({ where: { id: ids } });
 
 			return successResponse();
 		} catch (e) {
@@ -98,7 +117,7 @@ class BuyingRequestController {
 				newProductName.save();
 			}
 
-			if (duplicateBr) return errorResponse("DUPLICATE_BR");
+			if (duplicateBr) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
 
 			const newBuyingRequest = await BuyingRequest.create({
 				...buyingRequestInput,
@@ -110,7 +129,7 @@ class BuyingRequestController {
 
 			setBrGallery(brGallery, newBuyingRequest);
 
-			newBuyingRequest.save().then(() => successResponse());
+			return newBuyingRequest.save().then(() => successResponse());
 		} catch (error) {
 			console.log(error);
 			return errorResponse(error);
