@@ -7,6 +7,8 @@ type BRContext = {
   setSelecteds: (br: IBuyingRequest[]) => void;
   openCreateProject: () => void;
   closeCreateProject: () => void;
+  shouldRefetchBrs: boolean;
+  refetchBrs: () => void;
 };
 
 const initVal: BRContext = {
@@ -15,6 +17,8 @@ const initVal: BRContext = {
   setSelecteds: (value) => console.log("new selected prs ", value),
   openCreateProject: () => console.log("new selected prs "),
   closeCreateProject: () => console.log("new selected prs "),
+  shouldRefetchBrs: false,
+  refetchBrs: () => console.log("Refetching Br"),
 };
 
 const BuyingRequestsContext = React.createContext<BRContext>(initVal);
@@ -22,24 +26,30 @@ const BuyingRequestsContext = React.createContext<BRContext>(initVal);
 export const BuyingRequestContextProvider: React.FC = ({ children }) => {
   const [selecteds, setSelecteds] = useState<IBuyingRequest[]>([]);
   const [isCreatingProject, setIsCreatingProject] = useState(false);
+  const [shouldRefetchBrs, setShouldRefetchBrs] = useState(false);
 
-  function openCreateProject() {
-    setIsCreatingProject(true);
-  }
-  function closeCreateProject() {
-    setIsCreatingProject(false);
-  }
+  const value = useMemo(() => {
+    function refetchBrs() {
+      setShouldRefetchBrs(!shouldRefetchBrs);
+    }
+    function openCreateProject() {
+      setIsCreatingProject(true);
+    }
+    function closeCreateProject() {
+      setIsCreatingProject(false);
+    }
 
-  const value = useMemo(
-    () => ({
+    return {
       selecteds,
       setSelecteds,
       isCreatingProject,
       openCreateProject,
+      shouldRefetchBrs,
+      refetchBrs,
       closeCreateProject,
-    }),
-    [isCreatingProject, selecteds]
-  );
+    };
+  }, [isCreatingProject, selecteds, shouldRefetchBrs]);
+
   return (
     <BuyingRequestsContext.Provider value={value}>
       {children}
