@@ -87,7 +87,7 @@ export function getCompanyName() {
   return company?.name;
 }
 export function getLoggedInUserId() {
-  const { company } = getMeData();
+  const { user } = getMeData();
 
-  return company?.name;
+  return user?.id;
 }
