@@ -6,8 +6,18 @@ mutation CreateProject($input: ProjectInput!) {
   }
 }
 
-query Projects($companyId: Int!) {
-  projects(companyId: $companyId) {
-    ...ProjectFragment
+query Projects($companyId: Int!, $offset: Int!) {
+  projects(companyId: $companyId, offset: $offset) {
+    projects {
+      ...ProjectFragment
+    }
+    count
+  }
+}
+
+mutation AddToProject($projectId: Int!, $brIds: [Int]!) {
+  addToProject(projectId: $projectId, brIds: $brIds) {
+    success
+    message
   }
 }

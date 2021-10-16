@@ -3,11 +3,12 @@ import { IProject } from "@graphql/types.graphql";
 import { getCompanyId } from "@utils/functions";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useBRContext } from "src/contexts/buying-request.context";
 import SelectProject from "./select-project";
 
 interface IAddToProjectProps {
   onNewClick: () => void;
-  onProjectClick: (id: number) => void;
+  onProjectClick: (project: IProject) => void;
 }
 
 const AddToProject: React.FC<IAddToProjectProps> = ({
@@ -17,11 +18,9 @@ const AddToProject: React.FC<IAddToProjectProps> = ({
   const { t } = useTranslation("common");
 
   const { data } = useProjectsQuery({
-    variables: { companyId: getCompanyId() },
+    variables: { companyId: getCompanyId(), offset: 0 },
   });
-  const projects = data?.projects || [];
-
-  console.log(projects);
+  const projects = data?.projects?.projects || [];
 
   return (
     <SelectProject

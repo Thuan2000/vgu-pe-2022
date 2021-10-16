@@ -19,7 +19,10 @@ import DeleteBrAlert from "@components/ui/delete-br-alert";
 import SelectProject from "@components/ui/select-project";
 import AddToProject from "@components/ui/add-to-project";
 import UnderDevelopment from "@components/under-development";
-import { useProjectsQuery } from "@graphql/project.graphql";
+import {
+  useAddToProjectMutation,
+  useProjectsQuery,
+} from "@graphql/project.graphql";
 import { getCompanyId } from "@utils/functions";
 
 interface IBuyingRequestCardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -87,7 +90,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
     closeModal();
   }
 
-  function handleProjectClick(projectId: number) {}
+  function handleProjectClick(project: IProject) {}
 
   function handleAddToProject() {
     setSelecteds([br]);

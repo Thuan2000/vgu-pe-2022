@@ -39,6 +39,7 @@ module.exports = {
         top: "0 0 10px rgba(0,0,0,.3)",
       },
       colors: {
+        error: "#FF3346",
         black: "#15114E",
         "dark-blue": "#15114E",
         light: {

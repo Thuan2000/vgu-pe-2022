@@ -6,6 +6,7 @@
 	"scripts": {
 		"test": "jest",
 		"predb:migrate": "npx sequelize-cli db:migrate:undo:all",
+		"db:migrate:seed": "npm-run-all db:migrate db:seed",
 		"db:model:generate": "npx sequelize-cli model:generate",
 		"db:migrate": "npx sequelize-cli db:migrate",
 		"db:seed": "npx sequelize-cli db:seed:all",

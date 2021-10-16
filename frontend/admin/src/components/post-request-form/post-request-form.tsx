@@ -24,6 +24,11 @@ import Swal from "sweetalert2";
 import { COLORS } from "@utils/colors";
 import { ROUTES } from "@utils/routes";
 import { IResponse } from "@graphql/types.graphql";
+import {
+  getCompanyId,
+  getCompanyName,
+  getLoggedInUserId,
+} from "@utils/functions";
 
 type KeyValueSelect = { key: { label: string; value: string }; value: any };
 
@@ -60,7 +65,6 @@ const PostRequestForm = () => {
   const [createBuyingRequest, { loading, error }] =
     useCreateBuyingRequestMutation({
       onCompleted: ({ createBuyingRequest, ...rest }) => {
-        console.log(createBuyingRequest);
         const { success, message } = (createBuyingRequest as IResponse) || {};
         if (success) router.push(ROUTES.POSTED_REQUESTS);
         else if (success === false) {
@@ -116,14 +120,12 @@ const PostRequestForm = () => {
 
   // Changing section if there's an error
   useEffect(() => {
-    if (errors) {
-      if (errors.general) {
-        changeSection(1);
-        return;
-      } else if (errors.details || errors.additional) {
-        changeSection(2);
-        return;
-      }
+    if (errors && errors.general) {
+      changeSection(1);
+      return;
+    } else if ((errors && errors.details) || errors.additional) {
+      changeSection(2);
+      return;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
@@ -142,10 +144,10 @@ const PostRequestForm = () => {
     const productName = product.name;
     const categoryIds = categories?.map((category) => category.id);
 
-    const { company } = getMeData();
     const values: any = {
-      companyId: company?.id,
-      companyName: company?.name,
+      companyId: getCompanyId(),
+      companyName: getCompanyName(),
+      createdById: getLoggedInUserId(),
       location: locationName,
       productName,
       categories: categoryIds,

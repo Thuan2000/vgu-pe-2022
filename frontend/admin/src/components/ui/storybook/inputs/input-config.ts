@@ -8,7 +8,8 @@ export const inputClasses = {
   outline: "border border-border-base focus:border-green",
   shadow: "focus:shadow",
   numberInput: "text-right",
-  noBorder: "border-none",
+  noBorder:
+    "border-none shadow-none focus:border-none focus:shadow-none active:border-none active:shadow-none",
 };
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

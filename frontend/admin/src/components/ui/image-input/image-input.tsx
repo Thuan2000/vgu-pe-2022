@@ -25,12 +25,20 @@ interface ImageUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
   value: any;
   onChange: (e: any) => void;
   onBlur: () => void;
+  disabled?: boolean;
   ref: RefCallBack;
 }
 
 const ImageUploader = React.forwardRef(
   (
-    { onChange, onBlur, changePhotoLabel, value, ...props }: ImageUploaderProps,
+    {
+      onChange,
+      onBlur,
+      changePhotoLabel,
+      value,
+      disabled,
+      ...props
+    }: ImageUploaderProps,
     ref
   ) => {
     const [file, setFile] = useState<any>(value);
@@ -46,19 +54,19 @@ const ImageUploader = React.forwardRef(
         setFile(addedLocalUrl);
       },
     });
-
     return (
       <div {...props}>
         <div
           className="w-full h-full relative rounded-sm overflow-hidden"
           {...getRootProps()}
         >
-          <input {...getInputProps()} />
+          <input {...getInputProps({ disabled })} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="object-cover w-full h-full"
             src={
               file?.localUrl ||
+              value?.location ||
               "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/image-placeholder.jpg"
             }
             alt="image-preview"
