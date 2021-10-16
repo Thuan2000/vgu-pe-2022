@@ -81,3 +81,13 @@ export function getCompanyId() {
 
   return company?.id as number;
 }
+export function getCompanyName() {
+  const { company } = getMeData();
+
+  return company?.name;
+}
+export function getLoggedInUserId() {
+  const { company } = getMeData();
+
+  return company?.name;
+}

@@ -11,6 +11,7 @@ export const AUTH_CONSTANTS = {
 };
 
 export const BUYING_REQUESTS_GET_LIMIT = 8;
+export const PROJECTS_GET_LIMIT = 15;
 
 export const RESPONSE_MESSAGE = {
 	DUPLICATE: "DUPLICATE",

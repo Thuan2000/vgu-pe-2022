@@ -17,7 +17,7 @@ interface ISelectProjectProps extends React.HTMLAttributes<HTMLDivElement> {
   createNewLabel: string;
   noProjectMessage: string;
   onNewClick: () => void;
-  onProjectClick: (id: number) => void;
+  onProjectClick: (project: any) => void;
 }
 
 const SelectProject: React.FC<ISelectProjectProps> = ({
@@ -39,7 +39,7 @@ const SelectProject: React.FC<ISelectProjectProps> = ({
       <button
         className="flex items-center w-full pl-5 py-2 active:bg-gray-10"
         key={pr.name}
-        onClick={() => onProjectClick(pr.id)}
+        onClick={() => onProjectClick(pr)}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

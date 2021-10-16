@@ -21,7 +21,7 @@ const classes = {
   loading:
     "ml-2 h-4 w-4 ms-2 rounded-full border-2 border-transparent border-t-2 animate-spin",
   disabled:
-    "border border-border-base bg-gray-300 border-border-400 cursor-not-allowed",
+    "border border-border-base bg-gray-300 border-border-400 cursor-not-allowed text-white",
   disabledOutline: "border border-border-base text-muted cursor-not-allowed",
   small: "px-3 py-0 h-9 text-sm h-10",
   medium: "px-5 py-0 h-12",

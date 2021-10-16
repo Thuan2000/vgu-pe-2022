@@ -20,8 +20,6 @@ import SpinLoading from "@components/ui/storybook/spin-loading";
 import { COLORS } from "@utils/colors";
 import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import AddToProject from "@components/ui/add-to-project";
-import { useProjectsQuery } from "@graphql/project.graphql";
-import { getCompanyId } from "@utils/functions";
 
 interface IBuyingRequestSearchProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -29,20 +27,16 @@ interface IBuyingRequestSearchProps
 }
 
 const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
+  const [isSelectAll, setIsSelectAll] = useState<boolean>(false);
   const { t } = useTranslation();
-  const { selecteds, openCreateProject, setSelecteds } = useBRContext();
+  const { selecteds, openCreateProject, setSelecteds, openUpdateProject } =
+    useBRContext();
   const { openModal, closeModal } = useModal();
   const isPhone = useIsPhone();
   const { refetchBrs } = useBRContext();
   const [deleteBrs, { loading }] = useDeleteBuyingRequestsMutation({
     onCompleted: refetchBrs,
   });
-  const { data } = useProjectsQuery({
-    variables: { companyId: getCompanyId() },
-  });
-  const projects = data?.projects;
-
-  const [isSelectAll, setIsSelectAll] = useState<boolean>(false);
 
   function deleteSelectedBrs() {
     const selectedBrIds = selecteds.map((br) => parseInt(br.id));
@@ -54,14 +48,15 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
     openCreateProject();
     closeModal();
   }
-  function handleProjectClick(projectId: number) {
-    openModal(UnderDevelopment);
+  function handleProjectClick(project: IProject) {
+    openUpdateProject(project);
+    closeModal();
   }
 
   function handleSelectAllChange(e: ChangeEvent<HTMLInputElement>) {
     setIsSelectAll(e.target.checked);
 
-    if (e.target.checked) setSelecteds(brs);
+    if (e.target.checked) setSelecteds([...brs]);
     else setSelecteds([]);
   }
 

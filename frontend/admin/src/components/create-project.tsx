@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { ChangeEvent, useEffect } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
@@ -14,15 +14,16 @@ import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import RequestSelector from "@components/ui/requests-selector";
 import { useBRContext } from "src/contexts/buying-request.context";
-import { IBuyingRequest } from "@graphql/types.graphql";
+import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import { indexOf, remove } from "lodash";
 import Modal from "@components/ui/modal";
 import Form from "./form";
 import {
-  CreateProjectMutation,
+  useAddToProjectMutation,
   useCreateProjectMutation,
 } from "@graphql/project.graphql";
 import { getMeData } from "@utils/auth-utils";
+import { trimText } from "@utils/functions";
 
 type CreateProjectFormValues = {
   name: string;
@@ -38,32 +39,60 @@ const cpSchema = yup.object({
 
 const CreateProject = () => {
   const {
-    control,
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<CreateProjectFormValues>({
-    resolver: yupResolver(cpSchema),
-  });
-  const { t } = useTranslation("form");
-
-  const {
     selecteds,
     setSelecteds,
     isCreatingProject,
     closeCreateProject,
     refetchBrs,
+    projectInitValue: initValue,
   } = useBRContext();
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm<CreateProjectFormValues>({
+    resolver: yupResolver(cpSchema),
+  });
+
+  const [isHaveNewBr, setIsHaveNewBr] = useState<boolean>();
+
+  useEffect(() => {
+    const filterUnchecked = selecteds.filter(
+      (selected) => (selected as any).unChecked !== true
+    );
+    const filterAlreadyAdded = filterUnchecked.filter(
+      (selected) => (selected as any).alreadyAdded !== true
+    );
+
+    setIsHaveNewBr(filterAlreadyAdded.length > 0);
+  }, [selecteds]);
+
+  useEffect(() => {
+    if (initValue) {
+      setValue("name", initValue.name);
+      setValue("image", initValue.image);
+      setValue("endDate", new Date(initValue.endDate));
+      setValue("description", initValue.description || "");
+    }
+  });
+
+  const { t } = useTranslation("form");
 
   const [createProject, { loading }] = useCreateProjectMutation({
     onCompleted: handleOnCreateProjectComplete,
   });
+  const [addToProject, { loading: atpLoading }] = useAddToProjectMutation({
+    onCompleted: handleOnCreateProjectComplete,
+  });
 
-  function handleOnCreateProjectComplete({
-    createProject,
-  }: CreateProjectMutation) {
-    const { success, message } = createProject;
+  function handleOnCreateProjectComplete(data: any) {
+    const createProject = data?.createProject;
+    const addToProject = data?.addToProject;
+    const { success, message } = createProject || addToProject;
 
     if (success === false) {
       alert(t(`common:PROJECT-${message}-ERROR`));
@@ -76,6 +105,25 @@ const CreateProject = () => {
       reset();
     }
   }
+
+  function handleAlreadyAddedBr(br: IBuyingRequest) {
+    const added = remove(selecteds, br)[0];
+
+    const newBrWithAlreadyAdded = Object.assign({}, added, {
+      alreadyAdded: true,
+    });
+    setSelecteds([...selecteds, newBrWithAlreadyAdded]);
+  }
+
+  function uncheckBr(br: any) {
+    const unChecked = remove(selecteds, br)[0];
+
+    const newBrWithUnchecked = Object.assign({}, unChecked, {
+      unChecked: true,
+    });
+    setSelecteds([...selecteds, newBrWithUnchecked]);
+  }
+
   function handleBrSelectionChange(
     e: ChangeEvent<HTMLInputElement>,
     br: IBuyingRequest
@@ -83,12 +131,7 @@ const CreateProject = () => {
     // By default this function will be called with !e.target.checked first
     if (!e.target.checked) {
       // Update selecteds and get removed value in one command
-      const unChecked = remove(selecteds, br)[0];
-
-      const newBrWithUnchecked = Object.assign({}, unChecked, {
-        unChecked: true,
-      });
-      setSelecteds([...selecteds, newBrWithUnchecked]);
+      uncheckBr(br);
     }
     if (e.target.checked) {
       (br as any).unChecked = false;
@@ -107,19 +150,33 @@ const CreateProject = () => {
   }
 
   async function onSubmit({ endDate, ...e }: CreateProjectFormValues) {
-    const buyingRequests = selecteds.map((br) => parseInt(br.id));
+    if (!initValue) {
+      const filteredUnchecked = selecteds.filter(
+        (br) => !(br as any).unChecked === true
+      );
+      const buyingRequests = filteredUnchecked.map((br) => parseInt(br.id));
+      const { company, user } = getMeData();
+      const values = {
+        ...e,
+        endDate: endDate.getTime(),
+        buyingRequests,
+        companyId: company?.id,
+        createdById: user?.id,
+        companyName: company?.name,
+      };
 
-    const { company, user } = getMeData();
-    const values = {
-      ...e,
-      endDate: endDate.getTime(),
-      buyingRequests,
-      companyId: company?.id,
-      createdById: user?.id,
-      companyName: company?.name,
-    };
+      await createProject({ variables: { input: values } });
+    }
 
-    await createProject({ variables: { input: values } });
+    if (initValue) {
+      const filteredAdded = selecteds.filter(
+        (br) => (br as any).alreadyAdded !== true
+      );
+      const brIds = filteredAdded.map((selected) => parseInt(selected.id));
+      addToProject({
+        variables: { projectId: parseInt(initValue.id + ""), brIds },
+      });
+    }
   }
 
   return (
@@ -151,19 +208,21 @@ const CreateProject = () => {
             <div className="flex w-full items-start">
               <ImageInput
                 control={control}
+                disabled={!!initValue}
                 name="image"
                 className="w-72 h-40 mr-5 hidden sm:block"
                 changePhotoLabel={t("change-photo-label")}
               />
               <div className="w-full space-y-4">
                 <Input
-                  {...register("name")}
+                  {...register("name", { disabled: !!initValue })}
                   label={`${t("project-name-input-label")}*`}
                   placeholder={t("project-name-input-placeholder")}
                   error={errors?.name?.message}
                 />
                 <DateInput
                   control={control}
+                  disabled={!!initValue}
                   name="endDate"
                   minDate={new Date()}
                   label={`${t("endDate-input-label")}*`}
@@ -173,7 +232,7 @@ const CreateProject = () => {
               </div>
             </div>
             <TextArea
-              {...register("description")}
+              {...register("description", { disabled: !!initValue })}
               label={t("project-description-input-label")}
               error={errors?.description?.message}
               rows={3}
@@ -181,11 +240,14 @@ const CreateProject = () => {
             />
           </div>
           <RequestSelector
+            onAlreadyAdded={handleAlreadyAddedBr}
             onBrSelectionChange={handleBrSelectionChange}
             loading={false}
+            currentBrIds={initValue?.buyingRequests}
             label={t("project-addRequests-label")}
+            alreadyAddedMessage={t("brAddedAlready-message")}
             getBrCoverSrc={(br: any) => br?.gallery?.at(0)?.location}
-            getBrLabel={(br: any) => br?.name}
+            getBrLabel={(br: any) => trimText(br?.name, 15)}
             getBrChecked={(br: any) => !br?.unChecked}
             className="w-full px-5"
             noRequestMessage={t("noRequests-message")}
@@ -199,8 +261,15 @@ const CreateProject = () => {
             >
               {t("cancel-button-label")}
             </Button>
-            <Button type="submit" className="w-1/2.5 sm:w-36" loading={loading}>
-              {t("create-project-button-label")}
+            <Button
+              type="submit"
+              disabled={!isHaveNewBr}
+              className="w-1/2.5 sm:w-36"
+              loading={loading || atpLoading}
+            >
+              {!!initValue
+                ? t("update-project-button-label")
+                : t("create-project-button-label")}
             </Button>
           </div>
         </div>

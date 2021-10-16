@@ -2,7 +2,12 @@ import BuyingRequest from "@models/BuyingRequest";
 import { IProjectInput } from "../graphql/types";
 import Project from "../models/Project";
 import { uploadImage } from "../repositories/uploads.repository";
-import { errorResponse, RESPONSE_MESSAGE, successResponse } from "../utils";
+import {
+	errorResponse,
+	PROJECTS_GET_LIMIT,
+	RESPONSE_MESSAGE,
+	successResponse
+} from "../utils";
 
 function setBuyingRequestsProject(
 	buyingRequests: BuyingRequest[],
@@ -19,13 +24,33 @@ function setBuyingRequestsProject(
 }
 
 class ProjectController {
-	async getProjects(companyId: number) {
-		const projects = await Project.findAll({
+	async getProjects(companyId: number, offset: number) {
+		const { rows: projects, count } = await Project.findAndCountAll({
 			where: { companyId },
-			limit: 15
+			offset: offset,
+			limit: PROJECTS_GET_LIMIT
 		});
 
-		return projects;
+		return { projects, count };
+	}
+
+	async addToProject(projectId: number, brIds: number[]) {
+		try {
+			const project = await Project.findOne({ where: { id: projectId } });
+
+			const currentBrs = project.getDataValue("buyingRequests");
+
+			project.setDataValue(
+				"buyingRequests",
+				!!currentBrs?.length ? [...currentBrs, ...brIds] : brIds
+			);
+			project.save();
+
+			return successResponse();
+		} catch (e) {
+			console.log(e);
+			return errorResponse();
+		}
 	}
 
 	async createProject(project: IProjectInput) {

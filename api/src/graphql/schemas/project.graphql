@@ -1,4 +1,5 @@
 type Project {
+	id: Int!
 	name: String!
 	endDate: Date!
 	image: File
@@ -19,10 +20,16 @@ input ProjectInput {
 	companyName: String!
 }
 
+type GetProjects {
+	projects: [Project!]!
+	count: Int!
+}
+
 extend type Query {
-	projects(companyId: Int!): [Project!]!
+	projects(companyId: Int!, offset: Int!): GetProjects!
 }
 
 extend type Mutation {
 	createProject(input: ProjectInput!): Response!
+	addToProject(projectId: Int!, brIds: [Int]!): Response!
 }

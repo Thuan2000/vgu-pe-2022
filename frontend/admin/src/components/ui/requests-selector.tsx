@@ -1,6 +1,7 @@
 import PdfIcon from "@assets/icons/files/pdf-icon";
 import SearchIcon from "@assets/icons/search-icon";
 import { siteSettings } from "@settings/site.settings";
+import { findIndex } from "lodash";
 import React, { ChangeEvent, useState } from "react";
 import Checkbox from "./storybook/checkbox";
 import Input from "./storybook/inputs/input";
@@ -16,6 +17,9 @@ interface IRequestSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   loading: boolean;
   noRequestMessage: string;
   requests: any[];
+  currentBrIds?: number[];
+  alreadyAddedMessage: string;
+  onAlreadyAdded: (br: any) => void;
   getBrCoverSrc: (br: any) => any;
   getBrLabel: (br: any) => any;
   getBrChecked: (br: any) => any;
@@ -27,20 +31,29 @@ const RequestSelector: React.FC<IRequestSelectorProps> = ({
   loading,
   label,
   numberQueue,
+  currentBrIds,
   note,
   queueBackground,
   noRequestMessage,
+  alreadyAddedMessage,
   onBrSelectionChange,
   getBrCoverSrc,
   getBrLabel,
+  onAlreadyAdded,
   getBrChecked,
   ...props
 }) => {
-  const projectList = requests.map((br) => {
+  const projectList = requests.flatMap((br) => {
+    const isAddedAlready =
+      findIndex(currentBrIds, (id) => id === parseInt(br.id)) !== -1;
+
+    isAddedAlready && !br.alreadyAdded === true && onAlreadyAdded(br);
     return (
       <button
         className="flex items-center w-full pl-5 py-2 active:bg-gray-10 relative"
         key={br.name}
+        value={isAddedAlready ? 10 : 0}
+        type="button"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -50,15 +63,26 @@ const RequestSelector: React.FC<IRequestSelectorProps> = ({
           height={30}
           className="mr-3"
         />
-        <p className="font-semibold text-dark-blue text-md">{getBrLabel(br)}</p>
+        <p className="font-semibold text-dark-blue text-md">
+          {getBrLabel(br)}
+          <span className="text-error ml-5 italic font-light">
+            {isAddedAlready && alreadyAddedMessage}
+          </span>
+        </p>
         <Checkbox
           name={br.id}
-          defaultChecked={getBrChecked(br)}
+          disabled={isAddedAlready}
+          defaultChecked={getBrChecked(br) && !isAddedAlready}
           className="absolute right-3"
           onChange={(e) => onBrSelectionChange(e, br)}
         />
       </button>
     );
+  });
+
+  projectList.sort((a, b) => {
+    // Higher first
+    return b.props.value - a.props.value;
   });
 
   return (
@@ -79,7 +103,10 @@ const RequestSelector: React.FC<IRequestSelectorProps> = ({
               className="h-9 w-full focus:none"
               placeholder="Tìm kiếm"
             />
-            <button className="border-gray-200 p-3 flex-center border-l">
+            <button
+              type="button"
+              className="border-gray-200 p-3 flex-center border-l"
+            >
               <SearchIcon />
             </button>
           </div>

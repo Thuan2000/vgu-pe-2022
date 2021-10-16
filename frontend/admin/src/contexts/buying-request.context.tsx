@@ -1,4 +1,4 @@
-import { IBuyingRequest } from "@graphql/types.graphql";
+import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import React, { useContext, useMemo, useState } from "react";
 
 type BRContext = {
@@ -6,8 +6,10 @@ type BRContext = {
   isCreatingProject: boolean;
   setSelecteds: (br: IBuyingRequest[]) => void;
   openCreateProject: () => void;
+  openUpdateProject: (project: IProject) => void;
   closeCreateProject: () => void;
   shouldRefetchBrs: boolean;
+  projectInitValue?: IProject;
   refetchBrs: () => void;
 };
 
@@ -16,6 +18,7 @@ const initVal: BRContext = {
   isCreatingProject: false,
   setSelecteds: (value) => console.log("new selected prs ", value),
   openCreateProject: () => console.log("new selected prs "),
+  openUpdateProject: () => console.log("new selected prs "),
   closeCreateProject: () => console.log("new selected prs "),
   shouldRefetchBrs: false,
   refetchBrs: () => console.log("Refetching Br"),
@@ -27,14 +30,22 @@ export const BuyingRequestContextProvider: React.FC = ({ children }) => {
   const [selecteds, setSelecteds] = useState<IBuyingRequest[]>([]);
   const [isCreatingProject, setIsCreatingProject] = useState(false);
   const [shouldRefetchBrs, setShouldRefetchBrs] = useState(false);
+  const [projectInitValue, setProjectInitValue] = useState<IProject>();
 
   const value = useMemo(() => {
     function refetchBrs() {
       setShouldRefetchBrs(!shouldRefetchBrs);
     }
+
     function openCreateProject() {
       setIsCreatingProject(true);
     }
+
+    function openUpdateProject(initVal: IProject) {
+      setIsCreatingProject(true);
+      setProjectInitValue(initVal);
+    }
+
     function closeCreateProject() {
       setIsCreatingProject(false);
     }
@@ -46,9 +57,11 @@ export const BuyingRequestContextProvider: React.FC = ({ children }) => {
       openCreateProject,
       shouldRefetchBrs,
       refetchBrs,
+      projectInitValue,
       closeCreateProject,
+      openUpdateProject,
     };
-  }, [isCreatingProject, selecteds, shouldRefetchBrs]);
+  }, [isCreatingProject, selecteds, shouldRefetchBrs, projectInitValue]);
 
   return (
     <BuyingRequestsContext.Provider value={value}>

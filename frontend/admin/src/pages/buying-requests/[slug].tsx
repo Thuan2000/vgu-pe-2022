@@ -42,13 +42,14 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
 
     let text = "";
     Object.keys(allowedCompany)?.map((key: string) => {
+      if (key === "__typename") return;
       const fi = (allowedCompany as any)[key];
       if (!fi) return;
       text += `${t("form:company-with-label")} ${thousandSeparator(fi)} ${t(
         "form:" + key + "-filter-key"
       )}, `;
     });
-    return text;
+    return text || t("no-filter");
   }
 
   return (
@@ -100,7 +101,7 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
           <div className="mt-1 flex items-start">
             <p className="mr-1">{t("budget-text")}:</p>
             <p className="font-semibold">
-              {formatMoneyAmount(br?.minBudget)} -{" "}
+              {formatMoneyAmount(br?.minBudget)}-{" "}
               {formatMoneyAmount(br?.maxBudget)}
             </p>
           </div>

@@ -106,5 +106,7 @@
   "project-addRequests-label": "Add Requests",
   "noRequests-message": "No Reuquests",
   "create-project-button-label": "Create Project",
-  "cancel-button-label": "Cancel"
+  "update-project-button-label": "Update Project",
+  "cancel-button-label": "Cancel",
+  "brAddedAlready-message": "Already Added"
 }

@@ -32,7 +32,7 @@ BuyingRequest.init(
 		commentIds: DataTypes.JSON,
 		bidIds: DataTypes.JSON,
 		projectIds: DataTypes.JSON,
-		createdBy: DataTypes.INTEGER
+		createdById: DataTypes.INTEGER
 	},
 	{
 		tableName: "buying_requests",
