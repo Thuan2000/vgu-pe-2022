@@ -1,7 +1,7 @@
 type Project {
 	name: String!
 	endDate: Date!
-	image: Upload
+	image: File
 	description: String
 	buyingRequests: [Int!]!
 	companyId: Int!
