@@ -20,7 +20,10 @@ function setBuyingRequestsProject(
 
 class ProjectController {
 	async getProjects(companyId: number) {
-		const projects = await Project.findAll({ where: { companyId } });
+		const projects = await Project.findAll({
+			where: { companyId },
+			limit: 15
+		});
 
 		return projects;
 	}
