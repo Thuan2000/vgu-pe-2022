@@ -63,6 +63,9 @@ module.exports = {
 			projectIds: {
 				type: Sequelize.JSON
 			},
+			createdBy: {
+				type: Sequelize.INTEGER
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE
