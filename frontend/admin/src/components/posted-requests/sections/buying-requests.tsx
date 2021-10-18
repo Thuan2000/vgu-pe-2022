@@ -65,9 +65,9 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = ({
 
   if (loading) return <Loading />;
 
-  if (!data?.buyingRequestsAndCount.buyingRequests.length)
+  if (!data?.buyingRequestsAndCount?.buyingRequests?.length)
     return <NoBuyingRequests />;
-  const brs = data?.buyingRequestsAndCount.buyingRequests as IBuyingRequest[];
+  const brs = data?.buyingRequestsAndCount?.buyingRequests as IBuyingRequest[];
 
   const brChips = brs?.map((br: IBuyingRequest) => {
     if (!br) return;

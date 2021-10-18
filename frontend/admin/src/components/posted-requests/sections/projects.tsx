@@ -4,6 +4,7 @@ import { IProject } from "@graphql/types.graphql";
 import { getCompanyId } from "@utils/functions";
 import React from "react";
 import ProjectContextProvider from "src/contexts/projects.context";
+import NoProjects from "../no-projects";
 import ProjectCard from "../projects/project-card";
 
 const Projects: React.FC = () => {
@@ -21,7 +22,7 @@ const Projects: React.FC = () => {
 
   const projects = data?.projects.projects;
 
-  if (!projects) return <></>;
+  if (!projects) return <NoProjects />;
 
   const projectList = projects?.map((project) => {
     return (

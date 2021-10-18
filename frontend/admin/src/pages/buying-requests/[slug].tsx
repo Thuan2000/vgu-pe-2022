@@ -10,6 +10,7 @@ import { IAllowedCompany, IBuyingRequest } from "@graphql/types.graphql";
 import { getMeData } from "@utils/auth-utils";
 import {
   formatMoneyAmount,
+  getSuffix,
   thousandSeparator,
   viDateFormat,
 } from "@utils/functions";
@@ -101,8 +102,10 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
           <div className="mt-1 flex items-start">
             <p className="mr-1">{t("budget-text")}:</p>
             <p className="font-semibold">
-              {formatMoneyAmount(br?.minBudget)}-{" "}
+              {formatMoneyAmount(br?.minBudget)}
+              {t("common:" + getSuffix(br?.minBudget))}-{" "}
               {formatMoneyAmount(br?.maxBudget)}
+              {t("common:" + getSuffix(br?.maxBudget))}
             </p>
           </div>
           <div className="mt-1 flex items-start">
