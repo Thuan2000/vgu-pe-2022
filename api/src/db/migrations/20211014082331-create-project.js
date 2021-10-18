@@ -11,6 +11,9 @@ module.exports = {
 			name: {
 				type: Sequelize.STRING
 			},
+			slug: {
+				type: Sequelize.STRING
+			},
 			endDate: {
 				type: Sequelize.DOUBLE
 			},
@@ -27,6 +30,9 @@ module.exports = {
 				type: Sequelize.INTEGER
 			},
 			createdById: {
+				type: Sequelize.INTEGER
+			},
+			updatedById: {
 				type: Sequelize.INTEGER
 			},
 			createdAt: {

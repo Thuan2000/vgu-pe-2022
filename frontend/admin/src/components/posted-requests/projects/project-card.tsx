@@ -16,6 +16,8 @@ import useIsPhone from "src/hooks/isPhone.hook";
 import { useProjects } from "src/contexts/projects.context";
 import { findIndex, remove } from "lodash";
 import { useRouter } from "next/dist/client/router";
+import { ROUTES } from "@utils/routes";
+import Link from "@components/ui/link";
 
 interface IProjectCardProps extends React.HTMLAttributes<HTMLDivElement> {
   project: IProject;
@@ -143,9 +145,11 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
         />
       </div>
       <div className="py-3 ml-3 space-y-1">
-        <p className="font-semibold text-md">
-          {trimText(project.name, isPhone ? 19 : 30)}
-        </p>
+        <Link href={`${ROUTES.PROJECTS}/${project.slug}`}>
+          <p className="font-semibold text-md">
+            {trimText(project.name, isPhone ? 19 : 30)}
+          </p>
+        </Link>
         <p>
           <span className="text-gray-200">{t("due-time-text")}:</span>
           <span className="ml-2 text-secondary-1">

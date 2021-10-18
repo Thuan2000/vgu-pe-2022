@@ -2,7 +2,7 @@ import UnderDevelopment from "@components/under-development";
 import { useProjectsQuery } from "@graphql/project.graphql";
 import { IProject } from "@graphql/types.graphql";
 import { getCompanyId } from "@utils/functions";
-import React from "react";
+import React, { useEffect } from "react";
 import ProjectContextProvider from "src/contexts/projects.context";
 import NoProjects from "../no-projects";
 import ProjectCard from "../projects/project-card";
@@ -16,13 +16,18 @@ const Projects: React.FC = () => {
     refetch({ companyId: getCompanyId(), offset: getOffset() });
   }
 
+  useEffect(() => {
+    refetchProject();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function getOffset() {
     return 0;
   }
 
   const projects = data?.projects.projects;
 
-  if (!projects) return <NoProjects />;
+  if (!projects?.length) return <NoProjects />;
 
   const projectList = projects?.map((project) => {
     return (

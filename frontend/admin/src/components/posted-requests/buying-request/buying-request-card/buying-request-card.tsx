@@ -27,16 +27,21 @@ import { getCompanyId } from "@utils/functions";
 
 interface IBuyingRequestCardProps extends React.HTMLAttributes<HTMLDivElement> {
   br: IBuyingRequest;
+  onSelectChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  selecteds: IBuyingRequest[];
+  setSelecteds: (value: IBuyingRequest[]) => void;
 }
 
 const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   br,
   className,
+  onSelectChange,
+  selecteds,
+  setSelecteds,
   ...props
 }) => {
   const { t } = useTranslation();
-  const { selecteds, setSelecteds, refetchBrs, openCreateProject } =
-    useBRContext();
+  const { refetchBrs, openCreateProject } = useBRContext();
   const [isSelected, setIsSelected] = useState(false);
   const { openModal, closeModal } = useModal();
 
@@ -54,36 +59,6 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
 
     setIsSelected(isSelected);
   }, [br.id, selecteds]);
-
-  function addToSelecteds() {
-    const index = findIndex(
-      selecteds,
-      (selected: any) => selected.id === br.id
-    );
-
-    if (index !== -1) return;
-
-    const newSelecteds: any = [...selecteds, br];
-    setSelecteds(newSelecteds);
-  }
-
-  function removeFromSelecteds() {
-    const index = findIndex(
-      selecteds,
-      (selected: any) => selected.id === br.id
-    );
-
-    if (index === -1) return;
-
-    selecteds.splice(index, 1);
-    const newSelecteds: any = [...selecteds];
-    setSelecteds(newSelecteds);
-  }
-
-  function handleSelectChange(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) addToSelecteds();
-    else if (!e.target.checked) removeFromSelecteds();
-  }
 
   function handleCreateProject() {
     openCreateProject();
@@ -132,7 +107,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
         <Checkbox
           name={`${br.id}${br.name}`}
           className="z-10"
-          onChange={handleSelectChange}
+          onChange={onSelectChange}
           checked={isSelected}
         />
       </div>

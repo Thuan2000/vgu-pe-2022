@@ -4,7 +4,8 @@ const projectController = new ProjectController();
 
 export const Query = {
 	projects: (_, { companyId, offset }) =>
-		projectController.getProjects(companyId, offset)
+		projectController.getProjects(companyId, offset),
+	project: (_, { slug }) => projectController.getProject(slug)
 };
 
 export const Mutation = {

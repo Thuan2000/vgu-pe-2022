@@ -1,5 +1,6 @@
 import { IBuyingRequestInput } from "@graphql/types";
 import BuyingRequest from "@models/BuyingRequest";
+import User from "@models/User";
 import { uploadImages } from "@repositories/uploads.repository";
 import {
 	BUYING_REQUESTS_GET_LIMIT,
@@ -28,11 +29,25 @@ function setBrGallery(data: Promise<unknown>[], br: BuyingRequest) {
 
 class BuyingRequestController {
 	async getBuyingRequest(slug: string) {
-		const buyingRequest = await BuyingRequest.findOne({
+		const br = await BuyingRequest.findOne({
 			where: { slug }
 		});
 
-		return buyingRequest;
+		const createdBy = await User.findOne({
+			where: { id: br.getDataValue("createdById") }
+		});
+
+		let updatedBy;
+		const updatedById = br.getDataValue("updatedById");
+
+		if (updatedById)
+			updatedBy = await User.findOne({
+				where: { id: updatedById }
+			});
+
+		const buyingRequest = Object.assign({}, br, { createdBy, updatedBy });
+
+		return { buyingRequest, createdBy, updatedBy };
 	}
 
 	async getBuyingRequestsByIds(ids: number[]) {

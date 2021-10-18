@@ -95,8 +95,6 @@ const LoginForm = () => {
   }
 
   async function onSubmit({ email, password }: FormValues) {
-    console.log(email, password);
-
     login({
       variables: {
         input: {

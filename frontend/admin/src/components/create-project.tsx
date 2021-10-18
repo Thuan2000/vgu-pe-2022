@@ -10,13 +10,9 @@ import Input from "@components/ui/storybook/inputs/input";
 import TextArea from "@components/ui/storybook/inputs/text-area";
 import DateInput from "@components/ui/storybook/inputs/date-input";
 import Button from "@components/ui/storybook/button";
-import { GetServerSideProps } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import RequestSelector from "@components/ui/requests-selector";
-import { useBRContext } from "src/contexts/buying-request.context";
 import { IBuyingRequest, IProject, IProjectBr } from "@graphql/types.graphql";
-import { indexOf, remove } from "lodash";
-import Modal from "@components/ui/modal";
+import { cloneDeep, remove } from "lodash";
 import Form from "./form";
 import {
   useAddToProjectMutation,
@@ -24,6 +20,7 @@ import {
 } from "@graphql/project.graphql";
 import { getMeData } from "@utils/auth-utils";
 import { trimText } from "@utils/functions";
+import { useModal } from "src/contexts/modal.context";
 
 type CreateProjectFormValues = {
   name: string;
@@ -37,31 +34,52 @@ const cpSchema = yup.object({
   endDate: yup.date().required("project-name-required-error"),
 });
 
-const CreateProject = () => {
-  const {
-    selecteds,
-    setSelecteds,
-    isCreatingProject,
-    closeCreateProject,
-    refetchBrs,
-    projectInitValue: initValue,
-  } = useBRContext();
+interface ICreateProjectProps {
+  selectedBrs: IBuyingRequest[];
+  setSelectedBrs: (data: IBuyingRequest[]) => void;
+  initValue?: IProject;
+}
+
+function generateDefaultValue(project?: IProject) {
+  if (!project) return {};
+  const { name, endDate, description, image } = project;
+  const data = cloneDeep({
+    name,
+    endDate: new Date(endDate),
+    description,
+    image,
+  });
+  return data;
+}
+
+const CreateProject: React.FC<ICreateProjectProps> = ({
+  selectedBrs,
+  setSelectedBrs,
+  initValue,
+}) => {
+  const { closeModal } = useModal();
 
   const {
     control,
     register,
     handleSubmit,
-    reset,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<CreateProjectFormValues>({
     resolver: yupResolver(cpSchema),
+    defaultValues: generateDefaultValue(initValue),
+  });
+
+  useEffect(() => {
+    if (initValue) setValue("name", initValue?.name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 
   const [isHaveNewBr, setIsHaveNewBr] = useState<boolean>();
 
   useEffect(() => {
-    const filterUnchecked = selecteds.filter(
+    const filterUnchecked = selectedBrs.filter(
       (selected) => (selected as any).unChecked !== true
     );
     const filterAlreadyAdded = filterUnchecked.filter(
@@ -69,16 +87,7 @@ const CreateProject = () => {
     );
 
     setIsHaveNewBr(filterAlreadyAdded.length > 0);
-  }, [selecteds]);
-
-  useEffect(() => {
-    if (initValue) {
-      setValue("name", initValue.name);
-      setValue("image", initValue.image);
-      setValue("endDate", new Date(initValue.endDate));
-      setValue("description", initValue.description || "");
-    }
-  });
+  }, [selectedBrs]);
 
   const { t } = useTranslation("form");
 
@@ -98,30 +107,21 @@ const CreateProject = () => {
       alert(t(`common:PROJECT-${message}-ERROR`));
       return;
     }
-    if (success) {
-      closeCreateProject();
-      refetchBrs();
-      setSelecteds([]);
+    if (success === true) {
+      setSelectedBrs([]);
       reset();
+      closeModal();
     }
   }
 
   function handleAlreadyAddedBr(br: IBuyingRequest) {
-    const added = remove(selecteds, br)[0];
+    const added = remove(selectedBrs, br)[0];
 
     const newBrWithAlreadyAdded = Object.assign({}, added, {
       alreadyAdded: true,
     });
-    setSelecteds([...selecteds, newBrWithAlreadyAdded]);
-  }
 
-  function uncheckBr(br: any) {
-    const unChecked = remove(selecteds, br)[0];
-
-    const newBrWithUnchecked = Object.assign({}, unChecked, {
-      unChecked: true,
-    });
-    setSelecteds([...selecteds, newBrWithUnchecked]);
+    setSelectedBrs([...selectedBrs, newBrWithAlreadyAdded]);
   }
 
   function handleBrSelectionChange(
@@ -130,28 +130,33 @@ const CreateProject = () => {
   ) {
     // By default this function will be called with !e.target.checked first
     if (!e.target.checked) {
-      // Update selecteds and get removed value in one command
-      uncheckBr(br);
+      // Update selectedBrs and get removed value in one command
+      const unChecked = remove(selectedBrs, br)[0];
+
+      const newBrWithUnchecked = Object.assign({}, unChecked, {
+        unChecked: true,
+      });
+      setSelectedBrs([...selectedBrs, newBrWithUnchecked]);
     }
     if (e.target.checked) {
-      (br as any).unChecked = false;
-      setSelecteds([...selecteds]);
+      if ((br as any).unchecked) (br as any).unChecked = false;
+      setSelectedBrs([...selectedBrs]);
     }
   }
 
   function handleCloseModal() {
-    setSelecteds([]);
-    closeCreateProject();
+    closeModal();
+    setSelectedBrs([]);
   }
 
   function handleCancelButton() {
-    setSelecteds([]);
-    closeCreateProject();
+    closeModal();
+    setSelectedBrs([]);
   }
 
   async function onSubmit({ endDate, ...e }: CreateProjectFormValues) {
     if (!initValue) {
-      const filteredUnchecked = selecteds.filter(
+      const filteredUnchecked = selectedBrs.filter(
         (br) => !(br as any).unChecked === true
       );
       const buyingRequests = filteredUnchecked.map((br) => ({
@@ -168,12 +173,11 @@ const CreateProject = () => {
         createdById: user?.id,
         companyName: company?.name,
       };
-      // console.log(values);
       await createProject({ variables: { input: values } });
     }
 
     if (initValue) {
-      const filteredAdded = selecteds.filter(
+      const filteredAdded = selectedBrs.filter(
         (br) => (br as any).alreadyAdded !== true
       );
       const filteredUnchecked = filteredAdded.filter(
@@ -198,12 +202,7 @@ const CreateProject = () => {
   }
 
   return (
-    <Modal
-      onClose={handleCloseModal}
-      isOpen={isCreatingProject}
-      className="py-0"
-      isPhoneFullScreenContent
-    >
+    <>
       <PhoneAdminNavbar
         pageName={t(PAGE_NAME.CREATE_PROJECT)}
         showBackArrow
@@ -233,8 +232,9 @@ const CreateProject = () => {
               />
               <div className="w-full space-y-4">
                 <Input
-                  {...register("name", { disabled: !!initValue })}
+                  {...register("name", { disabled: !!initValue?.name })}
                   label={`${t("project-name-input-label")}*`}
+                  autoFocus
                   placeholder={t("project-name-input-placeholder")}
                   error={errors?.name?.message}
                 />
@@ -258,7 +258,6 @@ const CreateProject = () => {
             />
           </div>
           <RequestSelector
-            onAlreadyAdded={handleAlreadyAddedBr}
             onBrSelectionChange={handleBrSelectionChange}
             loading={false}
             currentBrIds={getCurrentBrIds(initValue?.buyingRequests || [])}
@@ -269,7 +268,7 @@ const CreateProject = () => {
             getBrChecked={(br: any) => !br?.unChecked}
             className="w-full px-5"
             noRequestMessage={t("noRequests-message")}
-            requests={selecteds}
+            requests={selectedBrs}
           />
           <div className="fixed shadow-top sm:absolute bottom-0 flex justify-between sm:justify-end sm:space-x-5 bg-white z-[500] w-full px-5 py-3">
             <Button
@@ -292,10 +291,10 @@ const CreateProject = () => {
           </div>
         </div>
       </Form>
-    </Modal>
+    </>
   );
 };
 
-CreateProject.PageName = PAGE_NAME.CREATE_PROJECT;
+(CreateProject as any).PageName = PAGE_NAME.CREATE_PROJECT;
 
 export default CreateProject;

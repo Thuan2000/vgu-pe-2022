@@ -111,7 +111,7 @@ const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
     }
 
     return (
-      <div className="relative" onClick={focusDateInput}>
+      <div className="relative">
         <ReactDatepicker
           id={inputId}
           shouldCloseOnSelect

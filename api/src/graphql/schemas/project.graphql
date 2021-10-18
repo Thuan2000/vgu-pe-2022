@@ -1,12 +1,12 @@
 type Project {
-	id: Int!
+	id: Int
 	name: String!
+	slug: String!
 	endDate: Date!
 	image: File
 	description: String
 	buyingRequests: [ProjectBR!]!
 	companyId: Int!
-	createdById: Int!
 }
 
 type ProjectBR {
@@ -19,7 +19,7 @@ input ProjectBRInput {
 	cover: String
 }
 
-input ProjectInput {
+input CreateProjectInput {
 	name: String!
 	endDate: Date!
 	image: Upload
@@ -27,6 +27,7 @@ input ProjectInput {
 	buyingRequests: [ProjectBRInput!]!
 	companyId: Int!
 	createdById: Int!
+	updatedById: Int
 	companyName: String!
 }
 
@@ -35,12 +36,19 @@ type GetProjects {
 	count: Int!
 }
 
+type ProjectDetail {
+	project: Project!
+	createdBy: User!
+	updatedBy: User
+}
+
 extend type Query {
 	projects(companyId: Int!, offset: Int!): GetProjects!
+	project(slug: String!): ProjectDetail!
 }
 
 extend type Mutation {
-	createProject(input: ProjectInput!): Response!
+	createProject(input: CreateProjectInput!): Response!
 	addToProject(projectId: Int!, buyingRequests: [ProjectBRInput!]!): Response!
 	deleteProject(id: Int!): Response!
 }

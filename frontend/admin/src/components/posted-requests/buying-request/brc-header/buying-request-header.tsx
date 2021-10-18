@@ -25,14 +25,18 @@ import SearchInput from "@components/search-input";
 interface IBuyingRequestSearchProps
   extends React.HTMLAttributes<HTMLDivElement> {
   brs: IBuyingRequest[];
+  selecteds: IBuyingRequest[];
+  setSelecteds: (value: IBuyingRequest[]) => void;
+  onAddToProjectClick: () => void;
 }
 
-const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
-  const [isSelectAll, setIsSelectAll] = useState<boolean>(false);
+const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({
+  brs,
+  selecteds,
+  setSelecteds,
+  onAddToProjectClick,
+}) => {
   const { t } = useTranslation();
-  const { selecteds, openCreateProject, setSelecteds, openUpdateProject } =
-    useBRContext();
-  const { openModal, closeModal } = useModal();
   const isPhone = useIsPhone();
   const { refetchBrs } = useBRContext();
   const [deleteBrs, { loading }] = useDeleteBuyingRequestsMutation({
@@ -45,42 +49,15 @@ const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
     deleteBrs({ variables: { ids: selectedBrIds } });
   }
 
-  function handleCreateProject() {
-    openCreateProject();
-    closeModal();
-  }
-  function handleProjectClick(project: IProject) {
-    openUpdateProject(project);
-    closeModal();
-  }
-
   function handleSelectAllChange(e: ChangeEvent<HTMLInputElement>) {
-    setIsSelectAll(e.target.checked);
-
     if (e.target.checked) setSelecteds([...brs]);
     else setSelecteds([]);
-  }
-
-  function handleAddToProjectClick() {
-    let brId;
-
-    if (selecteds.length === 1) brId = selecteds[0].id;
-
-    openModal(
-      (
-        <AddToProject
-          brId={brId}
-          onNewClick={handleCreateProject}
-          onProjectClick={handleProjectClick}
-        />
-      ) as any
-    );
   }
 
   const addToProjectButton = (
     <Button
       className="w-1/2.5 h-10 md:w-fit-content"
-      onClick={handleAddToProjectClick}
+      onClick={onAddToProjectClick}
     >
       <FolderDownloadIcon className="mr-2" />
       {t("add-to-project-button-label")}
@@ -113,7 +90,7 @@ const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
         <Checkbox
           className="border-2 text-sm font-semibold text-gray h-10 flex-center w-1/2.5 md:w-fit-content md:px-5 md:mr-5 rounded-sm items-center"
           name="select-all"
-          checked={isSelectAll && selecteds.length === brs.length}
+          checked={selecteds.length === brs.length}
           onChange={handleSelectAllChange}
           title={t("select-all")}
           label={t("select-all-label")}

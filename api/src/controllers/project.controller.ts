@@ -1,9 +1,11 @@
 import BuyingRequest from "@models/BuyingRequest";
-import { IProjectBrInput, IProjectInput } from "../graphql/types";
+import User from "@models/User";
+import { IProjectBrInput, ICreateProjectInput } from "../graphql/types";
 import Project from "../models/Project";
 import { uploadImage } from "../repositories/uploads.repository";
 import {
 	errorResponse,
+	generateSlug,
 	PROJECTS_GET_LIMIT,
 	RESPONSE_MESSAGE,
 	successResponse
@@ -30,8 +32,27 @@ class ProjectController {
 			offset: offset,
 			limit: PROJECTS_GET_LIMIT
 		});
-
 		return { projects, count };
+	}
+
+	async getProject(slug: string) {
+		const project = await Project.findOne({
+			where: { slug }
+		});
+
+		const createdBy = await User.findOne({
+			where: { id: project.getDataValue("createdById") }
+		});
+
+		let updatedBy;
+		const updatedById = project.getDataValue("updatedById");
+
+		if (updatedById)
+			updatedBy = await User.findOne({
+				where: { id: updatedById }
+			});
+
+		return { project, createdBy, updatedBy };
 	}
 
 	async addToProject(projectId: number, buyingRequests: IProjectBrInput[]) {
@@ -55,13 +76,17 @@ class ProjectController {
 		}
 	}
 
-	async createProject(project: IProjectInput) {
+	async createProject({ name, ...project }: ICreateProjectInput) {
 		const duplicateProject = await Project.findOne({
-			where: { name: project.name, companyId: project.companyId }
+			where: { name, companyId: project.companyId }
 		});
 		if (duplicateProject) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
 
-		const newProject = await Project.create(project);
+		const newProject = await Project.create({
+			name,
+			slug: generateSlug(name),
+			...project
+		});
 
 		if (project.image) {
 			uploadImage(project.companyName, project.image).then(
@@ -71,14 +96,13 @@ class ProjectController {
 				}
 			);
 		}
-
 		const buyingRequests = await BuyingRequest.findAll({
 			where: { id: project.buyingRequests }
 		});
 
 		setBuyingRequestsProject(buyingRequests, newProject.getDataValue("id"));
 
-		return successResponse();
+		return newProject.save().then(() => successResponse());
 	}
 
 	async deleteProject(id: number) {

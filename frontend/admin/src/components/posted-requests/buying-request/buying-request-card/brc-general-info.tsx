@@ -1,6 +1,7 @@
 import Chip from "@components/ui/chip";
 import Link from "@components/ui/link";
 import { IBuyingRequest } from "@graphql/types.graphql";
+import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -25,7 +26,7 @@ const BRCGeneralInfo: React.FC<IBRCGeneralInfoProps> = ({
 
   return (
     <div {...props}>
-      <Link href={`buying-requests/${slug}`}>
+      <Link href={`${ROUTES.BUYING_REQUESTS}/${slug}`}>
         <h5 className="text-dark-blue md:text-md cursor-pointer">{name}</h5>
       </Link>
       <p className="text-xs md:text-sm text-gray-300 md:my-1">

@@ -1,5 +1,7 @@
+#import UserFragment from "./user.fragment.graphql"
 # import ProjectFragment from "./project.fragment.graphql"
-mutation CreateProject($input: ProjectInput!) {
+
+mutation CreateProject($input: CreateProjectInput!) {
   createProject(input: $input) {
     success
     message
@@ -12,6 +14,20 @@ query Projects($companyId: Int!, $offset: Int!) {
       ...ProjectFragment
     }
     count
+  }
+}
+
+query Project($slug: String!) {
+  project(slug: $slug) {
+    project {
+      ...ProjectFragment
+    }
+    createdBy {
+      ...UserFragment
+    }
+    updatedBy {
+      ...UserFragment
+    }
   }
 }
 
