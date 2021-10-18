@@ -14,7 +14,7 @@ import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import RequestSelector from "@components/ui/requests-selector";
 import { useBRContext } from "src/contexts/buying-request.context";
-import { IBuyingRequest, IProject } from "@graphql/types.graphql";
+import { IBuyingRequest, IProject, IProjectBr } from "@graphql/types.graphql";
 import { indexOf, remove } from "lodash";
 import Modal from "@components/ui/modal";
 import Form from "./form";
@@ -154,7 +154,11 @@ const CreateProject = () => {
       const filteredUnchecked = selecteds.filter(
         (br) => !(br as any).unChecked === true
       );
-      const buyingRequests = filteredUnchecked.map((br) => parseInt(br.id));
+      const buyingRequests = filteredUnchecked.map((br) => ({
+        id: parseInt(br.id),
+        cover: br?.gallery?.at(0)?.location,
+      }));
+
       const { company, user } = getMeData();
       const values = {
         ...e,
@@ -164,7 +168,7 @@ const CreateProject = () => {
         createdById: user?.id,
         companyName: company?.name,
       };
-
+      // console.log(values);
       await createProject({ variables: { input: values } });
     }
 
@@ -172,11 +176,25 @@ const CreateProject = () => {
       const filteredAdded = selecteds.filter(
         (br) => (br as any).alreadyAdded !== true
       );
-      const brIds = filteredAdded.map((selected) => parseInt(selected.id));
+      const filteredUnchecked = filteredAdded.filter(
+        (br) => !(br as any).unChecked === true
+      );
+
+      const buyingRequests = filteredUnchecked.map((br) => ({
+        id: parseInt(br.id),
+        cover: br?.gallery?.at(0)?.location,
+      }));
+
       addToProject({
-        variables: { projectId: parseInt(initValue.id + ""), brIds },
+        variables: { projectId: parseInt(initValue.id + ""), buyingRequests },
       });
     }
+  }
+
+  function getCurrentBrIds(projectBrs: IProjectBr[]): number[] {
+    const brIds = projectBrs?.map((projectBr) => projectBr.id);
+
+    return brIds;
   }
 
   return (
@@ -243,7 +261,7 @@ const CreateProject = () => {
             onAlreadyAdded={handleAlreadyAddedBr}
             onBrSelectionChange={handleBrSelectionChange}
             loading={false}
-            currentBrIds={initValue?.buyingRequests}
+            currentBrIds={getCurrentBrIds(initValue?.buyingRequests || [])}
             label={t("project-addRequests-label")}
             alreadyAddedMessage={t("brAddedAlready-message")}
             getBrCoverSrc={(br: any) => br?.gallery?.at(0)?.location}

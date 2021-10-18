@@ -1,3 +1,4 @@
+import { siteSettings } from "@settings/site.settings";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Control, Controller, RefCallBack } from "react-hook-form";
@@ -67,7 +68,7 @@ const ImageUploader = React.forwardRef(
             src={
               file?.localUrl ||
               value?.location ||
-              "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/image-placeholder.jpg"
+              siteSettings?.placeholderImage
             }
             alt="image-preview"
           />

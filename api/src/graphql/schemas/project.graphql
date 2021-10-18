@@ -4,9 +4,19 @@ type Project {
 	endDate: Date!
 	image: File
 	description: String
-	buyingRequests: [Int!]!
+	buyingRequests: [ProjectBR!]!
 	companyId: Int!
 	createdById: Int!
+}
+
+type ProjectBR {
+	id: Int!
+	cover: String
+}
+
+input ProjectBRInput {
+	id: Int!
+	cover: String
 }
 
 input ProjectInput {
@@ -14,7 +24,7 @@ input ProjectInput {
 	endDate: Date!
 	image: Upload
 	description: String
-	buyingRequests: [Int!]!
+	buyingRequests: [ProjectBRInput!]!
 	companyId: Int!
 	createdById: Int!
 	companyName: String!
@@ -31,5 +41,6 @@ extend type Query {
 
 extend type Mutation {
 	createProject(input: ProjectInput!): Response!
-	addToProject(projectId: Int!, brIds: [Int]!): Response!
+	addToProject(projectId: Int!, buyingRequests: [ProjectBRInput!]!): Response!
+	deleteProject(id: Int!): Response!
 }

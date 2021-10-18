@@ -59,5 +59,11 @@
   "BUYING_REQUEST-DUPLICATE-ERROR": "Buying Request with that name is exist",
   "addToProject-button-label": "Add To Project",
   "move-to-project-title": "Move To Project",
-  "create-new-label": "Create New"
+  "create-new-label": "Create New",
+  "addRequest-button-label": "Add Request",
+  "remove-project-title": "Remove Project",
+  "remove-project-message": "Are you sure want to remove project?",
+  "cancel-button-label": "Cancel",
+  "confirm-remove-project-button-label": "Remove Project",
+  "alreadyAdded-message": "Already Added"
 }

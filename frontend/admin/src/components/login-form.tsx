@@ -95,6 +95,8 @@ const LoginForm = () => {
   }
 
   async function onSubmit({ email, password }: FormValues) {
+    console.log(email, password);
+
     login({
       variables: {
         input: {
@@ -131,6 +133,7 @@ const LoginForm = () => {
             loading={loading || meInfoLoading}
             size="small"
             className="w-full"
+            type={"submit"}
           >
             {t("submit")}
           </Button>

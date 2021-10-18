@@ -6,7 +6,10 @@ module.exports = {
   i18n,
   reactStrictMode: true,
   images: {
-    domains: ["sdconnect-dev.s3.ap-southeast-1.amazonaws.com"],
+    domains: [
+      "sdconnect-dev.s3.ap-southeast-1.amazonaws.com",
+      "sdconnect-assets.s3.ap-southeast-1.amazonaws.com",
+    ],
   },
   webpack(config, options) {
     config.module.rules.push({

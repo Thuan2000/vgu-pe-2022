@@ -94,10 +94,10 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
 
   function handleAddToProject() {
     setSelecteds([br]);
-
     openModal(
       (
         <AddToProject
+          brId={br.id}
           onNewClick={handleCreateProject}
           onProjectClick={handleProjectClick}
         />
@@ -120,9 +120,12 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
 
   return (
     <div
-      className={`border rounded-md shadow-md flex relative bg-${
-        isSelected ? "primary bg-opacity-20 border-primary" : "white"
-      } md:w-49p ${className} max-h-44`}
+      className={`border rounded-md shadow-md flex relative md:w-49p max-h-44
+          ${
+            isSelected ? "bg-primary bg-opacity-20 border-primary" : "bg-white"
+          } 
+          ${className} 
+        `}
       {...props}
     >
       <div className="absolute left-4 top-4 z-20">

@@ -20,13 +20,14 @@ import SpinLoading from "@components/ui/storybook/spin-loading";
 import { COLORS } from "@utils/colors";
 import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import AddToProject from "@components/ui/add-to-project";
+import SearchInput from "@components/search-input";
 
 interface IBuyingRequestSearchProps
   extends React.HTMLAttributes<HTMLDivElement> {
   brs: IBuyingRequest[];
 }
 
-const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
+const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
   const [isSelectAll, setIsSelectAll] = useState<boolean>(false);
   const { t } = useTranslation();
   const { selecteds, openCreateProject, setSelecteds, openUpdateProject } =
@@ -61,9 +62,14 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
   }
 
   function handleAddToProjectClick() {
+    let brId;
+
+    if (selecteds.length === 1) brId = selecteds[0].id;
+
     openModal(
       (
         <AddToProject
+          brId={brId}
           onNewClick={handleCreateProject}
           onProjectClick={handleProjectClick}
         />
@@ -91,6 +97,9 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
 
   return (
     <div className="flex items-center mt-4 mx-4">
+      <div>
+        <SearchInput />
+      </div>
       <div className="md:ml-auto flex items-center justify-between w-full md:w-fit-content">
         {!isPhone && !!selecteds.length && (
           <button onClick={deleteSelectedBrs}>
@@ -116,4 +125,4 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({ brs }) => {
     </div>
   );
 };
-export default BuyingRequestSearch;
+export default BuyingRequestHeader;

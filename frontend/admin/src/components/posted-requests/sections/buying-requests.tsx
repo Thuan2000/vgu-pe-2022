@@ -1,4 +1,4 @@
-import BuyingRequestHeader from "@components/posted-requests/buying-request/brc-search";
+import BuyingRequestHeader from "@components/posted-requests/buying-request/brc-header";
 import BuyingRequestCard from "@components/posted-requests/buying-request/buying-request-card";
 import PostedRequestsNav from "@components/posted-requests/posted-requests-nav";
 import Loading from "@components/ui/loading";

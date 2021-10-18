@@ -9,7 +9,7 @@ type BRContext = {
   openUpdateProject: (project: IProject) => void;
   closeCreateProject: () => void;
   shouldRefetchBrs: boolean;
-  projectInitValue?: IProject;
+  projectInitValue?: IProject | null;
   refetchBrs: () => void;
 };
 
@@ -30,7 +30,7 @@ export const BuyingRequestContextProvider: React.FC = ({ children }) => {
   const [selecteds, setSelecteds] = useState<IBuyingRequest[]>([]);
   const [isCreatingProject, setIsCreatingProject] = useState(false);
   const [shouldRefetchBrs, setShouldRefetchBrs] = useState(false);
-  const [projectInitValue, setProjectInitValue] = useState<IProject>();
+  const [projectInitValue, setProjectInitValue] = useState<IProject | null>();
 
   const value = useMemo(() => {
     function refetchBrs() {
@@ -48,6 +48,7 @@ export const BuyingRequestContextProvider: React.FC = ({ children }) => {
 
     function closeCreateProject() {
       setIsCreatingProject(false);
+      setProjectInitValue(null);
     }
 
     return {

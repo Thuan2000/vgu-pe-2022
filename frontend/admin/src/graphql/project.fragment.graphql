@@ -6,7 +6,10 @@ fragment ProjectFragment on Project {
     location
   }
   description
-  buyingRequests
+  buyingRequests {
+    id
+    cover
+  }
   companyId
   createdById
 }

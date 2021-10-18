@@ -3,10 +3,11 @@ import { PlusIcon } from "@assets/icons/plus-icon";
 import SearchIcon from "@assets/icons/search-icon";
 import PhoneAdminNavbar from "@components/phone-admin-navbar";
 import { COLORS } from "@utils/colors";
+import { findIndex } from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useBRContext } from "src/contexts/buying-request.context";
 import { useModal } from "src/contexts/modal.context";
-import Button from "./storybook/button";
 import Input from "./storybook/inputs/input";
 import Loader from "./storybook/loader/loader";
 
@@ -16,6 +17,7 @@ interface ISelectProjectProps extends React.HTMLAttributes<HTMLDivElement> {
   loading: boolean;
   createNewLabel: string;
   noProjectMessage: string;
+  brId?: string;
   onNewClick: () => void;
   onProjectClick: (project: any) => void;
 }
@@ -26,6 +28,7 @@ const SelectProject: React.FC<ISelectProjectProps> = ({
   className,
   title,
   onProjectClick,
+  brId,
   createNewLabel,
   noProjectMessage = "You don't have any project yet",
   onNewClick,
@@ -35,10 +38,16 @@ const SelectProject: React.FC<ISelectProjectProps> = ({
   const { closeModal } = useModal();
 
   const projectList = projects?.map((pr) => {
+    const brIds = pr?.buyingRequests?.map((br: any) => br.id);
+
+    const isAddedAlready =
+      findIndex(brIds, (id) => id === parseInt(brId as string)) !== -1;
     return (
       <button
         className="flex items-center w-full pl-5 py-2 active:bg-gray-10"
         key={pr.name}
+        disabled={isAddedAlready}
+        value={isAddedAlready ? 0 : 10}
         onClick={() => onProjectClick(pr)}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -52,10 +61,19 @@ const SelectProject: React.FC<ISelectProjectProps> = ({
           alt="image-preview"
           className="mr-4"
         />
-        <h2 className="text-md">{pr.name}</h2>
+        <h2 className="text-md text-left">
+          <span className="mr-5">{pr.name}</span>
+          {isAddedAlready && (
+            <span className="font-light text-error">
+              {t("alreadyAdded-message")}
+            </span>
+          )}
+        </h2>
       </button>
     );
   });
+
+  projectList.sort((a, b) => b.props.value - a.props.value);
 
   return (
     <div

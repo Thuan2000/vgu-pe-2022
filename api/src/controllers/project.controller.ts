@@ -1,5 +1,5 @@
 import BuyingRequest from "@models/BuyingRequest";
-import { IProjectInput } from "../graphql/types";
+import { IProjectBrInput, IProjectInput } from "../graphql/types";
 import Project from "../models/Project";
 import { uploadImage } from "../repositories/uploads.repository";
 import {
@@ -34,7 +34,7 @@ class ProjectController {
 		return { projects, count };
 	}
 
-	async addToProject(projectId: number, brIds: number[]) {
+	async addToProject(projectId: number, buyingRequests: IProjectBrInput[]) {
 		try {
 			const project = await Project.findOne({ where: { id: projectId } });
 
@@ -42,7 +42,9 @@ class ProjectController {
 
 			project.setDataValue(
 				"buyingRequests",
-				!!currentBrs?.length ? [...currentBrs, ...brIds] : brIds
+				!!currentBrs?.length
+					? [...currentBrs, ...buyingRequests]
+					: buyingRequests
 			);
 			project.save();
 
@@ -60,24 +62,35 @@ class ProjectController {
 		if (duplicateProject) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
 
 		const newProject = await Project.create(project);
+
 		if (project.image) {
 			uploadImage(project.companyName, project.image).then(
 				projectImage => {
 					newProject.setDataValue("image", projectImage);
+					newProject.save();
 				}
 			);
 		}
-
-		newProject.save();
 
 		const buyingRequests = await BuyingRequest.findAll({
 			where: { id: project.buyingRequests }
 		});
 
 		setBuyingRequestsProject(buyingRequests, newProject.getDataValue("id"));
-		console.log("Returning response");
 
 		return successResponse();
+	}
+
+	async deleteProject(id: number) {
+		try {
+			await Project.destroy({ where: { id } });
+
+			return successResponse();
+		} catch (error) {
+			console.log(error);
+
+			return errorResponse();
+		}
 	}
 }
 

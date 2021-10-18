@@ -15,8 +15,15 @@ query Projects($companyId: Int!, $offset: Int!) {
   }
 }
 
-mutation AddToProject($projectId: Int!, $brIds: [Int]!) {
-  addToProject(projectId: $projectId, brIds: $brIds) {
+mutation AddToProject($projectId: Int!, $buyingRequests: [ProjectBRInput!]!) {
+  addToProject(projectId: $projectId, buyingRequests: $buyingRequests) {
+    success
+    message
+  }
+}
+
+mutation DeleteProject($id: Int!) {
+  deleteProject(id: $id) {
     success
     message
   }

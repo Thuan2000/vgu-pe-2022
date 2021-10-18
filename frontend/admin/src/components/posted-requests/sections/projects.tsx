@@ -1,15 +1,42 @@
 import UnderDevelopment from "@components/under-development";
+import { useProjectsQuery } from "@graphql/project.graphql";
+import { IProject } from "@graphql/types.graphql";
+import { getCompanyId } from "@utils/functions";
 import React from "react";
+import ProjectContextProvider from "src/contexts/projects.context";
 import ProjectCard from "../projects/project-card";
 
-interface IProjectsProps extends React.HTMLAttributes<HTMLDivElement> {}
+const Projects: React.FC = () => {
+  const { data, refetch } = useProjectsQuery({
+    variables: { companyId: getCompanyId(), offset: getOffset() },
+  });
 
-const Projects: React.FC<IProjectsProps> = ({ className, ...props }) => {
+  function refetchProject() {
+    refetch({ companyId: getCompanyId(), offset: getOffset() });
+  }
+
+  function getOffset() {
+    return 0;
+  }
+
+  const projects = data?.projects.projects;
+
+  if (!projects) return <></>;
+
+  const projectList = projects?.map((project) => {
+    return (
+      <ProjectCard
+        project={project as IProject}
+        reFetchProject={refetchProject}
+        key={project?.id + "-Project"}
+      />
+    );
+  });
+
   return (
-    <div>
-      {/* <ProjectCard /> */}
-      <UnderDevelopment />
-    </div>
+    <ProjectContextProvider>
+      <div className="flex flex-wrap justify-between mx-5">{projectList}</div>
+    </ProjectContextProvider>
   );
 };
 export default Projects;

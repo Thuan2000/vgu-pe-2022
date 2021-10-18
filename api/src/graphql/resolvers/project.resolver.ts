@@ -9,6 +9,7 @@ export const Query = {
 
 export const Mutation = {
 	createProject: (_, { input }) => projectController.createProject(input),
-	addToProject: (_, { projectId, brIds }) =>
-		projectController.addToProject(projectId, brIds)
+	deleteProject: (_, { id }) => projectController.deleteProject(id),
+	addToProject: (_, { projectId, buyingRequests }) =>
+		projectController.addToProject(projectId, buyingRequests)
 };
