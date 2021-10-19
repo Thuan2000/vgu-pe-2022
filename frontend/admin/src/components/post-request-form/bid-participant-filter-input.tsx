@@ -37,6 +37,7 @@ const BidParticipantFilterInput: React.FC<IBidParticipantFilterInputProps> = ({
           name={`additional.allowedCompany.${idx}.key`}
           control={control}
           options={pOptions}
+          autoFocus={idx > 1}
           getOptionLabel={(option) => t(option?.label)}
           getOptionValue={(option) => option?.value}
           className="w-48 md:w-1/3 mr-5"

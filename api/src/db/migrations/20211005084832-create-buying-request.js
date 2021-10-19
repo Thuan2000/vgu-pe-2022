@@ -66,6 +66,9 @@ module.exports = {
 			createdById: {
 				type: Sequelize.INTEGER
 			},
+			updatedById: {
+				type: Sequelize.INTEGER
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE

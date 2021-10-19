@@ -1,4 +1,6 @@
+#import UserFragment from "./user.fragment.graphql"
 # import BuyingRequestParts from "./buying-request.fragment.graphql"
+
 query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
   buyingRequestsAndCount(companyId: $companyId, offset: $offset) {
     buyingRequests {
@@ -8,8 +10,22 @@ query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
   }
 }
 
-query BuyingRequest($slug: String!) {
-  buyingRequest(slug: $slug) {
+query BuyingRequestBySlug($slug: String!) {
+  buyingRequestBySlug(slug: $slug) {
+    buyingRequest {
+      ...BuyingRequestParts
+    }
+    createdBy {
+      ...UserFragment
+    }
+    updatedBy {
+      ...UserFragment
+    }
+  }
+}
+
+query BuyingRequest($id: Int!) {
+  buyingRequest(id: $id) {
     ...BuyingRequestParts
   }
 }

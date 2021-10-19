@@ -14,12 +14,14 @@ class Project extends Model {
 Project.init(
 	{
 		name: DataTypes.STRING,
+		slug: DataTypes.STRING,
 		endDate: DataTypes.DOUBLE,
 		description: DataTypes.STRING,
 		buyingRequests: DataTypes.JSON,
 		image: DataTypes.JSON,
 		companyId: DataTypes.INTEGER,
-		createdById: DataTypes.INTEGER
+		createdById: DataTypes.INTEGER,
+		updatedById: DataTypes.INTEGER
 	},
 	{
 		tableName: "projects",

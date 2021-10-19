@@ -1,6 +1,7 @@
 fragment ProjectFragment on Project {
   id
   name
+  slug
   endDate
   image {
     location
@@ -11,5 +12,4 @@ fragment ProjectFragment on Project {
     cover
   }
   companyId
-  createdById
 }

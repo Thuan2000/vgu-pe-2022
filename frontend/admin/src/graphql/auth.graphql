@@ -1,3 +1,5 @@
+#import UserFragment from "./user.fragment.graphql"
+
 mutation Login($input: LoginInput!) {
   login(input: $input) {
     token
@@ -10,12 +12,7 @@ mutation Login($input: LoginInput!) {
 mutation MeInfo {
   meInfo {
     user {
-      id
-      email
-      firstName
-      lastName
-      password
-      role
+      ...UserFragment
     }
 
     company {

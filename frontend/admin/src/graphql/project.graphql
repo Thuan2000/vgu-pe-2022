@@ -1,5 +1,7 @@
+#import UserFragment from "./user.fragment.graphql"
 # import ProjectFragment from "./project.fragment.graphql"
-mutation CreateProject($input: ProjectInput!) {
+
+mutation CreateProject($input: CreateProjectInput!) {
   createProject(input: $input) {
     success
     message
@@ -15,6 +17,20 @@ query Projects($companyId: Int!, $offset: Int!) {
   }
 }
 
+query Project($slug: String!) {
+  project(slug: $slug) {
+    project {
+      ...ProjectFragment
+    }
+    createdBy {
+      ...UserFragment
+    }
+    updatedBy {
+      ...UserFragment
+    }
+  }
+}
+
 mutation AddToProject($projectId: Int!, $buyingRequests: [ProjectBRInput!]!) {
   addToProject(projectId: $projectId, buyingRequests: $buyingRequests) {
     success
@@ -24,6 +40,20 @@ mutation AddToProject($projectId: Int!, $buyingRequests: [ProjectBRInput!]!) {
 
 mutation DeleteProject($id: Int!) {
   deleteProject(id: $id) {
+    success
+    message
+  }
+}
+
+mutation DeleteProjects($ids: [Int]!) {
+  deleteProjects(ids: $ids) {
+    success
+    message
+  }
+}
+
+mutation RemoveRequestFromProject($id: Int!, $brIds: [Int]!) {
+  removeRequestFromProject(id: $id, brIds: $brIds) {
     success
     message
   }

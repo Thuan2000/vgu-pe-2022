@@ -3,11 +3,16 @@ import React, { useContext, useReducer } from "react";
 type StateType = {
   isOpen: boolean;
   component?: React.FC<any> | Element;
+  modalProps?: ModalProps;
+};
+
+type ModalProps = {
+  onClose: () => void;
 };
 
 type ModalContextType = {
   state: StateType;
-  openModal: (comp: React.FC<any> | Element) => void;
+  openModal: (comp: React.FC<any> | Element, props?: ModalProps) => void;
   closeModal: () => void;
 };
 
@@ -19,6 +24,7 @@ type ActionType =
   | {
       type: "OPEN_MODAL";
       component: React.FC<any> | Element;
+      modalProps?: ModalProps;
     }
   | { type: "CLOSE_MODAL" };
 
@@ -41,9 +47,12 @@ const ModalContext = React.createContext<ModalContextType>(initCtxValue);
 
 export const ModalProvider: React.FC<any> = ({ children }) => {
   const [state, dispatch] = useReducer(modalReducer, initState);
-
-  function openModal(component: React.FC<any> | Element) {
-    dispatch({ type: "OPEN_MODAL", component });
+  function openModal(
+    component: React.FC<any> | Element,
+    modalProps?: ModalProps
+  ) {
+    dispatch({ type: "CLOSE_MODAL" });
+    dispatch({ type: "OPEN_MODAL", component, modalProps });
   }
   function closeModal() {
     dispatch({ type: "CLOSE_MODAL" });

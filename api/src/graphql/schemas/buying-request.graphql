@@ -62,11 +62,18 @@ type BuyingRequestsResponse {
 	totalDataCount: Int
 }
 
+type BuyingRequestDetails {
+	buyingRequest: BuyingRequest!
+	createdBy: User!
+	updatedBy: User
+}
+
 extend type Query {
 	buyingRequestsAndCount(
 		companyId: Int!
 		offset: Int!
 	): BuyingRequestsResponse!
-	buyingRequest(slug: String!): BuyingRequest!
+	buyingRequest(id: Int!): BuyingRequest!
+	buyingRequestBySlug(slug: String!): BuyingRequestDetails!
 	getBuyingRequestsByIds(ids: [Int]!): [BuyingRequest]!
 }

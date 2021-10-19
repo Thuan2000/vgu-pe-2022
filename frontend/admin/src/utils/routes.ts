@@ -8,5 +8,6 @@ export const ROUTES = {
   NOTIFICATIONS: "/notifications",
   POST_REQUEST: "/post-request",
   POSTED_REQUESTS: "/posted-requests",
+  BUYING_REQUESTS: "/buying-requests",
   PROJECTS: "/projects",
 };

@@ -1,11 +1,11 @@
 import PdfIcon from "@assets/icons/files/pdf-icon";
 import SearchIcon from "@assets/icons/search-icon";
 import { siteSettings } from "@settings/site.settings";
-import { findIndex } from "lodash";
+import { findIndex, indexOf } from "lodash";
 import React, { ChangeEvent, useState } from "react";
 import Checkbox from "./storybook/checkbox";
 import Input from "./storybook/inputs/input";
-import InputLabel, { IInputLabelProps } from "./storybook/inputs/input-label";
+import InputLabel from "./storybook/inputs/input-label";
 import Loader from "./storybook/loader/loader";
 
 interface IRequestSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -19,11 +19,11 @@ interface IRequestSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   requests: any[];
   currentBrIds?: number[];
   alreadyAddedMessage: string;
-  onAlreadyAdded: (br: any) => void;
   getBrCoverSrc: (br: any) => any;
   getBrLabel: (br: any) => any;
   getBrChecked: (br: any) => any;
   onBrSelectionChange: (e: ChangeEvent<HTMLInputElement>, br: any) => void;
+  handleAlreadyAdded: (br: any) => void;
 }
 
 const RequestSelector: React.FC<IRequestSelectorProps> = ({
@@ -39,20 +39,20 @@ const RequestSelector: React.FC<IRequestSelectorProps> = ({
   onBrSelectionChange,
   getBrCoverSrc,
   getBrLabel,
-  onAlreadyAdded,
+  handleAlreadyAdded,
   getBrChecked,
   ...props
 }) => {
   const projectList = requests.flatMap((br) => {
-    const isAddedAlready =
-      findIndex(currentBrIds, (id) => id === parseInt(br.id)) !== -1;
+    const isAlreadyAdded = indexOf(currentBrIds, parseInt(br.id)) !== -1;
 
-    isAddedAlready && !br.alreadyAdded === true && onAlreadyAdded(br);
+    if (isAlreadyAdded) handleAlreadyAdded(br);
+
     return (
       <button
         className="flex items-center w-full pl-5 py-2 active:bg-gray-10 relative"
         key={br.name}
-        value={isAddedAlready ? 10 : 0}
+        value={isAlreadyAdded ? 0 : 10}
         type="button"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -66,13 +66,14 @@ const RequestSelector: React.FC<IRequestSelectorProps> = ({
         <p className="font-semibold text-dark-blue text-md">
           {getBrLabel(br)}
           <span className="text-error ml-5 italic font-light">
-            {isAddedAlready && alreadyAddedMessage}
+            {isAlreadyAdded && alreadyAddedMessage}
           </span>
         </p>
         <Checkbox
           name={br.id}
-          disabled={isAddedAlready}
-          defaultChecked={getBrChecked(br) && !isAddedAlready}
+          disabled={isAlreadyAdded}
+          defaultChecked={getBrChecked(br) && !isAlreadyAdded}
+          // defaultChecked={getBrChecked(br)}
           className="absolute right-3"
           onChange={(e) => onBrSelectionChange(e, br)}
         />

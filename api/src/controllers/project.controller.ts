@@ -1,9 +1,15 @@
 import BuyingRequest from "@models/BuyingRequest";
-import { IProjectBrInput, IProjectInput } from "../graphql/types";
+import User from "@models/User";
+import {
+	IProjectBrInput,
+	ICreateProjectInput,
+	IProjectBr
+} from "../graphql/types";
 import Project from "../models/Project";
 import { uploadImage } from "../repositories/uploads.repository";
 import {
 	errorResponse,
+	generateSlug,
 	PROJECTS_GET_LIMIT,
 	RESPONSE_MESSAGE,
 	successResponse
@@ -23,6 +29,18 @@ function setBuyingRequestsProject(
 	});
 }
 
+function removeBrProject(buyingRequests: BuyingRequest[], projectId: number) {
+	buyingRequests.forEach(br => {
+		const currentProjects: string[] = br.getDataValue("projectIds");
+
+		if (!currentProjects) return;
+		const newProjectIds =
+			currentProjects.filter(cp => parseInt(cp) !== projectId) || [];
+		br.setDataValue("projectIds", newProjectIds);
+		br.save();
+	});
+}
+
 class ProjectController {
 	async getProjects(companyId: number, offset: number) {
 		const { rows: projects, count } = await Project.findAndCountAll({
@@ -30,8 +48,27 @@ class ProjectController {
 			offset: offset,
 			limit: PROJECTS_GET_LIMIT
 		});
-
 		return { projects, count };
+	}
+
+	async getProject(slug: string) {
+		const project = await Project.findOne({
+			where: { slug }
+		});
+
+		const createdBy = await User.findOne({
+			where: { id: project.getDataValue("createdById") }
+		});
+
+		let updatedBy;
+		const updatedById = project.getDataValue("updatedById");
+
+		if (updatedById)
+			updatedBy = await User.findOne({
+				where: { id: updatedById }
+			});
+
+		return { project, createdBy, updatedBy };
 	}
 
 	async addToProject(projectId: number, buyingRequests: IProjectBrInput[]) {
@@ -55,13 +92,17 @@ class ProjectController {
 		}
 	}
 
-	async createProject(project: IProjectInput) {
+	async createProject({ name, ...project }: ICreateProjectInput) {
 		const duplicateProject = await Project.findOne({
-			where: { name: project.name, companyId: project.companyId }
+			where: { name, companyId: project.companyId }
 		});
 		if (duplicateProject) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
 
-		const newProject = await Project.create(project);
+		const newProject = await Project.create({
+			name,
+			slug: generateSlug(name),
+			...project
+		});
 
 		if (project.image) {
 			uploadImage(project.companyName, project.image).then(
@@ -72,24 +113,72 @@ class ProjectController {
 			);
 		}
 
+		const brIds = project.buyingRequests.map(br => br.id);
 		const buyingRequests = await BuyingRequest.findAll({
-			where: { id: project.buyingRequests }
+			where: { id: brIds }
 		});
 
 		setBuyingRequestsProject(buyingRequests, newProject.getDataValue("id"));
 
-		return successResponse();
+		return newProject.save().then(() => successResponse());
 	}
 
-	async deleteProject(id: number) {
+	async deleteProjects(ids: number[]) {
 		try {
-			await Project.destroy({ where: { id } });
+			await Project.findAll({ where: { id: ids } });
 
 			return successResponse();
 		} catch (error) {
 			console.log(error);
 
 			return errorResponse();
+		}
+	}
+
+	async deleteProject(id: number) {
+		try {
+			const project = await Project.findByPk(id);
+
+			const buyingRequests = project.getDataValue("buyingRequests");
+
+			if (buyingRequests) {
+				removeBrProject(buyingRequests, id);
+			}
+
+			return successResponse();
+		} catch (error) {
+			console.log(error);
+
+			return errorResponse();
+		}
+	}
+
+	async removeRequestFromProject(id: number, brIds: number[]) {
+		try {
+			const project = await Project.findByPk(id);
+
+			const projectBrs: IProjectBr[] = project.getDataValue(
+				"buyingRequests"
+			);
+
+			const newProjectBrs = projectBrs.filter(pbr => {
+				const idx = brIds.findIndex(
+					brId => brId === parseInt(pbr.id + "")
+				);
+
+				return idx === -1;
+			});
+
+			const buyingRequests = await BuyingRequest.findAll({
+				where: { id: brIds }
+			});
+			removeBrProject(buyingRequests, id);
+
+			project.setDataValue("buyingRequests", newProjectBrs);
+
+			return project.save().then(() => successResponse());
+		} catch (error) {
+			console.log(error);
 		}
 	}
 }

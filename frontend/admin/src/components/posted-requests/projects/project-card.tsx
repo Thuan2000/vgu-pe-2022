@@ -13,50 +13,31 @@ import { useModal } from "src/contexts/modal.context";
 import DeleteProjectAlert from "@components/ui/delete-project-alert";
 import { useDeleteProjectMutation } from "@graphql/project.graphql";
 import useIsPhone from "src/hooks/isPhone.hook";
-import { useProjects } from "src/contexts/projects.context";
-import { findIndex, remove } from "lodash";
 import { useRouter } from "next/dist/client/router";
+import { ROUTES } from "@utils/routes";
+import Link from "@components/ui/link";
 
 interface IProjectCardProps extends React.HTMLAttributes<HTMLDivElement> {
   project: IProject;
   reFetchProject: () => void;
+  onProjectSelect: (e: ChangeEvent<HTMLInputElement>) => void;
+  isSelected: boolean;
 }
 
 const ProjectCard: React.FC<IProjectCardProps> = ({
   project,
   reFetchProject,
+  isSelected,
+  onProjectSelect,
 }) => {
   const { t } = useTranslation("common");
   const { query, ...router } = useRouter();
   const [showProjectMenu, setShowProjectMenu] = useState(false);
   const { openModal } = useModal();
   const isPhone = useIsPhone();
-  const { selectedProjects, setSelectedProjects } = useProjects();
   const [deleteProject, { loading: deleteLoading }] = useDeleteProjectMutation({
     onCompleted: reFetchProject,
   });
-
-  function projectIndexOnSelecteds() {
-    return findIndex(selectedProjects, (sp) => sp.id === project.id);
-  }
-
-  const isSelected = projectIndexOnSelecteds() !== -1;
-
-  function removeProjectFromSelecteds() {
-    const idx = projectIndexOnSelecteds();
-
-    if (idx === -1) return;
-
-    remove(selectedProjects, project);
-    setSelectedProjects([...selectedProjects]);
-  }
-
-  function addToSPs() {
-    const idx = projectIndexOnSelecteds();
-    if (idx !== -1) return;
-
-    setSelectedProjects([...selectedProjects, project]);
-  }
 
   function hanldeAddRequestClick() {
     const { pathname } = router;
@@ -65,11 +46,6 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
       pathname,
       query: { ...query, projectId: project.id },
     });
-  }
-
-  function handleSelectChange(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) addToSPs();
-    if (!e.target.checked) removeProjectFromSelecteds();
   }
 
   function onDelete() {
@@ -89,7 +65,7 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
 
   return (
     <div
-      className={`border rounded-md shadow-md flex w-full relative max-h-44 sm:w-49p flex-grow-0 mt-5 
+      className={`border rounded-md shadow-md flex relative max-h-44 sm:w-49p mt-5 
       ${isSelected && "bg-primary bg-opacity-20"}
     `}
     >
@@ -97,9 +73,8 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
         <Checkbox
           name={`${project.id}${project.name}`}
           className="z-10"
-          onChange={handleSelectChange}
+          onChange={onProjectSelect}
           checked={isSelected}
-          // checked={isSelected}
         />
       </div>
       <button
@@ -143,11 +118,13 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
         />
       </div>
       <div className="py-3 ml-3 space-y-1">
-        <p className="font-semibold text-md">
-          {trimText(project.name, isPhone ? 19 : 30)}
-        </p>
-        <p>
-          <span className="text-gray-200">{t("due-time-text")}:</span>
+        <Link href={`${ROUTES.PROJECTS}/${project.slug}`}>
+          <p className="font-semibold text-md">
+            {trimText(project.name, isPhone ? 19 : 30)}
+          </p>
+        </Link>
+        <p className="text-sm">
+          <span className="text-gray-200 ">{t("due-time-text")}:</span>
           <span className="ml-2 text-secondary-1">
             {viDateFormat(project.endDate)}
           </span>
@@ -164,7 +141,7 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
                     ${!isLast && "border-r-4 border-white"}
                     ${!isFirst && "-translate-x-2"}
                   `}
-                  style={{ zIndex: 50 - idx }}
+                  style={{ zIndex: 5 - idx }}
                   key={projectBr.id + "project-br"}
                 >
                   <Image
