@@ -1,6 +1,10 @@
 import BuyingRequest from "@models/BuyingRequest";
 import User from "@models/User";
-import { IProjectBrInput, ICreateProjectInput } from "../graphql/types";
+import {
+	IProjectBrInput,
+	ICreateProjectInput,
+	IProjectBr
+} from "../graphql/types";
 import Project from "../models/Project";
 import { uploadImage } from "../repositories/uploads.repository";
 import {
@@ -21,6 +25,18 @@ function setBuyingRequestsProject(
 			"projectIds",
 			!currentProjects ? [projectId] : [...currentProjects, projectId]
 		);
+		br.save();
+	});
+}
+
+function removeBrProject(buyingRequests: BuyingRequest[], projectId: number) {
+	buyingRequests.forEach(br => {
+		const currentProjects: string[] = br.getDataValue("projectIds");
+
+		if (!currentProjects) return;
+		const newProjectIds =
+			currentProjects.filter(cp => parseInt(cp) !== projectId) || [];
+		br.setDataValue("projectIds", newProjectIds);
 		br.save();
 	});
 }
@@ -96,8 +112,10 @@ class ProjectController {
 				}
 			);
 		}
+
+		const brIds = project.buyingRequests.map(br => br.id);
 		const buyingRequests = await BuyingRequest.findAll({
-			where: { id: project.buyingRequests }
+			where: { id: brIds }
 		});
 
 		setBuyingRequestsProject(buyingRequests, newProject.getDataValue("id"));
@@ -105,15 +123,62 @@ class ProjectController {
 		return newProject.save().then(() => successResponse());
 	}
 
-	async deleteProject(id: number) {
+	async deleteProjects(ids: number[]) {
 		try {
-			await Project.destroy({ where: { id } });
+			await Project.findAll({ where: { id: ids } });
 
 			return successResponse();
 		} catch (error) {
 			console.log(error);
 
 			return errorResponse();
+		}
+	}
+
+	async deleteProject(id: number) {
+		try {
+			const project = await Project.findByPk(id);
+
+			const buyingRequests = project.getDataValue("buyingRequests");
+
+			if (buyingRequests) {
+				removeBrProject(buyingRequests, id);
+			}
+
+			return successResponse();
+		} catch (error) {
+			console.log(error);
+
+			return errorResponse();
+		}
+	}
+
+	async removeRequestFromProject(id: number, brIds: number[]) {
+		try {
+			const project = await Project.findByPk(id);
+
+			const projectBrs: IProjectBr[] = project.getDataValue(
+				"buyingRequests"
+			);
+
+			const newProjectBrs = projectBrs.filter(pbr => {
+				const idx = brIds.findIndex(
+					brId => brId === parseInt(pbr.id + "")
+				);
+
+				return idx === -1;
+			});
+
+			const buyingRequests = await BuyingRequest.findAll({
+				where: { id: brIds }
+			});
+			removeBrProject(buyingRequests, id);
+
+			project.setDataValue("buyingRequests", newProjectBrs);
+
+			return project.save().then(() => successResponse());
+		} catch (error) {
+			console.log(error);
 		}
 	}
 }

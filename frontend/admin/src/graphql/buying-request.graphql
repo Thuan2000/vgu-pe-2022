@@ -10,8 +10,8 @@ query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
   }
 }
 
-query BuyingRequest($slug: String!) {
-  buyingRequest(slug: $slug) {
+query BuyingRequestBySlug($slug: String!) {
+  buyingRequestBySlug(slug: $slug) {
     buyingRequest {
       ...BuyingRequestParts
     }
@@ -21,6 +21,12 @@ query BuyingRequest($slug: String!) {
     updatedBy {
       ...UserFragment
     }
+  }
+}
+
+query BuyingRequest($id: Int!) {
+  buyingRequest(id: $id) {
+    ...BuyingRequestParts
   }
 }
 

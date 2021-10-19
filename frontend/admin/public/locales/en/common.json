@@ -65,5 +65,10 @@
   "remove-project-message": "Are you sure want to remove project?",
   "cancel-button-label": "Cancel",
   "confirm-remove-project-button-label": "Remove Project",
-  "alreadyAdded-message": "Already Added"
+  "alreadyAdded-message": "Already Added",
+  "createProject-button-label": "Create Project",
+  "removeRequestSingular-button-label": "Remove Request",
+  "removeRequestPlurar-button-label": "Remove Requests",
+  "singularRequest-text": "Request",
+  "plurarRequest-text": "Requests"
 }

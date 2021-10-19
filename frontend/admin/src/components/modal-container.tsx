@@ -19,7 +19,7 @@ const ModalContainer: React.FC<IModalContainerProps> = () => {
 
   return (
     <Modal
-      isPhoneFullScreenContent={false}
+      isPhoneFullScreenContent={true}
       onClose={handleCloseModal}
       isOpen={isOpen}
     >

@@ -5,7 +5,10 @@ import PageLayout from "@components/layouts/page-layout";
 import Chip from "@components/ui/chip";
 import Loading from "@components/ui/loading";
 import Button from "@components/ui/storybook/button";
-import { useBuyingRequestQuery } from "@graphql/buying-request.graphql";
+import {
+  useBuyingRequestBySlugQuery,
+  useBuyingRequestQuery,
+} from "@graphql/buying-request.graphql";
 import { IAllowedCompany, IBuyingRequest } from "@graphql/types.graphql";
 import { getMeData } from "@utils/auth-utils";
 import {
@@ -32,10 +35,12 @@ export const getServerSideProps: GetStaticProps = async (ctx) => {
 
 const BuyingRequestDetails = ({ slug, ...props }: any) => {
   const { t } = useTranslation("common");
-  const { data, loading } = useBuyingRequestQuery({ variables: { slug } });
+  const { data, loading } = useBuyingRequestBySlugQuery({
+    variables: { slug },
+  });
   const { company } = getMeData();
-  const br = data?.buyingRequest;
-
+  const br = data?.buyingRequestBySlug.buyingRequest;
+  const createdBy = data?.buyingRequestBySlug.createdBy;
   if (loading) return <Loading />;
 
   function getParticipantFilter(allowedCompany: IAllowedCompany) {
@@ -62,7 +67,7 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
             br={br as IBuyingRequest}
           />
           <h2 className="text-secondary-1 font-semibold">{br?.name}</h2>
-          <p className="text-lg text-gray-300">{company?.licenseNumber}</p>
+          <p className="text-lg text-gray-300">{`${createdBy?.firstName} ${createdBy?.lastName}`}</p>
           <Chip
             text={br?.status as string}
             background="secondary-1"

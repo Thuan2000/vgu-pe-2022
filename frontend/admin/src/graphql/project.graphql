@@ -44,3 +44,17 @@ mutation DeleteProject($id: Int!) {
     message
   }
 }
+
+mutation DeleteProjects($ids: [Int]!) {
+  deleteProjects(ids: $ids) {
+    success
+    message
+  }
+}
+
+mutation RemoveRequestFromProject($id: Int!, $brIds: [Int]!) {
+  removeRequestFromProject(id: $id, brIds: $brIds) {
+    success
+    message
+  }
+}

@@ -32,7 +32,7 @@ const PostedRequests = (props: any) => {
   return (
     <>
       <div className="bg-white md:p-5 rounded-sm md:rounded-lg flex flex-col flex-wrap justify-between pb-5">
-        <PostedRequestsNav />
+        <PostedRequestsNav className="mb-4" />
         {activeView === POSTED_REQUEST_VIEWS.BUYING_REQUESTS && (
           <BuyingRequests />
         )}

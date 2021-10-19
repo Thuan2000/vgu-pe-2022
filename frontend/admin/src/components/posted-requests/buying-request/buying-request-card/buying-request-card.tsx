@@ -1,98 +1,39 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "next/image";
 
-import { IBuyingRequest, IProject } from "@graphql/types.graphql";
-import { useTranslation } from "react-i18next";
+import { IBuyingRequest } from "@graphql/types.graphql";
+
 import BRCGeneralInfo from "./brc-general-info";
 import Checkbox from "@components/ui/storybook/checkbox";
 import { siteSettings } from "@settings/site.settings";
 import BrcExtras from "./brc-extras";
 import BRCExternalInfo from "./brc-external-info";
-import { useBRContext } from "src/contexts/buying-request.context";
-import { findIndex, indexOf, remove } from "lodash";
-import {
-  useDeleteBuyingRequestMutation,
-  useDeleteBuyingRequestsMutation,
-} from "@graphql/buying-request.graphql";
-import { useModal } from "src/contexts/modal.context";
-import DeleteBrAlert from "@components/ui/delete-br-alert";
-import SelectProject from "@components/ui/select-project";
-import AddToProject from "@components/ui/add-to-project";
-import UnderDevelopment from "@components/under-development";
-import {
-  useAddToProjectMutation,
-  useProjectsQuery,
-} from "@graphql/project.graphql";
-import { getCompanyId } from "@utils/functions";
 
+import { findIndex, indexOf, remove } from "lodash";
+
+export interface IExtraMenu {
+  label: string;
+  icon: any;
+  onClick: (br: IBuyingRequest) => void;
+}
 interface IBuyingRequestCardProps extends React.HTMLAttributes<HTMLDivElement> {
   br: IBuyingRequest;
-  onSelectChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  selecteds: IBuyingRequest[];
-  setSelecteds: (value: IBuyingRequest[]) => void;
+  onSelectChange: (
+    e: ChangeEvent<HTMLInputElement>,
+    br?: IBuyingRequest
+  ) => void;
+  extraMenus: IExtraMenu[];
+  isSelected: boolean;
 }
 
 const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   br,
   className,
   onSelectChange,
-  selecteds,
-  setSelecteds,
+  extraMenus,
+  isSelected,
   ...props
 }) => {
-  const { t } = useTranslation();
-  const { refetchBrs, openCreateProject } = useBRContext();
-  const [isSelected, setIsSelected] = useState(false);
-  const { openModal, closeModal } = useModal();
-
-  const [deleteBr, { loading: deleteLoading }] =
-    useDeleteBuyingRequestMutation();
-
-  useEffect(() => {
-    const indexOnSelecteds = findIndex(
-      selecteds,
-      (selected) => selected.id === br.id
-    );
-    const isSelected =
-      indexOnSelecteds !== -1 &&
-      !(selecteds?.at(indexOnSelecteds) as any)?.unChecked === true;
-
-    setIsSelected(isSelected);
-  }, [br.id, selecteds]);
-
-  function handleCreateProject() {
-    openCreateProject();
-    closeModal();
-  }
-
-  function handleProjectClick(project: IProject) {}
-
-  function handleAddToProject() {
-    setSelecteds([br]);
-    openModal(
-      (
-        <AddToProject
-          brId={br.id}
-          onNewClick={handleCreateProject}
-          onProjectClick={handleProjectClick}
-        />
-      ) as any
-    );
-  }
-
-  async function onDelete() {
-    await deleteBr({ variables: { id: parseInt(br.id) } });
-    refetchBrs();
-  }
-
-  function handleDeleteBrClick() {
-    openModal(
-      (
-        <DeleteBrAlert isLoading={deleteLoading} onDeleteClick={onDelete} />
-      ) as any
-    );
-  }
-
   return (
     <div
       className={`border rounded-md shadow-md flex relative md:w-49p max-h-44
@@ -107,7 +48,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
         <Checkbox
           name={`${br.id}${br.name}`}
           className="z-10"
-          onChange={onSelectChange}
+          onChange={(e) => onSelectChange(e, br)}
           checked={isSelected}
         />
       </div>
@@ -134,15 +75,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
           projectsCount={br.projectIds?.length || 0}
           commentsCount={br.commentIds?.length || 0}
         />
-        <BrcExtras
-          brId={parseInt(br.id)}
-          updatedAt={br.updatedAt}
-          onAddToProjectClick={handleAddToProject}
-          onDeleteClick={handleDeleteBrClick}
-          postedTextLabel={t("posted-label")}
-          deleteButtonLabel={t("delete-button-label")}
-          addToProjectButtonLabel={t("addToProject-button-label")}
-        />
+        <BrcExtras br={br} updatedAt={br.updatedAt} extraMenus={extraMenus} />
       </div>
     </div>
   );

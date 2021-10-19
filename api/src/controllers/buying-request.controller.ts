@@ -28,28 +28,31 @@ function setBrGallery(data: Promise<unknown>[], br: BuyingRequest) {
 }
 
 class BuyingRequestController {
-	async getBuyingRequest(slug: string) {
-		const br = await BuyingRequest.findOne({
+	async getBuyingRequestBySlug(slug: string) {
+		const buyingRequest = await BuyingRequest.findOne({
 			where: { slug }
 		});
 
 		const createdBy = await User.findOne({
-			where: { id: br.getDataValue("createdById") }
+			where: { id: buyingRequest.getDataValue("createdById") }
 		});
 
 		let updatedBy;
-		const updatedById = br.getDataValue("updatedById");
+		const updatedById = buyingRequest.getDataValue("updatedById");
 
 		if (updatedById)
 			updatedBy = await User.findOne({
 				where: { id: updatedById }
 			});
 
-		const buyingRequest = Object.assign({}, br, { createdBy, updatedBy });
-
 		return { buyingRequest, createdBy, updatedBy };
 	}
 
+	async getBuyingRequest(id: number) {
+		const allBuyingRequest = await BuyingRequest.findByPk(id);
+
+		return allBuyingRequest;
+	}
 	async getBuyingRequestsByIds(ids: number[]) {
 		const allBuyingRequests = await BuyingRequest.findAll({
 			where: { id: ids }

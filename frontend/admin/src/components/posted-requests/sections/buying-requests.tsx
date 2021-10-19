@@ -3,7 +3,10 @@ import BuyingRequestCard from "@components/posted-requests/buying-request/buying
 import PostedRequestsNav from "@components/posted-requests/posted-requests-nav";
 import Loading from "@components/ui/loading";
 import Pagination from "@components/ui/pagination";
-import { useBuyingRequestsAndCountQuery } from "@graphql/buying-request.graphql";
+import {
+  useBuyingRequestsAndCountQuery,
+  useDeleteBuyingRequestMutation,
+} from "@graphql/buying-request.graphql";
 import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import { getMeData } from "@utils/auth-utils";
 import { BUYING_REQUESTS_GET_LIMIT } from "@utils/constants";
@@ -14,11 +17,16 @@ import {
   useBRContext,
 } from "src/contexts/buying-request.context";
 import NoBuyingRequests from "@components/posted-requests/no-buying-requests";
-import CreateProject from "@components/create-project";
+import CreateProject, { CPBR } from "@components/create-project";
 import { findIndex } from "lodash";
 import { getCompanyId } from "@utils/functions";
 import { useModal } from "src/contexts/modal.context";
 import AddToProject from "@components/ui/add-to-project";
+import { useTranslation } from "react-i18next";
+import { PlusIcon } from "@assets/icons/plus-icon";
+import TrashCanIcon from "@assets/icons/trash-can-icon";
+import { IExtraMenu } from "../buying-request/buying-request-card/buying-request-card";
+import DeleteBrAlert from "@components/ui/delete-br-alert";
 
 interface IBuyingRequestsProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -27,8 +35,12 @@ function getParameter(companyId: number, offset: number) {
 }
 
 const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
+  const { t } = useTranslation();
   // Modal Context
-  const { openModal, closeModal } = useModal();
+  const { openModal } = useModal();
+
+  const [deleteBr, { loading: deleteLoading }] =
+    useDeleteBuyingRequestMutation();
 
   // Data fetching
   const { query, ...router } = useRouter();
@@ -50,11 +62,53 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
   }, [activePageIdx, getCompanyId()]);
 
   const [previousPageIdx, setPreviousPageIdx] = useState<number>(-1);
-  const { data, loading, fetchMore } = useBuyingRequestsAndCountQuery({
+  const { data, loading, fetchMore, refetch } = useBuyingRequestsAndCountQuery({
     ...getParameter(getCompanyId(), getOffset()),
   });
 
+  useEffect(() => {
+    refetch({ companyId: getCompanyId(), offset: getOffset() });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deleteLoading]);
+
+  async function onDelete(br: IBuyingRequest) {
+    await deleteBr({ variables: { id: parseInt(br.id) } });
+  }
+
+  function handleDeleteBrClick(br: IBuyingRequest) {
+    openModal(
+      (
+        <DeleteBrAlert
+          isLoading={deleteLoading}
+          onDeleteClick={() => onDelete(br)}
+        />
+      ) as any
+    );
+  }
   const [selectedBrs, setSelectedBrs] = useState<IBuyingRequest[]>([]);
+  // Called from br card
+  const [isOpenSelectProject, setIsOpenSelectProject] = useState(false);
+
+  useEffect(() => {
+    if (isOpenSelectProject) {
+      let brId;
+      if (selectedBrs.length === 1) brId = selectedBrs[0].id;
+      openModal(
+        (
+          <AddToProject
+            brId={brId}
+            onNewClick={handleCreateProject}
+            onProjectClick={handleProjectClick}
+          />
+        ) as any,
+        {
+          onClose: () => setSelectedBrs([]),
+        }
+      );
+      setIsOpenSelectProject(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpenSelectProject]);
 
   function handlePageChange(newIdx: number) {
     const { pathname } = router;
@@ -111,7 +165,12 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
   }
 
   function handleOnCreateProjectClose() {
-    setSelectedBrs([]);
+    // Filter all unchecked, and all alreadyAdded
+    const filteredBrs = selectedBrs.filter(
+      (br: CPBR) => br.alreadyAdded !== true && br.unChecked !== true
+    );
+
+    setSelectedBrs([...filteredBrs]);
   }
 
   function handleCreateProject() {
@@ -155,6 +214,36 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
     );
   }
 
+  function handleBrCardAddToProjectClick(br: IBuyingRequest) {
+    setSelectedBrs([br]);
+    setIsOpenSelectProject(true);
+  }
+
+  const brCardExtraMenus: IExtraMenu[] = [
+    {
+      label: t("addToProject-button-label"),
+      icon: PlusIcon,
+      onClick: handleBrCardAddToProjectClick,
+    },
+    {
+      label: t("delete-button-label"),
+      icon: TrashCanIcon,
+      onClick: handleDeleteBrClick,
+    },
+  ];
+
+  function isBrSelected(br: IBuyingRequest) {
+    const indexOnSelecteds = findIndex(
+      selectedBrs,
+      (selected) => selected.id === br.id
+    );
+    const isSelected =
+      indexOnSelecteds !== -1 &&
+      !(selectedBrs?.at(indexOnSelecteds) as any)?.unChecked === true;
+
+    return isSelected;
+  }
+
   return (
     <>
       <BuyingRequestHeader
@@ -168,10 +257,10 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
           if (!br) return;
           return (
             <BuyingRequestCard
+              extraMenus={brCardExtraMenus}
               onSelectChange={(e) => handleSelectChange(e, br)}
               br={br}
-              selecteds={selectedBrs}
-              setSelecteds={setSelectedBrs}
+              isSelected={isBrSelected(br)}
               key={br?.name + br?.endDate + ""}
               className="mb-3"
             />

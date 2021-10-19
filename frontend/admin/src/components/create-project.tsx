@@ -12,7 +12,7 @@ import DateInput from "@components/ui/storybook/inputs/date-input";
 import Button from "@components/ui/storybook/button";
 import RequestSelector from "@components/ui/requests-selector";
 import { IBuyingRequest, IProject, IProjectBr } from "@graphql/types.graphql";
-import { cloneDeep, remove } from "lodash";
+import { cloneDeep, findIndex, get, remove } from "lodash";
 import Form from "./form";
 import {
   useAddToProjectMutation,
@@ -21,6 +21,8 @@ import {
 import { getMeData } from "@utils/auth-utils";
 import { trimText } from "@utils/functions";
 import { useModal } from "src/contexts/modal.context";
+import { useRouter } from "next/dist/client/router";
+import { POSTED_REQUEST_VIEWS } from "./posted-requests/posted-requests-nav/prn-constants";
 
 type CreateProjectFormValues = {
   name: string;
@@ -29,10 +31,19 @@ type CreateProjectFormValues = {
   image: any;
 };
 
-const cpSchema = yup.object({
+const createCpSchema = yup.object({
   name: yup.string().required("project-name-required-error"),
   endDate: yup.date().required("project-name-required-error"),
 });
+const updateCpSchema = yup.object({
+  endDate: yup.date().required("project-name-required-error"),
+});
+
+// Create Project BR
+export interface CPBR extends IBuyingRequest {
+  unChecked?: boolean;
+  alreadyAdded?: boolean;
+}
 
 interface ICreateProjectProps {
   selectedBrs: IBuyingRequest[];
@@ -43,12 +54,13 @@ interface ICreateProjectProps {
 function generateDefaultValue(project?: IProject) {
   if (!project) return {};
   const { name, endDate, description, image } = project;
-  const data = cloneDeep({
+  const data = {
     name,
     endDate: new Date(endDate),
     description,
     image,
-  });
+  };
+
   return data;
 }
 
@@ -58,36 +70,37 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
   initValue,
 }) => {
   const { closeModal } = useModal();
-
+  const router = useRouter();
+  const [refreshUi, setRefreshUi] = useState(false);
   const {
     control,
     register,
     handleSubmit,
     setValue,
+    unregister,
     reset,
     formState: { errors },
   } = useForm<CreateProjectFormValues>({
-    resolver: yupResolver(cpSchema),
+    resolver: yupResolver(!!initValue ? updateCpSchema : createCpSchema),
     defaultValues: generateDefaultValue(initValue),
   });
 
   useEffect(() => {
-    if (initValue) setValue("name", initValue?.name);
+    if (initValue) {
+      setValue("name", initValue?.name);
+      setValue("description", initValue?.description || "");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
+  }, []);
 
   const [isHaveNewBr, setIsHaveNewBr] = useState<boolean>();
 
   useEffect(() => {
-    const filterUnchecked = selectedBrs.filter(
-      (selected) => (selected as any).unChecked !== true
+    const filteredBrs = selectedBrs.filter(
+      (sb: CPBR) => sb.alreadyAdded !== true && sb.unChecked !== true
     );
-    const filterAlreadyAdded = filterUnchecked.filter(
-      (selected) => (selected as any).alreadyAdded !== true
-    );
-
-    setIsHaveNewBr(filterAlreadyAdded.length > 0);
-  }, [selectedBrs]);
+    setIsHaveNewBr(filteredBrs.length > 0);
+  }, [refreshUi, selectedBrs]);
 
   const { t } = useTranslation("form");
 
@@ -111,17 +124,34 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
       setSelectedBrs([]);
       reset();
       closeModal();
+
+      const { query, pathname } = router;
+      router.push({
+        pathname,
+        query: { ...query, view: POSTED_REQUEST_VIEWS.PROJECTS },
+      });
     }
   }
 
-  function handleAlreadyAddedBr(br: IBuyingRequest) {
-    const added = remove(selectedBrs, br)[0];
+  function unCheckBr(br: IBuyingRequest) {
+    const unChecked = remove(selectedBrs, (sb) => br.id === sb.id);
 
-    const newBrWithAlreadyAdded = Object.assign({}, added, {
-      alreadyAdded: true,
-    });
+    const newBr: CPBR = Object.assign({}, unChecked[0], { unChecked: true });
+    selectedBrs.push(newBr);
 
-    setSelectedBrs([...selectedBrs, newBrWithAlreadyAdded]);
+    // Refresh
+    setRefreshUi(!refreshUi);
+  }
+
+  function reCheckBr(br: IBuyingRequest) {
+    // Prevent duplication
+    const idx = findIndex(selectedBrs, (sb) => br.id === sb.id);
+
+    const data: CPBR = selectedBrs[idx];
+    data.unChecked = false;
+
+    // Refresh
+    setRefreshUi(!refreshUi);
   }
 
   function handleBrSelectionChange(
@@ -130,28 +160,27 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
   ) {
     // By default this function will be called with !e.target.checked first
     if (!e.target.checked) {
-      // Update selectedBrs and get removed value in one command
-      const unChecked = remove(selectedBrs, br)[0];
-
-      const newBrWithUnchecked = Object.assign({}, unChecked, {
-        unChecked: true,
-      });
-      setSelectedBrs([...selectedBrs, newBrWithUnchecked]);
+      unCheckBr(br);
+    } else {
+      reCheckBr(br);
     }
-    if (e.target.checked) {
-      if ((br as any).unchecked) (br as any).unChecked = false;
-      setSelectedBrs([...selectedBrs]);
-    }
-  }
-
-  function handleCloseModal() {
-    closeModal();
-    setSelectedBrs([]);
   }
 
   function handleCancelButton() {
     closeModal();
     setSelectedBrs([]);
+  }
+
+  function handleAlreadyAdded(br: IBuyingRequest) {
+    const idx = findIndex(selectedBrs, (sb) => sb.id === br.id);
+    if (idx === -1) return;
+    const alreadyAdded = selectedBrs[idx];
+    const cpBr: CPBR = Object.assign({}, alreadyAdded, {
+      alreadyAdded: true,
+    });
+
+    selectedBrs[idx] = cpBr;
+    setSelectedBrs([...selectedBrs]);
   }
 
   async function onSubmit({ endDate, ...e }: CreateProjectFormValues) {
@@ -206,7 +235,7 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
       <PhoneAdminNavbar
         pageName={t(PAGE_NAME.CREATE_PROJECT)}
         showBackArrow
-        onBackClick={handleCloseModal}
+        onBackClick={handleCancelButton}
         className="sm:hidden w-full"
       />
       <Form onSubmit={handleSubmit(onSubmit)}>
@@ -232,7 +261,9 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
               />
               <div className="w-full space-y-4">
                 <Input
-                  {...register("name", { disabled: !!initValue?.name })}
+                  {...register("name", {
+                    disabled: !!initValue?.name,
+                  })}
                   label={`${t("project-name-input-label")}*`}
                   autoFocus
                   placeholder={t("project-name-input-placeholder")}
@@ -258,6 +289,7 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
             />
           </div>
           <RequestSelector
+            handleAlreadyAdded={handleAlreadyAdded}
             onBrSelectionChange={handleBrSelectionChange}
             loading={false}
             currentBrIds={getCurrentBrIds(initValue?.buyingRequests || [])}

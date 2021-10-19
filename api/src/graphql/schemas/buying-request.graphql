@@ -73,6 +73,7 @@ extend type Query {
 		companyId: Int!
 		offset: Int!
 	): BuyingRequestsResponse!
-	buyingRequest(slug: String!): BuyingRequestDetails!
+	buyingRequest(id: Int!): BuyingRequest!
+	buyingRequestBySlug(slug: String!): BuyingRequestDetails!
 	getBuyingRequestsByIds(ids: [Int]!): [BuyingRequest]!
 }

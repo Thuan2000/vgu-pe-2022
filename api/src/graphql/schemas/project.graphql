@@ -1,5 +1,5 @@
 type Project {
-	id: Int
+	id: Int!
 	name: String!
 	slug: String!
 	endDate: Date!
@@ -51,4 +51,6 @@ extend type Mutation {
 	createProject(input: CreateProjectInput!): Response!
 	addToProject(projectId: Int!, buyingRequests: [ProjectBRInput!]!): Response!
 	deleteProject(id: Int!): Response!
+	deleteProjects(ids: [Int]!): Response!
+	removeRequestFromProject(id: Int!, brIds: [Int]!): Response!
 }

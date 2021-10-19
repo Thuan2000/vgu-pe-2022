@@ -11,6 +11,9 @@ export const Query = {
 export const Mutation = {
 	createProject: (_, { input }) => projectController.createProject(input),
 	deleteProject: (_, { id }) => projectController.deleteProject(id),
+	deleteProjects: (_, { ids }) => projectController.deleteProjects(ids),
 	addToProject: (_, { projectId, buyingRequests }) =>
-		projectController.addToProject(projectId, buyingRequests)
+		projectController.addToProject(projectId, buyingRequests),
+	removeRequestFromProject: (_, { id, brIds }) =>
+		projectController.removeRequestFromProject(id, brIds)
 };

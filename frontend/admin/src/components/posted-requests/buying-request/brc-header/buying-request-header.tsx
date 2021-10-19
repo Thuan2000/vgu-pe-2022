@@ -73,7 +73,7 @@ const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({
   );
 
   return (
-    <div className="flex items-center mt-4 mx-4">
+    <div className="flex items-center mx-4">
       <div className="hidden sm:block">
         <SearchInput />
       </div>

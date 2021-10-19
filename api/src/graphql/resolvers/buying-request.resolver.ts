@@ -3,8 +3,9 @@ import BuyingRequestController from "@controllers/buying-request.controller";
 const buyingRequestController = new BuyingRequestController();
 
 export const Query = {
-	buyingRequest: (_, { slug }) =>
-		buyingRequestController.getBuyingRequest(slug),
+	buyingRequestBySlug: (_, { slug }) =>
+		buyingRequestController.getBuyingRequestBySlug(slug),
+	buyingRequest: (_, { id }) => buyingRequestController.getBuyingRequest(id),
 	buyingRequestsAndCount: (_, { companyId, offset }) =>
 		buyingRequestController.getBuyingRequests(companyId, offset),
 	getBuyingRequestsByIds: (_, { ids }) =>
