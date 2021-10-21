@@ -1,0 +1,5 @@
+INSERT INTO `roles` (`name`) VALUES
+('SUPER_ADMIN'),
+('COMPANY_OWNER'),
+('COMPANY_STAFF'),
+('GUEST');

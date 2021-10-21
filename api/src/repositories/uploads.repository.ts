@@ -22,52 +22,34 @@ const s3 = new S3();
  * @returns {location} url of the file
  */
 export async function uploadCompanyLicenses(companyName, licenseFiles: any[]) {
-	return await licenseFiles.map(async file => {
-		const {
-			createReadStream,
-			filename: fileName,
-			mimetype: contentType
-		} = await file;
+	try {
+		return await licenseFiles.map(async file => {
+			const {
+				createReadStream,
+				filename: fileName,
+				mimetype: contentType
+			} = await file;
 
-		const fileStream = createReadStream();
+			const fileStream = createReadStream();
 
-		const res = await s3.uploadCompanyLicense({
-			companyName,
-			fileName,
-			fileStream,
-			type: "licenses",
-			contentType
+			const res = await s3.uploadCompanyLicense({
+				companyName,
+				fileName,
+				fileStream,
+				type: "licenses",
+				contentType
+			});
+			const { Key: key, Location: location } = res;
+
+			return { key, location };
 		});
-		const { Key: key, Location: location } = res;
-
-		return { key, location };
-	});
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 export async function uploadImage(companyName, img: any) {
-	const {
-		createReadStream,
-		filename: fileName,
-		mimetype: contentType
-	} = await img;
-
-	const fileStream = createReadStream();
-
-	const res = await s3.uploadPublicFile({
-		companyName,
-		fileName,
-		fileStream,
-		type: "images",
-		contentType
-	});
-
-	const { Key: key, Location: location } = res;
-
-	return await { key, location };
-}
-
-export async function uploadImages(companyName, images: any[]) {
-	return await (await images)?.map(async img => {
+	try {
 		const {
 			createReadStream,
 			filename: fileName,
@@ -86,6 +68,36 @@ export async function uploadImages(companyName, images: any[]) {
 
 		const { Key: key, Location: location } = res;
 
-		return { key, location };
-	});
+		return await { key, location };
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export async function uploadImages(companyName, images: any[]) {
+	try {
+		return await (await images)?.map(async img => {
+			const {
+				createReadStream,
+				filename: fileName,
+				mimetype: contentType
+			} = await img;
+
+			const fileStream = createReadStream();
+
+			const res = await s3.uploadPublicFile({
+				companyName,
+				fileName,
+				fileStream,
+				type: "images",
+				contentType
+			});
+
+			const { Key: key, Location: location } = res;
+
+			return { key, location };
+		});
+	} catch (error) {
+		console.log(error);
+	}
 }

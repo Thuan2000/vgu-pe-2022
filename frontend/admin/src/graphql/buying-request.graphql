@@ -1,5 +1,6 @@
 #import UserFragment from "./user.fragment.graphql"
 # import BuyingRequestParts from "./buying-request.fragment.graphql"
+# import SingleBuyingRequestParts from "./single-buying-request.fragment.graphql"
 
 query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
   buyingRequestsAndCount(companyId: $companyId, offset: $offset) {
@@ -12,15 +13,7 @@ query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
 
 query BuyingRequestBySlug($slug: String!) {
   buyingRequestBySlug(slug: $slug) {
-    buyingRequest {
-      ...BuyingRequestParts
-    }
-    createdBy {
-      ...UserFragment
-    }
-    updatedBy {
-      ...UserFragment
-    }
+    ...SingleBuyingRequestParts
   }
 }
 
@@ -36,8 +29,15 @@ query GetBuyingRequestsByIds($ids: [Int]!) {
   }
 }
 
-mutation CreateBuyingRequest($input: BuyingRequestInput) {
+mutation CreateBuyingRequest($input: CreateBuyingRequestInput) {
   createBuyingRequest(input: $input) {
+    success
+    message
+  }
+}
+
+mutation UpdateBuyingRequest($id: Int!, $newValue: UpdateBuyingRequestInput) {
+  updateBuyingRequest(id: $id, newValue: $newValue) {
     success
     message
   }

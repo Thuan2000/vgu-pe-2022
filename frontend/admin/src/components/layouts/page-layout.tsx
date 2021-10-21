@@ -7,7 +7,7 @@ import PhoneAdminNavbar from "@components/phone-admin-navbar";
 import BottomNavigation from "@components/ui/bottom-navigation";
 import { ROUTES } from "@utils/routes";
 import { PAGE_NAME_BY_ROUTE } from "@utils/pagePath";
-import { getActivePath } from "@utils/functions";
+import { getActivePath, getLoggedInUser } from "@utils/functions";
 
 const PageLayout: React.FC = ({ children }) => {
   const { t } = useTranslation();
@@ -16,7 +16,8 @@ const PageLayout: React.FC = ({ children }) => {
   const activePath = getActivePath(pathname);
 
   const isHomepage = activePath === ROUTES.HOMEPAGE;
-  const pageName = PAGE_NAME_BY_ROUTE[activePath];
+  const pageName =
+    (children as any)?.type?.PageName || PAGE_NAME_BY_ROUTE[activePath];
 
   function handleBackClick() {
     router.back();
@@ -38,6 +39,10 @@ const PageLayout: React.FC = ({ children }) => {
           pageName={t(pageName)}
           onBackClick={handleBackClick}
           className="hidden sm:block"
+          userName={`${getLoggedInUser()?.firstName} ${
+            getLoggedInUser()?.lastName
+          }`}
+          userRole={t(getLoggedInUser()?.role || "")}
         />
         {children}
       </main>

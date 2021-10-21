@@ -9,6 +9,7 @@ import { IExtraMenu } from "./buying-request-card";
 interface IBrcExtrasProps extends React.HTMLAttributes<HTMLDivElement> {
   updatedAt: string;
   br: IBuyingRequest;
+  postedTextLabel: string;
   extraMenus: IExtraMenu[];
 }
 
@@ -16,6 +17,7 @@ const BrcExtras: React.FC<IBrcExtrasProps> = ({
   br,
   updatedAt,
   extraMenus,
+  postedTextLabel,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -26,7 +28,7 @@ const BrcExtras: React.FC<IBrcExtrasProps> = ({
     <div {...props}>
       <div className="flex items-center w-full pr-6">
         <div className="flex items-center">
-          {/* <h5 className="text-gray mr-1 md:text-sm">{postedTextLabel}:</h5> */}
+          <h5 className="text-gray mr-1 md:text-sm">{postedTextLabel}:</h5>
           <h5 className="text-secondary-1 md:text-sm">
             {viDateFormat(updatedAt)}
           </h5>
@@ -35,7 +37,7 @@ const BrcExtras: React.FC<IBrcExtrasProps> = ({
           {extraMenus.length > 0 && (
             <button
               className="p-1 pb-0"
-              onClick={() => setShowThreeDotMenu(true)}
+              onClick={() => setShowThreeDotMenu(!showThreeDotMenu)}
               onBlur={() => setShowThreeDotMenu(false)}
             >
               <ThreeDotIcon />

@@ -1,4 +1,4 @@
-import { IProductName } from "@graphql/types.graphql";
+import { ICategory, IIndustry, IProductName } from "@graphql/types.graphql";
 import { IVietnamCity } from "@utils/vietnam-cities";
 import * as yup from "yup";
 
@@ -22,6 +22,8 @@ export const PostRequestSchema = yup.object({
       .min(yup.ref("minBudget"), "post-request-maxBudget-more-than-error"),
     minOrder: yup.number().required("post-request-minOrder-required-error"),
     unit: yup.string().required("post-request-unit-required-error"),
+    industry: yup.object().required("industry-required-error"),
+    categories: yup.array().min(1, "category-required-error"),
   }),
 
   additional: yup.object({
@@ -48,11 +50,13 @@ export type DetailsFormValue = {
   minOrder: number;
   unit: string;
   gallery: any;
+  industry: IIndustry;
+  categories: ICategory[];
 };
 
 export type AdditionalFormValue = {
-  categories: any[];
-  allowedCompany: AllowedCompany[];
+  allowedCompany?: AllowedCompany[];
+  biddersLimit?: number;
 };
 
 export type AllowedCompany =

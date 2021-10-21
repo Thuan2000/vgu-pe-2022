@@ -14,15 +14,7 @@ interface IProductNameSelect extends Partial<ICreateableSelectProps> {
 const ProductNameSelect = ({
   control,
   name,
-  options,
   createNewOption,
-  // getOptionLabel,
-  // getOptionValue,
-  // onCreateOption,
-  // label,
-  // note,
-  // error,
-  // numberQueue,
   ...props
 }: IProductNameSelect) => {
   function handleNewOptionCreation(label: string) {
@@ -35,21 +27,15 @@ const ProductNameSelect = ({
     <Controller
       control={control}
       name={name}
-      {...props}
-      render={({ field }) => (
-        <CreateableSelect
-          createNewOption={createNewOption || handleNewOptionCreation}
-          // getOptionLabel={getOptionLabel}
-          // getOptionValue={getOptionValue}
-          options={options}
-          // label={label}
-          // error={error}
-          // numberQueue={numberQueue}
-          // onCreateOption={onCreateOption}
-          {...props}
-          {...field}
-        />
-      )}
+      render={({ field }) => {
+        return (
+          <CreateableSelect
+            createNewOption={createNewOption || handleNewOptionCreation}
+            {...props}
+            {...field}
+          />
+        );
+      }}
     />
   );
 };

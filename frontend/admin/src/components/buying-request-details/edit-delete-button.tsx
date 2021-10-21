@@ -1,9 +1,10 @@
 import PencilIcon from "@assets/icons/pencil-icon";
 import TrashCanIcon from "@assets/icons/trash-can-icon";
 import DeleteBrAlert from "@components/ui/delete-br-alert";
+import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
 import { useDeleteBuyingRequestMutation } from "@graphql/buying-request.graphql";
-import { IBuyingRequest } from "@graphql/types.graphql";
+import { IBuyingRequest, ISingleBuyingRequest } from "@graphql/types.graphql";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
@@ -11,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useModal } from "src/contexts/modal.context";
 
 interface IEditDeleteButtonProps extends React.HTMLAttributes<HTMLDivElement> {
-  br: IBuyingRequest;
+  br: ISingleBuyingRequest;
 }
 
 const EditDeleteButton: React.FC<IEditDeleteButtonProps> = ({
@@ -31,7 +32,7 @@ const EditDeleteButton: React.FC<IEditDeleteButtonProps> = ({
   const { openModal } = useModal();
 
   function onDelete() {
-    deleteBrMutation({ variables: { id: parseInt(br.id) } });
+    deleteBrMutation({ variables: { id: parseInt(br?.id) } });
   }
 
   function handleClose() {
@@ -54,10 +55,15 @@ const EditDeleteButton: React.FC<IEditDeleteButtonProps> = ({
           <TrashCanIcon className="mr-2" />
           <p>{t("delete-button-label")}</p>
         </button>
-        <Button className="w-1/2.5">
-          <PencilIcon className="mr-2" />
-          {t("edit-button-label")}
-        </Button>
+        <Link
+          className="w-1/2.5"
+          href={`${ROUTES.BUYING_REQUESTS}/${br?.slug}/edit`}
+        >
+          <Button className="w-full">
+            <PencilIcon className="mr-2" />
+            {t("edit-button-label")}
+          </Button>
+        </Link>
       </div>
     </div>
   );

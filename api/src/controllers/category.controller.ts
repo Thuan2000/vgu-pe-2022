@@ -1,8 +1,8 @@
 import Category from "@models/Category";
 
 class CategoryController {
-	async getCategories() {
-		const categories = await Category.findAll();
+	async getCategories(industryId: number) {
+		const categories = await Category.findAll({ where: { industryId } });
 
 		return categories;
 	}
