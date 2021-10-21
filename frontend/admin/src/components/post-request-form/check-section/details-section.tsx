@@ -11,7 +11,16 @@ interface IGeneralSection {
 }
 
 const DetailsSection: React.FC<IGeneralSection> = ({
-  formValues,
+  formValues: {
+    categories,
+    industry,
+    gallery,
+    maxBudget,
+    minBudget,
+    minOrder,
+    productName,
+    unit,
+  },
   changeSection,
   hasImage,
 }) => {
@@ -30,32 +39,51 @@ const DetailsSection: React.FC<IGeneralSection> = ({
       </div>
       <div className="mb-5">
         <p className="text-semibold">{t("product-label")}</p>
-        <p className="font-semibold">{formValues?.productName?.name}</p>
+        <p className="font-semibold">
+          {typeof productName === "string" ? productName : productName?.name}
+        </p>
       </div>
       <div className="mb-5">
         <p className="text-semibold">{t("budget-label")}</p>
         <p className="font-semibold flex">
-          <p className="mr-5">
-            {formatMoneyAmount(formValues?.minBudget)}
-            {`${t("common:" + getSuffix(formValues?.minBudget))} ${t(
-              "budget-sign"
-            )}`}
-          </p>
+          <span className="mr-5">
+            {formatMoneyAmount(minBudget)}
+            {`${t("common:" + getSuffix(minBudget))} ${t("budget-sign")}`}
+          </span>
           {" - "}
-          <p className="ml-5">
-            {formatMoneyAmount(formValues?.maxBudget)}
-            {`${t("common:" + getSuffix(formValues?.maxBudget))} ${t(
-              "budget-sign"
-            )}`}
-          </p>
+          <span className="ml-5">
+            {formatMoneyAmount(maxBudget)}
+            {`${t("common:" + getSuffix(maxBudget))} ${t("budget-sign")}`}
+          </span>
         </p>
       </div>
       <div className="mb-5">
         <p className="text-semibold">{t("minOrder-label")}</p>
         <p className="font-semibold">
-          {formValues?.minOrder} {formValues?.unit}
+          {minOrder} {unit}
         </p>
       </div>
+      <div className="mb-5">
+        <p className="text-semibold">{t("check-industry-label")}</p>
+        <p className="font-semibold">{industry.name}</p>
+      </div>
+
+      {categories?.length > 0 && (
+        <div className="mb-5">
+          <p className="text-semibold">{t("check-categories-label")}</p>
+          <div className="flex items-center">
+            {categories.map((category, idx) => (
+              <p
+                className="font-semibold mr-1"
+                key={`${category.name}-"category-additional-section"`}
+              >
+                {category.name}
+                {idx < categories?.length - 1 && ", "}
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 };

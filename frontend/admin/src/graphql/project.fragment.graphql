@@ -1,9 +1,15 @@
 fragment ProjectFragment on Project {
+  id
   name
+  slug
   endDate
-  image
+  image {
+    location
+  }
   description
-  buyingRequests
+  buyingRequests {
+    id
+    cover
+  }
   companyId
-  createdById
 }

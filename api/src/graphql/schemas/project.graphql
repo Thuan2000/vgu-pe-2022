@@ -1,28 +1,56 @@
 type Project {
+	id: Int!
 	name: String!
+	slug: String!
 	endDate: Date!
-	image: Upload
+	image: File
 	description: String
-	buyingRequests: [Int!]!
+	buyingRequests: [ProjectBR!]!
 	companyId: Int!
-	createdById: Int!
 }
 
-input ProjectInput {
+type ProjectBR {
+	id: Int!
+	cover: String
+}
+
+input ProjectBRInput {
+	id: Int!
+	cover: String
+}
+
+input CreateProjectInput {
 	name: String!
 	endDate: Date!
 	image: Upload
 	description: String
-	buyingRequests: [Int!]!
+	buyingRequests: [ProjectBRInput!]!
 	companyId: Int!
 	createdById: Int!
+	updatedById: Int
 	companyName: String!
 }
 
+type GetProjects {
+	projects: [Project!]!
+	count: Int!
+}
+
+type ProjectDetail {
+	project: Project!
+	createdBy: User!
+	updatedBy: User
+}
+
 extend type Query {
-	projects(companyId: Int!): [Project!]!
+	projects(companyId: Int!, offset: Int!): GetProjects!
+	project(slug: String!): ProjectDetail!
 }
 
 extend type Mutation {
-	createProject(input: ProjectInput!): Response!
+	createProject(input: CreateProjectInput!): Response!
+	addToProject(projectId: Int!, buyingRequests: [ProjectBRInput!]!): Response!
+	deleteProject(id: Int!): Response!
+	deleteProjects(ids: [Int]!): Response!
+	removeRequestFromProject(id: Int!, brIds: [Int]!): Response!
 }

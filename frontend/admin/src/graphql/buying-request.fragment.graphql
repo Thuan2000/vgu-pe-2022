@@ -1,9 +1,13 @@
+#import UserFragment from "./user.fragment.graphql"
+
 fragment BuyingRequestParts on BuyingRequest {
   id
   name
   slug
+  productName
   endDate
-  categories
+  industryId
+  categoryIds
   minBudget
   maxBudget
   minOrder
@@ -11,6 +15,7 @@ fragment BuyingRequestParts on BuyingRequest {
   status
   gallery {
     location
+    path
   }
   createdAt
   updatedAt
@@ -19,6 +24,7 @@ fragment BuyingRequestParts on BuyingRequest {
   projectIds
   bidIds
   description
+  biddersLimit
   allowedCompany {
     minSupplierExperience
     minSupplierRating

@@ -10,12 +10,14 @@ input AllowedCompanyInput {
 	minSuplierSells: Float
 }
 
-type BuyingRequest {
+type SingleBuyingRequest {
 	id: ID!
 	name: String!
 	slug: String!
 	endDate: Date!
 	location: String!
+	industry: Industry!
+	categories: [Category!]!
 	description: String
 	productName: String!
 	minBudget: Date!
@@ -25,15 +27,42 @@ type BuyingRequest {
 	createdAt: Date!
 	updatedAt: Date!
 	unit: String!
-	categories: [Int]
 	gallery: [File]
+	biddersLimit: Int
+	allowedCompany: AllowedCompany
+	commentIds: [Int]
+	bidIds: [Int]
+	projectIds: [Int]
+	createdBy: User
+	updatedBy: User
+}
+
+type BuyingRequest {
+	id: ID!
+	name: String!
+	slug: String!
+	endDate: Date!
+	location: String!
+	industryId: Int!
+	categoryIds: [Int!]!
+	description: String
+	productName: String!
+	minBudget: Date!
+	maxBudget: Date!
+	minOrder: Int!
+	status: String!
+	createdAt: Date!
+	updatedAt: Date!
+	unit: String!
+	gallery: [File]
+	biddersLimit: Int
 	allowedCompany: AllowedCompany
 	commentIds: [Int]
 	bidIds: [Int]
 	projectIds: [Int]
 }
 
-input BuyingRequestInput {
+input CreateBuyingRequestInput {
 	name: String!
 	endDate: Date!
 	location: String!
@@ -44,14 +73,40 @@ input BuyingRequestInput {
 	minOrder: Int!
 	gallery: [Upload]
 	unit: String!
+	industryId: Int!
+	categoryIds: [Int]!
+	allowedCompany: AllowedCompanyInput
+	companyId: Int!
+	companyName: String!
+	createdById: Int!
+	biddersLimit: Int
+}
+
+input UpdateBuyingRequestInput {
+	name: String!
+	endDate: Date!
+	location: String!
+	description: String
+	productName: String!
+	industryId: Int!
+	categoryIds: [Int]!
+	minBudget: Date!
+	maxBudget: Date!
+	minOrder: Int!
+	oldGallery: [FileInput]
+	gallery: [Upload]
+	unit: String!
 	categories: [Int]
 	allowedCompany: AllowedCompanyInput
 	companyId: Int!
 	companyName: String!
+	updatedById: Int!
+	biddersLimit: Int
 }
 
 extend type Mutation {
-	createBuyingRequest(input: BuyingRequestInput): Response
+	createBuyingRequest(input: CreateBuyingRequestInput): Response!
+	updateBuyingRequest(id: Int!, newValue: UpdateBuyingRequestInput): Response!
 	deleteBuyingRequest(id: Int!): Response!
 	deleteBuyingRequests(ids: [Int!]!): Response!
 }
@@ -66,6 +121,7 @@ extend type Query {
 		companyId: Int!
 		offset: Int!
 	): BuyingRequestsResponse!
-	buyingRequest(slug: String!): BuyingRequest!
+	buyingRequest(id: Int!): BuyingRequest!
+	buyingRequestBySlug(slug: String!): SingleBuyingRequest!
 	getBuyingRequestsByIds(ids: [Int]!): [BuyingRequest]!
 }

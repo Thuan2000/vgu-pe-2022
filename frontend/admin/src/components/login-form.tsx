@@ -131,6 +131,7 @@ const LoginForm = () => {
             loading={loading || meInfoLoading}
             size="small"
             className="w-full"
+            type={"submit"}
           >
             {t("submit")}
           </Button>

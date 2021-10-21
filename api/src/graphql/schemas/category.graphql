@@ -1,16 +1,21 @@
 type Category {
-	id: Int
-	name: String
-	slug: String
+	id: ID
+	name: String!
+	label: String!
+	industryId: Int!
+	description: String
 }
 
 input CategoryInput {
-	name: String
-	slug: String
+	id: ID
+	name: String!
+	label: String!
+	industryId: Int!
+	description: String
 }
 
 extend type Query {
-	categories: [Category]!
+	categories(industryId: Int!): [Category]!
 }
 
 extend type Mutation {

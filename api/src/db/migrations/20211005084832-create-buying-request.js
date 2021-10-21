@@ -41,11 +41,17 @@ module.exports = {
 			gallery: {
 				type: Sequelize.JSON
 			},
-			categories: {
+			industryId: {
+				type: Sequelize.INTEGER
+			},
+			categoryIds: {
 				type: Sequelize.JSON
 			},
 			allowedCompany: {
 				type: Sequelize.JSON
+			},
+			biddersLimit: {
+				type: Sequelize.INTEGER
 			},
 			companyId: {
 				type: Sequelize.INTEGER
@@ -63,17 +69,25 @@ module.exports = {
 			projectIds: {
 				type: Sequelize.JSON
 			},
+			createdById: {
+				type: Sequelize.INTEGER
+			},
+			updatedById: {
+				type: Sequelize.INTEGER
+			},
 			createdAt: {
 				allowNull: false,
-				type: Sequelize.DATE
+				type: Sequelize.DATE,
+				defaultValue: new Date()
 			},
 			updatedAt: {
 				allowNull: false,
-				type: Sequelize.DATE
+				type: Sequelize.DATE,
+				defaultValue: new Date()
 			}
 		});
 	},
-	down: async (queryInterface, Sequelize) => {
+	down: async queryInterface => {
 		await queryInterface.dropTable("buying_requests");
 	}
 };

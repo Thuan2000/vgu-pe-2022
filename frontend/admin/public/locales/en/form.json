@@ -98,5 +98,20 @@
   "company-with-label": "Company with minimum",
   "minSupplierRating-filter-key": "Stars Rating",
   "minSupplierExperience-filter-key": "Years of establishment",
-  "minSuplierSells-filter-key": "Sells"
+  "minSuplierSells-filter-key": "Sells",
+  "create-project-title": "Create New Project",
+  "project-name-input-label": "Project Name",
+  "endDate-input-label": "Due Date",
+  "project-description-input-label": "Description",
+  "project-addRequests-label": "Add Requests",
+  "noRequests-message": "No Reuquests",
+  "create-project-button-label": "Create Project",
+  "update-project-button-label": "Update Project",
+  "cancel-button-label": "Cancel",
+  "brAddedAlready-message": "Already Added",
+  "post-request-name-is-required-error": "Please fill in request name",
+  "post-request-location-is-required-error": "Please select delivery location",
+  "check-industry-label": "Industry",
+  "bidders-text": "Bidders",
+  "check-biddersLimit-label": "Bidders Limit"
 }

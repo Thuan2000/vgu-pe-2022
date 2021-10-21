@@ -1,5 +1,6 @@
 import Divider from "@components/ui/divider";
 import { thousandSeparator } from "@utils/functions";
+import { isString } from "lodash";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import { AdditionalFormValue } from "../post-request-schema";
@@ -11,26 +12,28 @@ interface IAdditionalSectionProps {
 }
 
 const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
-  formValues,
+  formValues: { allowedCompany, biddersLimit },
   hasImage,
   changeSection,
 }) => {
   const { t } = useTranslation("form");
 
   function isHaveParticipantFilter() {
-    return formValues?.allowedCompany?.length > 1;
+    return allowedCompany && allowedCompany?.length > 1;
   }
 
   function isHaveAdditional() {
-    return isHaveParticipantFilter() || formValues.categories;
+    return isHaveParticipantFilter() || biddersLimit;
   }
 
   function getParticipantFilter() {
     let text = "";
-    formValues?.allowedCompany?.map((fi: any) => {
+    allowedCompany?.map((fi: any) => {
       if (!fi?.key) return;
       text += `${t("company-with-label")} ${thousandSeparator(fi?.value)} ${t(
-        fi?.key?.value + "-filter-key"
+        isString(fi?.key)
+          ? fi?.key + "-filter-key"
+          : fi?.key?.value + "-filter-key"
       )}, `;
     });
     return text;
@@ -56,20 +59,12 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
           <p className="font-semibold">{getParticipantFilter()}</p>
         </div>
       )}
-      {formValues?.categories?.length > 0 && (
+      {biddersLimit && (
         <div className="mb-5">
-          <p className="text-semibold">{t("check-categories-label")}</p>
-          <div className="flex items-center">
-            {formValues.categories.map((category, idx) => (
-              <p
-                className="font-semibold mr-1"
-                key={`${category.name}-"category-additional-section"`}
-              >
-                {category.name}
-                {idx < formValues?.categories?.length - 1 && ", "}
-              </p>
-            ))}
-          </div>
+          <p className="text-semibold">{t("check-biddersLimit-label")}</p>
+          <p className="font-semibold">
+            {biddersLimit} {t("bidders-text")}
+          </p>
         </div>
       )}
     </>

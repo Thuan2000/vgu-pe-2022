@@ -1,55 +1,72 @@
 import React from "react";
+import { Controller, UseFormTrigger } from "react-hook-form";
 import { GetOptionLabel, GetOptionValue } from "react-select";
 import InputLabel from "./inputs/input-label";
-import SelectController, { SelectControllerProps } from "./select-controller";
+import Select, { ISelectProps } from "./select";
 
-interface ISelectInput extends SelectControllerProps {
+interface ISelectInput extends ISelectProps {
   options: any[];
   numberQueue?: number | string;
   label?: string;
   note?: string;
   loading?: boolean;
-  initialValue?: any;
+  getInitialValue?: (option: any) => any;
   queueBackground?: string;
   error?: string;
   getOptionLabel: GetOptionLabel<any>;
   getOptionValue: GetOptionValue<any>;
+  onChange?: (value: any) => void;
+  control: any;
+  rules?: any;
+  name: string;
 }
 
 const SelectInput: React.FC<ISelectInput> = ({
-  options,
-  getOptionLabel,
   label,
   className,
   numberQueue,
   queueBackground,
-  control,
-  name,
   note,
   error,
   loading,
-  getOptionValue,
+  control,
+  rules,
+  name,
+  onChange: inputOnChange,
   ...props
 }) => {
   return (
     <div className={className}>
-      {label && (
-        <InputLabel
-          queueBackground={queueBackground}
-          label={label}
-          numberQueue={numberQueue}
-          note={note}
-        />
-      )}
-      <SelectController
-        options={options}
+      <Controller
         control={control}
         name={name}
-        isLoading={loading}
-        getOptionLabel={getOptionLabel}
-        getOptionValue={getOptionValue}
-        {...props}
+        rules={rules}
+        render={({ field: { onChange, ...field } }) => {
+          return (
+            <>
+              {label && (
+                <InputLabel
+                  queueBackground={queueBackground}
+                  label={label}
+                  numberQueue={numberQueue}
+                  note={note}
+                />
+              )}
+
+              <Select
+                onChange={(value) => {
+                  onChange(value);
+                  if (inputOnChange) inputOnChange(value);
+                }}
+                isLoading={loading}
+                {...props}
+                {...field}
+              />
+            </>
+          );
+        }}
       />
+
       {error && <p className="my-2 text-xs text-start text-red-500">{error}</p>}
     </div>
   );

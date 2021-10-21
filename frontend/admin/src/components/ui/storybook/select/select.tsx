@@ -8,16 +8,34 @@ import { selectStyles } from "./select.styles";
 
 export type Ref = any;
 
+export interface ISelectProps extends Props {
+  getInitialValue?: (option: any) => any;
+  options: any[];
+}
+
 const REMOVE_VALUE_ACTION_META = {
   action: "remove-value",
   name: "location",
 };
 
-export const Select = React.forwardRef<Ref, Props>(
-  ({ isMulti, onChange, name, ...props }, ref) => {
+export const Select = React.forwardRef<Ref, ISelectProps>(
+  (
+    { isMulti, onChange, name, getInitialValue, options, value, ...props },
+    ref
+  ) => {
     // This is for showing values
-    const [values, setValues] = useState<any[] | any>(props.value);
+    const [values, setValues] = useState<any[] | any>(value);
 
+    if (["string", "number"].includes(typeof value) && getInitialValue) {
+      for (const opt of options || []) {
+        if (getInitialValue(opt) && onChange) {
+          onChange(opt, {} as any);
+          break;
+        }
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     function handleChange(e: any, actionMeta: ActionMeta<any>) {
       // For showing values purpose
       setValues(e);
@@ -35,17 +53,19 @@ export const Select = React.forwardRef<Ref, Props>(
       const newValues = (values as any[]).filter((v) => value !== v);
       handleChange(newValues, actionMeta);
     }
-
     return (
       <div>
         <ReactSelect
           ref={ref}
           name={name}
           styles={selectStyles}
-          {...props}
           isMulti={isMulti}
+          options={options}
+          // defaultValue={defaultValue || options[1]}
           controlShouldRenderValue={!isMulti}
           onChange={isMulti ? handleChange : onChange}
+          {...props}
+          value={value}
         />
         {isMulti && (
           <div className="flex flex-wrap select-none mt-3">

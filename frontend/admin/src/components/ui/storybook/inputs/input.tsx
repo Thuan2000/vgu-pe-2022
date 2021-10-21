@@ -23,8 +23,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       noLabel,
       valuePrefix,
       noBorder,
-      value,
-      onChange,
       ...rest
     },
     ref
@@ -44,12 +42,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       },
       inputClassName
     );
-
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-      if (!onChange) return;
-
-      onChange(e);
-    }
 
     return (
       <div className={className}>
@@ -74,8 +66,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             autoCorrect="off"
             spellCheck="false"
             aria-invalid={error ? "true" : "false"}
-            onChange={handleChange}
-            value={!!valuePrefix ? `${valuePrefix}${value}` : value}
             {...rest}
           />
           {prefix && (

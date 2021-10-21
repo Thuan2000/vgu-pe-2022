@@ -1,3 +1,4 @@
+import { getMeData } from "./auth-utils";
 import {
   BILLION,
   BILLION_COUNT,
@@ -12,6 +13,7 @@ export function checkIsMobile(width: number) {
 
 export function trimText(text: string, limit: number) {
   if (!text) return "";
+
   if (text.length < limit) return text;
 
   return `${text.substring(0, limit)}...`;
@@ -73,4 +75,29 @@ export function getSuffix(amount: number) {
 
 export function getActivePath(pathname: string) {
   return `/${pathname.split("/")[1]}`;
+}
+
+export function getCompanyId() {
+  const { company } = getMeData();
+
+  return company?.id as number;
+}
+export function getCompanyName() {
+  const { company } = getMeData();
+
+  return company?.name;
+}
+export function getLoggedInUser() {
+  const { user } = getMeData();
+
+  return user;
+}
+export function loggedInUser() {
+  const { user } = getMeData();
+}
+
+export function isString(value: any) {
+  if (!value) return false;
+
+  return typeof value === "string";
 }

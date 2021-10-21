@@ -1,5 +1,9 @@
-import { IBuyingRequestInput } from "@graphql/types";
+import {
+	ICreateBuyingRequestInput,
+	IUpdateBuyingRequestInput
+} from "@graphql/types";
 import BuyingRequest from "@models/BuyingRequest";
+import User from "@models/User";
 import { uploadImages } from "@repositories/uploads.repository";
 import {
 	BUYING_REQUESTS_GET_LIMIT,
@@ -8,6 +12,8 @@ import {
 	RESPONSE_MESSAGE,
 	successResponse
 } from "@utils";
+import Category from "../models/Category";
+import Industry from "../models/Industry";
 import ProductName from "../models/ProductName";
 
 function setBrGallery(data: Promise<unknown>[], br: BuyingRequest) {
@@ -27,14 +33,46 @@ function setBrGallery(data: Promise<unknown>[], br: BuyingRequest) {
 }
 
 class BuyingRequestController {
-	async getBuyingRequest(slug: string) {
+	async getBuyingRequestBySlug(slug: string) {
+		console.log(slug);
+
 		const buyingRequest = await BuyingRequest.findOne({
 			where: { slug }
 		});
 
-		return buyingRequest;
+		const industry = await Industry.findByPk(
+			buyingRequest.getDataValue("industryId")
+		);
+
+		const categories = await Category.findAll({
+			where: {
+				id: buyingRequest.getDataValue("categoryIds")
+			}
+		});
+
+		const createdBy = await User.findByPk(
+			buyingRequest.getDataValue("createdById")
+		);
+
+		let updatedBy;
+		const updatedById = buyingRequest.getDataValue("updatedById");
+		if (updatedById) updatedBy = await User.findByPk(updatedById);
+
+		const newBuyingRequest = Object.assign({}, buyingRequest.toJSON(), {
+			industry: industry.toJSON(),
+			categories,
+			createdBy,
+			updatedBy
+		});
+
+		return newBuyingRequest;
 	}
 
+	async getBuyingRequest(id: number) {
+		const allBuyingRequest = await BuyingRequest.findByPk(id);
+
+		return allBuyingRequest;
+	}
 	async getBuyingRequestsByIds(ids: number[]) {
 		const allBuyingRequests = await BuyingRequest.findAll({
 			where: { id: ids }
@@ -82,7 +120,7 @@ class BuyingRequestController {
 		gallery,
 		companyName,
 		...buyingRequestInput
-	}: IBuyingRequestInput) {
+	}: ICreateBuyingRequestInput) {
 		try {
 			const { name, productName, companyId } = buyingRequestInput;
 
@@ -134,6 +172,28 @@ class BuyingRequestController {
 			console.log(error);
 			return errorResponse(error);
 		}
+	}
+
+	async updateBuyingRequest(
+		id,
+		{
+			companyName,
+			gallery,
+			oldGallery,
+			...newValue
+		}: IUpdateBuyingRequestInput
+	) {
+		const currentBr = await BuyingRequest.findByPk(id);
+
+		currentBr.update(newValue);
+		const newGallery = await uploadImages(companyName, gallery);
+		currentBr.setDataValue("gallery", oldGallery);
+
+		setBrGallery(newGallery, currentBr);
+
+		currentBr.save();
+
+		return successResponse();
 	}
 }
 

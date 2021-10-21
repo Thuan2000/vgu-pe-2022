@@ -3,10 +3,11 @@ import { PlusIcon } from "@assets/icons/plus-icon";
 import SearchIcon from "@assets/icons/search-icon";
 import PhoneAdminNavbar from "@components/phone-admin-navbar";
 import { COLORS } from "@utils/colors";
+import { findIndex } from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useBRContext } from "src/contexts/buying-request.context";
 import { useModal } from "src/contexts/modal.context";
-import Button from "./storybook/button";
 import Input from "./storybook/inputs/input";
 import Loader from "./storybook/loader/loader";
 
@@ -16,8 +17,9 @@ interface ISelectProjectProps extends React.HTMLAttributes<HTMLDivElement> {
   loading: boolean;
   createNewLabel: string;
   noProjectMessage: string;
+  brId?: string;
   onNewClick: () => void;
-  onProjectClick: (id: number) => void;
+  onProjectClick: (project: any) => void;
 }
 
 const SelectProject: React.FC<ISelectProjectProps> = ({
@@ -26,6 +28,7 @@ const SelectProject: React.FC<ISelectProjectProps> = ({
   className,
   title,
   onProjectClick,
+  brId,
   createNewLabel,
   noProjectMessage = "You don't have any project yet",
   onNewClick,
@@ -34,18 +37,43 @@ const SelectProject: React.FC<ISelectProjectProps> = ({
   const { t } = useTranslation();
   const { closeModal } = useModal();
 
-  const projectList = projects.map((pr) => {
+  const projectList = projects?.map((pr) => {
+    const brIds = pr?.buyingRequests?.map((br: any) => br.id);
+
+    const isAddedAlready =
+      findIndex(brIds, (id) => id === parseInt(brId as string)) !== -1;
     return (
       <button
         className="flex items-center w-full pl-5 py-2 active:bg-gray-10"
         key={pr.name}
-        onClick={() => onProjectClick(pr.id)}
+        disabled={isAddedAlready}
+        value={isAddedAlready ? 0 : 10}
+        onClick={() => onProjectClick(pr)}
       >
-        <PdfIcon className="w-10 h-10 mr-5" />
-        <h2>{pr.name}</h2>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={
+            pr?.image?.location ||
+            "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/image-placeholder.jpg"
+          }
+          width={30}
+          height={30}
+          alt="image-preview"
+          className="mr-4"
+        />
+        <h2 className="text-md text-left">
+          <span className="mr-5">{pr.name}</span>
+          {isAddedAlready && (
+            <span className="font-light text-error">
+              {t("alreadyAdded-message")}
+            </span>
+          )}
+        </h2>
       </button>
     );
   });
+
+  projectList.sort((a, b) => b.props.value - a.props.value);
 
   return (
     <div
@@ -55,21 +83,21 @@ const SelectProject: React.FC<ISelectProjectProps> = ({
       <PhoneAdminNavbar
         pageName={t("select-project-page-name")}
         onBackClick={() => closeModal()}
-        className="w-full sm:hidden"
+        className="w-full sm:hidden fixed"
         showBackArrow={true}
       />
       <h2 className="hidden sm:flex">{title}</h2>
       <div className="hidden sm:flex items-center py-1 my-5 border rounded-md w-full">
         <Input noLabel noBorder className="h-9 w-full" />
-        <button className="border-gray-200 h-9 p-3 flex-center">
+        <button type="button" className="border-gray-200 h-9 p-3 flex-center">
           <SearchIcon fill={COLORS.GRAY[200]} />
         </button>
       </div>
       {loading ? (
         <Loader className="max-h-60" />
       ) : (
-        <div className="max-h-64 w-full overflow-auto">
-          {!!projectList.length ? (
+        <div className="mt-[120px] mb-[78px] w-full overflow-auto sm:mt-0 sm:max-h-64">
+          {!!projectList?.length ? (
             projectList
           ) : (
             <h3 className="text-center mt-10 sm:mt-5">{noProjectMessage}</h3>
@@ -78,10 +106,10 @@ const SelectProject: React.FC<ISelectProjectProps> = ({
       )}
 
       <button
-        className="fixed absolute bottom-0 flex items-center w-full px-5 py-3 shadow-top"
+        className="fixed sm:absolute bottom-0 flex items-center w-full px-5 py-5 shadow-top bg-white"
         onClick={onNewClick}
       >
-        <div className="w-10 rounded flex-center bg-gray-10 mr-5">
+        <div className="p-2 rounded flex-center bg-gray-10 mx-5">
           <PlusIcon />
         </div>
         <p className="text-md text-dark-blue font-semibold">{createNewLabel}</p>

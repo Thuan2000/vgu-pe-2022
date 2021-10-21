@@ -11,6 +11,9 @@ module.exports = {
 			name: {
 				type: Sequelize.STRING
 			},
+			slug: {
+				type: Sequelize.STRING
+			},
 			endDate: {
 				type: Sequelize.DOUBLE
 			},
@@ -29,17 +32,22 @@ module.exports = {
 			createdById: {
 				type: Sequelize.INTEGER
 			},
+			updatedById: {
+				type: Sequelize.INTEGER
+			},
 			createdAt: {
 				allowNull: false,
-				type: Sequelize.DATE
+				type: Sequelize.DATE,
+				defaultValue: new Date()
 			},
 			updatedAt: {
 				allowNull: false,
-				type: Sequelize.DATE
+				type: Sequelize.DATE,
+				defaultValue: new Date()
 			}
 		});
 	},
-	down: async (queryInterface, Sequelize) => {
+	down: async queryInterface => {
 		await queryInterface.dropTable("projects");
 	}
 };

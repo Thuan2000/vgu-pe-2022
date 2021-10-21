@@ -18,27 +18,30 @@ import { useDeleteBuyingRequestsMutation } from "@graphql/buying-request.graphql
 import Loading from "@components/ui/loading";
 import SpinLoading from "@components/ui/storybook/spin-loading";
 import { COLORS } from "@utils/colors";
-import { IBuyingRequest } from "@graphql/types.graphql";
+import { IBuyingRequest, IProject } from "@graphql/types.graphql";
+import AddToProject from "@components/ui/add-to-project";
+import SearchInput from "@components/search-input";
 
 interface IBuyingRequestSearchProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  refreshBrList: () => void;
   brs: IBuyingRequest[];
+  selecteds: IBuyingRequest[];
+  setSelecteds: (value: IBuyingRequest[]) => void;
+  onAddToProjectClick: () => void;
 }
 
-const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({
-  refreshBrList,
+const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({
   brs,
+  selecteds,
+  setSelecteds,
+  onAddToProjectClick,
 }) => {
   const { t } = useTranslation();
-  const { selecteds, openCreateProject, setSelecteds } = useBRContext();
-  const { openModal, closeModal } = useModal();
   const isPhone = useIsPhone();
+  const { refetchBrs } = useBRContext();
   const [deleteBrs, { loading }] = useDeleteBuyingRequestsMutation({
-    onCompleted: refreshBrList,
+    onCompleted: refetchBrs,
   });
-
-  const [isSelectAll, setIsSelectAll] = useState<boolean>(false);
 
   function deleteSelectedBrs() {
     const selectedBrIds = selecteds.map((br) => parseInt(br.id));
@@ -46,41 +49,15 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({
     deleteBrs({ variables: { ids: selectedBrIds } });
   }
 
-  function handleCreateProject() {
-    openCreateProject();
-    closeModal();
-  }
-  function handleProjectClick(projectId: number) {
-    openModal(UnderDevelopment);
-  }
-
   function handleSelectAllChange(e: ChangeEvent<HTMLInputElement>) {
-    setIsSelectAll(e.target.checked);
-
-    if (e.target.checked) setSelecteds(brs);
+    if (e.target.checked) setSelecteds([...brs]);
     else setSelecteds([]);
-  }
-
-  function handleAddToProjectClick() {
-    openModal(
-      (
-        <SelectProject
-          loading={false}
-          onNewClick={handleCreateProject}
-          onProjectClick={handleProjectClick}
-          projects={[]}
-          title={t("move-to-project-title")}
-          createNewLabel={t("create-new-label")}
-          noProjectMessage={t("no-project-yet-message")}
-        />
-      ) as any
-    );
   }
 
   const addToProjectButton = (
     <Button
       className="w-1/2.5 h-10 md:w-fit-content"
-      onClick={handleAddToProjectClick}
+      onClick={onAddToProjectClick}
     >
       <FolderDownloadIcon className="mr-2" />
       {t("add-to-project-button-label")}
@@ -96,7 +73,10 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({
   );
 
   return (
-    <div className="flex items-center mt-4 mx-4">
+    <div className="flex items-center mx-4">
+      <div className="hidden sm:block">
+        <SearchInput />
+      </div>
       <div className="md:ml-auto flex items-center justify-between w-full md:w-fit-content">
         {!isPhone && !!selecteds.length && (
           <button onClick={deleteSelectedBrs}>
@@ -110,7 +90,7 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({
         <Checkbox
           className="border-2 text-sm font-semibold text-gray h-10 flex-center w-1/2.5 md:w-fit-content md:px-5 md:mr-5 rounded-sm items-center"
           name="select-all"
-          checked={isSelectAll && selecteds.length === brs.length}
+          checked={selecteds.length === brs.length}
           onChange={handleSelectAllChange}
           title={t("select-all")}
           label={t("select-all-label")}
@@ -122,4 +102,4 @@ const BuyingRequestSearch: React.FC<IBuyingRequestSearchProps> = ({
     </div>
   );
 };
-export default BuyingRequestSearch;
+export default BuyingRequestHeader;

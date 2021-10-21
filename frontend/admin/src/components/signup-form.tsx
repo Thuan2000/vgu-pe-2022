@@ -189,7 +189,7 @@ const SignupForm = () => {
           label={t("agreement")}
         />
       </div>
-      <Button loading={loading} size="fluid">
+      <Button type="submit" loading={loading} size="fluid">
         {t("signup")}
       </Button>
     </Form>

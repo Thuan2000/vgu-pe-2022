@@ -36,3 +36,4 @@ yarn-error.log*
 
 # generated
 **/*.d.ts
+graphql.schema.json

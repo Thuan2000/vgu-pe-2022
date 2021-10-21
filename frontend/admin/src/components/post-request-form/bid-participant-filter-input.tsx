@@ -24,19 +24,25 @@ const BidParticipantFilterInput: React.FC<IBidParticipantFilterInputProps> = ({
   append,
   pOptions,
   remove,
-  ...props
 }) => {
   const { t } = useTranslation("form");
-
   return (
     <div className="flex items-center mb-5">
       {field.key ? (
-        <InlineLabel labelWidth="192px" text={t(field.key.label)} />
+        <InlineLabel
+          labelWidth="192px"
+          text={t(
+            typeof field.key === "string"
+              ? `${field.key}-filter-key`
+              : field.key.label
+          )}
+        />
       ) : (
         <SelectInput
           name={`additional.allowedCompany.${idx}.key`}
           control={control}
           options={pOptions}
+          autoFocus={idx > 1}
           getOptionLabel={(option) => t(option?.label)}
           getOptionValue={(option) => option?.value}
           className="w-48 md:w-1/3 mr-5"

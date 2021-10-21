@@ -13,7 +13,7 @@ const InlineLabel: React.FC<InlineLabelProps> = ({
 }) => {
   return (
     <div className="flex-items-center">
-      <p className={`font-semibold ${textClass}`} style={{ width: labelWidth }}>
+      <p className={`text-sm ${textClass}`} style={{ width: labelWidth }}>
         {text}
       </p>
       <p className="ml-2 mr-5">:</p>

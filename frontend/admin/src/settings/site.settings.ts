@@ -11,6 +11,8 @@ export const siteSettings = {
     width: 256,
     height: 70,
   },
+  placeholderImage:
+    "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/image-placeholder.jpg",
   defaultLanguange: "en",
   author: {
     name: "Emolyze.tech",

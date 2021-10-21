@@ -12,13 +12,12 @@ interface IGeneralSection {
 }
 
 const GeneralSection: React.FC<IGeneralSection> = ({
-  formValues,
+  formValues: { location, endDate, name, description },
   changeSection,
   hasImage,
   images,
 }) => {
   const { t } = useTranslation("form");
-
   return (
     <div className="flex">
       <div className={`w-full ${hasImage && "md:w-2/3"}`}>
@@ -33,22 +32,22 @@ const GeneralSection: React.FC<IGeneralSection> = ({
         </div>
         <div className="mb-5">
           <p className="text-semibold">{t("check-request-name")}</p>
-          <p className="font-semibold">{formValues?.name}</p>
+          <p className="font-semibold">{name}</p>
         </div>
         <div className="mb-5">
           <p className="text-semibold">{t("check-dueTime-label")}</p>
-          <p className="font-semibold">
-            {formValues?.endDate?.toLocaleDateString("vi")}
-          </p>
+          <p className="font-semibold">{endDate?.toLocaleDateString("vi")}</p>
         </div>
         <div className="mb-5">
           <p className="text-semibold">{t("check-location-label")}</p>
-          <p className="font-semibold">{formValues?.location?.name}</p>
+          <p className="font-semibold">
+            {typeof location === "string" ? location : location?.name}
+          </p>
         </div>
-        {formValues?.description && (
+        {description && (
           <div className="mb-5">
             <p className="text-semibold">{t("check-desctiption-label")}</p>
-            <p className="font-semibold">{formValues?.description}</p>
+            <p className="font-semibold">{description}</p>
           </div>
         )}
       </div>

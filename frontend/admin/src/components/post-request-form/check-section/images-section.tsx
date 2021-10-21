@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
+import { siteSettings } from "@settings/site.settings";
 
 interface ImagesSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   images: any[];
@@ -39,7 +40,7 @@ const ImageThumb: React.FC<ImageThumbProps> = ({
     >
       {withCover && <CoverImage text={`+${imagesLength - 3}`} />}
       <Image
-        src={img.localUrl}
+        src={img.localUrl || siteSettings.logo.url}
         width={50}
         height={75}
         alt={t("image-preview-alt")}
@@ -79,7 +80,7 @@ const ImagesSection: React.FC<ImagesSectionProps> = ({
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <Image
-          src={images[0]?.localUrl || ""}
+          src={images[0]?.localUrl || siteSettings.logo.url}
           alt={t("image-preview-alt")}
           width={imgWidth}
           height={imgHeight}
