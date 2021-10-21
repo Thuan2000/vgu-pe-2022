@@ -24,6 +24,7 @@ interface IBuyingRequestCardProps extends React.HTMLAttributes<HTMLDivElement> {
   ) => void;
   extraMenus: IExtraMenu[];
   isSelected: boolean;
+  postedTextLabel: string;
 }
 
 const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
@@ -32,6 +33,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   onSelectChange,
   extraMenus,
   isSelected,
+  postedTextLabel,
   ...props
 }) => {
   return (
@@ -75,7 +77,12 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
           projectsCount={br.projectIds?.length || 0}
           commentsCount={br.commentIds?.length || 0}
         />
-        <BrcExtras br={br} updatedAt={br.updatedAt} extraMenus={extraMenus} />
+        <BrcExtras
+          postedTextLabel={postedTextLabel}
+          br={br}
+          updatedAt={br.updatedAt}
+          extraMenus={extraMenus}
+        />
       </div>
     </div>
   );

@@ -70,5 +70,10 @@
   "removeRequestSingular-button-label": "Remove Request",
   "removeRequestPlurar-button-label": "Remove Requests",
   "singularRequest-text": "Request",
-  "plurarRequest-text": "Requests"
+  "plurarRequest-text": "Requests",
+  "industry-text": "Type of Product",
+  "NO_PARTICIPANT_FILTER_TEXT": "No Participant Filter",
+  "createdBy-text": "Created By",
+  "updatedBy-text": "Updated By",
+  "endDate-text": "Due Date"
 }

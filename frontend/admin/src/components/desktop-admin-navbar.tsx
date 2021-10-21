@@ -16,6 +16,8 @@ interface IAdminNavbarProps extends React.HTMLAttributes<HTMLDivElement> {
   showBackArrow?: boolean;
   pageName: string;
   onBackClick: () => void;
+  userRole: string;
+  userName: string;
 }
 
 const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
@@ -23,18 +25,12 @@ const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
   ppWidth = 40,
   onBackClick,
   showBackArrow,
+  userName,
+  userRole,
   pageName,
   userImg = "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/avatar-icon.svg",
   ...props
 }) => {
-  const { t } = useTranslation();
-  const { user } = getMeData();
-
-  const { firstName, lastName, role } = (user as IUser) || {};
-  const { pathname } = useRouter();
-
-  const userName = `${firstName} ${lastName}`;
-
   return (
     <div {...props}>
       <div className={`flex items-center justify-between my-5 px-3 md:px-0`}>
@@ -46,7 +42,7 @@ const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
               fill={COLORS.BOLDER}
             />
           )}
-          <h2 className="font-semibold ml-3 text-semibold">{t(pageName)}</h2>
+          <h2 className="font-semibold ml-3 text-semibold">{pageName}</h2>
         </div>
         <div className="user-info flex items-center">
           <HelpIcon className="mr-6" fill={COLORS.BOLDER} />
@@ -54,7 +50,7 @@ const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
           <div className="flex items-center">
             <div className="mr-4 text-right hidden md:block">
               <p className="font-semibold text-semibold">{userName}</p>
-              <p className="text-sm text-gray-400">{t(role as string)}</p>
+              <p className="text-sm text-gray-400">{userRole}</p>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

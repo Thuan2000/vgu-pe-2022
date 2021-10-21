@@ -25,7 +25,7 @@ type File {
 	path: String
 }
 
-type File {
-	filename: String!
-	url: String!
+input FileInput {
+	location: String
+	path: String
 }

@@ -80,7 +80,7 @@ const Projects: React.FC = () => {
 
   function removeProjectFromBRs(buyingRequests: IProjectBr[]) {
     buyingRequests.map((br) => {
-      // Delete br projectIds here
+      // @TODO Find best way to delete br projectIds here
       console.log(br);
     });
   }

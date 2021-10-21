@@ -24,7 +24,7 @@ export interface IDocumentUploaderProps {
 }
 
 function getDocumentPreview(name: string, url?: string) {
-  const extension = name.split(".").pop()?.toLocaleLowerCase();
+  const extension = name?.split(".").pop()?.toLocaleLowerCase();
   const size = 40;
   if (extension?.includes("pdf")) return <PdfIcon width={size} height={size} />;
   else if (extension?.includes("csv") || extension?.includes("xls"))
@@ -38,6 +38,18 @@ function getDocumentPreview(name: string, url?: string) {
   }
 }
 
+function getPreviewFiles(values: any[]) {
+  if (!values) return [];
+  const newValues = values?.map((value) => {
+    if (!value.hasOwnProperty("localUrl"))
+      return { ...value, localUrl: value.location };
+
+    return value;
+  });
+
+  return newValues;
+}
+
 const DocumentUploader = ({
   label,
   note,
@@ -48,7 +60,7 @@ const DocumentUploader = ({
   value,
 }: IDocumentUploaderProps) => {
   const { t } = useTranslation("form");
-  const [files, setFiles] = useState<any[]>(value || []);
+  const [files, setFiles] = useState<any[]>(getPreviewFiles(value) || []);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept,

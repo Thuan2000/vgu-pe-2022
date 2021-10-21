@@ -260,6 +260,7 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
               extraMenus={brCardExtraMenus}
               onSelectChange={(e) => handleSelectChange(e, br)}
               br={br}
+              postedTextLabel={t("posted-label")}
               isSelected={isBrSelected(br)}
               key={br?.name + br?.endDate + ""}
               className="mb-3"

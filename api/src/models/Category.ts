@@ -6,7 +6,9 @@ class Category extends Model {}
 Category.init(
 	{
 		name: DataTypes.STRING,
-		slug: DataTypes.STRING
+		label: DataTypes.STRING,
+		industryId: DataTypes.INTEGER,
+		description: DataTypes.STRING
 	},
 	{
 		tableName: "categories",

@@ -15,10 +15,12 @@ export interface ICreateableSelectProps extends Props {
    * A function that take label as param and return a new option
    */
   createNewOption: (label: string) => any;
+  getInitialValue?: (option: any) => any;
   label?: string;
   note?: string;
   error?: string;
   numberQueue?: number;
+  trigger?: (name: string) => void;
   loading?: boolean;
 }
 /**
@@ -29,16 +31,20 @@ export interface ICreateableSelectProps extends Props {
 const CreateableSelect = React.forwardRef(
   (
     {
-      options: defaultOptions,
-      createNewOption,
-      onCreateOption,
-      onChange,
       label,
       numberQueue,
       note,
       error,
       loading,
       className,
+      options: defaultOptions,
+      createNewOption,
+      onCreateOption,
+      onChange,
+      getOptionValue,
+      getInitialValue,
+      trigger,
+      value,
       ...props
     }: ICreateableSelectProps,
     ref
@@ -48,6 +54,14 @@ const CreateableSelect = React.forwardRef(
     useEffect(() => {
       setOptions(defaultOptions);
     }, [loading, defaultOptions]);
+    if (["string", "number"].includes(typeof value) && getInitialValue) {
+      for (const opt of options || []) {
+        if (getInitialValue(opt) && onChange) {
+          onChange(opt, {} as any);
+          break;
+        }
+      }
+    }
 
     function handleCreateOption(label: string) {
       if (loading) return;
@@ -81,6 +95,7 @@ const CreateableSelect = React.forwardRef(
           options={options}
           styles={createableStyles}
           ref={ref as any}
+          value={value}
           {...props}
         />
         <InputErrorMessage error={error} />

@@ -4,13 +4,9 @@ import EditDeleteButton from "@components/buying-request-details/edit-delete-but
 import PageLayout from "@components/layouts/page-layout";
 import Chip from "@components/ui/chip";
 import Loading from "@components/ui/loading";
-import Button from "@components/ui/storybook/button";
-import {
-  useBuyingRequestBySlugQuery,
-  useBuyingRequestQuery,
-} from "@graphql/buying-request.graphql";
-import { IAllowedCompany, IBuyingRequest } from "@graphql/types.graphql";
-import { getMeData } from "@utils/auth-utils";
+import Typography from "@components/ui/storybook/typography";
+import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
+import { IAllowedCompany, ISingleBuyingRequest } from "@graphql/types.graphql";
 import {
   formatMoneyAmount,
   getSuffix,
@@ -20,7 +16,7 @@ import {
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 export const getServerSideProps: GetStaticProps = async (ctx) => {
@@ -35,17 +31,21 @@ export const getServerSideProps: GetStaticProps = async (ctx) => {
 
 const BuyingRequestDetails = ({ slug, ...props }: any) => {
   const { t } = useTranslation("common");
-  const { data, loading } = useBuyingRequestBySlugQuery({
+  const { data, loading, refetch } = useBuyingRequestBySlugQuery({
     variables: { slug },
   });
-  const { company } = getMeData();
-  const br = data?.buyingRequestBySlug.buyingRequest;
+  const br = data?.buyingRequestBySlug;
   const createdBy = data?.buyingRequestBySlug.createdBy;
+
+  useEffect(() => {
+    refetch({ slug });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (loading) return <Loading />;
 
   function getParticipantFilter(allowedCompany: IAllowedCompany) {
-    if (!allowedCompany) return;
-
+    if (!allowedCompany) return t("NO_PARTICIPANT_FILTER_TEXT");
     let text = "";
     Object.keys(allowedCompany)?.map((key: string) => {
       if (key === "__typename") return;
@@ -62,10 +62,12 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
     <div className="bg-white p-4">
       <div className="flex">
         <div className="md:w-2/3 flex-shrink-0 w-full">
-          <EditDeleteButton
-            className="mb-4 md:hidden"
-            br={br as IBuyingRequest}
-          />
+          {br && (
+            <EditDeleteButton
+              className="mb-4 md:hidden"
+              br={br as ISingleBuyingRequest}
+            />
+          )}
           <h2 className="text-secondary-1 font-semibold">{br?.name}</h2>
           <p className="text-lg text-gray-300">{`${createdBy?.firstName} ${createdBy?.lastName}`}</p>
           <Chip
@@ -77,7 +79,7 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
             {!!br?.gallery?.length && (
               <div className="relative border rounded-md h-56 w-80 overflow-hidden">
                 <Image
-                  src={br.gallery[0]?.location || ""}
+                  src={br?.gallery[0]?.location || ""}
                   layout="fill"
                   alt=""
                 />
@@ -93,16 +95,8 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
             <p className="font-semibold">{viDateFormat(br?.endDate)}</p>
           </div>
           <div className="mt-1 flex items-start">
-            <p className="mr-1">{t("categories-text")}:</p>
-            {!!br?.categories?.length ? (
-              br.categories.map((ctgr) => (
-                <p className="font-semibold" key={ctgr + "category" + br.id}>
-                  {ctgr}
-                </p>
-              ))
-            ) : (
-              <p className="font-semibold">{t("no-type")}</p>
-            )}
+            <Typography className="mr-1" text={`${t("industry-text")}:`} />
+            <Typography variant="smallTitle" text={br?.industry.name || ""} />
           </div>
           <div className="mt-1 flex items-start">
             <p className="mr-1">{t("budget-text")}:</p>
@@ -120,39 +114,41 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
             </p>
           </div>
           <p className="text-gray-400 mt-1 md:mt-2">{br?.description}</p>
-          {/* <p className="text-gray-400 mt-1 md:my-2">
-            Miêu tả ngắn về nhu cầu mua We are looking for a supplier to buy 500
-            tons of wires in Hanoi to install lamps in central park. Miêu tả
-            ngắn về nhu cầu mua We are looking for a supplier to buy 500 tons of
-            wires in Hanoi to install lamps in central park.
-          </p> */}
-
           <div className="mt-1 flex items-start">
             <p className="mr-1">{t("participants-text")}:</p>
-            <p className="font-semibold">
-              {getParticipantFilter(br?.allowedCompany as IAllowedCompany)}
-            </p>
+            <Typography
+              text={getParticipantFilter(br?.allowedCompany as IAllowedCompany)}
+              className="font-semibold"
+            />
           </div>
           <div className="mt-1 flex items-start">
             <p className="mr-1">{t("application")}:</p>
             <p className="font-semibold">
               {!!br?.categories?.length ? (
-                br.categories.map((ctgr) => (
-                  <p className="font-semibold" key={ctgr + "category" + br.id}>
-                    {ctgr}
-                  </p>
+                br.categories.map((ctgr, idx) => (
+                  <span
+                    className="font-semibold"
+                    key={ctgr.id + "category" + br?.id}
+                  >
+                    {ctgr.name}
+                    {idx < br.categories.length - 1 && ", "}
+                  </span>
                 ))
               ) : (
-                <p className="font-semibold">{t("no-type")}</p>
+                <span className="font-semibold">{t("no-type")}</span>
               )}
             </p>
           </div>
         </div>
         <div className="w-1/3 hidden md:block ml-16">
-          <EditDeleteButton className="mb-7" br={br as IBuyingRequest} />
+          <EditDeleteButton className="mb-7" br={br as ISingleBuyingRequest} />
           {!!br?.gallery?.length && (
             <div className="relative border rounded-md h-56 w-full overflow-hidden">
-              <Image src={br.gallery[0]?.location || ""} layout="fill" alt="" />
+              <Image
+                src={br?.gallery[0]?.location || ""}
+                layout="fill"
+                alt=""
+              />
             </div>
           )}
         </div>

@@ -7,7 +7,8 @@ import { inputClasses } from "./input-config";
 import InputLabel from "./input-label";
 
 interface INumInputProps extends NumberFormatProps {
-  numberQueue?: number;
+  numberQueue?: number | string;
+  queueBackground?: string;
   note?: string;
   name: string;
   variant?: "normal" | "solid" | "outline";
@@ -26,6 +27,7 @@ const NumberInput: React.FC<INumberInputProps> = ({
   label,
   className,
   numberQueue,
+  queueBackground,
   note,
   name,
   control,
@@ -41,6 +43,7 @@ const NumberInput: React.FC<INumberInputProps> = ({
             {label && (
               <InputLabel
                 numberQueue={numberQueue}
+                queueBackground={queueBackground}
                 note={note}
                 label={label}
                 name={name}

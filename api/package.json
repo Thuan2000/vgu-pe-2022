@@ -9,7 +9,7 @@
 		"db:migrate:seed": "npm-run-all db:migrate db:seed",
 		"db:model:generate": "npx sequelize-cli model:generate",
 		"db:migrate": "npx sequelize-cli db:migrate",
-		"db:seed": "npx sequelize-cli db:seed:all",
+		"db:seed": "node src/db/seed",
 		"lint": "eslint --fix ./src/**/*.ts",
 		"predev": "npm run codegen",
 		"dev": "cross-env NODE_ENV=development nodemon --watch src -e ts --exec ts-node -r tsconfig-paths/register ./src/server.ts",

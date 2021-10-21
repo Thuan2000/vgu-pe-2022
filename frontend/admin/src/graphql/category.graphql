@@ -1,7 +1,8 @@
-query Categories {
-  categories {
+query Categories($industryId: Int!) {
+  categories(industryId: $industryId) {
     id
     name
-    slug
+    label
+    description
   }
 }

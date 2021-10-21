@@ -49,9 +49,9 @@ const PostRequestNavigation: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
         }`}
         onClick={() => setFormPosition(idx + 1)}
       >
-        <h4 className="md:text-md">
+        <h3 className="sm:text-lg font-bold">
           {idx + 1}. {t(label)}
-        </h4>
+        </h3>
         <UnderlineIcon
           className="w-full"
           fill={currentFormPosition > idx + 1 ? "#B0BDC6" : ""}

@@ -9,9 +9,9 @@ import {
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
-import { useCategoriesQuery } from "@graphql/category.graphql";
 import BidParticipantFilterInput from "./bid-participant-filter-input";
 import { ALLOWED_COMPANY_QUESTIONS } from "./additional-constants";
+import NumberInput from "@components/ui/storybook/inputs/number-input";
 
 interface IAdditionalFormProps {
   register: UseFormRegister<PostRequestFormValue>;
@@ -25,16 +25,16 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
   errors,
 }) => {
   const { t } = useTranslation("form");
-  const { data, loading, error } = useCategoriesQuery();
+
+  const [pOptions, setPOptions] = useState(ALLOWED_COMPANY_QUESTIONS);
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "additional.allowedCompany",
   });
-  const [pOptions, setPOptions] = useState(ALLOWED_COMPANY_QUESTIONS);
 
-  // Append to fields on first run
   useEffect(() => {
-    if (!fields.length) append({});
+    if (!fields.length) append({} as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -43,18 +43,15 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fields]);
 
-  const categories = data?.categories;
-
-  if (error) console.log(error);
-
   function removeParticipantKeyDuplication() {
     const notDuplicated: any = [];
     // @TODO find better algorithm than this
     ALLOWED_COMPANY_QUESTIONS.forEach((acq) => {
       let isDuplicate = false;
-      fields.forEach((f: any) => {
+      fields?.forEach((f: any) => {
         // (f.key === acq)
-        if (f?.key?.value === acq.value) isDuplicate = true;
+        if ((typeof f?.key === "string" ? f?.key : f?.key?.value) === acq.value)
+          isDuplicate = true;
       });
 
       if (!isDuplicate) notDuplicated.push(acq);
@@ -66,14 +63,27 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
   return (
     <>
       <h3 className="mt-7 mb-3">{t("additional-information-check-title")}</h3>
+
+      <NumberInput
+        label={t("post-request-biddersLimit-label")}
+        className="my-6"
+        numberQueue="a"
+        queueBackground="secondary-1"
+        suffix={` ${t("bidders-text")}`}
+        placeholder={t("post-request-biddersLimit-placeholder")}
+        name="additional.biddersLimit"
+        control={control}
+        allowNegative={false}
+        error={errors?.additional?.biddersLimit?.message}
+      />
       <InputLabel
-        numberQueue={"a"}
+        numberQueue="b"
         queueBackground="blue"
         label={t("who-can-participate-to-bid")}
       />
       {fields
-        .slice(0, ALLOWED_COMPANY_QUESTIONS.length)
-        .map((field: any, idx) => {
+        ?.slice(0, ALLOWED_COMPANY_QUESTIONS.length)
+        ?.map((field: any, idx) => {
           return (
             <BidParticipantFilterInput
               key={field?.id}
@@ -86,21 +96,6 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
             />
           );
         })}
-
-      <SelectInput
-        getOptionLabel={(option) => option.label || option.name}
-        getOptionValue={(option) => option.value || option.name}
-        control={control}
-        options={categories || []}
-        queueBackground="blue"
-        numberQueue="b"
-        className="my-6"
-        loading={loading}
-        isMulti
-        name="additional.categories"
-        label={t("categories-label")}
-        placeholder={t("categories-placeholder")}
-      />
     </>
   );
 };

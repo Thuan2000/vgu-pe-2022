@@ -8,7 +8,7 @@ interface ISearchInputProps extends React.HTMLAttributes<HTMLDivElement> {}
 const SearchInput: React.FC<ISearchInputProps> = ({ className, ...props }) => {
   return (
     <div
-      className={`flex items-center w-full border rounded-md ${className}`}
+      className={`flex items-center w-full border rounded-md overflow-hidden ${className}`}
       {...props}
     >
       {/* @TODO make this searchable */}

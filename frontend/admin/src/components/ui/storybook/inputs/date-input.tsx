@@ -6,7 +6,7 @@ import InputErrorMessage from "./input-error";
 import InputLabel from "./input-label";
 import { inputClasses } from "./input-config";
 import "react-datepicker/dist/react-datepicker.css";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, UseFormTrigger } from "react-hook-form";
 import DateIcon from "@assets/icons/date-icon";
 
 interface DateInputProps extends Partial<DatepickerProps> {
@@ -24,6 +24,8 @@ interface DateInputProps extends Partial<DatepickerProps> {
   shadow?: boolean;
   error?: string;
   inputClassName?: string;
+  rules?: any;
+  trigger?: UseFormTrigger<any>;
 }
 
 interface DatepickerProps extends ReactDatePickerProps {
@@ -45,6 +47,8 @@ const DateInput: React.FC<DateInputProps> = ({
   variant = "normal",
   error,
   inputClassName,
+  rules,
+  trigger,
   ...props
 }) => {
   const dateClassName = cn(
@@ -68,7 +72,8 @@ const DateInput: React.FC<DateInputProps> = ({
       <Controller
         name={name}
         control={control}
-        render={({ field }) => {
+        rules={rules}
+        render={({ field: { onChange, ...field } }) => {
           return (
             <>
               {!noLabel && (
@@ -83,6 +88,10 @@ const DateInput: React.FC<DateInputProps> = ({
               <Datepicker
                 className={dateClassName}
                 placeholderText={placeholder}
+                onChange={(e) => {
+                  onChange(e);
+                  if (trigger) trigger(name);
+                }}
                 {...field}
                 {...props}
               />
@@ -99,7 +108,6 @@ export default DateInput;
 const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
   ({ onChange, ...props }, _) => {
     const inputId = Math.random().toString() + "-date-input";
-
     function handleChange(e: Date) {
       // Prevent error
       if (onChange) onChange(e, undefined);

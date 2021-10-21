@@ -203,6 +203,7 @@ const ProjectDetails = ({ slug }: { slug: string }) => {
                 onSelectChange={handleBRCardSelectChange}
                 key={br?.id + "project-br-list"}
                 br={br as IBuyingRequest}
+                postedTextLabel={t("posted-label")}
               />
             );
           })}
