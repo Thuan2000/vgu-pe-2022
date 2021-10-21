@@ -39,6 +39,7 @@ class App {
 			this.apolloServer = new ApolloServer({
 				typeDefs,
 				resolvers,
+				introspection: true,
 				context: ({ req }) => {
 					const token = req.headers.authorization;
 
