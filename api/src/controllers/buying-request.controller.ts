@@ -2,6 +2,7 @@ import {
 	ICreateBuyingRequestInput,
 	IUpdateBuyingRequestInput
 } from "@graphql/types";
+import { Op } from "sequelize";
 import BuyingRequest from "@models/BuyingRequest";
 import User from "@models/User";
 import { uploadImages } from "@repositories/uploads.repository";
@@ -79,6 +80,26 @@ class BuyingRequestController {
 		});
 
 		return allBuyingRequests;
+	}
+
+	async getDiscoveryBuyingRequestsAndCount(
+		companyId: number,
+		offset: number
+	) {
+		const { rows, count } = await BuyingRequest.findAndCountAll({
+			offset,
+			limit: BUYING_REQUESTS_GET_LIMIT,
+			where: {
+				companyId: {
+					[Op.not]: companyId
+				}
+			}
+		});
+
+		return {
+			buyingRequests: rows,
+			totalDataCount: count
+		};
 	}
 
 	async getBuyingRequests(companyId: number, offset: number) {

@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
+import Industry from "./Industry";
+import Company from "./Company";
 
 class BuyingRequest extends Model {
 	/**
@@ -7,9 +9,12 @@ class BuyingRequest extends Model {
 	 * This method is not a part of Sequelize lifecycle.
 	 * The `models/index` file will call this method automatically.
 	 */
-	// static associate(models) {
-	// 	// define association here
-	// }
+	static associate(models) {
+		// define association here
+		BuyingRequest.belongsToMany(models.Company, {
+			through: "CompanyProjects"
+		});
+	}
 }
 
 BuyingRequest.init(
@@ -25,12 +30,20 @@ BuyingRequest.init(
 		minOrder: DataTypes.INTEGER,
 		unit: DataTypes.STRING,
 		gallery: DataTypes.JSON,
-		industryId: DataTypes.INTEGER,
+		industryId: {
+			type: DataTypes.INTEGER,
+			references: { model: Industry, key: "id" },
+			onDelete: "CASCADE"
+		},
 		categoryIds: DataTypes.JSON,
 		biddersLimit: DataTypes.INTEGER,
 		allowedCompany: DataTypes.JSON,
 		status: DataTypes.STRING,
-		companyId: DataTypes.INTEGER,
+		companyId: {
+			type: DataTypes.INTEGER,
+			references: { model: Company, key: "id" },
+			onDelete: "CASCADE"
+		},
 		commentIds: DataTypes.JSON,
 		bidIds: DataTypes.JSON,
 		projectIds: DataTypes.JSON,
@@ -43,4 +56,5 @@ BuyingRequest.init(
 		modelName: "BuyingRequest"
 	}
 );
+
 export default BuyingRequest;

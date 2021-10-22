@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 
 import AvatarIcon from "@assets/icons/avatar-icon";
-import { useTranslation } from "react-i18next";
-import SettingsIcon from "@assets/icons/navigations/settings-icon";
-import LogoutIcon from "@assets/icons/navigations/logout-icon";
-import Link from "./link";
-import { ROUTES } from "@utils/routes";
 import ProfileMenu from "./profile-menu";
 
 const ProfileAvatar = () => {

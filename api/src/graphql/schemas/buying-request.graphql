@@ -122,6 +122,10 @@ extend type Query {
 		offset: Int!
 	): BuyingRequestsResponse!
 	buyingRequest(id: Int!): BuyingRequest!
+	discoveryBuyingRequestsAndCount(
+		companyId: Int!
+		offset: Int!
+	): BuyingRequestsResponse!
 	buyingRequestBySlug(slug: String!): SingleBuyingRequest!
 	getBuyingRequestsByIds(ids: [Int]!): [BuyingRequest]!
 }

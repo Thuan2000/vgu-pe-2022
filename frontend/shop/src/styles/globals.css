@@ -5,6 +5,8 @@
 }
 
 :root {
+  --color-primary-hover: #02bf86;
+  --color-primary: #00d796;
   --color-green: #00d796;
   --color-gray-200: #b0bdc6;
   --color-gray-10: #eef2f5;
@@ -25,7 +27,7 @@ h4,
 h5,
 h6 {
   @apply font-heading font-semibold;
-  color: var(--dark-blue);
+  color: var(--color-dark-blue);
 }
 
 p {
@@ -42,7 +44,6 @@ h2 {
 
 h3 {
   font-size: 17px;
-  height: 24px;
 }
 
 h4 {
@@ -62,10 +63,11 @@ strong {
 }
 
 .font-semibold {
-  color: var(--dark-blue);
+  color: var(--color-dark-blue);
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: var(--color-gray-200);
 }
 
@@ -93,6 +95,10 @@ body {
   @apply left-1/2 -translate-x-1/2;
 }
 
+.flex-items-center {
+  @apply flex items-center;
+}
+
 .position-normal {
   @apply sm:top-0 sm:left-0 sm:-translate-x-0 sm:-translate-y-0;
 }
@@ -105,8 +111,20 @@ body {
   @apply flex items-center justify-center;
 }
 
+.abs-fullsize {
+  @apply absolute top-0 bottom-0 left-0 right-0;
+}
+
 .abs-center {
-  @apply absolute top-1/2 left-1/2 -translate-x-1/2;
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+.all-transition {
+  @apply transition-all duration-200;
+}
+
+.load-necessary-styles {
+  @apply fixed bottom-0;
 }
 
 @tailwind components;

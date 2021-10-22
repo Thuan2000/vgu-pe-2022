@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
+import BuyingRequest from "./BuyingRequest";
 
 class Company extends Model {
 	/**
@@ -7,10 +8,14 @@ class Company extends Model {
 	 * This method is not a part of Sequelize lifecycle.
 	 * The `models/index` file will call this method automatically.
 	 */
-	// static associate(models) {
-	// 	// define association here
-	// }
+	static associate(models) {
+		// define association here
+		Company.hasMany(models.BuyingRequest, {
+			foreignKey: "companyId"
+		});
+	}
 }
+
 Company.init(
 	{
 		name: DataTypes.STRING,
@@ -32,4 +37,5 @@ Company.init(
 		modelName: "Company"
 	}
 );
+
 export default Company;
