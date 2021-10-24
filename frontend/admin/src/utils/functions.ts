@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { getMeData } from "./auth-utils";
 import {
   BILLION,
@@ -100,4 +101,15 @@ export function isString(value: any) {
   if (!value) return false;
 
   return typeof value === "string";
+}
+
+export function getObjectIds(array: any[]) {
+  if (!array?.length) return;
+
+  const ids = array.map((obj) => {
+    if (typeof obj.id === "string") return parseInt(obj.id);
+    return obj.id;
+  });
+
+  return ids;
 }

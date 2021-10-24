@@ -17,14 +17,14 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 
 // Locale setting
 import vi from "date-fns/locale/vi";
-import { IBuyingRequest, ISingleBuyingRequest } from "@graphql/types.graphql";
+import { IBuyingRequest } from "@graphql/types.graphql";
 registerLocale("vi", vi);
 setDefaultLocale("vi");
 
 interface IGeneralInputProps {
   register: UseFormRegister<PostRequestFormValue>;
   control: Control<PostRequestFormValue>;
-  initValue?: ISingleBuyingRequest;
+  initValue?: IBuyingRequest;
   errors?: FieldErrors<PostRequestFormValue>;
   trigger: UseFormTrigger<PostRequestFormValue>;
 }

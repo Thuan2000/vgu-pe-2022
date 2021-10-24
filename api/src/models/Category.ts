@@ -13,7 +13,7 @@ Category.init(
 	{
 		tableName: "categories",
 		sequelize: Database.stcSequelize,
-		modelName: "Category"
+		modelName: "category"
 	}
 );
 

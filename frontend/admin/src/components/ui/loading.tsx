@@ -6,7 +6,7 @@ const Loading: React.FC = () => {
   const { t } = useTranslation("common");
 
   return (
-    <div>
+    <div className="min-h-screen">
       <Loader />
     </div>
   );

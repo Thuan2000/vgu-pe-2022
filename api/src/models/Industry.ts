@@ -23,7 +23,7 @@ Industry.init(
 	{
 		tableName: "industries",
 		sequelize: Database.stcSequelize,
-		modelName: "Industry"
+		modelName: "industry"
 	}
 );
 

@@ -9,7 +9,12 @@ export const Query = {
 	buyingRequestsAndCount: (_, { companyId, offset }) =>
 		buyingRequestController.getBuyingRequests(companyId, offset),
 	getBuyingRequestsByIds: (_, { ids }) =>
-		buyingRequestController.getBuyingRequestsByIds(ids)
+		buyingRequestController.getBuyingRequestsByIds(ids),
+	discoveryBuyingRequestsAndCount: (_, { companyId, offset }) =>
+		buyingRequestController.getDiscoveryBuyingRequestsAndCount(
+			companyId,
+			offset
+		)
 };
 
 export const Mutation = {

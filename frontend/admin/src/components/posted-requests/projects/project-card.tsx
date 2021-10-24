@@ -16,6 +16,7 @@ import useIsPhone from "src/hooks/isPhone.hook";
 import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "@utils/routes";
 import Link from "@components/ui/link";
+import Swal from "sweetalert2";
 
 interface IProjectCardProps extends React.HTMLAttributes<HTMLDivElement> {
   project: IProject;
@@ -30,26 +31,48 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
   isSelected,
   onProjectSelect,
 }) => {
+  const {
+    image,
+    companyId,
+    id,
+    slug,
+    endDate,
+    name,
+    buyingRequests,
+    description,
+  } = project;
   const { t } = useTranslation("common");
   const { query, ...router } = useRouter();
   const [showProjectMenu, setShowProjectMenu] = useState(false);
   const { openModal } = useModal();
   const isPhone = useIsPhone();
   const [deleteProject, { loading: deleteLoading }] = useDeleteProjectMutation({
-    onCompleted: reFetchProject,
+    onCompleted: handleDeletedProject,
   });
+
+  function handleDeletedProject() {
+    reFetchProject();
+
+    Swal.fire({
+      icon: "success",
+      title: t("projectDeleted-title"),
+      text: t("projectDeleted-text"),
+      confirmButtonText: t("projectDeleted-button-label"),
+    });
+  }
 
   function hanldeAddRequestClick() {
     const { pathname } = router;
 
     router.push({
       pathname,
-      query: { ...query, projectId: project.id },
+      query: { ...query, projectId: id },
     });
   }
+  console.log(project);
 
   function onDelete() {
-    deleteProject({ variables: { id: project.id } });
+    deleteProject({ variables: { id: id } });
   }
 
   function handleDeleteProject() {
@@ -71,7 +94,7 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
     >
       <div className="absolute left-4 top-4 z-20">
         <Checkbox
-          name={`${project.id}${project.name}`}
+          name={`${id}${name}`}
           className="z-10"
           onChange={onProjectSelect}
           checked={isSelected}
@@ -112,55 +135,58 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
       </button>
       <div className="relative w-[165px] h-[170px] flex-shrink-0">
         <Image
-          src={project?.image?.location || siteSettings.logo.url}
+          src={image?.location || siteSettings.logo.url}
           layout="fill"
           alt="project-card-image"
         />
       </div>
       <div className="py-3 ml-3 space-y-1">
-        <Link href={`${ROUTES.PROJECTS}/${project.slug}`}>
+        <Link href={`${ROUTES.PROJECTS}/${slug}`}>
           <p className="font-semibold text-md">
-            {trimText(project.name, isPhone ? 19 : 30)}
+            {trimText(name, isPhone ? 19 : 30)}
           </p>
         </Link>
         <p className="text-sm">
           <span className="text-gray-200 ">{t("due-time-text")}:</span>
-          <span className="ml-2 text-secondary-1">
-            {viDateFormat(project.endDate)}
-          </span>
+          <span className="ml-2 text-secondary-1">{viDateFormat(endDate)}</span>
         </p>
         <div className="flex items-center">
           <div className="flex items-center">
-            {project.buyingRequests.slice(0, 5).map((projectBr, idx) => {
-              const isFirst = idx === 0;
-              const isLast =
-                project.buyingRequests.length - 1 === idx || idx + 1 === 5;
-              return (
-                <div
-                  className={`relative w-9 h-9 overflow-hidden rounded-sm
+            {buyingRequests &&
+              buyingRequests?.slice(0, 5).map((br, idx) => {
+                const isFirst = idx === 0;
+                const isLast =
+                  buyingRequests?.length - 1 === idx || idx + 1 === 5;
+                return (
+                  <div
+                    className={`relative w-9 h-9 overflow-hidden rounded-sm
                     ${!isLast && "border-r-4 border-white"}
                     ${!isFirst && "-translate-x-2"}
                   `}
-                  style={{ zIndex: 5 - idx }}
-                  key={projectBr.id + "project-br"}
-                >
-                  <Image
-                    layout="fill"
-                    alt={projectBr.id + "cover"}
-                    src={projectBr?.cover || siteSettings.placeholderImage}
-                  />
-                </div>
-              );
-            })}
+                    style={{ zIndex: 5 - idx }}
+                    key={br?.id + "project-br"}
+                  >
+                    <Image
+                      layout="fill"
+                      alt={br?.id + "cover"}
+                      src={
+                        br?.gallery?.at(0)?.location ||
+                        siteSettings.placeholderImage
+                      }
+                    />
+                  </div>
+                );
+              })}
           </div>
-          {project?.buyingRequests?.length > 5 && (
+          {buyingRequests && buyingRequests?.length > 5 && (
             <p className="text-gray-200 text-sm ml-4">
-              +{project.buyingRequests.length - 5} {t("requests-text")}
+              +{buyingRequests.length - 5} {t("requests-text")}
             </p>
           )}
         </div>
         <p className="text-gray-200 text-sm sm:text-md px-1">
-          {trimText(project.description as string, isPhone ? 60 : 75)}
+          {trimText(description as string, isPhone ? 60 : 75) ||
+            t("project-no-description-text")}
         </p>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "../services/database.service";
+import User from "./User";
 
 class Project extends Model {
 	/**
@@ -17,7 +18,6 @@ Project.init(
 		slug: DataTypes.STRING,
 		endDate: DataTypes.DOUBLE,
 		description: DataTypes.STRING,
-		buyingRequests: DataTypes.JSON,
 		image: DataTypes.JSON,
 		companyId: DataTypes.INTEGER,
 		createdById: DataTypes.INTEGER,
@@ -26,8 +26,10 @@ Project.init(
 	{
 		tableName: "projects",
 		sequelize: Database.stcSequelize,
-		modelName: "Project"
+		modelName: "project"
 	}
 );
+
+Project.belongsTo(User, { foreignKey: "createdById", as: "createdBy" });
 
 export default Project;

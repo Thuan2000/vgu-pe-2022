@@ -1,0 +1,37 @@
+#import UserFragment from "./user.fragment.graphql"
+
+fragment BuyingRequestParts on BuyingRequest {
+  id
+  name
+  slug
+  productName
+  endDate
+  industryId
+  categoryIds
+  minBudget
+  maxBudget
+  minOrder
+  unit
+  status
+  gallery {
+    location
+    path
+  }
+  createdAt
+  updatedAt
+  location
+  commentIds
+  projectIds
+  bidIds
+  description
+  biddersLimit
+  allowedCompany {
+    minSupplierExperience
+    minSupplierRating
+    minSuplierSells
+  }
+  company {
+    id
+    name
+  }
+}

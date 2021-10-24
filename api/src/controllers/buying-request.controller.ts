@@ -2,6 +2,7 @@ import {
 	ICreateBuyingRequestInput,
 	IUpdateBuyingRequestInput
 } from "@graphql/types";
+import { Op } from "sequelize";
 import BuyingRequest from "@models/BuyingRequest";
 import User from "@models/User";
 import { uploadImages } from "@repositories/uploads.repository";
@@ -14,58 +15,26 @@ import {
 } from "@utils";
 import Category from "../models/Category";
 import Industry from "../models/Industry";
-import ProductName from "../models/ProductName";
-
-function setBrGallery(data: Promise<unknown>[], br: BuyingRequest) {
-	let doneCount = 0;
-
-	data.forEach(async d => {
-		d.then(img => {
-			++doneCount;
-			const currentImgs = br.getDataValue("gallery") || [];
-			br.set("gallery", [...currentImgs, img]);
-
-			if (doneCount >= data.length - 1) {
-				br.save();
-			}
-		});
-	});
-}
+import Company from "@models/Company";
+import Project from "@models/Project";
+import {
+	setBrGallery,
+	setProductName
+} from "@repositories/buying-request.repository";
 
 class BuyingRequestController {
 	async getBuyingRequestBySlug(slug: string) {
-		console.log(slug);
-
 		const buyingRequest = await BuyingRequest.findOne({
-			where: { slug }
+			where: { slug },
+			include: [
+				Category,
+				Industry,
+				{ model: User, as: "createdBy" },
+				Company
+			]
 		});
 
-		const industry = await Industry.findByPk(
-			buyingRequest.getDataValue("industryId")
-		);
-
-		const categories = await Category.findAll({
-			where: {
-				id: buyingRequest.getDataValue("categoryIds")
-			}
-		});
-
-		const createdBy = await User.findByPk(
-			buyingRequest.getDataValue("createdById")
-		);
-
-		let updatedBy;
-		const updatedById = buyingRequest.getDataValue("updatedById");
-		if (updatedById) updatedBy = await User.findByPk(updatedById);
-
-		const newBuyingRequest = Object.assign({}, buyingRequest.toJSON(), {
-			industry: industry.toJSON(),
-			categories,
-			createdBy,
-			updatedBy
-		});
-
-		return newBuyingRequest;
+		return buyingRequest;
 	}
 
 	async getBuyingRequest(id: number) {
@@ -81,11 +50,38 @@ class BuyingRequestController {
 		return allBuyingRequests;
 	}
 
+	async getDiscoveryBuyingRequestsAndCount(
+		companyId: number,
+		offset: number
+	) {
+		const { rows, count } = await BuyingRequest.findAndCountAll({
+			offset,
+			limit: BUYING_REQUESTS_GET_LIMIT,
+			where: {
+				companyId: {
+					[Op.not]: companyId
+				}
+			},
+			include: [Company, Category, Project]
+		});
+
+		return {
+			buyingRequests: rows,
+			totalDataCount: count
+		};
+	}
+
 	async getBuyingRequests(companyId: number, offset: number) {
 		const { rows, count } = await BuyingRequest.findAndCountAll({
 			offset,
 			limit: BUYING_REQUESTS_GET_LIMIT,
-			where: { companyId }
+			where: { companyId },
+			include: [
+				Project,
+				Category,
+				Industry,
+				{ model: User, as: "createdBy" }
+			]
 		});
 
 		return {
@@ -119,10 +115,13 @@ class BuyingRequestController {
 	async createBuyingRequest({
 		gallery,
 		companyName,
+		categoryIds,
 		...buyingRequestInput
 	}: ICreateBuyingRequestInput) {
 		try {
 			const { name, productName, companyId } = buyingRequestInput;
+
+			setProductName(productName);
 
 			// Check duplicate
 			const duplicateBr = await BuyingRequest.findOne({
@@ -132,39 +131,21 @@ class BuyingRequestController {
 				}
 			});
 
-			const duplicateProductName: ProductName = await ProductName.findOne(
-				{
-					where: { name: productName }
-				}
-			);
-
-			// Creating product name for later use
-			if (duplicateProductName) {
-				duplicateProductName.set(
-					"searchedCount",
-					parseInt(
-						duplicateProductName.getDataValue("searchedCount")
-					) + 1
-				);
-				duplicateProductName.save();
-			} else {
-				const newProductName = await ProductName.create({
-					name: productName,
-					searchedCount: 0
-				});
-				newProductName.save();
-			}
-
 			if (duplicateBr) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
 
 			const newBuyingRequest = await BuyingRequest.create({
 				...buyingRequestInput,
+				cateories: categoryIds,
+				companyId,
 				slug: generateSlug(buyingRequestInput.name),
 				status: "OPEN"
 			});
 
-			const brGallery = await uploadImages(companyName, gallery);
+			// To understand this read sequelize associations
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			(newBuyingRequest as any).setCategories(categoryIds);
 
+			const brGallery = await uploadImages(companyName, gallery);
 			setBrGallery(brGallery, newBuyingRequest);
 
 			return newBuyingRequest.save().then(() => successResponse());
@@ -180,12 +161,21 @@ class BuyingRequestController {
 			companyName,
 			gallery,
 			oldGallery,
+			categoryIds,
 			...newValue
 		}: IUpdateBuyingRequestInput
 	) {
 		const currentBr = await BuyingRequest.findByPk(id);
 
+		// @Note : To hold the process
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const data = await setProductName(newValue.productName);
+
 		currentBr.update(newValue);
+		// To understand this read sequelize associations
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(currentBr as any).setCategories(categoryIds);
+
 		const newGallery = await uploadImages(companyName, gallery);
 		currentBr.setDataValue("gallery", oldGallery);
 

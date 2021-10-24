@@ -1,10 +1,6 @@
 import BuyingRequest from "@models/BuyingRequest";
 import User from "@models/User";
-import {
-	IProjectBrInput,
-	ICreateProjectInput,
-	IProjectBr
-} from "../graphql/types";
+import { ICreateProjectInput } from "../graphql/types";
 import Project from "../models/Project";
 import { uploadImage } from "../repositories/uploads.repository";
 import {
@@ -15,75 +11,68 @@ import {
 	successResponse
 } from "../utils";
 
-function setBuyingRequestsProject(
-	buyingRequests: BuyingRequest[],
-	projectId: number
-) {
-	buyingRequests.forEach(br => {
-		const currentProjects = br.getDataValue("projectIds");
-		br.setDataValue(
-			"projectIds",
-			!currentProjects ? [projectId] : [...currentProjects, projectId]
-		);
-		br.save();
-	});
-}
-
-function removeBrProject(buyingRequests: BuyingRequest[], projectId: number) {
-	buyingRequests.forEach(br => {
-		const currentProjects: string[] = br.getDataValue("projectIds");
-
-		if (!currentProjects) return;
-		const newProjectIds =
-			currentProjects.filter(cp => parseInt(cp) !== projectId) || [];
-		br.setDataValue("projectIds", newProjectIds);
-		br.save();
-	});
-}
-
 class ProjectController {
 	async getProjects(companyId: number, offset: number) {
 		const { rows: projects, count } = await Project.findAndCountAll({
 			where: { companyId },
 			offset: offset,
-			limit: PROJECTS_GET_LIMIT
+			limit: PROJECTS_GET_LIMIT,
+			include: [
+				{ model: User, as: "createdBy" },
+				{
+					model: BuyingRequest,
+					attributes: ["id", "gallery"]
+				}
+			]
 		});
+
 		return { projects, count };
 	}
 
 	async getProject(slug: string) {
 		const project = await Project.findOne({
-			where: { slug }
+			where: { slug },
+			include: [
+				{ model: User, as: "createdBy" },
+				{
+					model: User,
+					as: "updatedBy",
+					association: Project.belongsTo(User, {
+						foreignKey: "updatedById"
+					})
+				},
+				{
+					model: BuyingRequest,
+					attributes: [
+						"id",
+						"name",
+						"createdAt",
+						"updatedAt",
+						"location",
+						"minOrder",
+						"unit",
+						"status",
+						"gallery",
+						"endDate",
+						"slug"
+					]
+				}
+			]
 		});
 
-		const createdBy = await User.findOne({
-			where: { id: project.getDataValue("createdById") }
-		});
+		console.log(project);
 
-		let updatedBy;
-		const updatedById = project.getDataValue("updatedById");
-
-		if (updatedById)
-			updatedBy = await User.findOne({
-				where: { id: updatedById }
-			});
-
-		return { project, createdBy, updatedBy };
+		return project;
 	}
 
-	async addToProject(projectId: number, buyingRequests: IProjectBrInput[]) {
+	async addToProject(projectId: number, buyingRequests: number[]) {
 		try {
 			const project = await Project.findOne({ where: { id: projectId } });
 
-			const currentBrs = project.getDataValue("buyingRequests");
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			(project as any).setBuyingRequests(buyingRequests);
 
-			project.setDataValue(
-				"buyingRequests",
-				!!currentBrs?.length
-					? [...currentBrs, ...buyingRequests]
-					: buyingRequests
-			);
-			project.save();
+			await project.save();
 
 			return successResponse();
 		} catch (e) {
@@ -92,7 +81,11 @@ class ProjectController {
 		}
 	}
 
-	async createProject({ name, ...project }: ICreateProjectInput) {
+	async createProject({
+		name,
+		buyingRequests,
+		...project
+	}: ICreateProjectInput) {
 		const duplicateProject = await Project.findOne({
 			where: { name, companyId: project.companyId }
 		});
@@ -104,6 +97,9 @@ class ProjectController {
 			...project
 		});
 
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(newProject as any).setBuyingRequests(buyingRequests);
+
 		if (project.image) {
 			uploadImage(project.companyName, project.image).then(
 				projectImage => {
@@ -113,21 +109,14 @@ class ProjectController {
 			);
 		}
 
-		const brIds = project.buyingRequests.map(br => br.id);
-		const buyingRequests = await BuyingRequest.findAll({
-			where: { id: brIds }
-		});
-
-		setBuyingRequestsProject(buyingRequests, newProject.getDataValue("id"));
-
 		return newProject.save().then(() => successResponse());
 	}
 
 	async deleteProjects(ids: number[]) {
 		try {
-			await Project.findAll({ where: { id: ids } });
-
-			return successResponse();
+			return Project.destroy({ where: { id: ids } }).then(() =>
+				successResponse()
+			);
 		} catch (error) {
 			console.log(error);
 
@@ -137,15 +126,9 @@ class ProjectController {
 
 	async deleteProject(id: number) {
 		try {
-			const project = await Project.findByPk(id);
-
-			const buyingRequests = project.getDataValue("buyingRequests");
-
-			if (buyingRequests) {
-				removeBrProject(buyingRequests, id);
-			}
-
-			return successResponse();
+			return Project.destroy({ where: { id } }).then(() =>
+				successResponse()
+			);
 		} catch (error) {
 			console.log(error);
 
@@ -153,28 +136,12 @@ class ProjectController {
 		}
 	}
 
-	async removeRequestFromProject(id: number, brIds: number[]) {
+	async updateBuyingRequests(id: number, brIds: number[]) {
 		try {
 			const project = await Project.findByPk(id);
 
-			const projectBrs: IProjectBr[] = project.getDataValue(
-				"buyingRequests"
-			);
-
-			const newProjectBrs = projectBrs.filter(pbr => {
-				const idx = brIds.findIndex(
-					brId => brId === parseInt(pbr.id + "")
-				);
-
-				return idx === -1;
-			});
-
-			const buyingRequests = await BuyingRequest.findAll({
-				where: { id: brIds }
-			});
-			removeBrProject(buyingRequests, id);
-
-			project.setDataValue("buyingRequests", newProjectBrs);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			(project as any).setBuyingRequests(brIds);
 
 			return project.save().then(() => successResponse());
 		} catch (error) {

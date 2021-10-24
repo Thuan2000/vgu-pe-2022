@@ -11,5 +11,17 @@
   "logout-menu": "Log Out",
   "settings-menu": "Settings",
   "not-verified": "Not verified",
-  "greeting": "Hello"
+  "greeting": "Hello",
+  "BUYING_REQUESTS_NAV_LABEL": "Nhu cầu mua",
+  "due-date-text": "Due to",
+  "filter-label": "Filter",
+  "location-filter-label": "Location",
+  "status-filter-label": "Status",
+  "filter-status-open-filter": "Open",
+  "filter-status-close-filter": "Close",
+  "industry-filter-label": "Industry",
+  "product-filter-label": "Product",
+  "min": "Min",
+  "max": "Max",
+  "OPEN_STATUS": "Open"
 }

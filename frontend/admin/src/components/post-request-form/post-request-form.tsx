@@ -18,20 +18,15 @@ import {
   CHECK_FORM_INDEX,
 } from "./post-request-constants";
 import CheckSection from "./check-section";
-import { getMeData } from "@utils/auth-utils";
 import {
-  CreateBuyingRequestMutation,
   useCreateBuyingRequestMutation,
   useUpdateBuyingRequestMutation,
 } from "@graphql/buying-request.graphql";
-import Swal from "sweetalert2";
-import { COLORS } from "@utils/colors";
 import { ROUTES } from "@utils/routes";
 import {
   IAllowedCompany,
   IBuyingRequest,
   IResponse,
-  ISingleBuyingRequest,
 } from "@graphql/types.graphql";
 import {
   getCompanyId,
@@ -46,7 +41,9 @@ function processRawAC(rawACs: KeyValueSelect[]) {
   const allowedCompany: any = {};
 
   rawACs.flatMap((rawAC) => {
-    if (!rawAC?.key) return [];
+    // Apollo give us __typename
+    if (!rawAC?.key || (rawAC as any).key === "__typename") return [];
+
     const key: any = isString(rawAC.key) ? rawAC.key : rawAC.key.value;
     allowedCompany[key] = rawAC.value;
   });
@@ -55,7 +52,7 @@ function processRawAC(rawACs: KeyValueSelect[]) {
 }
 
 interface IPostRequestFormParams {
-  initValue?: ISingleBuyingRequest;
+  initValue?: IBuyingRequest;
 }
 
 function getAllowedCompanyInArray({
@@ -74,7 +71,7 @@ function getAllowedCompanyInArray({
   return participantFilter;
 }
 
-function getDefaultValue(initValue?: ISingleBuyingRequest) {
+function getDefaultValue(initValue?: IBuyingRequest) {
   if (!initValue)
     return {
       general: {
@@ -255,8 +252,8 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
       endDate: new Date(endDate).getTime(),
       industryId,
       categoryIds,
-      oldGallery,
-      gallery: newGallery,
+      // newGallery is only gallery.filter and remove all non file
+      [initValue ? "gallery" : "gallery"]: newGallery,
       allowedCompany,
       ...generalRest,
       ...detailsRest,
@@ -264,6 +261,8 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
     };
 
     if (initValue) {
+      // Old gallery is the posted gallery files
+      values["oldGallery"] = oldGallery;
       await updateBr({
         variables: {
           id: parseInt(initValue.id),
@@ -352,6 +351,7 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
             size="small"
             className="md:w-1/2.5"
             loading={creating || updating}
+            autoFocus={formPosition === 3}
           >
             {t(
               formPosition === 3

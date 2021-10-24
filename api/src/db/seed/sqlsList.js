@@ -31,12 +31,24 @@ const sqls = [
 		path: getFilePath("buying_requests.sql")
 	},
 	{
+		name: "Project",
+		path: getFilePath("project.sql")
+	},
+	{
 		name: "Product Names",
 		path: getFilePath("product_names.sql")
 	},
 	{
 		name: "Category",
 		path: getFilePath("categories.sql")
+	},
+	{
+		name: "BR Category",
+		path: getFilePath("br_category.sql")
+	},
+	{
+		name: "BR Project",
+		path: getFilePath("br_project.sql")
 	}
 ];
 

@@ -1,3 +1,13 @@
+// Fetch Limit
+export const BUYING_REQUESTS_GET_LIMIT = 8;
+
+export enum ERole {
+  SUPER_ADMIN = "SUPER_ADMIN",
+  COMPANY_OWNER = "COMPANY_OWNER",
+  COMPANY_STAFF = "COMPANY_STAFF",
+  GUESS = "GUESS",
+}
+
 // AUTH
 export const roles = {
   SUPER_ADMIN: "SUPER_ADMIN",
@@ -12,6 +22,12 @@ export const AUTH_ERRORS = {
 
 export const FILE_SIZE_LIMIT = 20000000;
 export const LIMIT = 10;
+
+export const MILLION_COUNT = 7;
+export const BILLION_COUNT = 10;
+
+export const MILLION = 1000000;
+export const BILLION = 1000000000;
 
 // cookie
 export const ROLE = "ROLE";

@@ -40,5 +40,6 @@
   "no-account-yet": "Not have an account?",
   "error-USER_NOT_FOUND-title": "Please create an account",
   "error-USER_NOT_FOUND-message": "Unfortunately there are no such email/login",
-  "error-USER_NOT_FOUND-button": "Create an account"
+  "error-USER_NOT_FOUND-button": "Create an account",
+  "budget-sign": "₫"
 }
