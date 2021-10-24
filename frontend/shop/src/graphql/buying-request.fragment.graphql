@@ -30,4 +30,8 @@ fragment BuyingRequestParts on BuyingRequest {
     minSupplierRating
     minSuplierSells
   }
+  company {
+    id
+    name
+  }
 }

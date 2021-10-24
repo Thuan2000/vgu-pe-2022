@@ -39,9 +39,9 @@ const SelectProject: React.FC<ISelectProjectProps> = ({
 
   const projectList = projects?.map((pr) => {
     const brIds = pr?.buyingRequests?.map((br: any) => br.id);
-
     const isAddedAlready =
-      findIndex(brIds, (id) => id === parseInt(brId as string)) !== -1;
+      findIndex(brIds, (id) => parseInt(id + "") === parseInt(brId + "")) !==
+      -1;
     return (
       <button
         className="flex items-center w-full pl-5 py-2 active:bg-gray-10"

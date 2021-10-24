@@ -20,9 +20,6 @@ module.exports = {
 			description: {
 				type: Sequelize.STRING
 			},
-			buyingRequests: {
-				type: Sequelize.JSON
-			},
 			image: {
 				type: Sequelize.JSON
 			},

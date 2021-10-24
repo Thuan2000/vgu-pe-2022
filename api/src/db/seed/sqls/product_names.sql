@@ -1,2 +1,2 @@
 INSERT INTO `product_names` (`id`, `name`, `searchedCount`) VALUES
-(1, "NVIDIA GTX 1080TI", 4);
+(1, "ZOTAC NVIDIA RTX 3090TI", 4);

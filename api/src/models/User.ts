@@ -41,6 +41,6 @@ User.init(
 		tableName: "users",
 		// Other model options go here
 		sequelize: Database.stcSequelize, // We need to pass the connection instance
-		modelName: "User" // We need to choose the model name
+		modelName: "user" // We need to choose the model name
 	}
 );

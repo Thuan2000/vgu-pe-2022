@@ -75,5 +75,6 @@
   "NO_PARTICIPANT_FILTER_TEXT": "No Participant Filter",
   "createdBy-text": "Created By",
   "updatedBy-text": "Updated By",
-  "endDate-text": "Due Date"
+  "endDate-text": "Due Date",
+  "project-no-description-text": "This project has no description"
 }

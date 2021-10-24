@@ -1,3 +1,5 @@
+# import UserFragment from "./user.fragment.graphql"
+
 fragment ProjectFragment on Project {
   id
   name
@@ -7,9 +9,16 @@ fragment ProjectFragment on Project {
     location
   }
   description
-  buyingRequests {
+  createdBy {
     id
-    cover
+    firstName
+    lastName
   }
-  companyId
+  updatedBy {
+    id
+    firstName
+    lastName
+  }
+  createdAt
+  updatedAt
 }

@@ -1,6 +1,5 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
-import BuyingRequest from "./BuyingRequest";
 
 class Company extends Model {
 	/**
@@ -10,9 +9,6 @@ class Company extends Model {
 	 */
 	static associate(models) {
 		// define association here
-		Company.hasMany(models.BuyingRequest, {
-			foreignKey: "companyId"
-		});
 	}
 }
 

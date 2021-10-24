@@ -6,7 +6,7 @@ import Chip from "@components/ui/chip";
 import Loading from "@components/ui/loading";
 import Typography from "@components/ui/storybook/typography";
 import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
-import { IAllowedCompany, ISingleBuyingRequest } from "@graphql/types.graphql";
+import { IAllowedCompany, IBuyingRequest } from "@graphql/types.graphql";
 import {
   formatMoneyAmount,
   getSuffix,
@@ -65,7 +65,7 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
           {br && (
             <EditDeleteButton
               className="mb-4 md:hidden"
-              br={br as ISingleBuyingRequest}
+              br={br as IBuyingRequest}
             />
           )}
           <h2 className="text-secondary-1 font-semibold">{br?.name}</h2>
@@ -141,7 +141,7 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
           </div>
         </div>
         <div className="w-1/3 hidden md:block ml-16">
-          <EditDeleteButton className="mb-7" br={br as ISingleBuyingRequest} />
+          <EditDeleteButton className="mb-7" br={br as IBuyingRequest} />
           {!!br?.gallery?.length && (
             <div className="relative border rounded-md h-56 w-full overflow-hidden">
               <Image

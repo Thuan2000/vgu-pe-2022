@@ -16,7 +16,6 @@ import {
   IBuyingRequest,
   IIndustry,
   IProductName,
-  ISingleBuyingRequest,
 } from "@graphql/types.graphql";
 import InputLabel from "@components/ui/storybook/inputs/input-label";
 import InlineLabel from "./inline-label";
@@ -33,7 +32,7 @@ interface IGeneralInputProps {
   control: Control<PostRequestFormValue>;
   errors: FieldErrors<PostRequestFormValue>;
   trigger: UseFormTrigger<PostRequestFormValue>;
-  initValue?: ISingleBuyingRequest;
+  initValue?: IBuyingRequest;
 }
 
 const DetailsInput: React.FC<IGeneralInputProps> = ({
@@ -44,12 +43,16 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
   errors,
 }) => {
   const { t } = useTranslation("form");
-  const { data, loading } = useProductNamesQuery();
+  const {
+    data,
+    refetch: refetchProductNames,
+    loading,
+  } = useProductNamesQuery();
   const [productNames, setProductNames] = useState<Array<IProductName>>(
     data?.productNames as Array<IProductName>
   );
   const [industryId, setIndustryId] = useState(
-    parseInt(initValue?.industry.id + "") || -1
+    parseInt(initValue?.industry?.id + "") || -1
   );
 
   const { data: industriesData, loading: industriesLoading } =
@@ -70,6 +73,12 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
   const industries = industriesData?.industries;
 
   // Append to fields on first run
+
+  // @componentDidMount
+  useEffect(() => {
+    refetchProductNames();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (data?.productNames)

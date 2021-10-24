@@ -3,7 +3,7 @@ import PostRequestForm from "@components/post-request-form";
 import Loading from "@components/ui/loading";
 import PostRequestNavigation from "@components/ui/post-request-navigation";
 import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
-import { IBuyingRequest, ISingleBuyingRequest } from "@graphql/types.graphql";
+import { IBuyingRequest } from "@graphql/types.graphql";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React from "react";
@@ -42,7 +42,7 @@ const EditBuyingRequestPage: React.FC<IEditProjectPageProps> = ({ slug }) => {
 
       <PostRequestNavigation />
 
-      <PostRequestForm initValue={buyingRequest as ISingleBuyingRequest} />
+      <PostRequestForm initValue={buyingRequest as IBuyingRequest} />
     </div>
   );
 };

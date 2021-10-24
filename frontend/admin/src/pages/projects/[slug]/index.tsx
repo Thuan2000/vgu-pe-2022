@@ -3,17 +3,15 @@ import Image from "next/image";
 import PageLayout from "@components/layouts/page-layout";
 import Typography from "@components/ui/storybook/typography";
 import {
-  RemoveRequestFromProjectMutation,
+  useDeleteProjectsMutation,
   useProjectQuery,
-  useRemoveRequestFromProjectMutation,
+  useUpdateBuyingRequestsMutation,
 } from "@graphql/project.graphql";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/dist/client/router";
 import { siteSettings } from "@settings/site.settings";
 import { useTranslation } from "react-i18next";
 import { viDateFormat } from "@utils/functions";
-import { useGetBuyingRequestsByIdsQuery } from "@graphql/buying-request.graphql";
 import Checkbox from "@components/ui/storybook/checkbox";
 import Button from "@components/ui/storybook/button";
 import BuyingRequestCard from "@components/posted-requests/buying-request/buying-request-card";
@@ -21,10 +19,15 @@ import { IBuyingRequest } from "@graphql/types.graphql";
 import { IExtraMenu as IBRCardExtraMenu } from "@components/posted-requests/buying-request/buying-request-card/buying-request-card";
 import TrashCanIcon from "@assets/icons/trash-can-icon";
 import { findIndex, remove } from "lodash";
-import RemoveIcon from "@assets/icons/remove-icon";
 import CircleDashIcon from "@assets/icons/circle-dash-icon";
 import { COLORS } from "@utils/colors";
 import DocumentAddIcon from "@assets/icons/document-add-icon";
+import Loading from "@components/ui/loading";
+import Swal from "sweetalert2";
+import { useModal } from "src/contexts/modal.context";
+import DeleteBrAlert from "@components/ui/delete-br-alert";
+import { useRouter } from "next/dist/client/router";
+import { ROUTES } from "@utils/routes";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { params, locale } = ctx;
@@ -39,9 +42,39 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const ProjectDetails = ({ slug }: { slug: string }) => {
   const { t } = useTranslation();
-  const { data, loading: fetching } = useProjectQuery({
+  const { openModal } = useModal();
+  const router = useRouter();
+  const {
+    data,
+    loading: fetching,
+    refetch,
+  } = useProjectQuery({
     variables: { slug },
   });
+  const [selectedBrs, setSelectedBrs] = useState<IBuyingRequest[]>([]);
+  const [deleteProject, { loading: deletingProject }] =
+    useDeleteProjectsMutation({
+      onCompleted: handleProjectDeleted,
+    });
+  const [updatedProjectBrs, { loading: removing }] =
+    useUpdateBuyingRequestsMutation({
+      onCompleted: handleRemovedBrs,
+    });
+
+  async function handleProjectDeleted() {
+    setSelectedBrs([]);
+
+    const data = await Swal.fire({
+      icon: "success",
+      title: t("projectDeleted-title"),
+      text: t("projectDeleted-text"),
+      confirmButtonText: t("projectDeleted-button-label"),
+    });
+
+    router.replace(ROUTES.POSTED_REQUESTS);
+  }
+
+  if (!data?.project || fetching) return <Loading />;
 
   const {
     name,
@@ -49,33 +82,21 @@ const ProjectDetails = ({ slug }: { slug: string }) => {
     image,
     description,
     id,
-    buyingRequests: projectBrs,
-  } = data?.project.project || {};
+    buyingRequests,
+    createdBy,
+    updatedBy,
+  } = data?.project || {};
 
-  const brIds = projectBrs?.map((br) => br.id);
-  console.log(brIds);
-  const { data: brData, refetch } = useGetBuyingRequestsByIdsQuery({
-    variables: { ids: brIds as number[] },
-  });
-  const [selectedBrs, setSelectedBrs] = useState<IBuyingRequest[]>([]);
-  const [removeRequest, { loading: removing }] =
-    useRemoveRequestFromProjectMutation({
-      onCompleted: onRemovedBrs,
+  function handleRemovedBrs() {
+    setSelectedBrs([]);
+    refetch({ slug });
+
+    Swal.fire({
+      icon: "success",
+      title: t("projectDeleted-title"),
+      text: t("projectDeleted-text"),
+      confirmButtonText: t("projectDeleted-button-label"),
     });
-
-  const buyingRequests = brData?.getBuyingRequestsByIds;
-  const createdBy = data?.project.createdBy;
-
-  function onRemovedBrs({
-    removeRequestFromProject,
-  }: RemoveRequestFromProjectMutation) {
-    const { message, success } = removeRequestFromProject;
-    console.log(message, success);
-    if (success) {
-      refetch({ ids: brIds });
-    } else if (success === false) {
-      alert(`ERROR-${message}`);
-    }
   }
 
   function handleBRCardSelectChange(
@@ -93,18 +114,42 @@ const ProjectDetails = ({ slug }: { slug: string }) => {
   }
 
   function handleSelectAllChange(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.checked) setSelectedBrs(buyingRequests as IBuyingRequest[]);
+    if (e.target.checked)
+      setSelectedBrs([...buyingRequests] as IBuyingRequest[]);
     else setSelectedBrs([]);
   }
 
-  function deleteSelectedBrs() {
-    const brIds = selectedBrs.map((sbr) => parseInt(sbr.id));
+  function showDeleteBrAlert() {
+    openModal(
+      (
+        <DeleteBrAlert
+          isLoading={removing || deletingProject}
+          onDeleteClick={deleteSelectedBrs}
+        />
+      ) as any
+    );
+  }
 
-    removeRequest({ variables: { id: id as number, brIds } });
+  function deleteSelectedBrs() {
+    // The selected br will be removed, then we filter all of it
+    const toRemoved = new Set(selectedBrs);
+    const undeletedBrs = buyingRequests?.filter(
+      (x) => !toRemoved.has(x as any)
+    );
+
+    if (undeletedBrs.length === 0) {
+      deleteProject({ variables: { ids: id } });
+    }
+
+    const newBrIds = undeletedBrs?.map((br) => parseInt(br.id));
+
+    if (newBrIds) updatedProjectBrs({ variables: { id, brIds: newBrIds } });
   }
 
   function handleBrRemoveFromProject(br: IBuyingRequest) {
-    console.log(br);
+    // const idx = buyingRequests.findIndex((sbr) => sbr.id === br.id);
+    setSelectedBrs([br]);
+    showDeleteBrAlert();
   }
 
   const buyingRequestCardExtraMenu: IBRCardExtraMenu[] = [
@@ -128,7 +173,7 @@ const ProjectDetails = ({ slug }: { slug: string }) => {
   }
 
   return (
-    <div className="py-4 bg-white overflow-hidden">
+    <div className="py-4 bg-white overflow-hidden pb-14">
       <div className="border-b px-4 pb-5 border-gray-10 space-y-1">
         <div>
           <Typography element="h3" text={name || ""} className="text-lg" />
@@ -139,30 +184,44 @@ const ProjectDetails = ({ slug }: { slug: string }) => {
               text={`${createdBy?.firstName} ${createdBy?.lastName}`}
             />
           </div>
+          {updatedBy && (
+            <div className="flex items-center space-x-2">
+              <Typography text={`${t("createdBy-text")}:`} variant="question" />
+              <Typography
+                variant="smallTitle"
+                text={`${updatedBy?.firstName} ${updatedBy?.lastName}`}
+              />
+            </div>
+          )}
         </div>
-        <div className="relative w-full h-[150px] overflow-hidden rounded-sm shadow-sm">
-          <Image
-            src={image?.location || siteSettings.logo.url}
-            layout="fill"
-            alt="project-preview"
-          />
+
+        <div className="sm:flex space-x-4">
+          <div className="relative w-full h-[150px] sm:w-[150px] overflow-hidden rounded-sm shadow-sm">
+            <Image
+              src={image?.location || siteSettings.logo.url}
+              layout="fill"
+              alt="project-preview"
+            />
+          </div>
+          <div className="space-y-2">
+            <div className="flex items-center space-x-2">
+              <Typography text={`${t("endDate-text")}:`} variant={"question"} />
+              <Typography text={viDateFormat(endDate)} variant="date" />
+            </div>
+            <Typography
+              variant="smallTitle"
+              text={`${buyingRequests?.length} ${t(
+                buyingRequests?.length && buyingRequests?.length > 1
+                  ? "plurarRequest-text"
+                  : "singularRequest-text"
+              )}`}
+            />
+            <Typography
+              variant="description"
+              text={description || t("noDescription-text")}
+            />
+          </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <Typography text={`${t("endDate-text")}:`} variant={"question"} />
-          <Typography text={viDateFormat(endDate)} variant="date" />
-        </div>
-        <Typography
-          variant="smallTitle"
-          text={`${projectBrs?.length} ${t(
-            projectBrs?.length && projectBrs?.length > 1
-              ? "plurarRequest-text"
-              : "singularRequest-text"
-          )}`}
-        />
-        <Typography
-          variant="description"
-          text={description || t("noDescription-text")}
-        />
       </div>
       <div className="px-4 pt-5 space-y-5">
         <div className="flex items-center justify-between sm:justify-end sm:space-x-5">
@@ -171,6 +230,7 @@ const ProjectDetails = ({ slug }: { slug: string }) => {
             label={t("select-all-label")}
             title={t("slect-all")}
             onChange={handleSelectAllChange}
+            checked={buyingRequests.length === selectedBrs.length}
             className="text-gray w-1/2.5 sm:w-40 flex-center text-sm font-semibold py-2 border-2 border-gray-100 rounded-sm"
           />
           {selectedBrs.length > 0 ? (
@@ -178,7 +238,7 @@ const ProjectDetails = ({ slug }: { slug: string }) => {
               loading={removing}
               className="w-1/2.5 sm:w-40"
               style={{ backgroundColor: COLORS.ERROR }}
-              onClick={deleteSelectedBrs}
+              onClick={showDeleteBrAlert}
             >
               <CircleDashIcon fill={COLORS.WHITE} className="w-4 mr-1" />
               {t(

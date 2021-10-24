@@ -1,20 +1,23 @@
 import DeleteProjectAlert from "@components/ui/delete-project-alert";
 import {
-  DeleteProjectMutation,
   DeleteProjectsMutation,
   useDeleteProjectsMutation,
   useProjectsQuery,
 } from "@graphql/project.graphql";
-import { IBuyingRequest, IProject, IProjectBr } from "@graphql/types.graphql";
+import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import { getCompanyId } from "@utils/functions";
 import { findIndex, remove } from "lodash";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useModal } from "src/contexts/modal.context";
+import Swal from "sweetalert2";
 import NoProjects from "../no-projects";
 import ProjectCard from "../projects/project-card";
 import ProjectsHeader from "../projects/projects-header/projects-header";
 
 const Projects: React.FC = () => {
+  const { t } = useTranslation();
+
   const { data, refetch } = useProjectsQuery({
     variables: { companyId: getCompanyId(), offset: getOffset() },
   });
@@ -78,18 +81,8 @@ const Projects: React.FC = () => {
     return findIndex(selectedProjects, (sp) => sp.id === project.id);
   }
 
-  function removeProjectFromBRs(buyingRequests: IProjectBr[]) {
-    buyingRequests.map((br) => {
-      // @TODO Find best way to delete br projectIds here
-      console.log(br);
-    });
-  }
-
   function onDeleteProjects() {
-    const projectIds = selectedProjects.map((sp) => {
-      removeProjectFromBRs(sp.buyingRequests);
-      return sp.id;
-    });
+    const projectIds = selectedProjects.map((sp) => sp.id);
 
     deleteProjects({ variables: { ids: projectIds } });
   }

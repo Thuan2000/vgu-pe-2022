@@ -12,7 +12,7 @@ const BuyingRequestsList: React.FC<IBuyingRequestsListProps> = (props) => {
     variables: { companyId: getCompanyId(), offset: 0 },
   });
   const brs = data?.discoveryBuyingRequestsAndCount.buyingRequests;
-
+  console.log(brs);
   return (
     <div {...props}>
       {brs &&

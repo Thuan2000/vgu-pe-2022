@@ -11,7 +11,7 @@ import TextArea from "@components/ui/storybook/inputs/text-area";
 import DateInput from "@components/ui/storybook/inputs/date-input";
 import Button from "@components/ui/storybook/button";
 import RequestSelector from "@components/ui/requests-selector";
-import { IBuyingRequest, IProject, IProjectBr } from "@graphql/types.graphql";
+import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import { cloneDeep, findIndex, get, remove } from "lodash";
 import Form from "./form";
 import {
@@ -19,7 +19,7 @@ import {
   useCreateProjectMutation,
 } from "@graphql/project.graphql";
 import { getMeData } from "@utils/auth-utils";
-import { trimText } from "@utils/functions";
+import { getObjectIds, trimText } from "@utils/functions";
 import { useModal } from "src/contexts/modal.context";
 import { useRouter } from "next/dist/client/router";
 import { POSTED_REQUEST_VIEWS } from "./posted-requests/posted-requests-nav/prn-constants";
@@ -77,7 +77,6 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
     register,
     handleSubmit,
     setValue,
-    unregister,
     reset,
     formState: { errors },
   } = useForm<CreateProjectFormValues>({
@@ -188,10 +187,7 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
       const filteredUnchecked = selectedBrs.filter(
         (br) => !(br as any).unChecked === true
       );
-      const buyingRequests = filteredUnchecked.map((br) => ({
-        id: parseInt(br.id),
-        cover: br?.gallery?.at(0)?.location,
-      }));
+      const buyingRequests = filteredUnchecked.map((br) => parseInt(br.id));
 
       const { company, user } = getMeData();
       const values = {
@@ -202,6 +198,7 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
         createdById: user?.id,
         companyName: company?.name,
       };
+
       await createProject({ variables: { input: values } });
     }
 
@@ -212,22 +209,17 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
       const filteredUnchecked = filteredAdded.filter(
         (br) => !(br as any).unChecked === true
       );
-
-      const buyingRequests = filteredUnchecked.map((br) => ({
-        id: parseInt(br.id),
-        cover: br?.gallery?.at(0)?.location,
-      }));
+      const oldBrs =
+        initValue?.buyingRequests?.map((br) => parseInt(br?.id)) || [];
+      const buyingRequests = [
+        ...oldBrs,
+        ...filteredUnchecked.map((br) => parseInt(br.id)),
+      ];
 
       addToProject({
         variables: { projectId: parseInt(initValue.id + ""), buyingRequests },
       });
     }
-  }
-
-  function getCurrentBrIds(projectBrs: IProjectBr[]): number[] {
-    const brIds = projectBrs?.map((projectBr) => projectBr.id);
-
-    return brIds;
   }
 
   return (
@@ -292,7 +284,7 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
             handleAlreadyAdded={handleAlreadyAdded}
             onBrSelectionChange={handleBrSelectionChange}
             loading={false}
-            currentBrIds={getCurrentBrIds(initValue?.buyingRequests || [])}
+            currentBrIds={getObjectIds(initValue?.buyingRequests || [])}
             label={t("project-addRequests-label")}
             alreadyAddedMessage={t("brAddedAlready-message")}
             getBrCoverSrc={(br: any) => br?.gallery?.at(0)?.location}
