@@ -6,8 +6,14 @@ fragment BuyingRequestParts on BuyingRequest {
   slug
   productName
   endDate
-  industryId
-  categoryIds
+  industry {
+    id
+    name
+  }
+  categories {
+    id
+    name
+  }
   minBudget
   maxBudget
   minOrder
@@ -17,21 +23,24 @@ fragment BuyingRequestParts on BuyingRequest {
     location
     path
   }
+  createdBy {
+    id
+    firstName
+    lastName
+    email
+  }
+  projects {
+    id
+    name
+  }
   createdAt
   updatedAt
   location
-  commentIds
-  projectIds
-  bidIds
   description
   biddersLimit
   allowedCompany {
     minSupplierExperience
     minSupplierRating
     minSuplierSells
-  }
-  company {
-    id
-    name
   }
 }

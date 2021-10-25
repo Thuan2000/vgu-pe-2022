@@ -100,7 +100,6 @@ const SignupForm = () => {
     <Form className="mt-3" onSubmit={handleSubmit(onSubmit)}>
       <div className="md:flex md:my-3">
         <Input
-          noPrefix
           className="my-3 md:my-0 md:w-96 md:mr-16"
           {...register("firstName")}
           label={t("firstName-label")}
@@ -108,7 +107,6 @@ const SignupForm = () => {
           error={t(errors?.firstName?.message || "")}
         />
         <Input
-          noPrefix
           className="my-3 md:my-0 md:w-96"
           {...register("lastName")}
           label={t("lastName-label")}
@@ -128,7 +126,6 @@ const SignupForm = () => {
         />
         {/* @TODO: OnBlur check if the email is exist */}
         <Input
-          noPrefix
           className="my-3 md:my-0 md:w-96"
           {...register("email")}
           label={t("email-label")}
@@ -138,7 +135,6 @@ const SignupForm = () => {
       </div>
       <div className="md:flex md:my-3">
         <Input
-          noPrefix
           className="my-3 md:my-0 md:w-96 md:mr-16"
           {...register("password")}
           label={t("password-label")}
@@ -147,7 +143,6 @@ const SignupForm = () => {
           error={t(errors?.password?.message || "")}
         />
         <Input
-          noPrefix
           className="my-3 md:my-0 md:w-96"
           {...register("confirmPassword")}
           label={t("confirmPassword-label")}
@@ -158,7 +153,6 @@ const SignupForm = () => {
       </div>
       <div className="md:flex md:my-3">
         <Input
-          noPrefix
           className="my-3 md:my-0 md:w-96 md:mr-16"
           {...register("companyName")}
           label={t("companyName-label")}
@@ -166,7 +160,6 @@ const SignupForm = () => {
           error={t(errors?.companyName?.message || "")}
         />
         <Input
-          noPrefix
           className="my-3 md:my-0 md:w-96"
           {...register("licenseNumber")}
           label={t("licenseNumber-label")}
