@@ -12,7 +12,7 @@
 		"db:seed": "node src/db/seed",
 		"lint": "eslint --fix ./src/**/*.ts",
 		"predev": "npm run codegen",
-		"dev": "cross-env NODE_ENV=development nodemon --watch src -e ts --exec ts-node -r tsconfig-paths/register ./src/server.ts",
+		"dev": "cross-env NODE_ENV=development nodemon --watch src -e ts,graphql,json,env --exec ts-node -r tsconfig-paths/register ./src/server.ts",
 		"prestart": "npm run codegen",
 		"start": "npm-run-all clean lint compile start:server",
 		"start:server": "node ./dist/server.js",
@@ -34,6 +34,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@elastic/elasticsearch": "^7.15.0",
 		"@graphql-tools/load-files": "^6.4.0",
 		"@graphql-tools/merge": "^8.1.2",
 		"apollo-server-express": "^3.3.0",

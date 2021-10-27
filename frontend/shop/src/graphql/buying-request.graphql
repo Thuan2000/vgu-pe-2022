@@ -1,4 +1,4 @@
-#import UserFragment from "./user.fragment.graphql"
+# import UserFragment from "./user.fragment.graphql"
 # import BuyingRequestParts from "./buying-request.fragment.graphql"
 
 query DiscoveryBuyingRequestsAndCount($companyId: Int!, $offset: Int!) {
@@ -8,4 +8,8 @@ query DiscoveryBuyingRequestsAndCount($companyId: Int!, $offset: Int!) {
     }
     totalDataCount
   }
+}
+
+mutation GetBRNameSuggestion($inputName: String!) {
+  getSuggestion(name: $inputName)
 }

@@ -76,19 +76,23 @@ input UpdateBuyingRequestInput {
 	allowedCompany: AllowedCompanyInput
 }
 
+type BuyingRequestsResponse {
+	buyingRequests: [BuyingRequest]!
+	totalDataCount: Int
+}
+
 extend type Mutation {
+	getSuggestion(name: String): [String!]
 	createBuyingRequest(input: CreateBuyingRequestInput): Response!
 	updateBuyingRequest(id: Int!, newValue: UpdateBuyingRequestInput): Response!
 	deleteBuyingRequest(id: Int!): Response!
 	deleteBuyingRequests(ids: [Int!]!): Response!
 }
 
-type BuyingRequestsResponse {
-	buyingRequests: [BuyingRequest]!
-	totalDataCount: Int
-}
-
 extend type Query {
+	bulkData: Response!
+	deleteIndex: Response!
+	createIndex: Response!
 	buyingRequestsAndCount(
 		companyId: Int!
 		offset: Int!

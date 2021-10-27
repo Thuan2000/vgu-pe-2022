@@ -185,6 +185,14 @@ class BuyingRequestController {
 
 		return successResponse();
 	}
+
+	async getSuggestion(inputName: string) {
+		const brs = await BuyingRequest.getSearchSuggestion(inputName);
+
+		const suggestion = brs.map(br => br?._source?.name);
+
+		return suggestion;
+	}
 }
 
 export default BuyingRequestController;
