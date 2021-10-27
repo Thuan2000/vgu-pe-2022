@@ -18,17 +18,12 @@ class App {
 	private app;
 
 	constructor() {
-		this.initRedis();
 		this.initDB();
 		// this.initializeMiddlewares();
 	}
 
 	private initDB() {
 		this.database.connect();
-	}
-
-	private initRedis() {
-		require("./services/redis.service");
 	}
 
 	public async start(): Promise<void> {
