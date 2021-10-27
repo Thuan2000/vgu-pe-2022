@@ -1,8 +1,12 @@
 import BuyingRequestController from "@controllers/buying-request.controller";
+import BuyingRequest from "@models/BuyingRequest";
 
 const buyingRequestController = new BuyingRequestController();
 
 export const Query = {
+	deleteIndex: BuyingRequest.deleteIndex,
+	createIndex: BuyingRequest.createIndex,
+	bulkData: BuyingRequest.bulkInsert,
 	buyingRequestBySlug: (_, { slug }) =>
 		buyingRequestController.getBuyingRequestBySlug(slug),
 	buyingRequest: (_, { id }) => buyingRequestController.getBuyingRequest(id),
@@ -18,6 +22,7 @@ export const Query = {
 };
 
 export const Mutation = {
+	getSuggestion: (_, { name }) => buyingRequestController.getSuggestion(name),
 	createBuyingRequest: (_, { input }) =>
 		buyingRequestController.createBuyingRequest(input),
 	updateBuyingRequest: (_, { id, newValue }) =>
