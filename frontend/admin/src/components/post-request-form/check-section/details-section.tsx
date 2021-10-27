@@ -11,19 +11,20 @@ interface IGeneralSection {
 }
 
 const DetailsSection: React.FC<IGeneralSection> = ({
-  formValues: {
+  formValues,
+  changeSection,
+  hasImage,
+}) => {
+  const {
     categories,
     industry,
-    gallery,
     maxBudget,
     minBudget,
     minOrder,
     productName,
     unit,
-  },
-  changeSection,
-  hasImage,
-}) => {
+  } = formValues || {};
+
   const { t } = useTranslation("form");
 
   return (
@@ -65,7 +66,7 @@ const DetailsSection: React.FC<IGeneralSection> = ({
       </div>
       <div className="mb-5">
         <p className="text-semibold">{t("check-industry-label")}</p>
-        <p className="font-semibold">{industry.name}</p>
+        <p className="font-semibold">{industry?.name}</p>
       </div>
 
       {categories?.length > 0 && (

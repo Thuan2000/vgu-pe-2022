@@ -12,11 +12,12 @@ interface IGeneralSection {
 }
 
 const GeneralSection: React.FC<IGeneralSection> = ({
-  formValues: { location, endDate, name, description },
+  formValues,
   changeSection,
   hasImage,
   images,
 }) => {
+  const { location, endDate, name, description } = formValues || {};
   const { t } = useTranslation("form");
   return (
     <div className="flex">

@@ -12,10 +12,9 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   shadow?: boolean;
   variant?: "normal" | "solid" | "outline";
   prefix?: any;
-  noPrefix?: boolean;
+  transparentPrefix?: boolean;
   suffix?: any;
   numberQueue?: number;
-  noLabel?: boolean;
   noBorder?: boolean;
 }
 const classes = {
@@ -34,7 +33,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
       note,
       name,
       error,
-      noPrefix,
+      transparentPrefix,
       children,
       variant = "normal",
       shadow = false,
@@ -43,7 +42,6 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
       numberQueue,
       prefix,
       suffix,
-      noLabel,
       noBorder,
       ...rest
     },
@@ -64,7 +62,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 
     return (
       <div className={className}>
-        {!noLabel && (
+        {label && (
           <div className="mb-3">
             <label
               htmlFor={name}
@@ -84,9 +82,9 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
             name={name}
             type={type}
             ref={ref}
-            className={`${rootClassName} ${!noPrefix && "pl-8"} ${
-              noBorder && "border-none"
-            }`}
+            className={`${rootClassName} ${
+              (transparentPrefix || prefix) && "pl-8"
+            } ${noBorder && "border-none"}`}
             autoComplete="off"
             autoCorrect="off"
             spellCheck="false"

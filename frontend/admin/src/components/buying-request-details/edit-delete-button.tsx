@@ -4,7 +4,7 @@ import DeleteBrAlert from "@components/ui/delete-br-alert";
 import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
 import { useDeleteBuyingRequestMutation } from "@graphql/buying-request.graphql";
-import { IBuyingRequest, ISingleBuyingRequest } from "@graphql/types.graphql";
+import { IBuyingRequest } from "@graphql/types.graphql";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useModal } from "src/contexts/modal.context";
 
 interface IEditDeleteButtonProps extends React.HTMLAttributes<HTMLDivElement> {
-  br: ISingleBuyingRequest;
+  br: IBuyingRequest;
 }
 
 const EditDeleteButton: React.FC<IEditDeleteButtonProps> = ({

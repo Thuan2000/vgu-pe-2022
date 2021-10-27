@@ -27,10 +27,10 @@ module.exports = {
 				type: Sequelize.STRING
 			},
 			minBudget: {
-				type: Sequelize.INTEGER
+				type: Sequelize.BIGINT
 			},
 			maxBudget: {
-				type: Sequelize.INTEGER
+				type: Sequelize.BIGINT
 			},
 			minOrder: {
 				type: Sequelize.INTEGER
@@ -41,19 +41,10 @@ module.exports = {
 			gallery: {
 				type: Sequelize.JSON
 			},
-			industryId: {
-				type: Sequelize.INTEGER
-			},
-			categoryIds: {
-				type: Sequelize.JSON
-			},
 			allowedCompany: {
 				type: Sequelize.JSON
 			},
 			biddersLimit: {
-				type: Sequelize.INTEGER
-			},
-			companyId: {
 				type: Sequelize.INTEGER
 			},
 			status: {
@@ -65,15 +56,6 @@ module.exports = {
 			},
 			bidIds: {
 				type: Sequelize.JSON
-			},
-			projectIds: {
-				type: Sequelize.JSON
-			},
-			createdById: {
-				type: Sequelize.INTEGER
-			},
-			updatedById: {
-				type: Sequelize.INTEGER
 			},
 			createdAt: {
 				allowNull: false,

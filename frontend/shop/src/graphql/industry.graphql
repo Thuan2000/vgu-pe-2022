@@ -1,0 +1,13 @@
+query Industries {
+  industries {
+    id
+    name
+    label
+    slug
+    description
+    backgroundImage {
+      location
+    }
+    icon
+  }
+}

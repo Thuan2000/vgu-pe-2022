@@ -1,18 +1,28 @@
 import BuyingRequestController from "@controllers/buying-request.controller";
+import BuyingRequest from "@models/BuyingRequest";
 
 const buyingRequestController = new BuyingRequestController();
 
 export const Query = {
+	deleteIndex: BuyingRequest.deleteIndex,
+	createIndex: BuyingRequest.createIndex,
+	bulkData: BuyingRequest.bulkInsert,
 	buyingRequestBySlug: (_, { slug }) =>
 		buyingRequestController.getBuyingRequestBySlug(slug),
 	buyingRequest: (_, { id }) => buyingRequestController.getBuyingRequest(id),
 	buyingRequestsAndCount: (_, { companyId, offset }) =>
 		buyingRequestController.getBuyingRequests(companyId, offset),
 	getBuyingRequestsByIds: (_, { ids }) =>
-		buyingRequestController.getBuyingRequestsByIds(ids)
+		buyingRequestController.getBuyingRequestsByIds(ids),
+	discoveryBuyingRequestsAndCount: (_, { companyId, offset }) =>
+		buyingRequestController.getDiscoveryBuyingRequestsAndCount(
+			companyId,
+			offset
+		)
 };
 
 export const Mutation = {
+	getSuggestion: (_, { name }) => buyingRequestController.getSuggestion(name),
 	createBuyingRequest: (_, { input }) =>
 		buyingRequestController.createBuyingRequest(input),
 	updateBuyingRequest: (_, { id, newValue }) =>

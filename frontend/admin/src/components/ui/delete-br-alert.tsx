@@ -5,13 +5,12 @@ import { useTranslation } from "react-i18next";
 import { useModal } from "src/contexts/modal.context";
 import Alert from "./alert";
 
-interface IDeleteBrAlertProps extends React.HTMLAttributes<HTMLDivElement> {
+interface IDeleteBrAlertProps {
   isLoading: boolean;
   onDeleteClick: () => void;
 }
 
 const DeleteBrAlert: React.FC<IDeleteBrAlertProps> = ({
-  className,
   isLoading,
   onDeleteClick,
 }) => {

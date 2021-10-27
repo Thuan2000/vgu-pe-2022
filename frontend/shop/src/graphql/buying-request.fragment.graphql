@@ -1,6 +1,6 @@
 #import UserFragment from "./user.fragment.graphql"
 
-fragment SingleBuyingRequestParts on SingleBuyingRequest {
+fragment BuyingRequestParts on BuyingRequest {
   id
   name
   slug
@@ -9,15 +9,10 @@ fragment SingleBuyingRequestParts on SingleBuyingRequest {
   industry {
     id
     name
-    slug
-    label
-    description
   }
   categories {
     id
     name
-    label
-    description
   }
   minBudget
   maxBudget
@@ -28,23 +23,24 @@ fragment SingleBuyingRequestParts on SingleBuyingRequest {
     location
     path
   }
+  createdBy {
+    id
+    firstName
+    lastName
+    email
+  }
+  projects {
+    id
+    name
+  }
   createdAt
   updatedAt
   location
-  commentIds
-  projectIds
-  bidIds
   description
   biddersLimit
   allowedCompany {
     minSupplierExperience
     minSupplierRating
     minSuplierSells
-  }
-  createdBy {
-    ...UserFragment
-  }
-  updatedBy {
-    ...UserFragment
   }
 }
