@@ -55,14 +55,10 @@ class ElasticSearch {
 		setTimeout(() => this.createIndex(index), 5000);
 	}
 
-	public static async getSuggestion(index: string, queryOpts) {
+	public static async getSuggestion(index: string, body) {
 		const data = await this.client.search({
 			index,
-			body: {
-				query: {
-					...queryOpts
-				}
-			}
+			body
 		});
 
 		return data;

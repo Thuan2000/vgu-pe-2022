@@ -48,7 +48,7 @@ class UserRepository {
 		user.save();
 
 		// Restoring it
-		return this.authRepo.storeUserToRedis(user);
+		return this.authRepo.getToken(user);
 	}
 }
 

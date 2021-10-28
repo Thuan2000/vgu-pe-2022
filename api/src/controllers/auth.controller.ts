@@ -26,7 +26,7 @@ class AuthController {
 			if (!isPasswordMatch) return errorResponse("WRONG_PASSWORD");
 
 			// Save token to redis
-			const token = this.authRepo.storeUserToRedis(user);
+			const token = this.authRepo.getToken(user);
 
 			// Return payload to frontend
 			return {

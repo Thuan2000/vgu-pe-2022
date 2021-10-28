@@ -1,5 +1,6 @@
 import {
 	ICreateBuyingRequestInput,
+	IFetchBrInput,
 	IUpdateBuyingRequestInput
 } from "@graphql/types";
 import { Op } from "sequelize";
@@ -50,19 +51,29 @@ class BuyingRequestController {
 		return allBuyingRequests;
 	}
 
-	async getDiscoveryBuyingRequestsAndCount(
-		companyId: number,
-		offset: number
-	) {
+	async getDiscoveryBuyingRequestsAndCount(input: IFetchBrInput) {
+		const { companyId, offset, searchValue } = input;
+
+		const ids = searchValue
+			? await BuyingRequest.getMatchSearched(searchValue)
+			: null;
+
 		const { rows, count } = await BuyingRequest.findAndCountAll({
 			offset,
 			limit: BUYING_REQUESTS_GET_LIMIT,
 			where: {
+				...(ids ? { id: ids } : {}),
 				companyId: {
 					[Op.not]: companyId
 				}
 			},
-			include: [Company, Category, Project]
+			include: [
+				Company,
+				Category,
+				Project,
+				Industry,
+				{ model: User, as: "createdBy" }
+			]
 		});
 
 		return {
@@ -187,9 +198,12 @@ class BuyingRequestController {
 	}
 
 	async getSuggestion(inputName: string) {
-		const brs = await BuyingRequest.getSearchSuggestion(inputName);
+		const brs = await BuyingRequest.getNameSearchSuggestion(inputName);
 
-		const suggestion = brs.map(br => br?._source?.name);
+		const suggestion = brs.map(br => ({
+			name: br?._source?.name,
+			highlightedName: br?.highlight?.name[0]
+		}));
 
 		return suggestion;
 	}

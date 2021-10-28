@@ -11,7 +11,7 @@ import styles from "./profile-menu.module.css";
 import { getMeData } from "@utils/auth-utils";
 
 const variants = {
-  hidden: { opacity: 0.5, maxHeight: 0 },
+  hidden: { opacity: 1, maxHeight: 0 },
   visible: { opacity: 1, maxHeight: 500 },
 };
 

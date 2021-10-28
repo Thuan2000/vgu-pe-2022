@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
 import Company from "./Company";
@@ -8,6 +9,27 @@ import Industry from "./Industry";
 import ElasticSearch from "@services/elastic-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
 
+const searchQuery = (inputName: string) => ({
+	bool: {
+		should: [
+			{
+				match: {
+					name: inputName?.toLowerCase()
+				}
+			},
+			{
+				wildcard: {
+					name: `*${inputName?.toLowerCase()}*`
+				}
+			},
+			{
+				fuzzy: {
+					name: inputName?.toLowerCase()
+				}
+			}
+		]
+	}
+});
 class BuyingRequest extends Model {
 	/**
 	 * Helper method for defining associations.
@@ -59,32 +81,39 @@ class BuyingRequest extends Model {
 		}
 	}
 
-	static async getSearchSuggestion(inputName: string) {
-		const inputLength = inputName.length;
-
-		const matchQueryOpts = {
-			match: {
-				name: {
-					query: inputName.toLowerCase(),
-					fuzziness: 1
-				}
-			}
+	static async getMatchSearched(inputName: string) {
+		const queryBody = {
+			_source: ["id"],
+			query: searchQuery(inputName)
 		};
 
-		const wildCardQueryOpts = {
-			wildcard: {
-				name: {
-					value: `${inputName.toLowerCase()}*`
-				}
-			}
-		};
-
-		const suggestion = ElasticSearch.getSuggestion(
+		const suggestion = await ElasticSearch.getSuggestion(
 			BuyingRequest.indexName,
-			inputLength < 6 ? wildCardQueryOpts : matchQueryOpts
+			queryBody
 		);
 
-		return (await suggestion).body?.hits?.hits || [];
+		const ids = suggestion.body?.hits?.hits.map(sug => sug?._source?.id);
+
+		return ids || [];
+	}
+
+	static async getNameSearchSuggestion(inputName: string) {
+		const queryBody = {
+			query: searchQuery(inputName),
+			highlight: {
+				tags_schema: "styled",
+				fields: {
+					name: {}
+				}
+			}
+		};
+
+		const suggestion = await ElasticSearch.getSuggestion(
+			BuyingRequest.indexName,
+			queryBody
+		);
+
+		return suggestion.body?.hits?.hits || [];
 	}
 }
 
