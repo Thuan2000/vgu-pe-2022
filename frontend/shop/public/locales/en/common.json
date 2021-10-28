@@ -23,5 +23,12 @@
   "product-filter-label": "Product",
   "min": "Min",
   "max": "Max",
-  "OPEN_STATUS": "Open"
+  "OPEN_STATUS": "Open",
+  "BUDGET_LABEL": "Budget",
+  "million-suffix": "B",
+  "billion-suffix": "M",
+  "min-order-text": "Minimum Order",
+  "posted-date-text": "Posted At",
+  "contact-button-label": "Contact Them",
+  "bid-button-label": "Bid"
 }

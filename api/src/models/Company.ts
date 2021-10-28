@@ -30,7 +30,7 @@ Company.init(
 	{
 		tableName: "companies",
 		sequelize: Database.stcSequelize,
-		modelName: "Company"
+		modelName: "company"
 	}
 );
 

@@ -7,6 +7,7 @@ import LocationSearch from "@components/ui/buying-requests/filter/location-searc
 import ProductSearch from "@components/ui/buying-requests/filter/product-search";
 import StatusCheckbox from "@components/ui/buying-requests/filter/status-checkbox";
 import Typography from "@components/ui/storybook/typography";
+import UnderDevelopment from "@components/under-development";
 import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
 import { COLORS } from "@utils/colors";
 import { ROUTES } from "@utils/routes";
@@ -14,6 +15,7 @@ import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import useIsPhone from "src/hooks/isPhone.hook";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { token, role } = getAuthCredentials(ctx);
@@ -38,9 +40,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const BuyingRequests: React.FC = () => {
   const { t } = useTranslation();
 
+  const isPhone = useIsPhone();
+
+  if (isPhone)
+    return (
+      <div>
+        <UnderDevelopment />
+      </div>
+    );
+
   return (
     <div className="flex space-x-5 pb-10">
-      <div className="space-y-6 flex-shrink-0">
+      <div className="hidden sm:block space-y-6">
         <div className="flex items-center w-[250px]">
           <FilterIcon fill={COLORS.PRIMARY.DEFAULT} className="mr-4" />
           <Typography text={t("filter-label")} variant="special-heading" />
@@ -53,7 +64,7 @@ const BuyingRequests: React.FC = () => {
         <BudgetRange />
       </div>
 
-      <BuyingRequestsList className="w-full" />
+      <BuyingRequestsList className="w-full space-y-4" />
     </div>
   );
 };
