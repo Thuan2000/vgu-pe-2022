@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 
 // UI
 import Button from "./ui/storybook/button";
-import Input from "./ui/storybook/input";
+import Input from "./ui/storybook/inputs/input";
 import Link from "./ui/link";
 import Checkbox from "./ui/storybook/checkbox";
 import {
@@ -35,7 +35,7 @@ type FormValues = {
   rememberMe?: boolean;
 };
 
-const loginSchema = yup.object({
+const loginSchema = yup.object().shape({
   email: yup
     .string()
     .email("form:email-invalid-error")
@@ -46,7 +46,12 @@ const loginSchema = yup.object({
 const LoginForm = () => {
   const router = useRouter();
   const { query } = router;
-  const [meInfo, { loading: meInfoLoading }] = useMeInfoMutation();
+  const [meInfo, { loading: meInfoLoading }] = useMeInfoMutation({
+    onCompleted: () => {
+      // Redirect to homepage
+      router.replace(ROUTES.HOMEPAGE);
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -68,8 +73,6 @@ const LoginForm = () => {
     if (success) {
       // Set auth cred
       setAuthCredentials(token!, role!);
-      // Redirect to homepage
-      router.replace(ROUTES.HOMEPAGE);
 
       // Fetch the Me data
       const { data } = await meInfo();
@@ -115,6 +118,7 @@ const LoginForm = () => {
             error={t(errors?.email?.message || "")}
           />
           <PasswordInput
+            transparentPrefix
             {...register("password")}
             className="mb-5"
             label={`${t("password-label")}*`}
@@ -127,6 +131,7 @@ const LoginForm = () => {
             loading={loading || meInfoLoading}
             size="small"
             className="w-full"
+            type={"submit"}
           >
             {t("submit")}
           </Button>

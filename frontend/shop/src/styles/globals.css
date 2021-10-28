@@ -127,5 +127,9 @@ body {
   @apply fixed bottom-0;
 }
 
+em[class^="hlt"] {
+  @apply font-semibold not-italic;
+}
+
 @tailwind components;
 @tailwind utilities;

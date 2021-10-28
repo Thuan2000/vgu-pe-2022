@@ -465,7 +465,7 @@ export declare type CreateBuyingRequestMutationFn = Apollo.MutationFunction<Crea
  */
 
 export declare function useCreateBuyingRequestMutation(baseOptions?: Apollo.MutationHookOptions<CreateBuyingRequestMutation, CreateBuyingRequestMutationVariables>): Apollo.MutationTuple<CreateBuyingRequestMutation, Types.Exact<{
-  input?: any;
+  input?: Types.Maybe<Types.CreateBuyingRequestInput> | undefined;
 }>, Apollo.DefaultContext, Apollo.ApolloCache<any>>;
 export declare type CreateBuyingRequestMutationHookResult = ReturnType<typeof useCreateBuyingRequestMutation>;
 export declare type CreateBuyingRequestMutationResult = Apollo.MutationResult<CreateBuyingRequestMutation>;
@@ -493,7 +493,7 @@ export declare type UpdateBuyingRequestMutationFn = Apollo.MutationFunction<Upda
 
 export declare function useUpdateBuyingRequestMutation(baseOptions?: Apollo.MutationHookOptions<UpdateBuyingRequestMutation, UpdateBuyingRequestMutationVariables>): Apollo.MutationTuple<UpdateBuyingRequestMutation, Types.Exact<{
   id: number;
-  newValue?: any;
+  newValue?: Types.Maybe<Types.UpdateBuyingRequestInput> | undefined;
 }>, Apollo.DefaultContext, Apollo.ApolloCache<any>>;
 export declare type UpdateBuyingRequestMutationHookResult = ReturnType<typeof useUpdateBuyingRequestMutation>;
 export declare type UpdateBuyingRequestMutationResult = Apollo.MutationResult<UpdateBuyingRequestMutation>;

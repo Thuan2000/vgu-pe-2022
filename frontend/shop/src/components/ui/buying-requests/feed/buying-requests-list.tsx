@@ -1,6 +1,7 @@
 import { useDiscoveryBuyingRequestsAndCountQuery } from "@graphql/buying-request.graphql";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import { getCompanyId } from "@utils/functions";
+import { useRouter } from "next/dist/client/router";
 import React from "react";
 import BuyingRequestCard from "./buying-request-card";
 
@@ -8,11 +9,14 @@ interface IBuyingRequestsListProps
   extends React.HTMLAttributes<HTMLDivElement> {}
 
 const BuyingRequestsList: React.FC<IBuyingRequestsListProps> = (props) => {
+  const { query } = useRouter();
+
+  const searchValue = query.name;
+
   const { data } = useDiscoveryBuyingRequestsAndCountQuery({
-    variables: { companyId: getCompanyId(), offset: 0 },
+    variables: { input: { companyId: getCompanyId(), offset: 0, searchValue } },
   });
   const brs = data?.discoveryBuyingRequestsAndCount.buyingRequests;
-  console.log(brs);
   return (
     <div {...props}>
       {brs &&
