@@ -190,12 +190,12 @@ const CreateProject: React.FC<ICreateProjectProps> = ({
       const buyingRequests = filteredUnchecked.map((br) => parseInt(br.id));
 
       const { company, user } = getMeData();
-      const values = {
+      const values: any = {
         ...e,
         endDate: endDate.getTime(),
         buyingRequests,
-        companyId: company?.id,
-        createdById: user?.id,
+        companyId: company?.id as number,
+        createdById: user?.id as number,
         companyName: company?.name,
       };
 

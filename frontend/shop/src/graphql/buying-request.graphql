@@ -1,8 +1,8 @@
 # import UserFragment from "./user.fragment.graphql"
 # import BuyingRequestParts from "./buying-request.fragment.graphql"
 
-query DiscoveryBuyingRequestsAndCount($companyId: Int!, $offset: Int!) {
-  discoveryBuyingRequestsAndCount(companyId: $companyId, offset: $offset) {
+query DiscoveryBuyingRequestsAndCount($input: FetchBRInput!) {
+  discoveryBuyingRequestsAndCount(input: $input) {
     buyingRequests {
       ...BuyingRequestParts
     }
@@ -11,5 +11,8 @@ query DiscoveryBuyingRequestsAndCount($companyId: Int!, $offset: Int!) {
 }
 
 mutation GetBRNameSuggestion($inputName: String!) {
-  getSuggestion(name: $inputName)
+  getSuggestion(name: $inputName) {
+    name
+    highlightedName
+  }
 }

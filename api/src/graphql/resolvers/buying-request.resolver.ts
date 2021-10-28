@@ -14,11 +14,8 @@ export const Query = {
 		buyingRequestController.getBuyingRequests(companyId, offset),
 	getBuyingRequestsByIds: (_, { ids }) =>
 		buyingRequestController.getBuyingRequestsByIds(ids),
-	discoveryBuyingRequestsAndCount: (_, { companyId, offset }) =>
-		buyingRequestController.getDiscoveryBuyingRequestsAndCount(
-			companyId,
-			offset
-		)
+	discoveryBuyingRequestsAndCount: (_, { input }) =>
+		buyingRequestController.getDiscoveryBuyingRequestsAndCount(input)
 };
 
 export const Mutation = {
