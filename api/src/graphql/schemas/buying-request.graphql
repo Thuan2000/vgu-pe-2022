@@ -32,7 +32,7 @@ type BuyingRequest {
 	gallery: [File]
 	biddersLimit: Int
 	allowedCompany: AllowedCompany
-	company: Company
+	company: Company!
 }
 
 input CreateBuyingRequestInput {

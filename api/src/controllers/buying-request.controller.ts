@@ -62,10 +62,7 @@ class BuyingRequestController {
 			offset,
 			limit: BUYING_REQUESTS_GET_LIMIT,
 			where: {
-				...(ids ? { id: ids } : {}),
-				companyId: {
-					[Op.not]: companyId
-				}
+				...(ids ? { id: ids } : {})
 			},
 			include: [
 				Company,

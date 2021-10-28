@@ -4,17 +4,17 @@
 #
 
 type Company {
-	id: Int
-	name: String
-	slug: String
-	licenseNumber: String
+	id: Int!
+	name: String!
+	slug: String!
+	licenseNumber: String!
 	description: String
-	approved: Boolean
+	approved: Boolean!
 	# coverImage: String
 	# gallery: String
 	# address: String
 	licenseFiles: [File]
-	ownerId: Int
+	ownerId: Int!
 	# logo: String
 	# settings: String
 

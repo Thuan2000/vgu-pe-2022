@@ -1,3 +1,4 @@
+import { TFunction } from "next-i18next";
 import { getMeData } from "./auth-utils";
 import {
   BILLION,
@@ -100,4 +101,14 @@ export function isString(value: any) {
   if (!value) return false;
 
   return typeof value === "string";
+}
+
+export function getBudgetRange(
+  minBudget: number,
+  maxBudget: number,
+  t: TFunction
+) {
+  return `${formatMoneyAmount(minBudget)} ${t(
+    getSuffix(minBudget)
+  )} - ${formatMoneyAmount(maxBudget)} ${t(getSuffix(maxBudget))}`;
 }
