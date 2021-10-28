@@ -37,6 +37,7 @@ module.exports = {
       },
       boxShadow: {
         top: "0 0 10px rgba(0,0,0,.3)",
+        "top-sm": "0px 0px 10px rgba(0,0,0,.18)",
       },
       colors: {
         error: "#FF3346",
@@ -76,6 +77,7 @@ module.exports = {
           200: "#B0BDC6",
           300: "#82868C",
           400: "#555F6F",
+          500: "#9A9A9A",
         },
         semibold: "#15114E",
         red: {

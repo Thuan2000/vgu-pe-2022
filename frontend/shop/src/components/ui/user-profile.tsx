@@ -10,6 +10,8 @@ import Button from "./storybook/button";
 const UserProfile = () => {
   const { t } = useTranslation("common");
   const { user, company } = getMeData();
+  const adminLink = process.env.NEXT_PUBLIC_ADMIN_URL;
+  console.log(adminLink);
 
   return (
     <div className="flex-center">
@@ -30,7 +32,7 @@ const UserProfile = () => {
         </div>
       ) : (
         <div>
-          <Link href={`/admin/${company?.slug}/post-request`}>
+          <Link href={`${adminLink}/post-request`}>
             <Button size="small">{t("post-request-link-button-label")}</Button>
           </Link>
         </div>
