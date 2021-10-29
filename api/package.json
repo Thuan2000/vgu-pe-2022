@@ -19,6 +19,7 @@
 		"type-check:watch": "tsc -w --pretty --skipLibCheck --noEmit",
 		"start:dev": "npm-run-all clean compile:dev start:server",
 		"watch": "cross-env NODE_ENV=development nodemon --watch src -e ts,graphql,json,env --exec npm run start:dev",
+		"predev": "npm run codegen",
 		"dev": "npm run --silent watch & npm run type-check:watch",
 		"prestart": "npm run codegen",
 		"start": "npm-run-all clean lint compile start:server",
