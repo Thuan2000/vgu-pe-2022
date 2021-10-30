@@ -7,7 +7,7 @@
 		"emitDecoratorMetadata": true,
 		"outDir": "dist",
 		"module": "commonJs",
-		"target": "es6",
+		"target": "es2020",
 		"allowJs": true,
 		"moduleResolution": "node",
 		"paths": {

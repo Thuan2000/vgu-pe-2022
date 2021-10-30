@@ -7,24 +7,35 @@
 
 ### Packages
 
--   typescript
--   sequelize
--   graphql
--   apollo server
+-   typescript (typesafety)
+-   sequelize (ORM)
+-   graphql, apollo server (Frontend - Backend bridge)
+-   Graphql codegen (Generate schema into types, such as interface)
+-   swc (For faster dev compilation)
+-   Elasticsearch
 
 ### Files Info
 
 -   migrations is on /src/db/migrations/\*
 -   seeders is on /src/db/seeders/\*
+-   all graphql related is on /src/graphql/\*
+-   /Repositories, is bunch of reusable functions for certain things
+-   /Resolver, to call controller
+-   /Controller, to handle function and do logic
 
 ### Installation
 
 ```
   git clone https://github.com/emolyze/sdconnect
   cd sdconnect/api
-  yarn db:migrate
-  yarn db:seed
   cp env.example .env
   yarn
+  yarn db:migrate
+  yarn db:seed
   yarn dev
 ```
+
+### NOTES
+
+-   Please run elasticsearch on docker https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html
+-   Please make sure to sinchronyze tsconfic.json and .swcrc
