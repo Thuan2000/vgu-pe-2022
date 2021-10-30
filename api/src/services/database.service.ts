@@ -18,7 +18,8 @@ function getDatabaseConnectionConfig(): Options {
 			database: process.env.DEV_DB_DATABASE,
 			port: parseInt(process.env.DEV_DB_PORT),
 			username: process.env.DEV_DB_USERNAME,
-			password: process.env.DEV_DB_PASSWORD
+			password: process.env.DEV_DB_PASSWORD,
+			logging: false
 		};
 	} else {
 		return {
