@@ -38,4 +38,5 @@
 ### NOTES
 
 -   Please run elasticsearch on docker https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html
+-   And set the auth https://www.elastic.co/guide/en/elasticsearch/reference/7.15/security-minimal-setup.html
 -   Please make sure to sinchronyze tsconfic.json and .swcrc
