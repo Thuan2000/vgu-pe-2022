@@ -7,11 +7,12 @@ interface Props {
   text?: string;
   showText?: boolean;
   simple?: boolean;
+  spinnerOnly?: boolean;
 }
 
 const Loader = (props: Props) => {
   const { t } = useTranslation();
-  const { className, showText = true, text = "text-loading", simple } = props;
+  const { className, showText = true, text, simple, spinnerOnly } = props;
   return (
     <>
       {simple ? (
@@ -22,14 +23,12 @@ const Loader = (props: Props) => {
             "w-full flex flex-col items-center justify-center",
             className
           )}
-          style={{ height: "calc(100vh - 200px)" }}
+          style={!spinnerOnly ? { height: "calc(100vh - 200px)" } : {}}
         >
           <div className={styles.loading} />
 
-          {showText && (
-            <h3 className="text-lg font-semibold text-body italic">
-              {t(text)}
-            </h3>
+          {!spinnerOnly && showText && (
+            <h3 className="text-lg font-semibold text-body italic">{text}</h3>
           )}
         </div>
       )}
