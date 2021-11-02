@@ -1,8 +1,10 @@
+import { IBrStatus } from "@graphql/types.graphql";
+
 interface IBrQueryParams {
   companyId: number;
   offset: number;
   industryId?: number;
-  status?: string;
+  status?: IBrStatus;
   minBudget?: string;
   maxBudget?: string;
   productName?: string;

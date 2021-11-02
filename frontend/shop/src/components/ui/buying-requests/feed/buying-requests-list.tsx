@@ -1,5 +1,5 @@
 import { useDiscoveryBuyingRequestsAndCountQuery } from "@graphql/buying-request.graphql";
-import { IBuyingRequest } from "@graphql/types.graphql";
+import { IBrStatus, IBuyingRequest } from "@graphql/types.graphql";
 import { getCompanyId } from "@utils/functions";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
@@ -16,7 +16,7 @@ const BuyingRequestsList: React.FC<IBuyingRequestsListProps> = (props) => {
   const location = query.location as string;
   const productName = query.productName as string;
   const industryId = parseInt(query.industry + "");
-  const status = query.status as any;
+  const status = query.status as IBrStatus;
   const minBudget = query.minBudget as string;
   const maxBudget = query.maxBudget as string;
 
@@ -31,7 +31,7 @@ const BuyingRequestsList: React.FC<IBuyingRequestsListProps> = (props) => {
       productName,
       location,
       searchValue,
-    })
+    }) as any
   );
   const brs = data?.discoveryBuyingRequestsAndCount.buyingRequests;
   return (
