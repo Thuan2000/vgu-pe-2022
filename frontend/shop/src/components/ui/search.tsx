@@ -11,31 +11,6 @@ import { INameSuggestion } from "@graphql/types.graphql";
 
 const TYPING_TIMEOUT = 350;
 
-function getBoldedString(suggestion: string, input: string) {
-  const splittedInput = new Set(input);
-
-  const splittedSuggestion = suggestion.split("");
-  const highlighted = new Set();
-
-  console.log(splittedInput);
-
-  return (
-    <>
-      {splittedSuggestion.map((letter, idx) => {
-        const isMatch = splittedInput.has(letter) && !highlighted.has(letter);
-
-        if (isMatch) highlighted.add(letter);
-
-        return (
-          <span className={`${!isMatch && "font-semibold"}`} key={letter + idx}>
-            {letter}
-          </span>
-        );
-      })}
-    </>
-  );
-}
-
 const Search = ({
   className,
   ...props

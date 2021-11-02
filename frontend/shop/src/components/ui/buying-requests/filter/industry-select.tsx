@@ -1,10 +1,11 @@
+import React, { useState, useEffect } from "react";
+
 import { useIndustriesQuery } from "@graphql/industry.graphql";
 import { useTranslation } from "next-i18next";
-import React from "react";
-import { useForm } from "react-hook-form";
-import SelectInput from "@storybook/inputs/select-input";
-import Typography from "@storybook/typography";
 import { IIndustry } from "@graphql/types.graphql";
+import Select from "@components/ui/storybook/inputs/select";
+import FilterLabel from "./filter-label";
+import { useRouter } from "next/dist/client/router";
 
 interface IIndustrySelectProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -13,24 +14,38 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
   ...props
 }) => {
   const { t } = useTranslation();
-  const { control } = useForm();
+  const [value, setValue] = useState<IIndustry>();
+
+  const { query, ...router } = useRouter();
+  const industryFilter = query.industry;
+
+  useEffect(() => {
+    const { pathname } = router;
+
+    router.push({
+      pathname,
+      query: { ...query, industry: (value as IIndustry)?.id },
+    });
+  }, [value]);
+
+  function handleChange(e: IIndustry | unknown) {
+    setValue(e as IIndustry);
+  }
 
   const { data } = useIndustriesQuery();
   const industries = data?.industries;
 
   return (
     <div {...props}>
-      <Typography
-        text={t("industry-filter-label")}
-        variant="smallTitle"
-        className="mb-4"
-      />
-      <SelectInput
+      <FilterLabel text={t("industry-filter-label")} />
+      <Select
         options={industries || []}
         name="industry"
-        control={control}
-        getOptionValue={(option: IIndustry) => option?.name}
-        getOptionLabel={(option: IIndustry) => option?.name}
+        isClearable
+        getInitialValue={(opt: IIndustry) => opt.slug === industryFilter}
+        onChange={handleChange}
+        getOptionValue={((option: IIndustry) => option?.name) as any}
+        getOptionLabel={((option: IIndustry) => option?.name) as any}
       />
     </div>
   );

@@ -11,7 +11,6 @@ const UserProfile = () => {
   const { t } = useTranslation("common");
   const { user, company } = getMeData();
   const adminLink = process.env.NEXT_PUBLIC_ADMIN_URL;
-  console.log(adminLink);
 
   return (
     <div className="flex-center">

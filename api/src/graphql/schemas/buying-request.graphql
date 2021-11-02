@@ -4,6 +4,12 @@ type AllowedCompany {
 	minSuplierSells: Float
 }
 
+enum BRStatus {
+	OPEN
+	CLOSE
+	ALL
+}
+
 input AllowedCompanyInput {
 	minSupplierExperience: Float
 	minSupplierRating: Float
@@ -90,6 +96,13 @@ input FetchBRInput {
 	companyId: Int!
 	offset: Int!
 	searchValue: String
+	productName: String
+	categories: [Int]
+	location: String
+	status: BRStatus
+	industryId: Int
+	minBudget: Date
+	maxBudget: Date
 }
 
 extend type Mutation {
