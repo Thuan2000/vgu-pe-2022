@@ -17,7 +17,7 @@ interface INumInputProps extends Partial<NumberFormatProps> {
   shadow?: boolean;
   label?: string;
   error?: string;
-  onChange?: (e: number) => void;
+  onChange?: (e: any) => void;
 }
 
 interface INumberInputProps extends INumInputProps {
