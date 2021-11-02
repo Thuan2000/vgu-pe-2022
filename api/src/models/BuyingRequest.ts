@@ -9,27 +9,6 @@ import Industry from "./Industry";
 import ElasticSearch from "@services/elastic-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
 
-const searchQuery = (inputName: string) => ({
-	bool: {
-		should: [
-			{
-				match: {
-					name: inputName?.toLowerCase()
-				}
-			},
-			{
-				wildcard: {
-					name: `*${inputName?.toLowerCase()}*`
-				}
-			},
-			{
-				fuzzy: {
-					name: inputName?.toLowerCase()
-				}
-			}
-		]
-	}
-});
 class BuyingRequest extends Model {
 	/**
 	 * Helper method for defining associations.
@@ -81,33 +60,23 @@ class BuyingRequest extends Model {
 		}
 	}
 
-	static async getMatchSearched(inputName: string) {
-		const queryBody = {
-			_source: ["id"],
-			query: searchQuery(inputName)
-		};
-
+	/**
+	 *
+	 * @param queryBody ElasticSearch Query Body
+	 * @returns [BuyingRequestIds]
+	 */
+	static async getMatchSearched(queryBody) {
 		const suggestion = await ElasticSearch.getSuggestion(
 			BuyingRequest.indexName,
 			queryBody
 		);
-
+		const idCount = suggestion?.body?.hits?.total?.value;
 		const ids = suggestion.body?.hits?.hits.map(sug => sug?._source?.id);
 
-		return ids || [];
+		return { idCount, ids } || { idCount: 0, ids: [] };
 	}
 
-	static async getNameSearchSuggestion(inputName: string) {
-		const queryBody = {
-			query: searchQuery(inputName),
-			highlight: {
-				tags_schema: "styled",
-				fields: {
-					name: {}
-				}
-			}
-		};
-
+	static async getNameSearchSuggestion(queryBody) {
 		const suggestion = await ElasticSearch.getSuggestion(
 			BuyingRequest.indexName,
 			queryBody

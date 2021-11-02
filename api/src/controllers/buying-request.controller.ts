@@ -19,6 +19,7 @@ import Industry from "../models/Industry";
 import Company from "@models/Company";
 import Project from "@models/Project";
 import {
+	searchQuery,
 	setBrGallery,
 	setProductName
 } from "@repositories/buying-request.repository";
@@ -51,7 +52,7 @@ class BuyingRequestController {
 		return allBuyingRequests;
 	}
 
-	async getDiscoveryBuyingRequestsAndCount(input: IFetchBrInput) {
+	async getDiscoveryBuyingRequests(input: IFetchBrInput) {
 		const {
 			offset,
 			searchValue,
@@ -60,16 +61,25 @@ class BuyingRequestController {
 			minBudget,
 			maxBudget,
 			// productName,
-			status
+			status,
+			limit
 		} = input;
 
-		const ids = searchValue
-			? await BuyingRequest.getMatchSearched(searchValue)
-			: null;
+		const queryBody = {
+			_source: ["id"],
+			query: searchQuery(searchValue),
+			size: limit,
+			from: offset
+		};
 
-		const { rows, count } = await BuyingRequest.findAndCountAll({
-			offset,
-			limit: BUYING_REQUESTS_GET_LIMIT,
+		const { idCount, ids } = searchValue
+			? await BuyingRequest.getMatchSearched(queryBody)
+			: { idCount: null, ids: null };
+
+		const { rows: data, count } = await BuyingRequest.findAndCountAll({
+			...(!searchValue ? { offset } : {}),
+			...(!searchValue ? { limit } : {}),
+			distinct: true,
 			where: {
 				...(ids ? { id: ids } : {}),
 				...(minBudget
@@ -100,8 +110,8 @@ class BuyingRequestController {
 		});
 
 		return {
-			buyingRequests: rows,
-			totalDataCount: count
+			data,
+			totalDataCount: idCount || count
 		};
 	}
 
@@ -220,8 +230,19 @@ class BuyingRequestController {
 		return successResponse();
 	}
 
-	async getSuggestion(inputName: string) {
-		const brs = await BuyingRequest.getNameSearchSuggestion(inputName);
+	async getSuggestion(inputName: string, limit: number) {
+		const queryBody = {
+			query: searchQuery(inputName),
+			highlight: {
+				// eslint-disable-next-line @typescript-eslint/camelcase
+				tags_schema: "styled",
+				fields: {
+					name: {}
+				}
+			},
+			size: limit
+		};
+		const brs = await BuyingRequest.getNameSearchSuggestion(queryBody);
 
 		const suggestion = brs.map(br => ({
 			name: br?._source?.name,
