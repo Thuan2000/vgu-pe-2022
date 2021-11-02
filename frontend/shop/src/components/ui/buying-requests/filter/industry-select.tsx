@@ -14,22 +14,28 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
   ...props
 }) => {
   const { t } = useTranslation();
-  const [value, setValue] = useState<IIndustry>();
 
   const { query, ...router } = useRouter();
-  const industryFilter = query.industry;
+  const industryFilter = query.industry as string;
+  const [value, setValue] = useState<IIndustry | string>(industryFilter);
 
   useEffect(() => {
     function setQuery() {
+      if (typeof value === "string") return;
+      if (!value) delete query.industry;
+
       const { pathname } = router;
 
       router.push({
         pathname,
-        query: { ...query, industry: (value as IIndustry)?.id },
+        query: {
+          ...query,
+          ...(value ? { industry: (value as IIndustry)?.slug } : {}),
+        },
       });
     }
 
-    if (value && typeof value !== "string") setQuery();
+    setQuery();
   }, [value]);
 
   function handleChange(e: IIndustry | unknown) {
@@ -38,17 +44,18 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
 
   const { data } = useIndustriesQuery();
   const industries = data?.industries;
-
   return (
     <div {...props}>
       <FilterLabel text={t("industry-filter-label")} />
       <Select
         options={industries || []}
-        name="industry"
+        name="industryFilter"
         isClearable
+        value={value}
         getInitialValue={(opt: IIndustry) => opt.slug === industryFilter}
+        placeholder={t("industryFilter-placeholder")}
         onChange={handleChange}
-        getOptionValue={((option: IIndustry) => option?.name) as any}
+        getOptionValue={((option: IIndustry) => option?.slug) as any}
         getOptionLabel={((option: IIndustry) => option?.name) as any}
       />
     </div>
