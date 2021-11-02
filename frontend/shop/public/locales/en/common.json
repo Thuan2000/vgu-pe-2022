@@ -31,5 +31,6 @@
   "min-order-text": "Minimum Order",
   "posted-date-text": "Posted At",
   "contact-button-label": "Contact Them",
-  "bid-button-label": "Bid"
+  "bid-button-label": "Bid",
+  "CLOSE_STATUS": "Closed"
 }

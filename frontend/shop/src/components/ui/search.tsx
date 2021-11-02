@@ -8,9 +8,10 @@ import { useRouter } from "next/dist/client/router";
 import Form from "@components/form";
 import { useTranslation } from "next-i18next";
 import { INameSuggestion } from "@graphql/types.graphql";
+import XIcon from "@assets/icons/x-icon";
 
 const TYPING_TIMEOUT = 350;
-const MAX_SUGGESTIONS = 7;
+const MAX_SUGGESTIONS = 5;
 
 const Search = ({
   className,
@@ -18,7 +19,6 @@ const Search = ({
 }: React.HTMLAttributes<HTMLDivElement>) => {
   const [getSuggestion] = useGetBrNameSuggestionMutation();
   const [suggestions, setSuggestions] = useState<INameSuggestion[]>([]);
-  const [inputValue, setInputValue] = useState<string>("");
   const [isShowSuggestion, setIsShowSuggestion] = useState(false);
   const [focusedSuggestion, setFocusedSuggestion] = useState(-1);
   const wrapperRef = useRef(null);
@@ -26,6 +26,9 @@ const Search = ({
 
   const { pathname, query, ...router } = useRouter();
 
+  const [inputValue, setInputValue] = useState<string>(
+    (query?.name as string) || ""
+  );
   /**
    * Handling suggestions fetch
    */
@@ -38,7 +41,12 @@ const Search = ({
 
       timeout = setTimeout(async () => {
         const { data } =
-          (await getSuggestion({ variables: { inputName: inputValue } })) || {};
+          (await getSuggestion({
+            variables: {
+              inputName: inputValue,
+              limit: MAX_SUGGESTIONS,
+            },
+          })) || {};
 
         setSuggestions((data?.getSuggestion as any) || []);
       }, TYPING_TIMEOUT);
@@ -68,10 +76,17 @@ const Search = ({
    *
    * @param input Search value
    */
-  function redirectWithParam(input?: string) {
+  function redirectWithParam(input?: string, isClearing?: boolean) {
+    const isSearching = !!(input || inputValue);
+    console.log(isSearching, isClearing);
+    if (!isSearching || isClearing) delete query.name;
+
     router.replace({
       pathname,
-      query: { ...query, name: input || inputValue },
+      query: {
+        ...query,
+        ...(isSearching && !isClearing ? { name: input || inputValue } : {}),
+      },
     });
   }
 
@@ -79,8 +94,14 @@ const Search = ({
     redirectWithParam(inputValue);
   }
 
+  function clearSearch() {
+    setInputValue("");
+    redirectWithParam("", true);
+  }
+
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     setInputValue(e.target.value);
+    setFocusedSuggestion(-1);
 
     if (!e.target.value) hideSuggestion();
     else if (!isShowSuggestion) showSuggestion();
@@ -121,7 +142,9 @@ const Search = ({
 
     // Selecting suggestion
     if (e.key === "ArrowUp") {
-      setFocusedSuggestion((old) => Math.max(--old, -1));
+      setFocusedSuggestion(
+        (old) => (old - 1 + MAX_SUGGESTIONS) % MAX_SUGGESTIONS
+      );
       if (!isShowSuggestion) showSuggestion();
     }
   }
@@ -148,7 +171,7 @@ const Search = ({
             <p className="text-paragraph text-dark-blue">{t("Suppliers")}</p>
             <ArrowDownIcon className="ml-3" />
           </button>
-          <div className="relative">
+          <div className="relative ">
             <Input
               noBorder
               value={inputValue}
@@ -157,6 +180,13 @@ const Search = ({
               onChange={handleInputChange}
               className="border-none sm:w-[350px]"
             />
+
+            {inputValue && (
+              <XIcon
+                className="absolute right-5 top-1/2 -translate-y-1/2 w-3 h-3 cursor-pointer"
+                onClick={clearSearch}
+              />
+            )}
           </div>
           <button className="flex-center border-l-2 sm:w-[45px] sm:h-[45px] border-l-green rounded-sm">
             <SearchIcon />
@@ -170,9 +200,7 @@ const Search = ({
                 <p
                   onClick={() => handleSelectedInput(sug.name)}
                   className={`px-4 py-3 border-b border-primary z-[99999] cursor-pointer 
-                    ${
-                      focusedSuggestion === idx && "bg-gray-10 border-dark-blue"
-                    }
+                    ${focusedSuggestion === idx && "bg-gray-10"}
                   `}
                   key={sug.highlightedName + "suggestion-key" + idx}
                   dangerouslySetInnerHTML={{

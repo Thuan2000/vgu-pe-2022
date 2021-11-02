@@ -24,7 +24,7 @@ const LocationSearch: React.FC<ILocationSearchProps> = ({ ...props }) => {
       });
     }
 
-    if (typeof value !== "string") setQuery();
+    if (value && typeof value !== "string") setQuery();
   }, [value]);
 
   function handleChange(e: IVietnamCity | unknown) {

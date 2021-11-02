@@ -20,12 +20,16 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
   const industryFilter = query.industry;
 
   useEffect(() => {
-    const { pathname } = router;
+    function setQuery() {
+      const { pathname } = router;
 
-    router.push({
-      pathname,
-      query: { ...query, industry: (value as IIndustry)?.id },
-    });
+      router.push({
+        pathname,
+        query: { ...query, industry: (value as IIndustry)?.id },
+      });
+    }
+
+    if (value && typeof value !== "string") setQuery();
   }, [value]);
 
   function handleChange(e: IIndustry | unknown) {

@@ -1,8 +1,8 @@
 import { IBrStatus } from "@graphql/types.graphql";
 
 interface IBrQueryParams {
-  companyId: number;
   offset: number;
+  limit: number;
   industryId?: number;
   status?: IBrStatus;
   minBudget?: string;
@@ -13,8 +13,8 @@ interface IBrQueryParams {
 }
 
 export const brQueryParams = ({
-  companyId,
   offset,
+  limit,
   industryId,
   status,
   minBudget,
@@ -26,7 +26,6 @@ export const brQueryParams = ({
   return {
     variables: {
       input: {
-        companyId,
         offset,
         industryId,
         status,
@@ -35,6 +34,7 @@ export const brQueryParams = ({
         productName,
         location,
         searchValue,
+        limit,
       },
     },
   };

@@ -19,9 +19,9 @@ const NavbarBottom = () => {
         <button>
           <SaveIcon className="mx-4" />
         </button>
-        <Link href={ROUTES.NOTIFICATIONS} passHref>
+        {/* <Link href={ROUTES.NOTIFICATIONS} passHref>
           <NotificationIcon />
-        </Link>
+        </Link> */}
       </div>
 
       {/* User Profile */}

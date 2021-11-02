@@ -41,7 +41,22 @@ function createApolloClient() {
   const apolloClient = new ApolloClient({
     ssrMode: typeof window === "undefined",
     link,
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            discoveryBuyingRequests: {
+              keyArgs: false,
+              merge(existing, incoming) {
+                return existing
+                  ? { ...existing, data: [...existing.data, ...incoming.data] }
+                  : incoming;
+              },
+            },
+          },
+        },
+      },
+    }),
   });
 
   return apolloClient;

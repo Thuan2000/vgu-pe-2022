@@ -14,12 +14,13 @@ export const Query = {
 		buyingRequestController.getBuyingRequests(companyId, offset),
 	getBuyingRequestsByIds: (_, { ids }) =>
 		buyingRequestController.getBuyingRequestsByIds(ids),
-	discoveryBuyingRequestsAndCount: (_, { input }) =>
-		buyingRequestController.getDiscoveryBuyingRequestsAndCount(input)
+	discoveryBuyingRequests: (_, { input }) =>
+		buyingRequestController.getDiscoveryBuyingRequests(input)
 };
 
 export const Mutation = {
-	getSuggestion: (_, { name }) => buyingRequestController.getSuggestion(name),
+	getSuggestion: (_, { name, limit }) =>
+		buyingRequestController.getSuggestion(name, limit),
 	createBuyingRequest: (_, { input }) =>
 		buyingRequestController.createBuyingRequest(input),
 	updateBuyingRequest: (_, { id, newValue }) =>

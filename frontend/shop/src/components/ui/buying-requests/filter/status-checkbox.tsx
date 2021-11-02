@@ -35,7 +35,7 @@ const StatusCheckbox: React.FC<IStatusProps> = ({ ...props }) => {
       });
     }
 
-    setQuery();
+    // setQuery();
   }, [isOpenFilter, isCloseFilter]);
 
   function handleOpenChange(e: React.ChangeEvent<HTMLInputElement>) {

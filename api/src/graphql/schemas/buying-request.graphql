@@ -83,7 +83,7 @@ input UpdateBuyingRequestInput {
 }
 
 type BuyingRequestsResponse {
-	buyingRequests: [BuyingRequest]!
+	data: [BuyingRequest]!
 	totalDataCount: Int
 }
 
@@ -93,8 +93,8 @@ type NameSuggestion {
 }
 
 input FetchBRInput {
-	companyId: Int!
 	offset: Int!
+	limit: Int!
 	searchValue: String
 	productName: String
 	categories: [Int]
@@ -106,7 +106,7 @@ input FetchBRInput {
 }
 
 extend type Mutation {
-	getSuggestion(name: String): [NameSuggestion!]
+	getSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	createBuyingRequest(input: CreateBuyingRequestInput): Response!
 	updateBuyingRequest(id: Int!, newValue: UpdateBuyingRequestInput): Response!
 	deleteBuyingRequest(id: Int!): Response!
@@ -122,9 +122,7 @@ extend type Query {
 		offset: Int!
 	): BuyingRequestsResponse!
 	buyingRequest(id: Int!): BuyingRequest!
-	discoveryBuyingRequestsAndCount(
-		input: FetchBRInput!
-	): BuyingRequestsResponse!
+	discoveryBuyingRequests(input: FetchBRInput!): BuyingRequestsResponse!
 	buyingRequestBySlug(slug: String!): BuyingRequest!
 	getBuyingRequestsByIds(ids: [Int]!): [BuyingRequest]!
 }
