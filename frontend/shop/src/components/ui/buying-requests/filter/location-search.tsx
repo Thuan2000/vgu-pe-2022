@@ -5,26 +5,32 @@ import Select from "@components/ui/storybook/inputs/select";
 import FilterLabel from "./filter-label";
 import { useRouter } from "next/dist/client/router";
 
-interface ILocationSearchProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const LocationSearch: React.FC<ILocationSearchProps> = ({ ...props }) => {
+const LocationSearch: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  ...props
+}) => {
   const { t } = useTranslation();
   const { query, ...router } = useRouter();
 
-  const [value, setValue] = useState<IVietnamCity>();
+  const locationFilter = query.location as string;
 
-  const locationFilter = query.location;
+  const [value, setValue] = useState<IVietnamCity | string>(locationFilter);
 
   useEffect(() => {
     function setQuery() {
+      if (typeof value === "string") return;
+      if (!value) delete query.location;
+
       const { pathname } = router;
-      router.push({
+      router.replace({
         pathname,
-        query: { ...query, location: (value as IVietnamCity)?.name },
+        query: {
+          ...query,
+          ...(value ? { location: (value as IVietnamCity)?.name } : {}),
+        },
       });
     }
 
-    if (value && typeof value !== "string") setQuery();
+    setQuery();
   }, [value]);
 
   function handleChange(e: IVietnamCity | unknown) {
@@ -36,11 +42,13 @@ const LocationSearch: React.FC<ILocationSearchProps> = ({ ...props }) => {
       <FilterLabel text={t("location-filter-label")} />
       <Select
         options={vietnamCities}
+        name="locationFilter"
         isClearable
-        getInitialValue={(opt) => opt.slug === locationFilter}
-        value={value || locationFilter}
+        getInitialValue={(opt) => opt.name === locationFilter}
+        value={value}
         onChange={handleChange}
-        isSearchable
+        placeholder={t("locationFilter-placeholder")}
+        isSearchable={true}
         getOptionLabel={((opt: IVietnamCity) => opt.name) as any}
         getOptionValue={((opt: IVietnamCity) => opt.name) as any}
       />
