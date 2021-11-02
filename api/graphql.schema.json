@@ -1541,22 +1541,6 @@
             "deprecationReason": null
           },
           {
-            "name": "companyId",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "industryId",
             "description": null,
             "type": {

@@ -1,15 +1,15 @@
 import { NetworkStatus } from "@apollo/client";
-import Button from "@components/ui/storybook/button";
 import { useDiscoveryBuyingRequestsQuery } from "@graphql/buying-request.graphql";
 import { IBrStatus, IBuyingRequest } from "@graphql/types.graphql";
-import { getCompanyId } from "@utils/functions";
+import useInfiniteScroll from "react-infinite-scroll-hook";
 
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
 import { brQueryParams } from "../query";
 import BuyingRequestCard from "./buying-request-card";
+import Loader from "@components/ui/storybook/loader/loader";
 
-const BRS_LIMIT = 2;
+const BRS_LIMIT = 4;
 
 function getOffset(page: number) {
   return page * BRS_LIMIT;
@@ -30,7 +30,7 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
 
   const [page, setPage] = useState<number>(0);
 
-  const { data, fetchMore, refetch, networkStatus } =
+  const { data, fetchMore, loading, refetch, error, networkStatus } =
     useDiscoveryBuyingRequestsQuery(
       brQueryParams({
         offset: getOffset(page),
@@ -47,6 +47,20 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
 
   const brs = data?.discoveryBuyingRequests.data;
   const dataCount = data?.discoveryBuyingRequests.totalDataCount as number;
+  const hasMore = (brs?.length as number) < dataCount;
+  const fetching = loading || networkStatus === NetworkStatus.fetchMore;
+
+  function onLoadMore() {
+    setPage((old) => old + 1);
+  }
+
+  const [sentryRef] = useInfiniteScroll({
+    loading: networkStatus === NetworkStatus.fetchMore,
+    onLoadMore,
+    disabled: !!error,
+    hasNextPage: hasMore,
+    rootMargin: "0px 0px 200px 0px",
+  });
 
   useEffect(() => {
     function getMoreBrs() {
@@ -57,7 +71,6 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
         }) as any,
       });
     }
-
     if (page > 0) getMoreBrs();
   }, [page]);
 
@@ -97,13 +110,11 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
             />
           );
         })}
-      {(brs?.length as number) < dataCount && (
-        <Button
-          loading={networkStatus === NetworkStatus.fetchMore}
-          onClick={() => setPage((old) => ++old)}
-        >
-          Fetch More
-        </Button>
+
+      {(fetching || hasMore) && (
+        <div ref={sentryRef} className="pt-2">
+          <Loader spinnerOnly className="mt-4" />
+        </div>
       )}
     </div>
   );
