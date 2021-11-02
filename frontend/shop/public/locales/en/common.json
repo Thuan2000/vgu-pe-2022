@@ -21,6 +21,7 @@
   "filter-status-close-filter": "Close",
   "industry-filter-label": "Industry",
   "product-filter-label": "Product",
+  "budgetRange-filter-label": "Product",
   "min": "Min",
   "max": "Max",
   "OPEN_STATUS": "Open",

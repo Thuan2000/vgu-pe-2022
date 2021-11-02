@@ -52,7 +52,16 @@ class BuyingRequestController {
 	}
 
 	async getDiscoveryBuyingRequestsAndCount(input: IFetchBrInput) {
-		const { companyId, offset, searchValue } = input;
+		const {
+			offset,
+			searchValue,
+			industryId,
+			location,
+			minBudget,
+			maxBudget,
+			// productName,
+			status
+		} = input;
 
 		const ids = searchValue
 			? await BuyingRequest.getMatchSearched(searchValue)
@@ -62,7 +71,24 @@ class BuyingRequestController {
 			offset,
 			limit: BUYING_REQUESTS_GET_LIMIT,
 			where: {
-				...(ids ? { id: ids } : {})
+				...(ids ? { id: ids } : {}),
+				...(minBudget
+					? {
+							minBudget: {
+								[Op.gte]: minBudget
+							}
+					  }
+					: {}),
+				...(maxBudget
+					? {
+							maxBudget: {
+								[Op.lte]: maxBudget
+							}
+					  }
+					: {}),
+				...(status && status !== "ALL" ? { status } : {}),
+				...(industryId ? { industryId } : {}),
+				...(location ? { location } : {})
 			},
 			include: [
 				Company,
