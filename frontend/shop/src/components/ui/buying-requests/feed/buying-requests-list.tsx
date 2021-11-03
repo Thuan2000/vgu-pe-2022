@@ -9,7 +9,7 @@ import { brQueryParams } from "../query";
 import BuyingRequestCard from "./buying-request-card";
 import Loader from "@components/ui/storybook/loader/loader";
 
-const BRS_LIMIT = 4;
+const BRS_LIMIT = 2;
 
 function getOffset(page: number) {
   return page * BRS_LIMIT;
@@ -46,14 +46,13 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
     );
 
   const brs = data?.discoveryBuyingRequests.data;
-  const dataCount = data?.discoveryBuyingRequests.totalDataCount as number;
-  const hasMore = (brs?.length as number) < dataCount;
+  const pagination = data?.discoveryBuyingRequests.pagination;
+  const hasMore = pagination?.hasMore || false;
   const fetching = loading || networkStatus === NetworkStatus.fetchMore;
 
   function onLoadMore() {
-    setPage((old) => old + 1);
+    if (hasMore) setPage((old) => old + 1);
   }
-
   const [sentryRef] = useInfiniteScroll({
     loading: networkStatus === NetworkStatus.fetchMore,
     onLoadMore,
@@ -110,7 +109,7 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
             />
           );
         })}
-
+      {pagination?.hasMore && "MAN"}
       {(fetching || hasMore) && (
         <div ref={sentryRef} className="pt-2">
           <Loader spinnerOnly className="mt-4" />

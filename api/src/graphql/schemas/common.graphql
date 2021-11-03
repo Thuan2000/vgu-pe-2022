@@ -10,6 +10,11 @@ enum ROLE {
 	GUESS
 }
 
+type Pagination {
+	dataCount: Int!
+	hasMore: Boolean!
+}
+
 type Response {
 	message: String
 	success: Boolean

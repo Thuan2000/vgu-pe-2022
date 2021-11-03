@@ -1,12 +1,15 @@
 # import UserFragment from "./user.fragment.graphql"
 # import BuyingRequestParts from "./buying-request.fragment.graphql"
+# import PaginationParts from "./pagination.fragment.graphql"
 
 query DiscoveryBuyingRequests($input: FetchBRInput!) {
   discoveryBuyingRequests(input: $input) {
     data {
       ...BuyingRequestParts
     }
-    totalDataCount
+    pagination {
+      ...PaginationParts
+    }
   }
 }
 

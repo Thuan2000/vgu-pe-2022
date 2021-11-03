@@ -51,7 +51,7 @@ class BuyingRequestController {
 
 		return allBuyingRequests;
 	}
-
+	data = 0;
 	async getDiscoveryBuyingRequests(input: IFetchBrInput) {
 		const {
 			offset,
@@ -67,9 +67,7 @@ class BuyingRequestController {
 
 		const queryBody = {
 			_source: ["id"],
-			query: searchQuery(searchValue),
-			size: limit,
-			from: offset
+			query: searchQuery(searchValue)
 		};
 
 		const { idCount, ids } = searchValue
@@ -109,9 +107,14 @@ class BuyingRequestController {
 			]
 		});
 
+		const hasMore = offset + data.length < count && data.length === limit;
+
 		return {
 			data,
-			totalDataCount: idCount || count
+			pagination: {
+				dataCount: count,
+				hasMore
+			}
 		};
 	}
 

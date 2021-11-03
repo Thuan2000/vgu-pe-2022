@@ -49,7 +49,7 @@ class BuyingRequest extends Model {
 		try {
 			const buyingRequests = await BuyingRequest.findAll({
 				raw: true,
-				attributes: ["id", "name", "productName"]
+				attributes: ["id", "name", "productName", "description"]
 			});
 			ElasticSearch.insertBulk(BuyingRequest.indexName, buyingRequests);
 
