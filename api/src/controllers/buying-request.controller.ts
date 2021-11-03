@@ -98,11 +98,17 @@ class BuyingRequestController {
 				...(industryId ? { industryId } : {}),
 				...(location ? { location } : {})
 			},
-			order: [
-				Sequelize.fn("FIELD", Sequelize.col("buyingRequest.id"), [
-					...ids
-				])
-			],
+			...(ids
+				? {
+						order: [
+							Sequelize.fn(
+								"FIELD",
+								Sequelize.col("buyingRequest.id"),
+								[...ids]
+							)
+						]
+				  }
+				: {}),
 			include: [
 				Company,
 				Category,

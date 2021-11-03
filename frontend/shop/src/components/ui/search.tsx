@@ -9,6 +9,7 @@ import Form from "@components/form";
 import { useTranslation } from "next-i18next";
 import { INameSuggestion } from "@graphql/types.graphql";
 import XIcon from "@assets/icons/x-icon";
+import Button from "./storybook/button";
 
 const TYPING_TIMEOUT = 350;
 const MAX_SUGGESTIONS = 5;
@@ -21,7 +22,6 @@ const Search = ({
   const [suggestions, setSuggestions] = useState<INameSuggestion[]>([]);
   const [isShowSuggestion, setIsShowSuggestion] = useState(false);
   const [focusedSuggestion, setFocusedSuggestion] = useState(-1);
-  const wrapperRef = useRef(null);
   const { t } = useTranslation();
 
   const { pathname, query, ...router } = useRouter();
@@ -70,7 +70,7 @@ const Search = ({
   useEffect(() => {
     document.addEventListener("click", hideSuggestion);
     return () => document.removeEventListener("click", hideSuggestion);
-  }, [wrapperRef]);
+  }, []);
 
   /**
    *
@@ -155,21 +155,20 @@ const Search = ({
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      ref={wrapperRef}
       className={`relative ${className}`}
       {...props}
     >
       <Form onSubmit={handleSearch}>
         <div className={`flex items-center rounded-md border border-green `}>
-          <button
-            style={{ height: "45px", width: "166px" }}
+          <Button
             type="button"
+            variant="custom"
             onClick={hideSuggestion}
-            className="flex-center border-r-2"
+            className="!h-9 flex-center rounded-none border-r border-primary w-[125px]"
           >
             <p className="text-paragraph text-dark-blue">{t("Suppliers")}</p>
             <ArrowDownIcon className="ml-3" />
-          </button>
+          </Button>
           <div className="relative ">
             <Input
               noBorder
@@ -177,7 +176,7 @@ const Search = ({
               onKeyDown={handleKeyDown}
               onFocus={handleInputFocus}
               onChange={handleInputChange}
-              className="border-none sm:w-[350px]"
+              inputClassName="border-none sm:w-[350px] !h-9"
             />
 
             {inputValue && (
@@ -187,11 +186,16 @@ const Search = ({
               />
             )}
           </div>
-          <button className="flex-center border-l-2 sm:w-[45px] sm:h-[45px] border-l-green rounded-sm">
+          <Button
+            type="button"
+            variant="custom"
+            onClick={handleSearch}
+            className="!h-9 flex-center px-2 border-l border-primary rounded-none"
+          >
             <SearchIcon />
-          </button>
+          </Button>
         </div>
-        <div className="bg-white left-[166px] right-0 absolute border-r border-l border-primary rounded-b-lg overflow-hidden z-[9999]">
+        <div className="bg-white left-[125px] right-0 absolute border-r border-l border-primary rounded-b-lg overflow-hidden z-[9999]">
           {isShowSuggestion &&
             suggestions &&
             suggestions.slice(0, MAX_SUGGESTIONS).map((sug, idx) => {
