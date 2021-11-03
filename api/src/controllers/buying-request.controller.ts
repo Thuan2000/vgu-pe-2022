@@ -3,7 +3,7 @@ import {
 	IFetchBrInput,
 	IUpdateBuyingRequestInput
 } from "@graphql/types";
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import BuyingRequest from "@models/BuyingRequest";
 import User from "@models/User";
 import { uploadImages } from "@repositories/uploads.repository";
@@ -98,6 +98,11 @@ class BuyingRequestController {
 				...(industryId ? { industryId } : {}),
 				...(location ? { location } : {})
 			},
+			order: [
+				Sequelize.fn("FIELD", Sequelize.col("buyingRequest.id"), [
+					...ids
+				])
+			],
 			include: [
 				Company,
 				Category,

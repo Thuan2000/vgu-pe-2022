@@ -78,7 +78,6 @@ const Search = ({
    */
   function redirectWithParam(input?: string, isClearing?: boolean) {
     const isSearching = !!(input || inputValue);
-    console.log(isSearching, isClearing);
     if (!isSearching || isClearing) delete query.name;
 
     router.replace({
