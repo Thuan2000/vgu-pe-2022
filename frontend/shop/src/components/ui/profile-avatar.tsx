@@ -13,7 +13,7 @@ const ProfileAvatar = () => {
       onClick={() => setShowMenu(true)}
       onMouseLeave={() => setShowMenu(false)}
     >
-      <button className="border h-11 w-11 center-child rounded-md ml-4">
+      <button className="border h-9 w-9 center-child rounded-md ml-4">
         <AvatarIcon />
       </button>
       {showMenu && <ProfileMenu className="absolute right-0" />}

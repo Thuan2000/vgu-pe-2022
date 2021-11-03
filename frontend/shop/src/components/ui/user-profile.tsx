@@ -11,7 +11,6 @@ const UserProfile = () => {
   const { t } = useTranslation("common");
   const { user, company } = getMeData();
   const adminLink = process.env.NEXT_PUBLIC_ADMIN_URL;
-  console.log(adminLink);
 
   return (
     <div className="flex-center">
@@ -33,7 +32,9 @@ const UserProfile = () => {
       ) : (
         <div>
           <Link href={`${adminLink}/post-request`}>
-            <Button size="small">{t("post-request-link-button-label")}</Button>
+            <Button className="!h-9" size="small">
+              {t("post-request-link-button-label")}
+            </Button>
           </Link>
         </div>
       )}

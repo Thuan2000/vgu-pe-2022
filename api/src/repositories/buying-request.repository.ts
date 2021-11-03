@@ -39,3 +39,25 @@ export function setBrGallery(data: Promise<unknown>[], br: BuyingRequest) {
 		});
 	});
 }
+
+export const searchQuery = (inputName: string) => ({
+	bool: {
+		should: [
+			{
+				match: {
+					name: inputName?.toLowerCase()
+				}
+			},
+			{
+				wildcard: {
+					name: `*${inputName?.toLowerCase()}*`
+				}
+			},
+			{
+				fuzzy: {
+					name: inputName?.toLowerCase()
+				}
+			}
+		]
+	}
+});

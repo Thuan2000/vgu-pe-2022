@@ -3,7 +3,7 @@ import {
 	IFetchBrInput,
 	IUpdateBuyingRequestInput
 } from "@graphql/types";
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import BuyingRequest from "@models/BuyingRequest";
 import User from "@models/User";
 import { uploadImages } from "@repositories/uploads.repository";
@@ -19,6 +19,7 @@ import Industry from "../models/Industry";
 import Company from "@models/Company";
 import Project from "@models/Project";
 import {
+	searchQuery,
 	setBrGallery,
 	setProductName
 } from "@repositories/buying-request.repository";
@@ -50,20 +51,64 @@ class BuyingRequestController {
 
 		return allBuyingRequests;
 	}
-
-	async getDiscoveryBuyingRequestsAndCount(input: IFetchBrInput) {
-		const { companyId, offset, searchValue } = input;
-
-		const ids = searchValue
-			? await BuyingRequest.getMatchSearched(searchValue)
-			: null;
-
-		const { rows, count } = await BuyingRequest.findAndCountAll({
+	data = 0;
+	async getDiscoveryBuyingRequests(input: IFetchBrInput) {
+		const {
 			offset,
-			limit: BUYING_REQUESTS_GET_LIMIT,
+			searchValue,
+			industryId,
+			location,
+			minBudget,
+			maxBudget,
+			// productName,
+			status,
+			limit
+		} = input;
+
+		const queryBody = {
+			_source: ["id"],
+			query: searchQuery(searchValue)
+		};
+
+		const { idCount, ids } = searchValue
+			? await BuyingRequest.getMatchSearched(queryBody)
+			: { idCount: null, ids: null };
+
+		const { rows: data, count } = await BuyingRequest.findAndCountAll({
+			...(!searchValue ? { offset } : {}),
+			...(!searchValue ? { limit } : {}),
+			distinct: true,
 			where: {
-				...(ids ? { id: ids } : {})
+				...(ids ? { id: ids } : {}),
+				...(minBudget
+					? {
+							minBudget: {
+								[Op.gte]: minBudget
+							}
+					  }
+					: {}),
+				...(maxBudget
+					? {
+							maxBudget: {
+								[Op.lte]: maxBudget
+							}
+					  }
+					: {}),
+				...(status && status !== "ALL" ? { status } : {}),
+				...(industryId ? { industryId } : {}),
+				...(location ? { location } : {})
 			},
+			...(ids
+				? {
+						order: [
+							Sequelize.fn(
+								"FIELD",
+								Sequelize.col("buyingRequest.id"),
+								[...ids]
+							)
+						]
+				  }
+				: {}),
 			include: [
 				Company,
 				Category,
@@ -73,9 +118,14 @@ class BuyingRequestController {
 			]
 		});
 
+		const hasMore = offset + data.length < count && data.length === limit;
+
 		return {
-			buyingRequests: rows,
-			totalDataCount: count
+			data,
+			pagination: {
+				dataCount: count,
+				hasMore
+			}
 		};
 	}
 
@@ -194,8 +244,19 @@ class BuyingRequestController {
 		return successResponse();
 	}
 
-	async getSuggestion(inputName: string) {
-		const brs = await BuyingRequest.getNameSearchSuggestion(inputName);
+	async getSuggestion(inputName: string, limit: number) {
+		const queryBody = {
+			query: searchQuery(inputName),
+			highlight: {
+				// eslint-disable-next-line @typescript-eslint/camelcase
+				tags_schema: "styled",
+				fields: {
+					name: {}
+				}
+			},
+			size: limit
+		};
+		const brs = await BuyingRequest.getNameSearchSuggestion(queryBody);
 
 		const suggestion = brs.map(br => ({
 			name: br?._source?.name,

@@ -19,7 +19,8 @@
 		"predev": "npm-run-all clean codegen",
 		"dev": "npm run --silent dev:watch & (sleep 4 && npm run nodemon)",
 		"prestart": "npm run codegen",
-		"start": "npm-run-all clean lint prod:compile start:server",
+		"build": "npm-run-all clean lint prod:compile",
+		"start": "npm-run-all build start:server",
 		"prod:compile": "tsc && tsc-alias --silent",
 		"postprod:compile": "tsc-alias --silent && npm run copyschemas",
 		"start:server": "node ./dist/server.js",
@@ -30,7 +31,7 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "npm run lint",
+			"pre-commit": "npm run build",
 			"...": "..."
 		}
 	},

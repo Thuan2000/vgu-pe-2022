@@ -5,7 +5,8 @@ import BudgetRange from "@components/ui/buying-requests/filter/budget-range";
 import IndustrySelect from "@components/ui/buying-requests/filter/industry-select";
 import LocationSearch from "@components/ui/buying-requests/filter/location-search";
 import ProductSearch from "@components/ui/buying-requests/filter/product-search";
-import StatusCheckbox from "@components/ui/buying-requests/filter/status-checkbox";
+import SideFilter from "@components/ui/buying-requests/filter/side-filter";
+import StatusCheckbox from "@components/ui/buying-requests/filter/status-selector";
 import Typography from "@components/ui/storybook/typography";
 import UnderDevelopment from "@components/under-development";
 import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
@@ -38,8 +39,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const BuyingRequests: React.FC = () => {
-  const { t } = useTranslation();
-
   const isPhone = useIsPhone();
 
   if (isPhone)
@@ -50,21 +49,14 @@ const BuyingRequests: React.FC = () => {
     );
 
   return (
-    <div className="flex space-x-5 pb-10">
-      <div className="hidden sm:block space-y-6">
-        <div className="flex items-center w-[250px]">
-          <FilterIcon fill={COLORS.PRIMARY.DEFAULT} className="mr-4" />
-          <Typography text={t("filter-label")} variant="special-heading" />
-        </div>
-        <LocationSearch />
-        <StatusCheckbox />
-        {/* <EndDateCheckbox /> */}
-        <ProductSearch />
-        <IndustrySelect />
-        <BudgetRange />
+    <div className="flex relative pb-10">
+      <div className="fixed ">
+        <SideFilter />
       </div>
-
-      <BuyingRequestsList className="w-full space-y-4" />
+      <div className="invisible mr-4">
+        <SideFilter />
+      </div>
+      <BuyingRequestsList className="mt-4 w-full space-y-4" />
     </div>
   );
 };

@@ -4,6 +4,12 @@ type AllowedCompany {
 	minSuplierSells: Float
 }
 
+enum BRStatus {
+	OPEN
+	CLOSE
+	ALL
+}
+
 input AllowedCompanyInput {
 	minSupplierExperience: Float
 	minSupplierRating: Float
@@ -77,8 +83,8 @@ input UpdateBuyingRequestInput {
 }
 
 type BuyingRequestsResponse {
-	buyingRequests: [BuyingRequest]!
-	totalDataCount: Int
+	data: [BuyingRequest]!
+	pagination: Pagination!
 }
 
 type NameSuggestion {
@@ -87,13 +93,20 @@ type NameSuggestion {
 }
 
 input FetchBRInput {
-	companyId: Int!
 	offset: Int!
+	limit: Int!
 	searchValue: String
+	productName: String
+	categories: [Int]
+	location: String
+	status: BRStatus
+	industryId: Int
+	minBudget: Date
+	maxBudget: Date
 }
 
 extend type Mutation {
-	getSuggestion(name: String): [NameSuggestion!]
+	getSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	createBuyingRequest(input: CreateBuyingRequestInput): Response!
 	updateBuyingRequest(id: Int!, newValue: UpdateBuyingRequestInput): Response!
 	deleteBuyingRequest(id: Int!): Response!
@@ -109,9 +122,7 @@ extend type Query {
 		offset: Int!
 	): BuyingRequestsResponse!
 	buyingRequest(id: Int!): BuyingRequest!
-	discoveryBuyingRequestsAndCount(
-		input: FetchBRInput!
-	): BuyingRequestsResponse!
+	discoveryBuyingRequests(input: FetchBRInput!): BuyingRequestsResponse!
 	buyingRequestBySlug(slug: String!): BuyingRequest!
 	getBuyingRequestsByIds(ids: [Int]!): [BuyingRequest]!
 }

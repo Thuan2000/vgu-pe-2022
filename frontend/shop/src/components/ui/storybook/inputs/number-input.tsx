@@ -1,20 +1,23 @@
 import React, { useEffect } from "react";
 import { Control, Controller } from "react-hook-form";
-import NumberFormat, { NumberFormatProps } from "react-number-format";
+import NumberFormat, {
+  NumberFormatProps,
+  NumberFormatValues,
+} from "react-number-format";
 import cn from "classnames";
 
 import { inputClasses } from "./input-config";
 import InputLabel from "./input-label";
 
-interface INumInputProps extends NumberFormatProps {
+interface INumInputProps extends Partial<NumberFormatProps> {
   numberQueue?: number | string;
   queueBackground?: string;
   note?: string;
-  name: string;
   variant?: "normal" | "solid" | "outline";
   shadow?: boolean;
   label?: string;
   error?: string;
+  onChange?: (e: any) => void;
 }
 
 interface INumberInputProps extends INumInputProps {
@@ -55,7 +58,7 @@ const NumberInput: React.FC<INumberInputProps> = ({
     />
   );
 };
-const NumInput: React.FC<INumInputProps> = React.forwardRef(
+export const NumInput: React.FC<INumInputProps> = React.forwardRef(
   (
     {
       numberQueue,
@@ -69,8 +72,7 @@ const NumInput: React.FC<INumInputProps> = React.forwardRef(
       name,
       variant = "normal",
       shadow = false,
-      className,
-      inputClassName,
+      className: inputClassName,
       ...props
     },
     ref
@@ -92,8 +94,8 @@ const NumInput: React.FC<INumInputProps> = React.forwardRef(
     const thousandSeparator = ".";
     const decimalSeparator = ",";
 
-    function handleChange(e: any) {
-      if (onChange) onChange(e.floatValue);
+    function handleChange(e: NumberFormatValues) {
+      if (onChange) onChange(e.floatValue as any);
     }
 
     useEffect(() => {

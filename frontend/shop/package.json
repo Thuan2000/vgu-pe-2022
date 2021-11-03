@@ -10,6 +10,12 @@
     "lint": "next lint",
     "type:codegen": "graphql-codegen --config codegen.yml"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build",
+      "...": "..."
+    }
+  },
   "dependencies": {
     "@apollo/client": "^3.4.11",
     "@babel/core": "^7.15.5",
@@ -32,6 +38,7 @@
     "react-dom": "17.0.2",
     "react-dropzone": "^11.4.0",
     "react-hook-form": "^7.15.3",
+    "react-infinite-scroll-hook": "^4.0.1",
     "react-number-format": "^4.7.3",
     "react-phone-number-input": "^3.1.27",
     "react-select": "^5.1.0",
@@ -59,6 +66,7 @@
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "graphql-let": "^0.18.5",
+    "husky": "^7.0.4",
     "next-i18next": "^8.8.0",
     "postcss": "^8.3.6",
     "tailwindcss": "^2.2.15",

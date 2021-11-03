@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import Typography from "./typography";
 
 interface IChipProps extends React.HTMLAttributes<HTMLDivElement> {
   background: "primary" | "secondary-1";
@@ -29,7 +30,7 @@ const Chip: React.FC<IChipProps> = ({
 
   return (
     <div className={className} {...props}>
-      <h6 className="md:text-xs text-white">{text}</h6>
+      <Typography className="!text-xs text-white" text={text} />
     </div>
   );
 };
