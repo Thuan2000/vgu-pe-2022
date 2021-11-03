@@ -32,7 +32,9 @@ const UserProfile = () => {
       ) : (
         <div>
           <Link href={`${adminLink}/post-request`}>
-            <Button size="small">{t("post-request-link-button-label")}</Button>
+            <Button className="!h-9" size="small">
+              {t("post-request-link-button-label")}
+            </Button>
           </Link>
         </div>
       )}

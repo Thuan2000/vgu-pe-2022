@@ -14,9 +14,9 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
 }
 
 const classesNames = {
-  question: "text-gray-200 text-md",
-  smallTitle: "text-md font-semibold text-dark-blue",
-  date: "text-md font-semibold text-secondary-1",
+  question: "text-gray-200",
+  smallTitle: "font-semibold text-dark-blue",
+  date: "font-semibold text-secondary-1",
   description: "text-sm text-gray-400",
   ["special-heading"]: "font-semibold text-xl text-dark-blue",
 };
@@ -25,7 +25,7 @@ const Typography: React.FC<ITypographyProps> = ({
   className: inputClassname,
   text,
   variant,
-  size = "md",
+  size = "sm",
   element: Element = "p",
   ...props
 }) => {

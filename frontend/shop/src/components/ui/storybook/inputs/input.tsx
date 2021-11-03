@@ -43,7 +43,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     );
 
     return (
-      <div className={className}>
+      <div>
         {label && (
           <InputLabel
             numberQueue={numberQueue}

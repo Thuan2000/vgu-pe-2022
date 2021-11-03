@@ -16,7 +16,11 @@ const SideFilter: React.FC = () => {
     <div className="hidden sm:block space-y-4 bg-white p-2 min-h-[100vh]">
       <div className="flex items-center w-[250px]">
         <FilterIcon fill={COLORS.PRIMARY.DEFAULT} className="mr-4" />
-        <Typography text={t("filter-label")} variant="special-heading" />
+        <Typography
+          className="text-lg"
+          text={t("filter-label")}
+          variant="special-heading"
+        />
       </div>
       <StatusCheckbox />
       <LocationSearch />

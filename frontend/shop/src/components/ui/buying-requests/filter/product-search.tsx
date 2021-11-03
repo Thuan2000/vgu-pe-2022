@@ -10,8 +10,8 @@ const ProductSearch: React.FC<IProductSearchProps> = (props) => {
 
   return (
     <div {...props}>
-      <FilterLabel text={t("product-filter-label")} />
-      <SearchInput />
+      <FilterLabel text={t("productName-filter-label")} />
+      <SearchInput placeholder={t("productName-filter-placeholder")} />
     </div>
   );
 };
