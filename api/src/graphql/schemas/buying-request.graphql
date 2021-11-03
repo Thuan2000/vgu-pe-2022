@@ -84,7 +84,7 @@ input UpdateBuyingRequestInput {
 
 type BuyingRequestsResponse {
 	data: [BuyingRequest]!
-	totalDataCount: Int
+	pagination: Pagination!
 }
 
 type NameSuggestion {

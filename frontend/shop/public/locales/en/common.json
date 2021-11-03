@@ -34,5 +34,8 @@
   "bid-button-label": "Bid",
   "CLOSE_STATUS": "Closed",
   "locationFilter-placeholder": "New York",
-  "industryFilter-placeholder": "Technology"
+  "industryFilter-placeholder": "Technology",
+  "statusClose-filter": "Close",
+  "statusOpen-filter": "Open",
+  "statusAll-filter": "All"
 }

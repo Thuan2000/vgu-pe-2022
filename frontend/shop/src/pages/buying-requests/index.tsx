@@ -6,7 +6,7 @@ import IndustrySelect from "@components/ui/buying-requests/filter/industry-selec
 import LocationSearch from "@components/ui/buying-requests/filter/location-search";
 import ProductSearch from "@components/ui/buying-requests/filter/product-search";
 import SideFilter from "@components/ui/buying-requests/filter/side-filter";
-import StatusCheckbox from "@components/ui/buying-requests/filter/status-checkbox";
+import StatusCheckbox from "@components/ui/buying-requests/filter/status-selector";
 import Typography from "@components/ui/storybook/typography";
 import UnderDevelopment from "@components/under-development";
 import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";

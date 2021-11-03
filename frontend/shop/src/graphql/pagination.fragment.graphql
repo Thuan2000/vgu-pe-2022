@@ -1,0 +1,4 @@
+fragment PaginationParts on Pagination {
+  dataCount
+  hasMore
+}

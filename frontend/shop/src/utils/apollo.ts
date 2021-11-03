@@ -49,7 +49,7 @@ function createApolloClient() {
               keyArgs: false,
               merge(existing, incoming) {
                 return existing
-                  ? { ...existing, data: [...existing.data, ...incoming.data] }
+                  ? { ...incoming, data: [...existing.data, ...incoming.data] }
                   : incoming;
               },
             },

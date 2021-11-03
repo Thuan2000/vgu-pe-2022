@@ -7,7 +7,7 @@ import BudgetRange from "./budget-range";
 import IndustrySelect from "./industry-select";
 import LocationSearch from "./location-search";
 import ProductSearch from "./product-search";
-import StatusCheckbox from "./status-checkbox";
+import StatusCheckbox from "./status-selector";
 
 const SideFilter: React.FC = () => {
   const { t } = useTranslation();
@@ -18,8 +18,8 @@ const SideFilter: React.FC = () => {
         <FilterIcon fill={COLORS.PRIMARY.DEFAULT} className="mr-4" />
         <Typography text={t("filter-label")} variant="special-heading" />
       </div>
-      <LocationSearch />
       <StatusCheckbox />
+      <LocationSearch />
       {/* <EndDateCheckbox /> */}
       <ProductSearch />
       <IndustrySelect />
