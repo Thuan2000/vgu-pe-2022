@@ -35,10 +35,11 @@ type BuyingRequest {
 	createdAt: Date!
 	updatedAt: Date!
 	unit: String!
-	gallery: [File]
-	biddersLimit: Int
+	gallery: [File!]
 	allowedCompany: AllowedCompany
 	company: Company!
+	bids: [Bid!]
+	lastOpened: Date!
 }
 
 input CreateBuyingRequestInput {
@@ -50,14 +51,13 @@ input CreateBuyingRequestInput {
 	minBudget: Date!
 	maxBudget: Date!
 	minOrder: Int!
-	gallery: [Upload]
+	gallery: [Upload!]
 	unit: String!
 	industryId: Int!
 	categoryIds: [Int!]!
 	companyId: Int!
 	companyName: String!
 	createdById: Int!
-	biddersLimit: Int
 	allowedCompany: AllowedCompanyInput
 }
 
@@ -78,7 +78,6 @@ input UpdateBuyingRequestInput {
 	companyId: Int!
 	companyName: String!
 	updatedById: Int!
-	biddersLimit: Int
 	allowedCompany: AllowedCompanyInput
 }
 
@@ -93,6 +92,7 @@ type NameSuggestion {
 }
 
 input FetchBRInput {
+	companyId: Int
 	offset: Int!
 	limit: Int!
 	searchValue: String

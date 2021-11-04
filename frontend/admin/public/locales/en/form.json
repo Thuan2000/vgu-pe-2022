@@ -112,6 +112,5 @@
   "post-request-name-is-required-error": "Please fill in request name",
   "post-request-location-is-required-error": "Please select delivery location",
   "check-industry-label": "Industry",
-  "bidders-text": "Bidders",
-  "check-biddersLimit-label": "Bidders Limit"
+  "bidders-text": "Bidders"
 }

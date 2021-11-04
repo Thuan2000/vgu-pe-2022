@@ -56,7 +56,6 @@ export type DetailsFormValue = {
 
 export type AdditionalFormValue = {
   allowedCompany?: AllowedCompany[];
-  biddersLimit?: number;
 };
 
 export type AllowedCompany =

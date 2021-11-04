@@ -38,5 +38,6 @@ Bid.init(
 
 Bid.belongsTo(BuyingRequest);
 Bid.belongsTo(Company);
+BuyingRequest.hasMany(Bid, { as: "bids" });
 
 export default Bid;

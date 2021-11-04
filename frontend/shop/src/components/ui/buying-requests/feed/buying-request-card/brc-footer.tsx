@@ -7,12 +7,14 @@ interface IBrcActionsProps extends React.HTMLAttributes<HTMLDivElement> {
   handleMessageClick: () => void;
   handleBidClick: () => void;
   handleContactClick: () => void;
+  isBidded: boolean;
 }
 
 const BrcFooter: React.FC<IBrcActionsProps> = ({
   handleMessageClick,
   handleBidClick,
   handleContactClick,
+  isBidded,
   className,
   ...props
 }) => {
@@ -34,8 +36,10 @@ const BrcFooter: React.FC<IBrcActionsProps> = ({
       <Button
         onClick={handleBidClick}
         size="small"
+        disabled={isBidded}
         variant="outline"
-        className="text-primary"
+        title={isBidded ? "You have bid this" : ""}
+        className={`${!isBidded ? "text-primary" : "hidden"}`}
       >
         {t("bid-button-label")}
       </Button>

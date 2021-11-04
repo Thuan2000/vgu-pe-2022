@@ -41,10 +41,16 @@ fragment BuyingRequestParts on BuyingRequest {
   updatedAt
   location
   description
-  biddersLimit
   allowedCompany {
     minSupplierExperience
     minSupplierRating
     minSuplierSells
+  }
+  bids {
+    id
+    createdAt
+    company {
+      id
+    }
   }
 }

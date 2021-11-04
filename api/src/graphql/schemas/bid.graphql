@@ -1,10 +1,13 @@
 type Bid {
+	id: Int!
 	budget: Date!
 	deliveryDate: Date!
 	buyingRequest: BuyingRequest!
 	company: Company!
 	createdBy: User!
 	message: String
+	companyId: Int
+	createdAt: Date!
 }
 
 input CreateBidInput {

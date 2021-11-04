@@ -37,10 +37,14 @@ fragment BuyingRequestParts on BuyingRequest {
   updatedAt
   location
   description
-  biddersLimit
   allowedCompany {
     minSupplierExperience
     minSupplierRating
     minSuplierSells
   }
+  bids {
+    id
+    createdAt
+  }
+  lastOpened
 }

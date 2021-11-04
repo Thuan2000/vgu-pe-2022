@@ -1,4 +1,5 @@
 import { IBrStatus } from "@graphql/types.graphql";
+import { getCompanyId } from "@utils/functions";
 
 interface IBrQueryParams {
   offset: number;
@@ -26,6 +27,7 @@ export const brQueryParams = ({
   return {
     variables: {
       input: {
+        companyId: getCompanyId(),
         offset,
         industryId,
         status,

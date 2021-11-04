@@ -93,7 +93,6 @@ function getDefaultValue(initValue?: IBuyingRequest) {
     industry,
     categories,
     allowedCompany,
-    biddersLimit,
   } = initValue;
 
   const data: PostRequestFormValue = {
@@ -115,7 +114,6 @@ function getDefaultValue(initValue?: IBuyingRequest) {
     },
     additional: {
       allowedCompany: getAllowedCompanyInArray(allowedCompany),
-      biddersLimit: biddersLimit as number,
     },
   };
 
