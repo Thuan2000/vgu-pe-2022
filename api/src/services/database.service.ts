@@ -18,8 +18,8 @@ function getDatabaseConnectionConfig(): Options {
 			database: process.env.DEV_DB_DATABASE,
 			port: parseInt(process.env.DEV_DB_PORT),
 			username: process.env.DEV_DB_USERNAME,
-			password: process.env.DEV_DB_PASSWORD
-			// logging: false
+			password: process.env.DEV_DB_PASSWORD,
+			logging: false
 		};
 	} else {
 		return {
@@ -36,11 +36,11 @@ function getDatabaseConnectionConfig(): Options {
 class Database {
 	static stcSequelize = new Sequelize(getDatabaseConnectionConfig());
 
-	sequelize = new Sequelize(getDatabaseConnectionConfig());
+	static sequelize = new Sequelize(getDatabaseConnectionConfig());
 
-	async connect() {
+	static async connect() {
 		try {
-			await this.sequelize.authenticate();
+			await this.stcSequelize.authenticate();
 			console.log("Connection OK");
 		} catch (error) {
 			console.log(error);

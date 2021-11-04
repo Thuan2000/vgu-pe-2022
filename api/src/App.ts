@@ -13,7 +13,6 @@ import Database from "@services/database.service";
 import { getUserFromToken } from "@utils/functions";
 
 class App {
-	private database = new Database();
 	private apolloServer;
 	private app;
 
@@ -23,7 +22,7 @@ class App {
 	}
 
 	private initDB() {
-		this.database.connect();
+		Database.connect();
 	}
 
 	public async start(): Promise<void> {

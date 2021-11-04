@@ -10,12 +10,12 @@ import { inputClasses } from "./input-config";
 import InputLabel from "./input-label";
 
 interface INumInputProps extends Partial<NumberFormatProps> {
+  label?: string;
   numberQueue?: number | string;
   queueBackground?: string;
   note?: string;
   variant?: "normal" | "solid" | "outline";
   shadow?: boolean;
-  label?: string;
   error?: string;
   onChange?: (e: any) => void;
 }
@@ -26,10 +26,7 @@ interface INumberInputProps extends INumInputProps {
 }
 
 const NumberInput: React.FC<INumberInputProps> = ({
-  label,
   className,
-  numberQueue,
-  queueBackground,
   note,
   name,
   control,
@@ -42,15 +39,6 @@ const NumberInput: React.FC<INumberInputProps> = ({
       render={({ field }) => {
         return (
           <div className={className}>
-            {label && (
-              <InputLabel
-                numberQueue={numberQueue}
-                queueBackground={queueBackground}
-                note={note}
-                label={label}
-                name={name}
-              />
-            )}
             <NumInput {...field} {...props} />
           </div>
         );
@@ -61,9 +49,10 @@ const NumberInput: React.FC<INumberInputProps> = ({
 export const NumInput: React.FC<INumInputProps> = React.forwardRef(
   (
     {
+      label,
+      queueBackground,
       numberQueue,
       note,
-      label,
       onChange,
       error,
       value,
@@ -99,15 +88,23 @@ export const NumInput: React.FC<INumInputProps> = React.forwardRef(
     }
 
     useEffect(() => {
-      if (!value || !onChange) return;
+      if ((value !== 0 && !value) || !onChange) return;
       if (max && value > max) onChange(max as any);
       else if (min && value < min) onChange(min as any);
-
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value, max, min]);
 
     return (
       <>
+        {label && (
+          <InputLabel
+            numberQueue={numberQueue}
+            queueBackground={queueBackground}
+            note={note}
+            label={label}
+            name={name}
+          />
+        )}
         <NumberFormat
           className={rootClassName}
           thousandSeparator={thousandSeparator}

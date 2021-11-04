@@ -1,0 +1,21 @@
+type Bid {
+	budget: Date!
+	deliveryDate: Date!
+	buyingRequest: BuyingRequest!
+	company: Company!
+	createdBy: User!
+	message: String
+}
+
+input CreateBidInput {
+	budget: Date!
+	deliveryDate: Date!
+	buyingRequestId: Int!
+	companyId: Int!
+	createdById: Int!
+	message: String
+}
+
+extend type Mutation {
+	createBid(input: CreateBidInput!): CreateResponse!
+}

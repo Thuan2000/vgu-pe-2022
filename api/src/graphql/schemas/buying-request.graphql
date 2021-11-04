@@ -117,9 +117,9 @@ extend type Query {
 	bulkData: Response!
 	deleteIndex: Response!
 	createIndex: Response!
-	buyingRequestsAndCount(
+	adminBuyingRequests(
 		companyId: Int!
-		offset: Int!
+		input: FetchBRInput!
 	): BuyingRequestsResponse!
 	buyingRequest(id: Int!): BuyingRequest!
 	discoveryBuyingRequests(input: FetchBRInput!): BuyingRequestsResponse!

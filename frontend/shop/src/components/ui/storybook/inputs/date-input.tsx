@@ -10,61 +10,36 @@ import { Control, Controller, UseFormTrigger } from "react-hook-form";
 import DateIcon from "@assets/icons/date-icon";
 
 interface DateInputProps extends Partial<DatepickerProps> {
-  label: string;
-  name: string;
   control: Control<any>;
-  note?: string;
   onChange?: (e: any) => void;
-  numberQueue?: string | number;
-  variant?: "normal" | "solid" | "outline";
-  placeholder?: string;
-  queueBackground?: string;
-  noBorder?: boolean;
-  shadow?: boolean;
-  error?: string;
-  inputClassName?: string;
   rules?: any;
+  name: string;
   trigger?: UseFormTrigger<any>;
 }
 
 interface DatepickerProps extends ReactDatePickerProps {
   initialValue?: Date;
+  label?: string;
+  numberQueue?: string | number;
+  queueBackground?: string;
+  noBorder?: boolean;
+  inputClassName?: string;
+  variant?: "normal" | "solid" | "outline";
+  shadow?: boolean;
+  name: string;
+  note?: string;
+  error?: string;
 }
 
 const DateInput: React.FC<DateInputProps> = ({
-  label,
-  note,
   className,
-  queueBackground,
-  placeholder,
-  noBorder,
-  shadow,
   name,
   control,
-  numberQueue,
-  variant = "normal",
-  error,
   inputClassName,
   rules,
   trigger,
   ...props
 }) => {
-  const dateClassName = cn(
-    inputClasses.root,
-    {
-      [inputClasses.normal]: variant === "normal",
-      [inputClasses.solid]: variant === "solid",
-      [inputClasses.outline]: variant === "outline",
-    },
-    {
-      [inputClasses.shadow]: shadow,
-    },
-    {
-      [inputClasses.noBorder]: noBorder,
-    },
-    inputClassName
-  );
-
   return (
     <div className={className}>
       <Controller
@@ -74,18 +49,7 @@ const DateInput: React.FC<DateInputProps> = ({
         render={({ field: { onChange, ...field } }) => {
           return (
             <>
-              {label && (
-                <InputLabel
-                  label={label}
-                  note={note}
-                  numberQueue={numberQueue}
-                  queueBackground={queueBackground}
-                  name={name}
-                />
-              )}
               <Datepicker
-                className={dateClassName}
-                placeholderText={placeholder}
                 onChange={(e) => {
                   onChange(e);
                   if (trigger) trigger(name);
@@ -93,7 +57,6 @@ const DateInput: React.FC<DateInputProps> = ({
                 {...field}
                 {...props}
               />
-              <InputErrorMessage error={error} />
             </>
           );
         }}
@@ -103,8 +66,41 @@ const DateInput: React.FC<DateInputProps> = ({
 };
 export default DateInput;
 
-const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
-  ({ onChange, ...props }, _) => {
+export const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
+  (
+    {
+      className,
+      onChange,
+      label,
+      note,
+      queueBackground,
+      numberQueue,
+      name,
+      noBorder,
+      variant = "normal",
+      error,
+      shadow,
+      inputClassName,
+      ...props
+    },
+    _
+  ) => {
+    const dateClassName = cn(
+      inputClasses.root,
+      {
+        [inputClasses.normal]: variant === "normal",
+        [inputClasses.solid]: variant === "solid",
+        [inputClasses.outline]: variant === "outline",
+      },
+      {
+        [inputClasses.shadow]: shadow,
+      },
+      {
+        [inputClasses.noBorder]: noBorder,
+      },
+      inputClassName
+    );
+
     const inputId = Math.random().toString() + "-date-input";
     function handleChange(e: Date) {
       // Prevent error
@@ -117,22 +113,35 @@ const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
     }
 
     return (
-      <div className="relative">
-        <ReactDatepicker
-          id={inputId}
-          shouldCloseOnSelect
-          closeOnScroll
-          autoComplete="hide"
-          selected={(props.value as any) || props.initialValue}
-          onChange={handleChange}
-          dateFormat={props.dateFormat || "dd/MM/yyyy"}
-          {...props}
-        />
-        <DateIcon
-          onClick={focusDateInput}
-          className="absolute y-center right-5 cursor-pointer"
-        />
-      </div>
+      <>
+        {label && (
+          <InputLabel
+            label={label}
+            note={note}
+            numberQueue={numberQueue}
+            queueBackground={queueBackground}
+            name={name}
+          />
+        )}
+        <div className="relative">
+          <ReactDatepicker
+            id={inputId}
+            shouldCloseOnSelect
+            closeOnScroll
+            autoComplete="hide"
+            className={dateClassName}
+            selected={(props.value as any) || props.initialValue}
+            onChange={handleChange}
+            dateFormat={props.dateFormat || "dd/MM/yyyy"}
+            {...props}
+          />
+          <DateIcon
+            onClick={focusDateInput}
+            className="absolute y-center right-5 cursor-pointer"
+          />
+          <InputErrorMessage error={error} />
+        </div>
+      </>
     );
   }
 );

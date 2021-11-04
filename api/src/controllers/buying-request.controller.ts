@@ -129,22 +129,32 @@ class BuyingRequestController {
 		};
 	}
 
-	async getBuyingRequests(companyId: number, offset: number) {
-		const { rows, count } = await BuyingRequest.findAndCountAll({
+	async getBuyingRequests(
+		companyId: number,
+		{ limit, offset }: IFetchBrInput
+	) {
+		const {
+			rows: data,
+			count: dataCount
+		} = await BuyingRequest.findAndCountAll({
 			offset,
-			limit: BUYING_REQUESTS_GET_LIMIT,
+			limit,
 			where: { companyId },
 			include: [
-				Project,
+				Company,
 				Category,
+				Project,
 				Industry,
 				{ model: User, as: "createdBy" }
 			]
 		});
 
 		return {
-			buyingRequests: rows,
-			totalDataCount: count
+			data,
+			pagination: {
+				dataCount,
+				hasMore: data.length + offset < dataCount
+			}
 		};
 	}
 

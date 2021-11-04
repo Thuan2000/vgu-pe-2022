@@ -5,6 +5,7 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
   variant?:
     | "question"
     | "smallTitle"
+    | "title"
     | "date"
     | "description"
     | "special-heading";
@@ -16,6 +17,7 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
 const classesNames = {
   question: "text-gray-200",
   smallTitle: "font-semibold text-dark-blue",
+  title: "font-semibold text-xl",
   date: "font-semibold text-secondary-1",
   description: "text-sm text-gray-400",
   ["special-heading"]: "font-semibold text-xl text-dark-blue",
@@ -30,13 +32,7 @@ const Typography: React.FC<ITypographyProps> = ({
   ...props
 }) => {
   const classNames = cn(
-    {
-      [classesNames.question]: variant === "question",
-      [classesNames.smallTitle]: variant === "smallTitle",
-      [classesNames.date]: variant === "date",
-      [classesNames.description]: variant === "description",
-      [classesNames["special-heading"]]: variant === "special-heading",
-    },
+    variant && classesNames[variant],
     `text-${size}`,
     inputClassname
   );

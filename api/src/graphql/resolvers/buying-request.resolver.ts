@@ -10,8 +10,8 @@ export const Query = {
 	buyingRequestBySlug: (_, { slug }) =>
 		buyingRequestController.getBuyingRequestBySlug(slug),
 	buyingRequest: (_, { id }) => buyingRequestController.getBuyingRequest(id),
-	buyingRequestsAndCount: (_, { companyId, offset }) =>
-		buyingRequestController.getBuyingRequests(companyId, offset),
+	adminBuyingRequests: (_, { companyId, input }) =>
+		buyingRequestController.getBuyingRequests(companyId, input),
 	getBuyingRequestsByIds: (_, { ids }) =>
 		buyingRequestController.getBuyingRequestsByIds(ids),
 	discoveryBuyingRequests: (_, { input }) =>
