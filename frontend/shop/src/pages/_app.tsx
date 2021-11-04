@@ -1,8 +1,12 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { appWithTranslation, i18n } from "next-i18next";
 import { ApolloProvider, gql } from "@apollo/client";
 import { useApollo } from "../utils/apollo";
+import { ModalProvider } from "src/contexts/modal.context";
+import ModalContainer from "@components/modal-container";
+
+import "../styles/custom-datepicker.css";
+import "../styles/globals.css";
 
 const NoLayout: React.FC = ({ children }) => <>{children}</>;
 
@@ -12,9 +16,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <ModalProvider>
+        <ModalContainer />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ModalProvider>
     </ApolloProvider>
   );
 }

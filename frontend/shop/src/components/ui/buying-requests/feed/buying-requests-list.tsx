@@ -109,7 +109,6 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
             />
           );
         })}
-      {pagination?.hasMore && "MAN"}
       {(fetching || hasMore) && (
         <div ref={sentryRef} className="pt-2">
           <Loader spinnerOnly className="mt-4" />

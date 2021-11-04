@@ -41,5 +41,14 @@
   "error-USER_NOT_FOUND-title": "Please create an account",
   "error-USER_NOT_FOUND-message": "Unfortunately there are no such email/login",
   "error-USER_NOT_FOUND-button": "Create an account",
-  "budget-sign": "$"
+  "budget-sign": "$",
+  "biddingTitle": "Bid To Buying Request",
+  "bidDeliveryDate-label": "Delivery Date",
+  "bidDeliveryDate-placeholder": "11-11-2021",
+  "bidBudget-label": "Budget",
+  "bidBudget-placeholder": "$2.000",
+  "bidMessage-label": "Message",
+  "bidMessage-placeholder": "We are the most fit for this",
+  "confirmBidding-button-label": "Place Bid",
+  "cancelBidding-button-label": "Cancel"
 }

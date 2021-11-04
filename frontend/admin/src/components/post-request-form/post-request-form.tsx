@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { useTranslation } from "react-i18next";
 
 import Form from "@components/form";

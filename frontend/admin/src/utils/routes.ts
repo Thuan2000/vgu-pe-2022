@@ -1,7 +1,7 @@
 export const ROUTES = {
   HOMEPAGE: "/",
-  LOGIN: "/login",
-  SIGNUP: "/signup",
+  LOGIN: `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}/login`,
+  SIGNUP: `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}/signup`,
   FORGET_PASSWORD: "/forget-password",
   LOGOUT: "/logout",
   SETTINGS: "/settings",

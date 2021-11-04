@@ -34,13 +34,13 @@ export declare type MeInfoMutation = {
     };
     company: {
       __typename?: 'Company';
-      id?: Types.Maybe<number>;
-      name?: Types.Maybe<string>;
-      slug?: Types.Maybe<string>;
-      licenseNumber?: Types.Maybe<string>;
+      id: number;
+      name: string;
+      slug: string;
+      licenseNumber: string;
       description?: Types.Maybe<string>;
-      approved?: Types.Maybe<boolean>;
-      ownerId?: Types.Maybe<number>;
+      approved: boolean;
+      ownerId: number;
       licenseFiles?: Types.Maybe<Array<Types.Maybe<{
         __typename?: 'File';
         path?: Types.Maybe<string>;
