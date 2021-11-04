@@ -20,7 +20,7 @@ export const siteSettings = {
   navigations: [
     {
       label: "Trang chủ",
-      href: "#",
+      href: "/",
     },
     {
       label: "NCỨ",
