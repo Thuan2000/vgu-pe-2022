@@ -23,6 +23,7 @@ import {
 	setBrGallery,
 	setProductName
 } from "@repositories/buying-request.repository";
+import Bid from "@models/Bid";
 
 class BuyingRequestController {
 	async getBuyingRequestBySlug(slug: string) {
@@ -51,9 +52,9 @@ class BuyingRequestController {
 
 		return allBuyingRequests;
 	}
-	data = 0;
 	async getDiscoveryBuyingRequests(input: IFetchBrInput) {
 		const {
+			companyId,
 			offset,
 			searchValue,
 			industryId,
@@ -98,22 +99,33 @@ class BuyingRequestController {
 				...(industryId ? { industryId } : {}),
 				...(location ? { location } : {})
 			},
-			...(ids
-				? {
-						order: [
-							Sequelize.fn(
-								"FIELD",
-								Sequelize.col("buyingRequest.id"),
-								[...ids]
-							)
-						]
-				  }
-				: {}),
+			order: [
+				[
+					Sequelize.fn(
+						"FIELD",
+						Sequelize.col("buyingRequest.companyId"),
+						companyId
+					),
+					"ASC"
+				],
+
+				ids
+					? Sequelize.fn("FIELD", Sequelize.col("buyingRequest.id"), [
+							...ids
+					  ])
+					: ["id", "asc"]
+			],
 			include: [
 				Company,
 				Category,
 				Project,
 				Industry,
+				{
+					model: Bid,
+					as: "bids",
+					attributes: ["id", "createdAt"],
+					include: [{ model: Company, attributes: ["id"] }]
+				},
 				{ model: User, as: "createdBy" }
 			]
 		});
@@ -129,22 +141,38 @@ class BuyingRequestController {
 		};
 	}
 
-	async getBuyingRequests(companyId: number, offset: number) {
-		const { rows, count } = await BuyingRequest.findAndCountAll({
+	async getBuyingRequests(
+		companyId: number,
+		{ limit, offset }: IFetchBrInput
+	) {
+		const {
+			rows: data,
+			count: dataCount
+		} = await BuyingRequest.findAndCountAll({
 			offset,
-			limit: BUYING_REQUESTS_GET_LIMIT,
+			limit,
+			distinct: true,
 			where: { companyId },
 			include: [
-				Project,
+				Company,
 				Category,
+				Project,
 				Industry,
+				{
+					model: Bid,
+					as: "bids",
+					attributes: ["id", "createdAt"]
+				},
 				{ model: User, as: "createdBy" }
 			]
 		});
 
 		return {
-			buyingRequests: rows,
-			totalDataCount: count
+			data,
+			pagination: {
+				dataCount,
+				hasMore: data.length + offset < dataCount
+			}
 		};
 	}
 

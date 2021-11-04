@@ -21,17 +21,20 @@
 		"prestart": "npm run codegen",
 		"build": "npm-run-all clean lint prod:compile",
 		"start": "npm-run-all build start:server",
-		"prod:compile": "tsc && tsc-alias --silent",
+		"prod:compile": "tsc && tsc-alias",
 		"postprod:compile": "tsc-alias --silent && npm run copyschemas",
 		"start:server": "node ./dist/server.js",
 		"clean": "rimraf dist/*",
 		"precopyschemas": "mkdirp ./dist/graphql/schemas",
 		"copyschemas": "copyfiles ./src/graphql/schemas/* ./dist/graphql/schemas/",
-		"tsc:watch": "tsc --watch"
+		"tsc:watch": "tsc --watch",
+		"build:shop": "npm --prefix ../frontend/shop run build",
+		"build:admin": "npm --prefix ../frontend/admin run build",
+		"precommit": "npm-run-all build:shop build:admin build"
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "npm run build",
+			"pre-commit": "npm run precommit",
 			"...": "..."
 		}
 	},

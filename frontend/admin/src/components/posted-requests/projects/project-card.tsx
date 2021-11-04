@@ -69,7 +69,6 @@ const ProjectCard: React.FC<IProjectCardProps> = ({
       query: { ...query, projectId: id },
     });
   }
-  console.log(project);
 
   function onDelete() {
     deleteProject({ variables: { id: id } });

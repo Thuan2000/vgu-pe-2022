@@ -20,14 +20,14 @@ export const siteSettings = {
   navigations: [
     {
       label: "Trang chủ",
+      href: "/",
+    },
+    {
+      label: "NCỨ",
       href: "#",
     },
     {
-      label: "Suppliers",
-      href: "#",
-    },
-    {
-      label: "BUYING_REQUESTS_NAV_LABEL",
+      label: "Nhu cầu thu mua",
       href: "/buying-requests",
     },
     {

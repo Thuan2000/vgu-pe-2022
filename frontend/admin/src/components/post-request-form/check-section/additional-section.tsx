@@ -12,7 +12,7 @@ interface IAdditionalSectionProps {
 }
 
 const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
-  formValues: { allowedCompany, biddersLimit },
+  formValues: { allowedCompany },
   hasImage,
   changeSection,
 }) => {
@@ -23,7 +23,7 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
   }
 
   function isHaveAdditional() {
-    return isHaveParticipantFilter() || biddersLimit;
+    return isHaveParticipantFilter();
   }
 
   function getParticipantFilter() {
@@ -57,14 +57,6 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
         <div className="mb-5">
           <p className="text-semibold">{t("check-participantFilter-label")}</p>
           <p className="font-semibold">{getParticipantFilter()}</p>
-        </div>
-      )}
-      {biddersLimit && (
-        <div className="mb-5">
-          <p className="text-semibold">{t("check-biddersLimit-label")}</p>
-          <p className="font-semibold">
-            {biddersLimit} {t("bidders-text")}
-          </p>
         </div>
       )}
     </>

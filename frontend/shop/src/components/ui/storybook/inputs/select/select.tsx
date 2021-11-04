@@ -59,6 +59,8 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
           ref={ref}
           name={name}
           styles={selectStyles}
+          openMenuOnFocus
+          openMenuOnClick
           isMulti={isMulti}
           options={options}
           controlShouldRenderValue={!isMulti}

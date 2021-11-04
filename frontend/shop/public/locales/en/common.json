@@ -21,13 +21,13 @@
   "filter-status-close-filter": "Close",
   "industry-filter-label": "Industry",
   "product-filter-label": "Product",
-  "budgetRange-filter-label": "Product",
+  "budgetRange-filter-label": "Budget Range",
   "min": "Min",
   "max": "Max",
   "OPEN_STATUS": "Open",
   "BUDGET_LABEL": "Budget",
-  "million-suffix": "B",
-  "billion-suffix": "M",
+  "million-suffix": "M",
+  "billion-suffix": "B",
   "min-order-text": "Minimum Order",
   "posted-date-text": "Posted At",
   "contact-button-label": "Contact Them",
@@ -39,5 +39,6 @@
   "statusOpen-filter": "Open",
   "statusAll-filter": "All",
   "productName-filter-label": "Product Name",
-  "productName-filter-placeholder": "VGA Nvidia GTX 1080TI"
+  "productName-filter-placeholder": "VGA Nvidia GTX 1080TI",
+  "buying-request-page-title": "Buying Request"
 }

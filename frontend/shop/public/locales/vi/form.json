@@ -40,5 +40,6 @@
 	"no-account-yet": "Bạn chưa có tài khoản?",
 	"error-USER_NOT_FOUND-title": "Vui lòng tạo tài khoản",
 	"error-USER_NOT_FOUND-message": "Email/mật khẩu sai",
-	"error-USER_NOT_FOUND-button": "Tạo tài khoản"
+	"error-USER_NOT_FOUND-button": "Tạo tài khoản",
+  "budget-sign": "đ"
 }

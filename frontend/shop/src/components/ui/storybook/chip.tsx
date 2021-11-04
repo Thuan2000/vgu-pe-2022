@@ -3,7 +3,7 @@ import cn from "classnames";
 import Typography from "./typography";
 
 interface IChipProps extends React.HTMLAttributes<HTMLDivElement> {
-  background: "primary" | "secondary-1";
+  background: "primary" | "secondary-1" | "error";
   text: string;
 }
 
@@ -11,6 +11,7 @@ const classesNames = {
   root: "rounded-3xl text-white font-semibold px-4 flex-center",
   primary: "bg-primary",
   "secondary-1": "bg-secondary-1",
+  error: "bg-error",
 };
 
 const Chip: React.FC<IChipProps> = ({
@@ -24,6 +25,7 @@ const Chip: React.FC<IChipProps> = ({
     {
       [classesNames.primary]: background === "primary",
       [classesNames["secondary-1"]]: background === "secondary-1",
+      [classesNames["error"]]: background === "error",
     },
     inputClass
   );

@@ -23,7 +23,8 @@
       "@components/*": ["src/components/*"],
       "@storybook/*": ["src/components/ui/storybook/*"],
       "@assets/*": ["src/assets/*"]
-    }
+    },
+    "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", ".cache"]

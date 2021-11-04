@@ -1,21 +1,16 @@
 import BuyingRequestHeader from "@components/posted-requests/buying-request/brc-header";
 import BuyingRequestCard from "@components/posted-requests/buying-request/buying-request-card";
-import PostedRequestsNav from "@components/posted-requests/posted-requests-nav";
+
 import Loading from "@components/ui/loading";
 import Pagination from "@components/ui/pagination";
 import {
-  useBuyingRequestsAndCountQuery,
+  useBuyingRequestsQuery,
   useDeleteBuyingRequestMutation,
 } from "@graphql/buying-request.graphql";
 import { IBuyingRequest, IProject } from "@graphql/types.graphql";
-import { getMeData } from "@utils/auth-utils";
 import { BUYING_REQUESTS_GET_LIMIT } from "@utils/constants";
 import { useRouter } from "next/dist/client/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  BuyingRequestContextProvider,
-  useBRContext,
-} from "src/contexts/buying-request.context";
 import NoBuyingRequests from "@components/posted-requests/no-buying-requests";
 import CreateProject, { CPBR } from "@components/create-project";
 import { findIndex } from "lodash";
@@ -30,8 +25,14 @@ import DeleteBrAlert from "@components/ui/delete-br-alert";
 
 interface IBuyingRequestsProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-function getParameter(companyId: number, offset: number) {
-  return { variables: { companyId, offset } };
+function getParameter({ offset }: { offset: number }) {
+  return {
+    companyId: getCompanyId(),
+    input: {
+      offset,
+      limit: BUYING_REQUESTS_GET_LIMIT,
+    },
+  };
 }
 
 const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
@@ -52,22 +53,21 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
       if (activePageIdx <= previousPageIdx) return;
       setPreviousPageIdx(activePageIdx);
 
-      fetchMore({
-        ...getParameter(getCompanyId(), getOffset()),
-      });
+      fetchMore({ variables: getParameter({ offset: getOffset() }) });
     }
+
     doFetchMore();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activePageIdx, getCompanyId()]);
 
   const [previousPageIdx, setPreviousPageIdx] = useState<number>(-1);
-  const { data, loading, fetchMore, refetch } = useBuyingRequestsAndCountQuery({
-    ...getParameter(getCompanyId(), getOffset()),
+  const { data, loading, fetchMore, refetch } = useBuyingRequestsQuery({
+    variables: getParameter({ offset: getOffset() }),
   });
 
   useEffect(() => {
-    refetch({ companyId: getCompanyId(), offset: getOffset() });
+    refetch(getParameter({ offset: getOffset() }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteLoading]);
 
@@ -123,13 +123,12 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
     return (activePageIdx - 1) * BUYING_REQUESTS_GET_LIMIT;
   }
 
-  const totalBRs = data?.buyingRequestsAndCount.totalDataCount;
+  const totalBRs = data?.adminBuyingRequests?.pagination.dataCount;
 
   if (loading) return <Loading />;
 
-  if (!data?.buyingRequestsAndCount?.buyingRequests?.length)
-    return <NoBuyingRequests />;
-  const brs = data?.buyingRequestsAndCount?.buyingRequests as IBuyingRequest[];
+  if (!data?.adminBuyingRequests?.data?.length) return <NoBuyingRequests />;
+  const brs = data?.adminBuyingRequests?.data as IBuyingRequest[];
 
   function removeFromSelecteds(br: IBuyingRequest) {
     const index = findIndex(

@@ -7,3 +7,11 @@ export const successResponse = (message?: string) => {
 		success: true
 	};
 };
+
+export const createSuccessResponse = (id: number) => {
+	return {
+		id,
+		message: "SUCCESS",
+		success: true
+	};
+};

@@ -65,15 +65,19 @@ class S3 {
 		fileStream,
 		contentType
 	}: S3UploadParams) {
-		const uploadParams = {
-			Bucket: this.bucket,
-			Key: `${companyName}/${type}/${new Date().getTime()}-${fileName}`,
-			Body: fileStream,
-			ContentType: contentType,
-			ACL: "public-read-write"
-		};
+		try {
+			const uploadParams = {
+				Bucket: this.bucket,
+				Key: `${companyName}/${type}/${new Date().getTime()}-${fileName}`,
+				Body: fileStream,
+				ContentType: contentType,
+				ACL: "public-read-write"
+			};
 
-		return this.s3.upload(uploadParams).promise();
+			return this.s3.upload(uploadParams).promise();
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	public uploadCompanyLicense({
@@ -82,22 +86,30 @@ class S3 {
 		type,
 		fileStream
 	}: S3UploadParams) {
-		const uploadParams = {
-			Bucket: this.bucket,
-			Key: `${companyName}/${type}/${new Date().getTime()}-${fileName}`,
-			Body: fileStream
-		};
+		try {
+			const uploadParams = {
+				Bucket: this.bucket,
+				Key: `${companyName}/${type}/${new Date().getTime()}-${fileName}`,
+				Body: fileStream
+			};
 
-		return this.s3.upload(uploadParams).promise();
+			return this.s3.upload(uploadParams).promise();
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	public getFile(fileName: string) {
-		const getObjectParams = {
-			Bucket: this.bucket,
-			Key: fileName
-		};
+		try {
+			const getObjectParams = {
+				Bucket: this.bucket,
+				Key: fileName
+			};
 
-		return this.s3.getObject(getObjectParams).promise();
+			return this.s3.getObject(getObjectParams).promise();
+		} catch (error) {
+			console.log(error);
+		}
 	}
 }
 

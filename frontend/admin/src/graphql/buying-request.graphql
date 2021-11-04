@@ -1,12 +1,15 @@
 # import UserFragment from "./user.fragment.graphql"
 # import BuyingRequestParts from "./buying-request.fragment.graphql"
+# import PaginationParts from "./pagination.fragment.graphql"
 
-query buyingRequestsAndCount($companyId: Int!, $offset: Int!) {
-  buyingRequestsAndCount(companyId: $companyId, offset: $offset) {
-    buyingRequests {
+query BuyingRequests($companyId: Int!, $input: FetchBRInput!) {
+  adminBuyingRequests(companyId: $companyId, input: $input) {
+    data {
       ...BuyingRequestParts
     }
-    totalDataCount
+    pagination {
+      ...PaginationParts
+    }
   }
 }
 

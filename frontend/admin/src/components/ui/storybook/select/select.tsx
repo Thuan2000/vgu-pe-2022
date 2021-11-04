@@ -61,7 +61,6 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
           styles={selectStyles}
           isMulti={isMulti}
           options={options}
-          // defaultValue={defaultValue || options[1]}
           controlShouldRenderValue={!isMulti}
           onChange={isMulti ? handleChange : onChange}
           {...props}

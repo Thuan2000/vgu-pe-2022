@@ -72,7 +72,7 @@ export function setMeData({
   );
 }
 
-export function getMeData() {
+export function getMeData(): { company: ICompany | null; user: IUser | null } {
   const data = Cookie.get(LOGGED_IN_USER);
   if (!data) return { company: null, user: null };
 

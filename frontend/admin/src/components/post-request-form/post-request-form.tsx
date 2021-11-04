@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { useTranslation } from "react-i18next";
 
 import Form from "@components/form";
@@ -93,7 +93,6 @@ function getDefaultValue(initValue?: IBuyingRequest) {
     industry,
     categories,
     allowedCompany,
-    biddersLimit,
   } = initValue;
 
   const data: PostRequestFormValue = {
@@ -115,7 +114,6 @@ function getDefaultValue(initValue?: IBuyingRequest) {
     },
     additional: {
       allowedCompany: getAllowedCompanyInArray(allowedCompany),
-      biddersLimit: biddersLimit as number,
     },
   };
 
