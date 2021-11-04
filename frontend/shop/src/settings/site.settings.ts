@@ -23,11 +23,11 @@ export const siteSettings = {
       href: "#",
     },
     {
-      label: "Suppliers",
+      label: "NCỨ",
       href: "#",
     },
     {
-      label: "BUYING_REQUESTS_NAV_LABEL",
+      label: "Nhu cầu thu mua",
       href: "/buying-requests",
     },
     {
