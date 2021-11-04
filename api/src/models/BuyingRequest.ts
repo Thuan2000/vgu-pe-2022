@@ -8,6 +8,7 @@ import User from "./User";
 import Industry from "./Industry";
 import ElasticSearch from "@services/elastic-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
+import Bid from "./Bid";
 
 class BuyingRequest extends Model {
 	/**
@@ -105,7 +106,8 @@ BuyingRequest.init(
 		industryId: DataTypes.INTEGER,
 		companyId: DataTypes.INTEGER,
 		createdById: DataTypes.INTEGER,
-		updatedById: DataTypes.INTEGER
+		updatedById: DataTypes.INTEGER,
+		lastOpened: DataTypes.DATE
 	},
 	{
 		tableName: "buying_requests",

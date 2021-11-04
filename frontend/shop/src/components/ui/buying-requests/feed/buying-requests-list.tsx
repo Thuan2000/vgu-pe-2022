@@ -9,7 +9,7 @@ import { brQueryParams } from "../query";
 import BuyingRequestCard from "./buying-request-card";
 import Loader from "@components/ui/storybook/loader/loader";
 
-const BRS_LIMIT = 2;
+const BRS_LIMIT = 8;
 
 function getOffset(page: number) {
   return page * BRS_LIMIT;
@@ -74,19 +74,22 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
   }, [page]);
 
   useEffect(() => {
-    refetch({
-      input: {
-        searchValue,
-        location,
-        productName,
-        industryId,
-        status,
-        minBudget,
-        maxBudget,
-        offset: getOffset(0),
-        limit: BRS_LIMIT,
-      },
-    } as any);
+    function reFetch() {
+      refetch({
+        input: {
+          searchValue,
+          location,
+          productName,
+          industryId,
+          status,
+          minBudget,
+          maxBudget,
+          offset: getOffset(0),
+          limit: BRS_LIMIT,
+        },
+      } as any);
+    }
+    if (data) reFetch();
     setPage(0);
   }, [
     searchValue,

@@ -74,9 +74,8 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
         <BRCExternalInfo
           className="my-2"
           projectsCount={br.projects?.length || 0}
-          bidsCount={0}
+          bidsCount={br.bids?.length || 0}
           commentsCount={0}
-          // bidsCount={br.bids?.length || 0}
           // commentsCount={br.comments?.length || 0}
         />
         <BrcExtras

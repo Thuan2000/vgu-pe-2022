@@ -57,6 +57,11 @@ module.exports = {
 			bidIds: {
 				type: Sequelize.JSON
 			},
+			lastOpened: {
+				allowNull: false,
+				type: Sequelize.DATE,
+				defaultValue: new Date()
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,

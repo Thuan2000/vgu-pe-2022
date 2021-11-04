@@ -64,18 +64,6 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
     <>
       <h3 className="mt-7 mb-3">{t("additional-information-check-title")}</h3>
 
-      <NumberInput
-        label={t("post-request-biddersLimit-label")}
-        className="my-6"
-        numberQueue="a"
-        queueBackground="secondary-1"
-        suffix={` ${t("bidders-text")}`}
-        placeholder={t("post-request-biddersLimit-placeholder")}
-        name="additional.biddersLimit"
-        control={control}
-        allowNegative={false}
-        error={errors?.additional?.biddersLimit?.message}
-      />
       <InputLabel
         numberQueue="b"
         queueBackground="blue"
