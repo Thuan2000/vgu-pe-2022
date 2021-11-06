@@ -92,7 +92,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         control={control}
         name="details.productName"
         isLoading={loading}
-        label={`${t("post-request-productName-label")}*`}
+        label={`${t("post-request-productName-label")} (*)`}
         numberQueue={1}
         placeholder={t("post-request-productName-placeholder")}
         options={productNames || []}
@@ -178,8 +178,9 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
       </div>
 
       <SelectInput
-        getOptionLabel={(option) => option.label || option.name}
-        getOptionValue={(option) => option.value || option.name}
+      // TODO: based on language, choose either option.nameVn or option.En
+        getOptionLabel={(option) => option.label || option.nameVn}
+        getOptionValue={(option) => option.value || option.nameVn}
         control={control}
         options={industries || []}
         numberQueue="4"

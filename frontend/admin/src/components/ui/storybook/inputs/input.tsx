@@ -11,6 +11,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       note,
       name,
       error,
+      required,
       transparentPrefix,
       children,
       variant = "normal",
@@ -43,6 +44,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       inputClassName
     );
 
+    /* If required is true, append a red (*) to label */
+    const requiredAppendix = required ? (
+      <span style={{ color: "red", fontWeight: "normal" }}>&nbsp;(*)</span>
+    ) : (
+      <div />
+    );
+
     return (
       <div className={className}>
         {!noLabel && (
@@ -71,6 +79,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {prefix && (
             <label className="absolute y-center left-2 text-body">
               {prefix}
+              {requiredAppendix}
             </label>
           )}
           {suffix && (

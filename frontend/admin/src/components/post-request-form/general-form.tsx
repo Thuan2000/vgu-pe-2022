@@ -45,7 +45,8 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         {...register("general.name")}
         className="my-6 w-full"
         autoFocus
-        label={`${t("post-request-name-label")}*`}
+        label={`${t("post-request-name-label")}`}
+        required={true}
         note={t("post-request-name-desc")}
         onChange={(e) => {
           register("general.name").onChange(e);
@@ -62,14 +63,15 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         minDate={new Date()}
         placeholder={t("post-request-endDate-placeholder")}
         error={errors?.general?.endDate?.message}
-        label={`${t("post-request-endDate-label")}*`}
+        label={`${t("post-request-endDate-label")}`}
         numberQueue={2}
       />
 
       <SelectInput
         name="general.location"
         numberQueue={3}
-        label={`${t("post-request-location-label")}*`}
+        required={true}
+        label={`${t("post-request-location-label")}`}
         placeholder={t("post-request-location-placeholder")}
         control={control}
         options={vietnamCities}

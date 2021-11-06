@@ -8,23 +8,11 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			name: {
+			nameVn: {
 				type: Sequelize.STRING
 			},
-			slug: {
+			nameEn: {
 				type: Sequelize.STRING
-			},
-			label: {
-				type: Sequelize.STRING
-			},
-			description: {
-				type: Sequelize.STRING
-			},
-			icon: {
-				type: Sequelize.STRING
-			},
-			backgroundImage: {
-				type: Sequelize.JSON
 			},
 			createdAt: {
 				allowNull: false,

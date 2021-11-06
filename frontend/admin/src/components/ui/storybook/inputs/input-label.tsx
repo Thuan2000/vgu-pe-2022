@@ -8,6 +8,7 @@ export interface IInputLabelProps {
   className?: string;
   label?: string;
   queueBackground?: string;
+  required?: boolean;
 }
 
 const InputLabel: React.FC<IInputLabelProps> = ({
@@ -17,7 +18,14 @@ const InputLabel: React.FC<IInputLabelProps> = ({
   className,
   queueBackground,
   label,
+  required,
 }) => {
+  /* If required is true, append a red (*) to label */
+  const requiredAppendix = required ? (
+    <span style={{ color: "red", fontWeight: "normal" }}>&nbsp;(*)</span>
+  ) : (
+    <div />
+  );
   return (
     <div className={`${className} mb-3`}>
       <label
@@ -32,6 +40,7 @@ const InputLabel: React.FC<IInputLabelProps> = ({
           />
         )}
         <p className="min-h-5">{label}</p>
+        {requiredAppendix}
       </label>
       {note && <p className="ml-8 text-xs text-gray-400">{note}</p>}
     </div>
