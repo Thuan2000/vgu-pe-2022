@@ -8,17 +8,14 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			name: {
+			nameVn: {
 				type: Sequelize.STRING
 			},
-			label: {
+			nameEn: {
 				type: Sequelize.STRING
 			},
 			industryId: {
 				type: Sequelize.INTEGER
-			},
-			description: {
-				type: Sequelize.STRING
 			},
 			createdAt: {
 				allowNull: false,
