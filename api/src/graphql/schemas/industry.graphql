@@ -1,11 +1,7 @@
 type Industry {
 	id: ID
-	name: String!
-	slug: String!
-	label: String!
-	description: String
-	icon: String
-	backgroundImage: File
+	nameVn: String!
+	nameEn: String!
 }
 
 extend type Query {

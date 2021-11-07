@@ -43,10 +43,10 @@
 	"error-USER_NOT_FOUND-button": "Tạo tài khoản",
 	"save-draft-button-label": "Lưu Nháp",
   "next-section-button-label": "Tiếp theo",
-  "post-request-name-label": "Vui lòng nhập tên NCTM",
-  "post-request-endDate-label": "Vui lòng chọn ngày bạn hạn chót",
-  "post-request-location-label": "Vui lòng chọn tỉnh thành bạn nhận hàng",
-  "post-request-description-label": "Vui lòng điền mô tả ngắn",
+  "post-request-name-label": "Tên NCTM",
+  "post-request-endDate-label": "Hạn chót nhận yêu cầu chào hàng",
+  "post-request-location-label": "Tỉnh/thành nhận hàng",
+  "post-request-description-label": "Mô tả ngắn",
   "post-request-status-label": "Vui lòng chọn trạng thái của mục đăng",
   "post-request-name-placeholder": "Tên nhu cầu thu mua",
   "post-request-endDate-placeholder": "06/20/2018",
@@ -89,7 +89,7 @@
   "rating-suffix": "Stars",
   "sells-suffix": "Sells",
   "general-nav-label": "Thông tin chung",
-  "details-nav-label": "Thông tin chi tiết",
+  "details-nav-label": "Chi tiết",
   "check-nav-label": "Xác nhận thông tin",
   "requestName-input-prefix": "Request",
   "saveDraft-button-label": "Lưu nháp",
@@ -98,5 +98,7 @@
   "company-with-label": "Company with minimum",
   "minSupplierRating-filter-key": "Stars Rating",
   "minSupplierExperience-filter-key": "Years of establishment",
-  "minSuplierSells-filter-key": "Sells"
+  "minSuplierSells-filter-key": "Sells",
+  "post-request-name-is-required-error": "Trường thông tin cần thiết",
+  "post-request-location-is-required-error": "Trường thông tin cần thiết"
 }

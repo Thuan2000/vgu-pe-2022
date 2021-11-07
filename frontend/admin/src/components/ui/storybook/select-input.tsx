@@ -18,6 +18,7 @@ interface ISelectInput extends ISelectProps {
   onChange?: (value: any) => void;
   control: any;
   rules?: any;
+  required?: boolean;
   name: string;
 }
 
@@ -32,6 +33,7 @@ const SelectInput: React.FC<ISelectInput> = ({
   control,
   rules,
   name,
+  required,
   onChange: inputOnChange,
   ...props
 }) => {
@@ -50,6 +52,7 @@ const SelectInput: React.FC<ISelectInput> = ({
                   label={label}
                   numberQueue={numberQueue}
                   note={note}
+                  required={required}
                 />
               )}
 
