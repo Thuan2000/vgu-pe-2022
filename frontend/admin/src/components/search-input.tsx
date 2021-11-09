@@ -13,7 +13,6 @@ const SearchInput: React.FC<ISearchInputProps> = ({ className, ...props }) => {
     >
       {/* @TODO make this searchable */}
       <Input
-        noLabel
         noBorder
         className="h-9 w-full focus:none"
         placeholder="Tìm kiếm"

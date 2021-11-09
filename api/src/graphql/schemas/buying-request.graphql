@@ -13,7 +13,7 @@ enum BRStatus {
 input AllowedCompanyInput {
 	minSupplierExperience: Float
 	minSupplierRating: Float
-	minSuplierSells: Float
+	minSupplierSells: Float
 }
 
 type BuyingRequest {
@@ -22,11 +22,11 @@ type BuyingRequest {
 	slug: String!
 	endDate: Date!
 	location: String!
-	industry: Industry!
-	categories: [Category!]!
+	industryId: Int!
+	categoryIds: [Int!]!
 	description: String
 	productName: String!
-	projects: [Project]
+	projects: [Project!]
 	createdBy: User!
 	minBudget: Date!
 	maxBudget: Date!

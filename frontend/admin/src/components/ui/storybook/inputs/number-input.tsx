@@ -6,14 +6,13 @@ import cn from "classnames";
 import { inputClasses } from "./input-config";
 import InputLabel from "./input-label";
 
-interface INumInputProps extends NumberFormatProps {
+export interface INumInputProps extends NumberFormatProps {
   numberQueue?: number | string;
   queueBackground?: string;
   note?: string;
   name: string;
   variant?: "normal" | "solid" | "outline";
   shadow?: boolean;
-  noLabel?: boolean;
   label?: string;
   error?: string;
 }
@@ -61,7 +60,6 @@ const NumInput: React.FC<INumInputProps> = React.forwardRef(
     {
       numberQueue,
       note,
-      noLabel,
       label,
       onChange,
       error,

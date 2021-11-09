@@ -68,8 +68,8 @@
   "supplierExperience-placeholder": "10",
   "rating-label": "Rating",
   "rating-placeholder": "5",
-  "minSuplierSells-label": "Minimum Sells",
-  "minSuplierSells-placeholder": "500",
+  "minSupplierSells-label": "Minimum Sells",
+  "minSupplierSells-placeholder": "500",
   "categories-label": "Categories",
   "check-section-title-label": "Please carefully check your request before post",
   "general-information-check-title": "General Information",
@@ -112,5 +112,6 @@
   "post-request-name-is-required-error": "Please fill in request name",
   "post-request-location-is-required-error": "Please select delivery location",
   "check-industry-label": "Industry",
-  "bidders-text": "Bidders"
+  "bidders-text": "Bidders",
+  "requestNamePrefix-value": "Request"
 }

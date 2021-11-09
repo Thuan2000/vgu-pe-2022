@@ -1,4 +1,6 @@
-import { ICategory, IIndustry, IProductName } from "@graphql/types.graphql";
+import { IProductName } from "@graphql/types.graphql";
+import { IIndustry } from "@utils/industries";
+import { ICategory } from "@utils/categories";
 import { IVietnamCity } from "@utils/vietnam-cities";
 import * as yup from "yup";
 
@@ -55,13 +57,14 @@ export type DetailsFormValue = {
 };
 
 export type AdditionalFormValue = {
-  allowedCompany?: AllowedCompany[];
+  allowedCompany?: AllowedCompany;
 };
 
-export type AllowedCompany =
-  | { minSupplierExperience?: number }
-  | { minSupplierRating?: number }
-  | { minSuplierSells?: number };
+export type AllowedCompany = {
+  minSupplierExperience?: number;
+  minSupplierRating?: number;
+  minSupplierSells?: number;
+};
 
 export type PostRequestFormValue = {
   general: GeneralFormValue;

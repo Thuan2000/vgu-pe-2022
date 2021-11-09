@@ -16,7 +16,6 @@ interface DateInputProps extends Partial<DatepickerProps> {
   note?: string;
   onChange?: (e: any) => void;
   numberQueue?: string | number;
-  noLabel?: boolean;
   variant?: "normal" | "solid" | "outline";
   placeholder?: string;
   queueBackground?: string;
@@ -35,7 +34,6 @@ interface DatepickerProps extends ReactDatePickerProps {
 const DateInput: React.FC<DateInputProps> = ({
   label,
   note,
-  noLabel,
   className,
   queueBackground,
   placeholder,
@@ -76,7 +74,7 @@ const DateInput: React.FC<DateInputProps> = ({
         render={({ field: { onChange, ...field } }) => {
           return (
             <>
-              {!noLabel && (
+              {label && (
                 <InputLabel
                   label={label}
                   note={note}

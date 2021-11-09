@@ -1,14 +1,12 @@
 type Category {
 	id: ID
-	nameVn: String!
-	nameEn: String!
+	label: String!
 	industryId: Int!
 }
 
 input CategoryInput {
 	id: ID
-	nameVn: String!
-	nameEn: String!
+	label: String!
 	industryId: Int!
 }
 

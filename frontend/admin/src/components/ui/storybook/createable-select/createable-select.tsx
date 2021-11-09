@@ -51,17 +51,17 @@ const CreateableSelect = React.forwardRef(
   ) => {
     const [options, setOptions] = useState(defaultOptions || []);
 
-    useEffect(() => {
-      setOptions(defaultOptions);
-    }, [loading, defaultOptions]);
-    if (["string", "number"].includes(typeof value) && getInitialValue) {
-      for (const opt of options || []) {
-        if (getInitialValue(opt) && onChange) {
-          onChange(opt, {} as any);
-          break;
-        }
-      }
-    }
+    // useEffect(() => {
+    //   setOptions(defaultOptions);
+    // }, [loading, defaultOptions]);
+    // if (["string", "number"].includes(typeof value) && getInitialValue) {
+    //   for (const opt of options || []) {
+    //     if (getInitialValue(opt) && onChange) {
+    //       onChange(opt, {} as any);
+    //       break;
+    //     }
+    //   }
+    // }
 
     function handleCreateOption(label: string) {
       if (loading) return;
@@ -95,6 +95,7 @@ const CreateableSelect = React.forwardRef(
           options={options}
           styles={createableStyles}
           ref={ref as any}
+          isOptionSelected={(option: any) => option === value}
           value={value}
           {...props}
         />
