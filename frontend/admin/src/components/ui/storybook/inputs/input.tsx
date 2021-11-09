@@ -71,7 +71,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
           {prefix && (
             <label
               className={`absolute y-center text-sm left-4 ${
-                rest.value ? "text-[#000]" : "text-gray-200"
+                rest.value ? "text-dark-blue font-semibold" : "text-gray-200"
               }`}
             >
               {prefix}

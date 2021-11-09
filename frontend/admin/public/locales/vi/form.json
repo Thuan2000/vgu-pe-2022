@@ -100,5 +100,6 @@
   "minSupplierExperience-filter-key": "Years of establishment",
   "minSupplierSells-filter-key": "Sells",
   "post-request-name-is-required-error": "Trường thông tin cần thiết",
-  "post-request-location-is-required-error": "Trường thông tin cần thiết"
+  "post-request-location-is-required-error": "Trường thông tin cần thiết",
+  "requestNamePrefix-value": "Cần mua"
 }
