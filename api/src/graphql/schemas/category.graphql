@@ -1,17 +1,13 @@
 type Category {
 	id: ID
-	name: String!
 	label: String!
 	industryId: Int!
-	description: String
 }
 
 input CategoryInput {
 	id: ID
-	name: String!
 	label: String!
 	industryId: Int!
-	description: String
 }
 
 extend type Query {

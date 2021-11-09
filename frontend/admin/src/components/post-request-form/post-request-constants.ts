@@ -1,5 +1,7 @@
 export type GeneralInputNames = "name" | "endDate" | "location" | "description";
 
+export const INLINE_LABEL_WIDTH = "85px";
+
 export type DetailsInputNames =
   | "productName"
   | "minBudget"

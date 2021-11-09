@@ -11,7 +11,7 @@ export const siteSettings = {
     width: 256,
     height: 70,
   },
-  defaultLanguange: "en",
+  defaultLanguange: "vi",
   author: {
     name: "Emolyze.tech",
     websiteUrl: "https://emolyze.tech",
@@ -32,10 +32,6 @@ export const siteSettings = {
     },
     {
       label: "Sản phẩm",
-      href: "#",
-    },
-    {
-      label: "Blog",
       href: "#",
     },
     {

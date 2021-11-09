@@ -99,7 +99,6 @@ const RequestSelector: React.FC<IRequestSelectorProps> = ({
           <div className="flex items-center w-full border-b py-1">
             {/* @TODO make this searchable */}
             <Input
-              noLabel
               noBorder
               className="h-9 w-full focus:none"
               placeholder="Tìm kiếm"

@@ -12,13 +12,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale!, ["common", "form"])),
+      ...(await serverSideTranslations(locale!, [
+        "common",
+        "form",
+        "industry",
+        "category",
+      ])),
     },
   };
 };
 
 const PostRequest = () => {
-  const { company } = getMeData();
   const { t } = useTranslation("common");
   return (
     <>

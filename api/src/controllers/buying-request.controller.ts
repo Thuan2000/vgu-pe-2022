@@ -155,9 +155,9 @@ class BuyingRequestController {
 			where: { companyId },
 			include: [
 				Company,
-				Category,
+				// Category,
 				Project,
-				Industry,
+				// Industry,
 				{
 					model: Bid,
 					as: "bids",
@@ -201,7 +201,6 @@ class BuyingRequestController {
 	async createBuyingRequest({
 		gallery,
 		companyName,
-		categoryIds,
 		...buyingRequestInput
 	}: ICreateBuyingRequestInput) {
 		try {
@@ -221,15 +220,10 @@ class BuyingRequestController {
 
 			const newBuyingRequest = await BuyingRequest.create({
 				...buyingRequestInput,
-				cateories: categoryIds,
 				companyId,
 				slug: generateSlug(buyingRequestInput.name),
 				status: "OPEN"
 			});
-
-			// To understand this read sequelize associations
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(newBuyingRequest as any).setCategories(categoryIds);
 
 			const brGallery = await uploadImages(companyName, gallery);
 			setBrGallery(brGallery, newBuyingRequest);

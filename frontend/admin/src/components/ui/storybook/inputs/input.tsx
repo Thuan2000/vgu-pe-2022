@@ -1,9 +1,9 @@
 import React from "react";
 import cn from "classnames";
-import { inputClasses, InputProps } from "./input-config";
+import { inputClasses, IInputProps } from "./input-config";
 import InputLabel from "./input-label";
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
+const Input = React.forwardRef<HTMLInputElement, IInputProps>(
   (
     {
       className,
@@ -11,6 +11,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       note,
       name,
       error,
+      required,
       transparentPrefix,
       children,
       variant = "normal",
@@ -20,7 +21,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       numberQueue,
       prefix,
       suffix,
-      noLabel,
       valuePrefix,
       noBorder,
       ...rest
@@ -43,9 +43,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       inputClassName
     );
 
+    /* If required is true, append a red (*) to label */
+    const requiredAppendix = required ? (
+      <span style={{ color: "red", fontWeight: "normal" }}>&nbsp;(*)</span>
+    ) : (
+      <div />
+    );
+
     return (
       <div className={className}>
-        {!noLabel && (
+        {label && (
           <InputLabel
             numberQueue={numberQueue}
             name={name}
@@ -71,6 +78,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {prefix && (
             <label className="absolute y-center left-2 text-body">
               {prefix}
+              {requiredAppendix}
             </label>
           )}
           {suffix && (

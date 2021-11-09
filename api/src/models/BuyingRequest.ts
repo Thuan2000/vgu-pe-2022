@@ -104,6 +104,7 @@ BuyingRequest.init(
 		allowedCompany: DataTypes.JSON,
 		status: DataTypes.STRING,
 		industryId: DataTypes.INTEGER,
+		categoryIds: DataTypes.JSON,
 		companyId: DataTypes.INTEGER,
 		createdById: DataTypes.INTEGER,
 		updatedById: DataTypes.INTEGER,

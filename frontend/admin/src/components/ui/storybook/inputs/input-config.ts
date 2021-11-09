@@ -12,7 +12,7 @@ export const inputClasses = {
     "border-none shadow-none focus:border-none focus:shadow-none active:border-none active:shadow-none",
 };
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   inputClassName?: string;
   label?: string;
@@ -25,9 +25,9 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   transparentPrefix?: boolean;
   suffix?: any;
   numberQueue?: number;
-  noLabel?: boolean;
   noBorder?: boolean;
   valuePrefix?: string | number;
+  required?: boolean;
 }
 
 export interface TextAreaProps

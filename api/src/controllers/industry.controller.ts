@@ -4,7 +4,8 @@ import { errorResponse } from "@utils/responses";
 class IndustyController {
 	async getIndustries() {
 		try {
-			const industries = Industry.findAll();
+			const industries = await Industry.findAll();
+			console.log(industries);
 
 			return industries;
 		} catch (error) {

@@ -93,15 +93,6 @@ export function getLoggedInUser() {
 
   return user;
 }
-export function loggedInUser() {
-  const { user } = getMeData();
-}
-
-export function isString(value: any) {
-  if (!value) return false;
-
-  return typeof value === "string";
-}
 
 export function getObjectIds(array: any[]) {
   if (!array?.length) return;

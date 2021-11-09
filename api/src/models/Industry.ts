@@ -13,12 +13,8 @@ class Industry extends Model {
 }
 Industry.init(
 	{
-		name: DataTypes.STRING,
-		slug: DataTypes.STRING,
-		label: DataTypes.STRING,
-		description: DataTypes.STRING,
-		icon: DataTypes.STRING,
-		backgroundImage: DataTypes.JSON
+		nameVn: DataTypes.STRING,
+		nameEn: DataTypes.STRING
 	},
 	{
 		tableName: "industries",

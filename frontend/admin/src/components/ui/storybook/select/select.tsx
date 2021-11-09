@@ -13,14 +13,18 @@ export interface ISelectProps extends Props {
   options: any[];
 }
 
-const REMOVE_VALUE_ACTION_META = {
-  action: "remove-value",
-  name: "location",
-};
-
 export const Select = React.forwardRef<Ref, ISelectProps>(
   (
-    { isMulti, onChange, name, getInitialValue, options, value, ...props },
+    {
+      isMulti,
+      onChange,
+      name,
+      getInitialValue,
+      options,
+      value,
+      maxMenuHeight,
+      ...props
+    },
     ref
   ) => {
     // This is for showing values
@@ -60,6 +64,7 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
           name={name}
           styles={selectStyles}
           isMulti={isMulti}
+          maxMenuHeight={maxMenuHeight || 245}
           options={options}
           controlShouldRenderValue={!isMulti}
           onChange={isMulti ? handleChange : onChange}

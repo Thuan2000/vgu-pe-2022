@@ -18,6 +18,7 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 // Locale setting
 import vi from "date-fns/locale/vi";
 import { IBuyingRequest } from "@graphql/types.graphql";
+import MaskInput from "@components/ui/storybook/inputs/mask-input";
 registerLocale("vi", vi);
 setDefaultLocale("vi");
 
@@ -40,15 +41,17 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
 
   return (
     <div className="md:w-2/3">
-      <Input
+      <MaskInput
+        control={control}
         numberQueue={1}
-        {...register("general.name")}
+        prefix={`${t("requestNamePrefix-value")} `}
+        name="general.name"
         className="my-6 w-full"
         autoFocus
-        label={`${t("post-request-name-label")}*`}
+        label={`${t("post-request-name-label")}`}
+        required={true}
         note={t("post-request-name-desc")}
-        onChange={(e) => {
-          register("general.name").onChange(e);
+        onChange={() => {
           trigger("general.name");
         }}
         placeholder={t("post-request-name-placeholder")}
@@ -62,14 +65,15 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         minDate={new Date()}
         placeholder={t("post-request-endDate-placeholder")}
         error={errors?.general?.endDate?.message}
-        label={`${t("post-request-endDate-label")}*`}
+        label={`${t("post-request-endDate-label")}`}
         numberQueue={2}
       />
 
       <SelectInput
         name="general.location"
         numberQueue={3}
-        label={`${t("post-request-location-label")}*`}
+        required={true}
+        label={`${t("post-request-location-label")}`}
         placeholder={t("post-request-location-placeholder")}
         control={control}
         options={vietnamCities}

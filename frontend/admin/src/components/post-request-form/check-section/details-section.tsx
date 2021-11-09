@@ -1,4 +1,3 @@
-import { BILLION } from "@utils/constants";
 import { formatMoneyAmount, getSuffix } from "@utils/functions";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -66,19 +65,19 @@ const DetailsSection: React.FC<IGeneralSection> = ({
       </div>
       <div className="mb-5">
         <p className="text-semibold">{t("check-industry-label")}</p>
-        <p className="font-semibold">{industry?.name}</p>
+        <p className="font-semibold">{t("industry:" + industry?.label)}</p>
       </div>
 
       {categories?.length > 0 && (
         <div className="mb-5">
           <p className="text-semibold">{t("check-categories-label")}</p>
-          <div className="flex items-center">
+          <div className="flex items-center flex-wrap">
             {categories.map((category, idx) => (
               <p
                 className="font-semibold mr-1"
-                key={`${category.name}-"category-additional-section"`}
+                key={`${category.label}-"category-additional-section"`}
               >
-                {category.name}
+                {t("category:" + category.label)}
                 {idx < categories?.length - 1 && ", "}
               </p>
             ))}

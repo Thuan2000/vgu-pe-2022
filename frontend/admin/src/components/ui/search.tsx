@@ -22,7 +22,6 @@ const Search = ({
         <ArrowDownIcon className="ml-3" />
       </button>
       <Input
-        noLabel
         noBorder
         style={{ height: "45px", width: "300px" }}
         className="border-none"

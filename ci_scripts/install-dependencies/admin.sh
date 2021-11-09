@@ -5,6 +5,9 @@
 # Change Dir to frontend shop
 # cd ../frontend/shop
 
+# Remove graphql codegen
+sudo rm -rf frontend/admin/src/graphql/*.d.ts
+
 # Install dependencies
 sudo yarn
 yarn build

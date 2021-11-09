@@ -37,10 +37,6 @@ export const siteSettings = {
       href: "#",
     },
     {
-      label: "Blog",
-      href: "#",
-    },
-    {
       label: "Hỗ trợ",
       href: "#",
     },

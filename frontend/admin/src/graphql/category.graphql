@@ -1,8 +1,7 @@
 query Categories($industryId: Int!) {
   categories(industryId: $industryId) {
     id
-    name
     label
-    description
+    industryId
   }
 }

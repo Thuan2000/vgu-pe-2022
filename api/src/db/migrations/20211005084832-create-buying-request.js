@@ -47,15 +47,15 @@ module.exports = {
 			biddersLimit: {
 				type: Sequelize.INTEGER
 			},
+			industryId: {
+				type: Sequelize.INTEGER
+			},
+			categoryIds: {
+				type: Sequelize.JSON
+			},
 			status: {
 				type: Sequelize.STRING,
 				defaultValue: "OPEN"
-			},
-			commentIds: {
-				type: Sequelize.JSON
-			},
-			bidIds: {
-				type: Sequelize.JSON
 			},
 			lastOpened: {
 				allowNull: false,
