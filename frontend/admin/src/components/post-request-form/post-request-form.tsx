@@ -192,9 +192,9 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
       const data = await trigger("general");
       if (!data) return;
     }
-    if (formPosition === DETAILS_FORM_INDEX && !isValidDetailsForm()) {
-      trigger("details");
-      return;
+    if (formPosition === DETAILS_FORM_INDEX) {
+      const data = await trigger("details");
+      if (!data) return;
     }
     if (formPosition >= 3) return;
 
@@ -215,6 +215,7 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
           initValue={initValue}
           trigger={trigger}
           control={control}
+          getValues={getValues}
           register={register}
           errors={errors}
         />

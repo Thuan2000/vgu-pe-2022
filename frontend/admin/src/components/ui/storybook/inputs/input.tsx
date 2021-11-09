@@ -11,6 +11,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
       note,
       name,
       error,
+      absoluteErrorMessage,
       required,
       transparentPrefix,
       children,
@@ -21,7 +22,6 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
       numberQueue,
       prefix,
       suffix,
-      valuePrefix,
       noBorder,
       ...rest
     },
@@ -42,20 +42,13 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
       },
       inputClassName
     );
-
-    /* If required is true, append a red (*) to label */
-    const requiredAppendix = required ? (
-      <span style={{ color: "red", fontWeight: "normal" }}>&nbsp;(*)</span>
-    ) : (
-      <div />
-    );
-
     return (
       <div className={className}>
         {label && (
           <InputLabel
             numberQueue={numberQueue}
             name={name}
+            required={required}
             note={note}
             label={label}
           />
@@ -76,19 +69,26 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
             {...rest}
           />
           {prefix && (
-            <label className="absolute y-center left-2 text-body">
+            <label
+              className={`absolute y-center text-sm left-4 ${
+                rest.value ? "text-[#000]" : "text-gray-200"
+              }`}
+            >
               {prefix}
-              {requiredAppendix}
             </label>
           )}
           {suffix && (
-            <label className="absolute y-center right-4 text-body">
-              {suffix}
-            </label>
+            <label className="absolute y-center right-4">{suffix}</label>
           )}
         </div>
         {error && (
-          <p className="my-2 text-xs text-start text-red-500">{error}</p>
+          <p
+            className={` ${
+              absoluteErrorMessage && "absolute"
+            } my-2 text-xs text-start text-red-500`}
+          >
+            {error}
+          </p>
         )}
       </div>
     );

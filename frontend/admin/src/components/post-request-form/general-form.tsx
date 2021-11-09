@@ -1,10 +1,10 @@
 import React from "react";
-import Input from "@components/ui/storybook/inputs/input";
 import {
   Control,
   FieldErrors,
   UseFormRegister,
   UseFormTrigger,
+  UseFormGetValues,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
@@ -18,7 +18,7 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 // Locale setting
 import vi from "date-fns/locale/vi";
 import { IBuyingRequest } from "@graphql/types.graphql";
-import MaskInput from "@components/ui/storybook/inputs/mask-input";
+import Input from "@components/ui/storybook/inputs/input";
 registerLocale("vi", vi);
 setDefaultLocale("vi");
 
@@ -28,12 +28,14 @@ interface IGeneralInputProps {
   initValue?: IBuyingRequest;
   errors?: FieldErrors<PostRequestFormValue>;
   trigger: UseFormTrigger<PostRequestFormValue>;
+  getValues: UseFormGetValues<PostRequestFormValue>;
 }
 
 const GeneralForm: React.FC<IGeneralInputProps> = ({
   register,
   trigger,
   control,
+  getValues,
   initValue,
   errors,
 }) => {
@@ -41,19 +43,21 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
 
   return (
     <div className="md:w-2/3">
-      <MaskInput
-        control={control}
+      <Input
         numberQueue={1}
+        value={getValues("general.name")}
+        inputClassName={"pl-[75px]"}
         prefix={`${t("requestNamePrefix-value")} `}
-        name="general.name"
+        {...register("general.name")}
+        onChange={(e) => {
+          register("general.name").onChange(e);
+          trigger("general.name");
+        }}
         className="my-6 w-full"
         autoFocus
         label={`${t("post-request-name-label")}`}
-        required={true}
+        required
         note={t("post-request-name-desc")}
-        onChange={() => {
-          trigger("general.name");
-        }}
         placeholder={t("post-request-name-placeholder")}
         error={errors?.general?.name?.message}
       />
@@ -62,6 +66,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         name="general.endDate"
         className="my-6 w-full"
         locale="vi"
+        required
         minDate={new Date()}
         placeholder={t("post-request-endDate-placeholder")}
         error={errors?.general?.endDate?.message}

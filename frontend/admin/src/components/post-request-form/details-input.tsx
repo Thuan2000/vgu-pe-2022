@@ -64,7 +64,6 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
     if (data?.productNames)
       setProductNames(data.productNames as Array<IProductName>);
   }, [data?.productNames]);
-
   return (
     <div className="md:w-4/6">
       <ProductNameSelect
@@ -72,7 +71,11 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         control={control}
         name="details.productName"
         isLoading={loading}
-        label={`${t("post-request-productName-label")} (*)`}
+        onChange={() => {
+          trigger("details.productName");
+        }}
+        required
+        label={t("post-request-productName-label")}
         numberQueue={1}
         placeholder={t("post-request-productName-placeholder")}
         options={productNames || []}
@@ -84,9 +87,16 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
           (option.label || option.name) === initValue?.productName
         }
       />
-      <PRFBudgetInput control={control} className="my-6 w-full" />
+      <PRFBudgetInput
+        errors={errors}
+        trigger={trigger}
+        control={control}
+        className="my-6 w-full"
+      />
       <PRFQuantityInput
         register={register}
+        errors={errors}
+        trigger={trigger}
         control={control}
         className="my-6 w-full"
       />
@@ -95,6 +105,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         getOptionLabel={(option) => t("industry:" + option.label)}
         getOptionValue={(option) => option.id}
         control={control}
+        required
         options={industriesData}
         numberQueue="4"
         className="my-6"
@@ -104,13 +115,15 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         }}
         error={(errors.details?.industry as any)?.message}
         name="details.industry"
-        label={`${t("industry-label")}*`}
+        label={t("industry-label")}
         placeholder={t("industry-placeholder")}
       />
 
       <SelectInput
         getOptionLabel={(option) => t("category:" + option.label)}
         getOptionValue={(option) => option.id}
+        required
+        noOptionsMessage={() => t("pleaseSelectIndustry-message")}
         control={control}
         options={getIndustryCategories(industryId) || []}
         getInitialValue={(option) => option.id === initValue?.industryId}
@@ -122,7 +135,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         error={(errors.details?.categories as any)?.message}
         isMulti
         name="details.categories"
-        label={`${t("categories-label")}*`}
+        label={t("categories-label")}
         placeholder={t("categories-placeholder")}
       />
 

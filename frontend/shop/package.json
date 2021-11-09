@@ -8,7 +8,8 @@
     "build": "yarn codegen && next build",
     "start": "next start",
     "lint": "next lint",
-    "type:codegen": "graphql-codegen --config codegen.yml"
+    "type-check": "tsc --skipLibCheck --noEmit",
+    "pre-commit": "npm-run-all lint type-check"
   },
   "husky": {
     "hooks": {

@@ -98,7 +98,7 @@
   "company-with-label": "Company with minimum",
   "minSupplierRating-filter-key": "Stars Rating",
   "minSupplierExperience-filter-key": "Years of establishment",
-  "minSuplierSells-filter-key": "Sells",
+  "minSupplierSells-filter-key": "Sells",
   "create-project-title": "Create New Project",
   "project-name-input-label": "Project Name",
   "endDate-input-label": "Due Date",
@@ -113,5 +113,14 @@
   "post-request-location-is-required-error": "Please select delivery location",
   "check-industry-label": "Industry",
   "bidders-text": "Bidders",
-  "requestNamePrefix-value": "Request"
+  "requestNamePrefix-value": "Request",
+  "post-request-maxBudget-more-than-error": "Max budget should more than min budget",
+  "post-request-minBudget-required-error": "Min budget required",
+  "maxBudget-required-error": "Max budget required",
+  "post-request-productName-required-error": "Please input product name",
+  "post-request-minOrder-required-error": "Please input min order",
+  "post-request-unit-required-error": "Please input unit",
+  "industry-required-error": "Please select industry",
+  "category-required-error": "Please select category",
+  "pleaseSelectIndustry-message": "Please select industry first"
 }

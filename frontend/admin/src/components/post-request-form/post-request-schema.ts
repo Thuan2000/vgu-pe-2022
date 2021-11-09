@@ -25,7 +25,10 @@ export const PostRequestSchema = yup.object({
     minOrder: yup.number().required("post-request-minOrder-required-error"),
     unit: yup.string().required("post-request-unit-required-error"),
     industry: yup.object().required("industry-required-error"),
-    categories: yup.array().min(1, "category-required-error"),
+    categories: yup
+      .array()
+      .required("category-required-error")
+      .min(1, "category-required-error"),
   }),
 
   additional: yup.object({
