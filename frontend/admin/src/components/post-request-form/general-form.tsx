@@ -46,7 +46,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
       <Input
         numberQueue={1}
         value={getValues("general.name")}
-        inputClassName={"pl-[75px]"}
+        inputClassName="pl-20"
         prefix={`${t("requestNamePrefix-value")} `}
         {...register("general.name")}
         onChange={(e) => {
