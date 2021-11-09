@@ -47,6 +47,7 @@ const DateInput: React.FC<DateInputProps> = ({
   inputClassName,
   rules,
   trigger,
+  required,
   ...props
 }) => {
   const dateClassName = cn(
@@ -81,6 +82,7 @@ const DateInput: React.FC<DateInputProps> = ({
                   numberQueue={numberQueue}
                   queueBackground={queueBackground}
                   name={name}
+                  required={required}
                 />
               )}
               <Datepicker

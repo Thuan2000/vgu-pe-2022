@@ -8,7 +8,6 @@ import BuyingRequest from "@models/BuyingRequest";
 import User from "@models/User";
 import { uploadImages } from "@repositories/uploads.repository";
 import {
-	BUYING_REQUESTS_GET_LIMIT,
 	errorResponse,
 	generateSlug,
 	RESPONSE_MESSAGE,

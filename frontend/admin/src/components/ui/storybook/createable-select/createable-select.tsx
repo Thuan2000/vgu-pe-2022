@@ -19,6 +19,7 @@ export interface ICreateableSelectProps extends Props {
   label?: string;
   note?: string;
   error?: string;
+  required?: boolean;
   numberQueue?: number;
   trigger?: (name: string) => void;
   loading?: boolean;
@@ -44,6 +45,7 @@ const CreateableSelect = React.forwardRef(
       getOptionValue,
       getInitialValue,
       trigger,
+      required,
       value,
       ...props
     }: ICreateableSelectProps,
@@ -51,17 +53,17 @@ const CreateableSelect = React.forwardRef(
   ) => {
     const [options, setOptions] = useState(defaultOptions || []);
 
-    // useEffect(() => {
-    //   setOptions(defaultOptions);
-    // }, [loading, defaultOptions]);
-    // if (["string", "number"].includes(typeof value) && getInitialValue) {
-    //   for (const opt of options || []) {
-    //     if (getInitialValue(opt) && onChange) {
-    //       onChange(opt, {} as any);
-    //       break;
-    //     }
-    //   }
-    // }
+    useEffect(() => {
+      setOptions(defaultOptions);
+    }, [loading, defaultOptions]);
+    if (["string", "number"].includes(typeof value) && getInitialValue) {
+      for (const opt of options || []) {
+        if (getInitialValue(opt) && onChange) {
+          onChange(opt, {} as any);
+          break;
+        }
+      }
+    }
 
     function handleCreateOption(label: string) {
       if (loading) return;
@@ -87,6 +89,7 @@ const CreateableSelect = React.forwardRef(
           numberQueue={numberQueue}
           label={label}
           note={note}
+          required={required}
           name={props.name}
         />
         <Createable

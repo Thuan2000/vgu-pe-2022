@@ -40,3 +40,5 @@ yarn-error.log*
 
 # PM2 Log
 .pm2*
+
+tsconfig.tsbuildinfo

@@ -15,6 +15,7 @@ const ProductNameSelect = ({
   control,
   name,
   createNewOption,
+  onChange: inputOnChange,
   ...props
 }: IProductNameSelect) => {
   function handleNewOptionCreation(label: string) {
@@ -27,10 +28,14 @@ const ProductNameSelect = ({
     <Controller
       control={control}
       name={name}
-      render={({ field }) => {
+      render={({ field: { onChange, ...field } }) => {
         return (
           <CreateableSelect
             createNewOption={createNewOption || handleNewOptionCreation}
+            onChange={(e) => {
+              if (inputOnChange) inputOnChange(e, {} as any);
+              onChange(e);
+            }}
             {...props}
             {...field}
           />

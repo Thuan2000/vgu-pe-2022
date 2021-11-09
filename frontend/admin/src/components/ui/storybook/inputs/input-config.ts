@@ -25,6 +25,7 @@ export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   transparentPrefix?: boolean;
   suffix?: any;
   numberQueue?: number;
+  absoluteErrorMessage?: boolean;
   noBorder?: boolean;
   valuePrefix?: string | number;
   required?: boolean;

@@ -71,9 +71,9 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
           {...props}
           value={value}
         />
-        {isMulti && (
+        {!!values && isMulti && (
           <div className="flex flex-wrap select-none mt-3">
-            {values?.map((value: any, idx: number) => {
+            {values.map((value: any, idx: number) => {
               const label = props?.getOptionLabel!(value);
 
               return (

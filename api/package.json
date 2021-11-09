@@ -28,9 +28,9 @@
 		"precopyschemas": "mkdirp ./dist/graphql/schemas",
 		"copyschemas": "copyfiles ./src/graphql/schemas/* ./dist/graphql/schemas/",
 		"tsc:watch": "tsc --watch",
-		"build:shop": "npm --prefix ../frontend/shop run build",
-		"build:admin": "npm --prefix ../frontend/admin run build",
-		"precommit": "npm-run-all build:shop build:admin build"
+		"shop:pre-commit": "npm --prefix ../frontend/shop run pre-commit",
+		"admin:pre-commit": "npm --prefix ../frontend/admin run pre-commit",
+		"precommit": "npm-run-all shop:pre-commit admin:pre-commit build"
 	},
 	"husky": {
 		"hooks": {
