@@ -40,5 +40,7 @@
   "statusAll-filter": "All",
   "productName-filter-label": "Product Name",
   "productName-filter-placeholder": "VGA Nvidia GTX 1080TI",
-  "buying-request-page-title": "Buying Request"
+  "buying-request-page-title": "Buying Request",
+  "englishLanguage-label": "English",
+  "vietnameseLanguage-label": "Vietnamese"
 }

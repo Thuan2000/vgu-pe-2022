@@ -24,7 +24,7 @@ const Navigations = () => {
             <Link
               href={href}
               key={navigation.label + "Nav-item"}
-              className={`px-6 text-sm border-b-2 pb-[17px]
+              className={`px-6 text-sm
               ${
                 checkIsActive(href)
                   ? "text-primary font-semibold border-primary"
