@@ -1,6 +1,6 @@
 import Divider from "@components/ui/divider";
 import { thousandSeparator } from "@utils/functions";
-import { isString } from "lodash";
+import { isEmpty, isString } from "lodash";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import { AdditionalFormValue } from "../post-request-schema";
@@ -19,7 +19,7 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
   const { t } = useTranslation("form");
 
   function isHaveParticipantFilter() {
-    return allowedCompany && allowedCompany?.length > 1;
+    return !isEmpty(allowedCompany);
   }
 
   function isHaveAdditional() {
@@ -27,14 +27,13 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
   }
 
   function getParticipantFilter() {
+    if (!allowedCompany || isEmpty(allowedCompany)) return "";
     let text = "";
-    allowedCompany?.map((fi: any) => {
-      if (!fi?.key) return;
-      text += `${t("company-with-label")} ${thousandSeparator(fi?.value)} ${t(
-        isString(fi?.key)
-          ? fi?.key + "-filter-key"
-          : fi?.key?.value + "-filter-key"
-      )}, `;
+    Object.keys(allowedCompany)?.map((fi: any) => {
+      if (!fi) return;
+      text += `${t("company-with-label")} ${thousandSeparator(
+        (allowedCompany as any)[fi] as any
+      )} ${t(fi + "-filter-key")}, `;
     });
     return text;
   }
@@ -56,7 +55,7 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
       {isHaveParticipantFilter() && (
         <div className="mb-5">
           <p className="text-semibold">{t("check-participantFilter-label")}</p>
-          <p className="font-semibold">{getParticipantFilter()}</p>
+          <p className="font-semibold flex-wrap">{getParticipantFilter()}</p>
         </div>
       )}
     </>

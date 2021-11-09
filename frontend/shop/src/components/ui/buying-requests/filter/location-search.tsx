@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { IVietnamCity, vietnamCities } from "@utils/vietnam-cities";
+import { IVietnamCity, vietnamCities } from "src/datas/vietnam-cities";
 import Select from "@components/ui/storybook/inputs/select";
 import FilterLabel from "./filter-label";
 import { useRouter } from "next/dist/client/router";

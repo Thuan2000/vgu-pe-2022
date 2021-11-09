@@ -18,6 +18,7 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 // Locale setting
 import vi from "date-fns/locale/vi";
 import { IBuyingRequest } from "@graphql/types.graphql";
+import MaskInput from "@components/ui/storybook/inputs/mask-input";
 registerLocale("vi", vi);
 setDefaultLocale("vi");
 
@@ -40,16 +41,17 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
 
   return (
     <div className="md:w-2/3">
-      <Input
+      <MaskInput
+        control={control}
         numberQueue={1}
-        {...register("general.name")}
+        prefix={`${t("requestNamePrefix-value")} `}
+        name="general.name"
         className="my-6 w-full"
         autoFocus
         label={`${t("post-request-name-label")}`}
         required={true}
         note={t("post-request-name-desc")}
-        onChange={(e) => {
-          register("general.name").onChange(e);
+        onChange={() => {
           trigger("general.name");
         }}
         placeholder={t("post-request-name-placeholder")}

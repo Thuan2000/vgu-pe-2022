@@ -27,7 +27,6 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({ br }) => {
 
   function isBidded() {
     const index = findIndex(br.bids, (bid) => {
-      console.log(bid);
       return bid.company.id === getCompanyId();
     });
 

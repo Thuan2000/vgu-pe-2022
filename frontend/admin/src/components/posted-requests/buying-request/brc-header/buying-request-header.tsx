@@ -8,18 +8,13 @@ import Checkbox from "@components/ui/storybook/checkbox";
 import UnderDevelopment from "@components/under-development";
 import CreateProject from "@components/create-project";
 import { ROUTES } from "@utils/routes";
-import { useRouter } from "next/dist/client/router";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { useBRContext } from "src/contexts/buying-request.context";
-import { useModal } from "src/contexts/modal.context";
 import useIsPhone from "src/hooks/isPhone.hook";
 import { useDeleteBuyingRequestsMutation } from "@graphql/buying-request.graphql";
-import Loading from "@components/ui/loading";
 import SpinLoading from "@components/ui/storybook/spin-loading";
 import { COLORS } from "@utils/colors";
-import { IBuyingRequest, IProject } from "@graphql/types.graphql";
-import AddToProject from "@components/ui/add-to-project";
+import { IBuyingRequest } from "@graphql/types.graphql";
 import SearchInput from "@components/search-input";
 
 interface IBuyingRequestSearchProps
@@ -38,9 +33,8 @@ const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({
 }) => {
   const { t } = useTranslation();
   const isPhone = useIsPhone();
-  const { refetchBrs } = useBRContext();
-  const [deleteBrs, { loading }] = useDeleteBuyingRequestsMutation({
-    onCompleted: refetchBrs,
+  const [deleteBrs, { loading, data }] = useDeleteBuyingRequestsMutation({
+    onCompleted: (data) => console.log(data),
   });
 
   function deleteSelectedBrs() {

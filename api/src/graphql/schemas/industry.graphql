@@ -1,7 +1,6 @@
 type Industry {
 	id: ID
-	nameVn: String!
-	nameEn: String!
+	label: String!
 }
 
 extend type Query {

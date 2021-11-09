@@ -23,101 +23,16 @@ import {
   useUpdateBuyingRequestMutation,
 } from "@graphql/buying-request.graphql";
 import { ROUTES } from "@utils/routes";
-import {
-  IAllowedCompany,
-  IBuyingRequest,
-  IResponse,
-} from "@graphql/types.graphql";
+import { IBuyingRequest, IResponse } from "@graphql/types.graphql";
 import {
   getCompanyId,
   getCompanyName,
   getLoggedInUser,
-  isString,
 } from "@utils/functions";
-
-type KeyValueSelect = { key: { label: string; value: string }; value: any };
-
-function processRawAC(rawACs: KeyValueSelect[]) {
-  const allowedCompany: any = {};
-
-  rawACs.flatMap((rawAC) => {
-    // Apollo give us __typename
-    if (!rawAC?.key || (rawAC as any).key === "__typename") return [];
-
-    const key: any = isString(rawAC.key) ? rawAC.key : rawAC.key.value;
-    allowedCompany[key] = rawAC.value;
-  });
-
-  return allowedCompany;
-}
+import { getDefaultValue } from "./prf-utils";
 
 interface IPostRequestFormParams {
   initValue?: IBuyingRequest;
-}
-
-function getAllowedCompanyInArray({
-  __typename,
-  ...allowedCompany
-}: IAllowedCompany | any): any {
-  const participantFilter = Object.keys(allowedCompany).flatMap((key) => {
-    if (!(allowedCompany as any)[key]) return [];
-    return { key, value: (allowedCompany as any)[key] };
-  });
-
-  if (participantFilter.length < 3) {
-    participantFilter.push({} as any);
-  }
-
-  return participantFilter;
-}
-
-function getDefaultValue(initValue?: IBuyingRequest) {
-  if (!initValue)
-    return {
-      general: {
-        endDate: new Date(),
-      },
-    };
-
-  const {
-    name,
-    endDate,
-    location,
-    description = "",
-    minBudget,
-    maxBudget,
-    productName,
-    minOrder,
-    unit,
-    gallery,
-    industry,
-    categories,
-    allowedCompany,
-  } = initValue;
-
-  const data: PostRequestFormValue = {
-    general: {
-      endDate: new Date(endDate),
-      name,
-      location: location as any,
-      description: description as string,
-    },
-    details: {
-      productName: productName as any,
-      minBudget,
-      maxBudget,
-      minOrder,
-      gallery,
-      unit,
-      industry,
-      categories: categories as any,
-    },
-    additional: {
-      allowedCompany: getAllowedCompanyInArray(allowedCompany),
-    },
-  };
-
-  return data;
 }
 
 const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
@@ -223,9 +138,8 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
       gallery,
       ...detailsRest
     } = details;
-    const { allowedCompany: rawACs, ...additionalRest } = additional;
+    const { allowedCompany, ...additionalRest } = additional;
 
-    const allowedCompany = processRawAC(rawACs as any);
     const locationName = location.name;
     const productName = product.name;
     const industryId = parseInt(industry.id + "");
@@ -313,6 +227,7 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
           trigger={trigger}
           register={register}
           errors={errors}
+          getValues={getValues}
         />
       )}
 

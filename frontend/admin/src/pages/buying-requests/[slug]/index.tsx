@@ -7,12 +7,14 @@ import Loading from "@components/ui/loading";
 import Typography from "@components/ui/storybook/typography";
 import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
 import { IAllowedCompany, IBuyingRequest } from "@graphql/types.graphql";
+import { getCategories } from "@utils/categories";
 import {
   formatMoneyAmount,
   getSuffix,
   thousandSeparator,
   viDateFormat,
 } from "@utils/functions";
+import { getIndustry } from "@utils/industries";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Image from "next/image";
@@ -24,7 +26,12 @@ export const getServerSideProps: GetStaticProps = async (ctx) => {
   return {
     props: {
       ...params,
-      ...(await serverSideTranslations(locale!, ["common", "form"])),
+      ...(await serverSideTranslations(locale!, [
+        "common",
+        "form",
+        "category",
+        "industry",
+      ])),
     },
   };
 };
@@ -96,7 +103,13 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
           </div>
           <div className="mt-1 flex items-start">
             <Typography className="mr-1" text={`${t("industry-text")}:`} />
-            <Typography variant="smallTitle" text={br?.industry.name || ""} />
+            <Typography
+              variant="smallTitle"
+              text={
+                t("industry:" + getIndustry(br?.industryId as number).label) ||
+                ""
+              }
+            />
           </div>
           <div className="mt-1 flex items-start">
             <p className="mr-1">{t("budget-text")}:</p>
@@ -124,14 +137,14 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
           <div className="mt-1 flex items-start">
             <p className="mr-1">{t("application")}:</p>
             <p className="font-semibold">
-              {!!br?.categories?.length ? (
-                br.categories.map((ctgr, idx) => (
+              {!!br?.categoryIds?.length ? (
+                getCategories(br?.categoryIds as number[]).map((ctgr, idx) => (
                   <span
                     className="font-semibold"
-                    key={ctgr.id + "category" + br?.id}
+                    key={ctgr?.id + "category" + br?.id}
                   >
-                    {ctgr.name}
-                    {idx < br.categories.length - 1 && ", "}
+                    {t("category:" + ctgr?.label)}
+                    {idx < br.categoryIds.length - 1 && ", "}
                   </span>
                 ))
               ) : (

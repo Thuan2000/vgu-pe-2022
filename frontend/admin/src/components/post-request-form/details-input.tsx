@@ -4,10 +4,10 @@ import {
   Control,
   FieldErrors,
   UseFormTrigger,
+  UseFormGetValues,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
-import NumberInput from "@components/ui/storybook/inputs/number-input";
 import AdditionalForm from "./additional-form";
 import DocumentInput from "@components/ui/storybook/document-input";
 import { useProductNamesQuery } from "@graphql/product.graphql";
@@ -17,15 +17,11 @@ import {
   IIndustry,
   IProductName,
 } from "@graphql/types.graphql";
-import InputLabel from "@components/ui/storybook/inputs/input-label";
-import InlineLabel from "./inline-label";
-import Input from "@components/ui/storybook/inputs/input";
-import InlineFormInputWrapper from "./inline-form-input-wrapper";
 import SelectInput from "@components/ui/storybook/select-input";
-import { useCategoriesQuery } from "@graphql/category.graphql";
-import { useIndustriesQuery } from "@graphql/industry.graphql";
-
-const INLINE_LABEL_WIDTH = "85px";
+import { industriesData } from "@utils/industries";
+import { getIndustryCategories } from "@utils/categories";
+import PRFBudgetInput from "./details-form/prf-budget-input";
+import PRFQuantityInput from "./details-form/prf-quantity-input";
 
 interface IGeneralInputProps {
   register: UseFormRegister<PostRequestFormValue>;
@@ -33,6 +29,7 @@ interface IGeneralInputProps {
   errors: FieldErrors<PostRequestFormValue>;
   trigger: UseFormTrigger<PostRequestFormValue>;
   initValue?: IBuyingRequest;
+  getValues: UseFormGetValues<PostRequestFormValue>;
 }
 
 const DetailsInput: React.FC<IGeneralInputProps> = ({
@@ -40,6 +37,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
   control,
   initValue,
   trigger,
+  getValues,
   errors,
 }) => {
   const { t } = useTranslation("form");
@@ -52,29 +50,11 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
     data?.productNames as Array<IProductName>
   );
   const [industryId, setIndustryId] = useState(
-    parseInt(initValue?.industry?.id + "") || -1
+    parseInt(initValue?.industryId + "") ||
+      getValues("details.industry.id") ||
+      -1
   );
 
-  const { data: industriesData, loading: industriesLoading } =
-    useIndustriesQuery();
-
-  const {
-    data: categoriesData,
-    loading: categoriesLoading,
-    refetch,
-  } = useCategoriesQuery({ variables: { industryId: industryId } });
-
-  useEffect(() => {
-    if (industryId !== -1) refetch({ industryId });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [industryId]);
-
-  const categories = categoriesData?.categories;
-  const industries = industriesData?.industries;
-
-  // Append to fields on first run
-
-  // @componentDidMount
   useEffect(() => {
     refetchProductNames();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -104,85 +84,18 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
           (option.label || option.name) === initValue?.productName
         }
       />
-      <div className="my-6 w-full">
-        <InputLabel
-          numberQueue={2}
-          label={`${t("post-request-budget-label")}*`}
-        />
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between ml-8">
-          <InlineFormInputWrapper>
-            <InlineLabel
-              labelWidth={INLINE_LABEL_WIDTH}
-              text={t("min-budget-label")}
-            />
-            <NumberInput
-              name="details.minBudget"
-              noLabel
-              control={control}
-              placeholder={t("post-request-budget-placeholder")}
-              suffix=" ₫"
-              allowNegative={false}
-              error={errors?.details?.minBudget?.message}
-            />
-          </InlineFormInputWrapper>
-          <InlineFormInputWrapper>
-            <InlineLabel
-              labelWidth={INLINE_LABEL_WIDTH}
-              text={t("max-budget-label")}
-            />
-            <NumberInput
-              name="details.maxBudget"
-              noLabel
-              control={control}
-              placeholder={t("post-request-budget-placeholder")}
-              suffix={` ${t("budget-sign")}`}
-              allowNegative={false}
-              error={errors?.details?.maxBudget?.message}
-            />
-          </InlineFormInputWrapper>
-        </div>
-      </div>
-      <div className="my-6 w-full">
-        <InputLabel
-          label={`${t("post-request-minOrder-label")}*`}
-          numberQueue={3}
-        />
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between ml-8">
-          <InlineFormInputWrapper>
-            <InlineLabel
-              labelWidth={INLINE_LABEL_WIDTH}
-              text={t("quantity-label")}
-            />
-            <NumberInput
-              noLabel
-              placeholder={t("post-request-minOrder-placeholder")}
-              name="details.minOrder"
-              control={control}
-              allowNegative={false}
-              error={errors?.details?.minOrder?.message}
-            />
-          </InlineFormInputWrapper>
-          <InlineFormInputWrapper>
-            <InlineLabel
-              labelWidth={INLINE_LABEL_WIDTH}
-              text={t("unit-label")}
-            />
-            <Input
-              noLabel
-              placeholder={t("post-request-minOrder-placeholder")}
-              {...register("details.unit")}
-              error={errors?.details?.minOrder?.message}
-            />
-          </InlineFormInputWrapper>
-        </div>
-      </div>
+      <PRFBudgetInput control={control} className="my-6 w-full" />
+      <PRFQuantityInput
+        register={register}
+        control={control}
+        className="my-6 w-full"
+      />
 
       <SelectInput
-      // TODO: based on language, choose either option.nameVn or option.En
-        getOptionLabel={(option) => option.label || option.nameVn}
-        getOptionValue={(option) => option.value || option.nameVn}
+        getOptionLabel={(option) => t("industry:" + option.label)}
+        getOptionValue={(option) => option.id}
         control={control}
-        options={industries || []}
+        options={industriesData}
         numberQueue="4"
         className="my-6"
         onChange={(industry: IIndustry) => {
@@ -190,25 +103,23 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
           setIndustryId(parseInt(industry?.id || "-1"));
         }}
         error={(errors.details?.industry as any)?.message}
-        loading={industriesLoading}
         name="details.industry"
         label={`${t("industry-label")}*`}
         placeholder={t("industry-placeholder")}
       />
 
       <SelectInput
-        getOptionLabel={(option) => option.label || option.name}
-        getOptionValue={(option) => option.value || option.name}
+        getOptionLabel={(option) => t("category:" + option.label)}
+        getOptionValue={(option) => option.id}
         control={control}
-        options={categories || []}
-        getInitialValue={(option) => option.id === initValue?.industry.id}
+        options={getIndustryCategories(industryId) || []}
+        getInitialValue={(option) => option.id === initValue?.industryId}
         numberQueue="5"
         className="my-6"
         onChange={(_) => {
           trigger("details.categories");
         }}
         error={(errors.details?.categories as any)?.message}
-        loading={categoriesLoading}
         isMulti
         name="details.categories"
         label={`${t("categories-label")}*`}

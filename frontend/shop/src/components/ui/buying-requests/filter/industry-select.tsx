@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 
-import { useIndustriesQuery } from "@graphql/industry.graphql";
 import { useTranslation } from "next-i18next";
-import { IIndustry } from "@graphql/types.graphql";
 import Select from "@components/ui/storybook/inputs/select";
 import FilterLabel from "./filter-label";
 import { useRouter } from "next/dist/client/router";
+import { IIndustry, industriesData } from "@datas/industries";
 
 interface IIndustrySelectProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -42,13 +41,11 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
     setValue(e as IIndustry);
   }
 
-  const { data } = useIndustriesQuery();
-  const industries = data?.industries;
   return (
     <div {...props}>
       <FilterLabel text={t("industry-filter-label")} />
       <Select
-        options={industries || []}
+        options={industriesData || []}
         name="industryFilter"
         isClearable
         value={value}
@@ -56,7 +53,7 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
         placeholder={t("industryFilter-placeholder")}
         onChange={handleChange}
         getOptionValue={((option: IIndustry) => option?.slug) as any}
-        getOptionLabel={((option: IIndustry) => option?.name) as any}
+        getOptionLabel={((option: IIndustry) => option?.label) as any}
       />
     </div>
   );

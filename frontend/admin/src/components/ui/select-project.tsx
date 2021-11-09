@@ -1,4 +1,3 @@
-import PdfIcon from "@assets/icons/files/pdf-icon";
 import { PlusIcon } from "@assets/icons/plus-icon";
 import SearchIcon from "@assets/icons/search-icon";
 import PhoneAdminNavbar from "@components/phone-admin-navbar";
@@ -6,7 +5,6 @@ import { COLORS } from "@utils/colors";
 import { findIndex } from "lodash";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useBRContext } from "src/contexts/buying-request.context";
 import { useModal } from "src/contexts/modal.context";
 import Input from "./storybook/inputs/input";
 import Loader from "./storybook/loader/loader";
@@ -88,7 +86,7 @@ const SelectProject: React.FC<ISelectProjectProps> = ({
       />
       <h2 className="hidden sm:flex">{title}</h2>
       <div className="hidden sm:flex items-center py-1 my-5 border rounded-md w-full">
-        <Input noLabel noBorder className="h-9 w-full" />
+        <Input noBorder className="h-9 w-full" />
         <button type="button" className="border-gray-200 h-9 p-3 flex-center">
           <SearchIcon fill={COLORS.GRAY[200]} />
         </button>

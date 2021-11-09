@@ -9,14 +9,14 @@ module.exports = {
 		 * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
 		 */
 		return Promise.all([
-			queryInterface.addColumn("buying_requests", "industryId", {
-				type: Sequelize.INTEGER,
-				references: {
-					model: "industries",
-					key: "id"
-				},
-				onDelete: "SET NULL"
-			}),
+			// queryInterface.addColumn("buying_requests", "industryId", {
+			// 	type: Sequelize.INTEGER,
+			// 	references: {
+			// 		model: "industries",
+			// 		key: "id"
+			// 	},
+			// 	onDelete: "SET NULL"
+			// }),
 
 			queryInterface.addColumn("buying_requests", "companyId", {
 				type: Sequelize.INTEGER,

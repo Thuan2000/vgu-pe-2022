@@ -1,7 +1,0 @@
-query Industries {
-  industries {
-    id
-    nameVn
-    nameEn
-  }
-}

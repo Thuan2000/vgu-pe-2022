@@ -1,17 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import InputLabel from "@components/ui/storybook/inputs/input-label";
-import SelectInput from "@components/ui/storybook/select-input";
-import {
-  UseFormRegister,
-  Control,
-  FieldErrors,
-  useFieldArray,
-} from "react-hook-form";
+import { UseFormRegister, Control, FieldErrors } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
 import BidParticipantFilterInput from "./bid-participant-filter-input";
-import { ALLOWED_COMPANY_QUESTIONS } from "./additional-constants";
-import NumberInput from "@components/ui/storybook/inputs/number-input";
 
 interface IAdditionalFormProps {
   register: UseFormRegister<PostRequestFormValue>;
@@ -20,70 +12,52 @@ interface IAdditionalFormProps {
 }
 
 const AdditionalForm: React.FC<IAdditionalFormProps> = ({
-  register,
   control,
   errors,
 }) => {
   const { t } = useTranslation("form");
 
-  const [pOptions, setPOptions] = useState(ALLOWED_COMPANY_QUESTIONS);
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "additional.allowedCompany",
-  });
-
-  useEffect(() => {
-    if (!fields.length) append({} as any);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    removeParticipantKeyDuplication();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fields]);
-
-  function removeParticipantKeyDuplication() {
-    const notDuplicated: any = [];
-    // @TODO find better algorithm than this
-    ALLOWED_COMPANY_QUESTIONS.forEach((acq) => {
-      let isDuplicate = false;
-      fields?.forEach((f: any) => {
-        // (f.key === acq)
-        if ((typeof f?.key === "string" ? f?.key : f?.key?.value) === acq.value)
-          isDuplicate = true;
-      });
-
-      if (!isDuplicate) notDuplicated.push(acq);
-    });
-
-    setPOptions(notDuplicated);
-  }
-
   return (
     <>
-      <h3 className="mt-7 mb-3">{t("additional-information-check-title")}</h3>
+      <h2 className="mt-7 mb-3">{t("additional-information-check-title")}</h2>
 
       <InputLabel
         numberQueue="b"
         queueBackground="blue"
         label={t("who-can-participate-to-bid")}
       />
-      {fields
-        ?.slice(0, ALLOWED_COMPANY_QUESTIONS.length)
-        ?.map((field: any, idx) => {
-          return (
-            <BidParticipantFilterInput
-              key={field?.id}
-              field={field}
-              idx={idx}
-              control={control}
-              pOptions={pOptions}
-              remove={remove}
-              append={append}
-            />
-          );
-        })}
+      <BidParticipantFilterInput
+        control={control}
+        label={t("supplierExperience-label")}
+        name={"additional.allowedCompany.minSupplierExperience"}
+        suffix={` ${t("experience-suffix-years")}`}
+        placeholder={t("supplierExperience-placeholder")}
+        error={
+          errors.additional?.allowedCompany?.minSupplierExperience?.message
+        }
+        allowNegative={false}
+        max={40}
+      />
+      <BidParticipantFilterInput
+        control={control}
+        label={t("rating-label")}
+        placeholder={t("rating-placeholder")}
+        name={"additional.allowedCompany.minSupplierRating"}
+        suffix={` ${t("rating-suffix")}`}
+        error={errors.additional?.allowedCompany?.minSupplierRating?.message}
+        allowNegative={false}
+        max={5}
+      />
+      <BidParticipantFilterInput
+        control={control}
+        name={"additional.allowedCompany.minSupplierSells"}
+        suffix={` ${t("sells-suffix")}`}
+        label={t("minSuplierSells-label")}
+        placeholder={t("minSuplierSells-placeholder")}
+        error={errors.additional?.allowedCompany?.minSupplierSells?.message}
+        allowNegative={false}
+        max={1000000}
+      />
     </>
   );
 };
