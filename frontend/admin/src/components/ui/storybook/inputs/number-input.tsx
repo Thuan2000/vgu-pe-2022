@@ -107,7 +107,7 @@ const NumInput: React.FC<INumInputProps> = React.forwardRef(
     }
 
     useEffect(() => {
-      if (!value || !onChange) return;
+      if ((!value && value !== 0) || !onChange) return;
       if (max && value > max) onChange(max as any);
       else if (min && value < min) onChange(min as any);
 

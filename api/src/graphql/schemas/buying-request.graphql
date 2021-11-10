@@ -1,7 +1,7 @@
 type AllowedCompany {
 	minSupplierExperience: Float
 	minSupplierRating: Float
-	minSuplierSells: Float
+	minSupplierSells: Float
 }
 
 enum BRStatus {

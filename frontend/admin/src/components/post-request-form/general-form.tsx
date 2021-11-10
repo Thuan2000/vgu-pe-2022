@@ -63,7 +63,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         required
         note={t("post-request-name-desc")}
         placeholder={t("post-request-name-placeholder")}
-        error={errors?.general?.name?.message}
+        error={t(errors?.general?.name?.message || "")}
       />
       <DateInput
         control={control}
@@ -73,7 +73,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         required
         minDate={new Date()}
         placeholder={t("post-request-endDate-placeholder")}
-        error={errors?.general?.endDate?.message}
+        error={t(errors?.general?.endDate?.message || "")}
         label={`${t("post-request-endDate-label")}`}
         numberQueue={2}
       />
@@ -92,7 +92,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         getInitialValue={(option?: IVietnamCity) =>
           option?.name === (initValue?.location as string)
         }
-        error={(errors?.general?.location as any)?.message}
+        error={t((errors?.general?.location as any)?.message || "")}
         getOptionLabel={(option: IVietnamCity) => option.name}
         getOptionValue={(option: IVietnamCity) => option.name}
       />
@@ -101,7 +101,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         className="my-6 w-full"
         numberQueue={4}
         placeholder={t("post-request-description-placeholder")}
-        error={errors?.general?.description?.message}
+        error={t(errors?.general?.description?.message || "")}
         {...register("general.description")}
       />
     </div>

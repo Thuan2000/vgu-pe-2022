@@ -81,7 +81,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         options={productNames || []}
         getOptionLabel={(option: any) => option.label || option.name}
         getOptionValue={(option: any) => option.label || option.name}
-        error={(errors?.details?.productName as any)?.message}
+        error={t((errors?.details?.productName as any)?.message || "")}
         autoFocus={true}
         getInitialValue={(option: any) =>
           (option.label || option.name) === initValue?.productName
@@ -113,9 +113,9 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
           trigger("details.industry");
           setIndustryId(parseInt(industry?.id || "-1"));
         }}
-        error={(errors.details?.industry as any)?.message}
+        error={t((errors.details?.industry as any)?.message || "")}
         name="details.industry"
-        label={t("industry-label")}
+        label={t("check-industry-label")}
         placeholder={t("industry-placeholder")}
       />
 
@@ -132,7 +132,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         onChange={(_) => {
           trigger("details.categories");
         }}
-        error={(errors.details?.categories as any)?.message}
+        error={t((errors.details?.categories as any)?.message || "")}
         isMulti
         name="details.categories"
         label={t("categories-label")}
@@ -149,7 +149,12 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         error={errors?.details?.gallery?.message}
       />
 
-      <AdditionalForm register={register} control={control} errors={errors} />
+      <AdditionalForm
+        initValue={initValue}
+        register={register}
+        control={control}
+        errors={errors}
+      />
     </div>
   );
 };

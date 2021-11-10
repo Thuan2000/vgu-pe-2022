@@ -8,6 +8,7 @@ export type INavigation = {
   href: string;
   icon?: any;
   children?: INavigation[];
+  managedLinks?: string[];
 };
 
 export const requestChildren = [
@@ -18,10 +19,11 @@ export const requestChildren = [
   {
     label: "postedRequests-nav-label",
     href: ROUTES.POSTED_REQUESTS,
+    managedLinks: [ROUTES.BUYING_REQUESTS],
   },
 ];
 
-export const navigations = [
+export const navigations: INavigation[] = [
   {
     label: "home-nav-label",
     href: ROUTES.HOMEPAGE,

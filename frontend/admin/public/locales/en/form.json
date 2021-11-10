@@ -122,5 +122,14 @@
   "post-request-unit-required-error": "Please input unit",
   "industry-required-error": "Please select industry",
   "category-required-error": "Please select category",
-  "pleaseSelectIndustry-message": "Please select industry first"
+  "pleaseSelectIndustry-message": "Please select industry first",
+  "noParticipantRequirement-label": "No participant requirement specified",
+  "post-request-productName-placeholder": "Intel Core I9 9900K",
+  "post-request-budget-placeholder": "1.000.000",
+  "post-request-minOrder-placeholder": "1.000",
+  "post-request-unit-placeholder": "Pc",
+  "industry-placeholder": "Technology",
+  "categories-placeholder": "Graphic Card",
+  "minSuplierSells-label": "Sells",
+  "minSuplierSells-placeholder": "1.000"
 }

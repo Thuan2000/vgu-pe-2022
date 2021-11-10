@@ -4,16 +4,19 @@ import { UseFormRegister, Control, FieldErrors } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
 import BidParticipantFilterInput from "./bid-participant-filter-input";
+import { IBuyingRequest } from "@graphql/types.graphql";
 
 interface IAdditionalFormProps {
   register: UseFormRegister<PostRequestFormValue>;
   control: Control<PostRequestFormValue>;
   errors: FieldErrors<PostRequestFormValue>;
+  initValue?: IBuyingRequest;
 }
 
 const AdditionalForm: React.FC<IAdditionalFormProps> = ({
   control,
   errors,
+  initValue,
 }) => {
   const { t } = useTranslation("form");
 
@@ -32,8 +35,13 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
         name={"additional.allowedCompany.minSupplierExperience"}
         suffix={` ${t("experience-suffix-years")}`}
         placeholder={t("supplierExperience-placeholder")}
-        error={
-          errors.additional?.allowedCompany?.minSupplierExperience?.message
+        min={1}
+        error={t(
+          errors.additional?.allowedCompany?.minSupplierExperience?.message ||
+            ""
+        )}
+        defaultValue={
+          initValue?.allowedCompany?.minSupplierExperience as number
         }
         allowNegative={false}
         max={40}
@@ -44,7 +52,11 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
         placeholder={t("rating-placeholder")}
         name={"additional.allowedCompany.minSupplierRating"}
         suffix={` ${t("rating-suffix")}`}
-        error={errors.additional?.allowedCompany?.minSupplierRating?.message}
+        defaultValue={initValue?.allowedCompany?.minSupplierRating as number}
+        min={1}
+        error={t(
+          errors.additional?.allowedCompany?.minSupplierRating?.message || ""
+        )}
         allowNegative={false}
         max={5}
       />
@@ -52,9 +64,13 @@ const AdditionalForm: React.FC<IAdditionalFormProps> = ({
         control={control}
         name={"additional.allowedCompany.minSupplierSells"}
         suffix={` ${t("sells-suffix")}`}
+        defaultValue={initValue?.allowedCompany?.minSupplierSells as number}
+        min={1}
         label={t("minSuplierSells-label")}
         placeholder={t("minSuplierSells-placeholder")}
-        error={errors.additional?.allowedCompany?.minSupplierSells?.message}
+        error={t(
+          errors.additional?.allowedCompany?.minSupplierSells?.message || ""
+        )}
         allowNegative={false}
         max={1000000}
       />

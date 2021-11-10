@@ -59,7 +59,7 @@ const PRFBudgetInput: React.FC<IPRFBudgetInputProps> = ({
             }}
             absoluteErrorMessage={!isPhone}
             allowNegative={false}
-            error={errors?.details?.minBudget?.message}
+            error={t(errors?.details?.minBudget?.message || "")}
           />
         </InlineFormInputWrapper>
         <InlineFormInputWrapper
@@ -80,7 +80,7 @@ const PRFBudgetInput: React.FC<IPRFBudgetInputProps> = ({
             }}
             absoluteErrorMessage={!isPhone}
             allowNegative={false}
-            error={errors?.details?.maxBudget?.message}
+            error={t(errors?.details?.maxBudget?.message || "")}
           />
         </InlineFormInputWrapper>
       </div>

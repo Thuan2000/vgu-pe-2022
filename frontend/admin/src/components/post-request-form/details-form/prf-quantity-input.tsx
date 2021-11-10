@@ -65,7 +65,7 @@ const PRFQuantityInput: React.FC<IPRFQuantityInputProps> = ({
               trigger("details.minOrder");
             }}
             absoluteErrorMessage={!isPhone}
-            error={errors?.details?.minOrder?.message}
+            error={t(errors?.details?.minOrder?.message || "")}
           />
         </InlineFormInputWrapper>
         <InlineFormInputWrapper className={`${isUnitError && "!items-start"}`}>
@@ -82,7 +82,7 @@ const PRFQuantityInput: React.FC<IPRFQuantityInputProps> = ({
               trigger("details.unit");
             }}
             absoluteErrorMessage={!isPhone}
-            error={errors?.details?.unit?.message}
+            error={t(errors?.details?.unit?.message || "")}
           />
         </InlineFormInputWrapper>
       </div>

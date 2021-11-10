@@ -76,5 +76,6 @@
   "createdBy-text": "Created By",
   "updatedBy-text": "Updated By",
   "endDate-text": "Due Date",
-  "project-no-description-text": "This project has no description"
+  "project-no-description-text": "This project has no description",
+  "editRequest-page-name": "Edit Request"
 }
