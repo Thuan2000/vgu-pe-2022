@@ -38,7 +38,7 @@ fragment BuyingRequestParts on BuyingRequest {
   allowedCompany {
     minSupplierExperience
     minSupplierRating
-    minSuplierSells
+    minSupplierSells
   }
   bids {
     id

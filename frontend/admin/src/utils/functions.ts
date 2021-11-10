@@ -69,8 +69,8 @@ export function thousandSeparator(x: string | number) {
 }
 
 export function getSuffix(amount: number) {
-  if (amount > BILLION) return "billion-suffix";
-  if (amount > MILLION) return "million-suffix";
+  if (amount >= BILLION) return "billion-suffix";
+  if (amount >= MILLION) return "million-suffix";
   return "";
 }
 
