@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "precodegen": "rm -rf src/graphql/*.d.ts",
     "codegen": "yarn graphql-let && graphql-codegen",
     "dev": "yarn codegen && cross-env NODE_ENV=development PORT=3001 next dev",
     "build": "yarn codegen && next build",
