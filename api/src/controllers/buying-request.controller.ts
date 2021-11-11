@@ -238,7 +238,6 @@ class BuyingRequestController {
 			companyName,
 			gallery,
 			oldGallery,
-			categoryIds,
 			...newValue
 		}: IUpdateBuyingRequestInput
 	) {
