@@ -5,7 +5,6 @@ import GeneralSection from "./check-section/general-section";
 import DetailsSection from "./check-section/details-section";
 import { useTranslation } from "react-i18next";
 import Divider from "@components/ui/divider";
-import AdditionalSection from "./check-section/additional-section";
 
 import ImagesSection from "./check-section/images-section";
 
