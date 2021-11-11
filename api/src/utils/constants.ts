@@ -17,3 +17,9 @@ export const RESPONSE_MESSAGE = {
 	DUPLICATE: "DUPLICATE",
 	SUCCESS: "SUCCESS"
 };
+
+export const MAX_IMAGE_WIDTH = 2560;
+export const MAX_IMAGE_HEIGHT = 1440;
+
+export const THUMB_IMAGE_WIDTH = 600;
+export const THUMB_IMAGE_HEIGHT = 400;

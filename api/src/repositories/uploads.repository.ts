@@ -11,6 +11,7 @@
  * This files is where upload files handler placed
  */
 import S3 from "@services/s3.service";
+import { resizeImage } from "./image-resizer.repository";
 
 const s3 = new S3();
 
@@ -58,10 +59,12 @@ export async function uploadImage(companyName, img: any) {
 
 		const fileStream = createReadStream();
 
+		const { thumbRes } = await resizeImage(fileStream);
+
 		const res = await s3.uploadPublicFile({
 			companyName,
 			fileName,
-			fileStream,
+			fileStream: thumbRes,
 			type: "images",
 			contentType
 		});
@@ -85,10 +88,13 @@ export async function uploadImages(companyName, images: any[]) {
 
 			const fileStream = createReadStream();
 
+			const { thumbRes } = await resizeImage(fileStream);
+
+			// return;
 			const res = await s3.uploadPublicFile({
 				companyName,
 				fileName,
-				fileStream,
+				fileStream: thumbRes,
 				type: "images",
 				contentType
 			});

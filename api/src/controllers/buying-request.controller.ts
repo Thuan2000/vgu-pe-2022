@@ -214,6 +214,7 @@ class BuyingRequestController {
 			});
 
 			if (duplicateBr) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
+			const brGallery = await uploadImages(companyName, gallery);
 
 			const newBuyingRequest = await BuyingRequest.create({
 				...buyingRequestInput,
@@ -222,7 +223,7 @@ class BuyingRequestController {
 				status: "OPEN"
 			});
 
-			const brGallery = await uploadImages(companyName, gallery);
+			// const brGallery = await uploadImages(companyName, gallery);
 			setBrGallery(brGallery, newBuyingRequest);
 
 			return newBuyingRequest.save().then(() => successResponse());

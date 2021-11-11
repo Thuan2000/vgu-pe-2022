@@ -66,7 +66,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
 
       <TextArea
         label={t("post-request-description-label")}
-        className="w-full"
+        // className="w-full"
         numberQueue={2}
         required
         placeholder={t("post-request-description-placeholder")}

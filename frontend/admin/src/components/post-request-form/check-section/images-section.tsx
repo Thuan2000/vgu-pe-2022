@@ -88,7 +88,7 @@ const ImagesSection: React.FC<ImagesSectionProps> = ({
         />
         <p
           className="absolute w-full bottom-0 text-white bg-primary opacity-80 hover:opacity-100 all-transition flex-center py-3 cursor-pointer"
-          onClick={() => changeSection(2)}
+          onClick={() => changeSection(1)}
         >
           {t("change-photo-label")}
         </p>
