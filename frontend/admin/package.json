@@ -9,6 +9,7 @@
     "start": "cross-env PORT=3001 next start",
     "lint": "next lint",
     "type:codegen": "graphql-codegen --config codegen.yml",
+    "pretype-check": "rm -rf src/graphql/*.d.ts && yarn codegen",
     "type-check": "tsc --skipLibCheck --noEmit",
     "pre-commit": "npm-run-all lint type-check"
   },

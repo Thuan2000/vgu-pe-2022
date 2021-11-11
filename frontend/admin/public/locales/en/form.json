@@ -88,8 +88,8 @@
   "experience-suffix-years": "Years",
   "rating-suffix": "Stars",
   "sells-suffix": "Sells",
-  "general-nav-label": "General",
-  "details-nav-label": "Details",
+  "general-nav-label": "General Information",
+  "details-nav-label": "Pricing Information",
   "check-nav-label": "Check",
   "requestName-input-prefix": "Request",
   "saveDraft-button-label": "Save to draft",
@@ -130,6 +130,12 @@
   "post-request-unit-placeholder": "Pc",
   "industry-placeholder": "Technology",
   "categories-placeholder": "Graphic Card",
-  "minSuplierSells-label": "Sells",
-  "minSuplierSells-placeholder": "1.000"
+  "minSuplierSells-placeholder": "1.000",
+  "recentlySelected-label": "Recently Selected",
+  "minSupplyQuantity-filter-label": "Minimum supply quantity",
+  "minSupplierSuffix-label": "Sells",
+  "post-request-sourceType-label": "Source Type",
+  "post-request-sourceType-placeholder": "Select value",
+  "CUSTOMIZED_SOURCE": "Customizable",
+  "UNCUSTOMIZED_SOURCE": "Non Customizable"
 }

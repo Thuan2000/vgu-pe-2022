@@ -18,7 +18,7 @@ const InlineLabel: React.FC<InlineLabelProps> = ({
       <p className={`text-sm ${textClass}`} style={{ width: labelWidth }}>
         {text}
       </p>
-      <p className="ml-2 mr-5">:</p>
+      <p className="ml-6 mr-5">:</p>
     </div>
   );
 };

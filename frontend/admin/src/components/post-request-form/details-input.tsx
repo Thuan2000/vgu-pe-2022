@@ -8,7 +8,7 @@ import {
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
-import AdditionalForm from "./additional-form";
+import ParticipantFilterForm from "./participant-filter-form";
 import DocumentInput from "@components/ui/storybook/document-input";
 import { useProductNamesQuery } from "@graphql/product.graphql";
 import ProductNameSelect from "@components/ui/post-request/product-name-input";
@@ -22,6 +22,10 @@ import { industriesData } from "@utils/industries";
 import { getIndustryCategories } from "@utils/categories";
 import PRFBudgetInput from "./details-form/prf-budget-input";
 import PRFQuantityInput from "./details-form/prf-quantity-input";
+import DateInput from "@components/ui/storybook/inputs/date-input";
+import { IVietnamCity, vietnamCities } from "@utils/vietnam-cities";
+import { ISourceType, sourceTypes } from "src/datas/source-type";
+import { useRouter } from "next/dist/client/router";
 
 interface IGeneralInputProps {
   register: UseFormRegister<PostRequestFormValue>;
@@ -49,11 +53,8 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
   const [productNames, setProductNames] = useState<Array<IProductName>>(
     data?.productNames as Array<IProductName>
   );
-  const [industryId, setIndustryId] = useState(
-    parseInt(initValue?.industryId + "") ||
-      getValues("details.industry.id") ||
-      -1
-  );
+
+  const { locale } = useRouter();
 
   useEffect(() => {
     refetchProductNames();
@@ -65,95 +66,79 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
       setProductNames(data.productNames as Array<IProductName>);
   }, [data?.productNames]);
   return (
-    <div className="md:w-4/6">
-      <ProductNameSelect
-        className="my-6 w-full"
-        control={control}
-        name="details.productName"
-        isLoading={loading}
-        onChange={() => {
-          trigger("details.productName");
-        }}
-        required
-        label={t("post-request-productName-label")}
-        numberQueue={1}
-        placeholder={t("post-request-productName-placeholder")}
-        options={productNames || []}
-        getOptionLabel={(option: any) => option.label || option.name}
-        getOptionValue={(option: any) => option.label || option.name}
-        error={t((errors?.details?.productName as any)?.message || "")}
-        autoFocus={true}
-        getInitialValue={(option: any) =>
-          (option.label || option.name) === initValue?.productName
-        }
-      />
+    <div className="md:w-2/3 space-y-3 sm:mb-5">
       <PRFBudgetInput
         errors={errors}
         trigger={trigger}
         control={control}
-        className="my-6 w-full"
+        numberQueue={1}
       />
+
       <PRFQuantityInput
         register={register}
         errors={errors}
+        numberQueue={2}
         trigger={trigger}
         control={control}
-        className="my-6 w-full"
+      />
+
+      <DateInput
+        control={control}
+        name="details.endDate"
+        locale={locale}
+        required
+        minDate={new Date()}
+        placeholder={t("post-request-endDate-placeholder")}
+        error={t(errors?.details?.endDate?.message || "")}
+        label={`${t("post-request-endDate-label")}`}
+        numberQueue={3}
       />
 
       <SelectInput
-        getOptionLabel={(option) => t("industry:" + option.label)}
-        getOptionValue={(option) => option.id}
-        control={control}
-        required
-        options={industriesData}
-        numberQueue="4"
-        className="my-6"
-        onChange={(industry: IIndustry) => {
-          trigger("details.industry");
-          setIndustryId(parseInt(industry?.id || "-1"));
-        }}
-        error={t((errors.details?.industry as any)?.message || "")}
-        name="details.industry"
-        label={t("check-industry-label")}
-        placeholder={t("industry-placeholder")}
-      />
-
-      <SelectInput
-        getOptionLabel={(option) => t("category:" + option.label)}
-        getOptionValue={(option) => option.id}
-        required
-        noOptionsMessage={() => t("pleaseSelectIndustry-message")}
-        control={control}
-        options={getIndustryCategories(industryId) || []}
-        getInitialValue={(option) => option.id === initValue?.industryId}
-        numberQueue="5"
-        className="my-6"
-        onChange={(_) => {
-          trigger("details.categories");
-        }}
-        error={t((errors.details?.categories as any)?.message || "")}
-        isMulti
-        name="details.categories"
-        label={t("categories-label")}
-        placeholder={t("categories-placeholder")}
-      />
-
-      <DocumentInput
-        accept="image/*"
-        control={control}
-        name="details.gallery"
-        multiple
+        name="details.location"
         numberQueue={4}
-        label={t("post-request-gallery-label")}
-        error={errors?.details?.gallery?.message}
+        required
+        label={`${t("post-request-location-label")}`}
+        placeholder={t("post-request-location-placeholder")}
+        control={control}
+        options={vietnamCities}
+        onChange={(_) => {
+          trigger("details.location");
+        }}
+        getInitialValue={(option?: IVietnamCity) =>
+          option?.name === (initValue?.location as string)
+        }
+        error={t((errors?.details?.location as any)?.message || "")}
+        getOptionLabel={(option: IVietnamCity) => option.name}
+        getOptionValue={(option: IVietnamCity) => option.name}
       />
 
-      <AdditionalForm
+      <ParticipantFilterForm
         initValue={initValue}
         register={register}
         control={control}
         errors={errors}
+      />
+
+      <SelectInput
+        name="details.sourceType"
+        numberQueue={6}
+        label={`${t("post-request-sourceType-label")}`}
+        placeholder={t("post-request-sourceType-placeholder")}
+        control={control}
+        options={sourceTypes}
+        onChange={(_) => {
+          trigger("details.sourceType");
+        }}
+        isClearable
+        getInitialValue={(option?: ISourceType) =>
+          option?.id === initValue?.sourceTypeId
+        }
+        error={t((errors?.details?.sourceType as any)?.message || "")}
+        getOptionLabel={(option: ISourceType) =>
+          t("source-type:" + option.label)
+        }
+        getOptionValue={(option: ISourceType) => option.id + ""}
       />
     </div>
   );

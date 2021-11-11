@@ -92,17 +92,20 @@ const CreateableSelect = React.forwardRef(
           required={required}
           name={props.name}
         />
-        <Createable
-          onChange={onChange}
-          onCreateOption={handleCreateOption}
-          options={options}
-          styles={createableStyles}
-          ref={ref as any}
-          isOptionSelected={(option: any) => option === value}
-          value={value}
-          {...props}
-        />
-        <InputErrorMessage error={error} />
+        <div className={`${!!numberQueue && "ml-8"}`}>
+          <Createable
+            onChange={onChange}
+            onCreateOption={handleCreateOption}
+            options={options}
+            styles={createableStyles}
+            ref={ref as any}
+            isOptionSelected={(option: any) => option === value}
+            value={value}
+            {...props}
+          />
+
+          <InputErrorMessage error={error} />
+        </div>
       </div>
     );
   }

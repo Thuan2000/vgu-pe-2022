@@ -33,11 +33,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
         [inputClasses.normal]: variant === "normal",
         [inputClasses.solid]: variant === "solid",
         [inputClasses.outline]: variant === "outline",
-      },
-      {
         [inputClasses.shadow]: shadow,
-      },
-      {
         [inputClasses.noBorder]: noBorder,
       },
       inputClassName
@@ -53,7 +49,11 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
             label={label}
           />
         )}
-        <div className="flex z-0 items-center align-middle relative">
+        <div
+          className={`flex z-0 items-center align-middle relative ${
+            !!numberQueue && "ml-8"
+          }`}
+        >
           <input
             id={name}
             name={name}

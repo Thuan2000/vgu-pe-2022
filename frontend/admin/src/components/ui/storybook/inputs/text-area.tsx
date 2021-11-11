@@ -15,6 +15,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       shadow = false,
       inputClassName,
       numberQueue,
+      required,
       ...rest
     } = props;
 
@@ -34,12 +35,17 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     return (
       <div className={className}>
         {label && (
-          <InputLabel label={label} note={note} numberQueue={numberQueue} />
+          <InputLabel
+            required={required}
+            label={label}
+            note={note}
+            numberQueue={numberQueue}
+          />
         )}
         <textarea
           id={name}
           name={name}
-          className={rootClassName}
+          className={`${!!numberQueue && "ml-8"} ${rootClassName}`}
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"

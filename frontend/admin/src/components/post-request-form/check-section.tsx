@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { UseFormGetValues } from "node_modules/react-hook-form";
 import { PostRequestFormValue } from "./post-request-schema";
 import GeneralSection from "./check-section/general-section";
@@ -22,9 +22,8 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
 
   const details = getValues("details");
   const general = getValues("general");
-  const additional = getValues("additional");
 
-  const hasImage = details?.gallery?.length > 0;
+  const hasImage = general?.gallery?.length > 0;
 
   return (
     <div>
@@ -36,14 +35,14 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
           className="md:hidden my-5"
           imgWidth={300}
           imgHeight={200}
-          images={details?.gallery}
+          images={general?.gallery}
           changeSection={changeSection}
         />
       )}
       <div className={`flex flex-col bg-white`}>
         <GeneralSection
           hasImage={hasImage}
-          images={details?.gallery}
+          images={general?.gallery}
           formValues={general}
           changeSection={changeSection}
         />
@@ -53,13 +52,6 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
           formValues={details}
           changeSection={changeSection}
         />
-        {additional && (
-          <AdditionalSection
-            hasImage={hasImage}
-            formValues={additional}
-            changeSection={changeSection}
-          />
-        )}
       </div>
     </div>
   );

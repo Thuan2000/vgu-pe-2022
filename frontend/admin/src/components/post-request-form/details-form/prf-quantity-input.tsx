@@ -20,10 +20,12 @@ interface IPRFQuantityInputProps extends React.HTMLAttributes<HTMLDivElement> {
   errors?: FieldErrors<PostRequestFormValue>;
   register: UseFormRegister<PostRequestFormValue>;
   trigger: UseFormTrigger<PostRequestFormValue>;
+  numberQueue: number;
 }
 const PRFQuantityInput: React.FC<IPRFQuantityInputProps> = ({
   control,
   errors,
+  numberQueue,
   register,
   trigger,
   className,
@@ -38,27 +40,28 @@ const PRFQuantityInput: React.FC<IPRFQuantityInputProps> = ({
   return (
     <div
       className={`${
-        !isPhone && (isUnitError || isMinOrderError) && "mb-10"
+        !isPhone && (isUnitError || isMinOrderError) && "!mb-10"
       } ${className}`}
       {...props}
     >
       <InputLabel
         label={t("post-request-minOrder-label")}
         required
-        numberQueue={3}
+        numberQueue={numberQueue}
       />
       <div className="flex flex-col md:flex-row md:items-center md:justify-between ml-8">
         <InlineFormInputWrapper
-          className={`${isMinOrderError && "!items-start"}`}
+          className={`sm:w-1/2.5 ${isMinOrderError && "!items-start"}`}
         >
           <InlineLabel
             labelWidth={INLINE_LABEL_WIDTH}
-            className={`${isMinOrderError && "!mt-2"}`}
+            className={`${isMinOrderError && "!mt-2"} ${!isPhone && "hidden"}`}
             text={t("quantity-label")}
           />
           <NumberInput
             placeholder={t("post-request-minOrder-placeholder")}
             name="details.minOrder"
+            className="w-full"
             control={control}
             allowNegative={false}
             onChange={() => {
@@ -68,7 +71,9 @@ const PRFQuantityInput: React.FC<IPRFQuantityInputProps> = ({
             error={t(errors?.details?.minOrder?.message || "")}
           />
         </InlineFormInputWrapper>
-        <InlineFormInputWrapper className={`${isUnitError && "!items-start"}`}>
+        <InlineFormInputWrapper
+          className={`${isUnitError && "!items-start"} sm:w-1/2.5`}
+        >
           <InlineLabel
             labelWidth={INLINE_LABEL_WIDTH}
             className={`${isUnitError && "!mt-2"}`}

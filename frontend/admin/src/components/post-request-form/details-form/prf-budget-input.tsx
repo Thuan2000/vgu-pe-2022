@@ -13,6 +13,7 @@ interface IPRFBudgetInputProps extends React.HTMLAttributes<HTMLDivElement> {
   control: Control<PostRequestFormValue>;
   trigger: UseFormTrigger<PostRequestFormValue>;
   errors?: FieldErrors<PostRequestFormValue>;
+  numberQueue: number;
 }
 
 const PRFBudgetInput: React.FC<IPRFBudgetInputProps> = ({
@@ -20,6 +21,7 @@ const PRFBudgetInput: React.FC<IPRFBudgetInputProps> = ({
   errors,
   trigger,
   className,
+  numberQueue,
   ...props
 }) => {
   const { t } = useTranslation("form");
@@ -36,13 +38,15 @@ const PRFBudgetInput: React.FC<IPRFBudgetInputProps> = ({
       {...props}
     >
       <InputLabel
-        numberQueue={2}
+        numberQueue={numberQueue}
         required
         label={t("post-request-budget-label")}
       />
       <div className="flex flex-col md:flex-row md:items-center md:justify-between ml-8">
         <InlineFormInputWrapper
-          className={`${isMinBudgetError && "!items-start"}`}
+          className={`${
+            isMinBudgetError && "!items-start"
+          } sm:w-1/2.5 justify-between`}
         >
           <InlineLabel
             labelWidth={INLINE_LABEL_WIDTH}
@@ -63,7 +67,7 @@ const PRFBudgetInput: React.FC<IPRFBudgetInputProps> = ({
           />
         </InlineFormInputWrapper>
         <InlineFormInputWrapper
-          className={`${isMaxBudgetError && "!items-start"}`}
+          className={`${isMaxBudgetError && "!items-start"} sm:w-1/2.5`}
         >
           <InlineLabel
             labelWidth={INLINE_LABEL_WIDTH}

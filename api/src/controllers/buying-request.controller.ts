@@ -154,9 +154,7 @@ class BuyingRequestController {
 			where: { companyId },
 			include: [
 				Company,
-				// Category,
 				Project,
-				// Industry,
 				{
 					model: Bid,
 					as: "bids",
@@ -203,9 +201,9 @@ class BuyingRequestController {
 		...buyingRequestInput
 	}: ICreateBuyingRequestInput) {
 		try {
-			const { name, productName, companyId } = buyingRequestInput;
+			const { name, companyId } = buyingRequestInput;
 
-			setProductName(productName);
+			// setProductName(productName);
 
 			// Check duplicate
 			const duplicateBr = await BuyingRequest.findOne({
@@ -248,12 +246,12 @@ class BuyingRequestController {
 
 		// @Note : To hold the process
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const data = await setProductName(newValue.productName);
+		// const data = await setProductName(newValue.productName);
 
 		currentBr.update(newValue);
 		// To understand this read sequelize associations
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(currentBr as any).setCategories(categoryIds);
+		// (currentBr as any).setCategories(categoryIds);
 
 		const newGallery = await uploadImages(companyName, gallery);
 		currentBr.setDataValue("gallery", oldGallery);

@@ -21,9 +21,6 @@
   "filter-status-close-filter": "Close",
   "industry-filter-label": "Industry",
   "product-filter-label": "Product",
-  "budgetRange-filter-label": "Budget Range",
-  "min": "Min",
-  "max": "Max",
   "OPEN_STATUS": "Open",
   "BUDGET_LABEL": "Budget",
   "million-suffix": "M",
@@ -42,5 +39,8 @@
   "productName-filter-placeholder": "VGA Nvidia GTX 1080TI",
   "buying-request-page-title": "Buying Request",
   "englishLanguage-label": "English",
-  "vietnameseLanguage-label": "Vietnamese"
+  "vietnameseLanguage-label": "Vietnamese",
+  "chatNow-button-label": "Chat Now",
+  "budgetFrom-label": "From",
+  "budgetTo-label": "To"
 }

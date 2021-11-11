@@ -15,7 +15,6 @@ export function getCategories(categoryIds: number[]) {
 }
 
 export function getCategory(id: number) {
-  if (id <= 0) return;
   return categoriesData[id - 1];
 }
 
@@ -25,7 +24,7 @@ export function getIndustryCategories(industryId: number) {
     (category) => category.industryId === industryId
   );
 
-  return categories;
+  return categories || [];
 }
 
 export const categoriesData = [

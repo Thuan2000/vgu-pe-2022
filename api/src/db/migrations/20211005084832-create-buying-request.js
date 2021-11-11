@@ -50,8 +50,17 @@ module.exports = {
 			industryId: {
 				type: Sequelize.INTEGER
 			},
-			categoryIds: {
-				type: Sequelize.JSON
+			categoryId: {
+				type: Sequelize.INTEGER
+			},
+			minSupplierExperience: {
+				type: Sequelize.INTEGER
+			},
+			minSupplierSells: {
+				type: Sequelize.INTEGER
+			},
+			sourceTypeId: {
+				type: Sequelize.INTEGER
 			},
 			status: {
 				type: Sequelize.STRING,

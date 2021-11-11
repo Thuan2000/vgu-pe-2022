@@ -3,10 +3,10 @@ import { thousandSeparator } from "@utils/functions";
 import { every, isEmpty, isString } from "lodash";
 import { useTranslation } from "next-i18next";
 import React from "react";
-import { AdditionalFormValue } from "../post-request-schema";
+import { DetailsFormValue } from "../post-request-schema";
 
 interface IAdditionalSectionProps {
-  formValues: AdditionalFormValue;
+  formValues: DetailsFormValue;
   changeSection: (id: number) => void;
   hasImage: boolean;
 }

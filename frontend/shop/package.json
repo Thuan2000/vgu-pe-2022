@@ -8,6 +8,7 @@
     "build": "yarn codegen && next build",
     "start": "next start",
     "lint": "next lint",
+    "pretype-check": "rm -rf src/graphql/*.d.ts && yarn codegen",
     "type-check": "tsc --skipLibCheck --noEmit",
     "pre-commit": "npm-run-all lint type-check"
   },

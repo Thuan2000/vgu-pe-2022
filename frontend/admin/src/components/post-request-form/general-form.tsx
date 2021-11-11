@@ -8,10 +8,7 @@ import {
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
-import { IVietnamCity, vietnamCities } from "@utils/vietnam-cities";
-import SelectInput from "@components/ui/storybook/select-input";
 import TextArea from "@components/ui/storybook/inputs/text-area";
-import DateInput from "@components/ui/storybook/inputs/date-input";
 
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 
@@ -19,6 +16,8 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 import vi from "date-fns/locale/vi";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import Input from "@components/ui/storybook/inputs/input";
+import DocumentInput from "@components/ui/storybook/document-input";
+import IndustryCategorySelect from "@components/ui/storybook/inputs/industry-category-input/industry-category-select";
 registerLocale("vi", vi);
 setDefaultLocale("vi");
 
@@ -40,9 +39,8 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
   errors,
 }) => {
   const { t } = useTranslation("form");
-
   return (
-    <div className="md:w-2/3">
+    <div className="md:w-2/3 space-y-3 sm:mb-5">
       <Input
         numberQueue={1}
         value={getValues("general.name")}
@@ -57,7 +55,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
           register("general.name").onChange(e);
           trigger("general.name");
         }}
-        className="my-6 w-full"
+        className="w-full"
         autoFocus
         label={`${t("post-request-name-label")}`}
         required
@@ -65,45 +63,53 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         placeholder={t("post-request-name-placeholder")}
         error={t(errors?.general?.name?.message || "")}
       />
-      <DateInput
-        control={control}
-        name="general.endDate"
-        className="my-6 w-full"
-        locale="vi"
-        required
-        minDate={new Date()}
-        placeholder={t("post-request-endDate-placeholder")}
-        error={t(errors?.general?.endDate?.message || "")}
-        label={`${t("post-request-endDate-label")}`}
-        numberQueue={2}
-      />
 
-      <SelectInput
-        name="general.location"
-        numberQueue={3}
-        required={true}
-        label={`${t("post-request-location-label")}`}
-        placeholder={t("post-request-location-placeholder")}
-        control={control}
-        options={vietnamCities}
-        onChange={(_) => {
-          trigger("general.location");
-        }}
-        getInitialValue={(option?: IVietnamCity) =>
-          option?.name === (initValue?.location as string)
-        }
-        error={t((errors?.general?.location as any)?.message || "")}
-        getOptionLabel={(option: IVietnamCity) => option.name}
-        getOptionValue={(option: IVietnamCity) => option.name}
-      />
       <TextArea
         label={t("post-request-description-label")}
-        className="my-6 w-full"
-        numberQueue={4}
+        className="w-full"
+        numberQueue={2}
+        required
         placeholder={t("post-request-description-placeholder")}
         error={t(errors?.general?.description?.message || "")}
         {...register("general.description")}
       />
+
+      <DocumentInput
+        required
+        accept="image/*"
+        note={t("post-request-gallery-note")}
+        control={control}
+        name="general.gallery"
+        multiple
+        numberQueue={3}
+        label={t("post-request-gallery-label")}
+        error={errors?.general?.gallery?.message}
+      />
+
+      <IndustryCategorySelect
+        control={control}
+        categoryControllerName="general.category"
+        industryControllerName="general.industry"
+        onIndustryChange={(_) => {
+          trigger("general.industry");
+        }}
+        onCategoryChange={(_) => {
+          trigger("general.category");
+        }}
+        required
+        label={`${t("post-request-endDate-label")}`}
+        numberQueue={4}
+        getCategoryLabel={(e) => t("category:" + e.label)}
+        getIndustryLabel={(e) => t("industry:" + e.label)}
+        error={
+          t((errors?.general?.industry as any)?.message) ||
+          t((errors?.general?.category as any)?.message)
+        }
+      />
+
+      {/* 
+
+       */}
     </div>
   );
 };

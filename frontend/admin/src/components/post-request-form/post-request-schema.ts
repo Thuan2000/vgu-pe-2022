@@ -3,20 +3,23 @@ import { IIndustry } from "@utils/industries";
 import { ICategory } from "@utils/categories";
 import { IVietnamCity } from "@utils/vietnam-cities";
 import * as yup from "yup";
+import { ISourceType } from "src/datas/source-type";
 
 export const PostRequestSchema = yup.object({
   // General Form
   general: yup.object({
     name: yup.string().required("post-request-name-is-required-error"),
-    endDate: yup.string().required("post-request-end-date-required-error"),
-    location: yup.object().required("post-request-location-is-required-error"),
+    description: yup
+      .string()
+      .required("post-request-description-is-required-error"),
+    industry: yup.object().required("industry-required-error"),
+    category: yup.object().required("category-required-error"),
   }),
 
   // Details Form
   details: yup.object({
-    productName: yup
-      .object()
-      .required("post-request-productName-required-error"),
+    endDate: yup.string().required("post-request-end-date-required-error"),
+    location: yup.object().required("post-request-location-is-required-error"),
     minBudget: yup.number().required("post-request-minBudget-required-error"),
     maxBudget: yup
       .number()
@@ -24,11 +27,10 @@ export const PostRequestSchema = yup.object({
       .min(yup.ref("minBudget"), "post-request-maxBudget-more-than-error"),
     minOrder: yup.number().required("post-request-minOrder-required-error"),
     unit: yup.string().required("post-request-unit-required-error"),
-    industry: yup.object().required("industry-required-error"),
-    categories: yup
-      .array()
-      .required("category-required-error")
-      .min(1, "category-required-error"),
+    // productName: yup
+    //   .object()
+    //   .required("post-request-productName-required-error")
+    //   .nullable(),
   }),
 
   additional: yup.object({
@@ -43,34 +45,30 @@ export const PostRequestSchema = yup.object({
 
 export type GeneralFormValue = {
   name: string;
-  endDate: Date;
-  location: IVietnamCity;
+  industry: IIndustry;
+  category: ICategory;
+  gallery: any;
   description?: string;
 };
 
 export type DetailsFormValue = {
-  productName: IProductName;
+  // productName: IProductName;
   minBudget: number;
   maxBudget: number;
   minOrder: number;
   unit: string;
-  gallery: any;
-  industry: IIndustry;
-  categories: ICategory[];
-};
-
-export type AdditionalFormValue = {
+  endDate: Date;
+  location: IVietnamCity;
+  sourceType?: ISourceType;
   allowedCompany?: AllowedCompany;
 };
 
 export type AllowedCompany = {
   minSupplierExperience?: number;
-  minSupplierRating?: number;
   minSupplierSells?: number;
 };
 
 export type PostRequestFormValue = {
   general: GeneralFormValue;
   details: DetailsFormValue;
-  additional: AdditionalFormValue;
 };

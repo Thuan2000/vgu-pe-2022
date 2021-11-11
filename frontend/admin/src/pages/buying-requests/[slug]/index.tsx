@@ -6,8 +6,8 @@ import Chip from "@components/ui/chip";
 import Loading from "@components/ui/loading";
 import Typography from "@components/ui/storybook/typography";
 import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
-import { IAllowedCompany, IBuyingRequest } from "@graphql/types.graphql";
-import { getCategories } from "@utils/categories";
+import { IBuyingRequest } from "@graphql/types.graphql";
+import { getCategories, getCategory } from "@utils/categories";
 import {
   formatMoneyAmount,
   getSuffix,
@@ -51,19 +51,19 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
 
   if (loading) return <Loading />;
 
-  function getParticipantFilter(allowedCompany: IAllowedCompany) {
-    if (!allowedCompany) return t("NO_PARTICIPANT_FILTER_TEXT");
-    let text = "";
-    Object.keys(allowedCompany)?.map((key: string) => {
-      if (key === "__typename") return;
-      const fi = (allowedCompany as any)[key];
-      if (!fi) return;
-      text += `${t("form:company-with-label")} ${thousandSeparator(fi)} ${t(
-        "form:" + key + "-filter-key"
-      )}, `;
-    });
-    return text || t("no-filter");
-  }
+  // function getParticipantFilter(allowedCompany: IAllowedCompany) {
+  //   if (!allowedCompany) return t("NO_PARTICIPANT_FILTER_TEXT");
+  //   let text = "";
+  //   Object.keys(allowedCompany)?.map((key: string) => {
+  //     if (key === "__typename") return;
+  //     const fi = (allowedCompany as any)[key];
+  //     if (!fi) return;
+  //     text += `${t("form:company-with-label")} ${thousandSeparator(fi)} ${t(
+  //       "form:" + key + "-filter-key"
+  //     )}, `;
+  //   });
+  //   return text || t("no-filter");
+  // }
 
   return (
     <div className="bg-white p-4">
@@ -127,26 +127,20 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
             </p>
           </div>
           <p className="text-gray-400 mt-1 md:mt-2">{br?.description}</p>
-          <div className="mt-1 flex items-start">
+          {/* <div className="mt-1 flex items-start">
             <p className="mr-1">{t("participants-text")}:</p>
             <Typography
               text={getParticipantFilter(br?.allowedCompany as IAllowedCompany)}
               className="font-semibold"
             />
-          </div>
+          </div> */}
           <div className="mt-1 flex items-start">
             <p className="mr-1">{t("application")}:</p>
             <p className="font-semibold">
-              {!!br?.categoryIds?.length ? (
-                getCategories(br?.categoryIds as number[]).map((ctgr, idx) => (
-                  <span
-                    className="font-semibold"
-                    key={ctgr?.id + "category" + br?.id}
-                  >
-                    {t("category:" + ctgr?.label)}
-                    {idx < br.categoryIds.length - 1 && ", "}
-                  </span>
-                ))
+              {!!br?.categoryId ? (
+                <span className="font-semibold">
+                  {t("category:" + getCategory(br.categoryId).label)}
+                </span>
               ) : (
                 <span className="font-semibold">{t("no-type")}</span>
               )}

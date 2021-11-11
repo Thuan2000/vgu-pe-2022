@@ -1,18 +1,12 @@
 import React from "react";
 
 import { Controller } from "react-hook-form";
-import DocumentUploader from "./document-uploader";
+import DocumentUploader, { IDocumentUploaderProps } from "./document-uploader";
 import ValidationError from "./validation-error";
 
-interface DocumentInputProps {
+interface DocumentInputProps extends IDocumentUploaderProps {
   control: any;
   name: string;
-  label?: string;
-  accept: string;
-  note?: string;
-  numberQueue?: number;
-  multiple?: boolean;
-  error?: string;
 }
 
 const DocumentInput = ({ control, name, ...props }: DocumentInputProps) => {

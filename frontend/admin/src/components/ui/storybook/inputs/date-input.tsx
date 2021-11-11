@@ -85,17 +85,19 @@ const DateInput: React.FC<DateInputProps> = ({
                   required={required}
                 />
               )}
-              <Datepicker
-                className={dateClassName}
-                placeholderText={placeholder}
-                onChange={(e) => {
-                  onChange(e);
-                  if (trigger) trigger(name);
-                }}
-                {...field}
-                {...props}
-              />
-              <InputErrorMessage error={error} />
+              <div className={`${!!numberQueue && "ml-8"}`}>
+                <Datepicker
+                  className={`${dateClassName}`}
+                  placeholderText={placeholder}
+                  onChange={(e) => {
+                    onChange(e);
+                    if (trigger) trigger(name);
+                  }}
+                  {...field}
+                  {...props}
+                />
+                <InputErrorMessage error={error} />
+              </div>
             </>
           );
         }}

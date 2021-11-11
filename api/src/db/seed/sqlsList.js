@@ -43,10 +43,6 @@ const sqls = [
 		path: getFilePath("categories.sql")
 	},
 	{
-		name: "BR Category",
-		path: getFilePath("br_category.sql")
-	},
-	{
 		name: "BR Project",
 		path: getFilePath("br_project.sql")
 	}
