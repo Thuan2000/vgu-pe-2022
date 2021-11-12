@@ -26,7 +26,7 @@ const UnderDevelopment = () => {
 			</div>
 
 			<p className="my-5 text-xl">
-				It will be available soon. Please come back again later
+				Xin quý khách vui lòng quay lại sau.
 			</p>
 			<Link href={ROUTES.HOMEPAGE} className="text-light">
 				<Button size="small">{t("return-home")}</Button>
