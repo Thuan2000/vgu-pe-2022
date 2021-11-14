@@ -38,6 +38,9 @@ module.exports = {
       boxShadow: {
         top: "0 0 10px rgba(0,0,0,.3)",
       },
+      opacity: {
+        12: "12%",
+      },
       colors: {
         error: "#FF3346",
         black: "#15114E",
@@ -97,5 +100,5 @@ module.exports = {
       },
     },
   },
-  // plugins: [require("tailwindcss-rtl")]
+  // plugins: [require("tailwind-scrollbar")],
 };

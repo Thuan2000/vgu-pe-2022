@@ -1,44 +1,36 @@
 import Divider from "@components/ui/divider";
 import { thousandSeparator } from "@utils/functions";
-import { isEmpty, isString } from "lodash";
+import { every, isEmpty, isString } from "lodash";
 import { useTranslation } from "next-i18next";
 import React from "react";
-import { AdditionalFormValue } from "../post-request-schema";
+import { DetailsFormValue } from "../post-request-schema";
 
 interface IAdditionalSectionProps {
-  formValues: AdditionalFormValue;
+  formValues: DetailsFormValue;
   changeSection: (id: number) => void;
   hasImage: boolean;
 }
 
 const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
-  formValues: { allowedCompany },
+  formValues: { allowedCompany: aC },
   hasImage,
   changeSection,
 }) => {
   const { t } = useTranslation("form");
 
-  function isHaveParticipantFilter() {
-    return !isEmpty(allowedCompany);
-  }
-
-  function isHaveAdditional() {
-    return isHaveParticipantFilter();
-  }
+  const { __typename, ...allowedCompany } = (aC as any) ?? {};
 
   function getParticipantFilter() {
     if (!allowedCompany || isEmpty(allowedCompany)) return "";
     let text = "";
     Object.keys(allowedCompany)?.map((fi: any) => {
-      if (!fi) return;
+      if (!fi || !(allowedCompany as any)[fi] || fi === "__typename") return;
       text += `${t("company-with-label")} ${thousandSeparator(
         (allowedCompany as any)[fi] as any
       )} ${t(fi + "-filter-key")}, `;
     });
-    return text;
+    return text || t("noParticipantRequirement-label");
   }
-
-  if (!isHaveAdditional()) return <></>;
 
   return (
     <>
@@ -52,12 +44,11 @@ const AdditionalSection: React.FC<IAdditionalSectionProps> = ({
           {t("edit-label")}
         </p>
       </div>
-      {isHaveParticipantFilter() && (
-        <div className="mb-5">
-          <p className="text-semibold">{t("check-participantFilter-label")}</p>
-          <p className="font-semibold flex-wrap">{getParticipantFilter()}</p>
-        </div>
-      )}
+
+      <div className="mb-5">
+        <p className="text-semibold">{t("check-participantFilter-label")}</p>
+        <p className="font-semibold flex-wrap">{getParticipantFilter()}</p>
+      </div>
     </>
   );
 };

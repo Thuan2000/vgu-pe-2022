@@ -50,5 +50,11 @@
   "bidMessage-label": "Message",
   "bidMessage-placeholder": "We are the most fit for this",
   "confirmBidding-button-label": "Place Bid",
-  "cancelBidding-button-label": "Cancel"
+  "cancelBidding-button-label": "Cancel",
+  "budgetTo-label": "To",
+  "budgetFrom-label": "From",
+  "filterBudgetRangeSubmit-button-label": "Set Range",
+  "budgetRange-filter-label": "Budget Range",
+  "min": "Min",
+  "max": "Max"
 }

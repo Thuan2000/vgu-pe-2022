@@ -1,24 +1,9 @@
-import { IAllowedCompany, IBuyingRequest } from "@graphql/types.graphql";
-import { getCategories } from "@utils/categories";
+import { IBuyingRequest } from "@graphql/types.graphql";
+import { getCategory } from "@utils/categories";
 import { getIndustry } from "@utils/industries";
-import { isString } from "lodash";
+import { getSourceType } from "src/datas/source-type";
+
 import { PostRequestFormValue } from "./post-request-schema";
-
-function getAllowedCompanyInArray({
-  __typename,
-  ...allowedCompany
-}: IAllowedCompany | any): any {
-  const participantFilter = Object.keys(allowedCompany).flatMap((key) => {
-    if (!(allowedCompany as any)[key]) return [];
-    return { key, value: (allowedCompany as any)[key] };
-  });
-
-  if (participantFilter.length < 3) {
-    participantFilter.push({} as any);
-  }
-
-  return participantFilter;
-}
 
 export function getDefaultValue(initValue?: IBuyingRequest) {
   if (!initValue)
@@ -35,34 +20,36 @@ export function getDefaultValue(initValue?: IBuyingRequest) {
     description = "",
     minBudget,
     maxBudget,
-    productName,
     minOrder,
     unit,
     gallery,
     industryId,
-    categoryIds,
-    allowedCompany,
+    minSupplierExperience,
+    minSupplierSells,
+    categoryId,
+    sourceTypeId,
   } = initValue;
 
   const data: PostRequestFormValue = {
     general: {
-      endDate: new Date(endDate),
       name,
-      location: location as any,
+      gallery,
       description: description as string,
+      industry: getIndustry(industryId),
+      category: getCategory(categoryId),
     },
     details: {
-      productName: productName as any,
+      endDate: new Date(endDate),
       minBudget,
       maxBudget,
       minOrder,
-      gallery,
+      location: location as any,
       unit,
-      industry: getIndustry(industryId),
-      categories: getCategories(categoryIds) as any,
-    },
-    additional: {
-      allowedCompany: getAllowedCompanyInArray(allowedCompany),
+      sourceType: getSourceType(sourceTypeId as number),
+      allowedCompany: {
+        minSupplierExperience: minSupplierExperience as number,
+        minSupplierSells: minSupplierSells as number,
+      },
     },
   };
 

@@ -19,8 +19,10 @@ export interface IDocumentUploaderProps {
   accept: string;
   defaultValue?: any;
   multiple?: boolean;
+  required?: boolean;
   onChange?: (e: any) => void;
   value?: any;
+  error?: string;
 }
 
 function getDocumentPreview(name: string, url?: string) {
@@ -55,6 +57,7 @@ const DocumentUploader = ({
   note,
   multiple,
   accept,
+  required,
   numberQueue,
   onChange,
   value,
@@ -102,7 +105,7 @@ const DocumentUploader = ({
   const thumbs = files?.map((file, idx) => {
     return (
       <div
-        className="inline-flex flex-col border border-border-200 mx-2 rounded mt-2 me-2 relative"
+        className="inline-flex flex-col border border-border-200 mr-4 rounded mt-2 me-2 relative"
         key={`${file.name}-${idx}`}
         title={file.name}
       >
@@ -134,33 +137,42 @@ const DocumentUploader = ({
   }
 
   return (
-    <div>
-      <InputLabel label={label} note={note} numberQueue={numberQueue} />
-      <div
-        {...getRootProps({
-          className:
-            "border-dashed border-2 border-border-base h-16 flex-center rounded cursor-pointer focus:border-green focus:outline-none",
-        })}
-      >
-        <input {...getInputProps()} />
-        <p className="text-xs text-center text-green-main">
-          <span className="text-green font-semibold">
-            {t("form:drop-zone")}
-          </span>
-        </p>
+    <>
+      {label && (
+        <InputLabel
+          required={required}
+          label={label}
+          note={note}
+          numberQueue={numberQueue}
+        />
+      )}
+      <div className={`${!!numberQueue && "ml-8"}`}>
+        <div
+          {...getRootProps({
+            className:
+              "border-dashed border-2 border-border-base h-24 flex-center rounded cursor-pointer focus:border-green focus:outline-none",
+          })}
+        >
+          <input {...getInputProps()} />
+          <p className="text-xs text-center text-green-main">
+            <span className="text-green font-semibold">
+              {t("form:drop-zone")}
+            </span>
+          </p>
+        </div>
+        <div className="flex items-center flex-wrap">
+          {thumbs?.length > 0 && thumbs}
+        </div>
+        <Button
+          size="small"
+          className="mt-3 bg-blue text-xs px-6 hover:bg-blue-700 active:bg-blue-900"
+          type="button"
+          {...getRootProps()}
+        >
+          <UploadIcon className="mr-5" /> {t("upload-file")}
+        </Button>
       </div>
-      <div className="flex items-center flex-wrap">
-        {thumbs?.length > 0 && thumbs}
-      </div>
-      <Button
-        size="small"
-        className="mt-3 bg-blue text-xs px-6 hover:bg-blue-700 active:bg-blue-900"
-        type="button"
-        {...getRootProps()}
-      >
-        <UploadIcon className="mr-5" /> {t("upload-file")}
-      </Button>
-    </div>
+    </>
   );
 };
 export default DocumentUploader;

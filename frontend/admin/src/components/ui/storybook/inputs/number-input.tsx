@@ -15,6 +15,7 @@ export interface INumInputProps extends NumberFormatProps {
   shadow?: boolean;
   label?: string;
   error?: string;
+  absoluteErrorMessage?: boolean;
 }
 
 interface INumberInputProps extends INumInputProps {
@@ -30,13 +31,14 @@ const NumberInput: React.FC<INumberInputProps> = ({
   note,
   name,
   control,
+  onChange: inputOnChange,
   ...props
 }) => {
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field }) => {
+      render={({ field: { onChange, ...field } }) => {
         return (
           <div className={className}>
             {label && (
@@ -48,7 +50,14 @@ const NumberInput: React.FC<INumberInputProps> = ({
                 name={name}
               />
             )}
-            <NumInput {...field} {...props} />
+            <NumInput
+              onChange={(e) => {
+                if (inputOnChange) inputOnChange(e);
+                onChange(e);
+              }}
+              {...field}
+              {...props}
+            />
           </div>
         );
       }}
@@ -69,6 +78,7 @@ const NumInput: React.FC<INumInputProps> = React.forwardRef(
       name,
       variant = "normal",
       shadow = false,
+      absoluteErrorMessage,
       className,
       inputClassName,
       ...props
@@ -97,7 +107,7 @@ const NumInput: React.FC<INumInputProps> = React.forwardRef(
     }
 
     useEffect(() => {
-      if (!value || !onChange) return;
+      if ((!value && value !== 0) || !onChange) return;
       if (max && value > max) onChange(max as any);
       else if (min && value < min) onChange(min as any);
 
@@ -116,7 +126,13 @@ const NumInput: React.FC<INumInputProps> = React.forwardRef(
           {...props}
         />
         {error && (
-          <p className="my-2 text-xs text-start text-red-500">{error}</p>
+          <p
+            className={`${
+              absoluteErrorMessage && "absolute"
+            } my-2 text-xs text-start text-red-500`}
+          >
+            {error}
+          </p>
         )}
       </>
     );

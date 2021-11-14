@@ -55,16 +55,17 @@ const SelectInput: React.FC<ISelectInput> = ({
                   required={required}
                 />
               )}
-
-              <Select
-                onChange={(value) => {
-                  onChange(value);
-                  if (inputOnChange) inputOnChange(value);
-                }}
-                isLoading={loading}
-                {...props}
-                {...field}
-              />
+              <div className={`${!!numberQueue && "ml-8"}`}>
+                <Select
+                  onChange={(value) => {
+                    onChange(value);
+                    if (inputOnChange) inputOnChange(value);
+                  }}
+                  isLoading={loading}
+                  {...props}
+                  {...field}
+                />
+              </div>
             </>
           );
         }}

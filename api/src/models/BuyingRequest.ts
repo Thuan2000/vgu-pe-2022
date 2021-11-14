@@ -101,14 +101,16 @@ BuyingRequest.init(
 		unit: DataTypes.STRING,
 		gallery: DataTypes.JSON,
 		biddersLimit: DataTypes.INTEGER,
-		allowedCompany: DataTypes.JSON,
+		minSupplierExperience: DataTypes.INTEGER,
+		minSupplierSells: DataTypes.INTEGER,
 		status: DataTypes.STRING,
 		industryId: DataTypes.INTEGER,
-		categoryIds: DataTypes.JSON,
+		categoryId: DataTypes.INTEGER,
 		companyId: DataTypes.INTEGER,
 		createdById: DataTypes.INTEGER,
 		updatedById: DataTypes.INTEGER,
-		lastOpened: DataTypes.DATE
+		lastOpened: DataTypes.DATE,
+		sourceTypeId: DataTypes.INTEGER
 	},
 	{
 		tableName: "buying_requests",

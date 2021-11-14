@@ -4,10 +4,9 @@ fragment BuyingRequestParts on BuyingRequest {
   id
   name
   slug
-  productName
   endDate
   industryId
-  categoryIds
+  categoryId
   minBudget
   maxBudget
   minOrder
@@ -35,11 +34,8 @@ fragment BuyingRequestParts on BuyingRequest {
   updatedAt
   location
   description
-  allowedCompany {
-    minSupplierExperience
-    minSupplierRating
-    minSuplierSells
-  }
+  minSupplierExperience
+  minSupplierSells
   bids {
     id
     createdAt

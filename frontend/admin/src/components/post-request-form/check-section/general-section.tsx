@@ -17,7 +17,7 @@ const GeneralSection: React.FC<IGeneralSection> = ({
   hasImage,
   images,
 }) => {
-  const { location, endDate, name, description } = formValues || {};
+  const { industry, category, name, description } = formValues || {};
   const { t } = useTranslation("form");
   return (
     <div className="flex">
@@ -32,23 +32,29 @@ const GeneralSection: React.FC<IGeneralSection> = ({
           </p>
         </div>
         <div className="mb-5">
-          <p className="text-semibold">{t("check-request-name")}</p>
-          <p className="font-semibold">{name}</p>
+          <p className="text-semibold font-semibold">
+            {t("check-request-name")}
+          </p>
+          <p className="">{name}</p>
         </div>
+
         <div className="mb-5">
-          <p className="text-semibold">{t("check-dueTime-label")}</p>
-          <p className="font-semibold">{endDate?.toLocaleDateString("vi")}</p>
-        </div>
-        <div className="mb-5">
-          <p className="text-semibold">{t("check-location-label")}</p>
-          <p className="font-semibold">
-            {typeof location === "string" ? location : location?.name}
+          <p className="text-semibold font-semibold">
+            {t("check-industry-label")}
+          </p>
+          <p className="">
+            <span>{t("industry:" + industry?.label)}</span>
+            <span className="mx-2">{">"}</span>
+            <span>{t("industry:" + industry?.label)}</span>
           </p>
         </div>
+
         {description && (
           <div className="mb-5">
-            <p className="text-semibold">{t("check-desctiption-label")}</p>
-            <p className="font-semibold">{description}</p>
+            <p className="text-semibold font-semibold">
+              {t("check-desctiption-label")}
+            </p>
+            <p className="">{description}</p>
           </div>
         )}
       </div>

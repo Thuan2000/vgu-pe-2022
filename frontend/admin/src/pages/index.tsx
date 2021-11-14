@@ -8,15 +8,9 @@ import { generateHeadTitle } from "@utils/seo-utils";
 import { useTranslation } from "react-i18next";
 import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { loginRedirect } from "@utils/redirects";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { token, role } = getAuthCredentials(ctx);
-
   const { locale } = ctx;
-
-  if (!token || !role || !isAuthenticated({ token, role }))
-    return loginRedirect;
 
   return {
     props: {

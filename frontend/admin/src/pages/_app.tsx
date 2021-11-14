@@ -8,6 +8,7 @@ import { useApollo } from "../utils/apollo";
 import ModalContainer from "@components/modal-container";
 import { ModalProvider } from "src/contexts/modal.context";
 
+import "../styles/custom-scrollbar.css";
 import "../styles/custom-datepicker.css";
 import "../styles/globals.css";
 

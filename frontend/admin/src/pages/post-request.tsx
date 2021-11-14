@@ -27,10 +27,10 @@ const PostRequest = () => {
   return (
     <>
       {/* Navbar here */}
-      <div className="bg-white shadow-md md:mt-5 md:rounded-sm px-5 w-full">
-        <p className="text-sm md:text-md text-gray-400 mb-7 pt-4">
+      <div className="bg-white shadow-md md:mt-[38px] border-t-2 border-primary md:rounded-sm px-5 w-full relative">
+        {/* <p className="text-sm md:text-md text-gray-400 mb-7 pt-4">
           {t("post-request-paragraph")}
-        </p>
+        </p> */}
 
         <PostRequestNavigation />
 

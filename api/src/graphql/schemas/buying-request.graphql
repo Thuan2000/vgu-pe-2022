@@ -1,19 +1,7 @@
-type AllowedCompany {
-	minSupplierExperience: Float
-	minSupplierRating: Float
-	minSuplierSells: Float
-}
-
 enum BRStatus {
 	OPEN
 	CLOSE
 	ALL
-}
-
-input AllowedCompanyInput {
-	minSupplierExperience: Float
-	minSupplierRating: Float
-	minSupplierSells: Float
 }
 
 type BuyingRequest {
@@ -23,10 +11,10 @@ type BuyingRequest {
 	endDate: Date!
 	location: String!
 	industryId: Int!
-	categoryIds: [Int!]!
+	categoryId: Int!
 	description: String
-	productName: String!
 	projects: [Project!]
+	sourceTypeId: Int
 	createdBy: User!
 	minBudget: Date!
 	maxBudget: Date!
@@ -36,7 +24,8 @@ type BuyingRequest {
 	updatedAt: Date!
 	unit: String!
 	gallery: [File!]
-	allowedCompany: AllowedCompany
+	minSupplierExperience: Int
+	minSupplierSells: Int
 	company: Company!
 	bids: [Bid!]
 	lastOpened: Date!
@@ -47,18 +36,19 @@ input CreateBuyingRequestInput {
 	endDate: Date!
 	location: String!
 	description: String
-	productName: String!
 	minBudget: Date!
 	maxBudget: Date!
 	minOrder: Int!
 	gallery: [Upload!]
 	unit: String!
 	industryId: Int!
-	categoryIds: [Int!]!
+	categoryId: Int!
 	companyId: Int!
 	companyName: String!
 	createdById: Int!
-	allowedCompany: AllowedCompanyInput
+	minSupplierExperience: Int
+	minSupplierSells: Int
+	sourceTypeId: Int
 }
 
 input UpdateBuyingRequestInput {
@@ -66,9 +56,8 @@ input UpdateBuyingRequestInput {
 	endDate: Date!
 	location: String!
 	description: String
-	productName: String!
 	industryId: Int!
-	categoryIds: [Int]!
+	categoryId: Int!
 	minBudget: Date!
 	maxBudget: Date!
 	minOrder: Int!
@@ -78,7 +67,9 @@ input UpdateBuyingRequestInput {
 	companyId: Int!
 	companyName: String!
 	updatedById: Int!
-	allowedCompany: AllowedCompanyInput
+	minSupplierExperience: Int
+	minSupplierSells: Int
+	sourceTypeId: Int
 }
 
 type BuyingRequestsResponse {
@@ -96,7 +87,6 @@ input FetchBRInput {
 	offset: Int!
 	limit: Int!
 	searchValue: String
-	productName: String
 	categories: [Int]
 	location: String
 	status: BRStatus

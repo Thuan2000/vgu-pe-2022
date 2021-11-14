@@ -32,7 +32,6 @@
   "productName-filter-placeholder": "Thép, Nhôm, Nhựa,...",
   "locationFilter-placeholder": "Bình Dương",
   "industry-filter-label": "Ngành/Nghề",
-  "budgetRange-filter-label": "Khoảng Chi Phí",
   "OPEN_STATUS": "Còn Mở",
   "contact-button-label": "Liên Hệ",
   "bid-button-label": "Chào Hàng",
@@ -43,5 +42,9 @@
   "min-order-text": "SL tối thiểu",
   "BUDGET_LABEL": "Khoảng phí",
   "million-suffix": "tr",
-  "billion-suffix": "tỷ"
+  "billion-suffix": "tỷ",
+  "englishLanguage-label": "Tiếng Anh",
+  "vietnameseLanguage-label": "Tiếng Việt",
+  "chatNow-button-label": "Chat Ngay",
+  "budgetFrom-label": "Từ"
 }

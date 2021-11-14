@@ -1,4 +1,5 @@
-import { formatMoneyAmount, getSuffix } from "@utils/functions";
+import LTEIcon from "@assets/icons/lte-icon";
+import { formatMoneyAmount, getSuffix, viDateFormat } from "@utils/functions";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { DetailsFormValue } from "../post-request-schema";
@@ -15,19 +16,30 @@ const DetailsSection: React.FC<IGeneralSection> = ({
   hasImage,
 }) => {
   const {
-    categories,
-    industry,
+    endDate,
+    location,
+    sourceType,
     maxBudget,
     minBudget,
     minOrder,
-    productName,
+    allowedCompany,
     unit,
   } = formValues || {};
 
   const { t } = useTranslation("form");
 
+  function isHaveAllowedCompanyFilter() {
+    if (!allowedCompany) return false;
+    let isHave = false;
+    Object.keys(allowedCompany).forEach((e) => {
+      if (!!(allowedCompany as any)[e]) isHave = true;
+    });
+
+    return isHave;
+  }
+
   return (
-    <>
+    <div className="space-y-3 mb-5">
       <div className={`flex justify-between mb-5 ${hasImage && "md:w-2/3"}`}>
         <h3>{t("details-information-title")}</h3>
         <p
@@ -37,15 +49,10 @@ const DetailsSection: React.FC<IGeneralSection> = ({
           {t("edit-label")}
         </p>
       </div>
-      <div className="mb-5">
-        <p className="text-semibold">{t("product-label")}</p>
-        <p className="font-semibold">
-          {typeof productName === "string" ? productName : productName?.name}
-        </p>
-      </div>
-      <div className="mb-5">
-        <p className="text-semibold">{t("budget-label")}</p>
-        <p className="font-semibold flex">
+
+      <div>
+        <p className="font-semibold">{t("budget-label")}</p>
+        <p className=" flex">
           <span className="mr-5">
             {formatMoneyAmount(minBudget)}
             {`${t("common:" + getSuffix(minBudget))} ${t("budget-sign")}`}
@@ -57,34 +64,65 @@ const DetailsSection: React.FC<IGeneralSection> = ({
           </span>
         </p>
       </div>
-      <div className="mb-5">
-        <p className="text-semibold">{t("minOrder-label")}</p>
-        <p className="font-semibold">
+      <div>
+        <p className="font-semibold text-semibold">{t("minOrder-label")}</p>
+        <p className="">
           {minOrder} {unit}
         </p>
       </div>
-      <div className="mb-5">
-        <p className="text-semibold">{t("check-industry-label")}</p>
-        <p className="font-semibold">{t("industry:" + industry?.label)}</p>
+
+      <div>
+        <p className="text-semibold font-semibold">
+          {t("check-dueTime-label")}
+        </p>
+        <p className="">{viDateFormat(endDate?.getTime())}</p>
       </div>
 
-      {categories?.length > 0 && (
-        <div className="mb-5">
-          <p className="text-semibold">{t("check-categories-label")}</p>
-          <div className="flex items-center flex-wrap">
-            {categories.map((category, idx) => (
-              <p
-                className="font-semibold mr-1"
-                key={`${category.label}-"category-additional-section"`}
-              >
-                {t("category:" + category.label)}
-                {idx < categories?.length - 1 && ", "}
-              </p>
-            ))}
-          </div>
+      <div>
+        <p className="text-semibold font-semibold">
+          {t("check-location-label")}
+        </p>
+        <p className="">
+          {typeof location === "string" ? location : location?.name}
+        </p>
+      </div>
+
+      {isHaveAllowedCompanyFilter() && (
+        <div>
+          <p className="font-semibold text-semibold">
+            {t("check-participantFilter-label")}
+          </p>
+          {!!allowedCompany?.minSupplierExperience && (
+            <p className="flex space-x-1">
+              <span>{t("minSupplierExperience-filter-key")}:</span>
+              <span className="flex items-center">
+                <LTEIcon className="mr-1" />
+                {allowedCompany?.minSupplierExperience}
+              </span>
+              <span>{t("experience-suffix-years")}</span>
+            </p>
+          )}
+          {!!allowedCompany?.minSupplierSells && (
+            <p className="flex space-x-1">
+              <span>{t("minSupplyQuantity-filter-label")}:</span>
+              <span className="flex items-center">
+                {allowedCompany?.minSupplierSells}
+              </span>
+              <span>{t("minSupplierSuffix-label")}</span>
+            </p>
+          )}
         </div>
       )}
-    </>
+
+      {!!sourceType && (
+        <div>
+          <p className="text-semibold font-semibold">
+            {t("check-sourceType-label")}
+          </p>
+          <p className="">{t("source-type:" + sourceType?.label)}</p>
+        </div>
+      )}
+    </div>
   );
 };
 export default DetailsSection;

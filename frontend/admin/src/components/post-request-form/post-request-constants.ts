@@ -1,29 +1,36 @@
-export type GeneralInputNames = "name" | "endDate" | "location" | "description";
+export type GeneralInputNames =
+  | "name"
+  | "description"
+  | "industry"
+  | "gallery"
+  | "category";
 
 export const INLINE_LABEL_WIDTH = "85px";
 
 export type DetailsInputNames =
-  | "productName"
   | "minBudget"
   | "maxBudget"
   | "minOrder"
   | "unit"
-  | "gallery";
+  | "endDate"
+  | "location";
 
 // All general input names | key
 export const requiredGeneralInputNames: GeneralInputNames[] = [
   "name",
-  "endDate",
-  "location",
+  "category",
+  "industry",
+  "description",
 ];
 
 // All details input names | key
 export const requiredDetailsInputNames: DetailsInputNames[] = [
-  "productName",
   "minBudget",
   "maxBudget",
   "minOrder",
   "unit",
+  "endDate",
+  "location",
 ];
 
 export const GENERAL_FORM_INDEX = 1;

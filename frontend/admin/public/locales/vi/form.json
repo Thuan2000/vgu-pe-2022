@@ -98,7 +98,8 @@
   "company-with-label": "Company with minimum",
   "minSupplierRating-filter-key": "Stars Rating",
   "minSupplierExperience-filter-key": "Years of establishment",
-  "minSuplierSells-filter-key": "Sells",
+  "minSupplierSells-filter-key": "Sells",
   "post-request-name-is-required-error": "Trường thông tin cần thiết",
-  "post-request-location-is-required-error": "Trường thông tin cần thiết"
+  "post-request-location-is-required-error": "Trường thông tin cần thiết",
+  "requestNamePrefix-value": "Cần mua"
 }

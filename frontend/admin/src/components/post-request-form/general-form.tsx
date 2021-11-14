@@ -1,24 +1,23 @@
 import React from "react";
-import Input from "@components/ui/storybook/inputs/input";
 import {
   Control,
   FieldErrors,
   UseFormRegister,
   UseFormTrigger,
+  UseFormGetValues,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
-import { IVietnamCity, vietnamCities } from "@utils/vietnam-cities";
-import SelectInput from "@components/ui/storybook/select-input";
 import TextArea from "@components/ui/storybook/inputs/text-area";
-import DateInput from "@components/ui/storybook/inputs/date-input";
 
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 
 // Locale setting
 import vi from "date-fns/locale/vi";
 import { IBuyingRequest } from "@graphql/types.graphql";
-import MaskInput from "@components/ui/storybook/inputs/mask-input";
+import Input from "@components/ui/storybook/inputs/input";
+import DocumentInput from "@components/ui/storybook/document-input";
+import IndustryCategorySelect from "@components/ui/storybook/inputs/industry-category-input/industry-category-select";
 registerLocale("vi", vi);
 setDefaultLocale("vi");
 
@@ -28,73 +27,89 @@ interface IGeneralInputProps {
   initValue?: IBuyingRequest;
   errors?: FieldErrors<PostRequestFormValue>;
   trigger: UseFormTrigger<PostRequestFormValue>;
+  getValues: UseFormGetValues<PostRequestFormValue>;
 }
 
 const GeneralForm: React.FC<IGeneralInputProps> = ({
   register,
   trigger,
   control,
+  getValues,
   initValue,
   errors,
 }) => {
   const { t } = useTranslation("form");
-
   return (
-    <div className="md:w-2/3">
-      <MaskInput
-        control={control}
+    <div className="md:w-2/3 space-y-3 sm:mb-5">
+      <Input
         numberQueue={1}
-        prefix={`${t("requestNamePrefix-value")} `}
-        name="general.name"
-        className="my-6 w-full"
-        autoFocus
-        label={`${t("post-request-name-label")}`}
-        required={true}
-        note={t("post-request-name-desc")}
-        onChange={() => {
+        value={getValues("general.name")}
+        prefix={`${t("requestNamePrefix-value")} - `}
+        style={{
+          paddingLeft: `${
+            Math.min(t("requestNamePrefix-value").length) * 12.5
+          }px`,
+        }}
+        {...register("general.name")}
+        onChange={(e) => {
+          register("general.name").onChange(e);
           trigger("general.name");
         }}
+        className="w-full"
+        autoFocus
+        label={`${t("post-request-name-label")}`}
+        required
+        note={t("post-request-name-desc")}
         placeholder={t("post-request-name-placeholder")}
-        error={errors?.general?.name?.message}
-      />
-      <DateInput
-        control={control}
-        name="general.endDate"
-        className="my-6 w-full"
-        locale="vi"
-        minDate={new Date()}
-        placeholder={t("post-request-endDate-placeholder")}
-        error={errors?.general?.endDate?.message}
-        label={`${t("post-request-endDate-label")}`}
-        numberQueue={2}
+        error={t(errors?.general?.name?.message || "")}
       />
 
-      <SelectInput
-        name="general.location"
-        numberQueue={3}
-        required={true}
-        label={`${t("post-request-location-label")}`}
-        placeholder={t("post-request-location-placeholder")}
-        control={control}
-        options={vietnamCities}
-        onChange={(_) => {
-          trigger("general.location");
-        }}
-        getInitialValue={(option?: IVietnamCity) =>
-          option?.name === (initValue?.location as string)
-        }
-        error={(errors?.general?.location as any)?.message}
-        getOptionLabel={(option: IVietnamCity) => option.name}
-        getOptionValue={(option: IVietnamCity) => option.name}
-      />
       <TextArea
         label={t("post-request-description-label")}
-        className="my-6 w-full"
-        numberQueue={4}
+        // className="w-full"
+        numberQueue={2}
+        required
         placeholder={t("post-request-description-placeholder")}
-        error={errors?.general?.description?.message}
+        error={t(errors?.general?.description?.message || "")}
         {...register("general.description")}
       />
+
+      <DocumentInput
+        required
+        accept="image/*"
+        note={t("post-request-gallery-note")}
+        control={control}
+        name="general.gallery"
+        multiple
+        numberQueue={3}
+        label={t("post-request-gallery-label")}
+        error={errors?.general?.gallery?.message}
+      />
+
+      <IndustryCategorySelect
+        control={control}
+        categoryControllerName="general.category"
+        industryControllerName="general.industry"
+        onIndustryChange={(_) => {
+          trigger("general.industry");
+        }}
+        onCategoryChange={(_) => {
+          trigger("general.category");
+        }}
+        required
+        label={`${t("post-request-endDate-label")}`}
+        numberQueue={4}
+        getCategoryLabel={(e) => t("category:" + e.label)}
+        getIndustryLabel={(e) => t("industry:" + e.label)}
+        error={
+          t((errors?.general?.industry as any)?.message) ||
+          t((errors?.general?.category as any)?.message)
+        }
+      />
+
+      {/* 
+
+       */}
     </div>
   );
 };

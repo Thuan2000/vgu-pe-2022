@@ -2,6 +2,8 @@ import UnderlineIcon from "@assets/icons/navigations/underline-icon";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import useIsPhone from "src/hooks/isPhone.hook";
+import NumberLabel from "./storybook/inputs/queue-number";
 
 const navs = [
   {
@@ -15,11 +17,10 @@ const navs = [
   },
 ];
 
-const PostRequestNavigation: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
-  props
-) => {
+const PostRequestNavigation: React.FC = () => {
   const { t } = useTranslation("form");
   const { query, ...router } = useRouter();
+  const isPhone = useIsPhone();
 
   const currentFormPosition = parseInt(query.formPosition as string) || 1;
 
@@ -44,23 +45,32 @@ const PostRequestNavigation: React.FC<React.HTMLAttributes<HTMLDivElement>> = (
     return (
       <div
         key={label}
-        className={`w-1/3 ${extraClass} ${
-          currentFormPosition > idx + 1 ? "cursor-pointer" : "cursor-default"
-        }`}
+        className={`px-10 bg-white py-1 rounded-t-md ${extraClass} border-2 flex-center
+          ${currentFormPosition > idx + 1 ? "cursor-pointer" : "cursor-default"}
+          ${
+            isActive
+              ? "border-primary border-b-transparent"
+              : "border-b-primary"
+          }
+        `}
         onClick={() => setFormPosition(idx + 1)}
       >
-        <h3 className="sm:text-lg font-bold">
-          {idx + 1}. {t(label)}
+        <h3 className="text-center sm:text-md font-bold flex items-center">
+          <NumberLabel
+            backgroundColor="primary"
+            className="mr-3 !w-5 !h-5"
+            number={idx + 1}
+          />
+          {t(label)}
         </h3>
-        <UnderlineIcon
-          className="w-full"
-          fill={currentFormPosition > idx + 1 ? "#B0BDC6" : ""}
-          isActive={isActive}
-        />
       </div>
     );
   });
 
-  return <div className="flex">{navsUi}</div>;
+  return (
+    <div className={`absolute bottom-full ${isPhone && "hidden"}`}>
+      <div className="flex">{navsUi}</div>
+    </div>
+  );
 };
 export default PostRequestNavigation;

@@ -8,7 +8,6 @@ import BuyingRequest from "@models/BuyingRequest";
 import User from "@models/User";
 import { uploadImages } from "@repositories/uploads.repository";
 import {
-	BUYING_REQUESTS_GET_LIMIT,
 	errorResponse,
 	generateSlug,
 	RESPONSE_MESSAGE,
@@ -155,9 +154,7 @@ class BuyingRequestController {
 			where: { companyId },
 			include: [
 				Company,
-				// Category,
 				Project,
-				// Industry,
 				{
 					model: Bid,
 					as: "bids",
@@ -204,9 +201,9 @@ class BuyingRequestController {
 		...buyingRequestInput
 	}: ICreateBuyingRequestInput) {
 		try {
-			const { name, productName, companyId } = buyingRequestInput;
+			const { name, companyId } = buyingRequestInput;
 
-			setProductName(productName);
+			// setProductName(productName);
 
 			// Check duplicate
 			const duplicateBr = await BuyingRequest.findOne({
@@ -217,6 +214,7 @@ class BuyingRequestController {
 			});
 
 			if (duplicateBr) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
+			const brGallery = await uploadImages(companyName, gallery);
 
 			const newBuyingRequest = await BuyingRequest.create({
 				...buyingRequestInput,
@@ -225,7 +223,7 @@ class BuyingRequestController {
 				status: "OPEN"
 			});
 
-			const brGallery = await uploadImages(companyName, gallery);
+			// const brGallery = await uploadImages(companyName, gallery);
 			setBrGallery(brGallery, newBuyingRequest);
 
 			return newBuyingRequest.save().then(() => successResponse());
@@ -241,7 +239,6 @@ class BuyingRequestController {
 			companyName,
 			gallery,
 			oldGallery,
-			categoryIds,
 			...newValue
 		}: IUpdateBuyingRequestInput
 	) {
@@ -249,12 +246,12 @@ class BuyingRequestController {
 
 		// @Note : To hold the process
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const data = await setProductName(newValue.productName);
+		// const data = await setProductName(newValue.productName);
 
 		currentBr.update(newValue);
 		// To understand this read sequelize associations
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(currentBr as any).setCategories(categoryIds);
+		// (currentBr as any).setCategories(categoryIds);
 
 		const newGallery = await uploadImages(companyName, gallery);
 		currentBr.setDataValue("gallery", oldGallery);

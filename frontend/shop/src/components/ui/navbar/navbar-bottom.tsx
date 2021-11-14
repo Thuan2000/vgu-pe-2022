@@ -18,9 +18,7 @@ const NavbarBottom = () => {
         <div className="flex-center">
           <Category />
           <Search className="ml-4" />
-          <Button className="!h-9 px-0" size="small" variant="custom">
-            <SaveIcon className="mx-4" />
-          </Button>
+          <SaveIcon className="mx-4" />
           <Link href={ROUTES.NOTIFICATIONS} passHref>
             <NotificationIcon />
           </Link>

@@ -4,7 +4,7 @@ import React, { ButtonHTMLAttributes } from "react";
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   variant?: "normal" | "outline" | "custom";
-  size?: "big" | "medium" | "small" | "fluid";
+  size?: "big" | "medium" | "small" | "fluid" | "extraSmall";
   active?: boolean;
   color?: string;
   loading?: boolean;
@@ -23,7 +23,8 @@ const classes = {
   disabled:
     "border border-border-base bg-gray-300 border-border-400 text-body cursor-not-allowed",
   disabledOutline: "border border-border-base text-muted cursor-not-allowed",
-  small: "px-3 py-0 h-9 text-sm h-10",
+  small: "px-3 py-0 h-9 text-sm",
+  extraSmall: "px-3 h-8 text-sm",
   medium: "px-5 py-0 h-12",
   big: "px-10 py-0 h-14",
   fluid: "px-20 h-9 text-sm",
@@ -49,6 +50,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         [classes.outline]: !disabled && variant === "outline",
         [classes.disabledOutline]: disabled && variant === "outline",
         [classes.small]: size === "small",
+        [classes.extraSmall]: size === "extraSmall",
         [classes.medium]: size === "medium",
         [classes.big]: size === "big",
         [classes.fluid]: size === "fluid",

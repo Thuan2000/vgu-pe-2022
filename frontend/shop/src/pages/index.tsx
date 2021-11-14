@@ -1,12 +1,6 @@
 import type { GetServerSideProps } from "next";
 
-import {
-  getAuthCredentials,
-  hasAccess,
-  isAuthenticated,
-} from "../utils/auth-utils";
 import PageLayout from "@components/layouts/page-layout";
-import { ROUTES } from "../utils/routes";
 import React from "react";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
@@ -15,18 +9,8 @@ import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { token, role } = getAuthCredentials(ctx);
-
   const { locale } = ctx;
 
-  if (!token || !role || !isAuthenticated({ token, role })) {
-    return {
-      redirect: {
-        destination: ROUTES.LOGIN,
-        permanent: false,
-      },
-    };
-  }
   return {
     props: {
       ...(await serverSideTranslations(locale!, ["common"])),

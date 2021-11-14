@@ -45,7 +45,8 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
     trigger,
   } = useForm<PostRequestFormValue>({
     resolver: yupResolver(PostRequestSchema),
-    defaultValues: getDefaultValue(initValue),
+    // @TODO Find out what happened
+    defaultValues: getDefaultValue(initValue) as any,
   });
 
   const { query, ...router } = useRouter();
@@ -118,7 +119,7 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
     if (errors && errors.general && formPosition > GENERAL_FORM_INDEX) {
       changeSection(1);
       return;
-    } else if (errors.additional && formPosition > DETAILS_FORM_INDEX) {
+    } else if (errors.details && formPosition > DETAILS_FORM_INDEX) {
       changeSection(2);
       return;
     }
@@ -126,24 +127,17 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
   }, [errors]);
 
   async function onSubmit(inputValues: PostRequestFormValue) {
-    const { general, details, additional } = inputValues;
+    const { general, details } = inputValues;
 
     // All of this variable need tobe processed
-    const { location, endDate, ...generalRest } = general;
+    const { gallery, industry, category, ...generalRest } = general;
     // @NOTE :: This should be changed later when programmer has nothing to do :V
-    const {
-      productName: product,
-      industry,
-      categories,
-      gallery,
-      ...detailsRest
-    } = details;
-    const { allowedCompany, ...additionalRest } = additional;
+    const { allowedCompany, endDate, sourceType, location, ...detailsRest } =
+      details;
 
     const locationName = location.name;
-    const productName = product.name;
     const industryId = parseInt(industry.id + "");
-    const categoryIds = categories.map((c) => parseInt(c.id + ""));
+    const categoryId = parseInt(category.id + "");
 
     const oldGallery: any[] = [];
     const newGallery = gallery?.filter((imgOrUpload: any) => {
@@ -160,16 +154,15 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
       companyName: getCompanyName(),
       [initValue ? "updatedById" : "createdById"]: getLoggedInUser()?.id,
       location: locationName,
-      productName,
-      endDate: new Date(endDate).getTime(),
       industryId,
-      categoryIds,
+      categoryId,
+      sourceTypeId: sourceType?.id,
       // newGallery is only gallery.filter and remove all non file
       [initValue ? "gallery" : "gallery"]: newGallery,
-      allowedCompany,
+      ...allowedCompany,
       ...generalRest,
       ...detailsRest,
-      ...additionalRest,
+      endDate: new Date(endDate).getTime(),
     };
 
     if (initValue) {
@@ -192,9 +185,9 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
       const data = await trigger("general");
       if (!data) return;
     }
-    if (formPosition === DETAILS_FORM_INDEX && !isValidDetailsForm()) {
-      trigger("details");
-      return;
+    if (formPosition === DETAILS_FORM_INDEX) {
+      const data = await trigger("details");
+      if (!data) return;
     }
     if (formPosition >= 3) return;
 
@@ -208,13 +201,14 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative pb-5 mb-0 md:mb-5 md:w-full"
+      className="relative pb-5 mb-0 md:!my-5 md:pt-1 md:w-full"
     >
       {formPosition === GENERAL_FORM_INDEX && (
         <GeneralForm
           initValue={initValue}
           trigger={trigger}
           control={control}
+          getValues={getValues}
           register={register}
           errors={errors}
         />
