@@ -11,4 +11,4 @@ export interface IFAQ {
 }
 
 export type FontSize = "xl" | "lg" | "md" | "sm" | "xs";
-export type Background = "primary" | "secondary-1" | "green" | "blue" | "red";
+export type Background = "primary" | "secondary-1" | "blue" | "red";

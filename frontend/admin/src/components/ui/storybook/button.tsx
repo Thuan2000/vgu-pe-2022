@@ -44,7 +44,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       loading = false,
       disabled = false,
       type,
-      color = "green",
+      color = "primary",
       ...rest
     } = props;
     const classesName = cn(
