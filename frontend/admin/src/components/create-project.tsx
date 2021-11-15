@@ -22,7 +22,7 @@ import { getMeData } from "@utils/auth-utils";
 import { getObjectIds, trimText } from "@utils/functions";
 import { useModal } from "src/contexts/modal.context";
 import { useRouter } from "next/dist/client/router";
-import { POSTED_REQUEST_VIEWS } from "./posted-requests/posted-requests-nav/prn-constants";
+import { POSTED_REQUEST_VIEWS } from "./posted-tenders/posted-tenders-nav/prn-constants";
 
 type CreateProjectFormValues = {
   name: string;

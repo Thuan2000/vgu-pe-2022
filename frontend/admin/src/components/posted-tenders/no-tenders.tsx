@@ -5,7 +5,7 @@ import { ROUTES } from "@utils/routes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-const NoBuyingRequests: React.FC = () => {
+const NoTenders: React.FC = () => {
   const { t } = useTranslation("common");
 
   return (
@@ -22,4 +22,4 @@ const NoBuyingRequests: React.FC = () => {
     </div>
   );
 };
-export default NoBuyingRequests;
+export default NoTenders;

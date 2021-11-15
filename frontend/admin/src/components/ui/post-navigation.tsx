@@ -1,23 +1,18 @@
-import UnderlineIcon from "@assets/icons/navigations/underline-icon";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import useIsPhone from "src/hooks/isPhone.hook";
 import NumberLabel from "./storybook/inputs/queue-number";
 
-const navs = [
-  {
-    label: "general-nav-label",
-  },
-  {
-    label: "details-nav-label",
-  },
-  {
-    label: "check-nav-label",
-  },
-];
+interface INav {
+  label: string;
+}
 
-const PostRequestNavigation: React.FC = () => {
+interface IPostNavigation {
+  navs: INav[];
+}
+
+const PostNavigation: React.FC<IPostNavigation> = ({ navs }) => {
   const { t } = useTranslation("form");
   const { query, ...router } = useRouter();
   const isPhone = useIsPhone();
@@ -68,9 +63,9 @@ const PostRequestNavigation: React.FC = () => {
   });
 
   return (
-    <div className={`absolute bottom-full ${isPhone && "hidden"}`}>
+    <div className={`hidden sm:block absolute bottom-full`}>
       <div className="flex">{navsUi}</div>
     </div>
   );
 };
-export default PostRequestNavigation;
+export default PostNavigation;

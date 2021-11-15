@@ -33,6 +33,6 @@ export const requiredDetailsInputNames: DetailsInputNames[] = [
   "location",
 ];
 
-export const GENERAL_FORM_INDEX = 1;
-export const DETAILS_FORM_INDEX = 2;
-export const CHECK_FORM_INDEX = 3;
+export const PR_GENERAL_FORM_INDEX = 1;
+export const PR_DETAILS_FORM_INDEX = 2;
+export const PR_CHECK_FORM_INDEX = 3;

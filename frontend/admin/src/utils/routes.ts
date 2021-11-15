@@ -6,8 +6,9 @@ export const ROUTES = {
   LOGOUT: "/logout",
   SETTINGS: "/settings",
   NOTIFICATIONS: "/notifications",
-  POST_REQUEST: "/post-request",
-  POSTED_REQUESTS: "/posted-requests",
-  BUYING_REQUESTS: "/buying-requests",
+  POST_REQUEST: "/post-tender",
+  POSTED_REQUESTS: "/posted-tenders",
+  BUYING_REQUESTS: "/tenders",
   PROJECTS: "/projects",
+  POST_PRODUCT: "/post-product-service",
 };

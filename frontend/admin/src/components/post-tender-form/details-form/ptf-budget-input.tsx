@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import useIsPhone from "src/hooks/isPhone.hook";
 import InlineFormInputWrapper from "../inline-form-input-wrapper";
 import InlineLabel from "../inline-label";
-import { INLINE_LABEL_WIDTH } from "../post-request-constants";
+import { INLINE_LABEL_WIDTH } from "../post-tender-constants";
 import { PostRequestFormValue } from "../post-request-schema";
 
 interface IPRFBudgetInputProps extends React.HTMLAttributes<HTMLDivElement> {

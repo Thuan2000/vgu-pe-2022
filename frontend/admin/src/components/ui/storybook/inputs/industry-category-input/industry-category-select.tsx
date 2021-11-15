@@ -16,8 +16,8 @@ interface IIndustryCategorySelectProps extends IInputLabelProps {
   error?: string;
   getCategoryLabel: (e: ICategory) => string;
   getIndustryLabel: (e: IIndustry) => string;
-  onIndustryChange: (e: IIndustry) => void;
-  onCategoryChange: (e: ICategory) => void;
+  onIndustryChange?: (e: IIndustry) => void;
+  onCategoryChange?: (e: ICategory) => void;
 }
 
 const IndustryCategorySelect: React.FC<IIndustryCategorySelectProps> = ({

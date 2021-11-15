@@ -1,6 +1,5 @@
 import type { GetServerSideProps } from "next";
 
-import { getAuthCredentials, isAuthenticated } from "../utils/auth-utils";
 import PageLayout from "@components/layouts/page-layout";
 import React from "react";
 import Head from "next/head";

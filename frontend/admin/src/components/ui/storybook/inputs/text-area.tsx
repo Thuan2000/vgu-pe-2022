@@ -15,6 +15,9 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       shadow = false,
       inputClassName,
       numberQueue,
+      labelFontSize,
+      noteFontSize,
+
       required,
       ...rest
     } = props;
@@ -40,6 +43,8 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             label={label}
             note={note}
             numberQueue={numberQueue}
+            labelFontSize={labelFontSize}
+            noteFontSize={noteFontSize}
           />
         )}
         <div

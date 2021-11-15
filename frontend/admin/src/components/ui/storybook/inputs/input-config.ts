@@ -1,4 +1,5 @@
 import { InputHTMLAttributes, TextareaHTMLAttributes } from "react";
+import { IInputLabelProps } from "./input-label";
 
 export const inputClasses = {
   root: "px-4 h-10 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
@@ -12,11 +13,11 @@ export const inputClasses = {
     "border-none shadow-none focus:border-none focus:shadow-none active:border-none active:shadow-none",
 };
 
-export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface IInputProps
+  extends InputHTMLAttributes<HTMLInputElement>,
+    IInputLabelProps {
   className?: string;
   inputClassName?: string;
-  label?: string;
-  note?: string;
   error?: string;
   type?: string;
   shadow?: boolean;
@@ -24,21 +25,16 @@ export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   prefix?: any;
   transparentPrefix?: boolean;
   suffix?: any;
-  numberQueue?: number;
   absoluteErrorMessage?: boolean;
   noBorder?: boolean;
   valuePrefix?: string | number;
-  required?: boolean;
 }
 
 export interface TextAreaProps
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  extends TextareaHTMLAttributes<HTMLTextAreaElement>,
+    IInputLabelProps {
   className?: string;
   inputClassName?: string;
-  label?: string;
-  note?: string;
-  numberQueue?: number;
-  // name: string;
   error?: string;
   shadow?: boolean;
   variant?: "normal" | "solid" | "outline";
