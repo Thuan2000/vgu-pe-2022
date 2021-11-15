@@ -131,7 +131,7 @@
   "industry-placeholder": "Technology",
   "categories-placeholder": "Graphic Card",
   "minSuplierSells-placeholder": "1.000",
-  "recentlySelected-label": "Recently Selected",
+  "recentlySelected-label": "Selected Category",
   "minSupplyQuantity-filter-label": "Minimum supply quantity",
   "minSupplierSuffix-label": "Sells",
   "post-request-sourceType-label": "Source Type",

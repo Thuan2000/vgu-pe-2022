@@ -23,7 +23,7 @@ export const siteSettings = {
       href: "/",
     },
     {
-      label: "NCỨ",
+      label: "Danh bạ công ty",
       href: "#",
     },
     {
