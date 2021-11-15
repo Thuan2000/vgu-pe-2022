@@ -1,8 +1,15 @@
+import XIcon from "@assets/icons/x-icon";
+import { COLORS } from "@utils/colors";
 import React, { useState, useEffect } from "react";
-import { CreateOptionActionMeta, Props } from "react-select";
+import { ActionMeta, Props } from "react-select";
 import Createable from "react-select/creatable";
 import InputErrorMessage from "../inputs/input-error";
 import InputLabel from "../inputs/input-label";
+import {
+  getCreateActionMeta,
+  getSelectActionMeta,
+  getRemoveActionMeta,
+} from "./createable-utils";
 import { createableStyles } from "./createable.style";
 
 export interface ICreateableSelectProps extends Props {
@@ -23,7 +30,10 @@ export interface ICreateableSelectProps extends Props {
   numberQueue?: number;
   trigger?: (name: string) => void;
   loading?: boolean;
+  getOptionLabel: (option: any) => string;
+  getOptionValue: (option: any) => any;
 }
+
 /**
  *
  * @param createNewOption function that take label, and return a new option
@@ -46,16 +56,24 @@ const CreateableSelect = React.forwardRef(
       getInitialValue,
       trigger,
       required,
+      isMulti,
       value,
+      maxMenuHeight,
+      name,
       ...props
     }: ICreateableSelectProps,
     ref
   ) => {
     const [options, setOptions] = useState(defaultOptions || []);
+    // For custom chips
+    const [selectedValues, setSelectedValues] = useState<any[] | undefined>(
+      isMulti ? value : (undefined as any)
+    );
 
     useEffect(() => {
       setOptions(defaultOptions);
     }, [loading, defaultOptions]);
+
     if (["string", "number"].includes(typeof value) && getInitialValue) {
       for (const opt of options || []) {
         if (getInitialValue(opt) && onChange) {
@@ -73,14 +91,26 @@ const CreateableSelect = React.forwardRef(
 
       setOptions(newOptions);
 
-      const createMeta: CreateOptionActionMeta<any> = {
-        action: "create-option",
-        option: newOption,
-      };
-
-      if (onChange) onChange(newOption, createMeta);
+      handleChange(
+        value ? [...(value as any), newOption] : [newOption],
+        getSelectActionMeta(newOption)
+      );
 
       if (onCreateOption) onCreateOption(label);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    function handleChange(e: any, actionMeta: ActionMeta<any>) {
+      // For showing values purpose
+      if (isMulti) setSelectedValues(e);
+
+      if (onChange) onChange(e, actionMeta);
+    }
+
+    // Called when the x on custom pil option clicked
+    function removeAValue(value: any) {
+      const newValues = (selectedValues as any[]).filter((v) => value !== v);
+      handleChange(newValues, getRemoveActionMeta(value));
     }
 
     return (
@@ -90,19 +120,52 @@ const CreateableSelect = React.forwardRef(
           label={label}
           note={note}
           required={required}
-          name={props.name}
+          name={name}
         />
         <div className={`${!!numberQueue && "ml-8"}`}>
           <Createable
-            onChange={onChange}
+            onChange={handleChange}
             onCreateOption={handleCreateOption}
             options={options}
             styles={createableStyles}
+            closeMenuOnScroll
             ref={ref as any}
-            isOptionSelected={(option: any) => option === value}
+            isOptionSelected={(option: any) =>
+              isMulti ? selectedValues?.includes(option)! : option === value
+            }
             value={value}
+            isMulti={isMulti}
+            name={name}
+            maxMenuHeight={maxMenuHeight || 245}
+            controlShouldRenderValue={!isMulti}
             {...props}
           />
+
+          {!!selectedValues?.length && isMulti && (
+            <div className="flex flex-wrap select-none mt-3">
+              {selectedValues.map((value: any, idx: number) => {
+                const label = props?.getOptionLabel!(value);
+
+                return (
+                  <div
+                    key={`${label}-select`}
+                    className="flex cursor-default items-center border-primary text-primary border-2 mr-2 mb-2 bg-white rounded-3xl pl-2 text-sm"
+                  >
+                    {label}
+                    <p
+                      className="ml-2 h-full flex-center text-sm font-semibold cursor-pointer hover:text-primary-hover hover:bg-gray-10 rounded-r-3xl pl-1 pr-2 transition-colors duration-150"
+                      onClick={() => removeAValue(value)}
+                    >
+                      <XIcon
+                        fill={COLORS.PRIMARY.DEFAULT}
+                        className="w-2 h-2"
+                      />
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
           <InputErrorMessage error={error} />
         </div>

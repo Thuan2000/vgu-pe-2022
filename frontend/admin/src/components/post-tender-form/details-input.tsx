@@ -18,9 +18,7 @@ import {
   IProductName,
 } from "@graphql/types.graphql";
 import SelectInput from "@components/ui/storybook/select-input";
-import { industriesData } from "@utils/industries";
-import { getIndustryCategories } from "@utils/categories";
-import PRFBudgetInput from "./details-form/prf-budget-input";
+import PRFBudgetInput from "./details-form/ptf-budget-input";
 import PRFQuantityInput from "./details-form/prf-quantity-input";
 import DateInput from "@components/ui/storybook/inputs/date-input";
 import { IVietnamCity, vietnamCities } from "@utils/vietnam-cities";

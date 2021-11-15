@@ -97,7 +97,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
           trigger("general.category");
         }}
         required
-        label={`${t("post-request-endDate-label")}`}
+        label={`${t("post-request-industry-category-label")}`}
         numberQueue={4}
         getCategoryLabel={(e) => t("category:" + e.label)}
         getIndustryLabel={(e) => t("industry:" + e.label)}
@@ -106,10 +106,6 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
           t((errors?.general?.category as any)?.message)
         }
       />
-
-      {/* 
-
-       */}
     </div>
   );
 };

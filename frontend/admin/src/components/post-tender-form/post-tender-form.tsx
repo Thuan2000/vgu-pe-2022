@@ -12,11 +12,11 @@ import { PostRequestSchema, PostRequestFormValue } from "./post-request-schema";
 
 import {
   requiredDetailsInputNames,
-  DETAILS_FORM_INDEX,
+  PR_DETAILS_FORM_INDEX,
   requiredGeneralInputNames,
-  GENERAL_FORM_INDEX,
-  CHECK_FORM_INDEX,
-} from "./post-request-constants";
+  PR_GENERAL_FORM_INDEX,
+  PR_CHECK_FORM_INDEX,
+} from "./post-tender-constants";
 import CheckSection from "./check-section";
 import {
   useCreateBuyingRequestMutation,
@@ -29,13 +29,13 @@ import {
   getCompanyName,
   getLoggedInUser,
 } from "@utils/functions";
-import { getDefaultValue } from "./prf-utils";
+import { getDefaultValue } from "./ptf-utils";
 
-interface IPostRequestFormParams {
+interface IPostTenderFormParams {
   initValue?: IBuyingRequest;
 }
 
-const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
+const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
   const {
     register,
     control,
@@ -104,11 +104,11 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
 
   // Change section when user come to formSection=2 directly not from 1
   useEffect(() => {
-    if (formPosition > GENERAL_FORM_INDEX && !isValidGeneralForm()) {
-      changeSection(GENERAL_FORM_INDEX);
+    if (formPosition > PR_GENERAL_FORM_INDEX && !isValidGeneralForm()) {
+      changeSection(PR_GENERAL_FORM_INDEX);
       return;
-    } else if (formPosition > DETAILS_FORM_INDEX && !isValidDetailsForm()) {
-      changeSection(GENERAL_FORM_INDEX);
+    } else if (formPosition > PR_DETAILS_FORM_INDEX && !isValidDetailsForm()) {
+      changeSection(PR_GENERAL_FORM_INDEX);
       return;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -116,10 +116,10 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
 
   // Changing section if there's an error
   useEffect(() => {
-    if (errors && errors.general && formPosition > GENERAL_FORM_INDEX) {
+    if (errors && errors.general && formPosition > PR_GENERAL_FORM_INDEX) {
       changeSection(1);
       return;
-    } else if (errors.details && formPosition > DETAILS_FORM_INDEX) {
+    } else if (errors.details && formPosition > PR_DETAILS_FORM_INDEX) {
       changeSection(2);
       return;
     }
@@ -181,11 +181,11 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
   }
 
   async function handleNextClick() {
-    if (formPosition === GENERAL_FORM_INDEX) {
+    if (formPosition === PR_GENERAL_FORM_INDEX) {
       const data = await trigger("general");
       if (!data) return;
     }
-    if (formPosition === DETAILS_FORM_INDEX) {
+    if (formPosition === PR_DETAILS_FORM_INDEX) {
       const data = await trigger("details");
       if (!data) return;
     }
@@ -203,7 +203,7 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
       onSubmit={handleSubmit(onSubmit)}
       className="relative pb-5 mb-0 md:!my-5 md:pt-1 md:w-full"
     >
-      {formPosition === GENERAL_FORM_INDEX && (
+      {formPosition === PR_GENERAL_FORM_INDEX && (
         <GeneralForm
           initValue={initValue}
           trigger={trigger}
@@ -214,7 +214,7 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
         />
       )}
 
-      {formPosition === DETAILS_FORM_INDEX && (
+      {formPosition === PR_DETAILS_FORM_INDEX && (
         <DetailsInput
           initValue={initValue}
           control={control}
@@ -225,20 +225,20 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
         />
       )}
 
-      {formPosition === CHECK_FORM_INDEX && (
+      {formPosition === PR_CHECK_FORM_INDEX && (
         <CheckSection getValues={getValues} changeSection={changeSection} />
       )}
 
       <div className="flex flex-col justify-between relative md:h-10 w-full">
-        <Button
+        {/* <Button
           type="button"
           variant="cancel"
           size="small"
-          onClick={handleBackClick}
+          // onClick={handleBackClick}
           className={`${formPosition <= 1 && "invisible hidden"} md:w-40`}
         >
           {t("saveDraft-button-label")}
-        </Button>
+        </Button> */}
         <div className="flex flex-col md:flex-row justify-between md:w-1/3 md:absolute md:right-0">
           <Button
             type="button"
@@ -271,4 +271,4 @@ const PostRequestForm: React.FC<IPostRequestFormParams> = ({ initValue }) => {
     </Form>
   );
 };
-export default PostRequestForm;
+export default PostTenderForm;

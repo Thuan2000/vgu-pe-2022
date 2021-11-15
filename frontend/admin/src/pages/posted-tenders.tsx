@@ -5,11 +5,14 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "next/dist/client/router";
 
 import PageLayout from "@components/layouts/page-layout";
-import PostedRequestsNav from "@components/posted-requests/posted-requests-nav";
-import { POSTED_REQUEST_VIEWS } from "@components/posted-requests/posted-requests-nav/prn-constants";
-import BuyingRequests from "../components/posted-requests/sections/buying-requests";
-import UnderDevelopment from "@components/under-development";
-import Projects from "@components/posted-requests/sections/projects";
+import PostedRequestsNav from "@components/posted-tenders/posted-tenders-nav";
+import { POSTED_REQUEST_VIEWS } from "@components/posted-tenders/posted-tenders-nav/prn-constants";
+import BuyingRequests from "../components/posted-tenders/sections/buying-requests";
+import Projects from "@components/posted-tenders/sections/projects";
+import { generateHeadTitle, generatePageDescription } from "@utils/seo-utils";
+import Head from "next/head";
+import { PAGE_DESCRIPTION } from "src/seo/description.seo";
+import { PAGE_TITLE } from "src/seo/titles.seo";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale, query } = ctx;
@@ -21,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-const PostedRequests = (props: any) => {
+const PostedTenders = (props: any) => {
   const { t } = useTranslation("common");
 
   const { query } = useRouter();
@@ -31,6 +34,13 @@ const PostedRequests = (props: any) => {
 
   return (
     <>
+      <Head>
+        <title>{generateHeadTitle(t(PAGE_TITLE.POSTED_TENDER))}</title>
+        <meta
+          name="description"
+          content={generatePageDescription(t(PAGE_DESCRIPTION.POST_TENDER))}
+        />
+      </Head>
       <div className="bg-white md:p-5 rounded-sm md:rounded-lg flex flex-col flex-wrap justify-between pb-5">
         <PostedRequestsNav className="mb-4" />
         {activeView === POSTED_REQUEST_VIEWS.BUYING_REQUESTS && (
@@ -42,6 +52,6 @@ const PostedRequests = (props: any) => {
   );
 };
 
-PostedRequests.Layout = PageLayout;
+PostedTenders.Layout = PageLayout;
 
-export default PostedRequests;
+export default PostedTenders;

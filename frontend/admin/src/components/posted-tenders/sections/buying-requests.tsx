@@ -1,5 +1,5 @@
-import BuyingRequestHeader from "@components/posted-requests/buying-request/brc-header";
-import BuyingRequestCard from "@components/posted-requests/buying-request/buying-request-card";
+import BuyingRequestHeader from "@components/posted-tenders/buying-request/brc-header";
+import BuyingRequestCard from "@components/posted-tenders/buying-request/buying-request-card";
 
 import Loading from "@components/ui/loading";
 import Pagination from "@components/ui/pagination";
@@ -11,7 +11,7 @@ import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import { BUYING_REQUESTS_GET_LIMIT } from "@utils/constants";
 import { useRouter } from "next/dist/client/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import NoBuyingRequests from "@components/posted-requests/no-buying-requests";
+import NoTenders from "@components/posted-tenders/no-tenders";
 import CreateProject, { CPBR } from "@components/create-project";
 import { findIndex } from "lodash";
 import { getCompanyId } from "@utils/functions";
@@ -127,7 +127,7 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
 
   if (loading) return <Loading />;
 
-  if (!data?.adminBuyingRequests?.data?.length) return <NoBuyingRequests />;
+  if (!data?.adminBuyingRequests?.data?.length) return <NoTenders />;
   const brs = data?.adminBuyingRequests?.data as IBuyingRequest[];
 
   function removeFromSelecteds(br: IBuyingRequest) {

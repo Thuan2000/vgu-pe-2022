@@ -1,9 +1,10 @@
 import PageLayout from "@components/layouts/page-layout";
-import PostRequestForm from "@components/post-request-form";
+import PostTenderForm from "@components/post-tender-form";
 import Loading from "@components/ui/loading";
-import PostRequestNavigation from "@components/ui/post-request-navigation";
+import PostNavigation from "@components/ui/post-navigation";
 import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
 import { IBuyingRequest } from "@graphql/types.graphql";
+import { postRequestNavs } from "@pages/post-tender";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React from "react";
@@ -40,9 +41,9 @@ const EditBuyingRequestPage: React.FC<IEditProjectPageProps> = ({ slug }) => {
         {t("post-request-paragraph")}
       </p>
 
-      <PostRequestNavigation />
+      <PostNavigation navs={postRequestNavs} />
 
-      <PostRequestForm initValue={buyingRequest as IBuyingRequest} />
+      <PostTenderForm initValue={buyingRequest as IBuyingRequest} />
     </div>
   );
 };

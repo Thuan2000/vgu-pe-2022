@@ -1,3 +1,5 @@
+import XIcon from "@assets/icons/x-icon";
+import { COLORS } from "@utils/colors";
 import React, { useState } from "react";
 import ReactSelect, {
   ActionMeta,
@@ -71,7 +73,7 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
           {...props}
           value={value}
         />
-        {!!values && isMulti && (
+        {!!values?.length && isMulti && (
           <div className="flex flex-wrap select-none mt-3">
             {values.map((value: any, idx: number) => {
               const label = props?.getOptionLabel!(value);
@@ -83,10 +85,10 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
                 >
                   {label}
                   <p
-                    className="ml-2  text-sm font-semibold cursor-pointer hover:text-primary-hover hover:bg-gray-10 rounded-r-3xl pl-1 pr-2 transition-colors duration-150"
+                    className="ml-2 h-full flex-center  text-sm font-semibold cursor-pointer hover:text-primary-hover hover:bg-gray-10 rounded-r-3xl pl-1 pr-2 transition-colors duration-150"
                     onClick={() => removeAValue(value)}
                   >
-                    x
+                    <XIcon fill={COLORS.PRIMARY.DEFAULT} className="w-2 h-2" />
                   </p>
                 </div>
               );
