@@ -188,12 +188,12 @@ const DocumentUploader = ({
         <div
           {...getRootProps({
             className:
-              "border-dashed border-2 border-border-base h-24 flex-center rounded cursor-pointer focus:border-green focus:outline-none",
+              "border-dashed border-2 border-border-base h-24 flex-center rounded cursor-pointer focus:border-primary focus:outline-none",
           })}
         >
           <input {...getInputProps()} />
-          <p className="text-xs text-center text-green-main">
-            <span className="text-green font-semibold">
+          <p className="text-xs text-center text-primary-main">
+            <span className="text-primary font-semibold">
               {t("form:drop-zone")}
             </span>
           </p>

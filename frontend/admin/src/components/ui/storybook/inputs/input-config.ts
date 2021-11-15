@@ -4,9 +4,10 @@ import { IInputLabelProps } from "./input-label";
 export const inputClasses = {
   root: "px-4 h-10 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
   normal:
-    "bg-light border border-border-base focus:shadow focus:bg-light focus:border-green",
-  solid: "bg-light border border-border-100 focus:bg-light focus:border-green",
-  outline: "border border-border-base focus:border-green",
+    "bg-light border border-border-base focus:shadow focus:bg-light focus:border-primary",
+  solid:
+    "bg-light border border-border-100 focus:bg-light focus:border-primary",
+  outline: "border border-border-base focus:border-primary",
   shadow: "focus:shadow",
   numberInput: "text-right",
   noBorder:
