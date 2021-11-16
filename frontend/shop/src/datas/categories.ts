@@ -69,4 +69,16 @@ export const categoriesData = [
   { id: 33, label: "DIGITAL MARKETING", industryId: 3 },
   { id: 34, label: "CONTENT", industryId: 3 },
   { id: 35, label: "BILLBOARDS", industryId: 3 },
+
+  // Fourth:
+  { id: 36, label: "BUY SELL HIRE FACTORIES", industryId: 4 },
+  { id: 37, label: "REAL-ESTATE VALUATION", industryId: 4 },
+  { id: 38, label: "FACTORY ASSETS MANAGEMENT", industryId: 4 },
+  { id: 39, label: "INSURANCE", industryId: 4 },
+  { id: 40, label: "LEGAL SERVICES", industryId: 4 },
+  { id: 41, label: "NOTARY OFFICE", industryId: 4 },
+  { id: 42, label: "REAL-ESTATE ADMIN AND MANAGEMENT", industryId: 4 },
+  { id: 43, label: "INDUSTRIAL REAL-ESTATE MANAGEMENT", industryId: 4 },
+  { id: 43, label: "GUARDS & SECURITY", industryId: 4 },
+  { id: 43, label: "WORKERS' ACCOMODATIONS", industryId: 4 },
 ];

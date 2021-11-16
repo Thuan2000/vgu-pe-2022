@@ -44,7 +44,7 @@
   "save-draft-button-label": "Lưu Nháp",
   "next-section-button-label": "Tiếp theo",
   "post-request-name-label": "Tên NCTM",
-  "post-request-endDate-label": "Hạn chót nhận yêu cầu chào hàng",
+  "post-request-categorization-label": "Chọn Lĩnh vực và Ngành/Nghề",
   "post-request-location-label": "Tỉnh/thành nhận hàng",
   "post-request-description-label": "Mô tả ngắn",
   "post-request-status-label": "Vui lòng chọn trạng thái của mục đăng",
@@ -101,5 +101,6 @@
   "minSupplierSells-filter-key": "Sells",
   "post-request-name-is-required-error": "Trường thông tin cần thiết",
   "post-request-location-is-required-error": "Trường thông tin cần thiết",
-  "requestNamePrefix-value": "Cần mua"
+  "requestNamePrefix-value": "Cần mua",
+  "post-request-description-is-required-error": "Please input description"
 }

@@ -44,7 +44,7 @@
   "save-draft-button-label": "Save to drafts",
   "next-section-button-label": "Next",
   "post-request-name-label": "Name of tender",
-  "post-request-endDate-label": "Deadline for sales tender submissions",
+  "post-request-categorization-label": "Category selection",
   "post-request-location-label": "Location (city) of logistics fulfillment",
   "post-request-description-label": "Short description",
   "post-request-status-label": "Please Select the status of tender",
@@ -138,5 +138,6 @@
   "post-request-sourceType-placeholder": "Select value",
   "CUSTOMIZED_SOURCE": "Customizable",
   "UNCUSTOMIZED_SOURCE": "Non Customizable",
-  "post-request-industry-category-label": "Select Industry and Category of the tender"
+  "post-request-industry-category-label": "Select Industry and Category of the tender",
+  "post-request-description-is-required-error": "Please input description"
 }
