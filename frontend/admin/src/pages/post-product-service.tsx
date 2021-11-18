@@ -11,7 +11,6 @@ import PostPageWrapper from "@components/post-page-wrapper";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import PostProductServiceForm from "@components/ui/post-product-service/pps-form";
-import UnderDevelopment from "@components/under-development";
 
 export const postProductNavs = [
   {
@@ -19,6 +18,12 @@ export const postProductNavs = [
   },
   {
     label: "details-nav-label",
+  },
+  {
+    label: "attachment-nav-label",
+  },
+  {
+    label: "pricing-nav-label",
   },
   {
     label: "check-nav-label",
@@ -37,11 +42,11 @@ const PostProduct: React.FC<IPostProductProps> = () => {
         <title>{generateHeadTitle(t(PAGE_TITLE.POST_PRODUCT))}</title>
         <meta name="description" content={PAGE_DESCRIPTION.POST_PRODUCT} />
       </Head>
-      <UnderDevelopment />
-      {/* <PostPageWrapper>
+      {/* <UnderDevelopment /> */}
+      <PostPageWrapper>
         <PostNavigation navs={postProductNavs} />
         <PostProductServiceForm />
-      </PostPageWrapper> */}
+      </PostPageWrapper>
     </div>
   );
 };

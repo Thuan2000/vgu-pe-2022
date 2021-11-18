@@ -31,8 +31,8 @@ const ProductNameSelect = ({
           <CreateableSelect
             createNewOption={createNewOption || handleNewOptionCreation}
             onChange={(e) => {
-              if (inputOnChange) inputOnChange(e, {} as any);
               onChange(e);
+              if (inputOnChange) inputOnChange(e, {} as any);
             }}
             {...(props as any)}
             {...(field as any)}

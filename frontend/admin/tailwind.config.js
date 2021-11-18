@@ -75,6 +75,7 @@ module.exports = {
         gray: {
           DEFAULT: "#A3ADB4",
           10: "#EEF2F5",
+          50: "#FBFCFF",
           100: "#C5CDD4",
           200: "#B0BDC6",
           300: "#82868C",
@@ -98,6 +99,15 @@ module.exports = {
       borderWidth: {
         1: "1px",
       },
+      animation: {
+        fadeIn: "fadeIn 0.4s ease",
+      },
+      keyframes: (theme) => ({
+        fadeIn: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: "100%" },
+        },
+      }),
     },
   },
   // plugins: [require("tailwind-scrollbar")],

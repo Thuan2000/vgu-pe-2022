@@ -17,50 +17,48 @@ interface IPPSServiceGeneralInputProps {
   trigger: UseFormTrigger<IPostServiceFormValues>;
 }
 
-const PPSServiceGeneralInput: React.FC<IPPSServiceGeneralInputProps> = ({
-  register,
+const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
   errors,
   control,
   trigger,
 }) => {
   const { t } = useTranslation("form");
-
   return (
-    <>
-      <TextArea
-        {...register("general.description")}
-        required
-        numberQueue={1}
-        label={t("postService-description-input-label")}
-      />
-
+    <div className="space-y-3">
       <DocumentInput
         control={control}
         numberQueue={2}
-        required
         multiple
-        name="general.images"
+        name="attachment.images"
+        onChange={(_) => trigger("attachment.images")}
         accept="image/*"
         label={t("postService-image-input-label")}
+        error={t((errors.attachment?.images as any)?.message || "")}
       />
 
       <DocumentInput
         control={control}
         numberQueue={3}
-        name="general.videos"
+        multiple
+        name="attachment.videos"
+        onChange={(_) => trigger("attachment.videos")}
         accept="video/*"
         label={t("postService-videos-input-label")}
+        error={t((errors.attachment?.videos as any)?.message || "")}
       />
 
       <DocumentInput
         control={control}
         required
+        multiple
         numberQueue={4}
-        name="general.certificates"
+        name="attachment.certificates"
+        onChange={(_) => trigger("attachment.certificates")}
         accept=".pdf, .doc, .xls"
         label={t("postService-certificates-input-label")}
+        error={t((errors.attachment?.certificates as any)?.message || "")}
       />
-    </>
+    </div>
   );
 };
-export default PPSServiceGeneralInput;
+export default PPSServiceAttachmentInput;

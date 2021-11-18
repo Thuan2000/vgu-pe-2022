@@ -11,11 +11,12 @@ const PostProductServiceForm: React.FC<IPostProductServiceFormProps> = () => {
   const { query } = useRouter();
 
   const target = query.target as CreateTarget;
+  const formPosition = parseInt(query.formPosition as string);
 
   return (
     <div className="space-y-2">
-      <PPSDescription />
-      <PPSTargetSelector />
+      {(!target || !formPosition || formPosition <= 1) && <PPSDescription />}
+      {(!target || !formPosition || formPosition <= 1) && <PPSTargetSelector />}
 
       {target === "product" && <PPSProductForm />}
       {target === "service" && <PPSServiceForm />}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDropzone, FileRejection } from "react-dropzone";
 import Image from "next/image";
@@ -10,11 +10,11 @@ import { COLORS } from "@utils/colors";
 import DocIcon from "@assets/icons/files/doc-icon";
 import ExcelIcon from "@assets/icons/files/excel-icon";
 import PdfIcon from "@assets/icons/files/pdf-icon";
-import { CloseIcon } from "@assets/icons/close-icon";
 import InputLabel from "./inputs/input-label";
 import TrashCanIcon from "@assets/icons/trash-can-icon";
+import ValidationError from "./validation-error";
 
-interface IFile extends File {
+export interface IFile extends File {
   localUrl: string;
 }
 
@@ -41,21 +41,22 @@ function isVideo(file: IFile) {
 //   return !!file.type.match("audio.*");
 // }
 
-function getDocumentPreview(file: IFile) {
+export function getDocumentPreview(file: IFile, props?: any) {
   const { name, localUrl: url } = file as any;
   const extension = name?.split(".").pop()?.toLocaleLowerCase();
   const size = 40;
-  if (extension?.includes("pdf")) return <PdfIcon width={size} height={size} />;
+  if (extension?.includes("pdf"))
+    return <PdfIcon width={size} height={size} {...props} />;
   else if (extension?.includes("csv") || extension?.includes("xls"))
-    return <ExcelIcon width={size} height={size} />;
+    return <ExcelIcon width={size} height={size} {...props} />;
   else if (extension?.includes("csv") || extension?.includes("doc"))
-    return <DocIcon width={size} height={size} />;
+    return <DocIcon width={size} height={size} {...props} />;
   else if (isImage(file))
     // eslint-disable-next-line @next/next/no-img-element
-    return <Image layout="fill" src={url || ""} alt={name} />;
+    return <Image layout="fill" src={url || ""} alt={name} {...props} />;
   else if (isVideo(file))
     // eslint-disable-next-line @next/next/no-img-element
-    return <video src={url || ""} autoPlay={false} />;
+    return <video src={url || ""} autoPlay={false} {...props} />;
 }
 
 function getPreviewFiles(values: any[]) {
@@ -76,13 +77,14 @@ const DocumentUploader = ({
   multiple,
   accept,
   required,
+  error,
   numberQueue,
   onChange,
   value,
 }: IDocumentUploaderProps) => {
   const { t } = useTranslation("form");
   const [files, setFiles] = useState<IFile[]>(getPreviewFiles(value) || []);
-
+  const firstRun = useRef(true);
   const { getRootProps, getInputProps } = useDropzone({
     accept,
     multiple: multiple,
@@ -107,9 +109,9 @@ const DocumentUploader = ({
   });
 
   useEffect(() => {
-    if (onChange) {
-      onChange(files);
-    }
+    if (firstRun.current) firstRun.current = false;
+    else if (onChange) onChange(files);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
@@ -207,6 +209,7 @@ const DocumentUploader = ({
         >
           <UploadIcon className="mr-5" /> {t("upload-file")}
         </Button>
+        <ValidationError message={error} />
       </div>
     </>
   );

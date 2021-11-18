@@ -104,3 +104,23 @@ export function getObjectIds(array: any[]) {
 
   return ids;
 }
+
+export function preventSubmitOnEnter() {
+  return {
+    onKeyDown: (e: React.KeyboardEvent<any>) => {
+      if (e.keyCode === 13) e.preventDefault();
+    },
+  };
+}
+
+export function callOnEnter(handler: (e: React.KeyboardEvent<any>) => void) {
+  return {
+    onKeyDown: (e: React.KeyboardEvent<any>) => {
+      if (e.keyCode === 13) handler(e);
+    },
+  };
+}
+
+export function createUUID() {
+  return Math.random().toString(36).slice(2);
+}

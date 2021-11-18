@@ -28,12 +28,11 @@ const PPSServiceCategoryInput: React.FC<IPPSServiceCategoryInputProps> = ({
   const { t } = useTranslation("form");
 
   return (
-    <>
+    <div className="space-y-3">
       <Input
         required
         {...register("category.name")}
         label={t("serviceName-input-label")}
-        numberQueue={1}
         onChange={(e) => {
           register("category.name").onChange(e);
           trigger("category.name");
@@ -44,7 +43,6 @@ const PPSServiceCategoryInput: React.FC<IPPSServiceCategoryInputProps> = ({
       <IndustryCategorySelect
         required
         label={t("serviceIndustryCategory-label")}
-        numberQueue={2}
         control={control}
         onIndustryChange={() => trigger("category.industry")}
         onCategoryChange={() => trigger("category.category")}
@@ -57,7 +55,7 @@ const PPSServiceCategoryInput: React.FC<IPPSServiceCategoryInputProps> = ({
             (errors.category?.category as any)?.message
         )}
       />
-    </>
+    </div>
   );
 };
 export default PPSServiceCategoryInput;

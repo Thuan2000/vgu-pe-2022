@@ -23,8 +23,8 @@ const FaqInput: React.FC<IFaqInputProps> = ({
           <>
             <FAQListCreator
               onChange={(e: IFaq[]) => {
-                if (inputOnChange) inputOnChange(e);
                 onChange(e);
+                if (inputOnChange) inputOnChange(e);
               }}
               {...field}
               {...props}

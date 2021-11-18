@@ -1,23 +1,25 @@
 import React from "react";
 
-interface ITableIndividualWrapperProps {
+interface IPPITableItemWrapperProps {
   className?: string;
   isLast?: boolean;
   isHead?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const TableIndividualWrapper: React.FC<ITableIndividualWrapperProps> = ({
+const PPITableItemWrapper: React.FC<IPPITableItemWrapperProps> = ({
   className,
   isLast,
   isHead,
+  onClick,
   children,
 }) => {
   return (
     <div
-      className={`flex-shrink-0 flex-center border-b h-10
+      onClick={onClick}
+      className={`${className} w-full !flex-shrink-0 flex-center h-10
                     ${!isLast && "border-r"}
                     ${isHead && "bg-gray-100"}
-                    ${className}
                 `}
     >
       {children}
@@ -25,4 +27,4 @@ const TableIndividualWrapper: React.FC<ITableIndividualWrapperProps> = ({
   );
 };
 
-export default TableIndividualWrapper;
+export default PPITableItemWrapper;

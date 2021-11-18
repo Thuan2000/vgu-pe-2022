@@ -50,6 +50,14 @@ const FAQListCreator: React.FC<IFAQListCreatorProps> = ({
     setFaqs([...faqs]);
   }
 
+  function handleDeletedFaq(faq: IFaq) {
+    const idx = findIndex(faqs, (f) => f.id === faq.id);
+
+    faqs.splice(idx, 1);
+
+    setFaqs([...faqs]);
+  }
+
   useEffect(() => {
     if (faqs.length && onChange) onChange(faqs);
   }, [faqs]);
@@ -70,18 +78,25 @@ const FAQListCreator: React.FC<IFAQListCreatorProps> = ({
           <Button
             onClick={() => setIsCreatingFaq(true)}
             variant="custom"
-            size="small"
-            className="bg-gray-100 !rounded-3xl"
+            className="bg-gray-100 !rounded-3xl !text-xs"
           >
             {t("addFaq-button-label")}
             <PlusIcon className="ml-1 w-3 h-3" />
           </Button>
         </div>
       )}
-      <div className="space-y-3">
-        <FAQList onEditedFaq={handleEditedFaq} faqs={faqs} />
+      <div className={`space-y-3 ${!!numberQueue && "ml-8"}`}>
+        <FAQList
+          onEditedFaq={handleEditedFaq}
+          faqs={faqs}
+          onDeletedFaq={handleDeletedFaq}
+        />
         {(faqs.length === 0 || isCreatingFaq) && (
-          <FAQCreator faqsLength={faqs.length} onCreate={handleCreateFaq} />
+          <FAQCreator
+            onCancel={() => setIsCreatingFaq(false)}
+            faqsLength={faqs.length}
+            onCreate={handleCreateFaq}
+          />
         )}
       </div>
       <ValidationError message={error} />

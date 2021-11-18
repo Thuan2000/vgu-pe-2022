@@ -1,4 +1,5 @@
 import Form from "@components/form";
+import { preventSubmitOnEnter } from "@utils/functions";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../../button";
@@ -11,12 +12,14 @@ interface IFAQCreatorProps {
   initValue?: IFaq;
   onCreate: (e: IFaq) => void;
   faqsLength?: number;
+  onCancel: () => void;
 }
 
 const FAQCreator: React.FC<IFAQCreatorProps> = ({
   onCreate,
   faqsLength,
   initValue,
+  onCancel,
 }) => {
   const { t } = useTranslation("form");
   const [question, setQuestion] = useState(initValue?.question || "");
@@ -47,6 +50,10 @@ const FAQCreator: React.FC<IFAQCreatorProps> = ({
     else onCreate({ id: (faqsLength || 0) + 1, question, answer });
   }
 
+  function closeCreator() {
+    onCancel();
+  }
+
   return (
     <>
       <div className="border border-gray-200 rounded-sm">
@@ -62,6 +69,7 @@ const FAQCreator: React.FC<IFAQCreatorProps> = ({
             value={question}
             onChange={handleQuestionChange}
             error={t(questionErrorMessage)}
+            {...preventSubmitOnEnter()}
           />
           <TextArea
             label={t("faq-input-answer-label")}
@@ -74,15 +82,23 @@ const FAQCreator: React.FC<IFAQCreatorProps> = ({
           />
 
           <div className="flex items-center justify-end space-x-4">
-            <Button className="sm:w-1/5" variant="cancel">
-              {t("cancel-button-label")}
-            </Button>
+            {!!onCancel && (
+              <Button
+                className="sm:w-1/5"
+                variant="cancel"
+                onClick={closeCreator}
+              >
+                {t("cancel-button-label")}
+              </Button>
+            )}
             <Button
               onClick={handleSubmit}
               className="sm:w-1/5"
               color="secondary-1"
             >
-              {t("create-button-label")}
+              {!!initValue
+                ? t("update-button-label")
+                : t("create-button-label")}
             </Button>
           </div>
         </div>

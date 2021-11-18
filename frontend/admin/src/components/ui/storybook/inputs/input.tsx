@@ -2,6 +2,8 @@ import React from "react";
 import cn from "classnames";
 import { inputClasses, IInputProps } from "./input-config";
 import InputLabel from "./input-label";
+import { motion } from "framer-motion";
+import Tooltip from "../tooltip";
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>(
   (
@@ -22,6 +24,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
       numberQueue,
       prefix,
       suffix,
+      tooltip,
       noBorder,
       noteFontSize,
       labelFontSize,
@@ -41,7 +44,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
       inputClassName
     );
     return (
-      <div className={className}>
+      <div className={`relative ${className}`}>
         {label && (
           <InputLabel
             numberQueue={numberQueue}
@@ -53,6 +56,8 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
             noteFontSize={noteFontSize}
           />
         )}
+
+        {tooltip && <Tooltip text={tooltip} />}
 
         <div className={`${!!numberQueue && "ml-8"}`}>
           <div className="flex z-0 items-center align-middle relative ">

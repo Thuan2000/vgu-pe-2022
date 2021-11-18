@@ -1,5 +1,6 @@
 import { getMeData, setMeData } from "@utils/auth-utils";
 import { trimText } from "@utils/functions";
+import { ROUTES } from "@utils/routes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Link from "./link";
@@ -31,7 +32,7 @@ const UserProfile = () => {
         </div>
       ) : (
         <div>
-          <Link href={`${adminLink}/post-tender`}>
+          <Link href={`${adminLink}${ROUTES.POST_TENDER || "/post-tender"}`}>
             <Button className="!h-9" size="small" style={{fontSize: 12}}>
               {t("post-request-link-button-label")}
             </Button>
