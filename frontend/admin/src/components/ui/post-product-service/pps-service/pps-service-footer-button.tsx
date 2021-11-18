@@ -1,18 +1,20 @@
 import Button from "@components/ui/storybook/button";
 import { useTranslation } from "next-i18next";
 import React from "react";
-import { PPS_CHECK_FORM_INDEX } from "./pps-service-constants";
+import { PPS_REVIEW_FORM_INDEX } from "./pps-service-constants";
 
 interface IPPSServiceFooterButtonProps {
   onNextClick: () => void;
   formPosition: number;
   onBackClick: () => void;
+  loading: boolean;
 }
 
 const PPSServiceFooterButton: React.FC<IPPSServiceFooterButtonProps> = ({
   onNextClick,
   formPosition,
   onBackClick,
+  loading,
 }) => {
   const { t } = useTranslation("form");
 
@@ -41,15 +43,15 @@ const PPSServiceFooterButton: React.FC<IPPSServiceFooterButtonProps> = ({
           {t("back-button-label")}
         </Button>
         <Button
-          type={formPosition < PPS_CHECK_FORM_INDEX ? "button" : "submit"}
+          type={formPosition < PPS_REVIEW_FORM_INDEX ? "button" : "submit"}
           onClick={onNextClick}
           size="small"
           className="md:w-1/2.5"
-          // loading={creating || updating}
-          autoFocus={formPosition === PPS_CHECK_FORM_INDEX}
+          loading={loading}
+          autoFocus={formPosition === PPS_REVIEW_FORM_INDEX}
         >
           {t(
-            formPosition === PPS_CHECK_FORM_INDEX
+            formPosition === PPS_REVIEW_FORM_INDEX
               ? "post-service-button-label"
               : "next-section-button-label"
           )}

@@ -10,8 +10,13 @@ enum ROLE {
 	GUESS
 }
 
+enum LOCALE {
+	en
+	vi
+}
+
 type CreateResponse {
-	id: Int!
+	id: Int
 	message: String!
 	success: Boolean!
 }

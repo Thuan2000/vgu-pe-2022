@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 import {
   UseFormRegister,
@@ -14,6 +14,11 @@ import SelectInput from "@components/ui/storybook/select-input";
 import { vietnamCities } from "@utils/vietnam-cities";
 import FAQListCreator from "@components/ui/storybook/inputs/faq-input";
 import FaqInput from "@components/ui/storybook/inputs/faq-input/faq-input";
+import { createUUID, preventSubmitOnEnter } from "@utils/functions";
+import { useTagsQuery } from "@graphql/tag.graphql";
+import { useRouter } from "next/dist/client/router";
+import { ILocale, ITagInput } from "@graphql/types.graphql";
+import TextArea from "@components/ui/storybook/inputs/text-area";
 
 interface IPPSServiceDetailsInputProps {
   register: UseFormRegister<IPostServiceFormValues>;
@@ -23,45 +28,82 @@ interface IPPSServiceDetailsInputProps {
 }
 
 const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
-  register,
   errors,
   control,
   trigger,
+  register,
 }) => {
   const { t } = useTranslation("form");
+  const { locale } = useRouter();
+  const firstRun = useRef(true);
 
-  // @TODO remove this
-  let keywordsOptLastId = 0;
+  const { data } = useTagsQuery({ variables: { locale: locale as any } });
+  const [tags, setTags] = useState(data?.tags || []);
+
+  useEffect(() => {
+    if (firstRun.current) firstRun.current = false;
+    else setTags(data?.tags || []);
+  }, [data?.tags]);
+
+  function createNewTag(name: string) {
+    const newTag: ITagInput = {
+      name,
+      locale: locale as ILocale,
+    };
+
+    return {
+      id: createUUID(),
+      ...newTag,
+    };
+  }
 
   return (
     <div className="space-y-3">
-      <CreateableSelectInput
-        label={t("post-service-keywords-input-label")}
-        placeholder={t("post-service-keywords-input-placeholder")}
-        error={t((errors?.details?.keywords as any)?.message)}
-        isMulti
-        control={control}
-        name={"details.keywords"}
-        getOptionLabel={(o) => o.label}
-        getOptionValue={(o) => o.id}
-        options={[]}
-        createNewOption={(label) => ({ id: ++keywordsOptLastId, label })}
+      <TextArea
+        {...register("details.description")}
+        required
+        onChange={(e) => {
+          register("details.description").onChange(e);
+          trigger("details.description");
+        }}
+        numberQueue={1}
+        label={t("postService-description-input-label")}
+        error={t(errors.details?.description?.message || "")}
       />
 
       <SelectInput
         label={t("post-service-location-input-label")}
         placeholder={t("post-service-location-input-placeholder")}
+        numberQueue={5}
         options={vietnamCities}
         getOptionLabel={(opt) => opt.name}
         getOptionValue={(opt) => opt.id}
         control={control}
-        required
+        onChange={(_) => trigger("details.location")}
         name="details.location"
+        required
+        error={t((errors?.details?.location as any)?.message)}
+      />
+
+      <CreateableSelectInput
+        label={t("post-service-tags-input-label")}
+        placeholder={t("post-service-tags-input-placeholder")}
+        isMulti
+        numberQueue={6}
+        control={control}
+        onChange={(_) => trigger("details.tags")}
+        name="details.tags"
+        getOptionLabel={(o) => o.label || o.name}
+        getOptionValue={(o) => o.label || o.name}
+        options={tags}
+        createNewOption={createNewTag}
+        error={t((errors?.details?.tags as any)?.message)}
       />
 
       <FaqInput
         control={control}
         name="details.faqs"
+        numberQueue={7}
         label={t("post-service-faq-input-label")}
       />
     </div>

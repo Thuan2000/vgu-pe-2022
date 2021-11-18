@@ -15,11 +15,11 @@ const PPSDescription: React.FC<IPPSDescriptionProps> = ({
       <Typography
         variant="pageTitle"
         size="lg"
-        text={t("postProduct-content-title")}
+        text={t("postProductService-content-title")}
       />
       <Typography
         variant="description"
-        text={t("postProduct-content-subtitle")}
+        text={t("postProductService-content-subtitle")}
       />
     </div>
   );

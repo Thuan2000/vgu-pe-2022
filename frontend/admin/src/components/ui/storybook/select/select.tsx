@@ -6,20 +6,35 @@ import ReactSelect, {
   Props,
   RemoveValueActionMeta,
 } from "react-select";
+import InputLabel, { IInputLabelProps } from "../inputs/input-label";
+import ValidationError from "../validation-error";
 import { selectStyles } from "./select.styles";
+import { GetOptionLabel, GetOptionValue } from "react-select";
 
 export type Ref = any;
 
-export interface ISelectProps extends Props {
+export interface ISelectProps extends Props, IInputLabelProps {
   getInitialValue?: (option: any) => any;
   options: any[];
+  getOptionLabel: GetOptionLabel<any>;
+  error?: string;
+  loading?: boolean;
+  getOptionValue: GetOptionValue<any>;
 }
 
 export const Select = React.forwardRef<Ref, ISelectProps>(
   (
     {
+      label,
+      className,
+      numberQueue,
+      error,
+      loading,
+      queueBackground,
+      note,
       isMulti,
       onChange,
+      required,
       name,
       getInitialValue,
       options,
@@ -61,40 +76,55 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
     }
     return (
       <div>
-        <ReactSelect
-          ref={ref}
-          name={name}
-          styles={selectStyles}
-          isMulti={isMulti}
-          maxMenuHeight={maxMenuHeight || 245}
-          options={options}
-          controlShouldRenderValue={!isMulti}
-          onChange={isMulti ? handleChange : onChange}
-          {...props}
-          value={value}
-        />
-        {!!values?.length && isMulti && (
-          <div className="flex flex-wrap select-none mt-3">
-            {values.map((value: any, idx: number) => {
-              const label = props?.getOptionLabel!(value);
-
-              return (
-                <div
-                  key={`${label}-select`}
-                  className="flex cursor-default items-center border-primary text-primary border-2 mr-2 mb-2 bg-white rounded-3xl pl-2 text-sm"
-                >
-                  {label}
-                  <p
-                    className="ml-2 h-full flex-center  text-sm font-semibold cursor-pointer hover:text-primary-hover hover:bg-gray-10 rounded-r-3xl pl-1 pr-2 transition-colors duration-150"
-                    onClick={() => removeAValue(value)}
-                  >
-                    <XIcon fill={COLORS.PRIMARY.DEFAULT} className="w-2 h-2" />
-                  </p>
-                </div>
-              );
-            })}
-          </div>
+        {label && (
+          <InputLabel
+            queueBackground={queueBackground}
+            label={label}
+            numberQueue={numberQueue}
+            note={note}
+            required={required}
+          />
         )}
+        <div className={`${!!numberQueue && "ml-8"}`}>
+          <ReactSelect
+            ref={ref}
+            name={name}
+            styles={selectStyles}
+            isMulti={isMulti}
+            maxMenuHeight={maxMenuHeight || 245}
+            options={options}
+            isLoading={loading}
+            controlShouldRenderValue={!isMulti}
+            onChange={isMulti ? handleChange : onChange}
+            {...props}
+            value={value}
+          />
+          {!!values?.length && isMulti && (
+            <div className="flex flex-wrap select-none mt-3">
+              {values.map((value: any, idx: number) => {
+                const label = props?.getOptionLabel!(value);
+                return (
+                  <div
+                    key={`${label}-select`}
+                    className="flex cursor-default items-center border-primary text-primary border-2 mr-2 mb-2 bg-white rounded-3xl pl-2 text-sm"
+                  >
+                    {label}
+                    <p
+                      className="ml-2 h-full flex-center  text-sm font-semibold cursor-pointer hover:text-primary-hover hover:bg-gray-10 rounded-r-3xl pl-1 pr-2 transition-colors duration-150"
+                      onClick={() => removeAValue(value)}
+                    >
+                      <XIcon
+                        fill={COLORS.PRIMARY.DEFAULT}
+                        className="w-2 h-2"
+                      />
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {error && <ValidationError message={error} />}
+        </div>
       </div>
     );
   }

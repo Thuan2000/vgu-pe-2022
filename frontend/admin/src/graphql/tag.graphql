@@ -1,0 +1,5 @@
+query Tags($locale: LOCALE!) {
+  tags(locale: $locale) {
+    name
+  }
+}

@@ -2,7 +2,8 @@ import { useTranslation } from "next-i18next";
 import React from "react";
 import { GeneralFormValue } from "../post-request-schema";
 import ImagesSection from "./images-section";
-import { timestampToDate } from "@utils/functions";
+import { IFile } from "@components/ui/storybook/document-uploader";
+import { IFile as IServerFile } from "@graphql/types.graphql";
 
 interface IGeneralSection {
   formValues: GeneralFormValue;
@@ -60,6 +61,11 @@ const GeneralSection: React.FC<IGeneralSection> = ({
       </div>
       {hasImage && (
         <ImagesSection
+          getImageSrc={(img) =>
+            !(img as IFile)?.localUrl
+              ? ((img as IServerFile)?.path as string)
+              : (img as IFile).localUrl
+          }
           images={images}
           className="hidden md:block ml-12 mb-10"
           changeSection={changeSection}

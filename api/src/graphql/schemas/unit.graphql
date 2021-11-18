@@ -1,0 +1,12 @@
+type Unit {
+	name: String!
+}
+
+input UnitInput {
+	name: String!
+	locale: LOCALE!
+}
+
+extend type Query {
+	units(locale: LOCALE): [Unit!]!
+}

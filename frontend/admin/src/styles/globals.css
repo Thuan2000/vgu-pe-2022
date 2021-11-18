@@ -103,6 +103,10 @@ body {
   @apply flex items-center;
 }
 
+.fic {
+  @apply flex items-center;
+}
+
 .position-normal {
   @apply sm:top-0 sm:left-0 sm:-translate-x-0 sm:-translate-y-0;
 }
@@ -113,6 +117,18 @@ body {
 
 .flex-center {
   @apply flex items-center justify-center;
+}
+
+.triangle-pointer:after {
+  --size: 8px;
+  position: absolute;
+  bottom: calc(var(--size) * -2);
+  width: 0;
+  height: 0;
+  left: 10%;
+  border: var(--size) transparent solid;
+  border-top-color: var(--color-dark-blue);
+  content: "";
 }
 
 .abs-fullsize {

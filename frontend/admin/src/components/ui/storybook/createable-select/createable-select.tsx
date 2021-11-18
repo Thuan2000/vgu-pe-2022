@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { ActionMeta, Props } from "react-select";
 import Createable from "react-select/creatable";
 import InputErrorMessage from "../inputs/input-error";
-import InputLabel from "../inputs/input-label";
+import InputLabel, { IInputLabelProps } from "../inputs/input-label";
 import {
   getCreateActionMeta,
   getSelectActionMeta,
@@ -12,7 +12,7 @@ import {
 } from "./createable-utils";
 import { createableStyles } from "./createable.style";
 
-export interface ICreateableSelectProps extends Props {
+export interface ICreateableSelectProps extends Props, IInputLabelProps {
   options: any[];
   /**
    * A function that take label as param and do whatever void
@@ -23,11 +23,8 @@ export interface ICreateableSelectProps extends Props {
    */
   createNewOption: (label: string) => any;
   getInitialValue?: (option: any) => any;
-  label?: string;
-  note?: string;
   error?: string;
-  required?: boolean;
-  numberQueue?: number;
+  inputClassName?: string;
   trigger?: (name: string) => void;
   loading?: boolean;
   getOptionLabel: (option: any) => string;
@@ -45,9 +42,11 @@ const CreateableSelect = React.forwardRef(
       label,
       numberQueue,
       note,
+      labelFontSize,
       error,
       loading,
       className,
+      inputClassName,
       options: defaultOptions,
       createNewOption,
       onCreateOption,
@@ -71,6 +70,7 @@ const CreateableSelect = React.forwardRef(
     );
 
     useEffect(() => {
+      if (!!defaultOptions.length) return;
       setOptions(defaultOptions);
     }, [loading, defaultOptions]);
 
@@ -83,6 +83,12 @@ const CreateableSelect = React.forwardRef(
       }
     }
 
+    useEffect(() => {
+      if (!props.defaultValue || isMulti) return;
+
+      handleChange(props.defaultValue, getSelectActionMeta(props.defaultValue));
+    }, []);
+
     function handleCreateOption(label: string) {
       if (loading) return;
       const newOption = createNewOption(label);
@@ -92,7 +98,11 @@ const CreateableSelect = React.forwardRef(
       setOptions(newOptions);
 
       handleChange(
-        value ? [...(value as any), newOption] : [newOption],
+        !!(value as any)?.length
+          ? [...(value as any), newOption]
+          : isMulti
+          ? [newOption]
+          : newOption,
         getSelectActionMeta(newOption)
       );
 
@@ -115,13 +125,16 @@ const CreateableSelect = React.forwardRef(
 
     return (
       <div className={className}>
-        <InputLabel
-          numberQueue={numberQueue}
-          label={label}
-          note={note}
-          required={required}
-          name={name}
-        />
+        {label && (
+          <InputLabel
+            numberQueue={numberQueue}
+            label={label}
+            note={note}
+            required={required}
+            name={name}
+            labelFontSize={labelFontSize}
+          />
+        )}
         <div className={`${!!numberQueue && "ml-8"}`}>
           <Createable
             onChange={handleChange}
@@ -129,6 +142,7 @@ const CreateableSelect = React.forwardRef(
             options={options}
             styles={createableStyles}
             closeMenuOnScroll
+            className={`rounded-sm border shadow ${inputClassName}`}
             ref={ref as any}
             isOptionSelected={(option: any) =>
               isMulti ? selectedValues?.includes(option)! : option === value

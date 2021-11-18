@@ -20,12 +20,10 @@ export const createableStyles = {
     alignItems: "center",
     minHeight: 40,
     backgroundColor: "#ffffff",
-    borderRadius: 5,
-    border: "1px solid #D1D5DB",
     borderColor: state.isFocused ? "var(--color-primary)" : "#D1D5DB",
-    boxShadow:
-      state.menuIsOpen &&
-      "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+    // boxShadow:
+    //   state.menuIsOpen &&
+    //   "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
   }),
   indicatorSeparator: () => ({
     display: "none",
@@ -50,6 +48,7 @@ export const createableStyles = {
   menu: (provided: any) => ({
     ...provided,
     borderRadius: 5,
+    minWidth: 200,
     borderColor: "var(--color-primary)",
     boxShadow:
       "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",

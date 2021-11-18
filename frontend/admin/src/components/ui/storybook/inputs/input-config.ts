@@ -29,6 +29,7 @@ export interface IInputProps
   absoluteErrorMessage?: boolean;
   noBorder?: boolean;
   valuePrefix?: string | number;
+  tooltip?: string;
 }
 
 export interface TextAreaProps

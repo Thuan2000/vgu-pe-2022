@@ -29,6 +29,7 @@ interface DateInputProps extends Partial<DatepickerProps> {
 
 interface DatepickerProps extends ReactDatePickerProps {
   initialValue?: Date;
+  rootClassName?: string;
 }
 
 const DateInput: React.FC<DateInputProps> = ({
@@ -107,8 +108,8 @@ const DateInput: React.FC<DateInputProps> = ({
 };
 export default DateInput;
 
-const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
-  ({ onChange, ...props }, _) => {
+export const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
+  ({ onChange, rootClassName, ...props }, _) => {
     const inputId = Math.random().toString() + "-date-input";
     function handleChange(e: Date) {
       // Prevent error
@@ -121,9 +122,10 @@ const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
     }
 
     return (
-      <div className="relative">
+      <div className={`relative ${rootClassName}`}>
         <ReactDatepicker
           id={inputId}
+          portalId="root-portal"
           shouldCloseOnSelect
           closeOnScroll
           autoComplete="hide"

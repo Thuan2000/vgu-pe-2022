@@ -15,7 +15,6 @@ interface IPostNavigation {
 const PostNavigation: React.FC<IPostNavigation> = ({ navs }) => {
   const { t } = useTranslation("form");
   const { query, ...router } = useRouter();
-  const isPhone = useIsPhone();
 
   const currentFormPosition = parseInt(query.formPosition as string) || 1;
 
@@ -35,13 +34,15 @@ const PostNavigation: React.FC<IPostNavigation> = ({ navs }) => {
   const navsUi = navs.map((nav, idx) => {
     const { label } = nav;
     const isActive = currentFormPosition === idx + 1;
-    const extraClass = idx !== 0 && idx !== navs.length - 1 && "mx-4";
+    const isFilled = currentFormPosition > idx + 1;
+    const extraClass = idx !== 0 && idx !== navs.length - 1 && "mx-2";
 
     return (
       <div
         key={label}
         className={`px-10 bg-white py-1 rounded-t-md ${extraClass} border-2 flex-center
           ${currentFormPosition > idx + 1 ? "cursor-pointer" : "cursor-default"}
+          ${isFilled && "opacity-40"}
           ${
             isActive
               ? "border-primary border-b-transparent"
@@ -50,10 +51,16 @@ const PostNavigation: React.FC<IPostNavigation> = ({ navs }) => {
         `}
         onClick={() => setFormPosition(idx + 1)}
       >
-        <h3 className="text-center sm:text-md font-bold flex items-center">
+        <h3
+          className={`text-center sm:text-md font-bold flex items-center ${
+            isFilled || isActive ? "text-primary" : "text-gray"
+          }`}
+        >
           <NumberLabel
-            backgroundColor="primary"
-            className="mr-3 !w-5 !h-5"
+            // backgroundColor={isActive || isFilled ? "primary" : ""}
+            className={`mr-3 !w-5 !h-5 ${
+              !(isFilled || isActive) && "!bg-gray"
+            }`}
             number={idx + 1}
           />
           {t(label)}
