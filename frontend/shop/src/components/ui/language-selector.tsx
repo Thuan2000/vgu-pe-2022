@@ -42,7 +42,10 @@ const LanguageSelector = () => {
         <ArrowDownIcon className="ml-2" />
 
         {showMenu && (
-          <div className="absolute top-full right-0 bg-white p-5 pr-10 shadow-lg z-50">
+          <div
+            className="absolute top-full right-0 bg-white p-5 pr-10 shadow-lg z-50"
+            style={{ width: "max-content" }}
+          >
             <div
               onClick={() => changeLocale("en")}
               className="flex items-center py-2"

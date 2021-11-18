@@ -44,7 +44,7 @@
   "save-draft-button-label": "Save to drafts",
   "next-section-button-label": "Next",
   "post-request-name-label": "Name of tender",
-  "post-request-endDate-label": "Deadline for sales tender submissions",
+  "post-request-categorization-label": "Category selection",
   "post-request-location-label": "Location (city) of logistics fulfillment",
   "post-request-description-label": "Short description",
   "post-request-status-label": "Please Select the status of tender",
@@ -131,7 +131,7 @@
   "industry-placeholder": "Technology",
   "categories-placeholder": "Graphic Card",
   "minSuplierSells-placeholder": "1.000",
-  "recentlySelected-label": "Recently Selected",
+  "recentlySelected-label": "Selected Category",
   "minSupplyQuantity-filter-label": "Minimum supply quantity",
   "minSupplierSuffix-label": "Sells",
   "post-request-sourceType-label": "Source Type",
@@ -200,4 +200,5 @@
   "post-service-tags-input-label": "Service Tags",
   "post-service-tags-input-placeholder": "Tags",
   "addFaq-button-label": "Add"
+  "post-request-description-is-required-error": "Please input description"
 }

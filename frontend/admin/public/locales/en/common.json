@@ -78,6 +78,6 @@
   "endDate-text": "Due Date",
   "project-no-description-text": "This project has no description",
   "editRequest-page-name": "Edit Request",
-  "productService-nav-label": "Product & Service",
-  "postProduct/Service-nav-label": "Post Prodcut & Service"
+  "productService-nav-label": "Product/Service",
+  "postProduct/Service-nav-label": "Post Product/Service"
 }

@@ -47,7 +47,7 @@ const LocationSearch: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         getInitialValue={(opt) => opt.name === locationFilter}
         value={value}
         onChange={handleChange}
-        placeholder={t("locationFilter-placeholder")}
+        placeholder={`v.d: ${t("locationFilter-placeholder")}`}
         isSearchable={true}
         getOptionLabel={((opt: IVietnamCity) => opt.name) as any}
         getOptionValue={((opt: IVietnamCity) => opt.name) as any}

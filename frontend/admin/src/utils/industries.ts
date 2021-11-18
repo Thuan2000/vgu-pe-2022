@@ -2,7 +2,7 @@ export const industriesData = [
   { id: 1, label: "BUSINESS SERVICES" },
   { id: 2, label: "EVENTS" },
   { id: 3, label: "MARKETING" },
-  // { id: 4, label: "INDUSTRIAL-ZONE REAL-ESTATE" },
+  { id: 4, label: "INDUSTRIAL-ZONE REAL-ESTATE" },
   // { id: 5, label: "CONSTRUCTION" },
   // { id: 6, label: "SECURITY & SAFETY EQUIPMENTS" },
   // { id: 7, label: "FUEL" },

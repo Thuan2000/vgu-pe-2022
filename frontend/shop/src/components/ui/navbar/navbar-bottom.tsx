@@ -14,10 +14,12 @@ const NavbarBottom = () => {
   return (
     <div className="flex-center justify-between pt-2">
       <div className="flex-center space-x-10">
-        <Logo size="medium" />
+        <div style={{width: 250}}>
+          <Logo size="medium" />
+        </div>
         <div className="flex-center">
-          <Category />
-          <Search className="ml-4" />
+          {/* <Category /> */}
+          <Search />
           <SaveIcon className="mx-4" />
           <Link href={ROUTES.NOTIFICATIONS} passHref>
             <NotificationIcon />
