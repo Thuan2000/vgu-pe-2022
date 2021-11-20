@@ -20,6 +20,7 @@ export function handleError(err) {
 	}
 }
 
+// TODO: add a 4-digit random hash to avoid name collisions.
 export function generateSlug(companyName: string) {
 	const slug = companyName.toLowerCase().replace(/\ /g, "-");
 	return slug;

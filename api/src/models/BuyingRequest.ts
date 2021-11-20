@@ -50,6 +50,9 @@ class BuyingRequest extends Model {
 		try {
 			const buyingRequests = await BuyingRequest.findAll({
 				raw: true,
+				// TODO: index all attributes, not just  4 attributes.
+				// TODO: rename this function from bulkInsert to bulkIndexElasticsearch
+				// TODO: only insert new data instead of indexing everything.
 				attributes: ["id", "name", "productName", "description"]
 			});
 			ElasticSearch.insertBulk(BuyingRequest.indexName, buyingRequests);

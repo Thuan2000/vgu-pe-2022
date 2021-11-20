@@ -70,6 +70,7 @@ class BuyingRequestController {
 			query: searchQuery(searchValue)
 		};
 
+		// TODO: Instead of querying ids from ES and then query again from MySQL. Return results from E.S. directly.
 		const { idCount, ids } = searchValue
 			? await BuyingRequest.getMatchSearched(queryBody)
 			: { idCount: null, ids: null };
