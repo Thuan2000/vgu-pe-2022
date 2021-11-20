@@ -18,12 +18,14 @@ class TagRepository {
 	}
 
 	static async createTags(input: ITagInput[]) {
+		if (input.length < 1) return;
+
 		const names = input.map(i => i.name);
 		// @TODO || update this algorithm,
 		// I wrote this because headache
 		const existTags = await Tag.findAll({
 			where: {
-				locale: input?.at(0).locale,
+				locale: input[0].locale,
 				name: names
 			}
 		});
