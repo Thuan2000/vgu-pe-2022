@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  SubnetID:
+    Type: String
+  AppPort:
+    Type: Number
+  DockerImageURI:
+    Type: String
+Resources:
+  ecs:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: arn:aws:s3:::sdconnect/cloudformation/ecs.yml
+      Parameters:
+        SubnetID: !Ref SubnetID
+        AppPort: !Ref AppPort
+        DockerImageURI: !Ref DockerImageURI

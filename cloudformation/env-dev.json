@@ -1,0 +1,14 @@
+[
+  {
+      "ParameterKey": "SubnetID",
+      "ParameterValue": "subnet-9920bcc0"
+  },
+  {
+      "ParameterKey": "AppPort",
+      "ParameterValue": "8080"
+  },
+  {
+      "ParameterKey": "DockerImageURI",
+      "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect:latest"
+  }
+]
