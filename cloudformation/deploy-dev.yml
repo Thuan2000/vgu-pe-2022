@@ -2,16 +2,52 @@ AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   SubnetID:
     Type: String
-  AppPort:
+  PORT:
     Type: Number
   DockerImageURI:
+    Type: String
+  NODE_ENV:
+    Type: String
+  JWT_SECRET:
+    Type: String
+  DEV_DB_DIALECT:
+    Type: String
+  DEV_DB_HOST:
+    Type: String
+  DEV_DB_DATABASE:
+    Type: String
+  DEV_DB_PORT:
+    Type: String
+  DEV_DB_USERNAME:
+    Type: String
+  DEV_DB_PASSWORD:
+    Type: String
+  AWS_REGION:
+    Type: String
+  DEV_AWS_ACCESS_KEY:
+    Type: String
+  DEV_AWS_SECRET_KEY:
+    Type: String
+  DEV_S3_BUCKET_NAME:
     Type: String
 Resources:
   ecs:
     Type: "AWS::CloudFormation::Stack"
     Properties:
-      TemplateURL: arn:aws:s3:::sdconnect/cloudformation/ecs.yml
+      TemplateURL: https://sdconnect.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/ecs-api.yml
       Parameters:
         SubnetID: !Ref SubnetID
-        AppPort: !Ref AppPort
+        PORT: !Ref PORT
         DockerImageURI: !Ref DockerImageURI
+        NODE_ENV: !Ref NODE_ENV
+        JWT_SECRET: !Ref JWT_SECRET
+        DEV_DB_DIALECT: !Ref DEV_DB_DIALECT
+        DEV_DB_HOST: !Ref DEV_DB_HOST
+        DEV_DB_DATABASE: !Ref DEV_DB_DATABASE
+        DEV_DB_PORT: !Ref DEV_DB_PORT
+        DEV_DB_USERNAME: !Ref DEV_DB_USERNAME
+        DEV_DB_PASSWORD: !Ref DEV_DB_PASSWORD
+        AWS_REGION: !Ref AWS_REGION
+        DEV_AWS_ACCESS_KEY: !Ref DEV_AWS_ACCESS_KEY
+        DEV_AWS_SECRET_KEY: !Ref DEV_AWS_SECRET_KEY
+        DEV_S3_BUCKET_NAME: !Ref DEV_S3_BUCKET_NAME

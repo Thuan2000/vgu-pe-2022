@@ -1,14 +1,62 @@
 [
   {
-      "ParameterKey": "SubnetID",
-      "ParameterValue": "subnet-9920bcc0"
+    "ParameterKey": "SubnetID",
+    "ParameterValue": "subnet-9920bcc0"
   },
   {
-      "ParameterKey": "AppPort",
-      "ParameterValue": "8080"
+    "ParameterKey": "PORT",
+    "ParameterValue": "8080"
   },
   {
-      "ParameterKey": "DockerImageURI",
-      "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect:latest"
+    "ParameterKey": "DockerImageURI",
+    "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect:latest"
+  },
+  {
+    "ParameterKey": "NODE_ENV",
+    "ParameterValue": "development"
+  },
+  {
+    "ParameterKey": "JWT_SECRET",
+    "ParameterValue": "e9f5a189eaf62edd5562a43f967811e89535c515c774733b6ae93d882cacc3b"
+  },
+  {
+    "ParameterKey": "DEV_DB_DIALECT",
+    "ParameterValue": "mysql"
+  },
+  {
+    "ParameterKey": "DEV_DB_HOST",
+    "ParameterValue": "dsconnect-db.ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com"
+  },
+  {
+    "ParameterKey": "DEV_DB_DATABASE",
+    "ParameterValue": "devsdconnect"
+  },
+  {
+    "ParameterKey": "DEV_DB_PORT",
+    "ParameterValue": "3306"
+  },
+  {
+    "ParameterKey": "DEV_DB_USERNAME",
+    "ParameterValue": "admin"
+  },
+  {
+    "ParameterKey": "DEV_DB_PASSWORD",
+    "ParameterValue": "DatabasePassword-123"
+  },
+  {
+    "ParameterKey": "AWS_REGION",
+    "ParameterValue": "ap-southeast-1"
+  },
+  {
+    "ParameterKey": "DEV_AWS_ACCESS_KEY",
+    "ParameterValue": "AKIA6I6YYFBME2EML5M5"
+  },
+  {
+    "ParameterKey": "DEV_AWS_SECRET_KEY",
+    "ParameterValue": "rxAWTP4BsZdCIreeOEjPQV26iVzTDZqoouwVjj4I"
+  },
+  {
+    "ParameterKey": "DEV_S3_BUCKET_NAME",
+    "ParameterValue": "sdconnect-dev"
   }
 ]

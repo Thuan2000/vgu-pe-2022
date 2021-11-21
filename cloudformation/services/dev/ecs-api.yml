@@ -1,10 +1,34 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
-  AppPort:
-    Type: Number
   SubnetID:
     Type: String
   DockerImageURI:
+    Type: String
+  PORT:
+    Type: Number
+  NODE_ENV:
+    Type: String
+  JWT_SECRET:
+    Type: String
+  DEV_DB_DIALECT:
+    Type: String
+  DEV_DB_HOST:
+    Type: String
+  DEV_DB_DATABASE:
+    Type: String
+  DEV_DB_PORT:
+    Type: String
+  DEV_DB_USERNAME:
+    Type: String
+  DEV_DB_PASSWORD:
+    Type: String
+  AWS_REGION:
+    Type: String
+  DEV_AWS_ACCESS_KEY:
+    Type: String
+  DEV_AWS_SECRET_KEY:
+    Type: String
+  DEV_S3_BUCKET_NAME:
     Type: String
 Resources:
   Cluster:
@@ -49,10 +73,34 @@ Resources:
         - Name: sdconnect-dev-api
           Image: !Ref DockerImageURI
           PortMappings:
-            - ContainerPort: !Ref AppPort
+            - ContainerPort: !Ref PORT
           Environment:
-            - Name: AppPort
-              Value: !Ref AppPort
+            - Name: PORT
+              Value: !Ref PORT
+            - Name: NODE_ENV
+              Value: !Ref NODE_ENV
+            - Name: JWT_SECRET
+              Value: !Ref JWT_SECRET
+            - Name: DEV_DB_DIALECT
+              Value: !Ref DEV_DB_DIALECT
+            - Name: DEV_DB_HOST
+              Value: !Ref DEV_DB_HOST
+            - Name: DEV_DB_DATABASE
+              Value: !Ref DEV_DB_DATABASE
+            - Name: DEV_DB_PORT
+              Value: !Ref DEV_DB_PORT
+            - Name: DEV_DB_USERNAME
+              Value: !Ref DEV_DB_USERNAME
+            - Name: DEV_DB_PASSWORD
+              Value: !Ref DEV_DB_PASSWORD
+            - Name: AWS_REGION
+              Value: !Ref AWS_REGION
+            - Name: DEV_AWS_ACCESS_KEY
+              Value: !Ref DEV_AWS_ACCESS_KEY
+            - Name: DEV_AWS_SECRET_KEY
+              Value: !Ref DEV_AWS_SECRET_KEY
+            - Name: DEV_S3_BUCKET_NAME
+              Value: !Ref DEV_S3_BUCKET_NAME
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -64,7 +112,7 @@ Resources:
   Service:
     Type: AWS::ECS::Service
     Properties:
-      ServiceName: sdconnect-cf-service
+      ServiceName: sdconnect-dev-api-ecs
       Cluster: !Ref Cluster
       TaskDefinition: !Ref TaskDefinition
       DesiredCount: 1

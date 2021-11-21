@@ -6,16 +6,16 @@ export $(shell sed 's/=.*//' .env)
 
 # Run this command if you've deleted the stack (for whatever reason) and want to create anew.
 create-dev-stack:
-	aws s3 cp ./services/ecs.yml s3://sdconnect/cloudformation/ecs.yml
+	aws s3 cp ./services/ecs.yml s3://sdconnect/cloudformation/dev/ecs-api.yml
 	aws cloudformation create-stack \
 	--stack-name sdconnect-dev \
-	--template-body file://./services/ecs.yml  \
+	--template-body file://./deploy-dev.yml  \
 	--capabilities CAPABILITY_NAMED_IAM \
   --parameters file://./env-dev.json
 
 # Run this command to update resources on AWS (if any).
 update-stack-dev:
-	aws s3 cp ./services/ecs.yml s3://sdconnect/cloudformation/ecs.yml
+	aws s3 cp ./services/ecs.yml s3://sdconnect/cloudformation/dev/ecs-api.yml
 	aws cloudformation update-stack \
 	--stack-name sdconnect-dev \
 	--template-body file://./deploy-dev.yml  \
