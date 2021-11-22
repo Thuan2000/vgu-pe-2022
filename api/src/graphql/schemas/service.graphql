@@ -1,0 +1,64 @@
+input FaqInput {
+	question: String!
+	answer: String!
+}
+
+# Maybe there's better solution later
+# To use only accepted types for service package
+input PackageInput {
+	id: String!
+	packageRows: [PackageRowsInput!]!
+}
+
+input PackageRowsInput {
+	name: String!
+	value: String!
+	type: String!
+	description: String
+}
+
+input GroupServiceInput {
+	name: String!
+	description: String!
+	minPrice: Date!
+	maxPrice: Date!
+	unit: UnitInput!
+}
+
+input GroupInput {
+	name: String!
+	services: [GroupServiceInput!]!
+}
+
+type Service {
+	id: Int!
+	name: Int!
+	industryId: Int!
+	categoryId: Int!
+	description: String!
+	images: [File!]
+	videos: [File!]
+	certificates: [File!]
+}
+
+input CreateServiceInput {
+	name: String!
+	industryId: Int!
+	categoryId: Int!
+	description: String!
+	location: String!
+	tags: [TagInput!]
+	faqs: [FaqInput!]
+	images: [Upload!]
+	certificates: [Upload!]
+	videos: [Upload!]
+	price: Int
+	packages: [PackageInput!]
+	companyId: Int!
+	companyName: String!
+	createdById: Int!
+}
+
+extend type Mutation {
+	createService(input: CreateServiceInput!): CreateResponse!
+}

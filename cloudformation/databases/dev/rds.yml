@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: 2010-09-09
+Metadata:
+  'AWS::CloudFormation::Designer':
+    f969f8d4-0e48-4988-af62-e32925c0c152:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 320
+        'y': 140
+      z: 0
+Resources:
+  RDSDBI2GF4D:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+        AllocatedStorage: "20"
+        DBInstanceIdentifier: "sdconnect-dev-db"
+        DBInstanceClass: "db.t2.micro"
+        AvailabilityZone: "ap-southeast-1b"
+        DBName: "sdconnect"
+        Engine: "mysql"
+        EngineVersion: "8.0.26"
+        Port: "3306"
+        PubliclyAccessible: True
+        MasterUsername: "admin"
+        MasterUserPassword: "DatabasePassword-123"
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: f969f8d4-0e48-4988-af62-e32925c0c152

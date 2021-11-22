@@ -1,27 +1,14 @@
-# Stage 1 - the build process
-FROM node:10.16-alpine as builder
+# Set the base image to Ubuntu
+FROM node
 WORKDIR /usr/src/app
+
 COPY . .
+RUN npm install
+RUN npm run codegen
+RUN npm run build:no-lint
 
-RUN apk add --no-cache --virtual .gyp \
-        python \
-        make \
-        g++ \
-    && npm install \
-    && apk del .gyp
+# Expose port
+EXPOSE  8080
 
-RUN npm run compile
-
-# Stage 2 - the production environment
-FROM node:10.16-alpine
-WORKDIR /usr/src/app
-COPY package*.json ./
-
-RUN apk add --no-cache --virtual .gyp python make g++\
-  && npm install --production \
-  && apk del .gyp python make g++
-
-COPY --from=builder /usr/src/app/dist ./dist
-
-EXPOSE 1414
+# Run app using nodemon
 CMD ["node", "dist/server.js"]

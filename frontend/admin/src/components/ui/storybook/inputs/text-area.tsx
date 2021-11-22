@@ -1,5 +1,6 @@
 import cn from "classnames";
 import React from "react";
+import ValidationError from "../validation-error";
 import { textAreaClasses, TextAreaProps } from "./input-config";
 import InputLabel from "./input-label";
 
@@ -15,6 +16,9 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       shadow = false,
       inputClassName,
       numberQueue,
+      labelFontSize,
+      noteFontSize,
+
       required,
       ...rest
     } = props;
@@ -40,27 +44,27 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             label={label}
             note={note}
             numberQueue={numberQueue}
+            labelFontSize={labelFontSize}
+            noteFontSize={noteFontSize}
           />
         )}
-        <div
-          className={`flex z-0 items-center align-middle relative ${
-            !!numberQueue && "ml-8"
-          }`}
-        >
-          <textarea
-            id={name}
-            name={name}
-            className={rootClassName}
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="off"
-            spellCheck="false"
-            rows={4}
-            ref={ref}
-            {...rest}
-          />
+        <div className={`${!!numberQueue && "ml-8"}`}>
+          <div className="flex z-0 items-center align-middle relative">
+            <textarea
+              id={name}
+              name={name}
+              className={rootClassName}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+              rows={4}
+              ref={ref}
+              {...rest}
+            />
+          </div>
+          {error && <ValidationError message={error} />}
         </div>
-        {error && <p className="my-2 text-xs text-end text-red-500">{error}</p>}
       </div>
     );
   }

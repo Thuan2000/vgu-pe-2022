@@ -1,6 +1,5 @@
 ## node packages folder dist folder and lock.json
 node_modules/
-package-lock.json
 dist
 
 ## dotenv

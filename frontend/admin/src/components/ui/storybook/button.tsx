@@ -1,3 +1,5 @@
+import { BuyingRequestPartsFragmentDoc } from "@graphql/buying-request.graphql";
+import { Background } from "@utils/interfaces";
 import cn from "classnames";
 import React, { ButtonHTMLAttributes } from "react";
 
@@ -6,18 +8,20 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "normal" | "outline" | "custom" | "cancel";
   size?: "big" | "medium" | "small" | "fluid";
   active?: boolean;
-  color?: string;
   loading?: boolean;
   disabled?: boolean;
+  color?: Background;
 }
 
 const classes = {
-  root: "inline-flex items-center justify-center flex-shrink-0 font-semibold leading-none rounded outline-none transition duration-300 ease-in-out focus:outline-none focus:shadow-lg focus:ring-1 focus:ring-green-700 active:bg-green-active",
-  normal: "bg-green text-light border border-transparent hover:bg-green-hover",
+  root: (color: Background) =>
+    `inline-flex items-center justify-center flex-shrink-0 font-semibold leading-none rounded outline-none transition duration-300 ease-in-out focus:outline-none focus:shadow-lg focus:ring-1 focus:ring-${color}-700 active:bg-${color}-active`,
+  normal: (color: Background) =>
+    `bg-${color} text-light border border-transparent hover:bg-${color}-hover`,
   cancel: "bg-transparent text-gray border border-gray",
   custom: "border border-transparent",
-  outline:
-    "border border-green bg-transparent hover:text-light hover:bg-green hover:border-green",
+  outline: (color: Background) =>
+    `border border-${color} bg-transparent hover:text-light hover:bg-${color} hover:border-${color} text-${color}`,
   loading:
     "ml-2 h-4 w-4 ms-2 rounded-full border-2 border-transparent border-t-2 animate-spin",
   disabled:
@@ -40,16 +44,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       loading = false,
       disabled = false,
       type,
+      color = "primary",
       ...rest
     } = props;
     const classesName = cn(
-      classes.root,
+      classes.root(color),
       {
-        [classes.normal]: !disabled && variant === "normal",
-        [classes.cancel]: !disabled && variant === "cancel",
+        [classes.normal(color)]: !disabled && variant === "normal",
         [classes.disabled]: disabled && variant === "normal",
-        [classes.outline]: !disabled && variant === "outline",
+        [classes.outline(color)]: !disabled && variant === "outline",
         [classes.disabledOutline]: disabled && variant === "outline",
+        [classes.cancel]: !disabled && variant === "cancel",
         [classes.small]: size === "small",
         [classes.medium]: size === "medium",
         [classes.big]: size === "big",

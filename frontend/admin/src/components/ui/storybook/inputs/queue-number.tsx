@@ -9,7 +9,7 @@ const NumberLabel: React.FC<INumberLabel> = ({
   className,
   number,
   // @TODO :: This should be "primary"
-  backgroundColor = "green",
+  backgroundColor = "primary",
   ...rest
 }) => {
   return (

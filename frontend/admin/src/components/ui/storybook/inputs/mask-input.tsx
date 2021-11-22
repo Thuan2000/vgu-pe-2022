@@ -22,8 +22,8 @@ const MaskInput: React.FC<IMaskInputProps> = ({
         return (
           <Masked
             onChange={(e: any) => {
-              if (inputOnChange) inputOnChange(e);
               onChange(e);
+              if (inputOnChange) inputOnChange(e);
             }}
             {...props}
             {...field}

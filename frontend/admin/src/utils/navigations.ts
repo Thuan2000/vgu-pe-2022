@@ -1,5 +1,6 @@
 import HomeIcon from "@assets/icons/navigations/home-icon";
 import LogoutIcon from "@assets/icons/navigations/logout-icon";
+import ProductIcon from "@assets/icons/navigations/product-icon";
 import RequestIcon from "@assets/icons/navigations/request-icon";
 import { ROUTES } from "@utils/routes";
 
@@ -23,6 +24,13 @@ export const requestChildren = [
   },
 ];
 
+export const productChildren = [
+  {
+    label: "postProduct/Service-nav-label",
+    href: ROUTES.POST_PRODUCT,
+  },
+];
+
 export const navigations: INavigation[] = [
   {
     label: "home-nav-label",
@@ -35,6 +43,13 @@ export const navigations: INavigation[] = [
     href: requestChildren[0].href,
     icon: RequestIcon,
     children: requestChildren,
+  },
+  {
+    label: "productService-nav-label",
+    // This should be like this
+    href: productChildren[0].href,
+    icon: ProductIcon,
+    children: productChildren,
   },
   {
     label: "logout-nav-label",

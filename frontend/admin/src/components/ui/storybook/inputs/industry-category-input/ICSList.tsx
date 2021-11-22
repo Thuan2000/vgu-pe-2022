@@ -1,5 +1,5 @@
-import { IIndustry } from "@utils/industries";
-import { ICategory } from "@utils/categories";
+import { IIndustry } from "@datas/industries";
+import { ICategory } from "src/datas/categories";
 import React from "react";
 import ICSListComponent from "./ICSListComponent";
 import ICSListWrapper from "./ICSListWrapper";
@@ -17,8 +17,8 @@ export interface IICSListProps {
   categories: ICategory[];
   getCategoryLabel: (e: ICategory) => string;
   getIndustryLabel: (e: IIndustry) => string;
-  onIndustryChange: (e: IIndustry) => void;
-  onCategoryChange: (e: ICategory) => void;
+  onIndustryChange?: (e: IIndustry) => void;
+  onCategoryChange?: (e: ICategory) => void;
 }
 
 const ICSList: React.FC<IICSListProps> = ({
@@ -56,7 +56,7 @@ const ICSList: React.FC<IICSListProps> = ({
                     label={getIndustryLabel(industry)}
                     onClick={() => {
                       onChange(industry);
-                      onIndustryChange(industry);
+                      if (onIndustryChange) onIndustryChange(industry);
                       onIndustryClick(industry);
                     }}
                     {...field}
@@ -89,7 +89,7 @@ const ICSList: React.FC<IICSListProps> = ({
                     label={getCategoryLabel(category)}
                     onClick={() => {
                       onChange(category);
-                      onCategoryChange(category);
+                      if (onCategoryChange) onCategoryChange(category);
                       onCategoryClick(category);
                     }}
                     {...field}

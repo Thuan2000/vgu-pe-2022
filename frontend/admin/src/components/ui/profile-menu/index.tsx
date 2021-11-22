@@ -32,7 +32,7 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
           {user?.firstName} {user?.lastName}
         </p>
       </div>
-      <div className="bg-green-10 p-3 border">
+      <div className="bg-primaryry-10 p-3 border">
         <p className="text-heading font-semibold">{company?.name}</p>
         {!company?.approved && (
           <p className="text-xs text-gray-300 mt-1">{t("not-verified")}</p>

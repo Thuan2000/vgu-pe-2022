@@ -7,8 +7,6 @@ import CreateableSelect, {
 interface IProductNameSelect extends Partial<ICreateableSelectProps> {
   control: Control<any>;
   name: string;
-  options: any[];
-  createNewOption?: (label: string) => any;
 }
 
 const ProductNameSelect = ({
@@ -33,11 +31,11 @@ const ProductNameSelect = ({
           <CreateableSelect
             createNewOption={createNewOption || handleNewOptionCreation}
             onChange={(e) => {
-              if (inputOnChange) inputOnChange(e, {} as any);
               onChange(e);
+              if (inputOnChange) inputOnChange(e, {} as any);
             }}
-            {...props}
-            {...field}
+            {...(props as any)}
+            {...(field as any)}
           />
         );
       }}

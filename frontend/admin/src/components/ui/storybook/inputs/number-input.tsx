@@ -4,16 +4,11 @@ import NumberFormat, { NumberFormatProps } from "react-number-format";
 import cn from "classnames";
 
 import { inputClasses } from "./input-config";
-import InputLabel from "./input-label";
+import InputLabel, { IInputLabelProps } from "./input-label";
 
-export interface INumInputProps extends NumberFormatProps {
-  numberQueue?: number | string;
-  queueBackground?: string;
-  note?: string;
-  name: string;
+export interface INumInputProps extends NumberFormatProps, IInputLabelProps {
   variant?: "normal" | "solid" | "outline";
   shadow?: boolean;
-  label?: string;
   error?: string;
   absoluteErrorMessage?: boolean;
 }
@@ -30,7 +25,9 @@ const NumberInput: React.FC<INumberInputProps> = ({
   queueBackground,
   note,
   name,
+  required,
   control,
+  labelFontSize,
   onChange: inputOnChange,
   ...props
 }) => {
@@ -43,17 +40,19 @@ const NumberInput: React.FC<INumberInputProps> = ({
           <div className={className}>
             {label && (
               <InputLabel
+                required={required}
                 numberQueue={numberQueue}
                 queueBackground={queueBackground}
                 note={note}
                 label={label}
+                labelFontSize={labelFontSize}
                 name={name}
               />
             )}
             <NumInput
               onChange={(e) => {
-                if (inputOnChange) inputOnChange(e);
                 onChange(e);
+                if (inputOnChange) inputOnChange(e);
               }}
               {...field}
               {...props}
@@ -64,7 +63,7 @@ const NumberInput: React.FC<INumberInputProps> = ({
     />
   );
 };
-const NumInput: React.FC<INumInputProps> = React.forwardRef(
+export const NumInput: React.FC<INumInputProps> = React.forwardRef(
   (
     {
       numberQueue,
@@ -99,6 +98,12 @@ const NumInput: React.FC<INumInputProps> = React.forwardRef(
       inputClassName
     );
 
+    useEffect(() => {
+      if (!props.defaultValue) return;
+
+      if (onChange) onChange(props.defaultValue as any);
+    }, []);
+
     const thousandSeparator = ".";
     const decimalSeparator = ",";
 
@@ -113,7 +118,6 @@ const NumInput: React.FC<INumInputProps> = React.forwardRef(
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value, max, min]);
-
     return (
       <>
         <NumberFormat

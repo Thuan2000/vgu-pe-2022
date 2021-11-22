@@ -43,7 +43,9 @@
 	"error-USER_NOT_FOUND-button": "Tạo tài khoản",
   "budget-sign": "đ",
   "budgetRange-filter-label": "Khoảng Chi Phí",
-	"budgetTo-label": "Từ",
-  "budgetFrom-label": "Đến",
-  "filterBudgetRangeSubmit-button-label": "Xác nhận"
+	"budgetTo-label": "Đến",
+  "budgetFrom-label": "Từ",
+  "filterBudgetRangeSubmit-button-label": "Xác nhận",
+  "min": "mức tối thiểu",
+  "max": "mức tối đa"
 }

@@ -74,12 +74,12 @@ const BudgetRange: React.FC = ({ ...props }) => {
 
   return (
     <div {...props}>
-      <FilterLabel text={t("budgetRange-filter-label")} />
+      <FilterLabel text={`${t("budgetRange-filter-label")}:`} />
       <Form onSubmit={handleSubmit} className="space-y-2">
         <div>
           <Typography
             text={`${t("budgetFrom-label")}:`}
-            variant="smallTitle"
+            variant="description"
             className="!text-xs mb-1"
           />
           <div className="relative">
@@ -103,7 +103,7 @@ const BudgetRange: React.FC = ({ ...props }) => {
         </div>
         <Typography
           text={`${t("budgetTo-label")}:`}
-          variant="smallTitle"
+          variant="description"
           className="!text-xs mb-1"
         />
         <div className="relative">

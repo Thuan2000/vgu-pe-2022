@@ -11,7 +11,7 @@ const Search = ({
 }: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
-      className={`flex items-center rounded-md border border-green ${className}`}
+      className={`flex items-center rounded-md border border-primaryry ${className}`}
       {...props}
     >
       <button
@@ -28,7 +28,7 @@ const Search = ({
       />
       <button
         style={{ height: "45px", width: "45px" }}
-        className="flex-center border-l-2 border-l-green rounded-sm"
+        className="flex-center border-l-2 border-l-primaryry rounded-sm"
       >
         <SearchIcon />
       </button>

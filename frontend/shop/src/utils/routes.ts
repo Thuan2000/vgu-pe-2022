@@ -6,4 +6,5 @@ export const ROUTES = {
   LOGOUT: "/logout",
   SETTINGS: "#",
   NOTIFICATIONS: "#",
+  POST_TENDER: "/post-tender",
 };

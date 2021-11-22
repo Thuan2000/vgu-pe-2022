@@ -2,6 +2,8 @@ import React from "react";
 import cn from "classnames";
 import { inputClasses, IInputProps } from "./input-config";
 import InputLabel from "./input-label";
+import { motion } from "framer-motion";
+import Tooltip from "../tooltip";
 
 const Input = React.forwardRef<HTMLInputElement, IInputProps>(
   (
@@ -22,7 +24,10 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
       numberQueue,
       prefix,
       suffix,
+      tooltip,
       noBorder,
+      noteFontSize,
+      labelFontSize,
       ...rest
     },
     ref
@@ -39,7 +44,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
       inputClassName
     );
     return (
-      <div className={className}>
+      <div className={`relative ${className}`}>
         {label && (
           <InputLabel
             numberQueue={numberQueue}
@@ -47,49 +52,52 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
             required={required}
             note={note}
             label={label}
+            labelFontSize={labelFontSize}
+            noteFontSize={noteFontSize}
           />
         )}
-        <div
-          className={`flex z-0 items-center align-middle relative ${
-            !!numberQueue && "ml-8"
-          }`}
-        >
-          <input
-            id={name}
-            name={name}
-            type={type}
-            ref={ref}
-            className={`${rootClassName} ${
-              (prefix || transparentPrefix) && "pl-8"
-            }`}
-            autoComplete="off"
-            autoCorrect="off"
-            spellCheck="false"
-            aria-invalid={error ? "true" : "false"}
-            {...rest}
-          />
-          {prefix && (
-            <label
-              className={`absolute y-center text-sm left-4 ${
-                rest.value ? "text-dark-blue font-semibold" : "text-gray-200"
+
+        {tooltip && <Tooltip text={tooltip} />}
+
+        <div className={`${!!numberQueue && "ml-8"}`}>
+          <div className="flex z-0 items-center align-middle relative ">
+            <input
+              id={name}
+              name={name}
+              type={type}
+              ref={ref}
+              className={`${rootClassName} ${
+                (prefix || transparentPrefix) && "pl-8"
               }`}
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
+              aria-invalid={error ? "true" : "false"}
+              {...rest}
+            />
+            {prefix && (
+              <label
+                className={`absolute y-center text-sm left-4 ${
+                  rest.value ? "text-dark-blue font-semibold" : "text-gray-200"
+                }`}
+              >
+                {prefix}
+              </label>
+            )}
+            {suffix && (
+              <label className="absolute y-center right-4">{suffix}</label>
+            )}
+          </div>
+          {error && (
+            <p
+              className={` ${
+                absoluteErrorMessage && "absolute"
+              } my-2 text-xs text-start text-red-500`}
             >
-              {prefix}
-            </label>
-          )}
-          {suffix && (
-            <label className="absolute y-center right-4">{suffix}</label>
+              {error}
+            </p>
           )}
         </div>
-        {error && (
-          <p
-            className={` ${
-              absoluteErrorMessage && "absolute"
-            } my-2 text-xs text-start text-red-500`}
-          >
-            {error}
-          </p>
-        )}
       </div>
     );
   }

@@ -51,7 +51,7 @@ class App {
 
 			this.apolloServer.applyMiddleware({ app: this.app });
 			await new Promise(r =>
-				expressApp.listen({ port: process.env.PORT }, r)
+				expressApp.listen({ port: process.env.PORT || 8080 }, r)
 			);
 		} catch (err) {
 			console.error(err);

@@ -1,0 +1,12 @@
+type Tag {
+	name: String!
+}
+
+input TagInput {
+	name: String!
+	locale: LOCALE!
+}
+
+extend type Query {
+	tags(locale: LOCALE): [Tag!]!
+}

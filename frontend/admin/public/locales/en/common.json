@@ -12,7 +12,7 @@
   "settings-menu": "Settings",
   "not-verified": "Not verified",
   "greeting": "Hello",
-  "post-request-link-button-label": "Post Request",
+  "post-request-link-button-label": "Post Tender",
   "post-request-paragraph": "Get started with posting request on our platform, and soon we can help find you right supplier for your business",
   "post-request-image-label": "Post request image",
   "home-nav-label": "Home",
@@ -25,7 +25,7 @@
   "to-posted-request": "Di chuyển đến \"Tin mua đã đăng\"",
   "posted-requests-page-name": "Posted Requests",
   "postedRequests-nav-label": "Posted Requests",
-  "request-nav-label": "Request",
+  "request-nav-label": "Tender",
   "SUPER_ADMIN": "SUPER_ADMIN",
   "posted-label": "Posted",
   "OPEN": "OPEN",
@@ -77,5 +77,7 @@
   "updatedBy-text": "Updated By",
   "endDate-text": "Due Date",
   "project-no-description-text": "This project has no description",
-  "editRequest-page-name": "Edit Request"
+  "editRequest-page-name": "Edit Request",
+  "productService-nav-label": "Product/Service",
+  "postProduct/Service-nav-label": "Post Product/Service"
 }

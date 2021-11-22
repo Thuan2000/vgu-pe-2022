@@ -58,6 +58,10 @@ export const selectStyles = {
     ...provided,
     paddingLeft: 16,
   }),
+  input: (provided: any, _: any) => ({
+    ...provided,
+    pointerEvents: 'none'
+  }),
   singleValue: (provided: any, _: any) => ({
     ...provided,
     fontSize: "0.875rem",
