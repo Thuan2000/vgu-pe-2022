@@ -8,27 +8,27 @@ Parameters:
     Type: Number
   NodeEnv:
     Type: String
-  JWT_SECRET:
+  JwtSecret:
     Type: String
-  DEV_DB_DIALECT:
+  DevDBDialect:
     Type: String
-  DEV_DB_HOST:
+  DevDBHost:
     Type: String
-  DEV_DB_DATABASE:
+  DevDBDatabase:
     Type: String
-  DEV_DB_PORT:
+  DevDBPort:
     Type: String
-  DEV_DB_USERNAME:
+  DevDBUsername:
     Type: String
-  DEV_DB_PASSWORD:
+  DevDBPassword:
     Type: String
-  AWS_REGION:
+  AwsRegion:
     Type: String
-  DEV_AWS_ACCESS_KEY:
+  DevAWSAccessKey:
     Type: String
-  DEV_AWS_SECRET_KEY:
+  DevAWSSecretKey:
     Type: String
-  DEV_S3_BUCKET_NAME:
+  DevS3BucketName:
     Type: String
 Resources:
   Cluster:
@@ -80,27 +80,27 @@ Resources:
             - Name: NODE_ENV
               Value: !Ref NodeEnv
             - Name: JWT_SECRET
-              Value: !Ref JWT_SECRET
+              Value: !Ref JwtSecret
             - Name: DEV_DB_DIALECT
-              Value: !Ref DEV_DB_DIALECT
+              Value: !Ref DevDBDialect
             - Name: DEV_DB_HOST
-              Value: !Ref DEV_DB_HOST
+              Value: !Ref DevDBHost
             - Name: DEV_DB_DATABASE
-              Value: !Ref DEV_DB_DATABASE
+              Value: !Ref DevDBDatabase
             - Name: DEV_DB_PORT
-              Value: !Ref DEV_DB_PORT
+              Value: !Ref DevDBPort
             - Name: DEV_DB_USERNAME
-              Value: !Ref DEV_DB_USERNAME
+              Value: !Ref DevDBUsername
             - Name: DEV_DB_PASSWORD
-              Value: !Ref DEV_DB_PASSWORD
+              Value: !Ref DevDBPassword
             - Name: AWS_REGION
-              Value: !Ref AWS_REGION
+              Value: !Ref AwsRegion
             - Name: DEV_AWS_ACCESS_KEY
-              Value: !Ref DEV_AWS_ACCESS_KEY
+              Value: !Ref DevAWSAccessKey
             - Name: DEV_AWS_SECRET_KEY
-              Value: !Ref DEV_AWS_SECRET_KEY
+              Value: !Ref DevAWSSecretKey
             - Name: DEV_S3_BUCKET_NAME
-              Value: !Ref DEV_S3_BUCKET_NAME
+              Value: !Ref DevS3BucketName
           LogConfiguration:
             LogDriver: awslogs
             Options:

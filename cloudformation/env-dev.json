@@ -16,47 +16,47 @@
     "ParameterValue": "development"
   },
   {
-    "ParameterKey": "JWT_SECRET",
+    "ParameterKey": "JwtSecret",
     "ParameterValue": "e9f5a189eaf62edd5562a43f967811e89535c515c774733b6ae93d882cacc3b"
   },
   {
-    "ParameterKey": "DEV_DB_DIALECT",
+    "ParameterKey": "DevDBDialect",
     "ParameterValue": "mysql"
   },
   {
-    "ParameterKey": "DEV_DB_HOST",
+    "ParameterKey": "DevDBHost",
     "ParameterValue": "dsconnect-db.ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com"
   },
   {
-    "ParameterKey": "DEV_DB_DATABASE",
+    "ParameterKey": "DevDBDatabase",
     "ParameterValue": "devsdconnect"
   },
   {
-    "ParameterKey": "DEV_DB_PORT",
+    "ParameterKey": "DevDBPort",
     "ParameterValue": "3306"
   },
   {
-    "ParameterKey": "DEV_DB_USERNAME",
+    "ParameterKey": "DevDBUsername",
     "ParameterValue": "admin"
   },
   {
-    "ParameterKey": "DEV_DB_PASSWORD",
+    "ParameterKey": "DevDBPassword",
     "ParameterValue": "DatabasePassword-123"
   },
   {
-    "ParameterKey": "AWS_REGION",
+    "ParameterKey": "AwsRegion",
     "ParameterValue": "ap-southeast-1"
   },
   {
-    "ParameterKey": "DEV_AWS_ACCESS_KEY",
+    "ParameterKey": "DevAWSAccessKey",
     "ParameterValue": "AKIA6I6YYFBME2EML5M5"
   },
   {
-    "ParameterKey": "DEV_AWS_SECRET_KEY",
+    "ParameterKey": "DevAWSSecretKey",
     "ParameterValue": "rxAWTP4BsZdCIreeOEjPQV26iVzTDZqoouwVjj4I"
   },
   {
-    "ParameterKey": "DEV_S3_BUCKET_NAME",
+    "ParameterKey": "DevS3BucketName",
     "ParameterValue": "sdconnect-dev"
   }
 ]

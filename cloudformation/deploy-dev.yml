@@ -8,27 +8,27 @@ Parameters:
     Type: String
   NodeEnv:
     Type: String
-  JWT_SECRET:
+  JwtSecret:
     Type: String
-  DEV_DB_DIALECT:
+  DevDBDialect:
     Type: String
-  DEV_DB_HOST:
+  DevDBHost:
     Type: String
-  DEV_DB_DATABASE:
+  DevDBDatabase:
     Type: String
-  DEV_DB_PORT:
+  DevDBPort:
     Type: String
-  DEV_DB_USERNAME:
+  DevDBUsername:
     Type: String
-  DEV_DB_PASSWORD:
+  DevDBPassword:
     Type: String
-  AWS_REGION:
+  AwsRegion:
     Type: String
-  DEV_AWS_ACCESS_KEY:
+  DevAWSAccessKey:
     Type: String
-  DEV_AWS_SECRET_KEY:
+  DevAWSSecretKey:
     Type: String
-  DEV_S3_BUCKET_NAME:
+  DevS3BucketName:
     Type: String
 Resources:
   rds:
@@ -44,14 +44,14 @@ Resources:
         PORT: !Ref PORT
         DockerImageURI: !Ref DockerImageURI
         NodeEnv: !Ref NodeEnv
-        JWT_SECRET: !Ref JWT_SECRET
-        DEV_DB_DIALECT: !Ref DEV_DB_DIALECT
-        DEV_DB_HOST: !Ref DEV_DB_HOST
-        DEV_DB_DATABASE: !Ref DEV_DB_DATABASE
-        DEV_DB_PORT: !Ref DEV_DB_PORT
-        DEV_DB_USERNAME: !Ref DEV_DB_USERNAME
-        DEV_DB_PASSWORD: !Ref DEV_DB_PASSWORD
-        AWS_REGION: !Ref AWS_REGION
-        DEV_AWS_ACCESS_KEY: !Ref DEV_AWS_ACCESS_KEY
-        DEV_AWS_SECRET_KEY: !Ref DEV_AWS_SECRET_KEY
-        DEV_S3_BUCKET_NAME: !Ref DEV_S3_BUCKET_NAME
+        JwtSecret: !Ref JwtSecret
+        DevDBDialect: !Ref DevDBDialect
+        DevDBHost: !Ref DevDBHost
+        DevDBDatabase: !Ref DevDBDatabase
+        DevDBPort: !Ref DevDBPort
+        DevDBUsername: !Ref DevDBUsername
+        DevDBPassword: !Ref DevDBPassword
+        AwsRegion: !Ref AwsRegion
+        DevAWSAccessKey: !Ref DevAWSAccessKey
+        DevAWSSecretKey: !Ref DevAWSSecretKey
+        DevS3BucketName: !Ref DevS3BucketName
