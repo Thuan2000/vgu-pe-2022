@@ -6,7 +6,7 @@ Parameters:
     Type: Number
   DockerImageURI:
     Type: String
-  NODE_ENV:
+  NodeEnv:
     Type: String
   JWT_SECRET:
     Type: String
@@ -31,6 +31,10 @@ Parameters:
   DEV_S3_BUCKET_NAME:
     Type: String
 Resources:
+  rds:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/rds.yml
   ecs:
     Type: "AWS::CloudFormation::Stack"
     Properties:
@@ -39,7 +43,7 @@ Resources:
         SubnetID: !Ref SubnetID
         PORT: !Ref PORT
         DockerImageURI: !Ref DockerImageURI
-        NODE_ENV: !Ref NODE_ENV
+        NodeEnv: !Ref NodeEnv
         JWT_SECRET: !Ref JWT_SECRET
         DEV_DB_DIALECT: !Ref DEV_DB_DIALECT
         DEV_DB_HOST: !Ref DEV_DB_HOST

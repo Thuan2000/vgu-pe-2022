@@ -6,7 +6,7 @@ Parameters:
     Type: String
   PORT:
     Type: Number
-  NODE_ENV:
+  NodeEnv:
     Type: String
   JWT_SECRET:
     Type: String
@@ -78,7 +78,7 @@ Resources:
             - Name: PORT
               Value: !Ref PORT
             - Name: NODE_ENV
-              Value: !Ref NODE_ENV
+              Value: !Ref NodeEnv
             - Name: JWT_SECRET
               Value: !Ref JWT_SECRET
             - Name: DEV_DB_DIALECT

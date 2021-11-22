@@ -12,7 +12,7 @@
     "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect:latest"
   },
   {
-    "ParameterKey": "NODE_ENV",
+    "ParameterKey": "NodeEnv",
     "ParameterValue": "development"
   },
   {
