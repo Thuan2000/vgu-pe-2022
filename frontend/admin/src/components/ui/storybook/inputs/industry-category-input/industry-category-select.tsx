@@ -1,6 +1,6 @@
 import SearchInput from "@components/search-input";
-import { getIndustryCategories, ICategory } from "@utils/categories";
-import { IIndustry, industriesData } from "@utils/industries";
+import { getIndustryCategories, ICategory } from "src/datas/categories";
+import { IIndustry, industriesData } from "@datas/industries";
 import React, { useState } from "react";
 import { Control } from "react-hook-form";
 import { useTranslation } from "react-i18next";

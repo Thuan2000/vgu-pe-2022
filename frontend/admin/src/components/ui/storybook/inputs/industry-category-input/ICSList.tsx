@@ -1,5 +1,5 @@
-import { IIndustry } from "@utils/industries";
-import { ICategory } from "@utils/categories";
+import { IIndustry } from "@datas/industries";
+import { ICategory } from "src/datas/categories";
 import React from "react";
 import ICSListComponent from "./ICSListComponent";
 import ICSListWrapper from "./ICSListWrapper";

@@ -1,8 +1,8 @@
 import { IFile } from "@components/ui/storybook/document-uploader";
 import { IFaq } from "@components/ui/storybook/inputs/faq-input/faq-list-creator";
 import { ITag } from "@graphql/types.graphql";
-import { ICategory } from "@utils/categories";
-import { IIndustry } from "@utils/industries";
+import { ICategory } from "src/datas/categories";
+import { IIndustry } from "@datas/industries";
 import { IVietnamCity } from "@utils/vietnam-cities";
 import { IFile as IServerFile } from "@graphql/types.graphql";
 import { IPPIPackage } from "@components/ui/storybook/inputs/package-pricing-input/ppi-interfaces";
