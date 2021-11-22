@@ -58,5 +58,29 @@
   {
     "ParameterKey": "DevS3BucketName",
     "ParameterValue": "sdconnect-dev"
+  },
+  {
+    "ParameterKey": "SmtpHOST",
+    "ParameterValue": "smtp.gmail.com"
+  },
+  {
+    "ParameterKey": "SmtpPORT",
+    "ParameterValue": "465"
+  },
+  {
+    "ParameterKey": "SmtpSECURE",
+    "ParameterValue": true
+  },
+  {
+    "ParameterKey": "SmtpUSERNAME",
+    "ParameterValue": "fatwaanugerah01@gmail.com"
+  },
+  {
+    "ParameterKey": "SmtpPASSWORD",
+    "ParameterValue": "fatwaanugrah123"
+  },
+  {
+    "ParameterKey": "SmtpFROM",
+    "ParameterValue": "<no-reply>@sdconnect.dev"
   }
 ]
