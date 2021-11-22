@@ -7,14 +7,14 @@ import Loading from "@components/ui/loading";
 import Typography from "@components/ui/storybook/typography";
 import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
 import { IBuyingRequest } from "@graphql/types.graphql";
-import { getCategories, getCategory } from "@utils/categories";
+import { getCategories, getCategory } from "src/datas/categories";
 import {
   formatMoneyAmount,
   getSuffix,
   thousandSeparator,
   viDateFormat,
 } from "@utils/functions";
-import { getIndustry } from "@utils/industries";
+import { getIndustry } from "@datas/industries";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Image from "next/image";

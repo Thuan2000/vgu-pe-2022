@@ -1,6 +1,6 @@
 import { IBuyingRequest } from "@graphql/types.graphql";
-import { getCategory } from "@utils/categories";
-import { getIndustry } from "@utils/industries";
+import { getCategory } from "src/datas/categories";
+import { getIndustry } from "@datas/industries";
 import { getSourceType } from "src/datas/source-type";
 
 import { PostRequestFormValue } from "./post-request-schema";

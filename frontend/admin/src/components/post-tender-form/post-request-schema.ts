@@ -1,6 +1,5 @@
-import { IProductName } from "@graphql/types.graphql";
-import { IIndustry } from "@utils/industries";
-import { ICategory } from "@utils/categories";
+import { IIndustry } from "@datas/industries";
+import { ICategory } from "src/datas/categories";
 import { IVietnamCity } from "@utils/vietnam-cities";
 import * as yup from "yup";
 import { ISourceType } from "src/datas/source-type";

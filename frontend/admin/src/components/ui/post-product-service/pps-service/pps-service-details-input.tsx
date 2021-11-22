@@ -9,7 +9,7 @@ import {
 
 import CreateableSelectInput from "@components/ui/storybook/createable-select/createable-select-input";
 import { IPostServiceFormValues } from "./pps-service-interface";
-import { industriesData } from "@utils/industries";
+import { industriesData } from "@datas/industries";
 import SelectInput from "@components/ui/storybook/select-input";
 import { vietnamCities } from "@utils/vietnam-cities";
 import FAQListCreator from "@components/ui/storybook/inputs/faq-input";
