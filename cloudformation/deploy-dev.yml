@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  SubnetID:
+    Type: String
+  PORT:
+    Type: Number
+  DockerImageURI:
+    Type: String
+  NodeEnv:
+    Type: String
+  JwtSecret:
+    Type: String
+  DevDBDialect:
+    Type: String
+  DevDBHost:
+    Type: String
+  DevDBDatabase:
+    Type: String
+  DevDBPort:
+    Type: String
+  DevDBUsername:
+    Type: String
+  DevDBPassword:
+    Type: String
+  AwsRegion:
+    Type: String
+  DevAWSAccessKey:
+    Type: String
+  DevAWSSecretKey:
+    Type: String
+  DevS3BucketName:
+    Type: String
+Resources:
+  rds:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/rds.yml
+  ecs:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/ecs-api.yml
+      Parameters:
+        SubnetID: !Ref SubnetID
+        PORT: !Ref PORT
+        DockerImageURI: !Ref DockerImageURI
+        NodeEnv: !Ref NodeEnv
+        JwtSecret: !Ref JwtSecret
+        DevDBDialect: !Ref DevDBDialect
+        DevDBHost: !Ref DevDBHost
+        DevDBDatabase: !Ref DevDBDatabase
+        DevDBPort: !Ref DevDBPort
+        DevDBUsername: !Ref DevDBUsername
+        DevDBPassword: !Ref DevDBPassword
+        AwsRegion: !Ref AwsRegion
+        DevAWSAccessKey: !Ref DevAWSAccessKey
+        DevAWSSecretKey: !Ref DevAWSSecretKey
+        DevS3BucketName: !Ref DevS3BucketName

@@ -2,6 +2,34 @@ AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   SubnetID:
     Type: String
+  DockerImageURI:
+    Type: String
+  PORT:
+    Type: Number
+  NodeEnv:
+    Type: String
+  JwtSecret:
+    Type: String
+  DevDBDialect:
+    Type: String
+  DevDBHost:
+    Type: String
+  DevDBDatabase:
+    Type: String
+  DevDBPort:
+    Type: String
+  DevDBUsername:
+    Type: String
+  DevDBPassword:
+    Type: String
+  AwsRegion:
+    Type: String
+  DevAWSAccessKey:
+    Type: String
+  DevAWSSecretKey:
+    Type: String
+  DevS3BucketName:
+    Type: String
 Resources:
   Cluster:
     Type: AWS::ECS::Cluster
@@ -36,16 +64,43 @@ Resources:
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: sdconnect-cf-task
+      Family: sdconnect-dev-api-task
       Cpu: 256
       Memory: 512
       NetworkMode: awsvpc
       ExecutionRoleArn: !Ref ExecutionRole
       ContainerDefinitions:
-        - Name: sdconnect-cf-container
-          Image: nginx:1.17.7
+        - Name: sdconnect-dev-api
+          Image: !Ref DockerImageURI
           PortMappings:
-            - ContainerPort: 80
+            - ContainerPort: !Ref PORT
+          Environment:
+            - Name: PORT
+              Value: !Ref PORT
+            - Name: NODE_ENV
+              Value: !Ref NodeEnv
+            - Name: JWT_SECRET
+              Value: !Ref JwtSecret
+            - Name: DEV_DB_DIALECT
+              Value: !Ref DevDBDialect
+            - Name: DEV_DB_HOST
+              Value: !Ref DevDBHost
+            - Name: DEV_DB_DATABASE
+              Value: !Ref DevDBDatabase
+            - Name: DEV_DB_PORT
+              Value: !Ref DevDBPort
+            - Name: DEV_DB_USERNAME
+              Value: !Ref DevDBUsername
+            - Name: DEV_DB_PASSWORD
+              Value: !Ref DevDBPassword
+            - Name: AWS_REGION
+              Value: !Ref AwsRegion
+            - Name: DEV_AWS_ACCESS_KEY
+              Value: !Ref DevAWSAccessKey
+            - Name: DEV_AWS_SECRET_KEY
+              Value: !Ref DevAWSSecretKey
+            - Name: DEV_S3_BUCKET_NAME
+              Value: !Ref DevS3BucketName
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -57,7 +112,7 @@ Resources:
   Service:
     Type: AWS::ECS::Service
     Properties:
-      ServiceName: sdconnect-cf-service
+      ServiceName: sdconnect-dev-api-ecs
       Cluster: !Ref Cluster
       TaskDefinition: !Ref TaskDefinition
       DesiredCount: 1
