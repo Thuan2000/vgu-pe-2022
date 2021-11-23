@@ -6,7 +6,7 @@ export const siteSettings = {
   description: "",
   logo: {
     url: "/logo.svg",
-    alt: "DSConnectVN",
+    alt: "SDConnect.VN Logo",
     href: "/",
     width: 256,
     height: 70,
@@ -24,19 +24,19 @@ export const siteSettings = {
     },
     {
       label: "Danh bạ công ty",
-      href: "#",
+      href: "/danh-ba-cong-ty",
     },
     {
       label: "Nhu cầu thu mua",
-      href: "/buying-requests",
+      href: "/nhu-cau-thu-mua",
     },
     {
-      label: "Sản phẩm",
-      href: "#",
+      label: "Sản phẩm / Dịch vụ",
+      href: "/san-pham-dich-vu",
     },
     {
       label: "Hỗ trợ",
-      href: "#",
+      href: "/ho-tro",
     },
   ],
   socials: [

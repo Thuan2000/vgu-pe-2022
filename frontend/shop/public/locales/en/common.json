@@ -42,5 +42,9 @@
   "vietnameseLanguage-label": "Vietnamese",
   "chatNow-button-label": "Chat Now",
   "budgetFrom-label": "From",
-  "budgetTo-label": "To"
+  "budgetTo-label": "To",
+  "homepage": "Home",
+  "companyDirectory": "Company Directory",
+  "productAndService": "Products And Services",
+  "support": "Support"
 }
