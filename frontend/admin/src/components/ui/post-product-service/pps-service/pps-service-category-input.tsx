@@ -1,7 +1,7 @@
 import IndustryCategorySelect from "@components/ui/storybook/inputs/industry-category-input/industry-category-select";
 import Input from "@components/ui/storybook/inputs/input";
-import { IIndustry } from "@utils/industries";
-import { ICategory } from "@utils/categories";
+import { IIndustry } from "@datas/industries";
+import { ICategory } from "src/datas/categories";
 import React from "react";
 import {
   Control,
