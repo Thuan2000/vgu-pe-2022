@@ -11,6 +11,8 @@ import {
   getBudgetRange,
   getCompanyId,
 } from "@utils/functions";
+import { ROUTES } from "@utils/routes";
+import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -20,13 +22,25 @@ interface IBrcInfoProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
   const { t } = useTranslation();
-  const { name, endDate, location, company, createdAt, status } = br;
+  const router = useRouter();
+
+  const { name, endDate, location, company, createdAt, status, slug } = br;
+
+  function toBrDetail() {
+    router.push(`${ROUTES.TENDERS}/${slug}`);
+  }
+
   return (
     <div className={`w-full px-5 space-y-2 py-2 ${className}`} {...props}>
       {/* NAME */}
       <div className="space-y-1">
         <div className="flex items-center justify-between">
-          <Typography text={name} element="h3" className="text-md" />
+          <Typography
+            text={name}
+            element="h3"
+            className="text-md cursor-pointer"
+            onClick={toBrDetail}
+          />
           <div className="flex items-center space-x-2">
             <div className="flex items-center space-x-1">
               <Typography

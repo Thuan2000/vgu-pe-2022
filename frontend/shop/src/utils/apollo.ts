@@ -7,7 +7,7 @@ import { createUploadLink } from "apollo-upload-client";
 import { useMemo } from "react";
 import { getAuthCredentials } from "./auth-utils";
 
-const APOLLO_STATE_NAME = "__APOLLO_STATE__";
+export const APOLLO_STATE_NAME = "__APOLLO_STATE__";
 
 function createApolloClient() {
   // For authorization
