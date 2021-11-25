@@ -2,6 +2,21 @@
 # import BuyingRequestParts from "./buying-request.fragment.graphql"
 # import PaginationParts from "./pagination.fragment.graphql"
 
+query BuyingRequest($slug: String!) {
+  buyingRequestBySlug(slug: $slug) {
+    ...BuyingRequestParts
+    discussionQuestions {
+      user {
+        firstName
+        lastName
+      }
+      companyName
+      question
+      createdAt
+    }
+  }
+}
+
 query DiscoveryBuyingRequests($input: FetchBRInput!) {
   discoveryBuyingRequests(input: $input) {
     data {

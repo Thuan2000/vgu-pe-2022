@@ -29,13 +29,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-const Homepage = () => {
+const ProductAndService = () => {
   const { t } = useTranslation("common");
 
   return (
     <>
       <Head>
-        <title>{generateHeadTitle(t("homepage"))}</title>
+        <title>{generateHeadTitle(t("productAndService"))}</title>
         <meta
           name="description"
           content="DSConnect.VN | Sàn thương mại điện tử B2B đa ngành, uy tín hàng đầu Việt Nam"
@@ -48,6 +48,6 @@ const Homepage = () => {
   );
 };
 
-Homepage.Layout = PageLayout;
+ProductAndService.Layout = PageLayout;
 
-export default Homepage;
+export default ProductAndService;

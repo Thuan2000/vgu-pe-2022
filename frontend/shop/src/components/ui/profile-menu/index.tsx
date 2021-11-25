@@ -39,7 +39,8 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
         )}
       </div>
       <div className="border border-t-0 rounded-md rounded-t-none">
-        <Link href={ROUTES.SETTINGS}>
+        {/* <Link href={ROUTES.SETTINGS}> */}
+        <Link href={"#"}>
           <div className="px-3 py-2 flex items-center ">
             <SettingIcon className="mr-4 h-4" />
             <p className="text-gray-400 h-6">{t("settings-menu")}</p>

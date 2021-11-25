@@ -1,0 +1,35 @@
+mutation CreateBRDiscussionQuestion($input: CreateBRDiscussionQuestionInput!) {
+  createBRDiscussionQuestion(input: $input) {
+    id
+    success
+    message
+  }
+}
+
+mutation CreateBRDiscussionAnswer($input: CreateBRDiscussionAnswerInput!) {
+  createBRDiscussionAnswer(input: $input) {
+    id
+    success
+    message
+  }
+}
+
+query BRDiscussionQuestions($input: BRDiscussionsInput!) {
+  brDiscussionQuestions(input: $input) {
+    user {
+      firstName
+      lastName
+    }
+    companyName
+    question
+    createdAt
+    answers {
+      user {
+        firstName
+        lastName
+      }
+      companyName
+      answer
+    }
+  }
+}

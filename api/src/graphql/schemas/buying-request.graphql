@@ -29,6 +29,7 @@ type BuyingRequest {
 	company: Company!
 	bids: [Bid!]
 	lastOpened: Date!
+	discussionQuestions: [BRDiscussionQuestion!]
 }
 
 input CreateBuyingRequestInput {

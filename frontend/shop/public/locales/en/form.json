@@ -56,5 +56,8 @@
   "filterBudgetRangeSubmit-button-label": "Set Range",
   "budgetRange-filter-label": "Budget Range",
   "min": "Min",
-  "max": "Max"
+  "max": "Max",
+  "askQuestion-input-label": "Ask A Question",
+  "askQuestion-input-placeholder": "Write message",
+  "ask-question-button-label": "Ask Question"
 }

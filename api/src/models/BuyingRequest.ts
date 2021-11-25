@@ -9,6 +9,7 @@ import Industry from "./Industry";
 import ElasticSearch from "@services/elastic-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
 import Bid from "./Bid";
+import BRDiscussionQuestion from "./BRDiscussionQuestion";
 
 class BuyingRequest extends Model {
 	/**
@@ -138,5 +139,9 @@ Project.belongsToMany(BuyingRequest, {
 BuyingRequest.belongsTo(Company, { foreignKey: "companyId" });
 BuyingRequest.belongsTo(Industry, { foreignKey: "industryId" });
 BuyingRequest.belongsTo(User, { foreignKey: "createdById", as: "createdBy" });
+BuyingRequest.hasMany(BRDiscussionQuestion, {
+	foreignKey: "brId",
+	as: "discussionQuestions"
+});
 
 export default BuyingRequest;
