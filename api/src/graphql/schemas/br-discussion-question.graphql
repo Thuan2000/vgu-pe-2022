@@ -1,0 +1,51 @@
+enum BRDSort {
+	DATE
+}
+
+type BRDiscussionAnswer {
+	user: User!
+	companyName: String!
+	answer: String
+}
+
+type BRDiscussionQuestion {
+	user: User!
+	companyName: String!
+	question: String!
+	answers: [BRDiscussionAnswer!]
+	createdAt: Date!
+}
+
+input BRDiscussionsInput {
+	brId: Int!
+	sort: BRDSort!
+	offset: Int!
+	limit: Int!
+}
+
+input CreateBRDiscussionQuestionInput {
+	brId: Int!
+	userId: Int!
+	companyName: String!
+	question: String!
+}
+
+input CreateBRDiscussionAnswerInput {
+	brDiscussionQuestionId: Int!
+	userId: Int!
+	companyName: String!
+	answer: String!
+}
+
+extend type Query {
+	brDiscussionQuestions(input: BRDiscussionsInput): [BRDiscussionQuestion!]!
+}
+
+extend type Mutation {
+	createBRDiscussionQuestion(
+		input: CreateBRDiscussionQuestionInput!
+	): CreateResponse
+	createBRDiscussionAnswer(
+		input: CreateBRDiscussionAnswerInput!
+	): CreateResponse
+}

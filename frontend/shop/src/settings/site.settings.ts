@@ -1,5 +1,7 @@
 import FacebookGrayIcon from "@assets/icons/socials/facebook-gray-icon";
 import InstagramGrayIcon from "@assets/icons/socials/instagram-gray-icon";
+import { ROUTES } from "@utils/routes";
+import AvatarIcon from "@assets/Avatars.svg";
 
 export const siteSettings = {
   appName: "SDConnect",
@@ -12,6 +14,7 @@ export const siteSettings = {
     height: 70,
   },
   defaultLanguange: "vi",
+  imagePlaceholder: AvatarIcon,
   author: {
     name: "Emolyze.tech",
     websiteUrl: "https://emolyze.tech",
@@ -20,23 +23,23 @@ export const siteSettings = {
   navigations: [
     {
       label: "Trang chủ",
-      href: "/",
+      href: ROUTES.HOMEPAGE,
     },
     {
       label: "Danh bạ công ty",
-      href: "/danh-ba-cong-ty",
+      href: ROUTES.COMPANIES,
     },
     {
       label: "Nhu cầu thu mua",
-      href: "/nhu-cau-thu-mua",
+      href: ROUTES.TENDERS,
     },
     {
       label: "Sản phẩm / Dịch vụ",
-      href: "/san-pham-dich-vu",
+      href: ROUTES.PRODUCT_SERVICES,
     },
     {
       label: "Hỗ trợ",
-      href: "/ho-tro",
+      href: ROUTES.SUPPORT,
     },
   ],
   socials: [

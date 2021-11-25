@@ -34,6 +34,10 @@ p {
   font-size: 16px;
 }
 
+.fic {
+  @apply flex items-center;
+}
+
 h1 {
   font-size: 26px;
 }

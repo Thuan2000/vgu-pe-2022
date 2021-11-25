@@ -23,6 +23,7 @@ import {
 	setProductName
 } from "@repositories/buying-request.repository";
 import Bid from "@models/Bid";
+import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
 
 class BuyingRequestController {
 	async getBuyingRequestBySlug(slug: string) {
@@ -32,7 +33,12 @@ class BuyingRequestController {
 				Category,
 				Industry,
 				{ model: User, as: "createdBy" },
-				Company
+				Company,
+				{
+					model: BRDiscussionQuestion,
+					as: "discussionQuestions",
+					include: [User]
+				}
 			]
 		});
 
