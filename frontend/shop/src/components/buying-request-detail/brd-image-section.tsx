@@ -15,7 +15,11 @@ const BRDBrImages: React.FC<IBRDBrImagesProps> = ({ images }) => {
         className={`sm:w-80 sm:h-80 relative border rounded-sm overflow-hidden`}
       >
         <Image
-          src={images?.at(0)?.location || siteSettings.logo.url}
+          src={
+            images && images.length > 1
+              ? images[0]?.location || siteSettings.logo.url
+              : siteSettings.logo.url
+          }
           layout="fill"
         />
       </div>
