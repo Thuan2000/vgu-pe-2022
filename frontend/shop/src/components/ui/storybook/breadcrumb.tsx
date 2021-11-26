@@ -28,22 +28,25 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
   }
 
   function getLabel(label: string) {
-    label = setCharAt(label, 0, label[0].toUpperCase());
+    label = setCharAt(label, 0, label[0]?.toUpperCase());
     for (let i = 0; i < label.length; i++) {
       const e = label[i];
       if (e === "-") {
         label = setCharAt(label, i, " ");
-        label = setCharAt(label, i + 1, label[i + 1].toUpperCase());
+        label = setCharAt(label, i + 1, label[i + 1]?.toUpperCase());
       }
     }
     return label;
   }
 
-  function generatePaths() {
-    return paths.map((p) => ({
-      label: getLabel(p),
-      href: `/${p}`,
-    }));
+  function generateLinks() {
+    return paths.flatMap((p) => {
+      if (p === "") return [];
+      return {
+        label: getLabel(p),
+        href: `/${p}`,
+      };
+    });
   }
 
   function Item({ label, isLast }: { label: string; isLast?: boolean }) {
@@ -58,13 +61,19 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
     );
   }
 
+  const links = generateLinks();
+
   return (
     <div {...props}>
       <div className="flex items-center space-x-1">
-        <Link href={homeHref}>
-          <HomeIcon fill={COLORS.PRIMARY.DEFAULT} className="w-5 h-5" />
-        </Link>
-        {generatePaths().map((p, idx) => {
+        {links.length > 1 ? (
+          <Link href={homeHref}>
+            <HomeIcon fill={COLORS.PRIMARY.DEFAULT} className="w-5 h-5" />
+          </Link>
+        ) : (
+          <HomeIcon className="w-5 h-5" />
+        )}
+        {links.map((p, idx) => {
           const isLast = idx === paths.length - 1;
           return (
             <>
