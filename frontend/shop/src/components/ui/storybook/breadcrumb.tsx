@@ -66,7 +66,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
   return (
     <div {...props}>
       <div className="flex items-center space-x-1">
-        {links.length > 1 ? (
+        {links.length >= 1 ? (
           <Link href={homeHref}>
             <HomeIcon fill={COLORS.PRIMARY.DEFAULT} className="w-5 h-5" />
           </Link>
