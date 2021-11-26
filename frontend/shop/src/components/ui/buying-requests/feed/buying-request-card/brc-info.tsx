@@ -1,6 +1,7 @@
 import MessageIcon from "@assets/icons/message-icon";
 import SaveIcon from "@assets/icons/save-icon";
 import VerifiedIcon from "@assets/icons/verified-icon";
+import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
 import Chip from "@components/ui/storybook/chip";
 import Typography from "@components/ui/storybook/typography";
@@ -22,25 +23,21 @@ interface IBrcInfoProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
   const { t } = useTranslation();
-  const router = useRouter();
 
   const { name, endDate, location, company, createdAt, status, slug } = br;
-
-  function toBrDetail() {
-    router.push(`${ROUTES.TENDERS}/${slug}`);
-  }
 
   return (
     <div className={`w-full px-5 space-y-2 py-2 ${className}`} {...props}>
       {/* NAME */}
       <div className="space-y-1">
         <div className="flex items-center justify-between">
-          <Typography
-            text={name}
-            element="h3"
-            className="text-md cursor-pointer"
-            onClick={toBrDetail}
-          />
+          <Link
+            className="border-b border-transparent hover:border-black new-tab-link"
+            target="_blank"
+            href={`${ROUTES.TENDERS}/${br.slug}`}
+          >
+            <Typography text={name} element="h3" size="md" />
+          </Link>
           <div className="flex items-center space-x-2">
             <div className="flex items-center space-x-1">
               <Typography

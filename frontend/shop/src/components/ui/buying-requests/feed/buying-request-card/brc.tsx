@@ -1,11 +1,8 @@
 import { IBuyingRequest } from "@graphql/types.graphql";
-import React, { useEffect } from "react";
+import React from "react";
 import BrcImage from "./brc-image";
 import BrcInfo from "./brc-info";
 import { useModal } from "src/contexts/modal.context";
-import BiddingForm from "../../bidding-form";
-import { getCompanyId } from "@utils/functions";
-import { findIndex } from "lodash";
 
 interface IBuyingRequestCardProps {
   br: IBuyingRequest;

@@ -53,6 +53,32 @@ h3 {
 h4 {
   font-size: 14px;
 }
+.new-tab-link {
+  padding-right: 0.3em;
+  position: relative;
+}
+
+.new-tab-link:hover::after {
+  opacity: 1;
+}
+
+.new-tab-link::after {
+  opacity: 0;
+  transition: opacity 200ms 100ms;
+  content: "";
+  position: absolute;
+  right: -1em;
+  top: 50%;
+  transform: translateY(-55%);
+  width: 1em;
+  height: 1em;
+  margin: 0 0.05em 0 0.1em;
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBkPSJNOSAyTDkgMyAxMi4zIDMgNiA5LjMgNi43IDEwIDEzIDMuNyAxMyA3IDE0IDcgMTQgMlpNNCA0QzIuOSA0IDIgNC45IDIgNkwyIDEyQzIgMTMuMSAyLjkgMTQgNCAxNEwxMCAxNEMxMS4xIDE0IDEyIDEzLjEgMTIgMTJMMTIgNyAxMSA4IDExIDEyQzExIDEyLjYgMTAuNiAxMyAxMCAxM0w0IDEzQzMuNCAxMyAzIDEyLjYgMyAxMkwzIDZDMyA1LjQgMy40IDUgNCA1TDggNSA5IDRaIi8+PC9zdmc+)
+    no-repeat;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: text-bottom;
+}
 
 h5 {
   font-size: 13px;
