@@ -20,10 +20,15 @@ export function handleError(err) {
 	}
 }
 
-// TODO: add a 4-digit random hash to avoid name collisions.
-export function generateSlug(companyName: string) {
-	const slug = companyName.toLowerCase().replace(/\ /g, "-");
-	return slug;
+// NEED_REVIEW: add a 4-digit random hash to avoid name collisions.
+export function generateSlug(name: string, id?: number) {
+	let uniqueKey = `${id}`;
+	if (id < 10) uniqueKey = `000${id}`;
+	if (id < 100) uniqueKey = `00${id}`;
+	if (id < 1000) uniqueKey = `0${id}`;
+
+	const slug = name.toLowerCase().replace(/\ /g, "-");
+	return `${slug}-${uniqueKey}`;
 }
 
 export function checkTableName(tableName: string) {

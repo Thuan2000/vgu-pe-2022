@@ -3,6 +3,8 @@ import SiteSocials from "../site-socials";
 import Navigations from "../navigations";
 import LanguageSelector from "../language-selector";
 import NavbarBottom from "./navbar-bottom";
+import { ROUTES } from "@utils/routes";
+import Breadcrumb from "../storybook/breadcrumb";
 const Navbar = () => {
   return (
     <div className="hidden sm:flex flex-col sticky top-0 bg-white z-50 mx-[-10px] px-[10px]">
@@ -12,6 +14,7 @@ const Navbar = () => {
         <LanguageSelector />
       </div>
       <NavbarBottom />
+      <Breadcrumb className="ml-1" homeHref={ROUTES.HOMEPAGE} />
     </div>
   );
 };

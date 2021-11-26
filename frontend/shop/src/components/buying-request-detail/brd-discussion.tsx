@@ -5,6 +5,7 @@ import Typography from "@components/ui/storybook/typography";
 import Button from "@components/ui/storybook/button";
 import { viDateFormat } from "@utils/functions";
 import { useBrDiscussionQuestionsQuery } from "@graphql/br-discussion.graphql";
+import BRDDiscussionQuestion from "./brd-discussion-question";
 
 interface IBRDDiscussionProps {
   brId: number;
@@ -47,30 +48,16 @@ const BRDDiscussion: React.FC<IBRDDiscussionProps> = ({ brId }) => {
         </Button>
       </div>
 
-      {discussions && discussions.length > 1 && (
+      {discussions && discussions.length > 1 ? (
         <div className="px-4">
-          {discussions.map(
-            ({ user, companyName, question, createdAt }: any) => (
-              <div className="py-1 my-2" key={createdAt + "" + question}>
-                <div className="fic space-x-2">
-                  <Typography
-                    text={`${user.firstName} ${user.lastName}`}
-                    variant="smallTitle"
-                  />
-                  <Typography text={companyName} color="gray" />
-                </div>
-                <Typography text={question} />
-                <Typography
-                  text={viDateFormat(createdAt || "")}
-                  variant="description"
-                />
-              </div>
-            )
-          )}
+          {discussions.map((d: any) => (
+            <BRDDiscussionQuestion
+              key={d.createdAt + "" + d.question}
+              discussionQuestion={d}
+            />
+          ))}
         </div>
-      )}
-
-      {(!discussions || !discussions.length) && (
+      ) : (
         <div className="px-4 pb-4">
           <Typography text={t("no-discussion-for-br")} variant="description" />
         </div>
