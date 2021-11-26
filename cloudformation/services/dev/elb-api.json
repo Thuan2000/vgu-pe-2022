@@ -1,0 +1,26 @@
+[
+  {
+    "ParameterKey": "SubnetID",
+    "ParameterValue": "subnet-9920bcc0"
+  },
+  {
+    "ParameterKey": "SubnetID2",
+    "ParameterValue": "subnet-55bb1b33"
+  },
+  {
+    "ParameterKey": "SubnetID3",
+    "ParameterValue": "subnet-a86fbee0"
+  },
+  {
+    "ParameterKey": "Vpc",
+    "ParameterValue": "vpc-b86894de"
+  },
+  {
+    "ParameterKey": "PORT",
+    "ParameterValue": "8080"
+  },
+  {
+    "ParameterKey": "Certificate",
+    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/2e90b17d-e730-410d-861b-170b31a2627d"
+  }
+]

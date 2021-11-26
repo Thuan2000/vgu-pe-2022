@@ -14,7 +14,7 @@ const Navbar = () => {
         <LanguageSelector />
       </div>
       <NavbarBottom />
-      <Breadcrumb className="ml-1" homeHref={ROUTES.HOMEPAGE} />
+      <Breadcrumb className="ml-1 my-2" homeHref={ROUTES.HOMEPAGE} />
     </div>
   );
 };
