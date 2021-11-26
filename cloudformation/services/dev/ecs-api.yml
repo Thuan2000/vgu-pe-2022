@@ -2,6 +2,10 @@ AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   SubnetID:
     Type: String
+  SubnetID2:
+    Type: String
+  SubnetID3:
+    Type: String
   DockerImageURI:
     Type: String
   PORT:
@@ -29,6 +33,8 @@ Parameters:
   DevAWSSecretKey:
     Type: String
   DevS3BucketName:
+    Type: String
+  TargetGroupArn:
     Type: String
 Resources:
   Cluster:
@@ -117,10 +123,16 @@ Resources:
       TaskDefinition: !Ref TaskDefinition
       DesiredCount: 1
       LaunchType: FARGATE
+      LoadBalancers:
+        - TargetGroupArn: !Ref TargetGroupArn
+          ContainerName: sdconnect-dev-api
+          ContainerPort: !Ref PORT
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
           Subnets:
             - !Ref SubnetID
+            - !Ref SubnetID2
+            - !Ref SubnetID3
           SecurityGroups:
             - !GetAtt ContainerSecurityGroup.GroupId

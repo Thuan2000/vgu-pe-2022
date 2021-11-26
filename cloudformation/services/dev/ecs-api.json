@@ -68,35 +68,7 @@
     "ParameterValue": "sdconnect-dev"
   },
   {
-    "ParameterKey": "SmtpHOST",
-    "ParameterValue": "smtp.gmail.com"
-  },
-  {
-    "ParameterKey": "SmtpPORT",
-    "ParameterValue": "465"
-  },
-  {
-    "ParameterKey": "SmtpSECURE",
-    "ParameterValue": "true"
-  },
-  {
-    "ParameterKey": "SmtpUSERNAME",
-    "ParameterValue": "fatwaanugerah01@gmail.com"
-  },
-  {
-    "ParameterKey": "SmtpPASSWORD",
-    "ParameterValue": "fatwaanugrah123"
-  },
-  {
-    "ParameterKey": "SmtpFROM",
-    "ParameterValue": "<no-reply>@sdconnect.dev"
-  },
-  {
-    "ParameterKey": "Vpc",
-    "ParameterValue": "vpc-b86894de"
-  },
-  {
-    "ParameterKey": "Certificate",
-    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/2e90b17d-e730-410d-861b-170b31a2627d"
+    "ParameterKey": "TargetGroupArn",
+    "ParameterValue": "arn:aws:elasticloadbalancing:ap-southeast-1:981317724248:targetgroup/sdconnect-api-dev-elb-tg/905503ff4c5fec32"
   }
 ]
