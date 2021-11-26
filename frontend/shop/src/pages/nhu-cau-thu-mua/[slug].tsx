@@ -19,22 +19,13 @@ import {
 } from "@utils/functions";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { getCategory } from "@datas/categories";
-import { getIndustry } from "@datas/industries";
-import Button from "@components/ui/storybook/button";
-import MessageIcon from "@assets/icons/message-icon";
 import BRDSocialShareList from "@components/buying-request-detail/brd-social-share-list";
-import Breadcrumb from "@components/ui/storybook/breadcrumb";
-import { ROUTES } from "@utils/routes";
-import VerifiedIcon from "@assets/icons/verified-icon";
-import Chip from "@components/ui/storybook/chip";
 import BRDName from "@components/buying-request-detail/brd-name";
 import BRDPrice from "@components/buying-request-detail/brd-price";
 import BRDDescription from "@components/buying-request-detail/brd-desc";
 import BRDDetail from "@components/buying-request-detail/brd-detail";
 import BRDCompanySummary from "@components/buying-request-detail/brd-company-summary";
 import BRDDiscussion from "@components/buying-request-detail/brd-discussion";
-import TextArea from "@components/ui/storybook/inputs/text-area";
 import BRDAskQuestion from "@components/buying-request-detail/brd-ask-question";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
@@ -96,6 +87,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         "common",
         "industry",
         "category",
+        "form",
       ])),
     },
   };
@@ -113,7 +105,6 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
         <title>{generateHeadTitle(br.name)}</title>
         <meta name="description" content={br.description || ""} />
       </Head>
-      <Breadcrumb homeHref={ROUTES.HOMEPAGE} paths={[]} />
       <div className="flex space-x-7 justify-between">
         <div className="pb-10 w-full">
           <div className="flex space-x-4">
@@ -122,7 +113,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
               <BRDBrImages images={br.gallery || []} />
               <div className="fic space-x-4">
                 <Typography
-                  text={`${t("share-label")}:`}
+                  text={`${t("brd-share-label")}:`}
                   variant="smallTitle"
                 />
                 <BRDSocialShareList />
@@ -162,7 +153,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
             />
           </div>
         </div>
-        <BRDAlsoNeeded />
+        <BRDAlsoNeeded brReference={br} />
       </div>
     </>
   );

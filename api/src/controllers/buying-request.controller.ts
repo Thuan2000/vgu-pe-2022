@@ -50,6 +50,7 @@ class BuyingRequestController {
 
 		return allBuyingRequest;
 	}
+
 	async getBuyingRequestsByIds(ids: number[]) {
 		const allBuyingRequests = await BuyingRequest.findAll({
 			where: { id: ids }
@@ -57,6 +58,7 @@ class BuyingRequestController {
 
 		return allBuyingRequests;
 	}
+
 	async getDiscoveryBuyingRequests(input: IFetchBrInput) {
 		const {
 			companyId,
@@ -87,6 +89,7 @@ class BuyingRequestController {
 			distinct: true,
 			where: {
 				...(ids ? { id: ids } : {}),
+				...(companyId ? { companyId } : {}),
 				...(minBudget
 					? {
 							minBudget: {
@@ -226,11 +229,12 @@ class BuyingRequestController {
 			const newBuyingRequest = await BuyingRequest.create({
 				...buyingRequestInput,
 				companyId,
-				slug: generateSlug(buyingRequestInput.name),
 				status: "OPEN"
 			});
-
-			// const brGallery = await uploadImages(companyName, gallery);
+			newBuyingRequest.setDataValue(
+				"slug",
+				generateSlug(name, newBuyingRequest.getDataValue("id"))
+			);
 			setBrGallery(brGallery, newBuyingRequest);
 
 			return newBuyingRequest.save().then(() => successResponse());
@@ -250,15 +254,7 @@ class BuyingRequestController {
 		}: IUpdateBuyingRequestInput
 	) {
 		const currentBr = await BuyingRequest.findByPk(id);
-
-		// @Note : To hold the process
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		// const data = await setProductName(newValue.productName);
-
 		currentBr.update(newValue);
-		// To understand this read sequelize associations
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		// (currentBr as any).setCategories(categoryIds);
 
 		const newGallery = await uploadImages(companyName, gallery);
 		currentBr.setDataValue("gallery", oldGallery);

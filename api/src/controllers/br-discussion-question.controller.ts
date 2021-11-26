@@ -24,7 +24,6 @@ class BRDiscussionQuestionController {
 				offset,
 				include: [User, BRDiscussionAnswer]
 			});
-			console.log(questions.at(0).toJSON());
 
 			return questions;
 		} catch (error) {

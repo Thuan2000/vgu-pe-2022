@@ -2,6 +2,10 @@ AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   SubnetID:
     Type: String
+  SubnetID2:
+    Type: String
+  SubnetID3:
+    Type: String
   PORT:
     Type: Number
   DockerImageURI:
@@ -30,17 +34,36 @@ Parameters:
     Type: String
   DevS3BucketName:
     Type: String
+  Vpc:
+    Type: String
+  SmtpFROM:
+    Type: String
+  SmtpPASSWORD:
+    Type: String
+  SmtpUSERNAME:
+    Type: String
+  SmtpSECURE:
+    Type: String
+  SmtpPORT:
+    Type: String
+  SmtpHOST:
+    Type: String
+  Certificate:
+    Type: String
 Resources:
-  rds:
-    Type: "AWS::CloudFormation::Stack"
-    Properties:
-      TemplateURL: https://sdconnect.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/rds.yml
+  # rds:
+  #   Type: "AWS::CloudFormation::Stack"
+  #   Properties:
+  #     TemplateURL: https://sdconnect.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/rds.yml
   ecs:
     Type: "AWS::CloudFormation::Stack"
     Properties:
       TemplateURL: https://sdconnect.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/ecs-api.yml
       Parameters:
+        TargetGroup: !GetAtt elb.Outputs.TargetGroup
         SubnetID: !Ref SubnetID
+        SubnetID2: !Ref SubnetID2
+        SubnetID3: !Ref SubnetID3
         PORT: !Ref PORT
         DockerImageURI: !Ref DockerImageURI
         NodeEnv: !Ref NodeEnv
@@ -55,3 +78,14 @@ Resources:
         DevAWSAccessKey: !Ref DevAWSAccessKey
         DevAWSSecretKey: !Ref DevAWSSecretKey
         DevS3BucketName: !Ref DevS3BucketName
+  elb:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect.s3.ap-southeast-1.amazonaws.com/dev/elb-api.yml
+      Parameters:
+        Vpc: !Ref Vpc
+        Certificate: !Ref Certificate
+        PORT: !Ref PORT
+        SubnetID: !Ref SubnetID
+        SubnetID2: !Ref SubnetID2
+        SubnetID3: !Ref SubnetID3

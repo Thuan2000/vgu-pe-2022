@@ -27,7 +27,6 @@ export const brQueryParams = ({
   return {
     variables: {
       input: {
-        companyId: getCompanyId(),
         offset,
         industryId,
         status,

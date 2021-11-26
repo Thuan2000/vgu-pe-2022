@@ -8,6 +8,7 @@ export $(shell sed 's/=.*//' .env)
 create-dev-stack:
 	aws s3 cp ./databases/dev/rds.yml s3://sdconnect/cloudformation/dev/rds.yml
 	aws s3 cp ./services/dev/ecs-api.yml s3://sdconnect/cloudformation/dev/ecs-api.yml
+	aws s3 cp ./services/dev/elb-api.yml s3://sdconnect/cloudformation/dev/elb-api.yml
 	aws cloudformation create-stack \
 	--stack-name sdconnect-dev \
 	--template-body file://./deploy-dev.yml  \
@@ -18,6 +19,7 @@ create-dev-stack:
 update-stack-dev:
 	aws s3 cp ./databases/dev/rds.yml s3://sdconnect/cloudformation/dev/rds.yml
 	aws s3 cp ./services/dev/ecs-api.yml s3://sdconnect/cloudformation/dev/ecs-api.yml
+	aws s3 cp ./services/dev/elb-api.yml s3://sdconnect/cloudformation/dev/elb-api.yml
 	aws cloudformation update-stack \
 	--stack-name sdconnect-dev \
 	--template-body file://./deploy-dev.yml  \
