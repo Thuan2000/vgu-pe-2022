@@ -8,6 +8,7 @@ import { COLORS } from "@utils/colors";
 import { useRouter } from "next/dist/client/router";
 import { getMeData } from "@utils/auth-utils";
 import { IUser } from "@graphql/types.graphql";
+import LanguageSelector from "./language-selector";
 
 interface IAdminNavbarProps extends React.HTMLAttributes<HTMLDivElement> {
   ppHeight?: number;
@@ -44,9 +45,9 @@ const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
           )}
           <h2 className="font-semibold ml-3 text-semibold">{pageName}</h2>
         </div>
-        <div className="user-info flex items-center">
-          <HelpIcon className="mr-6" fill={COLORS.BOLDER} />
-          <NotificationIcon className="mr-6" fill={COLORS.BOLDER} />
+        <div className="user-info flex items-center space-x-5">
+          <HelpIcon fill={COLORS.BOLDER} />
+          <NotificationIcon fill={COLORS.BOLDER} />
           <div className="flex items-center">
             <div className="mr-4 text-right hidden md:block">
               <p className="font-semibold text-semibold">{userName}</p>

@@ -1,8 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import useIsPhone from "src/hooks/isPhone.hook";
-import NumberLabel from "./storybook/inputs/queue-number";
+import PostNavigationItem from "./post-navigation-item";
 
 interface INav {
   label: string;
@@ -13,7 +11,6 @@ interface IPostNavigation {
 }
 
 const PostNavigation: React.FC<IPostNavigation> = ({ navs }) => {
-  const { t } = useTranslation("form");
   const { query, ...router } = useRouter();
 
   const currentFormPosition = parseInt(query.formPosition as string) || 1;
@@ -35,42 +32,24 @@ const PostNavigation: React.FC<IPostNavigation> = ({ navs }) => {
     const { label } = nav;
     const isActive = currentFormPosition === idx + 1;
     const isFilled = currentFormPosition > idx + 1;
-    const extraClass = idx !== 0 && idx !== navs.length - 1 && "mx-2";
+    const extraClass = idx !== 0 && idx !== navs.length - 1 ? "mx-2" : "";
 
     return (
-      <div
+      <PostNavigationItem
         key={label}
-        className={`px-10 bg-white py-1 rounded-t-md ${extraClass} border-2 flex-center
-          ${currentFormPosition > idx + 1 ? "cursor-pointer" : "cursor-default"}
-          ${isFilled && "opacity-40"}
-          ${
-            isActive
-              ? "border-primary border-b-transparent"
-              : "border-b-primary"
-          }
-        `}
         onClick={() => setFormPosition(idx + 1)}
-      >
-        <h3
-          className={`text-center sm:text-md font-bold flex items-center ${
-            isFilled || isActive ? "text-primary" : "text-gray"
-          }`}
-        >
-          <NumberLabel
-            // backgroundColor={isActive || isFilled ? "primary" : ""}
-            className={`mr-3 !w-5 !h-5 ${
-              !(isFilled || isActive) && "!bg-gray"
-            }`}
-            number={idx + 1}
-          />
-          {t(label)}
-        </h3>
-      </div>
+        currentFormPosition={currentFormPosition}
+        idx={idx}
+        label={label}
+        isFilled={isFilled}
+        isActive={isActive}
+        extraClass={extraClass}
+      />
     );
   });
 
   return (
-    <div className={`hidden sm:block absolute bottom-full`}>
+    <div className={`hidden sm:flex`}>
       <div className="flex">{navsUi}</div>
     </div>
   );

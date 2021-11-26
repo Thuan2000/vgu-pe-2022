@@ -1,56 +1,76 @@
 import React from "react";
 import cn from "classnames";
-import { FontSize } from "@utils/interfaces";
+
+type TextColor = "primary" | "gray" | "gray-400" | "black" | "secondary-1";
 
 interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
   variant?:
-    | "normal"
     | "question"
     | "smallTitle"
+    | "title"
+    | "postedDate"
     | "date"
     | "description"
+    | "BRTitle"
+    | "relatedCompanyName"
+    | "special-heading"
     | "title"
     | "bigTitle"
     | "pageTitle";
   element?: "h6" | "h4" | "h3" | "h2" | "h1" | "p";
-  color?: "primary" | "secondary-1";
-  size?: FontSize;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   text: string;
+  isHaveReadMore?: boolean;
+  color?: TextColor;
   align?: "left" | "center" | "right";
+  readMoreText?: string;
+  onReadMore?: () => void;
 }
 
 const classesNames = {
-  normal: "",
-  question: "text-gray-200 text-md",
-  smallTitle: "text-md font-semibold text-dark-blue",
-  title: "text-lg font-semibold text-dark-blue",
-  bigTitle: "text-xl font-semibold text-dark-blue",
-  date: "text-md font-semibold text-secondary-1",
+  question: "text-gray-200",
+  smallTitle: "font-semibold text-dark-blue",
+  title: "font-semibold text-xl",
+  date: "font-semibold text-secondary-1",
   description: "text-sm text-gray-400",
+  BRTitle: "text-lg font-semibold text-black",
+  relatedCompanyName: "font-semibold text-gray",
+  bigTitle: "text-xl font-semibold text-dark-blue",
   pageTitle: "text-xl font-semibold",
+  postedDate: "text-sm text-gray font-light",
+  ["special-heading"]: "font-semibold text-xl text-dark-blue",
 };
 
 const Typography: React.FC<ITypographyProps> = ({
   className: inputClassname,
   text,
+  variant,
   color,
-  variant = "normal",
-  size = "md",
+  size = "sm",
   element: Element = "p",
-  align,
+  readMoreText = "View more",
+  onReadMore,
+  isHaveReadMore,
   ...props
 }) => {
   const classNames = cn(
-    classesNames[variant],
-    `text-${color}`,
+    !!variant && classesNames[variant],
     `text-${size}`,
-    `text-${align}`,
+    `text-${color}`,
     inputClassname
   );
 
   return (
     <Element className={classNames} {...props}>
       {text}
+      {!!isHaveReadMore && (
+        <span
+          className="text-secondary-1 underline font-semibold ml-1 cursor-pointer"
+          onClick={onReadMore}
+        >
+          {readMoreText}
+        </span>
+      )}
     </Element>
   );
 };
