@@ -29,7 +29,7 @@ const PPSTargetSelector: React.FC<IPPSTargetSelectorProps> = () => {
         }`}
         onClick={() => changeCreateTarget("product")}
       >
-        {t("postProduct-product-button-label")}
+        {t("pps-product-button-label")}
       </Button>
       <Button
         variant="custom"
@@ -39,7 +39,7 @@ const PPSTargetSelector: React.FC<IPPSTargetSelectorProps> = () => {
         }`}
         onClick={() => changeCreateTarget("service")}
       >
-        {t("postProduct-product-button-label")}
+        {t("pps-service-button-label")}
       </Button>
     </div>
   );

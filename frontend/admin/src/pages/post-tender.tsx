@@ -51,12 +51,10 @@ const PostRequest = () => {
       </Head>
       {/* Navbar here */}
 
-      <PostPageWrapper>
+      <PostPageWrapper navs={postRequestNavs}>
         {/* <p className="text-sm md:text-md text-gray-400 mb-7 pt-4">
           {t("post-request-paragraph")}
         </p> */}
-
-        <PostNavigation navs={postRequestNavs} />
 
         <PostTenderForm />
       </PostPageWrapper>

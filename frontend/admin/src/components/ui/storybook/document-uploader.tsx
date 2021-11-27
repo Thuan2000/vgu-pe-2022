@@ -88,24 +88,9 @@ const DocumentUploader = ({
   const { getRootProps, getInputProps } = useDropzone({
     accept,
     multiple: multiple,
+    maxFiles: 10,
     onDropRejected: onDropRejected,
-    onDrop: async (acceptedFiles) => {
-      if (files.length) {
-        const accFiles = acceptedFiles.map((file) => {
-          const localUrl = URL.createObjectURL(file);
-          const assignedLocalUrl = Object.assign(file, { localUrl });
-          return assignedLocalUrl;
-        });
-        setFiles([...files, ...accFiles]);
-      } else {
-        const accFiles = acceptedFiles.map((file) => {
-          const localUrl = URL.createObjectURL(file);
-          const assignedLocalUrl = Object.assign(file, { localUrl });
-          return assignedLocalUrl;
-        });
-        setFiles([...accFiles]);
-      }
-    },
+    onDrop: handleOnDrop,
   });
 
   useEffect(() => {
@@ -114,6 +99,24 @@ const DocumentUploader = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
+
+  async function handleOnDrop(acceptedFiles: File[]) {
+    if (files.length) {
+      const accFiles = acceptedFiles.map((file) => {
+        const localUrl = URL.createObjectURL(file);
+        const assignedLocalUrl = Object.assign(file, { localUrl });
+        return assignedLocalUrl;
+      });
+      setFiles([...files, ...accFiles]);
+    } else {
+      const accFiles = acceptedFiles.map((file) => {
+        const localUrl = URL.createObjectURL(file);
+        const assignedLocalUrl = Object.assign(file, { localUrl });
+        return assignedLocalUrl;
+      });
+      setFiles([...accFiles]);
+    }
+  }
 
   function handleDelete(index: number) {
     // @ts-ignore
@@ -143,13 +146,6 @@ const DocumentUploader = ({
           >
             {getDocumentPreview(file)}
           </div>
-          {/* <button
-            className="w-4 h-4 flex items-center justify-center rounded-full bg-red-600 text-xs text-light absolute -top-1 -right-1 shadow-xl outline-none"
-            onClick={() => handleDelete(idx)}
-            type="button"
-          >
-            <CloseIcon width={10} height={10} />
-          </button> */}
         </div>
         <button
           className="flex-center w-full py-2"

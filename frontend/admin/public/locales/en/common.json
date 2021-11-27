@@ -79,5 +79,8 @@
   "project-no-description-text": "This project has no description",
   "editRequest-page-name": "Edit Request",
   "productService-nav-label": "Product/Service",
-  "postProduct/Service-nav-label": "Post Product/Service"
+  "postProduct/Service-nav-label": "Post Product/Service",
+  "post-product-page-name": "Post Product & Service",
+  "englishLanguage-label": "English",
+  "vietnameseLanguage-label": "Vietnamese"
 }
