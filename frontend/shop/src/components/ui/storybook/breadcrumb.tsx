@@ -36,7 +36,8 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
         label = setCharAt(label, i + 1, label[i + 1]?.toUpperCase());
       }
     }
-    return label;
+    const decodedLabel = label.split("#")[0];
+    return decodedLabel;
   }
 
   function generateLinks() {

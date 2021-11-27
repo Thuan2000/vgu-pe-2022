@@ -28,7 +28,7 @@ export function generateSlug(name: string, id?: number) {
 	if (id < 1000) uniqueKey = `0${id}`;
 
 	const slug = name.toLowerCase().replace(/\ /g, "-");
-	return `${slug}-${uniqueKey}`;
+	return `${slug}#${uniqueKey}`;
 }
 
 export function checkTableName(tableName: string) {
