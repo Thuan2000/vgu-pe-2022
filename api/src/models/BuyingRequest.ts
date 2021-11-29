@@ -10,6 +10,7 @@ import ElasticSearch from "@services/elastic-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
 import Bid from "./Bid";
 import BRDiscussionQuestion from "./BRDiscussionQuestion";
+import { IBuyingRequest } from "@graphql/types";
 
 class BuyingRequest extends Model {
 	/**
@@ -47,7 +48,7 @@ class BuyingRequest extends Model {
 		}
 	}
 
-	static async bulkInsert() {
+	static async bulkInsert(data?: IBuyingRequest[]) {
 		try {
 			const buyingRequests = await BuyingRequest.findAll({
 				raw: true,
@@ -56,7 +57,10 @@ class BuyingRequest extends Model {
 				// TODO: only insert new data instead of indexing everything.
 				attributes: ["id", "name", "productName", "description"]
 			});
-			ElasticSearch.insertBulk(BuyingRequest.indexName, buyingRequests);
+			ElasticSearch.insertBulk(
+				BuyingRequest.indexName,
+				data.length > 1 ? data : buyingRequests
+			);
 
 			return successResponse();
 		} catch (err) {

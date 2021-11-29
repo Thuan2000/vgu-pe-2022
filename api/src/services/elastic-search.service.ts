@@ -23,9 +23,6 @@ class ElasticSearch {
 				mappings: {
 					...(properties ? { properties } : {})
 				}
-				// settings: {
-
-				// }
 			}
 		});
 	}
