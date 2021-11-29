@@ -7,5 +7,5 @@ export function middleware(req: NextRequest, ev: NextFetchEvent) {
   if (!isAuthenticated(req.cookies as any) && req.url !== ROUTES.LOGIN)
     NextResponse.redirect(ROUTES.LOGIN);
 
-  if (!company.approved) return NextResponse.redirect(ROUTES.LOGIN);
+  if (!company.approved) NextResponse.redirect(ROUTES.LOGIN);
 }

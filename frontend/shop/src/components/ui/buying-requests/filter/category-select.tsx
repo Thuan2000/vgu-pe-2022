@@ -4,24 +4,32 @@ import { useTranslation } from "next-i18next";
 import Select from "@components/ui/storybook/inputs/select";
 import FilterLabel from "./filter-label";
 import { useRouter } from "next/dist/client/router";
-import { IIndustry, industriesData } from "@datas/industries";
+import {
+  getCategories,
+  getIndustryCategories,
+  ICategory,
+} from "@datas/categories";
+import { getIndustry, getIndustryBySlug } from "@datas/industries";
 
-interface IIndustrySelectProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ICategorySelectProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const IndustrySelect: React.FC<IIndustrySelectProps> = ({
+const CategorySelect: React.FC<ICategorySelectProps> = ({
   className,
   ...props
 }) => {
   const { t } = useTranslation();
 
   const { query, ...router } = useRouter();
-  const industryFilter = query.industry as string;
-  const [value, setValue] = useState<IIndustry | string>(industryFilter);
+  const industrySlug = query.industry as string;
+
+  const industryId = getIndustryBySlug(industrySlug)?.id;
+  const categoryFilter = query.category as string;
+  const [value, setValue] = useState<ICategory | string>(categoryFilter);
 
   useEffect(() => {
     function setQuery() {
       if (typeof value === "string") return;
-      if (!value) delete query.industry;
+      if (!value) delete query.category;
 
       const { pathname } = router;
 
@@ -29,7 +37,7 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
         pathname,
         query: {
           ...query,
-          ...(value ? { industry: (value as IIndustry)?.slug } : {}),
+          ...(value ? { category: (value as ICategory)?.slug } : {}),
         },
       });
     }
@@ -37,25 +45,27 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
     setQuery();
   }, [value]);
 
-  function handleChange(e: IIndustry | unknown) {
-    setValue(e as IIndustry);
+  function handleChange(e: ICategory | unknown) {
+    setValue(e as ICategory);
   }
 
   return (
     <div {...props}>
-      <FilterLabel text={t("industry-filter-label")} />
+      <FilterLabel text={t("category-filter-label")} />
       <Select
-        options={industriesData || []}
-        name="industryFilter"
+        options={getIndustryCategories(industryId as number) || []}
+        name="categoryFilter"
         isClearable
         value={value}
-        getInitialValue={(opt: IIndustry) => opt.slug === industryFilter}
-        placeholder={t("industryFilter-placeholder")}
+        getInitialValue={(opt: ICategory) => opt.slug === categoryFilter}
+        placeholder={t("categoryFilter-placeholder")}
         onChange={handleChange}
-        getOptionValue={((option: IIndustry) => option?.slug) as any}
-        getOptionLabel={((option: IIndustry) => option?.label) as any}
+        getOptionValue={((option: ICategory) => option?.slug) as any}
+        getOptionLabel={
+          ((option: ICategory) => t("category:" + option?.label)) as any
+        }
       />
     </div>
   );
 };
-export default IndustrySelect;
+export default CategorySelect;
