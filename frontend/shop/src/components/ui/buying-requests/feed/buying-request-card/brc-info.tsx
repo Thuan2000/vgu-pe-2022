@@ -11,6 +11,7 @@ import {
   trimText,
   getBudgetRange,
   getCompanyId,
+  isUserApproved,
 } from "@utils/functions";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";
@@ -64,10 +65,18 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
         </div>
         {/* Company */}
         <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-2">
-            <Typography variant="smallTitle" text={company?.name} />
+          <div
+            className={`flex items-center space-x-2 ${
+              !isUserApproved() && "blur-sm"
+            }`}
+          >
+            <Typography
+              variant="smallTitle"
+              text={isUserApproved() ? company?.name : t("notApproved")}
+            />
             <VerifiedIcon />
           </div>
+
           <div className="flex items-center space-x-2">
             <Typography variant="question" text={`${t("posted-date-text")}:`} />
             <Typography variant="question" text={viDateFormat(createdAt)} />
@@ -75,22 +84,16 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
         </div>
       </div>
       {/* Desc */}
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center justify-between space-x-2">
         <Typography
           variant="description"
-          text={
-            trimText(
-              "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio accusamus tenetur sequi quod veritatis, sunt ipsam, rem doloribus, magnam et harum est libero itaque totam iste quaerat necessitatibus atque quos in? Accusamus saepe nostrum earum repellendus, tempore consectetur atque nihil dicta esse repudiandae ullam, rem maxime quaerat cum soluta impedit quis. Id fugit laudantium dolores quae non temporibus nisi est odit? Pariatur, perferendis accusantium ea, ipsam placeat beatae ex, asperiores iure dolorum quae omnis provident. Sunt blanditiis culpa minus non, voluptas consequatur voluptatum saepe est laudantium iure quasi molestiae doloribus facilis, ratione ullam id atque debitis modi recusandae quibusdam distinctio. Ea voluptatibus quisquam in ab quasi cumque quaerat est doloribus laborum laudantium, minima veniam tenetur porro veritatis. Id laboriosam quaerat eaque reiciendis, quam harum amet, necessitatibus eos provident consequatur commodi! Aut ratione culpa debitis voluptatem, explicabo eum cupiditate magni at porro sint maiores doloremque deleniti impedit recusandae sapiente quod ut esse temporibus et rem autem vitae labore. Odit accusamus ratione, dicta, non sunt dolorum nesciunt magnam aspernatur inventore, corrupti tempore tenetur laudantium! Dolor, vero perferendis quidem, velit aspernatur dolore, consequatur beatae sequi facilis necessitatibus atque exercitationem expedita consectetur architecto debitis delectus recusandae odio? Nemo similique quae mollitia in tempore tenetur!" ||
-                "",
-              140
-            ) || t("NO_DESCRIPTION")
-          }
+          text={trimText(br.description || "", 140) || t("NO_DESCRIPTION")}
         />
-        {br.company.id !== getCompanyId() && (
+        {isUserApproved() && br.company.id !== getCompanyId() && (
           <Button
             variant="custom"
             size="small"
-            className="border text-gray-300 border-gray-300 !h-"
+            className="border text-gray-300 border-gray-300 "
           >
             <MessageIcon className="mr-3" />
             {t("chatNow-button-label")}

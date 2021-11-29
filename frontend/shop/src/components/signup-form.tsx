@@ -50,12 +50,16 @@ const signupSchema: any = yup.object({
     .array()
     .min(1, "form:companyLicenses-is-required-error")
     .required("form:companyLicenses-is-required-error"),
+  agreement: yup
+    .boolean()
+    .required("form:agreement-is-required-error")
+    .isFalse("form:agreement-is-required-error"),
 });
 
 const SignupForm = () => {
   const { t } = useTranslation("form");
   const router = useRouter();
-  const [meInfo, { loading: meInfoLoading, error }] = useMeInfoMutation();
+  const [meInfo] = useMeInfoMutation();
   const [signup, { loading }] = useCompanySignupMutation({
     onCompleted: async ({
       companySignup: { success, message, token, role },
@@ -80,6 +84,7 @@ const SignupForm = () => {
   } = useForm<FormValues>({
     resolver: yupResolver(signupSchema),
   });
+  console.log(errors);
 
   async function onSubmit({
     companyLicenses,
@@ -92,7 +97,7 @@ const SignupForm = () => {
     };
 
     await signup({
-      variables: { input },
+      variables: { input: input as any },
     });
   }
 
@@ -169,10 +174,14 @@ const SignupForm = () => {
       </div>
       <div className="mt-1">
         <DocumentInput
+          accept=".docx, .doc, .ppt, .pptx, .xls, .xlsx"
+          inputFileType="application"
+          // Make this thing work later
+          // accessControl="BUCKET_OWNER_FULL_CONTROL"
           control={control}
           name="companyLicenses"
           label={t("license-label")}
-          subLabel={t("license-subLabel")}
+          note={t("license-subLabel")}
           error={t((errors?.companyLicenses as any)?.message || "")}
         />
       </div>
@@ -186,9 +195,10 @@ const SignupForm = () => {
           className="text-dark-blue text-sm"
           {...register("agreement")}
           label={t("agreement")}
+          error={t((errors?.agreement as any)?.message)}
         />
       </div>
-      <Button loading={loading} size="fluid">
+      <Button type="submit" loading={loading} size="fluid">
         {t("signup")}
       </Button>
     </Form>

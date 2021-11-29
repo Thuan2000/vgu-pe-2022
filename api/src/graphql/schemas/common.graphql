@@ -35,13 +35,3 @@ enum POST_REQUEST_STATUS {
 	OPEN
 	CLOSE
 }
-
-type File {
-	location: String
-	path: String
-}
-
-input FileInput {
-	location: String
-	path: String
-}

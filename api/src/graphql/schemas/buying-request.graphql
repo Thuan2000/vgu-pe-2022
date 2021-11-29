@@ -40,12 +40,11 @@ input CreateBuyingRequestInput {
 	minBudget: Date!
 	maxBudget: Date!
 	minOrder: Int!
-	gallery: [Upload!]
+	gallery: [FileInput!]
 	unit: String!
 	industryId: Int!
 	categoryId: Int!
 	companyId: Int!
-	companyName: String!
 	createdById: Int!
 	minSupplierExperience: Int
 	minSupplierSells: Int
@@ -62,11 +61,9 @@ input UpdateBuyingRequestInput {
 	minBudget: Date!
 	maxBudget: Date!
 	minOrder: Int!
-	oldGallery: [FileInput]
-	gallery: [Upload]
+	gallery: [FileInput]
 	unit: String!
 	companyId: Int!
-	companyName: String!
 	updatedById: Int!
 	minSupplierExperience: Int
 	minSupplierSells: Int

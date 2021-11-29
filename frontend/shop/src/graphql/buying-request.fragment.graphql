@@ -14,7 +14,9 @@ fragment BuyingRequestParts on BuyingRequest {
   status
   gallery {
     location
-    path
+    url
+    fileName
+    fileType
   }
   company {
     id

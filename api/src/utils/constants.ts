@@ -1,3 +1,5 @@
+export const SLUG_UNIQUE_SEPARATOR = "_";
+
 export enum ENODE_ENV {
 	DEVELOPMENT = "development",
 	PRODUCTION = "production"

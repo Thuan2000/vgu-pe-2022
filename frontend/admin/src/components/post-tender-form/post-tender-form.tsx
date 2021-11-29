@@ -130,7 +130,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     const { general, details } = inputValues;
 
     // All of this variable need tobe processed
-    const { gallery, industry, category, ...generalRest } = general;
+    const { industry, category, ...generalRest } = general;
     // @NOTE :: This should be changed later when programmer has nothing to do :V
     const { allowedCompany, endDate, sourceType, location, ...detailsRest } =
       details;
@@ -139,26 +139,13 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     const industryId = parseInt(industry.id + "");
     const categoryId = parseInt(category.id + "");
 
-    const oldGallery: any[] = [];
-    const newGallery = gallery?.filter((imgOrUpload: any) => {
-      if (imgOrUpload.hasOwnProperty("__typename")) {
-        const { __typename, localUrl, ...img } = imgOrUpload;
-        oldGallery.push(img);
-        return false;
-      }
-      return true;
-    });
-
     const values: any = {
       companyId: getCompanyId(),
-      companyName: getCompanyName(),
       [initValue ? "updatedById" : "createdById"]: getLoggedInUser()?.id,
       location: locationName,
       industryId,
       categoryId,
       sourceTypeId: sourceType?.id,
-      // newGallery is only gallery.filter and remove all non file
-      [initValue ? "gallery" : "gallery"]: newGallery,
       ...allowedCompany,
       ...generalRest,
       ...detailsRest,
@@ -167,7 +154,6 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
 
     if (initValue) {
       // Old gallery is the posted gallery files
-      values["oldGallery"] = oldGallery;
       await updateBr({
         variables: {
           id: parseInt(initValue.id),
@@ -201,7 +187,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
   return (
     <Form
       onSubmit={handleSubmit(onSubmit)}
-      className="relative pb-5 mb-0 md:!my-5 md:pt-1 md:w-full"
+      className="relative pb-5 mb-0 md:w-full"
     >
       {formPosition === PR_GENERAL_FORM_INDEX && (
         <GeneralForm

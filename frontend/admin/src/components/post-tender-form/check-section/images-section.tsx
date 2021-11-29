@@ -2,8 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import { siteSettings } from "@settings/site.settings";
-import { IFile as IServerFile } from "@graphql/types.graphql";
-import { IFile } from "@components/ui/storybook/document-uploader";
+import { IFile } from "@graphql/types.graphql";
 
 interface ImagesSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   images: any[];
@@ -13,7 +12,7 @@ interface ImagesSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   imageWrapperClass?: string;
   thumbWrapperClass?: string;
   isImageFill?: boolean;
-  getImageSrc: (img: IFile | IServerFile) => string;
+  getImageSrc: (img: IFile) => string;
 }
 
 interface ImageThumbProps {
@@ -21,6 +20,7 @@ interface ImageThumbProps {
   isLast?: boolean;
   imagesLength: number;
   wrapperClassName?: string;
+  getImageSrc: (img: IFile) => string;
 }
 
 const CoverImage = ({ text }: { text: string }) => {
@@ -36,6 +36,7 @@ const ImageThumb: React.FC<ImageThumbProps> = ({
   isLast,
   imagesLength,
   wrapperClassName,
+  getImageSrc,
 }) => {
   const { t } = useTranslation();
   const withCover = isLast && imagesLength - 3 > 0;
@@ -49,7 +50,7 @@ const ImageThumb: React.FC<ImageThumbProps> = ({
     >
       {withCover && <CoverImage text={`+${imagesLength - 3}`} />}
       <Image
-        src={img.localUrl || siteSettings.logo.url}
+        src={getImageSrc(img) || siteSettings.logo.url}
         width={50}
         height={75}
         alt={t("image-preview-alt")}
@@ -77,8 +78,9 @@ const ImagesSection: React.FC<ImagesSectionProps> = ({
     images?.slice(1, 4)?.map((img, idx) => {
       return (
         <ImageThumb
+          getImageSrc={getImageSrc}
           img={img}
-          key={`${img.localUrl}-thumb-preview`}
+          key={`${img.url}-thumb-preview`}
           isLast={idx === 2}
           wrapperClassName={thumbWrapperClass}
           imagesLength={images.length}

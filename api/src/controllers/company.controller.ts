@@ -4,7 +4,7 @@
  */
 import { generateSlug, errorResponse, successResponse } from "@utils";
 import Company from "@models/Company";
-import { uploadCompanyLicenses } from "@repositories/uploads.repository";
+import UploaderRepository from "@repositories/uploads.repository";
 import S3 from "@services/s3.service";
 import EmailService from "@services/email.service";
 import UserRepository from "@repositories/user.repository";
@@ -71,6 +71,7 @@ class CompanyController {
 			const newCompany = await Company.create({
 				ownerId,
 				licenseNumber,
+				licenseFiles,
 				name: companyName,
 				slug: generateSlug(companyName)
 			});
@@ -81,12 +82,6 @@ class CompanyController {
 				newCompany.getDataValue("id")
 			);
 
-			// Setting company Licenses asynchronously
-			const companyLicenses = await uploadCompanyLicenses(
-				companyName,
-				licenseFiles
-			);
-			setCompanyLicenses(companyLicenses, newCompany);
 			return {
 				userNewToken,
 				...successResponse()

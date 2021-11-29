@@ -82,3 +82,10 @@ export function getMeData(): IMeInfoResponse | { company: null; user: null } {
 export function removeMeData() {
   Cookie.remove(LOGGED_IN_USER, !isDevelopment ? { ...cookieDomain } : {});
 }
+
+export function getMeDataFromCookie(cookie: any): {
+  user: IUser;
+  company: ICompany;
+} {
+  return JSON.parse(cookie.LOGGED_IN_USER || "");
+}

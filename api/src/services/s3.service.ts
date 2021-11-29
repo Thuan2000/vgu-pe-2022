@@ -1,5 +1,6 @@
 import AWS from "aws-sdk";
-import { ENODE_ENV, NODE_ENV } from "@utils";
+import { ENODE_ENV, generateUUID, NODE_ENV } from "@utils";
+import { IFileAccessControl } from "@graphql/types";
 
 interface S3UploadParams {
 	companyName: string;
@@ -7,6 +8,7 @@ interface S3UploadParams {
 	type: string;
 	fileStream: any;
 	contentType: string;
+	fileAccessControl: IFileAccessControl;
 }
 
 class S3 {
@@ -15,6 +17,10 @@ class S3 {
 
 	constructor() {
 		this.initS3();
+	}
+
+	private processAccessControl(ac: IFileAccessControl) {
+		return ac.replace(/\_/g, "-").toLowerCase();
 	}
 
 	private initS3() {
@@ -58,20 +64,21 @@ class S3 {
 		});
 	}
 
-	public uploadPublicFile({
+	public uploadFile({
 		companyName,
 		type,
 		fileName,
 		fileStream,
-		contentType
+		contentType,
+		fileAccessControl
 	}: S3UploadParams) {
 		try {
 			const uploadParams = {
 				Bucket: this.bucket,
-				Key: `${companyName}/${type}/${new Date().getTime()}-${fileName}`,
+				Key: `${companyName}/${type}/${generateUUID()}-${fileName}`,
 				Body: fileStream,
 				ContentType: contentType,
-				ACL: "public-read-write"
+				ACL: this.processAccessControl(fileAccessControl)
 			};
 
 			return this.s3.upload(uploadParams).promise();
@@ -80,17 +87,21 @@ class S3 {
 		}
 	}
 
-	public uploadCompanyLicense({
+	public uploadDocuments({
 		companyName,
 		fileName,
 		type,
-		fileStream
+		fileStream,
+		contentType,
+		fileAccessControl
 	}: S3UploadParams) {
 		try {
 			const uploadParams = {
 				Bucket: this.bucket,
-				Key: `${companyName}/${type}/${new Date().getTime()}-${fileName}`,
-				Body: fileStream
+				Key: `${companyName}/${type}/${generateUUID()}-${fileName}`,
+				Body: fileStream,
+				ContentType: contentType,
+				ACL: this.processAccessControl(fileAccessControl)
 			};
 
 			return this.s3.upload(uploadParams).promise();

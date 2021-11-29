@@ -32,7 +32,7 @@ input CompanyRegisterInput {
 	password: String!
 	companyName: String!
 	licenseNumber: String!
-	licenseFiles: [Upload]!
+	licenseFiles: [FileInput!]!
 	agreement: Boolean
 	emailSubscription: Boolean
 }
