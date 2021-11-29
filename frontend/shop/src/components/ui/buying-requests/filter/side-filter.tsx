@@ -4,9 +4,9 @@ import { COLORS } from "@utils/colors";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import BudgetRange from "./budget-range";
+import CategorySelect from "./category-select";
 import IndustrySelect from "./industry-select";
 import LocationSearch from "./location-search";
-import ProductSearch from "./product-search";
 import StatusCheckbox from "./status-selector";
 
 const SideFilter: React.FC = () => {
@@ -25,8 +25,8 @@ const SideFilter: React.FC = () => {
       <StatusCheckbox />
       <LocationSearch />
       {/* <EndDateCheckbox /> */}
-      {/* <ProductSearch /> */}
       <IndustrySelect />
+      <CategorySelect />
       <BudgetRange />
     </div>
   );

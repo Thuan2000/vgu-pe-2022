@@ -53,9 +53,7 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
         placeholder={t("industryFilter-placeholder")}
         onChange={handleChange}
         getOptionValue={((option: IIndustry) => option?.slug) as any}
-        getOptionLabel={
-          ((option: IIndustry) => t("industry:" + option?.label)) as any
-        }
+        getOptionLabel={((option: IIndustry) => option?.label) as any}
       />
     </div>
   );

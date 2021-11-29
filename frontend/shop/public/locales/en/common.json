@@ -72,5 +72,6 @@
   "brd-updateKey-sort-button-label": "Your Question",
   "brd-date-sort-button-label": "Newest",
   "no-discussion-for-br": "No Discussion for this br",
-  "brd-employeeTotal-title": "Total Employees"
+  "brd-employeeTotal-title": "Total Employees",
+  "category-filter-label": "Category"
 }

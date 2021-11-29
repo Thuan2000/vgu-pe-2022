@@ -52,8 +52,8 @@ const signupSchema: any = yup.object({
     .required("form:companyLicenses-is-required-error"),
   agreement: yup
     .boolean()
-    .required("form:agreement-is-required-error")
-    .isFalse("form:agreement-is-required-error"),
+    .required("form:agreement-is-shouldBeChecked-error")
+    .isTrue("form:agreement-is-shouldBeChecked-error"),
 });
 
 const SignupForm = () => {
@@ -174,7 +174,7 @@ const SignupForm = () => {
       </div>
       <div className="mt-1">
         <DocumentInput
-          accept=".docx, .doc, .ppt, .pptx, .xls, .xlsx"
+          accept=".pdf, .docx, .doc, .ppt, .pptx, .xls, .xlsx"
           inputFileType="application"
           // Make this thing work later
           // accessControl="BUCKET_OWNER_FULL_CONTROL"

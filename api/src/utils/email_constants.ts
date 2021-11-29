@@ -13,6 +13,6 @@ export const EMAIL_TITLES = {
 	REGISTERED: "Tài khoản đã được xác thực!"
 };
 
-export enum EMailTemplates {
+export enum EEMailTemplates {
 	REGISTRATION = "register.html"
 }

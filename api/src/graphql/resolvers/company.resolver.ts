@@ -7,7 +7,7 @@
 
 import UserController from "@controllers/user.controller";
 import {
-	EMailTemplates,
+	EEMailTemplates,
 	EMAIL_MESSAGES,
 	EMAIL_SUBJECTS,
 	errorResponse
@@ -61,7 +61,7 @@ export const Mutation = {
 			message: EMAIL_MESSAGES.REGISTERED,
 			subject: EMAIL_SUBJECTS.REGISTERED,
 			name: owner?.name,
-			template: EMailTemplates.REGISTRATION
+			template: EEMailTemplates.REGISTRATION
 		});
 
 		return {
