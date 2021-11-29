@@ -17,7 +17,7 @@ const BRDBrImages: React.FC<IBRDBrImagesProps> = ({ images }) => {
         <Image
           src={
             images && images.length > 1
-              ? images[0]?.location || siteSettings.logo.url
+              ? images[0]?.url || siteSettings.logo.url
               : siteSettings.logo.url
           }
           layout="fill"

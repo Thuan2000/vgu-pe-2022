@@ -48,7 +48,7 @@ class BuyingRequest extends Model {
 		}
 	}
 
-	static async bulkInsert(data?: IBuyingRequest[]) {
+	static async bulkInsert() {
 		try {
 			const buyingRequests = await BuyingRequest.findAll({
 				raw: true,
@@ -57,10 +57,7 @@ class BuyingRequest extends Model {
 				// TODO: only insert new data instead of indexing everything.
 				attributes: ["id", "name", "productName", "description"]
 			});
-			ElasticSearch.insertBulk(
-				BuyingRequest.indexName,
-				data.length > 1 ? data : buyingRequests
-			);
+			ElasticSearch.insertBulk(BuyingRequest.indexName, buyingRequests);
 
 			return successResponse();
 		} catch (err) {
