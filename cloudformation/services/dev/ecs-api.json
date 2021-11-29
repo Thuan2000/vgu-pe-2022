@@ -94,5 +94,17 @@
   {
     "ParameterKey": "SmtpFrom",
     "ParameterValue": "admin@sdconnect.vn"
+  },
+  {
+    "ParameterKey": "EsEndpoint",
+    "ParameterValue": "https://search-es-sdconnectdev-ci4ohii2ymclhtjl64x467slsq.ap-southeast-1.es.amazonaws.com"
+  },
+  {
+    "ParameterKey": "EsUsername",
+    "ParameterValue": "admin"
+  },
+  {
+    "ParameterKey": "EsPassword",
+    "ParameterValue": "EmolyzeTech200!"
   }
 ]

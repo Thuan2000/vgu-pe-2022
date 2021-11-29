@@ -48,6 +48,12 @@ Parameters:
     Type: String
   SmtpFrom:
     Type: String
+  EsEndpoint:
+    Type: String
+  EsUsername:
+    Type: String
+  EsPassword:
+    Type: String
 Resources:
   Cluster:
     Type: AWS::ECS::Cluster
@@ -131,6 +137,12 @@ Resources:
               Value: !Ref SmtpPassword
             - Name: SMTP_FROM
               Value: !Ref SmtpFrom
+            - Name: ES_ENDPOINT
+              Value: !Ref EsEndpoint
+            - Name: ES_USERNAME
+              Value: !Ref EsUsername
+            - Name: ES_PASSWORD
+              Value: !Ref EsPassword
           LogConfiguration:
             LogDriver: awslogs
             Options:
