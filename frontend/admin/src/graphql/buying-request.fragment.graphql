@@ -13,8 +13,10 @@ fragment BuyingRequestParts on BuyingRequest {
   unit
   status
   gallery {
+    url
     location
-    path
+    fileName
+    fileType
   }
   createdBy {
     id

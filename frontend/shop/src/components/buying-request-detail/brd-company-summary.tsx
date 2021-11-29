@@ -7,6 +7,7 @@ import { useTranslation } from "next-i18next";
 import { siteSettings } from "@settings/site.settings";
 import VerifiedIcon from "@assets/icons/verified-icon";
 import BRDDetailQA from "./brd-detail-qa";
+import { isUserApproved } from "@utils/functions";
 
 interface IBRDCompanySummaryProps {
   company: ICompany;
@@ -16,7 +17,11 @@ const BRDCompanySummary: React.FC<IBRDCompanySummaryProps> = ({ company }) => {
   const { t } = useTranslation("common");
 
   return (
-    <div className={`general p-4 border space-y-4 relative rounded-md`}>
+    <div
+      className={`${
+        !isUserApproved() && "blur-sm"
+      } general p-4 border space-y-4 relative rounded-md`}
+    >
       <Typography
         text={t("brd-companySummary-title")}
         variant="title"
@@ -34,10 +39,16 @@ const BRDCompanySummary: React.FC<IBRDCompanySummaryProps> = ({ company }) => {
 
         <div className="space-y-1">
           <div className="fic space-x-1">
-            <Typography variant="smallTitle" text={company.name} />
+            <Typography
+              variant="smallTitle"
+              text={isUserApproved() ? company.name : "Not Approved"}
+            />
             <VerifiedIcon className="w-5 h-5" />
           </div>
-          <Typography variant="smallTitle" text={company.name} />
+          {/* <Typography
+            variant="smallTitle"
+            text={isUserApproved() ? company.name : "Not Approved"}
+          /> */}
         </div>
       </div>
 

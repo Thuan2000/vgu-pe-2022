@@ -35,10 +35,7 @@ const BRDBrImages: React.FC<IBRDBrImagesProps> = ({ images }) => {
                   +{images.length - (idx + 1)}
                 </div>
               )}
-              <Image
-                src={img.location || siteSettings.logo.href}
-                layout="fill"
-              />
+              <Image src={img.url || siteSettings.logo.href} layout="fill" />
             </div>
           );
         })}

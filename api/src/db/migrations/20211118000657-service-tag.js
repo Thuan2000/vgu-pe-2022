@@ -26,11 +26,11 @@ module.exports = {
 				onDelete: "CASCADE",
 				allowNull: false
 			},
-			tagId: {
-				type: Sequelize.INTEGER,
+			tagName: {
+				type: Sequelize.STRING,
 				references: {
 					model: "tags",
-					key: "id"
+					key: "name"
 				},
 				onDelete: "CASCADE",
 				allowNull: false

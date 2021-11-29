@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { siteSettings } from "@settings/site.settings";
 import Chip from "@components/ui/storybook/chip";
-import { trimText, viDateFormat } from "@utils/functions";
+import { isUserApproved, trimText, viDateFormat } from "@utils/functions";
 import Link from "@components/ui/link";
 import { ROUTES } from "@utils/routes";
 import { useTranslation } from "next-i18next";
@@ -17,10 +17,14 @@ const BRDAlsoNeededItem: React.FC<IBRDAlsoNeededItemProps> = ({ br }) => {
   const { t } = useTranslation("common");
 
   return (
-    <div className="flex flex-col items-center border p-2 rounded-md">
+    <div
+      className={`${
+        !isUserApproved() && "blur-sm"
+      } flex flex-col items-center border p-2 rounded-md`}
+    >
       <div className="relative h-32 w-32">
         <Image
-          src={br?.gallery?.at(0)?.location || siteSettings.logo.url}
+          src={br?.gallery?.at(0)?.url || siteSettings.logo.url}
           layout="fill"
         />
       </div>

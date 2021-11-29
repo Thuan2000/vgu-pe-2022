@@ -8,15 +8,12 @@ class ServiceController {
 		try {
 			const {
 				tags,
-				certificates,
-				videos,
-				images,
+				newTags,
 				companyId,
 				createdById,
 				companyName,
 				...serviceInput
 			} = input;
-
 			const isExist = await Service.findOne({
 				where: {
 					companyId,
@@ -26,14 +23,16 @@ class ServiceController {
 
 			if (!!isExist) return errorResponse("SERVICE_EXIST");
 
-			const tagIds = await TagRepository.createTags(tags);
-
 			const newService = await Service.create({
 				companyId,
 				createdById,
 				...serviceInput
 			});
-			(newService as any).setTags(tagIds);
+
+			TagRepository.createTags(newTags);
+
+			const tagNames = tags.map(t => t.name);
+			(newService as any).setTags(tagNames);
 
 			return newService
 				.save()

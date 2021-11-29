@@ -1,7 +1,8 @@
 import React from "react";
 
 import { Controller } from "react-hook-form";
-import DocumentUploader, { IDocumentUploaderProps } from "./document-uploader";
+import DocumentUploader from "./document-uploader";
+import { IDocumentUploaderProps } from "./document-uploader/document-uploader";
 
 interface DocumentInputProps extends IDocumentUploaderProps {
   control: any;

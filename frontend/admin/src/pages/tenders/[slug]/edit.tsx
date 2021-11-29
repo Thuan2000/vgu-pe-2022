@@ -1,7 +1,7 @@
 import PageLayout from "@components/layouts/page-layout";
+import PostPageWrapper from "@components/post-page-wrapper";
 import PostTenderForm from "@components/post-tender-form";
 import Loading from "@components/ui/loading";
-import PostNavigation from "@components/ui/post-navigation";
 import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import { postRequestNavs } from "@pages/post-tender";
@@ -19,7 +19,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale!, ["common", "form"])),
+      ...(await serverSideTranslations(locale!, [
+        "common",
+        "form",
+        "source-type",
+        "category",
+        "industry",
+      ])),
       ...query,
     },
   };
@@ -36,15 +42,13 @@ const EditBuyingRequestPage: React.FC<IEditProjectPageProps> = ({ slug }) => {
 
   if (loading) return <Loading />;
   return (
-    <div className="bg-white shadow-md md:mt-5 md:rounded-sm px-5 w-full">
+    <PostPageWrapper navs={postRequestNavs}>
       <p className="text-sm md:text-md text-gray-400 mb-7 pt-4">
         {t("post-request-paragraph")}
       </p>
 
-      <PostNavigation navs={postRequestNavs} />
-
       <PostTenderForm initValue={buyingRequest as IBuyingRequest} />
-    </div>
+    </PostPageWrapper>
   );
 };
 export default EditBuyingRequestPage;

@@ -4,8 +4,6 @@ import { IPPSFAttachmentSection } from "../pps-service-interface";
 import ReviewSectionTitle from "../../../review-section-title";
 import ImagesSection from "@components/post-tender-form/check-section/images-section";
 import Typography from "@components/ui/storybook/typography";
-import { IFile } from "@components/ui/storybook/document-uploader";
-import { IFile as IServerFile } from "@graphql/types.graphql";
 import PPSAttachmentVideosReview from "./pps-service-attachment-videos-review";
 import PPSCertificateReview from "./pps-service-certicate-review";
 
@@ -61,11 +59,7 @@ const PPSAttachmentReview: React.FC<IPPSGeneralReviewProps> = ({
       {!!images?.length && (
         <div className="sm:w-1/3 flex justify-end">
           <ImagesSection
-            getImageSrc={(img) =>
-              !(img as IFile)?.localUrl
-                ? ((img as IServerFile)?.path as string)
-                : (img as IFile).localUrl
-            }
+            getImageSrc={(img) => img.url}
             className="w-[280px]"
             images={images}
             changeSection={(_) => changeSection(3)}

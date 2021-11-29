@@ -127,7 +127,7 @@ const BudgetRange: React.FC = ({ ...props }) => {
         </div>
         <Button
           onClick={handleSubmit}
-          size="extraSmall"
+          size="small"
           className="w-full !bg-secondary-1"
         >
           {t("filterBudgetRangeSubmit-button-label")}

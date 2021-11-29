@@ -2,7 +2,7 @@ import BuyingRequest from "@models/BuyingRequest";
 import User from "@models/User";
 import { ICreateProjectInput } from "../graphql/types";
 import Project from "../models/Project";
-import { uploadImage } from "../repositories/uploads.repository";
+import UploaderRepository from "../repositories/uploads.repository";
 import {
 	errorResponse,
 	generateSlug,
@@ -100,14 +100,15 @@ class ProjectController {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(newProject as any).setBuyingRequests(buyingRequests);
 
-		if (project.image) {
-			uploadImage(project.companyName, project.image).then(
-				projectImage => {
-					newProject.setDataValue("image", projectImage);
-					newProject.save();
-				}
-			);
-		}
+		// if (project.image) {
+		// 	UploaderRepository.uploadImage(
+		// 		project.companyName,
+		// 		project.image
+		// 	).then(projectImage => {
+		// 		newProject.setDataValue("image", projectImage);
+		// 		newProject.save();
+		// 	});
+		// }
 
 		return newProject.save().then(() => successResponse());
 	}

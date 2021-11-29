@@ -1,12 +1,11 @@
-import { IFile } from "@components/ui/storybook/document-uploader";
 import { IFaq } from "@components/ui/storybook/inputs/faq-input/faq-list-creator";
-import { ITag } from "@graphql/types.graphql";
+import { IFile, ITag } from "@graphql/types.graphql";
 import { ICategory } from "src/datas/categories";
 import { IIndustry } from "@datas/industries";
 import { IVietnamCity } from "@utils/vietnam-cities";
-import { IFile as IServerFile } from "@graphql/types.graphql";
-import { IPPIPackage } from "@components/ui/storybook/inputs/package-pricing-input/ppi-interfaces";
 import { IPPIValue } from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
+import { ITagInput } from "@graphql/types.graphql";
+import { ITagWithNewRecord } from "@utils/interfaces";
 
 export interface IPPSFCategorySection {
   name: string;
@@ -15,16 +14,10 @@ export interface IPPSFCategorySection {
 }
 
 export interface IPPSFAttachmentSection {
-  images: IFile[] | IServerFile[];
-  videos: IFile[] | IServerFile[];
-  certificates: IFile[] | IServerFile[];
+  images: IFile[];
+  videos: IFile[];
+  certificates: IFile[];
 }
-
-// export interface PackageRows
-
-// export interface IPPSServicePackage {
-//   id: string;
-// }
 
 export interface IPPSFPricingSection {
   price: number;
@@ -33,7 +26,7 @@ export interface IPPSFPricingSection {
 
 export interface IPPSFDetailsSection {
   description: string;
-  tags: ITag[];
+  tags: ITagWithNewRecord[];
   location: IVietnamCity;
   faqs: IFaq[];
 }

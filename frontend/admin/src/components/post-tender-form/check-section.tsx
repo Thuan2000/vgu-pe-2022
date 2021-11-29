@@ -5,8 +5,6 @@ import GeneralSection from "./check-section/general-section";
 import DetailsSection from "./check-section/details-section";
 import { useTranslation } from "react-i18next";
 import Divider from "@components/ui/divider";
-import { IFile } from "@components/ui/storybook/document-uploader";
-import { IFile as IServerFile } from "@graphql/types.graphql";
 
 import ImagesSection from "./check-section/images-section";
 
@@ -28,16 +26,12 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
 
   return (
     <div>
-      <h3 className="text-md sm:text-lg my-10">
+      <h3 className="text-md sm:text-lg mb-2">
         {t("check-section-title-label")}
       </h3>
       {hasImage && (
         <ImagesSection
-          getImageSrc={(img) =>
-            !(img as IFile)?.localUrl
-              ? ((img as IServerFile)?.path as string)
-              : (img as IFile).localUrl
-          }
+          getImageSrc={(img) => img?.url}
           className="md:hidden my-5"
           imgWidth={300}
           imgHeight={200}

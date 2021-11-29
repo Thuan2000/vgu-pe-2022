@@ -26,6 +26,7 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
   return (
     <div className="space-y-3">
       <DocumentInput
+        inputFileType="image"
         control={control}
         numberQueue={2}
         multiple
@@ -37,6 +38,7 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
       />
 
       <DocumentInput
+        inputFileType="video"
         control={control}
         numberQueue={3}
         multiple
@@ -48,13 +50,14 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
       />
 
       <DocumentInput
+        inputFileType="application"
         control={control}
         required
         multiple
         numberQueue={4}
         name="attachment.certificates"
         onChange={(_) => trigger("attachment.certificates")}
-        accept=".pdf, .doc, .xls"
+        accept="application/pdf,application/docx,xls"
         label={t("postService-certificates-input-label")}
         error={t((errors.attachment?.certificates as any)?.message || "")}
       />
