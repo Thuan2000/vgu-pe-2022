@@ -85,7 +85,7 @@ input FetchBRInput {
 	offset: Int!
 	limit: Int!
 	searchValue: String
-	categories: [Int]
+	categoryIds: [Int!]
 	location: String
 	status: BRStatus
 	industryId: Int

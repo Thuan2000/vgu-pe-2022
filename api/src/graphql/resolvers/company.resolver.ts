@@ -6,9 +6,15 @@
 // TODO: handle the company registration (mutation companySignup). (See codes below from: https://www.apollographql.com/docs/apollo-server/data/file-uploads/)
 
 import UserController from "@controllers/user.controller";
-import { errorResponse } from "@utils";
+import {
+	EMailTemplates,
+	EMAIL_MESSAGES,
+	EMAIL_SUBJECTS,
+	errorResponse
+} from "@utils";
 import CompanyController from "@controllers/company.controller";
 import { EUserRole } from "@utils/enums";
+import EmailService from "@services/email.service";
 
 export const Mutation = {
 	/**
@@ -21,6 +27,8 @@ export const Mutation = {
 		_,
 		{ input: { licenseFiles, licenseNumber, companyName, ...owner } }
 	) => {
+		const email = new EmailService();
+
 		const companyController = new CompanyController();
 		const userController = new UserController();
 		const role = EUserRole.COMPANY_OWNER;
@@ -47,6 +55,13 @@ export const Mutation = {
 			licenseFiles,
 			licenseNumber,
 			companyName
+		});
+
+		email.sendEmail(owner?.email, {
+			message: EMAIL_MESSAGES.REGISTERED,
+			subject: EMAIL_SUBJECTS.REGISTERED,
+			name: owner?.name,
+			template: EMailTemplates.REGISTRATION
 		});
 
 		return {

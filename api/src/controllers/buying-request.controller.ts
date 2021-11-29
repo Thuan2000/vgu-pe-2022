@@ -68,6 +68,7 @@ class BuyingRequestController {
 			location,
 			minBudget,
 			maxBudget,
+			categoryIds,
 			// productName,
 			status,
 			limit
