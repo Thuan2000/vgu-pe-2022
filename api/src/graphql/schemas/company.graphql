@@ -16,18 +16,19 @@ type CompanySettings {
 	warehouses: [BFW!]
 }
 
-# input CompanySettingsInput {
-# 	address: String
-# 	contactNumber: String
-# 	coverImage: File
-# 	profileImage: File
-# 	employeeAmount: Int
-# 	mainProducts: String
-# 	gallery: [File!]
-# 	branches: [BFWInput!]
-# 	factories: [BFWInput!]
-# 	warehouses: [BFWInput!]
-# }
+input CompanySettingsInput {
+	location: String
+	address: String
+	contactNumber: String
+	coverImage: FileInput
+	profileImage: FileInput
+	employeeAmount: Int
+	mainProducts: String
+	gallery: [FileInput!]
+	branches: [BFWInput!]
+	factories: [BFWInput!]
+	warehouses: [BFWInput!]
+}
 
 type BFW {
 	name: String!
@@ -36,12 +37,12 @@ type BFW {
 	images: [File!]!
 }
 
-# input BFWInput {
-# 	name: String!
-# 	location: String!
-# 	address: String!
-# 	images: String!
-# }
+input BFWInput {
+	name: String!
+	location: String!
+	address: String!
+	images: String!
+}
 
 type Company {
 	id: Int!
@@ -50,7 +51,7 @@ type Company {
 	licenseNumber: String!
 	description: String!
 	approved: Boolean!
-	licenseFiles: [File!]!
+	licenseFiles: [File!]
 	settings: CompanySettings!
 	ownerId: Int!
 	industryId: Int
@@ -70,15 +71,15 @@ input CompanyRegisterInput {
 	emailSubscription: Boolean
 }
 
-# input UpdateCompanyDetailsInput {
-# 	name: String!
-# 	contactNumber: String!
-# 	establishmentDate: Date!
-# 	industryId: Int!
-
-# 	coverImage: FileInput
-# 	profileImage: FileInput
-# }
+input UpdateCompanyDetailsInput {
+	name: String!
+	contactNumber: String!
+	establishmentDate: Date!
+	industryId: Int!
+	coverImage: FileInput
+	profileImage: FileInput
+	settings: CompanySettingsInput
+}
 
 type Mutation {
 	companySignup(input: CompanyRegisterInput!): AuthResponse!

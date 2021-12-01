@@ -19,13 +19,12 @@ Company.init(
 		licenseNumber: DataTypes.STRING,
 		description: DataTypes.STRING,
 		approved: DataTypes.BOOLEAN,
-		coverImage: DataTypes.JSON,
-		gallery: DataTypes.JSON,
-		address: DataTypes.JSON,
 		licenseFiles: DataTypes.JSON,
 		ownerId: DataTypes.INTEGER,
-		logo: DataTypes.JSON,
-		settings: DataTypes.JSON
+		settings: DataTypes.JSON,
+		industryId: DataTypes.INTEGER,
+		businessType: DataTypes.STRING,
+		establishmentDate: DataTypes.DATE
 	},
 	{
 		tableName: "companies",
