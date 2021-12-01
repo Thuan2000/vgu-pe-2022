@@ -122,7 +122,7 @@ export function callOnEnter(handler: (e: React.KeyboardEvent<any>) => void) {
 }
 
 // @TODO: Check this since it's from stackoverflow
-export function createUUID() {
+export function generateUUID() {
   let d = new Date().getTime(); //Timestamp
   let d2 =
     (typeof performance !== "undefined" &&

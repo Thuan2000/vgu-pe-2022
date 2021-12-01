@@ -3,7 +3,7 @@ import PPIRowList from "./ppi-row-list";
 import { IPPIPackage, IPPIRow } from "./ppi-interfaces";
 import PPIPackageList from "./ppi-package-list";
 import { findIndex } from "lodash";
-import { createUUID } from "@utils/functions";
+import { generateUUID } from "@utils/functions";
 import Button from "../../button";
 import { useTranslation } from "react-i18next";
 
@@ -26,7 +26,7 @@ const PPIPackageManager: React.FC<IPPIPackageManagerProps> = ({
   const { t } = useTranslation("form");
   const [rows, setRows] = useState<IPPIRow[]>(value?.rows || []);
   const [packages, setPackages] = useState<IPPIPackage[]>(
-    value?.packages || [{ id: createUUID() }]
+    value?.packages || [{ id: generateUUID() }]
   );
 
   function handleCreatedRow(r: IPPIRow) {

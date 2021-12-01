@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactSVGElement, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDropzone, FileRejection } from "react-dropzone";
 
@@ -12,6 +12,8 @@ import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import { getCompanyName } from "@utils/functions";
 import { IFile, IFileAccessControl, IFileType } from "@graphql/types.graphql";
 import DUThumb from "./du-thumb";
+import Image from "next/image";
+import Loader from "../loader/loader";
 
 export interface IFileWithTypename extends IFile {
   __typename?: string;
@@ -26,11 +28,16 @@ export interface IDocumentUploaderProps {
   multiple?: boolean;
   required?: boolean;
   maxFiles?: number;
+  dropZoneText?: string;
   onChange?: (e: any) => void;
   value?: any;
   error?: string;
   inputFileType: IFileType;
   accessControl?: IFileAccessControl;
+  hideUploadButton?: boolean;
+  dropZonePlaceholder?: ReactSVGElement;
+  inputStyle?: React.CSSProperties;
+  thumbOnInput?: boolean;
 }
 
 function getPreviewFiles(values: IFileWithTypename[]) {
@@ -42,15 +49,20 @@ function getPreviewFiles(values: IFileWithTypename[]) {
 const DocumentUploader = ({
   label,
   note,
+  dropZoneText,
   multiple,
+  hideUploadButton,
   accept,
   required,
+  inputStyle,
+  thumbOnInput,
   error,
+  dropZonePlaceholder: DropZonePlaceholder,
   numberQueue,
   inputFileType,
   onChange,
   value,
-  maxFiles,
+  maxFiles = 10,
   accessControl = "PUBLIC_READ",
 }: IDocumentUploaderProps) => {
   const { t } = useTranslation("form");
@@ -60,7 +72,7 @@ const DocumentUploader = ({
   const { getRootProps, getInputProps } = useDropzone({
     accept,
     multiple,
-    maxFiles: maxFiles ?? 10,
+    maxFiles: maxFiles,
     onDropRejected: onDropRejected,
     onDrop: handleOnDrop,
   });
@@ -77,6 +89,11 @@ const DocumentUploader = ({
   }, [files]);
 
   async function handleOnDrop(acceptedFiles: File[]) {
+    if (!!maxFiles && files.length + acceptedFiles.length > maxFiles) {
+      fireErrorModal("too-many-files");
+      return;
+    }
+
     setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
     const { data } = await uploadFiles({
       variables: {
@@ -93,7 +110,7 @@ const DocumentUploader = ({
       ({ __typename, ...file }: IFileWithTypename) => file
     );
 
-    if (!!files.length) setFiles([...files, ...accFiles!]);
+    if (!!files.length && multiple) setFiles([...files, ...accFiles!]);
     else setFiles(accFiles!);
   }
 
@@ -108,14 +125,22 @@ const DocumentUploader = ({
     window.open(url);
   }
 
+  function fireErrorModal(errorCode: string) {
+    Swal.fire({
+      icon: "error",
+      text: `${t(`form:error-${errorCode}-message`)} 
+        ${errorCode === "too-many-files" ? maxFiles || 10 : ""},
+        ${maxFiles - files.length}
+        ${t("form:slot-left-message")}
+      `,
+      confirmButtonColor: COLORS.GREEN,
+    });
+  }
+
   function onDropRejected(e: FileRejection[] = []) {
     const { code } = e[0]?.errors[0];
 
-    Swal.fire({
-      icon: "error",
-      text: t(`form:error-${code}-message`),
-      confirmButtonColor: COLORS.GREEN,
-    });
+    fireErrorModal(code);
   }
 
   return (
@@ -129,19 +154,21 @@ const DocumentUploader = ({
         />
       )}
 
-      <div className={`space-y-2 ${!!numberQueue && "ml-8"}`}>
+      <div className={`select-none space-y-2 ${!!numberQueue && "ml-8"}`}>
         <div className="flex items-center flex-wrap mb-2">
-          {files?.map((file, idx) => {
-            return (
-              <DUThumb
-                key={file.url + "document"}
-                file={file}
-                onClick={openDocument}
-                onDelete={() => handleDelete(idx)}
-              />
-            );
-          })}
-          {loading &&
+          {!thumbOnInput &&
+            files?.map((file, idx) => {
+              return (
+                <DUThumb
+                  key={file.url + "document"}
+                  file={file}
+                  onClick={openDocument}
+                  onDelete={() => handleDelete(idx)}
+                />
+              );
+            })}
+          {!thumbOnInput &&
+            loading &&
             loadingThumbs?.map((idx) => {
               return (
                 <DUThumb
@@ -155,37 +182,53 @@ const DocumentUploader = ({
             })}
         </div>
         <div
+          style={{ ...inputStyle }}
           {...getRootProps({
-            className: `border-dashed border-2 h-24 flex-center rounded 
+            className: `border-dashed border-2 h-24 flex-center rounded relative
             ${
-              loading
+              loading || (!!maxFiles && files.length >= maxFiles)
                 ? "cursor-not-allowed"
                 : "cursor-pointer border-primary focus:border-primary focus:outline-none"
             }`,
           })}
         >
-          <input {...getInputProps({ disabled: loading })} />
-          <p className="text-xs text-center">
-            <span
-              className={`font-semibold ${
-                loading ? "text-gray-300" : "text-primary"
-              }`}
-            >
-              {t("form:drop-zone")}
-            </span>
-          </p>
+          <input
+            {...getInputProps({
+              disabled: loading || (!!maxFiles && files.length >= maxFiles),
+            })}
+          />
+          {thumbOnInput && files.length > 0 && (
+            <div>{!loading && <Image src={files[0].url} layout="fill" />}</div>
+          )}
+          {thumbOnInput && loading ? (
+            <Loader simple className="w-10 h-10" />
+          ) : (
+            <p className="text-xs text-center">
+              <span
+                className={`font-semibold ${
+                  loading || (!!maxFiles && files.length >= maxFiles)
+                    ? "text-gray-300"
+                    : "text-primary"
+                }`}
+              >
+                {DropZonePlaceholder ?? dropZoneText ?? t("form:drop-zone")}
+              </span>
+            </p>
+          )}
         </div>
 
-        <Button
-          size="small"
-          className="mt-3 text-xs px-6"
-          type="button"
-          color="secondary-1"
-          disabled={loading}
-          {...getRootProps()}
-        >
-          <UploadIcon className="mr-5" /> {t("upload-file")}
-        </Button>
+        {!hideUploadButton && (
+          <Button
+            size="small"
+            className="mt-3 text-xs px-6"
+            type="button"
+            color="secondary-1"
+            disabled={loading || (!!maxFiles && files.length >= maxFiles)}
+            {...getRootProps()}
+          >
+            <UploadIcon className="mr-5" /> {t("upload-file")}
+          </Button>
+        )}
         <ValidationError message={error} />
       </div>
     </>

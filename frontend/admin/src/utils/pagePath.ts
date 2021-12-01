@@ -6,6 +6,7 @@ export const PAGE_NAME = {
   POSTED_REQUESTS: "posted-requests-page-name",
   CREATE_PROJECT: "create-project-page-name",
   POST_PRODUCT: "post-product-page-name",
+  EDIT_COMPANY: "edit-company-page-name",
 };
 
 export const PAGE_NAME_BY_ROUTE = {
@@ -15,4 +16,5 @@ export const PAGE_NAME_BY_ROUTE = {
   ["/tenders"]: PAGE_NAME.POSTED_REQUESTS,
   [ROUTES.PROJECTS]: PAGE_NAME.POSTED_REQUESTS,
   [ROUTES.POST_PRODUCT]: PAGE_NAME.POST_PRODUCT,
+  [ROUTES.EDIT_COMPANY]: PAGE_NAME.EDIT_COMPANY,
 };

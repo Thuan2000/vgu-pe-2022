@@ -15,7 +15,7 @@ import TriangleIcon from "@assets/icons/triangle-icon";
 import { findIndex } from "lodash";
 import {
   callOnEnter,
-  createUUID,
+  generateUUID,
   preventSubmitOnEnter,
 } from "@utils/functions";
 import { useOutsideClickRef } from "src/hooks/useOutsideClickRef";
@@ -112,7 +112,7 @@ const PPIAddUpdateRowMenu: React.FC<IPPIAddUpdateRowMenuProps> = ({
     }
 
     const newRow: IPPIRow = {
-      id: initValue?.id || createUUID(),
+      id: initValue?.id || generateUUID(),
       name,
       description,
       inputType: selectedType.type,

@@ -12,7 +12,7 @@ import { IPostServiceFormValues } from "./pps-service-interface";
 import SelectInput from "@components/ui/storybook/select-input";
 import { vietnamCities } from "@utils/vietnam-cities";
 import FaqInput from "@components/ui/storybook/inputs/faq-input/faq-input";
-import { createUUID } from "@utils/functions";
+import { generateUUID } from "@utils/functions";
 import { useTagsQuery } from "@graphql/tag.graphql";
 import { useRouter } from "next/dist/client/router";
 import { ILocale, ITagInput } from "@graphql/types.graphql";

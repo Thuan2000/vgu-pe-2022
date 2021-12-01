@@ -231,6 +231,7 @@
   "pps-service-button-label": "Service",
   "pleaseChoose-pps-target": "Please Choose Product / Service",
   "post-request-gallery-note": "Bạn chỉ có thể đăng tối đa 10 hình ảnh, kích thước hình ảnh phải là 1080px 1080px",
-  "error-too-many-files-message": "Please select less than 10 files in 1 input",
-  "error-file-too-large-message": "Maximum file size exceeded (50 Mb)"
+  "error-too-many-files-message": "Maximum allowed files is:",
+  "error-file-too-large-message": "Maximum file size exceeded (50 Mb)",
+  "slot-left-message": "Slot left"
 }

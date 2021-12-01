@@ -28,15 +28,6 @@ module.exports = {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false
 			},
-			coverImage: {
-				type: Sequelize.JSON
-			},
-			gallery: {
-				type: Sequelize.JSON
-			},
-			address: {
-				type: Sequelize.JSON
-			},
 			licenseFiles: {
 				type: Sequelize.JSON
 			},
@@ -44,11 +35,17 @@ module.exports = {
 				type: Sequelize.INTEGER,
 				allowNull: false
 			},
-			logo: {
-				type: Sequelize.JSON
-			},
 			settings: {
 				type: Sequelize.JSON
+			},
+			industryId: {
+				type: Sequelize.INTEGER
+			},
+			businessType: {
+				type: Sequelize.STRING
+			},
+			establishmentDate: {
+				type: Sequelize.DATE
 			},
 			createdAt: {
 				allowNull: false,
