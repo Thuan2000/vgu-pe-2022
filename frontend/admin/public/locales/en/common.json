@@ -83,5 +83,7 @@
   "post-product-page-name": "Post Product & Service",
   "englishLanguage-label": "English",
   "vietnameseLanguage-label": "Vietnamese",
-  "additional-nav-label": "Additional"
+  "additional-nav-label": "Additional",
+  "editCompany-nav-label": "Edit Company",
+  "edit-company-page-name": "Edit Company"
 }

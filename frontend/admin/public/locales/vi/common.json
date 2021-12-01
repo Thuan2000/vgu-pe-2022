@@ -26,7 +26,18 @@
   "request-nav-label": "Nhu cầu mua",
   "no-buying-request-yet-text-info": "Công ty chưa đăng thông tin mua nào.",
   "posted-requests-page-name": "Đăng tin mua",
+  "createProject-button-label": "Tạo dự án",
+  "select-all-label": "Chọn hết",
   "create-post-button-label": "Đăng tin NCTM",
   "all-request-nav-title": "Tất cả nhu cầu",
-  "projects-nav-title": "Dự án"
+  "projects-nav-title": "Dự án",
+  "englishLanguage-label": "Tiếng Anh",
+  "vietnameseLanguage-label": "Tiếng Việt",
+  "productService-nav-label": "Sản phẩm/Dịch vụ",
+  "postProduct/Service-nav-label": "Đăng Sản phẩm/Dịch vụ",
+  "post-product-page-name": "Đăng Sản phẩm/Dịch vụ",
+  "editCompany-nav-label": "Chỉnh sửa thông tin doanh nghiệp",
+  "posted-label": "Ngày đăng",
+  "due-time-text": "Hạn chót",
+  "edit-company-page-name": "Chỉnh Sửa Thông Tin Doanh Nghiệp"
 }
