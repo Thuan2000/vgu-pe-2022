@@ -1,6 +1,6 @@
 import { ILocale, IUnitInput } from "@graphql/types.graphql";
 import { useUnitsQuery } from "@graphql/unit.graphql";
-import { createUUID } from "@utils/functions";
+import { generateUUID } from "@utils/functions";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useRef, useState } from "react";
 import CreateableSelect from "../../createable-select/createable-select";
@@ -32,7 +32,7 @@ const PPIUnitInput: React.FC<IPPIUnitInputProps> = ({
     };
 
     return {
-      id: createUUID(),
+      id: generateUUID(),
       ...newUnit,
     };
   }

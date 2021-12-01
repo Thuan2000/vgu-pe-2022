@@ -1,4 +1,4 @@
-import { createUUID } from "@utils/functions";
+import { generateUUID } from "@utils/functions";
 import { findIndex } from "lodash";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -26,7 +26,7 @@ const INIT_VALUE = (id: string) => ({
 const GPIManager: React.FC<IGPIManagerProps> = ({ onChange, value }) => {
   const { t } = useTranslation("form");
   const [groups, setGroups] = useState<IGroup[]>([
-    ...(value || [INIT_VALUE(createUUID())]),
+    ...(value || [INIT_VALUE(generateUUID())]),
   ]);
   const firstRun = useRef(true);
 
@@ -36,7 +36,7 @@ const GPIManager: React.FC<IGPIManagerProps> = ({ onChange, value }) => {
   }, [groups]);
 
   function addGroups() {
-    setGroups([...groups, INIT_VALUE(createUUID())]);
+    setGroups([...groups, INIT_VALUE(generateUUID())]);
   }
 
   function handleChange(newGroup: IGroup) {

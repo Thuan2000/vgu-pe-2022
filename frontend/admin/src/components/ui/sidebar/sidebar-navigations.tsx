@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { useRouter } from "next/dist/client/router";
 import SidebarNavItem from "./sidebar-nav-item";
-import { getMeData } from "@utils/auth-utils";
 import { INavigation, navigations } from "@utils/navigations";
 import { getActivePath } from "@utils/functions";
 

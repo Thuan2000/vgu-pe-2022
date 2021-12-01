@@ -4,8 +4,7 @@ import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest, ev: NextFetchEvent) {
   const { company } = getMeDataFromCookie(req.cookies);
-  if (!isAuthenticated(req.cookies as any) && req.url !== ROUTES.LOGIN)
-    NextResponse.redirect(ROUTES.LOGIN);
+  if (!isAuthenticated(req.cookies as any)) NextResponse.redirect(ROUTES.LOGIN);
 
-  if (!company.approved) NextResponse.redirect(ROUTES.LOGIN);
+  if (!company?.approved) return NextResponse.redirect(ROUTES.LOGIN);
 }

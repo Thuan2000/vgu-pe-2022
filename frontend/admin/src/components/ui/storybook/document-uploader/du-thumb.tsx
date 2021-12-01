@@ -5,7 +5,6 @@ import TrashCanIcon from "@assets/icons/trash-can-icon";
 import { IFile } from "@graphql/types.graphql";
 import React from "react";
 import Image from "next/image";
-import { siteSettings } from "@settings/site.settings";
 import Loader from "../loader/loader";
 
 interface IDUThumbProps {

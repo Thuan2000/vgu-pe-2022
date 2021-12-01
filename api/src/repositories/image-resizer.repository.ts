@@ -24,9 +24,10 @@ export async function resizeImage(fileStream: any) {
 			THUMB_IMAGE_HEIGHT
 		);
 
+		// @TODO on landscape picture make this work
 		const thumbRes = fileStream.pipe(thumbImage);
 
-		return { thumbRes };
+		return { thumbRes: fileStream };
 	} catch (e) {
 		console.log("ERROR: " + e);
 	}

@@ -2,7 +2,6 @@ import VerifiedIcon from "@assets/icons/verified-icon";
 import React from "react";
 import { getMeData } from "@utils/auth-utils";
 import Logo from "../logo";
-import { SC_LEFT_SPACING } from "./sidebar-constants";
 import SidebarNavigations from "./sidebar-navigations";
 import LanguageSelector from "@components/language-selector";
 
@@ -15,7 +14,7 @@ const Sidebar: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
       {...props}
     >
       <div className="fixed w-[inherit]">
-        <div className={`pl-11 pl-${SC_LEFT_SPACING}`}>
+        <div className={`pl-11`}>
           <div className="fic justify-between pr-3">
             <Logo size="big" />
             <LanguageSelector showText={false} />
