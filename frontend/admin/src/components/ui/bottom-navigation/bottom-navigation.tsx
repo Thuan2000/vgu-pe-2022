@@ -38,7 +38,7 @@ const BottomNavigation: React.FC<IPhoneBottomNavigationProps> = (props) => {
 
   return (
     <div {...props}>
-      <div className="fixed bottom-0 flex items-end justify-between w-full py-3 bg-white z-50 max-w-full shadow-top">
+      <div className="md:hidden fixed bottom-0 flex items-end justify-between w-full py-3 bg-white z-50 max-w-full shadow-top">
         {navs}
       </div>
     </div>

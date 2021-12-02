@@ -87,5 +87,6 @@ export function getMeDataFromCookie(cookie: any): {
   user: IUser;
   company: ICompany;
 } {
-  return JSON.parse(cookie.LOGGED_IN_USER || "");
+  if (!cookie?.LOGGED_IN_USER) return {} as any;
+  return JSON.parse(cookie?.LOGGED_IN_USER || "");
 }

@@ -29,10 +29,10 @@ const MessangerIcon: React.FC<React.SVGAttributes<{}>> = ({
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(9.23918 47.7344) scale(52.2962)"
         >
-          <stop stop-color="#0099FF" />
-          <stop offset="0.6098" stop-color="#A033FF" />
-          <stop offset="0.9348" stop-color="#FF5280" />
-          <stop offset="1" stop-color="#FF7061" />
+          <stop stopColor="#0099FF" />
+          <stop offset="0.6098" stopColor="#A033FF" />
+          <stop offset="0.9348" stopColor="#FF5280" />
+          <stop offset="1" stopColor="#FF7061" />
         </radialGradient>
       </defs>
     </svg>

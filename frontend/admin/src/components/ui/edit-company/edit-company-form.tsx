@@ -1,5 +1,9 @@
 import Form from "@components/form";
-import { ICompany, IFile } from "@graphql/types.graphql";
+import {
+  ICompany,
+  IFile,
+  IUpdateCompanyDetailsInput,
+} from "@graphql/types.graphql";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { isEmpty } from "lodash";
 import { useRouter } from "next/dist/client/router";
@@ -106,7 +110,18 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   }
 
   function onSubmit(value: ECFormValues) {
-    console.log(value);
+    const { general, details, additional } = value;
+    // const input: IUpdateCompanyDetailsInput = {
+    //   contactNumber: general.contactNumber,
+    //   establishmentDate: general.establishmentDate,
+    //   name: general.name,
+    //   industryId: general.industry.id,
+    //   coverImage: general.coverImage,
+    //   profileImage: general.profileImage,
+    //   settings: {
+    //     address: general.address,
+    //   },
+    // };
   }
 
   return (

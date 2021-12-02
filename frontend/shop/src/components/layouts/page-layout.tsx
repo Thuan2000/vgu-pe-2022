@@ -4,6 +4,8 @@ import Breadcrumb from "@components/ui/storybook/breadcrumb";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";
 import { setCharAt } from "@utils/functions";
+import UnderDevelopment from "@components/under-development";
+import useIsPhone from "src/hooks/isPhone.hook";
 
 const dummy = [
   { label: "Route 1", href: "#" },
@@ -12,9 +14,11 @@ const dummy = [
 ];
 
 const PageLayout: React.FC = ({ children }) => {
+  const isPhone = useIsPhone();
+
   return (
     <div className="px-10 md:px-48">
-      <Navbar />
+      {!isPhone && <Navbar />}
 
       {children}
     </div>
