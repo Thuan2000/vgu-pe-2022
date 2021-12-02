@@ -1,20 +1,18 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Image from "next/image";
+import UnderConstructionIllustration from "@assets/phone-construction.webp";
 
-import { ROUTES } from "@utils/routes";
-import Link from "./ui/link";
-import Button from "./ui/storybook/button";
-import UnderConstructionIllustration from "@assets/under-construction-illustration.gif";
+interface IPleaseOpenOnLaptopProps {}
 
-const UnderDevelopment = () => {
+const PleaseOpenOnLaptop: React.FC<IPleaseOpenOnLaptopProps> = () => {
   const { t } = useTranslation("common");
 
   return (
     <div className="flex flex-col items-center py-5 mx-5">
       <p className="mb-5 text-2xl">
         <strong className="text-semibold">{t("sorry-title")} :( </strong>
-        {t("this-page-is-under-development-message")}
+        {t("phone-view-not-ready-text")}
       </p>
 
       <div className="w-2/3">
@@ -26,11 +24,8 @@ const UnderDevelopment = () => {
         />
       </div>
 
-      <p className="my-5 text-xl">{t("will-available-soon-text")}</p>
-      <Link href={ROUTES.POSTED_REQUESTS} className="text-light">
-        <Button size="small">{t("to-posted-request")}</Button>
-      </Link>
+      <p className="my-5 text-xl">{t("please-open-on-laptop-text")}</p>
     </div>
   );
 };
-export default UnderDevelopment;
+export default PleaseOpenOnLaptop;

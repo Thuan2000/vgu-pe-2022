@@ -13,7 +13,6 @@ import { ROUTES } from "@utils/routes";
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
   const { token, role } = getAuthCredentials(ctx);
-  console.log(locale);
 
   if (!isAuthenticated({ token, role } as any)) {
     return {

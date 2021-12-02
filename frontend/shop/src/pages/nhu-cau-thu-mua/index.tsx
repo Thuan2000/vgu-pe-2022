@@ -1,5 +1,6 @@
 import FilterIcon from "@assets/icons/filter-icon";
 import PageLayout from "@components/layouts/page-layout";
+import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import BuyingRequestsList from "@components/ui/buying-requests/feed/buying-requests-list";
 import SideFilter from "@components/ui/buying-requests/filter/side-filter";
 import UnderDevelopment from "@components/under-development";
@@ -42,12 +43,7 @@ const BuyingRequests: React.FC = () => {
   const isPhone = useIsPhone();
   const { t } = useTranslation();
 
-  if (isPhone)
-    return (
-      <div>
-        <UnderDevelopment />
-      </div>
-    );
+  if (isPhone) return <PleaseOpenOnLaptop />;
 
   return (
     <>
