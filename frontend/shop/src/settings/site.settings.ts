@@ -22,23 +22,23 @@ export const siteSettings = {
   },
   navigations: [
     {
-      label: "Trang chủ",
+      label: "HOMEPAGE_NAV_LABEL",
       href: ROUTES.HOMEPAGE,
     },
     {
-      label: "Danh bạ công ty",
+      label: "COMPANY_NAV_LABEL",
       href: ROUTES.COMPANIES,
     },
     {
-      label: "Nhu cầu thu mua",
+      label: "TENDER_NAV_LABEL",
       href: ROUTES.TENDERS,
     },
     {
-      label: "Sản phẩm / Dịch vụ",
+      label: "PRODUCT_SERVICES_NAV_LABEL",
       href: ROUTES.PRODUCT_SERVICES,
     },
     {
-      label: "Hỗ trợ",
+      label: "SUPPORT_NAV_LABEL",
       href: ROUTES.SUPPORT,
     },
   ],

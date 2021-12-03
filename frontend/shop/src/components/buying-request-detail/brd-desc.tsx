@@ -4,7 +4,7 @@ import Typography from "@components/ui/storybook/typography";
 import { getCategory } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
 import { IProject } from "@graphql/types.graphql";
-import { trimText, getCompanyId, isUserApproved } from "@utils/functions";
+import { trimText, getCompanyId } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React from "react";
 
@@ -81,7 +81,7 @@ const BRDDescription: React.FC<IBRDDescriptionProps> = ({
           }
         />
       </div>
-      {isUserApproved() && companyId !== getCompanyId() && (
+      {companyId !== getCompanyId() && (
         <Button
           variant="custom"
           size="small"

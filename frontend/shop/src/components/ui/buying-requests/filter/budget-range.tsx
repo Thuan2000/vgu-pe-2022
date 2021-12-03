@@ -20,10 +20,8 @@ const BudgetRange: React.FC = ({ ...props }) => {
   const initMinBudget = parseInt(query.minBudget + "");
   const initMaxBudget = parseInt(query.maxBudget + "");
 
-  const [minBudget, setMinBudget] = useState<number | undefined>(
-    initMinBudget ?? undefined
-  );
-  const [maxBudget, setMaxBudget] = useState<number | undefined>(initMaxBudget);
+  const [minBudget, setMinBudget] = useState<number | "">(initMinBudget ?? "");
+  const [maxBudget, setMaxBudget] = useState<number | "">(initMaxBudget ?? "");
   const [focusingInput, setFocusingInput] = useState<EInputFocus>();
 
   function handleSubmit() {
@@ -50,7 +48,7 @@ const BudgetRange: React.FC = ({ ...props }) => {
 
   function removeMinBudget() {
     const { pathname } = router;
-    setMinBudget(undefined);
+    setMinBudget("");
 
     if (query.minBudget) delete query.minBudget;
 
@@ -62,7 +60,7 @@ const BudgetRange: React.FC = ({ ...props }) => {
 
   function removeMaxBudget() {
     const { pathname } = router;
-    setMaxBudget(undefined);
+    setMaxBudget("");
 
     if (query.maxBudget) delete query.maxBudget;
 
@@ -74,27 +72,27 @@ const BudgetRange: React.FC = ({ ...props }) => {
 
   return (
     <div {...props}>
-      <FilterLabel text={`${t("budgetRange-filter-label")}:`} />
-      <Form onSubmit={handleSubmit} className="space-y-2">
+      <FilterLabel text={`${t("budgetRange-filter-label")}`} />
+      <Form onSubmit={handleSubmit} className="space-y-0">
         <div>
           <Typography
             text={`${t("budgetFrom-label")}:`}
             variant="description"
-            className="!text-xs mb-1"
+            className="!text-xs"
           />
           <div className="relative">
-            {/* {!!minBudget && (
+            {!!minBudget && (
               <span
                 className="absolute y-center left-4 cursor-pointer"
                 onClick={removeMinBudget}
               >
                 <XIcon className="w-3 h-3 " />
               </span>
-            )} */}
+            )}
             <NumInput
               placeholder={t("min")}
               suffix={` ${t("budget-sign")}`}
-              value={minBudget}
+              value={minBudget || ""}
               allowNegative={false}
               onChange={setMinBudget}
               onFocus={() => setFocusingInput(EInputFocus.MIN)}
@@ -104,20 +102,19 @@ const BudgetRange: React.FC = ({ ...props }) => {
         <Typography
           text={`${t("budgetTo-label")}:`}
           variant="description"
-          className="!text-xs mb-1"
+          className="!text-xs"
         />
-        <div className="relative">
-          {/* @TODO make this thing right */}
-          {/* {!!maxBudget && (
+        <div className="relative pb-1">
+          {!!maxBudget && (
             <span
               className="absolute y-center left-4 cursor-pointer"
               onClick={removeMaxBudget}
             >
               <XIcon className="w-3 h-3" />
             </span>
-          )} */}
+          )}
           <NumInput
-            value={maxBudget}
+            value={maxBudget || ""}
             onChange={setMaxBudget}
             placeholder={t("max")}
             allowNegative={false}
@@ -128,7 +125,8 @@ const BudgetRange: React.FC = ({ ...props }) => {
         <Button
           onClick={handleSubmit}
           size="small"
-          className="w-full !bg-secondary-1"
+          type="submit"
+          className="w-full !bg-secondary-1 mt-1"
         >
           {t("filterBudgetRangeSubmit-button-label")}
         </Button>

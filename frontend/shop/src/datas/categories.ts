@@ -1,4 +1,4 @@
-import { find } from "lodash";
+import { find, findIndex } from "lodash";
 
 export interface ICategory {
   id: number;
@@ -18,6 +18,12 @@ export function getCategories(categoryIds: number[]) {
 export function getCategory(id: number) {
   if (id <= 0) return;
   return categoriesData[id - 1];
+}
+
+export function getCategoryByLabel(label: string) {
+  const idx = findIndex(categoriesData, (city) => label === city.label);
+
+  return categoriesData[idx];
 }
 
 export function getIndustryCategories(industryId: number) {

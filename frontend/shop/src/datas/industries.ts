@@ -34,7 +34,18 @@ export function getIndustry(id: number) {
 }
 
 export function getIndustryBySlug(slug: string) {
-  const idx = findIndex(industriesData, ({ slug: iSlug }) => slug === iSlug);
+  const idx = findIndex(
+    industriesData,
+    ({ slug: industrySlug }) => slug === industrySlug
+  );
+  return industriesData[idx];
+}
+
+export function getIndustryByLabel(slug: string) {
+  const idx = findIndex(
+    industriesData,
+    ({ label: industryLabel }) => slug === industryLabel
+  );
   return industriesData[idx];
 }
 

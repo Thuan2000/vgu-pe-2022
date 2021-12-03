@@ -55,7 +55,7 @@ export function hasAccess(
 }
 
 export function isAuthenticated(_cookies: { token: string; role: string }) {
-  return _cookies.token && _cookies.role;
+  return _cookies.token;
 }
 
 export function setMeData({

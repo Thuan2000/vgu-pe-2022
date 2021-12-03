@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { IVietnamCity, vietnamCities } from "src/datas/vietnam-cities";
+import {
+  getVietnamCityByName,
+  IVietnamCity,
+  vietnamCities,
+} from "src/datas/vietnam-cities";
 import Select from "@components/ui/storybook/inputs/select";
 import FilterLabel from "./filter-label";
 import { useRouter } from "next/dist/client/router";
@@ -13,28 +17,21 @@ const LocationSearch: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 
   const locationFilter = query.location as string;
 
-  const [value, setValue] = useState<IVietnamCity | string>(locationFilter);
+  function setQuery(location: string) {
+    if (!location && query.location) delete query?.location;
 
-  useEffect(() => {
-    function setQuery() {
-      if (typeof value === "string") return;
-      if (!value) delete query.location;
+    const { pathname } = router;
+    router.replace({
+      pathname,
+      query: {
+        ...query,
+        ...(!!location ? { location } : {}),
+      },
+    });
+  }
 
-      const { pathname } = router;
-      router.replace({
-        pathname,
-        query: {
-          ...query,
-          ...(value ? { location: (value as IVietnamCity)?.name } : {}),
-        },
-      });
-    }
-
-    setQuery();
-  }, [value]);
-
-  function handleChange(e: IVietnamCity | unknown) {
-    setValue(e as IVietnamCity);
+  function handleChange(e: IVietnamCity | any) {
+    setQuery(e?.name);
   }
 
   return (
@@ -45,7 +42,7 @@ const LocationSearch: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         name="locationFilter"
         isClearable
         getInitialValue={(opt) => opt.name === locationFilter}
-        value={value}
+        value={getVietnamCityByName(locationFilter)}
         onChange={handleChange}
         placeholder={`v.d: ${t("locationFilter-placeholder")}`}
         isSearchable={true}

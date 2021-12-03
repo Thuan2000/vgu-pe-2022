@@ -1,3 +1,11 @@
+export const PAGE_NAME_INTO_LABEL = {
+  [""]: "HOMEPAGE_PAGE_SEARCH_LABEL",
+  ["nhu-cau-thu-mua"]: "TENDER_PAGE_SEARCH_LABEL",
+  ["danh-ba-cong-ty"]: "COMPANY_PAGE_SEARCH_LABEL",
+  ["san-pham-dich-vu"]: "PRODUCT_SERVICE_PAGE_SEARCH_LABEL",
+  ["ho-tro"]: "SUPPORT_PAGE_SEARCH_LABEL",
+};
+
 // Fetch Limit
 export const BUYING_REQUESTS_GET_LIMIT = 8;
 

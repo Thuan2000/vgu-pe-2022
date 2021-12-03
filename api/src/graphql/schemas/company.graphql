@@ -49,8 +49,8 @@ type Company {
 	name: String!
 	slug: String!
 	licenseNumber: String!
-	description: String!
 	approved: Boolean!
+	description: String
 	licenseFiles: [File!]
 	settings: CompanySettings!
 	ownerId: Int!

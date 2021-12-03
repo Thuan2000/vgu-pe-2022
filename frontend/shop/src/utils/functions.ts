@@ -74,8 +74,12 @@ export function getSuffix(amount: number) {
   return "";
 }
 
-export function getActivePath(pathname: string) {
+export function getActivePagePath(pathname: string) {
   return `/${pathname.split("/")[1]}`;
+}
+
+export function getActivePageFromPath(pathname: string) {
+  return `${pathname.split("/")[1]}`;
 }
 
 export function getCompanyId() {
@@ -144,4 +148,18 @@ export function generateUUID() {
 export function isUserApproved() {
   const { company } = getMeData();
   return company?.approved;
+}
+
+export function toCamelCase(label: string) {
+  label = label.toLowerCase();
+  label = setCharAt(label, 0, label[0]?.toUpperCase());
+  for (let i = 0; i < label.length; i++) {
+    const e = label[i];
+    if (e === "-") {
+      label = setCharAt(label, i, " ");
+      label = setCharAt(label, i + 1, label[i + 1]?.toUpperCase());
+    }
+  }
+  const decodedLabel = label.split("#")[0];
+  return decodedLabel;
 }

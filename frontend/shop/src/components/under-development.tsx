@@ -28,7 +28,7 @@ const UnderDevelopment = () => {
 
       <p className="my-5 text-xl">{t("will-available-soon-text")}</p>
       <Link href={ROUTES.HOMEPAGE} className="text-light">
-        <Button size="small">{t("to-posted-request")}</Button>
+        <Button size="small">{t("to-homepage")}</Button>
       </Link>
     </div>
   );

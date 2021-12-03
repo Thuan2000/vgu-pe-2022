@@ -60,6 +60,15 @@
   "askQuestion-input-label": "Ask A Question",
   "askQuestion-input-placeholder": "Write message",
   "ask-question-button-label": "Ask Question",
-  "agreement-is-shouldBeChecked-error": "You have to agree with agreement"
-  
+  "agreement-is-shouldBeChecked-error": "You have to agree with agreement",
+  "accountCreated-title": "Congratulation",
+  "accountCreated-message": "Your account is created successfully, we will approve it soon",
+  "accountCreated-button": "To Login Page",
+  "accountCreated-toast-title": "New account is created",
+  "signupError-USER_EXIST-title": "User Is Exist",
+  "signupError-USER_EXIST-message": "This account is created",
+  "error-COMPANY_NOT_APPROVED-title": "Account Not Approved",
+  "error-COMPANY_NOT_APPROVED-message": "Please wait until we approve your account, we will approve it soon",
+  "error-COMPANY_NOT_APPROVED-button": "Close Modal",
+  "welcomeBack-message": "Welcome back"
 }

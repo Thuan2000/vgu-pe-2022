@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { toast } from "react-toastify";
 
 import Form from "./form";
 import Input from "./ui/storybook/input";
@@ -11,11 +12,13 @@ import Button from "./ui/storybook/button";
 import PhoneNumberInput from "./ui/phone-number-input/phone-number-input";
 import DocumentInput from "./ui/storybook/document-input";
 import { useCompanySignupMutation } from "@graphql/company.graphql";
-import { Router, useRouter } from "next/dist/client/router";
+import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "@utils/routes";
-import { setAuthCredentials, setMeData } from "@utils/auth-utils";
-import { useMeInfoMutation } from "@graphql/auth.graphql";
-import { IMeInfoResponse } from "@graphql/types.graphql";
+// import { setAuthCredentials, setMeData } from "@utils/auth-utils";
+// import { useMeInfoMutation } from "@graphql/auth.graphql";
+// import { IMeInfoResponse } from "@graphql/types.graphql";
+import Swal from "sweetalert2";
+import { COLORS } from "@utils/colors";
 
 type FormValues = {
   firstName: string;
@@ -59,20 +62,15 @@ const signupSchema: any = yup.object({
 const SignupForm = () => {
   const { t } = useTranslation("form");
   const router = useRouter();
-  const [meInfo] = useMeInfoMutation();
+  // const [meInfo] = useMeInfoMutation();
   const [signup, { loading }] = useCompanySignupMutation({
-    onCompleted: async ({
-      companySignup: { success, message, token, role },
-    }) => {
-      if (!success) {
-        alert(message);
-        return;
-      }
+    onCompleted: async ({ companySignup: { success, message } }) => {
+      if (!success) fireErrorModal(message);
+      else fireSuccessModal();
 
-      setAuthCredentials(token as string, role as string);
-      const { data } = await meInfo();
-      setMeData(data?.meInfo as IMeInfoResponse);
-      router.replace(ROUTES.HOMEPAGE);
+      // setAuthCredentials(token as string, role as string);
+      // const { data } = await meInfo();
+      // setMeData(data?.meInfo as IMeInfoResponse);
     },
   });
 
@@ -80,15 +78,53 @@ const SignupForm = () => {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: yupResolver(signupSchema),
   });
-  console.log(errors);
+
+  async function fireErrorModal(message: string) {
+    const { isDenied, isConfirmed } = await Swal.fire({
+      icon: "error",
+      titleText: t(`form:signupError-${message}-title`),
+      text: t(`form:signupError-${message}-message`),
+      confirmButtonText: t(`form:signupError-stay-button-title`),
+      confirmButtonColor: COLORS.GREEN,
+      denyButtonText: t(`form:accountCreated-button`),
+      denyButtonColor: COLORS.WARNING,
+      showDenyButton: true,
+    });
+
+    if (isConfirmed) resetErrorValue();
+    if (isDenied) router.replace(ROUTES.HOMEPAGE);
+  }
+
+  function resetErrorValue() {
+    setValue("email", "");
+    setValue("password", "");
+    setValue("confirmPassword", "");
+  }
+
+  async function fireSuccessModal() {
+    const data = await Swal.fire({
+      icon: "success",
+      titleText: t(`form:accountCreated-title`),
+      text: t(`form:accountCreated-message`),
+      confirmButtonText: t(`form:accountCreated-button`),
+      confirmButtonColor: COLORS.GREEN,
+    });
+
+    if (data) {
+      router.replace(ROUTES.HOMEPAGE);
+      toast.success(t("form:accountCreated-toast-title"));
+    }
+  }
 
   async function onSubmit({
     companyLicenses,
     confirmPassword,
+    agreement,
     ...values
   }: FormValues) {
     const input = {

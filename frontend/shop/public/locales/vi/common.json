@@ -82,5 +82,18 @@
   "category-filter-label": "Danh mục",
   "brd-share-label": "Chia sẻ",
   "postedAt-text": "Ngày đăng",
-  "categoryFilter-placeholder": "Tư vấn doanh nghiệp"
+  "categoryFilter-placeholder": "Tư vấn doanh nghiệp",
+  "HOMEPAGE_NAV_LABEL": "Trang chủ",
+  "COMPANY_NAV_LABEL": "Danh bạ công ty",
+  "TENDER_NAV_LABEL": "Nhu cầu thu mua",
+  "PRODUCT_SERVICES_NAV_LABEL": "Sản phẩm / Dịch vụ",
+  "SUPPORT_NAV_LABEL": "Hỗ trợ",
+  "TENDER_PAGE_SEARCH_LABEL": "Nhu cầu thu mua",
+  "COMPANY_PAGE_SEARCH_LABEL": "Danh bạ công ty",
+  "PRODUCT_SERVICE_PAGE_SEARCH_LABEL": "Sản phẩm / Dịch vụ",
+  "SUPPORT_PAGE_SEARCH_LABEL": "Trang chủ",
+  "HOMEPAGE_PAGE_SEARCH_LABEL": "Hỗ trợ",
+  "post-COMPANY_PAGE_SEARCH_LABEL-link-button-label": "Đăng NCTM",
+  "post-TENDER_PAGE_SEARCH_LABEL-link-button-label": "Đăng NCTM",
+  "post-PRODUCT_SERVICE_PAGE_SEARCH_LABEL-link-button-label": "Đăng NCTM"
 }

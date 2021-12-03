@@ -4,7 +4,12 @@ import { useTranslation } from "next-i18next";
 import Select from "@components/ui/storybook/inputs/select";
 import FilterLabel from "./filter-label";
 import { useRouter } from "next/dist/client/router";
-import { IIndustry, industriesData } from "@datas/industries";
+import {
+  getIndustryByLabel,
+  getIndustryBySlug,
+  IIndustry,
+  industriesData,
+} from "@datas/industries";
 
 interface IIndustrySelectProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -16,29 +21,22 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
 
   const { query, ...router } = useRouter();
   const industryFilter = query.industry as string;
-  const [value, setValue] = useState<IIndustry | string>(industryFilter);
 
-  useEffect(() => {
-    function setQuery() {
-      if (typeof value === "string") return;
-      if (!value) delete query.industry;
+  function setQuery(industry?: string) {
+    if (!industry && query.industry) delete query?.industry;
 
-      const { pathname } = router;
+    const { pathname } = router;
+    router.replace({
+      pathname,
+      query: {
+        ...query,
+        ...(!!industry ? { industry } : {}),
+      },
+    });
+  }
 
-      router.push({
-        pathname,
-        query: {
-          ...query,
-          ...(value ? { industry: (value as IIndustry)?.slug } : {}),
-        },
-      });
-    }
-
-    setQuery();
-  }, [value]);
-
-  function handleChange(e: IIndustry | unknown) {
-    setValue(e as IIndustry);
+  function handleChange(e: IIndustry | any) {
+    setQuery(e?.label);
   }
 
   return (
@@ -48,7 +46,7 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
         options={industriesData || []}
         name="industryFilter"
         isClearable
-        value={value}
+        value={getIndustryByLabel(industryFilter) || null}
         getInitialValue={(opt: IIndustry) => opt.slug === industryFilter}
         placeholder={t("industryFilter-placeholder")}
         onChange={handleChange}
