@@ -1,6 +1,6 @@
 import HomeIcon from "@assets/icons/navigations/home-icon";
 import { COLORS } from "@utils/colors";
-import { setCharAt } from "@utils/functions";
+import { setCharAt, toCamelCase } from "@utils/functions";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import Link from "../link";
@@ -27,24 +27,11 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
     ] as string;
   }
 
-  function getLabel(label: string) {
-    label = setCharAt(label, 0, label[0]?.toUpperCase());
-    for (let i = 0; i < label.length; i++) {
-      const e = label[i];
-      if (e === "-") {
-        label = setCharAt(label, i, " ");
-        label = setCharAt(label, i + 1, label[i + 1]?.toUpperCase());
-      }
-    }
-    const decodedLabel = label.split("#")[0];
-    return decodedLabel;
-  }
-
   function generateLinks() {
     return paths.flatMap((p) => {
       if (p === "") return [];
       return {
-        label: getLabel(p),
+        label: toCamelCase(p),
         href: `/${p}`,
       };
     });
@@ -66,7 +53,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
 
   return (
     <div {...props}>
-      <div className="flex items-center space-x-1">
+      <div className="flex items-center space-x-1 w-fit-content px-5">
         {links.length >= 1 ? (
           <Link href={homeHref}>
             <HomeIcon fill={COLORS.PRIMARY.DEFAULT} className="w-5 h-5" />

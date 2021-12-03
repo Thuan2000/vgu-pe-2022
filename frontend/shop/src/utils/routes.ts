@@ -6,8 +6,11 @@ export const ROUTES = {
   LOGOUT: "/logout",
   NOTIFICATIONS: "#",
   POST_TENDER: "/post-tender",
+  POST_PRODUCT_SERVICE: "/post-product-service",
   TENDERS: "/nhu-cau-thu-mua",
   PRODUCT_SERVICES: "/san-pham-dich-vu",
   SUPPORT: "/ho-tro",
   COMPANIES: "/danh-ba-cong-ty",
+  COMPANY_DETAIL: "/company-details",
+  ADMIN_LINK: `${process.env.NEXT_PUBLIC_ADMIN_URL}`,
 };

@@ -6,10 +6,11 @@ import FilterLabel from "./filter-label";
 import { useRouter } from "next/dist/client/router";
 import {
   getCategories,
+  getCategoryByLabel,
   getIndustryCategories,
   ICategory,
 } from "@datas/categories";
-import { getIndustry, getIndustryBySlug } from "@datas/industries";
+import { getIndustryByLabel } from "@datas/industries";
 
 interface ICategorySelectProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -20,33 +21,26 @@ const CategorySelect: React.FC<ICategorySelectProps> = ({
   const { t } = useTranslation();
 
   const { query, ...router } = useRouter();
-  const industrySlug = query.industry as string;
+  const industry = query.industry as string;
 
-  const industryId = getIndustryBySlug(industrySlug)?.id;
+  const industryId = getIndustryByLabel(industry)?.id;
   const categoryFilter = query.category as string;
-  const [value, setValue] = useState<ICategory | string>(categoryFilter);
 
-  useEffect(() => {
-    function setQuery() {
-      if (typeof value === "string") return;
-      if (!value) delete query.category;
+  function setQuery(category: string) {
+    if (!category && query.category) delete query?.category;
 
-      const { pathname } = router;
+    const { pathname } = router;
+    router.push({
+      pathname,
+      query: {
+        ...query,
+        ...(!!category ? { category } : {}),
+      },
+    });
+  }
 
-      router.push({
-        pathname,
-        query: {
-          ...query,
-          ...(value ? { category: (value as ICategory)?.slug } : {}),
-        },
-      });
-    }
-
-    setQuery();
-  }, [value]);
-
-  function handleChange(e: ICategory | unknown) {
-    setValue(e as ICategory);
+  function handleChange(e: ICategory | any) {
+    setQuery(e?.label);
   }
 
   return (
@@ -56,7 +50,7 @@ const CategorySelect: React.FC<ICategorySelectProps> = ({
         options={getIndustryCategories(industryId as number) || []}
         name="categoryFilter"
         isClearable
-        value={value}
+        value={getCategoryByLabel(categoryFilter)}
         getInitialValue={(opt: ICategory) => opt.slug === categoryFilter}
         placeholder={t("categoryFilter-placeholder")}
         onChange={handleChange}

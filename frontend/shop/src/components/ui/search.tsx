@@ -1,6 +1,5 @@
-import React, { ChangeEvent, useEffect, useState, useRef } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
-import ArrowDownIcon from "@assets/icons/arrow-down-icon";
 import Input from "./storybook/inputs/input";
 import SearchIcon from "@assets/icons/search-icon";
 import { useGetBrNameSuggestionMutation } from "@graphql/buying-request.graphql";
@@ -10,6 +9,8 @@ import { useTranslation } from "next-i18next";
 import { INameSuggestion } from "@graphql/types.graphql";
 import XIcon from "@assets/icons/x-icon";
 import Button from "./storybook/button";
+import { useOutsideClickRef } from "src/hooks/useOutsideClickRef";
+import SearchTypeSelector from "./search-type-selector";
 
 const TYPING_TIMEOUT = 350;
 const MAX_SUGGESTIONS = 5;
@@ -18,12 +19,13 @@ const Search = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
+  const { t } = useTranslation();
+
   const [getSuggestion] = useGetBrNameSuggestionMutation();
   const [suggestions, setSuggestions] = useState<INameSuggestion[]>([]);
   const [isShowSuggestion, setIsShowSuggestion] = useState(false);
   const [focusedSuggestion, setFocusedSuggestion] = useState(-1);
-  const { t } = useTranslation();
-
+  const outsideClickRef = useOutsideClickRef(hideSuggestion);
   const { pathname, query, ...router } = useRouter();
 
   const [inputValue, setInputValue] = useState<string>(
@@ -63,14 +65,6 @@ const Search = ({
   function showSuggestion() {
     setIsShowSuggestion(true);
   }
-
-  /**
-   * When input search unfocused
-   */
-  useEffect(() => {
-    document.addEventListener("click", hideSuggestion);
-    return () => document.removeEventListener("click", hideSuggestion);
-  }, []);
 
   /**
    *
@@ -153,22 +147,10 @@ const Search = ({
   }
 
   return (
-    <div
-      onClick={(e) => e.stopPropagation()}
-      className={`relative ${className}`}
-      {...props}
-    >
+    <div ref={outsideClickRef} className={`relative`} {...props}>
       <Form onSubmit={handleSearch}>
         <div className={`flex items-center rounded-md border border-green `}>
-          <Button
-            type="button"
-            variant="custom"
-            onClick={hideSuggestion}
-            className="!h-9 flex-center rounded-none border-r border-primary w-[125px]"
-          >
-            <p className="text-paragraph text-dark-blue">{t("Suppliers")}</p>
-            <ArrowDownIcon className="ml-3" />
-          </Button>
+          <SearchTypeSelector />
           <div className="relative ">
             <Input
               noBorder

@@ -1,10 +1,12 @@
 import React from "react";
 import cn from "classnames";
 import Typography from "./typography";
+import { COLORS } from "@utils/colors";
 
 interface IChipProps extends React.HTMLAttributes<HTMLDivElement> {
   background?: "primary" | "secondary-1" | "error";
   text: string;
+  icon?: React.FC<React.SVGAttributes<{}>>;
 }
 
 const classesNames = {
@@ -18,6 +20,7 @@ const Chip: React.FC<IChipProps> = ({
   background = "primary",
   text,
   className: inputClass,
+  icon: Icon,
   ...props
 }) => {
   const className = cn(
@@ -32,6 +35,7 @@ const Chip: React.FC<IChipProps> = ({
 
   return (
     <div className={className} {...props}>
+      {!!Icon && <Icon className="mr-1 w-3 h-3" fill={COLORS.WHITE} />}
       <Typography className="!text-xs text-white" text={text} />
     </div>
   );

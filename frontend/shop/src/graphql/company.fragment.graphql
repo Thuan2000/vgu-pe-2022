@@ -1,0 +1,15 @@
+fragment CompanyFragment on Company {
+  id
+  name
+  slug
+  licenseNumber
+  description
+  approved
+  licenseFiles {
+    url
+    location
+    fileName
+    fileType
+  }
+  ownerId
+}

@@ -3,6 +3,7 @@ import PageLayout from "@components/layouts/page-layout";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import BuyingRequestsList from "@components/ui/buying-requests/feed/buying-requests-list";
 import SideFilter from "@components/ui/buying-requests/filter/side-filter";
+import AppliedFilter from "@components/ui/navbar/applied-filter";
 import UnderDevelopment from "@components/under-development";
 import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
@@ -15,11 +16,11 @@ import { useTranslation } from "react-i18next";
 import useIsPhone from "src/hooks/isPhone.hook";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { token, role } = getAuthCredentials(ctx);
+  const { token } = getAuthCredentials(ctx);
 
   const { locale } = ctx;
 
-  if (!token || !role || !isAuthenticated({ token, role })) {
+  if (!token || !isAuthenticated({ token })) {
     return {
       redirect: {
         destination: ROUTES.LOGIN,
@@ -61,7 +62,9 @@ const BuyingRequests: React.FC = () => {
         <div className="invisible mr-4">
           <SideFilter />
         </div>
-        <BuyingRequestsList className="mt-4 w-full space-y-4" />
+        <div>
+          <BuyingRequestsList className="mt-4 w-full space-y-4" />
+        </div>
       </div>
     </>
   );

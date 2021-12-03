@@ -1,3 +1,5 @@
+import ImageIcon from "@assets/icons/image-icon";
+import LocationIcon from "@assets/icons/location-icon";
 import MessageIcon from "@assets/icons/message-icon";
 import SaveIcon from "@assets/icons/save-icon";
 import VerifiedIcon from "@assets/icons/verified-icon";
@@ -6,15 +8,8 @@ import Button from "@components/ui/storybook/button";
 import Chip from "@components/ui/storybook/chip";
 import Typography from "@components/ui/storybook/typography";
 import { IBuyingRequest } from "@graphql/types.graphql";
-import {
-  viDateFormat,
-  trimText,
-  getBudgetRange,
-  getCompanyId,
-  isUserApproved,
-} from "@utils/functions";
+import { viDateFormat, trimText, getCompanyId } from "@utils/functions";
 import { ROUTES } from "@utils/routes";
-import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -25,7 +20,7 @@ interface IBrcInfoProps extends React.HTMLAttributes<HTMLDivElement> {
 const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
   const { t } = useTranslation();
 
-  const { name, endDate, location, company, createdAt, status, slug } = br;
+  const { name, endDate, location, company, createdAt, status } = br;
 
   return (
     <div className={`w-full px-5 space-y-2 py-2 ${className}`} {...props}>
@@ -52,12 +47,12 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
                 className="text-secondary-1"
               />
             </div>
-            <SaveIcon />
+            {/* <SaveIcon /> */}
           </div>
         </div>
         {/* CHIPS */}
         <div className="flex items-center space-x-2">
-          <Chip text={location} background="secondary-1" />
+          <Chip icon={LocationIcon} text={location} background="secondary-1" />
           <Chip
             text={t(status + "_STATUS")}
             background={status === "OPEN" ? "primary" : "error"}
@@ -65,15 +60,8 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
         </div>
         {/* Company */}
         <div className="flex items-center space-x-3">
-          <div
-            className={`flex items-center space-x-2 ${
-              !isUserApproved() && "blur-sm"
-            }`}
-          >
-            <Typography
-              variant="smallTitle"
-              text={isUserApproved() ? company?.name : t("notApproved")}
-            />
+          <div className={`flex items-center space-x-2`}>
+            <Typography variant="smallTitle" text={company?.name} />
             <VerifiedIcon />
           </div>
 
@@ -84,12 +72,12 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
         </div>
       </div>
       {/* Desc */}
-      <div className="flex items-center justify-between space-x-2">
+      <div className="flex items-center justify-between space-x-2 sm:min-w-[520px]">
         <Typography
           variant="description"
           text={trimText(br.description || "", 140) || t("NO_DESCRIPTION")}
         />
-        {isUserApproved() && br.company.id !== getCompanyId() && (
+        {br.company.id !== getCompanyId() && (
           <Button
             variant="custom"
             size="small"

@@ -1,6 +1,12 @@
 import { ITagInput } from "@graphql/types.graphql";
 import { Control } from "react-hook-form";
 
+export type Page =
+  | "nhu-cau-thu-mua"
+  | "danh-ba-cong-ty"
+  | "san-pham-dich-vu"
+  | "ho-tro";
+
 export interface IController {
   control: Control<any>;
   name: string;

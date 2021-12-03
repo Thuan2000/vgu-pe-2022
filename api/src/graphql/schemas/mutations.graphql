@@ -6,5 +6,4 @@
 # This file contains all mutations.
 type Mutation {
 	uploadFile(input: Upload!): File
-	login(input: LoginInput!): AuthResponse!
 }

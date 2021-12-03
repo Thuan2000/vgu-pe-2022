@@ -81,5 +81,19 @@
   "sorry-title": "Sorry",
   "this-page-is-under-development-message": "This page is under development",
   "phone-view-not-ready-text": "Phone view not developed yet",
-  "please-open-on-laptop-text": "Please use laptop to open this page"
+  "please-open-on-laptop-text": "Please use laptop to open this page",
+  "HOMEPAGE_NAV_LABEL": "Homepage",
+  "COMPANY_NAV_LABEL": "Companies",
+  "TENDER_NAV_LABEL": "Tenders",
+  "PRODUCT_SERVICES_NAV_LABEL": "Products / Services",
+  "SUPPORT_NAV_LABEL": "Support",
+  "TENDER_PAGE_SEARCH_LABEL": "Tender",
+  "COMPANY_PAGE_SEARCH_LABEL": "Company",
+  "PRODUCT_SERVICE_PAGE_SEARCH_LABEL": "Product / Service",
+  "SUPPORT_PAGE_SEARCH_LABEL": "Support",
+  "HOMEPAGE_PAGE_SEARCH_LABEL": "Homepage",
+  "to-homepage": "To Homepage",
+  "post-COMPANY_PAGE_SEARCH_LABEL-link-button-label": "Update Company",
+  "post-TENDER_PAGE_SEARCH_LABEL-link-button-label": "Post Tender",
+  "post-PRODUCT_SERVICE_PAGE_SEARCH_LABEL-link-button-label": "Post Product / Service"
 }
