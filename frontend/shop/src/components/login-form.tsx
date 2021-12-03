@@ -59,7 +59,6 @@ const LoginForm = () => {
 
   async function onLoginComplete({ login }: LoginMutation) {
     const { success, message, token, company, user } = login;
-    console.log(token);
     if (success) {
       setAuthCredentials(token!);
       setMeData({ company: company as any, user });
