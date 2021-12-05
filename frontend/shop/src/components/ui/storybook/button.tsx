@@ -26,8 +26,8 @@ const classes = {
   disabled:
     "border border-border-base !bg-gray-300 border-gray-300 cursor-not-allowed text-white",
   disabledOutline: "border border-border-base text-muted cursor-not-allowed",
-  small: "px-3  h-9 text-sm",
-  extraSmall: "px-3  h-7 text-sm",
+  small: "px-3 h-9 text-sm",
+  extraSmall: "px-1 h-7 text-sm",
   medium: "px-5  h-12",
   big: "px-10  h-14",
   fluid: "px-20 h-8 text-sm",

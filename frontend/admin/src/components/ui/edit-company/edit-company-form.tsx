@@ -111,17 +111,39 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
 
   function onSubmit(value: ECFormValues) {
     const { general, details, additional } = value;
-    // const input: IUpdateCompanyDetailsInput = {
-    //   contactNumber: general.contactNumber,
-    //   establishmentDate: general.establishmentDate,
-    //   name: general.name,
-    //   industryId: general.industry.id,
-    //   coverImage: general.coverImage,
-    //   profileImage: general.profileImage,
-    //   settings: {
-    //     address: general.address,
-    //   },
-    // };
+
+    const coverImage =
+      general && general.coverImage && general?.coverImage?.length > 0
+        ? general?.coverImage[0]
+        : {};
+    const mainProducts = general?.mainProducts?.map((mp: any) => mp.label);
+    const branches = details.branches?.map(({ id, ...b }: any) => b);
+    const factories = details.factories?.map(({ id, ...f }: any) => f);
+    const warehouses = details.warehouses?.map(({ id, ...w }: any) => w);
+
+    const input: IUpdateCompanyDetailsInput = {
+      establishmentDate: general.establishmentDate,
+      name: general.name,
+      description: general.description as any,
+      industryId: (general.industry as any).id,
+      businessType: general.businessType,
+      profileImage: general.profileImage,
+      settings: {
+        address: general.address,
+        location: general.location.name,
+        profileImage: general.profileImage,
+        employeeAmount: general.employeeAmount,
+        gallery: additional.gallery,
+        contactNumber: general.contactNumber,
+        coverImage: coverImage as any,
+        mainProducts: mainProducts as any,
+        branches: branches as any,
+        factories: factories as any,
+        warehouses: warehouses as any,
+      },
+    };
+
+    console.log(input);
   }
 
   return (

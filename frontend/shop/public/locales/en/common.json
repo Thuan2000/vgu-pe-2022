@@ -95,5 +95,10 @@
   "to-homepage": "To Homepage",
   "post-COMPANY_PAGE_SEARCH_LABEL-link-button-label": "Update Company",
   "post-TENDER_PAGE_SEARCH_LABEL-link-button-label": "Post Tender",
-  "post-PRODUCT_SERVICE_PAGE_SEARCH_LABEL-link-button-label": "Post Product / Service"
+  "post-PRODUCT_SERVICE_PAGE_SEARCH_LABEL-link-button-label": "Post Product / Service",
+  "danh-ba-cong-ty": "Compaies",
+  "nhu-cau-thu-mua": "Tenders",
+  "san-pham-dich-vu": "Products / Services",
+  "ho-tro": "Support",
+  "homepage-breadcrumb": "Homepage"
 }

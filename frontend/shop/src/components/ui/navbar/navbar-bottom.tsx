@@ -19,7 +19,7 @@ const NavbarBottom = () => {
         <div style={{ width: 250 }}>
           <Logo size="medium" />
         </div>
-        <div className="flex-center">
+        <div className="fic">
           {/* <Category /> */}
           {!["ho-tro", ""].includes(activePage) && <Search />}
           {/* <SaveIcon className="mx-4" /> */}

@@ -15,16 +15,16 @@ class Company extends Model {
 Company.init(
 	{
 		name: DataTypes.STRING,
-		slug: DataTypes.STRING,
-		licenseNumber: DataTypes.STRING,
 		description: DataTypes.STRING,
-		approved: DataTypes.BOOLEAN,
-		licenseFiles: DataTypes.JSON,
-		ownerId: DataTypes.INTEGER,
-		settings: DataTypes.JSON,
 		industryId: DataTypes.INTEGER,
 		businessType: DataTypes.STRING,
-		establishmentDate: DataTypes.DATE
+		establishmentDate: DataTypes.DATE,
+		settings: DataTypes.JSON,
+		slug: DataTypes.STRING,
+		licenseNumber: DataTypes.STRING,
+		licenseFiles: DataTypes.JSON,
+		approved: DataTypes.BOOLEAN,
+		ownerId: DataTypes.INTEGER
 	},
 	{
 		tableName: "companies",

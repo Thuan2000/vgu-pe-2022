@@ -43,7 +43,7 @@ const SidebarNavItem: React.FC<SidebarNavItem> = ({
             }
           `}
         >
-          {Icon && <Icon className="mr-3" isActive={isActive} />}
+          {Icon && <Icon className="mr-3 w-4 h-4" isActive={isActive} />}
           {t(label)}
         </li>
         {hasChildren && (

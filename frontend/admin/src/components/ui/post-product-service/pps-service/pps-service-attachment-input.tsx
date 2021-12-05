@@ -1,5 +1,6 @@
 import DocumentInput from "@components/ui/storybook/document-input";
 import TextArea from "@components/ui/storybook/inputs/text-area";
+import { getDocumentAccept } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import {
@@ -57,7 +58,7 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
         numberQueue={4}
         name="attachment.certificates"
         onChange={(_) => trigger("attachment.certificates")}
-        accept="application/pdf,application/docx,xls"
+        accept={getDocumentAccept()}
         label={t("postService-certificates-input-label")}
         error={t((errors.attachment?.certificates as any)?.message || "")}
       />

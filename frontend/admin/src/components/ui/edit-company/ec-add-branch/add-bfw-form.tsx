@@ -14,14 +14,14 @@ import { generateUUID } from "@utils/functions";
 import { IRawBFW } from "./bfw-constants";
 import Checkbox from "@components/ui/storybook/checkbox";
 
-type Key = "name" | "location" | "address" | "images" | "isForSiblingToo";
+type Key = "name" | "location" | "address" | "gallery" | "isForSiblingToo";
 
 type FormValues = {
   name: string;
   // country: string;
   location: IVietnamCity;
   address: string;
-  images: IFile[];
+  gallery: IFile[];
   isForSiblingToo?: boolean;
 };
 
@@ -31,7 +31,7 @@ const schema = yup.object({
     .object()
     .required("ec-create-bfw-locationRequired-error-message"),
   address: yup.string().required("ec-create-bfw-addressRequired-error-message"),
-  images: yup
+  gallery: yup
     .array()
     .min(1, "needAtLeast1Image-error")
     .required("needAtLeast1Image-error"),
@@ -57,7 +57,7 @@ const AddBFWForm: React.FC<IAddBFWFormProps> = ({
     "name",
     "location",
     "address",
-    "images",
+    "gallery",
     "isForSiblingToo",
   ];
   const {
@@ -163,12 +163,12 @@ const AddBFWForm: React.FC<IAddBFWFormProps> = ({
         multiple
         hideUploadButton
         maxFiles={4}
-        onChange={() => trigger("images")}
+        onChange={() => trigger("gallery")}
         control={control}
-        name="images"
+        name="gallery"
         accept="image/*"
         inputFileType="image"
-        error={(errors.images as any)?.message}
+        error={(errors.gallery as any)?.message}
       />
 
       <div className="justify-end fic space-x-2">

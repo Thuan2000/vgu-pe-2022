@@ -25,8 +25,8 @@ export function handleError(err) {
 export function generateSlug(name: string, id?: number) {
 	let uniqueKey = `${id}`;
 	if (id < 10) uniqueKey = `000${id}`;
-	if (id < 100) uniqueKey = `00${id}`;
-	if (id < 1000) uniqueKey = `0${id}`;
+	else if (id < 100) uniqueKey = `00${id}`;
+	else if (id < 1000) uniqueKey = `0${id}`;
 
 	const slug = name.toLowerCase().replace(/\ /g, "-");
 	return `${slug}${SLUG_UNIQUE_SEPARATOR}${uniqueKey}`;

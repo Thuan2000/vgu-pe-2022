@@ -1,6 +1,6 @@
 import XIcon from "@assets/icons/x-icon";
 import { COLORS } from "@utils/colors";
-import { toCamelCase } from "@utils/functions";
+import { toCamelCaseFromSnakeCase } from "@utils/functions";
 import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -45,7 +45,7 @@ const AppliedFilterItem: React.FC<IAppliedFilterItemProps> = ({
         />
       </div>
       <div className="space-x-1 fic">
-        <Typography text={toCamelCase(queryKey)} />
+        <Typography text={toCamelCaseFromSnakeCase(queryKey)} />
         <span>:</span>
         <Typography text={t(`${queryKey}:` + value)} />
       </div>

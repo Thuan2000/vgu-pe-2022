@@ -1,8 +1,8 @@
-import AvatarIcon from "@assets/icons/avatar-icon";
 import HomeIcon from "@assets/icons/navigations/home-icon";
 import LogoutIcon from "@assets/icons/navigations/logout-icon";
 import ProductIcon from "@assets/icons/navigations/product-icon";
 import RequestIcon from "@assets/icons/navigations/request-icon";
+import SettingsIcon from "@assets/icons/navigations/settings-icon";
 import { ROUTES } from "@utils/routes";
 
 export type INavigation = {
@@ -52,14 +52,19 @@ export const navigations: INavigation[] = [
     icon: ProductIcon,
     children: productChildren,
   },
+];
+
+export const bottomNavigations = [
   {
     label: "editCompany-nav-label",
     // This should be like this
     href: ROUTES.EDIT_COMPANY,
-    icon: AvatarIcon,
+    managedLinks: [],
+    icon: SettingsIcon,
   },
   {
     label: "logout-nav-label",
+    managedLinks: [],
     href: ROUTES.LOGOUT,
     icon: LogoutIcon,
   },

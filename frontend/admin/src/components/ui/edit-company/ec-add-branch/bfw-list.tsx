@@ -57,8 +57,8 @@ const BFWList: React.FC<IBFWList> = ({
     if (onChange) onChange(Bfws);
   }
 
-  function handleAddedBfw(b: IBFWInput) {
-    if (b.isForSiblingToo && handleAddedSibling) handleAddedSibling(b);
+  function handleAddedBfw({ isForSiblingToo, ...b }: IBFWInput) {
+    if (isForSiblingToo && handleAddedSibling) handleAddedSibling(b);
 
     const newBfws = [...Bfws, b];
     setBfws(newBfws);

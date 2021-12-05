@@ -25,7 +25,7 @@ const ECBFWItem: React.FC<IECBFWItemProps> = ({ bfw, onDelete }) => {
       <Typography variant="BRTitle" text={bfw.name} />
       <Typography text={generateAddress(bfw)} />
       <div className="fic space-x-3 mt-2">
-        {bfw.images?.map((bi) => {
+        {bfw.gallery?.map((bi) => {
           return (
             <div
               key={bi.url}

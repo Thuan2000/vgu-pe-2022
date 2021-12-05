@@ -11,6 +11,7 @@ const AppliedFilter: React.FC<IAppliedFilterProps> = ({}) => {
   return (
     <div className="fic justify-start w-2/3 flex-wrap">
       {(keys(query) as any)?.map((q: any) => {
+        if (q === "slug") return;
         return (
           <AppliedFilterItem
             key={q + "applied-search"}

@@ -148,3 +148,15 @@ export function isUserApproved() {
   const { company } = getMeData();
   return company?.approved;
 }
+
+export function getXversion(ext: string[]) {
+  let t = "";
+
+  ext.forEach((e) => (t += `${e}, ${e}x,`));
+
+  return t;
+}
+
+export function getDocumentAccept() {
+  return `.pdf, ${getXversion(["doc", "xls", "ppt"])}`;
+}

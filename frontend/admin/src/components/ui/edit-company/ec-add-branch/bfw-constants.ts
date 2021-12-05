@@ -6,7 +6,7 @@ export interface IRawBFW {
   name: string;
   location: IVietnamCity;
   address: string;
-  images: IFile[];
+  gallery: IFile[];
 }
 
 export interface IBFWInput extends IRawBFW {

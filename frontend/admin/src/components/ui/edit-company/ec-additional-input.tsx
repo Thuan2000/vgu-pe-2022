@@ -1,3 +1,4 @@
+import { getDocumentAccept } from "@utils/functions";
 import React from "react";
 import {
   UseFormRegister,
@@ -33,7 +34,7 @@ const ECAdditionalInput: React.FC<IECAdditionalInputProps> = ({ control }) => {
         label={"ec-certificates-input-label"}
         control={control}
         name="additional.licenseFiles"
-        accept="application/*"
+        accept={getDocumentAccept()}
         inputFileType="application"
         multiple
       />

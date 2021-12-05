@@ -10,23 +10,6 @@ import EmailService from "@services/email.service";
 import UserRepository from "@repositories/user.repository";
 import User from "@models/User";
 
-function setCompanyLicenses(data: Promise<unknown>[], company: Company) {
-	let doneCount = 0;
-
-	data.forEach(async d => {
-		d.then(file => {
-			++doneCount;
-			const currentLicenseFiles =
-				company.getDataValue("licenseFiles") || [];
-			company.set("licenseFiles", [...currentLicenseFiles, file]);
-
-			if (doneCount >= data.length - 1) {
-				company.save();
-			}
-		});
-	});
-}
-
 type IRegisterResp = {
 	success: boolean;
 	message: string;

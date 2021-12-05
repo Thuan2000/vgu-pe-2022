@@ -147,5 +147,9 @@ body {
   @apply fixed bottom-0;
 }
 
+.flex-col {
+  @apply flex flex-col;
+}
+
 @tailwind components;
 @tailwind utilities;

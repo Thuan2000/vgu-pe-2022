@@ -9,7 +9,7 @@ import { COLORS } from "@utils/colors";
 import InputLabel from "../inputs/input-label";
 import ValidationError from "../validation-error";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
-import { getCompanyName } from "@utils/functions";
+import { generateUUID, getCompanyName } from "@utils/functions";
 import { IFile, IFileAccessControl, IFileType } from "@graphql/types.graphql";
 import DUThumb from "./du-thumb";
 import Image from "next/image";
@@ -172,7 +172,7 @@ const DocumentUploader = ({
             loadingThumbs?.map((idx) => {
               return (
                 <DUThumb
-                  key={idx + "loading-thumb"}
+                  key={idx + "loading-thumb" + generateUUID()}
                   file={{} as any}
                   isLoading
                   onClick={() => {}}

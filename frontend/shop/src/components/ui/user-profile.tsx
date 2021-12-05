@@ -29,7 +29,11 @@ const UserProfile = () => {
       {!["ho-tro", ""].includes(activePage) && (
         <div>
           <Link target="_blank" href={`${adminLink}${POST_ROUTES[activePage]}`}>
-            <Button className="!h-9" size="small" style={{ fontSize: 12 }}>
+            <Button
+              className={`px-3 h-7`}
+              size="extraSmall"
+              style={{ fontSize: 12 }}
+            >
               {t(`post-${PAGE_NAME_INTO_LABEL[activePage]}-link-button-label`)}
             </Button>
           </Link>

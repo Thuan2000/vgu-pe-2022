@@ -150,7 +150,7 @@ export function isUserApproved() {
   return company?.approved;
 }
 
-export function toCamelCase(label: string) {
+export function toCamelCaseFromSnakeCase(label: string) {
   label = label.toLowerCase();
   label = setCharAt(label, 0, label[0]?.toUpperCase());
   for (let i = 0; i < label.length; i++) {

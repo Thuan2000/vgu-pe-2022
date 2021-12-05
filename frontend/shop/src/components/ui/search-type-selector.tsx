@@ -49,7 +49,7 @@ const SearchTypeSelector: React.FC<ISearchTypeSelectorProps> = ({}) => {
         type="button"
         variant="custom"
         onClick={toggleTypeSelector}
-        className="!h-9 flex-center rounded-none border-r border-primary"
+        className="!h-7 flex-center rounded-none border-r border-primary"
       >
         <p className="text-paragraph sm:min-w-[115px] text-dark-blue">
           {t((PAGE_NAME_INTO_LABEL as any)[activePage])}

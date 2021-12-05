@@ -1,9 +1,8 @@
 import CirclePlusIcon from "@assets/icons/circle-plus-icon";
-import { PlusIcon } from "@assets/icons/plus-icon";
 import { businessTypes } from "@datas/businessTypes";
 import { industriesData } from "@datas/industries";
-import { ICompany } from "@graphql/types.graphql";
 import { COLORS } from "@utils/colors";
+import { vietnamCities } from "@utils/vietnam-cities";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import {
@@ -60,6 +59,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
         <Input
           {...register("general.name")}
           error={t(errors?.general?.name?.message || "")}
+          disabled
           onChange={(e) => {
             register("general.name").onChange(e);
             trigger("general.name");
@@ -69,10 +69,9 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
         />
 
         <PhoneNumberInput
+          name="general.contactNumber"
           control={control}
-          {...register("general.contactNumber")}
-          onChange={(e) => {
-            register("general.contactNumber").onChange(e);
+          onChange={() => {
             trigger("general.contactNumber");
           }}
           label={t("phoneNumber-label")}
@@ -80,6 +79,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           placeholder={t("phoneNumber-placeholder")}
           error={t(errors?.general?.contactNumber?.message || "")}
         />
+
         <TextArea
           {...register("general.description")}
           error={t(errors?.general?.description?.message || "")}
@@ -112,6 +112,32 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
             control={control}
           />
         </div>
+
+        <SelectInput
+          name="general.location"
+          label={t("location-input-label")}
+          onChange={() => {
+            trigger("general.location");
+          }}
+          placeholder={t("location-input-placeholder")}
+          control={control}
+          options={vietnamCities}
+          getOptionLabel={(opt) => opt.name}
+          error={t((errors?.general?.location as any)?.message || "")}
+          getOptionValue={(opt) => opt.name}
+        />
+
+        <Input
+          {...register("general.address")}
+          error={t(errors?.general?.address?.message || "")}
+          onChange={(e) => {
+            register("general.address").onChange(e);
+            trigger("general.address");
+          }}
+          label={t("companyAddress-input-label")}
+          placeholder={t("companyAddress-input-placeholder")}
+        />
+
         <SelectInput
           name="general.industry"
           label={t("industry-input-label")}
@@ -125,6 +151,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           error={t(errors?.general?.industry?.message || "")}
           getOptionValue={(opt) => opt.label}
         />
+
         <SelectInput
           name="general.businessType"
           onChange={() => {
@@ -138,6 +165,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           getOptionValue={(opt) => opt.label}
           error={t(errors?.general?.businessType?.message || "")}
         />
+
         <ECMainProductInput
           onChange={() => {
             trigger("general.mainProducts");

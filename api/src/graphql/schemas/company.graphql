@@ -4,12 +4,13 @@
 #
 
 type CompanySettings {
+	location: String
 	address: String
 	contactNumber: String
 	coverImage: File
 	profileImage: File
 	employeeAmount: Int
-	mainProducts: String
+	mainProducts: [String!]
 	gallery: [File!]
 	branches: [BFW!]
 	factories: [BFW!]
@@ -23,7 +24,7 @@ input CompanySettingsInput {
 	coverImage: FileInput
 	profileImage: FileInput
 	employeeAmount: Int
-	mainProducts: String
+	mainProducts: [String!]
 	gallery: [FileInput!]
 	branches: [BFWInput!]
 	factories: [BFWInput!]
@@ -73,14 +74,14 @@ input CompanyRegisterInput {
 
 input UpdateCompanyDetailsInput {
 	name: String!
-	contactNumber: String!
-	establishmentDate: Date!
+	description: String!
 	industryId: Int!
-	coverImage: FileInput
-	profileImage: FileInput
+	businessType: String!
+	establishmentDate: Date!
 	settings: CompanySettingsInput
 }
 
 type Mutation {
 	companySignup(input: CompanyRegisterInput!): AuthResponse!
+	updateCompany(input: UpdateCompanyDetailsInput!): Response!
 }
