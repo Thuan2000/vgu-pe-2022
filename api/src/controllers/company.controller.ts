@@ -28,13 +28,12 @@ class CompanyController {
 
 	static async updateCompany(id: number, input: IUpdateCompanyDetailsInput) {
 		try {
+			console.log(input.licenseFiles);
 			const [updatedId] = await Company.update(input, {
 				where: { id }
 			});
 
-			console.log(updatedId);
 			const data = await Company.findByPk(updatedId);
-			console.log(data);
 
 			return successResponseWithPayload(data);
 		} catch (e) {

@@ -11,6 +11,7 @@ type CompanySettings {
 	profileImage: File
 	employeeAmount: Int
 	mainProducts: [String!]
+	certificates: [File!]
 	gallery: [File!]
 	branches: [BFW!]
 	factories: [BFW!]
@@ -25,6 +26,7 @@ input CompanySettingsInput {
 	profileImage: FileInput
 	employeeAmount: Int
 	mainProducts: [String!]
+	certificates: [FileInput!]
 	gallery: [FileInput!]
 	branches: [BFWInput!]
 	factories: [BFWInput!]
@@ -32,6 +34,7 @@ input CompanySettingsInput {
 }
 
 type BFW {
+	id: String!
 	name: String!
 	location: String!
 	address: String!
@@ -39,6 +42,7 @@ type BFW {
 }
 
 input BFWInput {
+	id: String!
 	name: String!
 	location: String!
 	address: String!
@@ -76,7 +80,7 @@ input UpdateCompanyDetailsInput {
 	name: String!
 	description: String!
 	industryId: Int!
-	businessType: String!
+	businessTypeId: Int!
 	establishmentDate: Date!
 	settings: CompanySettingsInput
 }

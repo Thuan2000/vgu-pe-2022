@@ -1,4 +1,6 @@
 import Form from "@components/form";
+import { getBusinessType } from "@datas/businessTypes";
+import { getIndustry } from "@datas/industries";
 import {
   UpdateCompanyDetailMutation,
   useUpdateCompanyDetailMutation,
@@ -11,6 +13,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { getMeData, setMeData } from "@utils/auth-utils";
 import { getCompanyId } from "@utils/functions";
+import { getLocationByName } from "@utils/vietnam-cities";
 import { isEmpty } from "lodash";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect } from "react";
@@ -33,28 +36,100 @@ interface ICompanyDetailsFormProps {
   initValue: ICompany;
 }
 
+function returnObjectIfExist(isExist: boolean, key: string, value: any) {
+  if (isExist) return { [key]: value };
+  return {};
+}
+
 // @URGENT Check this again
 function getDefaultValue(initValue: ICompany) {
   const { settings } = initValue || {};
   const data: any = {
     general: {
-      name: initValue.name,
-      description: initValue.description,
-      establishmentDate: (initValue as any).establishmentDate,
-      industryId: (initValue as any).industryId,
-
-      coverImage: settings?.coverImage as IFile,
-      profileImage: settings?.profileImage as IFile,
-      contactNumber: settings?.contactNumber as string,
-      employeeAmount: (settings as any)?.employeeAmount,
+      ...returnObjectIfExist(!!initValue.name, "name", initValue?.name),
+      ...returnObjectIfExist(
+        !!initValue.description,
+        "description",
+        initValue?.description as string
+      ),
+      ...returnObjectIfExist(
+        !!initValue.establishmentDate,
+        "establishmentDate",
+        new Date(initValue?.establishmentDate)
+      ),
+      ...returnObjectIfExist(
+        !!initValue?.businessTypeId,
+        "businessType",
+        getIndustry(initValue?.businessTypeId as number)
+      ),
+      ...returnObjectIfExist(
+        !!initValue?.industryId,
+        "industry",
+        getIndustry(initValue?.industryId as number)
+      ),
+      ...returnObjectIfExist(
+        !!settings?.coverImage,
+        "coverImage",
+        getIndustry(initValue?.industryId as number)
+      ),
+      ...returnObjectIfExist(!!settings?.coverImage, "coverImage", [
+        settings?.coverImage,
+      ]),
+      ...returnObjectIfExist(
+        !!settings?.profileImage,
+        "profileImage",
+        settings?.profileImage
+      ),
+      ...returnObjectIfExist(
+        !!settings?.contactNumber,
+        "contactNumber",
+        settings?.contactNumber
+      ),
+      ...returnObjectIfExist(
+        !!settings?.employeeAmount,
+        "employeeAmount",
+        settings?.employeeAmount as number
+      ),
+      ...returnObjectIfExist(
+        !!settings?.location,
+        "location",
+        getLocationByName(settings?.location as string)
+      ),
+      ...returnObjectIfExist(
+        !!settings?.address,
+        "address",
+        settings?.address as string
+      ),
+      ...returnObjectIfExist(
+        !!initValue?.businessTypeId,
+        "businessType",
+        getBusinessType(initValue?.businessTypeId as number)
+      ),
+      ...returnObjectIfExist(!!settings?.mainProducts, "mainProducts", []),
     },
     details: {
-      branches: settings?.branches as any,
-      factories: settings?.factories as any,
-      warehouses: settings?.warehouses as any,
+      ...returnObjectIfExist(
+        !!settings?.branches,
+        "branches",
+        settings?.branches
+      ),
+      ...returnObjectIfExist(
+        !!settings?.factories,
+        "factories",
+        settings?.factories
+      ),
+      ...returnObjectIfExist(
+        !!settings?.warehouses,
+        "warehouses",
+        settings?.warehouses
+      ),
     },
     additional: {
-      licenseFiles: initValue.licenseFiles,
+      ...returnObjectIfExist(
+        !!(settings as any)?.certificates,
+        "certificates",
+        (settings as any)?.certificates
+      ),
       gallery: settings?.gallery || [],
     },
   };
@@ -102,8 +177,11 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     const { payload, message, success } = updateCompany ?? {};
 
     if (success && !!payload) {
-      const { user } = getMeData();
-      setMeData({ user: user!, company: JSON.parse(payload) });
+      const { user, company: oldCompany } = getMeData();
+      setMeData({
+        user: user!,
+        company: { id: oldCompany, ...JSON.parse(payload) },
+      });
     }
   }
 
@@ -130,34 +208,37 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   }
 
   function turnLocationToString({ location, ...bfw }: IRawBFW) {
-    return { ...bfw, location: location.name };
+    return { ...bfw, location: location.name || location };
   }
 
   function onSubmit(value: ECFormValues) {
     const { general, details, additional } = value;
 
     const coverImage =
-      general && general.coverImage && general?.coverImage?.length > 0
-        ? (general?.coverImage as any)[0]
-        : {};
+      general &&
+      general.coverImage &&
+      general?.coverImage?.length > 0 &&
+      (general?.coverImage as any)[0];
+
     const mainProducts = general?.mainProducts?.map((mp: any) => mp.label);
-    const branches = details?.branches?.map(({ id, ...b }: any) =>
+    const branches = details?.branches?.map((b: any) =>
       turnLocationToString(b)
     );
-    const factories = details?.factories?.map(({ id, ...f }: any) =>
+    const factories = details?.factories?.map((f: any) =>
       turnLocationToString(f)
     );
-    const warehouses = details?.warehouses?.map(({ id, ...w }: any) =>
+    const warehouses = details?.warehouses?.map((w: any) =>
       turnLocationToString(w)
     );
 
-    const input: IUpdateCompanyDetailsInput = {
+    const input: IUpdateCompanyDetailsInput | any = {
       establishmentDate: general.establishmentDate,
       name: general.name,
       description: general.description as any,
       industryId: (general.industry as any).id,
-      businessType: general.businessType.label,
+      businessTypeId: general.businessType.id as any,
       settings: {
+        certificates: additional.certificates,
         address: general.address,
         location: general.location.name,
         profileImage: general.profileImage,
@@ -171,7 +252,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
         warehouses: warehouses as any,
       },
     };
-
+    console.log(input);
     updateCompany({ variables: { id: getCompanyId(), input } });
   }
 

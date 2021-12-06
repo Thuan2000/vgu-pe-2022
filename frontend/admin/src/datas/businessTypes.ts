@@ -3,6 +3,10 @@ export interface IBusinessType {
   id: number;
 }
 
+export function getBusinessType(id: number) {
+  return businessTypes[id];
+}
+
 export const businessTypes = [
   {
     id: 1,

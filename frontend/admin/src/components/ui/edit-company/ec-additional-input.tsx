@@ -33,7 +33,7 @@ const ECAdditionalInput: React.FC<IECAdditionalInputProps> = ({ control }) => {
       <DocumentInput
         label={"ec-certificates-input-label"}
         control={control}
-        name="additional.licenseFiles"
+        name="additional.certificates"
         accept={getDocumentAccept()}
         inputFileType="application"
         multiple

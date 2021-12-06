@@ -1,4 +1,5 @@
 import { IBusinessType } from "@datas/businessTypes";
+import { IIndustry } from "@datas/industries";
 import { IFile } from "@graphql/types.graphql";
 import { IVietnamCity } from "@utils/vietnam-cities";
 import { IRawBFW } from "./ec-add-branch/bfw-constants";
@@ -9,7 +10,7 @@ export type ECGeneralFormValues = {
   employeeAmount: number;
   description: string;
   establishmentDate: Date;
-  industry: number;
+  industry: IIndustry;
   businessType: IBusinessType;
   location: IVietnamCity;
   address: string;
@@ -26,7 +27,7 @@ export interface ECDetailsFormValues {
 
 export interface ECAdditionalFormValues {
   gallery: IFile[];
-  licenseFiles: IFile[];
+  certificates: IFile[];
 }
 
 export type ECFormValues = {

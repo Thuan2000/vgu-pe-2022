@@ -148,7 +148,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           control={control}
           options={industriesData}
           getOptionLabel={(opt) => t("industry:" + opt.label)}
-          error={t(errors?.general?.industry?.message || "")}
+          error={t((errors?.general?.industry as any)?.message || "")}
           getOptionValue={(opt) => opt.label}
         />
 
@@ -163,7 +163,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           options={businessTypes}
           getOptionLabel={(opt) => opt.label}
           getOptionValue={(opt) => opt.label}
-          error={t(errors?.general?.businessType?.message || "")}
+          error={t((errors?.general?.businessType as any)?.message || "")}
         />
 
         <ECMainProductInput

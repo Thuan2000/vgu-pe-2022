@@ -31,6 +31,9 @@ module.exports = {
 			licenseFiles: {
 				type: Sequelize.JSON
 			},
+			certificates: {
+				type: Sequelize.JSON
+			},
 			ownerId: {
 				type: Sequelize.INTEGER,
 				allowNull: false
@@ -41,7 +44,7 @@ module.exports = {
 			industryId: {
 				type: Sequelize.INTEGER
 			},
-			businessType: {
+			businessTypeId: {
 				type: Sequelize.STRING
 			},
 			establishmentDate: {

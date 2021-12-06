@@ -14,7 +14,7 @@ interface IECBFWItemProps {
 
 const ECBFWItem: React.FC<IECBFWItemProps> = ({ bfw, onDelete }) => {
   function generateAddress(b: IRawBFW) {
-    const location = b.location.name;
+    const location = b.location.name || b.location;
     const address = b.address;
 
     return `${location}, ${address}`;
@@ -31,7 +31,11 @@ const ECBFWItem: React.FC<IECBFWItemProps> = ({ bfw, onDelete }) => {
               key={bi.url}
               className="relative rounded-sm overflow-hidden w-28 h-28"
             >
-              <Image layout="fill" src={bi.url} />
+              <Image
+                layout="fill"
+                src={bi.url}
+                alt={bi.fileName + "alt-props"}
+              />
             </div>
           );
         })}

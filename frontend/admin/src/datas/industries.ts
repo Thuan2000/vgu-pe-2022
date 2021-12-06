@@ -23,7 +23,7 @@ export const industriesData = [
   // { id: 22, label: "HEALTH - MEDICINE" },
 ];
 
-export function getIndustry(id: number) {
+export function getIndustry(id: number): IIndustry {
   return industriesData[id - 1];
 }
 
