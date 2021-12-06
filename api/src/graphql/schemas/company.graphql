@@ -54,11 +54,11 @@ type Company {
 	name: String!
 	slug: String!
 	licenseNumber: String!
+	ownerId: Int!
 	approved: Boolean!
 	description: String
 	licenseFiles: [File!]
-	settings: CompanySettings!
-	ownerId: Int!
+	settings: CompanySettings
 	industryId: Int
 	establishmentDate: Date
 	businessTypeId: Int

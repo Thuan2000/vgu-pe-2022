@@ -19,7 +19,7 @@ module.exports = {
       max_restarts: 3,
       autorestart: true,
       // 5 Minutes
-      restart_delay: 10000,
+      restart_delay: 8000,
       error_file: "./.pm2error.log",
       out_file: "./.pm2out.log",
     },
@@ -31,7 +31,7 @@ module.exports = {
       max_restarts: 3,
       autorestart: true,
       // 5 Minutes
-      restart_delay: 10000,
+      restart_delay: 80000,
       error_file: "./.pm2error.log",
       out_file: "./.pm2out.log",
     },
