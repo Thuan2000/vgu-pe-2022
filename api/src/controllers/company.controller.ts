@@ -28,7 +28,6 @@ class CompanyController {
 
 	static async updateCompany(id: number, input: IUpdateCompanyDetailsInput) {
 		try {
-			console.log(input.licenseFiles);
 			const [updatedId] = await Company.update(input, {
 				where: { id }
 			});
