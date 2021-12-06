@@ -53,21 +53,6 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
       }) as any
     );
 
-  console.log(
-    brQueryParams({
-      offset: getOffset(page),
-      industryId,
-      categoryId,
-      status,
-      minBudget,
-      maxBudget,
-      productName,
-      location,
-      searchValue,
-      limit: BRS_LIMIT,
-    })
-  );
-
   const brs = data?.discoveryBuyingRequests.data;
   const pagination = data?.discoveryBuyingRequests.pagination;
   const hasMore = pagination?.hasMore || false;

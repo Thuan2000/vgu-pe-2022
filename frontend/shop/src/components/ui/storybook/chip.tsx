@@ -4,16 +4,18 @@ import Typography from "./typography";
 import { COLORS } from "@utils/colors";
 
 interface IChipProps extends React.HTMLAttributes<HTMLDivElement> {
-  background?: "primary" | "secondary-1" | "error" | "white";
+  background?: "primary" | "secondary-1" | "error" | "transparent";
   textColor?: "white" | "black" | "gray-400";
   text: string;
   icon?: React.FC<React.SVGAttributes<{}>>;
 }
 
 const classesNames = {
-  root: "rounded-3xl text-white font-semibold px-4 flex-center",
-  border: "border border-black",
-  error: "bg-error",
+  root: "rounded-3xl text-white font-semibold px-4 flex-center flex-shrink-0",
+  error: "bg-error border border-error",
+  primary: "bg-primary border border-primary",
+  ["secondary-1"]: "bg-secondary-1 border border-secondary-1",
+  transparent: "bg-transparent border border-black",
 };
 
 const Chip: React.FC<IChipProps> = ({
@@ -28,9 +30,11 @@ const Chip: React.FC<IChipProps> = ({
     classesNames.root,
     {
       [classesNames["error"]]: background === "error",
-      [classesNames["border"]]: background === "white",
+      [classesNames["transparent"]]: background === "transparent",
+      [classesNames["secondary-1"]]: background === "secondary-1",
+      [classesNames["primary"]]: background === "primary",
+      [classesNames["error"]]: background === "error",
     },
-    `bg-${background}`,
     `text-${textColor}`,
     inputClass
   );

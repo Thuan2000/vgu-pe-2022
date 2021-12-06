@@ -62,7 +62,7 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
           </div>
         </div>
         {/* CHIPS */}
-        <div className="flex items-center space-x-2">
+        <div className="fic space-x-2">
           <Chip icon={LocationIcon} text={location} background="secondary-1" />
           <Chip
             text={t(status + "_STATUS")}
@@ -72,7 +72,7 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
             text={`${t("industry:" + getIndustry(industryId)?.label)} › ${t(
               "category:" + getCategory(categoryId)?.label
             )}`}
-            background="white"
+            background="transparent"
             textColor="black"
           />
         </div>
