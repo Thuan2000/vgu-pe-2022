@@ -23,10 +23,14 @@ export const Mutation = {
 	 * @param param1 CompanyRegisterInput
 	 * @return AuthResponse
 	 */
+	// @NOTES URGENT : Follow this
+	updateCompany: (_, { id, input }) =>
+		CompanyController.updateCompany(id, input),
 	companySignup: async (
 		_,
 		{ input: { licenseFiles, licenseNumber, companyName, ...owner } }
 	) => {
+		// @NOTES URGENT : This is wrong flow need to refactor
 		const email = new EmailService();
 
 		const companyController = new CompanyController();

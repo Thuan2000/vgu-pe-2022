@@ -1,3 +1,8 @@
+export interface IBusinessType {
+  label: string;
+  id: number;
+}
+
 export const businessTypes = [
   {
     id: 1,

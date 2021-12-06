@@ -1,16 +1,23 @@
 import Form from "@components/form";
 import {
+  UpdateCompanyDetailMutation,
+  useUpdateCompanyDetailMutation,
+} from "@graphql/company.graphql";
+import {
   ICompany,
   IFile,
   IUpdateCompanyDetailsInput,
 } from "@graphql/types.graphql";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
+import { getMeData, setMeData } from "@utils/auth-utils";
+import { getCompanyId } from "@utils/functions";
 import { isEmpty } from "lodash";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import Button from "../storybook/button";
+import { IRawBFW } from "./ec-add-branch/bfw-constants";
 import ECAdditionalInput from "./ec-additional-input";
 import {
   EC_DETAILS_FORM_INDEX,
@@ -72,6 +79,8 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     ...(!!initValue ? { defaultValues: getDefaultValue(initValue) } : {}),
   });
   const { query, ...router } = useRouter();
+  const [updateCompany, { loading: updatingCompany }] =
+    useUpdateCompanyDetailMutation({ onCompleted: handleCompanyUpdated });
   const formPosition = parseInt(query.formPosition as string) || 1;
 
   useEffect(() => {
@@ -85,6 +94,17 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
       pathname,
       query: { ...query, formPosition: newPosition },
     });
+  }
+
+  function handleCompanyUpdated({
+    updateCompany,
+  }: UpdateCompanyDetailMutation) {
+    const { payload, message, success } = updateCompany ?? {};
+
+    if (success && !!payload) {
+      const { user } = getMeData();
+      setMeData({ user: user!, company: JSON.parse(payload) });
+    }
   }
 
   async function handleNextClick() {
@@ -109,25 +129,34 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     changeSection(formPosition - 1);
   }
 
+  function turnLocationToString({ location, ...bfw }: IRawBFW) {
+    return { ...bfw, location: location.name };
+  }
+
   function onSubmit(value: ECFormValues) {
     const { general, details, additional } = value;
 
     const coverImage =
       general && general.coverImage && general?.coverImage?.length > 0
-        ? general?.coverImage[0]
+        ? (general?.coverImage as any)[0]
         : {};
     const mainProducts = general?.mainProducts?.map((mp: any) => mp.label);
-    const branches = details.branches?.map(({ id, ...b }: any) => b);
-    const factories = details.factories?.map(({ id, ...f }: any) => f);
-    const warehouses = details.warehouses?.map(({ id, ...w }: any) => w);
+    const branches = details?.branches?.map(({ id, ...b }: any) =>
+      turnLocationToString(b)
+    );
+    const factories = details?.factories?.map(({ id, ...f }: any) =>
+      turnLocationToString(f)
+    );
+    const warehouses = details?.warehouses?.map(({ id, ...w }: any) =>
+      turnLocationToString(w)
+    );
 
     const input: IUpdateCompanyDetailsInput = {
       establishmentDate: general.establishmentDate,
       name: general.name,
       description: general.description as any,
       industryId: (general.industry as any).id,
-      businessType: general.businessType,
-      profileImage: general.profileImage,
+      businessType: general.businessType.label,
       settings: {
         address: general.address,
         location: general.location.name,
@@ -143,7 +172,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
       },
     };
 
-    console.log(input);
+    updateCompany({ variables: { id: getCompanyId(), input } });
   }
 
   return (

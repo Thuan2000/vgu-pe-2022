@@ -1,0 +1,7 @@
+mutation UpdateCompanyDetail($id: Int!, $input: UpdateCompanyDetailsInput!) {
+  updateCompany(id: $id, input: $input) {
+    success
+    payload
+    message
+  }
+}

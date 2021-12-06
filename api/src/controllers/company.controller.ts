@@ -2,13 +2,19 @@
  * Copyright Emolyze Tech ©2021
  * Good codes make the world a better place!
  */
-import { generateSlug, errorResponse, successResponse } from "@utils";
+import {
+	generateSlug,
+	errorResponse,
+	successResponse,
+	successResponseWithPayload
+} from "@utils";
 import Company from "@models/Company";
 import UploaderRepository from "@repositories/uploads.repository";
 import S3 from "@services/s3.service";
 import EmailService from "@services/email.service";
 import UserRepository from "@repositories/user.repository";
 import User from "@models/User";
+import { IUpdateCompanyDetailsInput } from "@graphql/types";
 
 type IRegisterResp = {
 	success: boolean;
@@ -19,6 +25,23 @@ type IRegisterResp = {
 class CompanyController {
 	s3 = new S3();
 	email = new EmailService();
+
+	static async updateCompany(id: number, input: IUpdateCompanyDetailsInput) {
+		try {
+			const [updatedId] = await Company.update(input, {
+				where: { id }
+			});
+
+			console.log(updatedId);
+			const data = await Company.findByPk(updatedId);
+			console.log(data);
+
+			return successResponseWithPayload(data);
+		} catch (e) {
+			console.log(e);
+			return errorResponse();
+		}
+	}
 
 	/**
 	 *

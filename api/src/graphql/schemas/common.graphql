@@ -26,6 +26,12 @@ type Pagination {
 	hasMore: Boolean!
 }
 
+type ResponseWithPayload {
+	payload: String
+	message: String
+	success: Boolean
+}
+
 type Response {
 	message: String
 	success: Boolean

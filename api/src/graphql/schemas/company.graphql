@@ -35,14 +35,14 @@ type BFW {
 	name: String!
 	location: String!
 	address: String!
-	images: [File!]!
+	gallery: [File!]
 }
 
 input BFWInput {
 	name: String!
 	location: String!
 	address: String!
-	images: String!
+	gallery: [FileInput!]
 }
 
 type Company {
@@ -83,5 +83,8 @@ input UpdateCompanyDetailsInput {
 
 type Mutation {
 	companySignup(input: CompanyRegisterInput!): AuthResponse!
-	updateCompany(input: UpdateCompanyDetailsInput!): Response!
+	updateCompany(
+		id: Int!
+		input: UpdateCompanyDetailsInput!
+	): ResponseWithPayload!
 }
