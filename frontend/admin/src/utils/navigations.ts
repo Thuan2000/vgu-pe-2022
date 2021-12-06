@@ -54,14 +54,13 @@ export const navigations: INavigation[] = [
   },
 ];
 
+export const settingSidebar = {
+  label: "setting-nav-label",
+  managedLinks: [],
+  icon: SettingsIcon,
+};
+
 export const bottomNavigations = [
-  {
-    label: "editCompany-nav-label",
-    // This should be like this
-    href: ROUTES.EDIT_COMPANY,
-    managedLinks: [],
-    icon: SettingsIcon,
-  },
   {
     label: "logout-nav-label",
     managedLinks: [],

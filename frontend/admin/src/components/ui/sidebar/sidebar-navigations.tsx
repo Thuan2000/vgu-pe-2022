@@ -6,8 +6,10 @@ import {
   bottomNavigations,
   INavigation,
   navigations,
+  settingSidebar,
 } from "@utils/navigations";
 import { getActivePath } from "@utils/functions";
+import { getMeData } from "@utils/auth-utils";
 
 const SidebarNavigations = () => {
   const { pathname } = useRouter();
@@ -68,7 +70,15 @@ const SidebarNavigations = () => {
       </div>
 
       <div className={`mt-auto -translate-y-10`}>
-        {bottomNavigations.map(({ href, icon: Icon, managedLinks, label }) => {
+        <SidebarNavItem
+          key={`${settingSidebar.label}-setting-bottom-navigation`}
+          isActive={getActivePath(pathname) === "/[company-slug]"}
+          href={getMeData().company?.slug || ""}
+          label={settingSidebar.label}
+          Icon={settingSidebar.icon}
+        />
+
+        {bottomNavigations.map(({ href, icon, managedLinks, label }) => {
           const isActive = checkIsActive([href, ...managedLinks]);
           return (
             <SidebarNavItem
@@ -76,7 +86,7 @@ const SidebarNavigations = () => {
               isActive={isActive}
               href={href}
               label={label}
-              Icon={Icon}
+              Icon={icon}
             />
           );
         })}

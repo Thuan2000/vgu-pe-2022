@@ -160,3 +160,12 @@ export function getXversion(ext: string[]) {
 export function getDocumentAccept() {
   return `.pdf, ${getXversion(["doc", "xls", "ppt"])}`;
 }
+
+export function removeTypenameOfChildrens(childrens: any[] = []) {
+  return childrens.map(({ __typename, ...c }) => c);
+}
+
+export function removeTypename(data: any = {}) {
+  const { __typename, ...dataWithoutTypename } = data;
+  return dataWithoutTypename;
+}

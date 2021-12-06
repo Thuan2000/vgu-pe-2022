@@ -3,7 +3,6 @@ import PostPageWrapper from "@components/post-page-wrapper";
 import { editCompanyNavs } from "@components/ui/edit-company/ec-constants";
 import CompanyDetailsForm from "@components/ui/edit-company/edit-company-form";
 import { getMeData } from "@utils/auth-utils";
-import { getCompanyName } from "@utils/functions";
 import { generateHeadTitle } from "@utils/seo-utils";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";

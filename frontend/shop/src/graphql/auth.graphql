@@ -1,5 +1,6 @@
 #import UserFragment from "./user.fragment.graphql"
 #import CompanyFragment from "./company.fragment.graphql"
+#import FileFragment from "./file.fragment.graphql"
 
 mutation Login($input: LoginInput!) {
   login(input: $input) {

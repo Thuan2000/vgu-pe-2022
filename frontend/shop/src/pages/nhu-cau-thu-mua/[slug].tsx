@@ -10,13 +10,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import React from "react";
 import BRDBrImages from "@components/buying-request-detail/brd-image-section";
 import Typography from "@components/ui/storybook/typography";
-import {
-  formatMoneyAmount,
-  getCompanyId,
-  getSuffix,
-  trimText,
-  viDateFormat,
-} from "@utils/functions";
+import { viDateFormat } from "@utils/functions";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import BRDSocialShareList from "@components/buying-request-detail/brd-social-share-list";

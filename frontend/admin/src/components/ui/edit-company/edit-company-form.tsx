@@ -8,13 +8,19 @@ import {
 import { ICompany, IUpdateCompanyDetailsInput } from "@graphql/types.graphql";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { getMeData, setMeData } from "@utils/auth-utils";
-import { getCompanyId } from "@utils/functions";
+import {
+  getCompanyId,
+  removeTypename,
+  removeTypenameOfChildrens,
+} from "@utils/functions";
+import { ROUTES } from "@utils/routes";
 import { getLocationByName } from "@utils/vietnam-cities";
 import { isEmpty } from "lodash";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import Swal from "sweetalert2";
 import Button from "../storybook/button";
 import { IRawBFW } from "./ec-add-branch/bfw-constants";
 import ECAdditionalInput from "./ec-additional-input";
@@ -64,17 +70,17 @@ function getDefaultValue(initValue: ICompany) {
         getIndustry(initValue?.industryId as number)
       ),
       ...returnObjectIfExist(
-        !!settings?.coverImage,
+        !!initValue?.industryId,
         "coverImage",
         getIndustry(initValue?.industryId as number)
       ),
       ...returnObjectIfExist(!!settings?.coverImage, "coverImage", [
-        settings?.coverImage,
+        removeTypename(settings?.coverImage),
       ]),
       ...returnObjectIfExist(
         !!settings?.profileImage,
         "profileImage",
-        settings?.profileImage
+        removeTypename(settings?.profileImage)
       ),
       ...returnObjectIfExist(
         !!settings?.contactNumber,
@@ -107,22 +113,23 @@ function getDefaultValue(initValue: ICompany) {
       ...returnObjectIfExist(
         !!settings?.branches,
         "branches",
-        settings?.branches
+        removeTypenameOfChildrens(settings?.branches || [])
       ),
       ...returnObjectIfExist(
         !!settings?.factories,
         "factories",
-        settings?.factories
+        removeTypenameOfChildrens(settings?.factories || [])
       ),
       ...returnObjectIfExist(
         !!settings?.warehouses,
         "warehouses",
-        settings?.warehouses
+        removeTypenameOfChildrens(settings?.warehouses || [])
       ),
     } as any,
     additional: {
-      certificates: settings?.certificates || [],
-      gallery: settings?.gallery || [],
+      certificates:
+        removeTypenameOfChildrens(settings?.certificates || []) || [],
+      gallery: removeTypenameOfChildrens(settings?.gallery || []) || [],
     },
   };
 
@@ -166,13 +173,23 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   function handleCompanyUpdated({
     updateCompany,
   }: UpdateCompanyDetailMutation) {
-    const { payload, message, success } = updateCompany ?? {};
+    const { payload, success } = updateCompany ?? {};
     if (success && !!payload) {
       const { user, company: oldCompany } = getMeData();
 
       setMeData({
         user: user!,
         company: { id: oldCompany, ...JSON.parse(payload) },
+      });
+      Swal.fire({
+        icon: "success",
+        title: t("companyEdited-success-message"),
+      });
+      router.replace(oldCompany?.slug as string);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: t("companyEdited-error-message"),
       });
     }
   }
@@ -200,7 +217,13 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   }
 
   function turnLocationToString({ location, ...bfw }: IRawBFW) {
-    return { ...bfw, location: location.name || location };
+    return {
+      ...bfw,
+      location: location.name || location,
+      ...(bfw.gallery.length > 0
+        ? { gallery: removeTypenameOfChildrens(bfw.gallery || []) }
+        : {}),
+    };
   }
 
   function onSubmit(value: ECFormValues) {
