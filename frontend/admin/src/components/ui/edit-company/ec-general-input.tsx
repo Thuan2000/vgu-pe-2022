@@ -1,6 +1,7 @@
 import CirclePlusIcon from "@assets/icons/circle-plus-icon";
 import { businessTypes } from "@datas/businessTypes";
 import { industriesData } from "@datas/industries";
+import { ICompany } from "@graphql/types.graphql";
 import { COLORS } from "@utils/colors";
 import { vietnamCities } from "@utils/vietnam-cities";
 import { useTranslation } from "next-i18next";
@@ -27,12 +28,14 @@ interface IECGeneralInputProps {
   control: Control<ECFormValues>;
   errors?: FieldErrors<ECFormValues>;
   trigger: UseFormTrigger<ECFormValues>;
+  initValue?: ICompany;
 }
 
 const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
   control,
   errors,
   trigger,
+  initValue,
   register,
 }) => {
   const { t } = useTranslation("form");
@@ -115,6 +118,12 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
 
         <SelectInput
           name="general.location"
+          {...(initValue?.settings?.location
+            ? {
+                getInitialValue: (opt) =>
+                  opt.name === initValue?.settings?.location,
+              }
+            : {})}
           label={t("location-input-label")}
           onChange={() => {
             trigger("general.location");
@@ -140,6 +149,9 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
 
         <SelectInput
           name="general.industry"
+          {...(initValue?.industryId
+            ? { getInitialValue: (opt) => opt.id === initValue?.industryId }
+            : {})}
           label={t("industry-input-label")}
           onChange={() => {
             trigger("general.industry");
@@ -154,6 +166,9 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
 
         <SelectInput
           name="general.businessType"
+          {...(initValue?.businessTypeId
+            ? { getInitialValue: (opt) => opt.id === initValue?.businessTypeId }
+            : {})}
           onChange={() => {
             trigger("general.businessType");
           }}

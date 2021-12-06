@@ -68,8 +68,7 @@ class BuyingRequestController {
 			location,
 			minBudget,
 			maxBudget,
-			categoryIds,
-			// productName,
+			categoryId,
 			status,
 			limit
 		} = input;
@@ -107,6 +106,7 @@ class BuyingRequestController {
 					: {}),
 				...(status && status !== "ALL" ? { status } : {}),
 				...(industryId ? { industryId } : {}),
+				...(categoryId ? { categoryId } : {}),
 				...(location ? { location } : {})
 			},
 			order: [

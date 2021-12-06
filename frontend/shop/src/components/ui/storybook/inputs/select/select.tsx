@@ -70,24 +70,26 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
         />
         {isMulti && (
           <div className="flex flex-wrap select-none mt-3">
-            {values && values.length && values?.map((value: any, idx: number) => {
-              const label = props?.getOptionLabel!(value);
+            {values &&
+              values.length &&
+              values?.map((value: any, idx: number) => {
+                const label = props?.getOptionLabel!(value);
 
-              return (
-                <div
-                  key={`${label}-select`}
-                  className="flex cursor-default items-center border-primary text-primary border-2 mr-2 mb-2 bg-white rounded-3xl pl-2 text-sm"
-                >
-                  {label}
-                  <p
-                    className="ml-2  text-sm font-semibold cursor-pointer hover:text-primary-hover hover:bg-gray-10 rounded-r-3xl pl-1 pr-2 transition-colors duration-150"
-                    onClick={() => removeAValue(value)}
+                return (
+                  <div
+                    key={`${label}-select`}
+                    className="flex cursor-default items-center border-primary text-primary border-2 mr-2 mb-2 bg-white rounded-3xl pl-2 text-sm"
                   >
-                    x
-                  </p>
-                </div>
-              );
-            })}
+                    {label}
+                    <p
+                      className="ml-2  text-sm font-semibold cursor-pointer hover:text-primary-hover hover:bg-gray-10 rounded-r-3xl pl-1 pr-2 transition-colors duration-150"
+                      onClick={() => removeAValue(value)}
+                    >
+                      x
+                    </p>
+                  </div>
+                );
+              })}
           </div>
         )}
       </div>

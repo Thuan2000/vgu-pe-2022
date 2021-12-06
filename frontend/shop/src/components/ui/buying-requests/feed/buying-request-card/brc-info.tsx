@@ -7,6 +7,8 @@ import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
 import Chip from "@components/ui/storybook/chip";
 import Typography from "@components/ui/storybook/typography";
+import { getCategory, getCategoryByLabel } from "@datas/categories";
+import { getIndustry } from "@datas/industries";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import { viDateFormat, trimText, getCompanyId } from "@utils/functions";
 import { ROUTES } from "@utils/routes";
@@ -20,7 +22,16 @@ interface IBrcInfoProps extends React.HTMLAttributes<HTMLDivElement> {
 const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
   const { t } = useTranslation();
 
-  const { name, endDate, location, company, createdAt, status } = br;
+  const {
+    name,
+    endDate,
+    location,
+    company,
+    createdAt,
+    status,
+    industryId,
+    categoryId,
+  } = br;
 
   return (
     <div className={`w-full px-5 space-y-2 py-2 ${className}`} {...props}>
@@ -56,6 +67,13 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
           <Chip
             text={t(status + "_STATUS")}
             background={status === "OPEN" ? "primary" : "error"}
+          />
+          <Chip
+            text={`${t("industry:" + getIndustry(industryId)?.label)} › ${t(
+              "category:" + getCategory(categoryId)?.label
+            )}`}
+            background="white"
+            textColor="black"
           />
         </div>
         {/* Company */}

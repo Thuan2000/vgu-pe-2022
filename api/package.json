@@ -19,10 +19,10 @@
 		"predev": "npm-run-all clean codegen",
 		"dev": "npm run --silent dev:watch & (sleep 4 && npm run nodemon)",
 		"prestart": "npm run codegen",
-		"build": "npm-run-all clean lint prod:compile",
+		"build": "npm-run-all clean prod:compile",
 		"build:no-lint": "npm-run-all clean prod:compile",
 		"start": "npm-run-all build start:server",
-		"prod:compile": "tsc && tsc-alias",
+		"prod:compile": "swc src --out-dir dist",
 		"postprod:compile": "tsc-alias --silent && npm run copyuncopied",
 		"start:server": "node ./dist/server.js",
 		"clean": "rimraf dist/*",
@@ -30,10 +30,10 @@
 		"copyschemas": "cp ./src/graphql/schemas/* ./dist/graphql/schemas/",
 		"copyemailtemplates": "cp ./src/html-templates/* ./dist/services/html-templates/",
 		"copyuncopied": "npm-run-all copyschemas copyemailtemplates",
-		"tsc:watch": "tsc --watch",
+		"tsc": "tsc",
 		"shop:pre-commit": "npm --prefix ../frontend/shop run pre-commit",
 		"admin:pre-commit": "npm --prefix ../frontend/admin run pre-commit",
-		"precommit": "npm-run-all shop:pre-commit admin:pre-commit build"
+		"precommit": "npm-run-all shop:pre-commit admin:pre-commit tsc"
 	},
 	"husky": {
 		"hooks": {

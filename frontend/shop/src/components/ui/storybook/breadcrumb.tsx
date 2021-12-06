@@ -46,7 +46,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
       <p
         className={`text-primary whitespace-nowrap flex-shrink-0 text-${
           isChevron ? "lg" : "xs"
-        } ${isLast && "!text-gray"}`}
+        } ${isLast && "!text-black"}`}
       >
         {label}
       </p>
@@ -57,7 +57,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
 
   return (
     <div {...props}>
-      <div className="fic space-x-1 w-fit-content px-5">
+      <div className="border border-primary rounded-sm bg-gray-10 py-1 fic space-x-1 w-fit-content px-5">
         {links.length >= 1 ? (
           <Link href={homeHref}>
             <HomeIcon fill={COLORS.PRIMARY.DEFAULT} className="w-5 h-5" />

@@ -9,8 +9,6 @@ interface IBuyingRequestCardProps {
 }
 
 const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({ br }) => {
-  const { openModal } = useModal();
-
   if (!br) return <></>;
 
   return (

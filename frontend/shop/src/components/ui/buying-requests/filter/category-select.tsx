@@ -50,6 +50,7 @@ const CategorySelect: React.FC<ICategorySelectProps> = ({
         options={getIndustryCategories(industryId as number) || []}
         name="categoryFilter"
         isClearable
+        isDisabled={!industry}
         value={getCategoryByLabel(categoryFilter)}
         getInitialValue={(opt: ICategory) => opt.slug === categoryFilter}
         placeholder={t("categoryFilter-placeholder")}

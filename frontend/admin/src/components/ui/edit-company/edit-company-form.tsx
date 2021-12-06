@@ -5,11 +5,7 @@ import {
   UpdateCompanyDetailMutation,
   useUpdateCompanyDetailMutation,
 } from "@graphql/company.graphql";
-import {
-  ICompany,
-  IFile,
-  IUpdateCompanyDetailsInput,
-} from "@graphql/types.graphql";
+import { ICompany, IUpdateCompanyDetailsInput } from "@graphql/types.graphql";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { getMeData, setMeData } from "@utils/auth-utils";
 import { getCompanyId } from "@utils/functions";
@@ -44,7 +40,7 @@ function returnObjectIfExist(isExist: boolean, key: string, value: any) {
 // @URGENT Check this again
 function getDefaultValue(initValue: ICompany) {
   const { settings } = initValue || {};
-  const data: any = {
+  const data: ECFormValues = {
     general: {
       ...returnObjectIfExist(!!initValue.name, "name", initValue?.name),
       ...returnObjectIfExist(
@@ -106,7 +102,7 @@ function getDefaultValue(initValue: ICompany) {
         getBusinessType(initValue?.businessTypeId as number)
       ),
       ...returnObjectIfExist(!!settings?.mainProducts, "mainProducts", []),
-    },
+    } as any,
     details: {
       ...returnObjectIfExist(
         !!settings?.branches,
@@ -123,13 +119,9 @@ function getDefaultValue(initValue: ICompany) {
         "warehouses",
         settings?.warehouses
       ),
-    },
+    } as any,
     additional: {
-      ...returnObjectIfExist(
-        !!(settings as any)?.certificates,
-        "certificates",
-        (settings as any)?.certificates
-      ),
+      certificates: settings?.certificates || [],
       gallery: settings?.gallery || [],
     },
   };
@@ -175,9 +167,9 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     updateCompany,
   }: UpdateCompanyDetailMutation) {
     const { payload, message, success } = updateCompany ?? {};
-
     if (success && !!payload) {
       const { user, company: oldCompany } = getMeData();
+
       setMeData({
         user: user!,
         company: { id: oldCompany, ...JSON.parse(payload) },
@@ -252,7 +244,6 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
         warehouses: warehouses as any,
       },
     };
-    console.log(input);
     updateCompany({ variables: { id: getCompanyId(), input } });
   }
 
@@ -263,6 +254,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
           register={register}
           control={control}
           errors={errors}
+          initValue={initValue}
           trigger={trigger}
         />
       )}

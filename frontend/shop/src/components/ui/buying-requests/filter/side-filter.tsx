@@ -24,7 +24,6 @@ const SideFilter: React.FC = () => {
       </div>
       <StatusCheckbox />
       <LocationSearch />
-      {/* <EndDateCheckbox /> */}
       <IndustrySelect />
       <CategorySelect />
       <BudgetRange />

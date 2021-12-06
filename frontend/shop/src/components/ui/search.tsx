@@ -153,7 +153,7 @@ const Search = ({
           className={`flex items-center h-8 rounded-md border border-green `}
         >
           <SearchTypeSelector />
-          <div className="relative bg-red">
+          <div className="relative">
             <Input
               className={`!h-7`}
               noBorder
