@@ -81,7 +81,7 @@ export function getActivePath(pathname: string) {
 export function getCompanyId() {
   const { company } = getMeData();
 
-  return company?.id;
+  return company?.id as number;
 }
 export function getCompanyName() {
   const { company } = getMeData();
