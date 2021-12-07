@@ -16,7 +16,7 @@ class Service extends Model {
 Service.init(
 	{
 		name: DataTypes.STRING,
-		description: DataTypes.STRING,
+		description: DataTypes.TEXT,
 		industryId: DataTypes.INTEGER,
 		categoryId: DataTypes.INTEGER,
 		location: DataTypes.STRING,

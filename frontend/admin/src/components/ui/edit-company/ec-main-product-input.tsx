@@ -1,6 +1,6 @@
 import { generateUUID } from "@utils/functions";
 import { useTranslation } from "next-i18next";
-import React from "react";
+import React, { useState } from "react";
 import { Control } from "react-hook-form";
 import CreateableSelectInput from "../storybook/createable-select/createable-select-input";
 import { ECFormValues } from "./ec-schema";
@@ -20,6 +20,8 @@ const ECMainProductInput: React.FC<IECMainProductInputProps> = ({
 }) => {
   const { t } = useTranslation("form");
 
+  const [opts] = useState([]);
+
   function onCreateNewOption(label: string) {
     return { id: generateUUID(), label };
   }
@@ -33,7 +35,8 @@ const ECMainProductInput: React.FC<IECMainProductInputProps> = ({
       control={control}
       isMulti
       onChange={onChange}
-      options={[]}
+      options={opts}
+      noOptionsMessage={() => t("pleaseInputProductName-message")}
       getOptionLabel={(opt) => opt.label}
       getOptionValue={(opt) => opt.label}
       error={error}

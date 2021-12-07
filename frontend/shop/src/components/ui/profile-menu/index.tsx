@@ -9,6 +9,7 @@ import LogoutIcon from "@assets/icons/navigations/logout-icon";
 import SettingIcon from "@assets/icons/navigations/settings-icon";
 import styles from "./profile-menu.module.css";
 import { getMeData } from "@utils/auth-utils";
+import { getLoginCompanySlug } from "@utils/functions";
 
 const variants = {
   hidden: { opacity: 1, maxHeight: 0 },
@@ -33,14 +34,24 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
         </p>
       </div>
       <div className="bg-green-10 p-3 border">
-        <p className="text-heading font-semibold">{company?.name}</p>
-        {!company?.approved && (
+        <Link
+          target="_blank"
+          rel="noreferrer"
+          href={`${ROUTES.ADMIN_LINK}/${getLoginCompanySlug()}`}
+        >
+          <p className="text-heading font-semibold">{company?.name}</p>
+        </Link>
+        {/* {!company?.approved && (
           <p className="text-xs text-gray-300 mt-1">{t("not-verified")}</p>
-        )}
+        )} */}
       </div>
       <div className="border border-t-0 rounded-md rounded-t-none">
         {/* <Link href={ROUTES.SETTINGS}> */}
-        <Link href={`${ROUTES.ADMIN_LINK}${ROUTES.COMPANY_DETAIL}`}>
+        <Link
+          target="_blank"
+          rel="noreferrer"
+          href={`${ROUTES.ADMIN_LINK}/${getLoginCompanySlug()}`}
+        >
           <div className="px-3 py-2 flex items-center ">
             <SettingIcon className="mr-4 h-6 w-4" />
             <p className="text-gray-400 h-6">{t("settings-menu")}</p>

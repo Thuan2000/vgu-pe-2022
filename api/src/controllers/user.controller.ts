@@ -27,7 +27,7 @@ class UserController {
 	 * @param user UserInput
 	 * @returns {...Response, token: string, id: number}
 	 */
-	async register(user: IUser): Promise<RegisterResp> {
+	async register(user): Promise<RegisterResp> {
 		try {
 			const sameEmailUser = await User.findOne({
 				where: { email: user.email }

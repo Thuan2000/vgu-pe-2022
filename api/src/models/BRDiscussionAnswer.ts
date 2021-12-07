@@ -16,7 +16,7 @@ BRDiscussionAnswer.init(
 		brDiscussionQuestionId: DataTypes.INTEGER,
 		userId: DataTypes.INTEGER,
 		companyName: DataTypes.STRING,
-		answer: DataTypes.STRING
+		answer: DataTypes.TEXT
 	},
 	{
 		sequelize: Database.sequelize,

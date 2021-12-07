@@ -1,6 +1,6 @@
 import Cookie from "js-cookie";
 import SSRCookie from "cookie";
-import { AUTH_CRED, LOGGED_IN_USER, ROLE, TOKEN } from "./constants";
+import { AUTH_CRED, LOGGED_IN_USER } from "./constants";
 import { ICompany, IMeInfoResponse, IUser } from "@graphql/types.graphql";
 
 const cookieDomain = { domain: `.${process.env.NEXT_PUBLIC_DOMAIN}` };
@@ -22,7 +22,6 @@ export function removeAuthCredentials() {
 
 export function getAuthCredentials(context?: any): {
   token: string | null;
-  role: string | null;
 } {
   let authCred;
   if (context) {
@@ -35,7 +34,7 @@ export function getAuthCredentials(context?: any): {
     return JSON.parse(authCred);
   }
 
-  return { token: null, role: null };
+  return { token: null };
 }
 
 export function parseSSRCookie(context: any) {
@@ -58,25 +57,20 @@ export function isAuthenticated(_cookies: { token: string; role: string }) {
   return _cookies.token;
 }
 
-export function setMeData({
-  user,
-  company,
-}: {
-  user: IUser;
-  company: ICompany;
-}) {
+export function setMeData({ user }: { user: IUser; company: ICompany }) {
   Cookie.set(
     LOGGED_IN_USER,
-    JSON.stringify({ user, company }),
+    JSON.stringify(user),
     !isDevelopment ? { ...cookieDomain } : {}
   );
 }
 
 export function getMeData(): IMeInfoResponse | { company: null; user: null } {
-  const data = Cookie.get(LOGGED_IN_USER);
-  if (!data) return { company: null, user: null };
+  const rawUser = Cookie.get(LOGGED_IN_USER);
+  if (!rawUser) return { company: null, user: null };
+  const { company, ...user } = JSON.parse(rawUser);
 
-  return JSON.parse(data);
+  return { user, company };
 }
 
 export function removeMeData() {

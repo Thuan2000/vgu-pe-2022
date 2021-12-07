@@ -28,6 +28,12 @@ const ECDetailsInput: React.FC<IECDetailsInputProps> = ({
 }) => {
   const { t } = useTranslation("form");
 
+  const [refresh, setRefresh] = useState(false);
+
+  function refreshUI() {
+    setRefresh(!refresh);
+  }
+
   function addWarehouseFromFactory(f: IRawBFW) {
     const currentWarehouses = getValues("details.warehouses") || [];
     setValue("details.warehouses", [...currentWarehouses, f]);

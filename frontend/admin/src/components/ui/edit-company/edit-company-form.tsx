@@ -9,6 +9,7 @@ import { ICompany, IUpdateCompanyDetailsInput } from "@graphql/types.graphql";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { getMeData, setMeData } from "@utils/auth-utils";
 import {
+  generateUUID,
   getCompanyId,
   removeTypename,
   removeTypenameOfChildrens,
@@ -43,6 +44,10 @@ function returnObjectIfExist(isExist: boolean, key: string, value: any) {
   return {};
 }
 
+function generateMainProducts(mainProducts: string[]) {
+  return mainProducts.map((mp) => ({ label: mp, id: generateUUID() }));
+}
+
 // @URGENT Check this again
 function getDefaultValue(initValue: ICompany) {
   const { settings } = initValue || {};
@@ -60,18 +65,8 @@ function getDefaultValue(initValue: ICompany) {
         new Date(initValue?.establishmentDate)
       ),
       ...returnObjectIfExist(
-        !!initValue?.businessTypeId,
-        "businessType",
-        getIndustry(initValue?.businessTypeId as number)
-      ),
-      ...returnObjectIfExist(
         !!initValue?.industryId,
         "industry",
-        getIndustry(initValue?.industryId as number)
-      ),
-      ...returnObjectIfExist(
-        !!initValue?.industryId,
-        "coverImage",
         getIndustry(initValue?.industryId as number)
       ),
       ...returnObjectIfExist(!!settings?.coverImage, "coverImage", [
@@ -93,9 +88,9 @@ function getDefaultValue(initValue: ICompany) {
         settings?.employeeAmount as number
       ),
       ...returnObjectIfExist(
-        !!settings?.location,
+        !!initValue?.location,
         "location",
-        getLocationByName(settings?.location as string)
+        getLocationByName(initValue?.location as string)
       ),
       ...returnObjectIfExist(
         !!settings?.address,
@@ -107,7 +102,11 @@ function getDefaultValue(initValue: ICompany) {
         "businessType",
         getBusinessType(initValue?.businessTypeId as number)
       ),
-      ...returnObjectIfExist(!!settings?.mainProducts, "mainProducts", []),
+      ...returnObjectIfExist(
+        !!settings?.mainProducts,
+        "mainProducts",
+        generateMainProducts(settings?.mainProducts || [])
+      ),
     } as any,
     details: {
       ...returnObjectIfExist(
@@ -132,7 +131,6 @@ function getDefaultValue(initValue: ICompany) {
       gallery: removeTypenameOfChildrens(settings?.gallery || []) || [],
     },
   };
-
   return data;
 }
 
@@ -160,7 +158,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   useEffect(() => {
     if (formPosition > EC_GENERAL_FORM_INDEX && isEmpty(dirtyFields.general))
       changeSection(EC_GENERAL_FORM_INDEX);
-  });
+  }, []);
 
   function changeSection(newPosition: number) {
     const { pathname } = router;
@@ -177,15 +175,11 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     if (success && !!payload) {
       const { user, company: oldCompany } = getMeData();
 
-      setMeData({
-        user: user!,
-        company: { id: oldCompany, ...JSON.parse(payload) },
-      });
       Swal.fire({
         icon: "success",
         title: t("companyEdited-success-message"),
       });
-      router.replace(oldCompany?.slug as string);
+      router.replace(`/${oldCompany?.slug}` as string);
     } else {
       Swal.fire({
         icon: "error",
@@ -228,7 +222,6 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
 
   function onSubmit(value: ECFormValues) {
     const { general, details, additional } = value;
-
     const coverImage =
       general &&
       general.coverImage &&
@@ -246,16 +239,16 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
       turnLocationToString(w)
     );
 
-    const input: IUpdateCompanyDetailsInput | any = {
+    const input: IUpdateCompanyDetailsInput = {
       establishmentDate: general.establishmentDate,
       name: general.name,
       description: general.description as any,
       industryId: (general.industry as any).id,
+      location: general.location.name,
       businessTypeId: general.businessType.id as any,
       settings: {
         certificates: additional.certificates,
         address: general.address,
-        location: general.location.name,
         profileImage: general.profileImage,
         employeeAmount: general.employeeAmount,
         gallery: additional.gallery,
@@ -267,7 +260,8 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
         warehouses: warehouses as any,
       },
     };
-    updateCompany({ variables: { id: getCompanyId(), input } });
+    console.log(input);
+    updateCompany({ variables: { id: getCompanyId()!, input } });
   }
 
   return (
@@ -325,7 +319,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
             onClick={handleNextClick}
             size="small"
             className="md:w-1/2.5"
-            // loading={creating || updating}
+            loading={updatingCompany}
             autoFocus={formPosition === EC_ADDITIONAL_FORM_INDEX}
           >
             {t(

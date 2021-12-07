@@ -25,6 +25,19 @@ class CompanyController {
 	s3 = new S3();
 	email = new EmailService();
 
+	static async getCompany(slug: string) {
+		try {
+			const company = await Company.findOne({
+				where: { slug }
+			});
+
+			return company;
+		} catch (e) {
+			console.log(e);
+			return errorResponse(e);
+		}
+	}
+
 	static async updateCompany(id: number, input: IUpdateCompanyDetailsInput) {
 		try {
 			const [updatedId] = await Company.update(input, {

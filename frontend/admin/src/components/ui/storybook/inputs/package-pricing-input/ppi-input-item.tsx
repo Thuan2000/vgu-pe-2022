@@ -23,7 +23,7 @@ interface IPPIInput {
 function getPrValue(row: IPPIRow, pkg: IPPIPackage) {
   const idx = findIndex(pkg.packageRows, (pr) => row.id === pr.rowId);
   if (idx === -1) {
-    if (row.inputType === "PRICE") return { price: 0, unit: "" };
+    if (row.inputType === "PRICE") return { price: "", unit: "" };
     if (row.inputType === "ATTACHMENT") return null;
 
     return "";

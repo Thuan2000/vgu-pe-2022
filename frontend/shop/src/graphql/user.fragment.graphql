@@ -3,6 +3,15 @@ fragment UserFragment on User {
   email
   firstName
   lastName
-  password
   role
+  phoneNumber
+  company {
+    id
+    name
+    industryId
+    businessTypeId
+    establishmentDate
+    slug
+    location
+  }
 }

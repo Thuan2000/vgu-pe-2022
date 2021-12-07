@@ -20,14 +20,14 @@ export async function resizeImage(fileStream: any) {
 		// );
 
 		const thumbImage = await sharp().resize(
-			THUMB_IMAGE_WIDTH,
-			THUMB_IMAGE_HEIGHT
+			MAX_IMAGE_WIDTH,
+			MAX_IMAGE_HEIGHT
 		);
 
 		// @TODO on landscape picture make this work
 		const thumbRes = fileStream.pipe(thumbImage);
 
-		return { thumbRes: fileStream };
+		return { thumbRes };
 	} catch (e) {
 		console.log("ERROR: " + e);
 	}

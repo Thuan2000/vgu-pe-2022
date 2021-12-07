@@ -22,7 +22,7 @@ module.exports = {
 				allowNull: false
 			},
 			description: {
-				type: Sequelize.STRING
+				type: Sequelize.TEXT
 			},
 			approved: {
 				type: Sequelize.BOOLEAN,
@@ -37,6 +37,9 @@ module.exports = {
 			ownerId: {
 				type: Sequelize.INTEGER,
 				allowNull: false
+			},
+			location: {
+				type: Sequelize.STRING
 			},
 			settings: {
 				type: Sequelize.JSON

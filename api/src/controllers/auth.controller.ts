@@ -5,7 +5,7 @@ import User from "@models/User";
 import AuthRepository from "@repositories/auth.repository";
 import { ICompany, ILoginInput, IUser } from "@graphql/types";
 import Company from "@models/Company";
-import { Model } from "sequelize/types";
+import { Model, Sequelize } from "sequelize";
 
 class AuthController {
 	authRepo = new AuthRepository();
@@ -14,7 +14,22 @@ class AuthController {
 		try {
 			const user = await User.findOne({
 				where: { email },
-				include: [{ model: Company, as: "company" }]
+				include: [
+					{
+						model: Company,
+						as: "company",
+						attributes: [
+							"id",
+							"name",
+							"slug",
+							"industryId",
+							"businessTypeId",
+							"approved",
+							"establishmentDate"
+							// [Sequelize.fn("JSON_VALUE",Sequelize.col("settings"),"$.contactNumber"),"contact number"]
+						]
+					}
+				]
 			});
 			if (!user) return errorResponse("USER_NOT_FOUND");
 
@@ -37,20 +52,11 @@ class AuthController {
 			return {
 				...successResponse(),
 				token,
-				company,
 				user
 			};
 		} catch (err) {
 			console.log(err);
 		}
-	}
-
-	async meInfo(user: IUser) {
-		const userCompany: Model<ICompany> = await Company.findByPk(
-			user?.companyId
-		);
-
-		return { user, company: userCompany };
 	}
 }
 

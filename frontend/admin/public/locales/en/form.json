@@ -263,7 +263,7 @@
   "ec-addBranch-label": "Branch",
   "ec-addBranch-button-label": "Add Branch",
   "ec-addFactory-label": "Factory",
-  "ec-addFactory-button-label" : "Add Factory",
+  "ec-addFactory-button-label": "Add Factory",
   "ec-addWarehouse-label": "Warehouse",
   "ec-addWarehouse-button-label": "Add Warehouse",
   "addBranch-form-title": "Add Branch",
@@ -284,5 +284,7 @@
   "needAtLeast1Image-error": "Please insert at least 1 image",
   "ec-gallery-input-label": "Gallery",
   "ec-certificates-input-label": "Certificates",
-  "update-company-button-label": "Update Company"
+  "update-company-button-label": "Update Company",
+  "pps-service-singlePrice-label": "Service Price",
+  "not-setup": "Not setup yet"
 }

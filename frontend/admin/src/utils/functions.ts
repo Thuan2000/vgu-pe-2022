@@ -81,7 +81,7 @@ export function getActivePath(pathname: string) {
 export function getCompanyId() {
   const { company } = getMeData();
 
-  return company?.id as number;
+  return company?.id;
 }
 export function getCompanyName() {
   const { company } = getMeData();
@@ -144,12 +144,7 @@ export function generateUUID() {
   });
 }
 
-export function isUserApproved() {
-  const { company } = getMeData();
-  return company?.approved;
-}
-
-export function getXversion(ext: string[]) {
+export function getExtXversion(ext: string[]) {
   let t = "";
 
   ext.forEach((e) => (t += `${e}, ${e}x,`));
@@ -158,14 +153,23 @@ export function getXversion(ext: string[]) {
 }
 
 export function getDocumentAccept() {
-  return `.pdf, ${getXversion(["doc", "xls", "ppt"])}`;
+  return `.pdf, ${getExtXversion(["doc", "xls", "ppt"])}`;
 }
 
 export function removeTypenameOfChildrens(childrens: any[] = []) {
-  return childrens.map(({ __typename, ...c }) => c);
+  return childrens.map((child) => {
+    const { __typename, ...c } = child;
+    return c;
+  });
 }
 
-export function removeTypename(data: any = {}) {
-  const { __typename, ...dataWithoutTypename } = data;
+export function removeTypename(data: any) {
+  const { __typename, ...dataWithoutTypename } = data || {};
   return dataWithoutTypename;
+}
+
+export function getYear(stringDate: string) {
+  if (!stringDate) return "";
+  const year = new Date(stringDate).getFullYear();
+  return year;
 }

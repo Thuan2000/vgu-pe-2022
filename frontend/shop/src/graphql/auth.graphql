@@ -10,20 +10,5 @@ mutation Login($input: LoginInput!) {
     user {
       ...UserFragment
     }
-    company {
-      ...CompanyFragment
-    }
-  }
-}
-
-mutation MeInfo {
-  meInfo {
-    user {
-      ...UserFragment
-    }
-
-    company {
-      ...CompanyFragment
-    }
   }
 }

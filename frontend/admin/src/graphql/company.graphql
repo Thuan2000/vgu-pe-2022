@@ -1,7 +1,15 @@
+#import CompanyFragment from "company.fragment.graphql";
+
 mutation UpdateCompanyDetail($id: Int!, $input: UpdateCompanyDetailsInput!) {
   updateCompany(id: $id, input: $input) {
     success
     payload
     message
+  }
+}
+
+query Company($slug: String!) {
+  company(slug: $slug) {
+    ...CompanyFragment
   }
 }
