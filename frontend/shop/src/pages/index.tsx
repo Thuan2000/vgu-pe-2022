@@ -9,6 +9,7 @@ import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
+import HomepageContent from "@components/homepage/homepage-content";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { token } = getAuthCredentials(ctx);
@@ -42,7 +43,7 @@ const Homepage = () => {
         />
       </Head>
       <main>
-        <UnderDevelopment />
+        <HomepageContent />
       </main>
     </>
   );

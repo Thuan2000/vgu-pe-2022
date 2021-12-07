@@ -102,5 +102,10 @@
   "ho-tro": "Support",
   "homepage-breadcrumb": "Homepage",
   "companyEdited-success-message": "Company Detail Updated Succesfully",
-  "companyEdited-error-message": "Company Detail Not Updated"
+  "companyEdited-error-message": "Company Detail Not Updated",
+  "product-search-button-title": "product",
+  "tender-search-button-title": "tenders",
+  "service-search-button-title": "services",
+  "company-search-button-title": "companies",
+  "searchBy-text": "Search by "
 }

@@ -31,8 +31,8 @@
 		"copyemailtemplates": "cp ./src/html-templates/* ./dist/services/html-templates/",
 		"copyuncopied": "npm-run-all copyschemas copyemailtemplates",
 		"tsc": "tsc",
-		"shop:pre-commit": "npm --prefix ../frontend/shop run pre-commit",
-		"admin:pre-commit": "npm --prefix ../frontend/admin run pre-commit",
+		"shop:pre-commit": "npm --prefix ../frontend/shop run build",
+		"admin:pre-commit": "npm --prefix ../frontend/admin run build",
 		"precommit": "npm-run-all shop:pre-commit admin:pre-commit tsc"
 	},
 	"husky": {

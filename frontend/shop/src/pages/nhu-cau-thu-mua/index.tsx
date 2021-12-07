@@ -55,7 +55,7 @@ const BuyingRequests: React.FC = () => {
           content="DSConnect.VN | The best B2B Ecommerce in Vietnam provide a fast supply demain chain to fit your need"
         />
       </Head>
-      <div className="flex relative pb-10">
+      <div className="flex relative ">
         <div className="fixed ">
           <SideFilter />
         </div>
