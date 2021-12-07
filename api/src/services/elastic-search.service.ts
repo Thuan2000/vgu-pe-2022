@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
-import { Client } from "@elastic/elasticsearch";
+import { Client } from "@opensearch-project/opensearch";
 
 interface IMappingProperties {
 	[key: string]: {
