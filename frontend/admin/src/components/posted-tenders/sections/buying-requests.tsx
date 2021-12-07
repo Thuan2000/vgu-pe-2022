@@ -25,7 +25,7 @@ import DeleteBrAlert from "@components/ui/delete-br-alert";
 
 interface IBuyingRequestsProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-function getParameter({ offset }: { offset: number }) {
+function getParameter({ offset }: { offset: number }): any {
   return {
     companyId: getCompanyId(),
     input: {
