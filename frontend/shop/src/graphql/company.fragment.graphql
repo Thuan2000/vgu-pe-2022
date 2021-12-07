@@ -11,12 +11,12 @@ fragment CompanyFragment on Company {
   industryId
   ownerId
   establishmentDate
+  location
   businessTypeId
   licenseFiles {
     ...FileFragment
   }
   settings {
-    location
     address
     contactNumber
     coverImage {
