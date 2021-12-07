@@ -1,0 +1,6 @@
+fragment FileFragment on File {
+  url
+  location
+  fileName
+  fileType
+}

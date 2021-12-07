@@ -21,7 +21,7 @@ const classes = {
   cancel: "bg-transparent text-gray border border-gray",
   custom: "border border-transparent",
   outline: (color: Background) =>
-    `border border-${color} bg-transparent hover:text-light hover:bg-${color} hover:border-${color} text-${color}`,
+    `border border-${color} bg-transparent hover:text-light hover:bg-${color} hover:bg-secondary-1 hover:bg-primary hover:border-${color} text-${color}`,
   loading:
     "ml-2 h-4 w-4 ms-2 rounded-full border-2 border-transparent border-t-2 animate-spin",
   disabled:

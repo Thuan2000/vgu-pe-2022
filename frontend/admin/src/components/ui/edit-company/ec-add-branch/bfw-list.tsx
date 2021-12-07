@@ -33,9 +33,9 @@ const BFWList: React.FC<IBFWList> = ({
 
   // @TODO : Find the better way than this,
   // @PROBLEM : this run every second
-  // useEffect(() => {
-  //   if (value !== Bfws) setBfws(value);
-  // }, [value]);
+  useEffect(() => {
+    if (value !== Bfws) setBfws(value);
+  }, [value]);
 
   function addBranch() {
     openModal(

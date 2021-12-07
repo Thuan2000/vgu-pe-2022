@@ -15,17 +15,22 @@ import {
 import CompanyController from "@controllers/company.controller";
 import { EUserRole } from "@utils/enums";
 import EmailService from "@services/email.service";
+import { IUser } from "@graphql/types";
+
+export const Query = {
+	company: (_, { slug }) => CompanyController.getCompany(slug)
+};
 
 export const Mutation = {
+	// @NOTES URGENT : Follow this
+	updateCompany: (_, { id, input }) =>
+		CompanyController.updateCompany(id, input),
 	/**
 	 * Company registered along with the owner
 	 * @param _
 	 * @param param1 CompanyRegisterInput
 	 * @return AuthResponse
 	 */
-	// @NOTES URGENT : Follow this
-	updateCompany: (_, { id, input }) =>
-		CompanyController.updateCompany(id, input),
 	companySignup: async (
 		_,
 		{ input: { licenseFiles, licenseNumber, companyName, ...owner } }
@@ -61,6 +66,7 @@ export const Mutation = {
 			companyName
 		});
 
+		// Send email to new user
 		email.sendEmail(owner?.email, {
 			message: EMAIL_MESSAGES.REGISTERED,
 			subject: EMAIL_SUBJECTS.REGISTERED,

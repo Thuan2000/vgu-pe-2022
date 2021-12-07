@@ -14,9 +14,6 @@ import DocumentInput from "./ui/storybook/document-input";
 import { useCompanySignupMutation } from "@graphql/company.graphql";
 import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "@utils/routes";
-// import { setAuthCredentials, setMeData } from "@utils/auth-utils";
-// import { useMeInfoMutation } from "@graphql/auth.graphql";
-// import { IMeInfoResponse } from "@graphql/types.graphql";
 import Swal from "sweetalert2";
 import { COLORS } from "@utils/colors";
 
@@ -62,7 +59,6 @@ const signupSchema: any = yup.object({
 const SignupForm = () => {
   const { t } = useTranslation("form");
   const router = useRouter();
-  // const [meInfo] = useMeInfoMutation();
   const [signup, { loading }] = useCompanySignupMutation({
     onCompleted: async ({ companySignup: { success, message } }) => {
       if (!success) fireErrorModal(message);

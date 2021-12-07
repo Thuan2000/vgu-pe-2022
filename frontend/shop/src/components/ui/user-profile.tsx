@@ -1,6 +1,10 @@
 import { getMeData, setMeData } from "@utils/auth-utils";
 import { PAGE_NAME_INTO_LABEL } from "@utils/constants";
-import { getActivePageFromPath, trimText } from "@utils/functions";
+import {
+  getActivePageFromPath,
+  getLoginCompanySlug,
+  trimText,
+} from "@utils/functions";
 import { Page } from "@utils/interfaces";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";
@@ -14,7 +18,7 @@ import Button from "./storybook/button";
 const POST_ROUTES = {
   ["san-pham-dich-vu"]: `${ROUTES.POST_PRODUCT_SERVICE}`,
   ["nhu-cau-thu-mua"]: `${ROUTES.POST_TENDER}`,
-  ["danh-ba-cong-ty"]: `${ROUTES.COMPANY_DETAIL}`,
+  ["danh-ba-cong-ty"]: `asdf`,
   ["ho-tro"]: `${ROUTES.POST_TENDER}`,
 };
 
@@ -26,7 +30,7 @@ const UserProfile = () => {
   const adminLink = process.env.NEXT_PUBLIC_ADMIN_URL;
   return (
     <div className="flex-center">
-      {!["ho-tro", ""].includes(activePage) && (
+      {!["ho-tro", "", "danh-ba-cong-ty"].includes(activePage) && (
         <div>
           <Link target="_blank" href={`${adminLink}${POST_ROUTES[activePage]}`}>
             <Button

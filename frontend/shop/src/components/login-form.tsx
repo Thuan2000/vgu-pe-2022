@@ -58,10 +58,10 @@ const LoginForm = () => {
   });
 
   async function onLoginComplete({ login }: LoginMutation) {
-    const { success, message, token, company, user } = login;
-    if (success) {
+    const { success, message, token, user } = login;
+    if (success && !!user) {
       setAuthCredentials(token!);
-      setMeData({ company: company as any, user });
+      setMeData({ user });
       toast.success(t(`form:welcomeBack-message ${user?.firstName}`));
       router.replace(ROUTES.HOMEPAGE);
     } else {

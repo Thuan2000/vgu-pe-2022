@@ -19,7 +19,6 @@ type CompanySettings {
 }
 
 input CompanySettingsInput {
-	location: String
 	address: String
 	contactNumber: String
 	coverImage: FileInput
@@ -54,14 +53,15 @@ type Company {
 	name: String!
 	slug: String!
 	licenseNumber: String!
+	location: String
 	ownerId: Int!
 	approved: Boolean!
 	description: String
 	licenseFiles: [File!]
 	settings: CompanySettings
 	industryId: Int
-	establishmentDate: Date
 	businessTypeId: Int
+	establishmentDate: Date
 }
 
 input CompanyRegisterInput {
@@ -79,6 +79,7 @@ input CompanyRegisterInput {
 input UpdateCompanyDetailsInput {
 	name: String!
 	description: String!
+	location: String!
 	industryId: Int!
 	businessTypeId: Int!
 	establishmentDate: Date!
@@ -91,4 +92,8 @@ type Mutation {
 		id: Int!
 		input: UpdateCompanyDetailsInput!
 	): ResponseWithPayload!
+}
+
+extend type Query {
+	company(slug: String!): Company!
 }

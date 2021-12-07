@@ -15,10 +15,11 @@ class Company extends Model {
 Company.init(
 	{
 		name: DataTypes.STRING,
-		description: DataTypes.STRING,
+		description: DataTypes.TEXT,
 		industryId: DataTypes.INTEGER,
 		businessTypeId: DataTypes.INTEGER,
 		establishmentDate: DataTypes.DATE,
+		location: DataTypes.STRING,
 		settings: DataTypes.JSON,
 		slug: DataTypes.STRING,
 		licenseNumber: DataTypes.STRING,

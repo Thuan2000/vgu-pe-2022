@@ -6,13 +6,16 @@ import { IRawBFW } from "./bfw-constants";
 import Button from "@components/ui/storybook/button";
 import TrashCanIcon from "@assets/icons/trash-can-icon";
 import { COLORS } from "@utils/colors";
+import { useTranslation } from "next-i18next";
 
 interface IECBFWItemProps {
   bfw: IRawBFW;
-  onDelete: (b: IRawBFW) => void;
+  onDelete?: (b: IRawBFW) => void;
 }
 
 const ECBFWItem: React.FC<IECBFWItemProps> = ({ bfw, onDelete }) => {
+  const { t } = useTranslation("form");
+
   function generateAddress(b: IRawBFW) {
     const location = b.location.name || b.location;
     const address = b.address;
@@ -21,9 +24,15 @@ const ECBFWItem: React.FC<IECBFWItemProps> = ({ bfw, onDelete }) => {
   }
 
   return (
-    <div className="border bg-gray-10 p-3 relative rounded-md" key={bfw.id}>
+    <div
+      className="border w-full bg-gray-10 p-3 relative rounded-md"
+      key={bfw.id}
+    >
       <Typography variant="BRTitle" text={bfw.name} />
-      <Typography text={generateAddress(bfw)} />
+      <div className="fic space-x-1">
+        <Typography variant="description" text={`${t("location-text")}:`} />
+        <Typography text={generateAddress(bfw)} />
+      </div>
       <div className="fic space-x-3 mt-2">
         {bfw.gallery?.map((bi) => {
           return (
@@ -41,13 +50,15 @@ const ECBFWItem: React.FC<IECBFWItemProps> = ({ bfw, onDelete }) => {
         })}
       </div>
 
-      <Button
-        onClick={() => onDelete(bfw)}
-        variant="custom"
-        className="absolute top-3 right-3"
-      >
-        <TrashCanIcon fill={COLORS.BOLDER} />
-      </Button>
+      {!!onDelete && (
+        <Button
+          onClick={() => onDelete(bfw)}
+          variant="custom"
+          className="absolute top-3 right-3"
+        >
+          <TrashCanIcon fill={COLORS.BOLDER} />
+        </Button>
+      )}
     </div>
   );
 };

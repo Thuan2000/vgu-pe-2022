@@ -27,6 +27,7 @@ export const TOKEN = "token";
 export const PERMISSIONS = "permissions";
 export const AUTH_CRED = "AUTH_CRED";
 export const LOGGED_IN_USER = "LOGGED_IN_USER";
+export const LOGGED_IN_COMPANY = "LOGGED_IN_COMPANY";
 
 // Settings
 export const MOBILE_SIZE = { min: 300, max: 480 };

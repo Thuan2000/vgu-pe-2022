@@ -4,12 +4,20 @@ export interface IBusinessType {
 }
 
 export function getBusinessType(id: number) {
-  return businessTypes[id];
+  return businessTypes[id - 1];
 }
 
 export const businessTypes = [
   {
     id: 1,
-    label: "BUSINESS_TYPE_1",
+    label: "SERVICE",
+  },
+  {
+    id: 2,
+    label: "TRADING_COMPANY",
+  },
+  {
+    id: 3,
+    label: "MANUFACTURER",
   },
 ];

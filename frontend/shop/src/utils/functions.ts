@@ -82,6 +82,12 @@ export function getActivePageFromPath(pathname: string) {
   return `${pathname.split("/")[1]}`;
 }
 
+export function getLoginCompanySlug() {
+  const { company } = getMeData();
+
+  return company?.slug as string;
+}
+
 export function getCompanyId() {
   const { company } = getMeData();
 

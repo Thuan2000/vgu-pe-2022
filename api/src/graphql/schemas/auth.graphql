@@ -1,17 +1,13 @@
 type AuthResponse {
 	success: Boolean!
 	message: String!
-	# @NOTE : Remove this later now it's error if no this 2 lines
-	user: User!
-	company: Company!
 }
 
 type LoginResponse {
 	success: Boolean!
 	message: String!
 	token: String
-	user: User!
-	company: Company!
+	user: User
 }
 
 input LoginInput {
@@ -26,5 +22,4 @@ type MeInfoResponse {
 
 extend type Mutation {
 	login(input: LoginInput!): LoginResponse!
-	meInfo: MeInfoResponse
 }
