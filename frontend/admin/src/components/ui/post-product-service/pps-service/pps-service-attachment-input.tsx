@@ -1,5 +1,6 @@
 import DocumentInput from "@components/ui/storybook/document-input";
 import TextArea from "@components/ui/storybook/inputs/text-area";
+import { getDocumentAccept } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import {
@@ -26,6 +27,7 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
   return (
     <div className="space-y-3">
       <DocumentInput
+        inputFileType="image"
         control={control}
         numberQueue={2}
         multiple
@@ -37,6 +39,7 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
       />
 
       <DocumentInput
+        inputFileType="video"
         control={control}
         numberQueue={3}
         multiple
@@ -48,13 +51,14 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
       />
 
       <DocumentInput
+        inputFileType="application"
         control={control}
         required
         multiple
         numberQueue={4}
         name="attachment.certificates"
         onChange={(_) => trigger("attachment.certificates")}
-        accept=".pdf, .doc, .xls"
+        accept={getDocumentAccept()}
         label={t("postService-certificates-input-label")}
         error={t((errors.attachment?.certificates as any)?.message || "")}
       />

@@ -1,8 +1,6 @@
 mutation CompanySignup($input: CompanyRegisterInput!) {
-	companySignup(input: $input) {
-		message
-		success
-		token
-		role
-	}
+  companySignup(input: $input) {
+    message
+    success
+  }
 }

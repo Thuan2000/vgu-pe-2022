@@ -2,30 +2,18 @@
  * Copyright Emolyze Tech ©2021
  * Good codes make the world a better place!
  */
-import { generateSlug, errorResponse, successResponse } from "@utils";
+import {
+	generateSlug,
+	errorResponse,
+	successResponse,
+	successResponseWithPayload
+} from "@utils";
 import Company from "@models/Company";
-import { uploadCompanyLicenses } from "@repositories/uploads.repository";
 import S3 from "@services/s3.service";
 import EmailService from "@services/email.service";
 import UserRepository from "@repositories/user.repository";
 import User from "@models/User";
-
-function setCompanyLicenses(data: Promise<unknown>[], company: Company) {
-	let doneCount = 0;
-
-	data.forEach(async d => {
-		d.then(file => {
-			++doneCount;
-			const currentLicenseFiles =
-				company.getDataValue("licenseFiles") || [];
-			company.set("licenseFiles", [...currentLicenseFiles, file]);
-
-			if (doneCount >= data.length - 1) {
-				company.save();
-			}
-		});
-	});
-}
+import { IUpdateCompanyDetailsInput } from "@graphql/types";
 
 type IRegisterResp = {
 	success: boolean;
@@ -36,6 +24,34 @@ type IRegisterResp = {
 class CompanyController {
 	s3 = new S3();
 	email = new EmailService();
+
+	static async getCompany(slug: string) {
+		try {
+			const company = await Company.findOne({
+				where: { slug }
+			});
+
+			return company;
+		} catch (e) {
+			console.log(e);
+			return errorResponse(e);
+		}
+	}
+
+	static async updateCompany(id: number, input: IUpdateCompanyDetailsInput) {
+		try {
+			const [updatedId] = await Company.update(input, {
+				where: { id }
+			});
+
+			const data = await Company.findByPk(updatedId);
+
+			return successResponseWithPayload(data);
+		} catch (e) {
+			console.log(e);
+			return errorResponse();
+		}
+	}
 
 	/**
 	 *
@@ -71,6 +87,7 @@ class CompanyController {
 			const newCompany = await Company.create({
 				ownerId,
 				licenseNumber,
+				licenseFiles,
 				name: companyName,
 				slug: generateSlug(companyName)
 			});
@@ -81,12 +98,6 @@ class CompanyController {
 				newCompany.getDataValue("id")
 			);
 
-			// Setting company Licenses asynchronously
-			const companyLicenses = await uploadCompanyLicenses(
-				companyName,
-				licenseFiles
-			);
-			setCompanyLicenses(companyLicenses, newCompany);
 			return {
 				userNewToken,
 				...successResponse()

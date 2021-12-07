@@ -12,9 +12,9 @@ import { ROUTES } from "@utils/routes";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
-  const { token, role } = getAuthCredentials(ctx);
+  const { token } = getAuthCredentials(ctx);
 
-  if (!isAuthenticated({ token, role } as any)) {
+  if (!isAuthenticated({ token } as any)) {
     return {
       redirect: {
         destination: ROUTES.LOGIN,

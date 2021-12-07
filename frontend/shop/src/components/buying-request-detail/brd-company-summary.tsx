@@ -37,7 +37,6 @@ const BRDCompanySummary: React.FC<IBRDCompanySummaryProps> = ({ company }) => {
             <Typography variant="smallTitle" text={company.name} />
             <VerifiedIcon className="w-5 h-5" />
           </div>
-          <Typography variant="smallTitle" text={company.name} />
         </div>
       </div>
 

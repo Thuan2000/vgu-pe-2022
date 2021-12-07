@@ -3,12 +3,22 @@
 #  Good codes make the world a better place!
 #
 
+type UserCompany {
+	id: Int!
+	name: String!
+	slug: String!
+	location: String
+	industryId: Int
+	businessTypeId: Int
+	establishmentDate: Date
+}
+
 type User {
-	id: Int
-	firstName: String
-	lastName: String
-	password: String
-	role: ROLE
-	email: String
-	companyId: Int
+	id: Int!
+	firstName: String!
+	lastName: String!
+	role: ROLE!
+	email: String!
+	company: UserCompany!
+	phoneNumber: String!
 }

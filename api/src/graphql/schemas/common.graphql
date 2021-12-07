@@ -26,6 +26,12 @@ type Pagination {
 	hasMore: Boolean!
 }
 
+type ResponseWithPayload {
+	payload: String
+	message: String
+	success: Boolean
+}
+
 type Response {
 	message: String
 	success: Boolean
@@ -34,14 +40,4 @@ type Response {
 enum POST_REQUEST_STATUS {
 	OPEN
 	CLOSE
-}
-
-type File {
-	location: String
-	path: String
-}
-
-input FileInput {
-	location: String
-	path: String
 }

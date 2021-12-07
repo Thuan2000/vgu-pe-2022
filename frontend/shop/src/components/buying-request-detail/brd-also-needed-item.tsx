@@ -17,10 +17,10 @@ const BRDAlsoNeededItem: React.FC<IBRDAlsoNeededItemProps> = ({ br }) => {
   const { t } = useTranslation("common");
 
   return (
-    <div className="flex flex-col items-center border p-2 rounded-md">
+    <div className={`flex flex-col items-center border p-2 rounded-md`}>
       <div className="relative h-32 w-32">
         <Image
-          src={br?.gallery?.at(0)?.location || siteSettings.logo.url}
+          src={br?.gallery?.at(0)?.url || siteSettings.logo.url}
           layout="fill"
         />
       </div>

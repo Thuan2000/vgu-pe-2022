@@ -2,6 +2,7 @@ import HomeIcon from "@assets/icons/navigations/home-icon";
 import LogoutIcon from "@assets/icons/navigations/logout-icon";
 import ProductIcon from "@assets/icons/navigations/product-icon";
 import RequestIcon from "@assets/icons/navigations/request-icon";
+import SettingsIcon from "@assets/icons/navigations/settings-icon";
 import { ROUTES } from "@utils/routes";
 
 export type INavigation = {
@@ -51,8 +52,18 @@ export const navigations: INavigation[] = [
     icon: ProductIcon,
     children: productChildren,
   },
+];
+
+export const settingSidebar = {
+  label: "setting-nav-label",
+  managedLinks: [],
+  icon: SettingsIcon,
+};
+
+export const bottomNavigations = [
   {
     label: "logout-nav-label",
+    managedLinks: [],
     href: ROUTES.LOGOUT,
     icon: LogoutIcon,
   },

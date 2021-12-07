@@ -3,11 +3,11 @@ import fs from "fs";
 import handlebars from "handlebars";
 import path from "path";
 
-import { EMailTemplates } from "@utils/email_constants";
+import { EEMailTemplates } from "@utils/email_constants";
 
 class EmailService {
 	private transporter: Transporter;
-	private templatesDir: string = path.join(__dirname, "@html-templates");
+	private templatesDir: string = path.join(__dirname, "html-templates");
 
 	constructor() {
 		this.initNodemailer();
@@ -42,7 +42,7 @@ class EmailService {
 			name: string;
 			message: string;
 			subject: string;
-			template: EMailTemplates;
+			template: EEMailTemplates;
 		}
 	) {
 		try {

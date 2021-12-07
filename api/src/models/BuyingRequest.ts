@@ -10,6 +10,7 @@ import ElasticSearch from "@services/elastic-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
 import Bid from "./Bid";
 import BRDiscussionQuestion from "./BRDiscussionQuestion";
+import { IBuyingRequest } from "@graphql/types";
 
 class BuyingRequest extends Model {
 	/**
@@ -97,7 +98,7 @@ BuyingRequest.init(
 		slug: DataTypes.STRING,
 		endDate: DataTypes.DOUBLE,
 		location: DataTypes.STRING,
-		description: DataTypes.STRING,
+		description: DataTypes.TEXT,
 		productName: DataTypes.STRING,
 		minBudget: DataTypes.BIGINT,
 		maxBudget: DataTypes.BIGINT,

@@ -3,7 +3,7 @@ import { IUser } from "@graphql/types";
 import EmailService from "@services/email.service";
 
 import {
-	EMailTemplates,
+	EEMailTemplates,
 	EMAIL_MESSAGES,
 	EMAIL_SUBJECTS
 } from "@utils/email_constants";
@@ -25,7 +25,7 @@ class UserRepository {
 			name: getUserName(user),
 			message: EMAIL_MESSAGES.REGISTERED,
 			subject: EMAIL_SUBJECTS.REGISTERED,
-			template: EMailTemplates.REGISTRATION
+			template: EEMailTemplates.REGISTRATION
 		});
 	}
 

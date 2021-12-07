@@ -1,3 +1,5 @@
+import { findIndex } from "lodash";
+
 export const industriesData = [
   { id: 1, label: "BUSINESS SERVICES", slug: "business-services" },
   { id: 2, label: "EVENTS", slug: "events" },
@@ -29,6 +31,22 @@ export const industriesData = [
 
 export function getIndustry(id: number) {
   return industriesData[id - 1];
+}
+
+export function getIndustryBySlug(slug: string) {
+  const idx = findIndex(
+    industriesData,
+    ({ slug: industrySlug }) => slug === industrySlug
+  );
+  return industriesData[idx];
+}
+
+export function getIndustryByLabel(slug: string) {
+  const idx = findIndex(
+    industriesData,
+    ({ label: industryLabel }) => slug === industryLabel
+  );
+  return industriesData[idx];
 }
 
 export interface IIndustry {

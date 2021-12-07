@@ -1,15 +1,10 @@
 import HomeIcon from "@assets/icons/navigations/home-icon";
 import { COLORS } from "@utils/colors";
-import { setCharAt } from "@utils/functions";
+import { toCamelCaseFromSnakeCase } from "@utils/functions";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import Link from "../link";
-
-// @TODO : make this customizeable
-interface IPath {
-  label: string;
-  href: string;
-}
 
 interface IBreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {
   homeHref: string;
@@ -17,6 +12,7 @@ interface IBreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
+  const { t } = useTranslation();
   const { pathname, query } = useRouter();
   const paths = pathname.split("/").slice(1);
   const lastPath = paths[paths.length - 1];
@@ -27,38 +23,33 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
     ] as string;
   }
 
-  function getLabel(label: string) {
-    label = setCharAt(label, 0, label[0]?.toUpperCase());
-    for (let i = 0; i < label.length; i++) {
-      const e = label[i];
-      if (e === "-") {
-        label = setCharAt(label, i, " ");
-        label = setCharAt(label, i + 1, label[i + 1]?.toUpperCase());
-      }
-    }
-    const decodedLabel = label.split("#")[0];
-    return decodedLabel;
-  }
-
   function generateLinks() {
     return paths.flatMap((p) => {
       if (p === "") return [];
       return {
-        label: getLabel(p),
+        label: toCamelCaseFromSnakeCase(t(`${p}`)),
         href: `/${p}`,
       };
     });
   }
 
-  function Item({ label, isLast }: { label: string; isLast?: boolean }) {
+  function Item({
+    label,
+    isLast,
+    isChevron,
+  }: {
+    label: string;
+    isLast?: boolean;
+    isChevron?: boolean;
+  }) {
     return (
-      <span
-        className={`text-primary flex-shrink-0 text-sm ${
-          isLast && "!text-gray"
-        }`}
+      <p
+        className={`text-primary whitespace-nowrap flex-shrink-0 text-${
+          isChevron ? "lg" : "xs"
+        } ${isLast && "!text-black"}`}
       >
         {label}
-      </span>
+      </p>
     );
   }
 
@@ -66,19 +57,22 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
 
   return (
     <div {...props}>
-      <div className="flex items-center space-x-1">
+      <div className="border border-primary rounded-sm bg-gray-10 py-1 fic space-x-1 w-fit-content px-5">
         {links.length >= 1 ? (
           <Link href={homeHref}>
             <HomeIcon fill={COLORS.PRIMARY.DEFAULT} className="w-5 h-5" />
           </Link>
         ) : (
-          <HomeIcon className="w-5 h-5" />
+          <div className="fic">
+            <HomeIcon className="w-5 h-5 mr-2" />
+            <Item label={t("homepage-breadcrumb")} isLast />
+          </div>
         )}
         {links.map((p, idx) => {
           const isLast = idx === paths.length - 1;
           return (
             <>
-              <Item label=">" isLast={isLast} />
+              <Item isChevron label="›" isLast />
               {!isLast ? (
                 <Link href={p.href}>
                   <Item label={p.label} />

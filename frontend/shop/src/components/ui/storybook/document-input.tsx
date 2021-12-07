@@ -2,41 +2,37 @@ import React from "react";
 
 import { Controller } from "react-hook-form";
 import DocumentUploader from "./document-uploader";
-import ValidationError from "./validation-error";
+import { IDocumentUploaderProps } from "./document-uploader/document-uploader";
 
-interface DocumentInputProps {
-	control: any;
-	name: string;
-	label?: string;
-	subLabel?: string;
-	multiple?: boolean;
-	error?: string;
+interface DocumentInputProps extends IDocumentUploaderProps {
+  control: any;
+  name: string;
 }
 
 const DocumentInput = ({
-	control,
-	name,
-	error,
-	label,
-	subLabel,
-	multiple = true
+  control,
+  name,
+  onChange: inputOnChange,
+  ...props
 }: DocumentInputProps) => {
-	return (
-		<Controller
-			control={control}
-			name={name}
-			render={({ field: { ref, ...rest } }) => (
-				<>
-					<DocumentUploader
-						{...rest}
-						label={label}
-						subLabel={subLabel}
-					/>
-					<ValidationError message={error} />
-				</>
-			)}
-		/>
-	);
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field: { ref, onChange, ...rest } }) => (
+        <>
+          <DocumentUploader
+            onChange={(e) => {
+              onChange(e);
+              if (inputOnChange) inputOnChange(e);
+            }}
+            {...rest}
+            {...props}
+          />
+        </>
+      )}
+    />
+  );
 };
 
 export default DocumentInput;

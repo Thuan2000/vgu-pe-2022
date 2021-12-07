@@ -5,6 +5,7 @@ interface IBrQueryParams {
   offset: number;
   limit: number;
   industryId?: number;
+  categoryId?: number;
   status?: IBrStatus;
   minBudget?: string;
   maxBudget?: string;
@@ -17,6 +18,7 @@ export const brQueryParams = ({
   offset,
   limit,
   industryId,
+  categoryId,
   status,
   minBudget,
   maxBudget,
@@ -29,6 +31,7 @@ export const brQueryParams = ({
       input: {
         offset,
         industryId,
+        categoryId,
         status,
         minBudget,
         maxBudget,

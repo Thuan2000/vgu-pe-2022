@@ -1,35 +1,14 @@
+#import UserFragment from "./user.fragment.graphql"
+#import CompanyFragment from "./company.fragment.graphql"
+#import FileFragment from "./file.fragment.graphql"
+
 mutation Login($input: LoginInput!) {
   login(input: $input) {
-    token
     message
     success
-    role
-  }
-}
-
-mutation MeInfo {
-  meInfo {
+    token
     user {
-      id
-      email
-      firstName
-      lastName
-      password
-      role
-    }
-
-    company {
-      id
-      name
-      slug
-      licenseNumber
-      description
-      approved
-      licenseFiles {
-        path
-        location
-      }
-      ownerId
+      ...UserFragment
     }
   }
 }

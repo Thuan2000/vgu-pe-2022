@@ -10,13 +10,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import React from "react";
 import BRDBrImages from "@components/buying-request-detail/brd-image-section";
 import Typography from "@components/ui/storybook/typography";
-import {
-  formatMoneyAmount,
-  getCompanyId,
-  getSuffix,
-  trimText,
-  viDateFormat,
-} from "@utils/functions";
+import { viDateFormat } from "@utils/functions";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import BRDSocialShareList from "@components/buying-request-detail/brd-social-share-list";
@@ -30,6 +24,9 @@ import BRDAskQuestion from "@components/buying-request-detail/brd-ask-question";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
 import BRDAlsoNeeded from "@components/buying-request-detail/brd-also-needed";
+import UnderDevelopment from "@components/under-development";
+import useIsPhone from "src/hooks/isPhone.hook";
+import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 
 interface IBuyingRequestDetailProps {
   br: IBuyingRequest;
@@ -95,6 +92,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
 const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
   const { t } = useTranslation("common");
+
+  const isPhone = useIsPhone();
+  if (isPhone) return <PleaseOpenOnLaptop />;
 
   function handleSetRefetch(refetchDiscussions: any) {}
   function refetchDiscussions() {}

@@ -12,8 +12,8 @@ const BrcImage: React.FC<IBrcImageProps> = ({
   gallery,
   ...props
 }) => {
-  const cover = gallery?.at(0)?.location || siteSettings.logo.url;
-  const isSdConnectLogo = !gallery?.at(0)?.location;
+  const cover = gallery?.at(0)?.url || siteSettings.logo.url;
+  const isSdConnectLogo = !gallery?.at(0)?.url;
 
   return (
     <div

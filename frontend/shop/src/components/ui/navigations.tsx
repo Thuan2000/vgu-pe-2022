@@ -1,5 +1,5 @@
 import { siteSettings } from "@settings/site.settings";
-import { getActivePath } from "@utils/functions";
+import { getActivePagePath } from "@utils/functions";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,7 @@ const Navigations = () => {
   const { t } = useTranslation("common");
 
   function checkIsActive(href: string) {
-    return getActivePath(pathname) === href;
+    return getActivePagePath(pathname) === href;
   }
 
   return (

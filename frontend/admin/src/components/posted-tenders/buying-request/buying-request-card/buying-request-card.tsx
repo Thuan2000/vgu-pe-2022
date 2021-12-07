@@ -9,8 +9,6 @@ import { siteSettings } from "@settings/site.settings";
 import BrcExtras from "./brc-extras";
 import BRCExternalInfo from "./brc-external-info";
 
-import { findIndex, indexOf, remove } from "lodash";
-
 export interface IExtraMenu {
   label: string;
   icon: any;
@@ -36,6 +34,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   postedTextLabel,
   ...props
 }) => {
+  console.log(br);
   return (
     <div
       className={`border rounded-md shadow-md flex relative md:w-49p max-h-44
@@ -56,7 +55,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
       </div>
       <div className="relative w-32 md:w-40 flex-center flex-shrink-0">
         <Image
-          src={br.gallery?.at(0)?.location || siteSettings?.logo?.url}
+          src={br.gallery?.at(0)?.url || siteSettings?.logo?.url}
           alt={br.name}
           className="m-5 rounded-l-md"
           layout="fill"

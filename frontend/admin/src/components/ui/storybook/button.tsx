@@ -21,11 +21,11 @@ const classes = {
   cancel: "bg-transparent text-gray border border-gray",
   custom: "border border-transparent",
   outline: (color: Background) =>
-    `border border-${color} bg-transparent hover:text-light hover:bg-${color} hover:border-${color} text-${color}`,
+    `border border-${color} bg-transparent hover:text-light hover:bg-${color} hover:bg-secondary-1 hover:bg-primary hover:border-${color} text-${color}`,
   loading:
     "ml-2 h-4 w-4 ms-2 rounded-full border-2 border-transparent border-t-2 animate-spin",
   disabled:
-    "border border-border-base bg-gray-300 border-border-400 cursor-not-allowed text-white",
+    "border border-border-base !bg-gray-300 border-gray-300 cursor-not-allowed text-white",
   disabledOutline: "border border-border-base text-muted cursor-not-allowed",
   small: "px-3 py-0 h-9 text-sm h-10",
   medium: "px-5 py-0 h-12",

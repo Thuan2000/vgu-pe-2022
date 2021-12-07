@@ -5,6 +5,7 @@
 
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
+import Company from "./Company";
 
 export default class User extends Model {}
 
@@ -44,3 +45,5 @@ User.init(
 		modelName: "user" // We need to choose the model name
 	}
 );
+
+User.belongsTo(Company, { as: "company" });

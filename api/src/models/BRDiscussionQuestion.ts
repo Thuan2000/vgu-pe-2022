@@ -16,7 +16,7 @@ class BRDiscussionQuestion extends Model {
 BRDiscussionQuestion.init(
 	{
 		brId: DataTypes.INTEGER,
-		question: DataTypes.STRING,
+		question: DataTypes.TEXT,
 		userId: DataTypes.INTEGER,
 		companyName: DataTypes.STRING
 	},

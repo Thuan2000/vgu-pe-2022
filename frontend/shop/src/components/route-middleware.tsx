@@ -10,9 +10,9 @@ interface IRouteMiddlewareProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { token, role } = getAuthCredentials(ctx);
+  const { token } = getAuthCredentials(ctx);
 
-  if (!token || !role || !isAuthenticated({ token, role })) {
+  if (!token || !isAuthenticated({ token })) {
     return {
       redirect: {
         destination: ROUTES.LOGIN,

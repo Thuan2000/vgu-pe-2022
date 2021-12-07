@@ -3,44 +3,11 @@ import Tag from "@models/Tag";
 
 class TagRepository {
 	static async createTag(input: ITagInput) {
-		const exist = await Tag.findOne({
-			where: {
-				locale: input.locale,
-				name: input.name
-			}
-		});
-
-		if (!!exist) return exist.getDataValue("id");
-
-		const newTag = await (await Tag.create(input)).save();
-
-		return newTag.getDataValue("id");
+		Tag.create(input);
 	}
 
 	static async createTags(input: ITagInput[]) {
-		if (input.length < 1) return;
-
-		const names = input.map(i => i.name);
-		// @TODO || update this algorithm,
-		// I wrote this because headache
-		const existTags = await Tag.findAll({
-			where: {
-				locale: input[0].locale,
-				name: names
-			}
-		});
-
-		const nonExist = input.filter(i => {
-			return (
-				existTags.findIndex(
-					et => et.getDataValue("name") !== i.name
-				) === -1
-			);
-		});
-
-		const newTag = await Tag.bulkCreate(nonExist);
-		const ids = newTag.map(nt => nt.getDataValue("id"));
-		return ids;
+		Tag.bulkCreate(input);
 	}
 }
 

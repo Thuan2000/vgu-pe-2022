@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import { brQueryParams } from "../query";
 import BuyingRequestCard from "./buying-request-card";
 import Loader from "@components/ui/storybook/loader/loader";
+import { getIndustryByLabel } from "@datas/industries";
+import { getCategoryByLabel } from "@datas/categories";
 
 const BRS_LIMIT = 8;
 
@@ -23,7 +25,12 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
   const searchValue = query.name as string;
   const location = query.location as string;
   const productName = query.productName as string;
-  const industryId = parseInt(query.industry + "");
+  const industryId = parseInt(
+    getIndustryByLabel(query.industry as string)?.id + ""
+  );
+  const categoryId = parseInt(
+    getCategoryByLabel(query.category as string)?.id + ""
+  );
   const status = query.status as IBrStatus;
   const minBudget = query.minBudget as string;
   const maxBudget = query.maxBudget as string;
@@ -35,6 +42,7 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
       brQueryParams({
         offset: getOffset(page),
         industryId,
+        categoryId,
         status,
         minBudget,
         maxBudget,
@@ -71,6 +79,7 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
       });
     }
     if (page > 0) getMoreBrs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   useEffect(() => {
@@ -91,6 +100,7 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
     }
     if (data) reFetch();
     setPage(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     searchValue,
     location,

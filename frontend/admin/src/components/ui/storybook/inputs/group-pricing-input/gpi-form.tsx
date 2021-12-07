@@ -1,7 +1,7 @@
 import { PlusIcon } from "@assets/icons/plus-icon";
 import InlineLabel from "@components/post-tender-form/inline-label";
 import { COLORS } from "@utils/colors";
-import { createUUID, preventSubmitOnEnter } from "@utils/functions";
+import { generateUUID, preventSubmitOnEnter } from "@utils/functions";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "../../button";
@@ -36,7 +36,7 @@ const GPIForm: React.FC<IGPIFormProps> = ({ onChange, initValue }) => {
     }
 
     const newGroup = {
-      id: initValue.id || createUUID(),
+      id: initValue.id || generateUUID(),
       name,
       services,
     };

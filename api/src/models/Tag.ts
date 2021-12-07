@@ -14,7 +14,10 @@ class Tag extends Model {
 
 Tag.init(
 	{
-		name: DataTypes.STRING,
+		name: {
+			type: DataTypes.STRING,
+			primaryKey: true
+		},
 		locale: DataTypes.STRING
 	},
 	{

@@ -1,8 +1,15 @@
-mutation CompanySignup($input: CompanyRegisterInput!) {
-  companySignup(input: $input) {
-    message
+#import CompanyFragment from "company.fragment.graphql";
+
+mutation UpdateCompanyDetail($id: Int!, $input: UpdateCompanyDetailsInput!) {
+  updateCompany(id: $id, input: $input) {
     success
-    token
-    role
+    payload
+    message
+  }
+}
+
+query Company($slug: String!) {
+  company(slug: $slug) {
+    ...CompanyFragment
   }
 }

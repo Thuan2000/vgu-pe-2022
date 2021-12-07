@@ -8,9 +8,11 @@ import BottomNavigation from "@components/ui/bottom-navigation";
 import { ROUTES } from "@utils/routes";
 import { PAGE_NAME_BY_ROUTE } from "@utils/pagePath";
 import { getActivePath, getLoggedInUser } from "@utils/functions";
+import useIsPhone from "src/hooks/isPhone.hook";
 
 const PageLayout: React.FC = ({ children }) => {
   const { t } = useTranslation();
+  const isPhone = useIsPhone();
   const { pathname } = useRouter();
 
   const activePath = getActivePath(pathname);
@@ -25,8 +27,8 @@ const PageLayout: React.FC = ({ children }) => {
 
   return (
     <div className="flex bg-light-300">
-      <BottomNavigation className="sm:hidden" />
-      <Sidebar />
+      {<BottomNavigation />}
+      {!isPhone && <Sidebar />}
       <main className="md:mx-8 w-full mb-16 sm:mb-0">
         <PhoneAdminNavbar
           showBackArrow={!isHomepage}

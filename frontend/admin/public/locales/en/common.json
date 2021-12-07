@@ -82,5 +82,13 @@
   "postProduct/Service-nav-label": "Post Product/Service",
   "post-product-page-name": "Post Product & Service",
   "englishLanguage-label": "English",
-  "vietnameseLanguage-label": "Vietnamese"
+  "vietnameseLanguage-label": "Vietnamese",
+  "additional-nav-label": "Additional",
+  "editCompany-nav-label": "Edit Company",
+  "edit-company-page-name": "Edit Company",
+  "will-available-soon-text": "It will be available soon. Please come back again later",
+  "companyEdited-success-message": "Company Detail Updated Succesfully",
+  "companyEdited-error-message": "Company Detail Not Updated",
+  "company-page-name": "Company Detail",
+  "setting-nav-label": "Settings"
 }

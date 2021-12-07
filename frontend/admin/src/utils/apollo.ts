@@ -1,4 +1,9 @@
-import { ApolloClient, from, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  from,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
 import { onError } from "@apollo/client/link/error";
@@ -48,6 +53,12 @@ function createApolloClient() {
   });
 
   return apolloClient;
+}
+
+export function spreadApolloToState(
+  apolloClient: ApolloClient<NormalizedCacheObject>
+) {
+  return { [APOLLO_STATE_NAME]: apolloClient.cache.extract() };
 }
 
 export function initApollo(initialState: any = null) {

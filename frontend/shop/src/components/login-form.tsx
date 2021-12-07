@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 import Form from "./form";
 
@@ -14,11 +15,7 @@ import Button from "./ui/storybook/button";
 import Input from "./ui/storybook/inputs/input";
 import Link from "./ui/link";
 import Checkbox from "./ui/storybook/checkbox";
-import {
-  LoginMutation,
-  useLoginMutation,
-  useMeInfoMutation,
-} from "../graphql/auth.graphql";
+import { LoginMutation, useLoginMutation } from "../graphql/auth.graphql";
 import { setAuthCredentials, setMeData } from "../utils/auth-utils";
 import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "../utils/routes";
@@ -26,7 +23,6 @@ import PasswordInput from "./ui/password-input";
 import EmailOutlineIcon from "@assets/icons/email-outline-icon";
 import { AUTH_ERRORS } from "@utils/constants";
 import { COLORS } from "@utils/colors";
-import { IMeInfoResponse } from "@graphql/types.graphql";
 
 type FormValues = {
   email: string;
@@ -45,12 +41,6 @@ const loginSchema = yup.object().shape({
 const LoginForm = () => {
   const router = useRouter();
   const { query } = router;
-  const [meInfo, { loading: meInfoLoading }] = useMeInfoMutation({
-    onCompleted: () => {
-      // Redirect to homepage
-      router.replace(ROUTES.HOMEPAGE);
-    },
-  });
   const {
     register,
     handleSubmit,
@@ -68,29 +58,26 @@ const LoginForm = () => {
   });
 
   async function onLoginComplete({ login }: LoginMutation) {
-    const { success, message, token, role } = login;
-    if (success) {
-      // Set auth cred
-      setAuthCredentials(token!, role!);
+    const { success, message, token, user } = login;
+    if (success && !!user) {
+      setAuthCredentials(token!);
+      setMeData({ user });
+      toast.success(t(`form:welcomeBack-message ${user?.firstName}`));
+      router.replace(ROUTES.HOMEPAGE);
+    } else {
+      const { isConfirmed } = await Swal.fire({
+        icon: "info",
+        iconColor: COLORS.GREEN,
+        titleText: t(`form:error-${message}-title`),
+        text: t(`form:error-${message}-message`),
+        confirmButtonText: t(`form:error-${message}-button`),
+        confirmButtonColor: COLORS.GREEN,
+      });
 
-      // Fetch the Me data
-      const { data } = await meInfo();
-      setMeData(data?.meInfo as IMeInfoResponse);
-      return;
-    }
-
-    Swal.fire({
-      icon: "info",
-      iconColor: COLORS.GREEN,
-      titleText: t(`form:error-${message}-title`),
-      text: t(`form:error-${message}-message`),
-      confirmButtonText: t(`form:error-${message}-button`),
-      confirmButtonColor: COLORS.GREEN,
-    }).then(({ isConfirmed }) => {
       if (isConfirmed && message === AUTH_ERRORS.USER_NOT_FOUND) {
         router.push(ROUTES.SIGNUP);
       }
-    });
+    }
   }
 
   async function onSubmit({ email, password }: FormValues) {
@@ -127,7 +114,7 @@ const LoginForm = () => {
             />
           </div>
           <Button
-            loading={loading || meInfoLoading}
+            loading={loading}
             size="small"
             className="w-full"
             type={"submit"}

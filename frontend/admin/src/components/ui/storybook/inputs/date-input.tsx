@@ -48,6 +48,7 @@ const DateInput: React.FC<DateInputProps> = ({
   inputClassName,
   rules,
   trigger,
+  onChange: inputOnChange,
   required,
   ...props
 }) => {
@@ -92,7 +93,7 @@ const DateInput: React.FC<DateInputProps> = ({
                   placeholderText={placeholder}
                   onChange={(e) => {
                     onChange(e);
-                    if (trigger) trigger(name);
+                    if (inputOnChange) inputOnChange(e);
                   }}
                   {...field}
                   {...props}
