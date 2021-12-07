@@ -10,7 +10,7 @@ import NumberInput from "../number-input";
 import TextArea from "../text-area";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
-import { createUUID, preventSubmitOnEnter } from "@utils/functions";
+import { generateUUID, preventSubmitOnEnter } from "@utils/functions";
 import { ILocale, IUnitInput } from "@graphql/types.graphql";
 import { useRouter } from "next/dist/client/router";
 import { useUnitsQuery } from "@graphql/unit.graphql";
@@ -89,7 +89,7 @@ const GPIServiceForm: React.FC<IServiceFormProps> = ({
 
     const newService: IService = {
       ...getAllValues(),
-      id: initValue?.id || createUUID(),
+      id: initValue?.id || generateUUID(),
     };
     onCreate(newService);
   }
@@ -99,7 +99,7 @@ const GPIServiceForm: React.FC<IServiceFormProps> = ({
       locale: locale as ILocale,
       name,
     };
-    const newOpt = { id: createUUID(), ...newUnit };
+    const newOpt = { id: generateUUID(), ...newUnit };
     return newOpt;
   }
 

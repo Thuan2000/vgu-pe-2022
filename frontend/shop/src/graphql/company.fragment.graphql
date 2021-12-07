@@ -1,0 +1,46 @@
+#import FileFragment from "./file.fragment.graphql"
+#import BFWFragment from "./bfw.fragment.graphql"
+
+fragment CompanyFragment on Company {
+  id
+  name
+  slug
+  licenseNumber
+  description
+  approved
+  industryId
+  ownerId
+  establishmentDate
+  businessTypeId
+  licenseFiles {
+    ...FileFragment
+  }
+  settings {
+    location
+    address
+    contactNumber
+    coverImage {
+      ...FileFragment
+    }
+    profileImage {
+      ...FileFragment
+    }
+    employeeAmount
+    mainProducts
+    certificates {
+      ...FileFragment
+    }
+    gallery {
+      ...FileFragment
+    }
+    branches {
+      ...BFWFragment
+    }
+    factories {
+      ...BFWFragment
+    }
+    warehouses {
+      ...BFWFragment
+    }
+  }
+}

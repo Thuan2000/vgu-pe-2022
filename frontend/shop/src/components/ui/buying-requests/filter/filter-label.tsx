@@ -6,6 +6,6 @@ interface IFilterLabelProps {
 }
 
 const FilterLabel: React.FC<IFilterLabelProps> = ({ text }) => {
-  return <Typography text={text} variant="smallTitle" className="mb-1" />;
+  return <Typography text={text} variant="smallTitle" className="mb-[2px]" />;
 };
 export default FilterLabel;

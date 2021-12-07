@@ -75,7 +75,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
       />
 
       <DocumentInput
-        required
+        inputFileType="image"
         accept="image/*"
         note={t("post-request-gallery-note")}
         control={control}

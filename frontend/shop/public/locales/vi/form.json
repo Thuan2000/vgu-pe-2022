@@ -41,11 +41,17 @@
 	"error-USER_NOT_FOUND-title": "Vui lòng tạo tài khoản",
 	"error-USER_NOT_FOUND-message": "Email/mật khẩu sai",
 	"error-USER_NOT_FOUND-button": "Tạo tài khoản",
-  "budget-sign": "đ",
-  "budgetRange-filter-label": "Khoảng Chi Phí",
-	"budgetTo-label": "Đến",
-  "budgetFrom-label": "Từ",
-  "filterBudgetRangeSubmit-button-label": "Xác nhận",
-  "min": "mức tối thiểu",
-  "max": "mức tối đa"
+	"budget-sign": "đ",
+	"budgetRange-filter-label": "Khoảng Chi Phí",
+		"budgetTo-label": "Đến",
+	"budgetFrom-label": "Từ",
+	"filterBudgetRangeSubmit-button-label": "Xác nhận",
+	"min": "mức tối thiểu",
+	"max": "mức tối đa",
+	"askQuestion-input-label": "Đặt câu hỏi",
+	"askQuestion-input-placeholder": "Viết lời nhắn",
+	"ask-question-button-label": "Đặt câu hỏi",
+	"agreement-is-shouldBeChecked-error": "Bạn phải đồng ý với các điều khoản",
+	"question-submitted-success-message": "Câu hỏi đã được ghi nhận"
+	
 }

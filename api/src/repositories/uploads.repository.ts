@@ -15,71 +15,52 @@ import { resizeImage } from "./image-resizer.repository";
 
 const s3 = new S3();
 
-/**
- * This function handling uploadCompanyLicenses
- * @param companyName String
- * @param licenseFiles File[]
- * @returns {key} file path on the s3 bucket
- * @returns {location} url of the file
- */
-export async function uploadCompanyLicenses(companyName, licenseFiles: any[]) {
-	try {
-		return await licenseFiles.map(async file => {
-			const {
-				createReadStream,
-				filename: fileName,
-				mimetype: contentType
-			} = await file;
+class UploaderRepository {
+	/**
+	 * This function handling uploadCompanyLicenses
+	 * @param companyName String
+	 * @param licenseFiles File[]
+	 * @param fileAccessControl AWS ACL
+	 * @returns {location} file path on the s3 bucket
+	 * @returns {location} url of the file
+	 */
+	static async uploadDocuments(
+		companyName,
+		licenseFiles: any[],
+		fileAccessControl
+	) {
+		try {
+			const data = await Promise.all(
+				licenseFiles.map(async file => {
+					const {
+						createReadStream,
+						filename: fileName,
+						mimetype: contentType
+					} = await file;
 
-			const fileStream = createReadStream();
+					const fileStream = createReadStream();
 
-			const res = await s3.uploadCompanyLicense({
-				companyName,
-				fileName,
-				fileStream,
-				type: "licenses",
-				contentType
-			});
-			const { Key: key, Location: location } = res;
+					const res = await s3.uploadDocuments({
+						companyName,
+						fileName,
+						fileStream,
+						type: "document",
+						contentType,
+						fileAccessControl
+					});
+					const { Key: location, Location: url } = res;
 
-			return { key, location };
-		});
-	} catch (error) {
-		console.log(error);
+					return { location, url, fileName, fileType: contentType };
+				})
+			);
+			return data;
+		} catch (error) {
+			console.log(error);
+		}
 	}
-}
 
-export async function uploadImage(companyName, img: any) {
-	try {
-		const {
-			createReadStream,
-			filename: fileName,
-			mimetype: contentType
-		} = await img;
-
-		const fileStream = createReadStream();
-
-		const { thumbRes } = await resizeImage(fileStream);
-
-		const res = await s3.uploadPublicFile({
-			companyName,
-			fileName,
-			fileStream: thumbRes,
-			type: "images",
-			contentType
-		});
-
-		const { Key: key, Location: location } = res;
-
-		return await { key, location };
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-export async function uploadImages(companyName, images: any[]) {
-	try {
-		return await (await images)?.map(async img => {
+	static async uploadImage(companyName, img: any, fileAccessControl) {
+		try {
 			const {
 				createReadStream,
 				filename: fileName,
@@ -90,20 +71,94 @@ export async function uploadImages(companyName, images: any[]) {
 
 			const { thumbRes } = await resizeImage(fileStream);
 
-			// return;
-			const res = await s3.uploadPublicFile({
+			const res = await s3.uploadFile({
 				companyName,
 				fileName,
 				fileStream: thumbRes,
 				type: "images",
-				contentType
+				contentType,
+				fileAccessControl
 			});
 
-			const { Key: key, Location: location } = res;
+			const { Key: location, Location: url } = res;
 
-			return { key, location };
-		});
-	} catch (error) {
-		console.log(error);
+			return { location, url, fileName, fileType: contentType };
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	static async uploadImages(companyName, images: any[], fileAccessControl) {
+		try {
+			const data = await Promise.all(
+				images?.map(async img => {
+					const {
+						createReadStream,
+						filename: fileName,
+						mimetype: fileType
+					} = await img;
+
+					const fileStream = createReadStream();
+
+					const { thumbRes } = await resizeImage(fileStream);
+
+					// return;
+					const res = await s3.uploadFile({
+						companyName,
+						fileName,
+						fileStream: thumbRes,
+						type: "images",
+						contentType: fileType,
+						fileAccessControl
+					});
+
+					const { Key: location, Location: url } = res;
+
+					return { location, url, fileName, fileType };
+				})
+			);
+
+			return data;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	static async uploadVideos(companyName, videos: any[], fileAccessControl) {
+		try {
+			const data = await Promise.all(
+				videos?.map(async img => {
+					const {
+						createReadStream,
+						filename: fileName,
+						mimetype: fileType
+					} = await img;
+
+					const fileStream = createReadStream();
+
+					const { thumbRes } = await resizeImage(fileStream);
+
+					// return;
+					const res = await s3.uploadFile({
+						companyName,
+						fileName,
+						fileStream: thumbRes,
+						type: "images",
+						contentType: fileType,
+						fileAccessControl
+					});
+
+					const { Key: location, Location: url } = res;
+
+					return { location, url, fileName, fileType };
+				})
+			);
+
+			return data;
+		} catch (error) {
+			console.log(error);
+		}
 	}
 }
+
+export default UploaderRepository;

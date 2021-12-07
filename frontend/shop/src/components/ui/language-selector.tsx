@@ -5,6 +5,7 @@ import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Typography from "@components/ui/storybook/typography";
+import { useOutsideClickRef } from "src/hooks/useOutsideClickRef";
 
 const languageFlag = {
   en: UnitedKingdomFlagIcon,
@@ -22,6 +23,7 @@ const LanguageSelector: React.FC<ILanguageSelectorProps> = ({
   const { t } = useTranslation("common");
   const { locale, ...router } = useRouter();
   const [showMenu, setShowMenu] = useState(false);
+  const outsideClickRef = useOutsideClickRef(() => setShowMenu(false));
 
   function changeLocale(newLocale: "vi" | "en") {
     if (newLocale === locale) return;
@@ -39,7 +41,7 @@ const LanguageSelector: React.FC<ILanguageSelectorProps> = ({
   const Flag = (languageFlag as any)[locale || "vi"];
 
   return (
-    <div {...props}>
+    <div ref={outsideClickRef} {...props}>
       <div className="flex items-center">
         {showText && (
           <span className="text-sm text-gray-200 mr-3">{t("language")}</span>

@@ -18,7 +18,7 @@ module.exports = {
 				type: Sequelize.DOUBLE
 			},
 			description: {
-				type: Sequelize.STRING
+				type: Sequelize.TEXT
 			},
 			image: {
 				type: Sequelize.JSON

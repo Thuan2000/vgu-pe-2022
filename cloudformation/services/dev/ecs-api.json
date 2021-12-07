@@ -70,5 +70,41 @@
   {
     "ParameterKey": "TargetGroupArn",
     "ParameterValue": "arn:aws:elasticloadbalancing:ap-southeast-1:981317724248:targetgroup/sdconnect-api-dev-elb-tg/905503ff4c5fec32"
+  },
+  {
+    "ParameterKey": "SmtpHost",
+    "ParameterValue": "smtp.gmail.com"
+  },
+  {
+    "ParameterKey": "SmtpPort",
+    "ParameterValue": "465"
+  },
+  {
+    "ParameterKey": "SmtpSecure",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "SmtpUsername",
+    "ParameterValue": "email@gmail.com"
+  },
+  {
+    "ParameterKey": "SmtpPassword",
+    "ParameterValue": "password-123"
+  },
+  {
+    "ParameterKey": "SmtpFrom",
+    "ParameterValue": "admin@sdconnect.vn"
+  },
+  {
+    "ParameterKey": "EsEndpoint",
+    "ParameterValue": "https://search-es-sdconnectdev-ci4ohii2ymclhtjl64x467slsq.ap-southeast-1.es.amazonaws.com"
+  },
+  {
+    "ParameterKey": "EsUsername",
+    "ParameterValue": "admin"
+  },
+  {
+    "ParameterKey": "EsPassword",
+    "ParameterValue": "EmolyzeTech200!"
   }
 ]

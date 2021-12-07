@@ -15,7 +15,7 @@ module.exports = {
 				type: Sequelize.INTEGER
 			},
 			question: {
-				type: Sequelize.STRING
+				type: Sequelize.TEXT
 			},
 			companyName: {
 				type: Sequelize.STRING

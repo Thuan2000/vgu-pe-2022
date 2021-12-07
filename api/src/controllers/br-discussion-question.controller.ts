@@ -15,8 +15,6 @@ class BRDiscussionQuestionController {
 		offset,
 		sort
 	}: IBrDiscussionsInput) {
-		console.log(brId);
-
 		try {
 			const questions = await BRDiscussionQuestion.findAll({
 				where: { brId },

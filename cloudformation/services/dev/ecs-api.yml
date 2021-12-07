@@ -36,6 +36,24 @@ Parameters:
     Type: String
   TargetGroupArn:
     Type: String
+  SmtpHost:
+    Type: String
+  SmtpPort:
+    Type: String
+  SmtpSecure:
+    Type: String
+  SmtpUsername:
+    Type: String
+  SmtpPassword:
+    Type: String
+  SmtpFrom:
+    Type: String
+  EsEndpoint:
+    Type: String
+  EsUsername:
+    Type: String
+  EsPassword:
+    Type: String
 Resources:
   Cluster:
     Type: AWS::ECS::Cluster
@@ -107,6 +125,24 @@ Resources:
               Value: !Ref DevAWSSecretKey
             - Name: DEV_S3_BUCKET_NAME
               Value: !Ref DevS3BucketName
+            - Name: SMTP_HOST
+              Value: !Ref SmtpHost
+            - Name: SMTP_PORT
+              Value: !Ref SmtpPort
+            - Name: SMTP_SECURE
+              Value: !Ref SmtpSecure
+            - Name: SMTP_USERNAME
+              Value: !Ref SmtpUsername
+            - Name: SMTP_PASSWORD
+              Value: !Ref SmtpPassword
+            - Name: SMTP_FROM
+              Value: !Ref SmtpFrom
+            - Name: ES_ENDPOINT
+              Value: !Ref EsEndpoint
+            - Name: ES_USERNAME
+              Value: !Ref EsUsername
+            - Name: ES_PASSWORD
+              Value: !Ref EsPassword
           LogConfiguration:
             LogDriver: awslogs
             Options:

@@ -5,6 +5,8 @@ import LanguageSelector from "../language-selector";
 import NavbarBottom from "./navbar-bottom";
 import { ROUTES } from "@utils/routes";
 import Breadcrumb from "../storybook/breadcrumb";
+import AppliedFilter from "./applied-filter";
+
 const Navbar = () => {
   return (
     <div className="hidden sm:flex flex-col sticky top-0 bg-white z-50 mx-[-10px] px-[10px]">
@@ -14,7 +16,10 @@ const Navbar = () => {
         <LanguageSelector />
       </div>
       <NavbarBottom />
-      <Breadcrumb className="ml-1 my-2" homeHref={ROUTES.HOMEPAGE} />
+      <div className="fic pb-1">
+        <Breadcrumb className="ml-1 mr-24" homeHref={ROUTES.HOMEPAGE} />
+        <AppliedFilter />
+      </div>
     </div>
   );
 };

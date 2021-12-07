@@ -1,0 +1,11 @@
+#import FileFragment from "./file.fragment.graphql"
+
+fragment BFWFragment on BFW {
+  id
+  name
+  location
+  address
+  gallery {
+    ...FileFragment
+  }
+}

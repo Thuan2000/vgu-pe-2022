@@ -1,3 +1,5 @@
+export const SLUG_UNIQUE_SEPARATOR = "_";
+
 export enum ENODE_ENV {
 	DEVELOPMENT = "development",
 	PRODUCTION = "production"
@@ -21,5 +23,5 @@ export const RESPONSE_MESSAGE = {
 export const MAX_IMAGE_WIDTH = 2560;
 export const MAX_IMAGE_HEIGHT = 1440;
 
-export const THUMB_IMAGE_WIDTH = 600;
-export const THUMB_IMAGE_HEIGHT = 400;
+export const THUMB_IMAGE_WIDTH = 1920;
+export const THUMB_IMAGE_HEIGHT = 1080;

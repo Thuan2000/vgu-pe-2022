@@ -17,7 +17,7 @@ Project.init(
 		name: DataTypes.STRING,
 		slug: DataTypes.STRING,
 		endDate: DataTypes.DOUBLE,
-		description: DataTypes.STRING,
+		description: DataTypes.TEXT,
 		image: DataTypes.JSON,
 		companyId: DataTypes.INTEGER,
 		createdById: DataTypes.INTEGER,

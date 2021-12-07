@@ -37,6 +37,4 @@
 
 ### NOTES
 
--   Please run elasticsearch on docker https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html
--   And set the auth https://www.elastic.co/guide/en/elasticsearch/reference/7.15/security-minimal-setup.html
--   Please make sure to synchronize tsconfig.json and .swcrc
+-   ES will be refactored completely to use aws opensearch

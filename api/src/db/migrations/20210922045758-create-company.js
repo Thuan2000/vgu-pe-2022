@@ -22,33 +22,36 @@ module.exports = {
 				allowNull: false
 			},
 			description: {
-				type: Sequelize.STRING
+				type: Sequelize.TEXT
 			},
 			approved: {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false
 			},
-			coverImage: {
-				type: Sequelize.JSON
-			},
-			gallery: {
-				type: Sequelize.JSON
-			},
-			address: {
-				type: Sequelize.JSON
-			},
 			licenseFiles: {
+				type: Sequelize.JSON
+			},
+			certificates: {
 				type: Sequelize.JSON
 			},
 			ownerId: {
 				type: Sequelize.INTEGER,
 				allowNull: false
 			},
-			logo: {
-				type: Sequelize.JSON
+			location: {
+				type: Sequelize.STRING
 			},
 			settings: {
 				type: Sequelize.JSON
+			},
+			industryId: {
+				type: Sequelize.INTEGER
+			},
+			businessTypeId: {
+				type: Sequelize.STRING
+			},
+			establishmentDate: {
+				type: Sequelize.DATE
 			},
 			createdAt: {
 				allowNull: false,

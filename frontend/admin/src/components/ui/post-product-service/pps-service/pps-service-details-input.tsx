@@ -9,16 +9,15 @@ import {
 
 import CreateableSelectInput from "@components/ui/storybook/createable-select/createable-select-input";
 import { IPostServiceFormValues } from "./pps-service-interface";
-import { industriesData } from "@datas/industries";
 import SelectInput from "@components/ui/storybook/select-input";
 import { vietnamCities } from "@utils/vietnam-cities";
-import FAQListCreator from "@components/ui/storybook/inputs/faq-input";
 import FaqInput from "@components/ui/storybook/inputs/faq-input/faq-input";
-import { createUUID, preventSubmitOnEnter } from "@utils/functions";
+import { generateUUID } from "@utils/functions";
 import { useTagsQuery } from "@graphql/tag.graphql";
 import { useRouter } from "next/dist/client/router";
 import { ILocale, ITagInput } from "@graphql/types.graphql";
 import TextArea from "@components/ui/storybook/inputs/text-area";
+import { ITagWithNewRecord } from "@utils/interfaces";
 
 interface IPPSServiceDetailsInputProps {
   register: UseFormRegister<IPostServiceFormValues>;
@@ -46,15 +45,13 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
   }, [data?.tags]);
 
   function createNewTag(name: string) {
-    const newTag: ITagInput = {
+    const newTag: ITagWithNewRecord = {
       name,
       locale: locale as ILocale,
+      isNewRecord: true,
     };
 
-    return {
-      id: createUUID(),
-      ...newTag,
-    };
+    return newTag;
   }
 
   return (

@@ -4,6 +4,7 @@ import { getIndustry } from "@datas/industries";
 import { getSourceType } from "src/datas/source-type";
 
 import { PostRequestFormValue } from "./post-request-schema";
+import { IFileWithTypename } from "@components/ui/storybook/document-uploader/document-uploader";
 
 export function getDefaultValue(initValue?: IBuyingRequest) {
   if (!initValue)
@@ -29,11 +30,13 @@ export function getDefaultValue(initValue?: IBuyingRequest) {
     categoryId,
     sourceTypeId,
   } = initValue;
-
+  const galleryWithoutTypename = (gallery as IFileWithTypename[])?.map(
+    ({ __typename, ...g }) => g
+  );
   const data: PostRequestFormValue = {
     general: {
       name,
-      gallery,
+      gallery: galleryWithoutTypename,
       description: description as string,
       industry: getIndustry(industryId),
       category: getCategory(categoryId),

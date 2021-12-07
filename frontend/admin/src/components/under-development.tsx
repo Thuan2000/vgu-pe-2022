@@ -26,9 +26,7 @@ const UnderDevelopment = () => {
         />
       </div>
 
-      <p className="my-5 text-xl">
-        It will be available soon. Please come back again later
-      </p>
+      <p className="my-5 text-xl">{t("will-available-soon-text")}</p>
       <Link href={ROUTES.POSTED_REQUESTS} className="text-light">
         <Button size="small">{t("to-posted-request")}</Button>
       </Link>

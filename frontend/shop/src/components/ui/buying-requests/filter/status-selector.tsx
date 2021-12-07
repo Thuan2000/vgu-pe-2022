@@ -52,40 +52,54 @@ const StatusCheckbox: React.FC<IStatusProps> = ({ ...props }) => {
     );
   }
 
+  type Status = "ALL" | "CLOSE" | "OPEN";
+
+  type IStatus = {
+    label: string;
+    status: Status;
+  };
+
+  const statuses: IStatus[] = [
+    {
+      label: "statusAll-filter",
+      status: "ALL",
+    },
+    {
+      label: "statusOpen-filter",
+      status: "OPEN",
+    },
+    {
+      label: "statusClose-filter",
+      status: "CLOSE",
+    },
+  ];
+
+  const ROUND_CLASS = {
+    [1]: "rounded-tr-none rounded-br-none",
+    [2]: "rounded-none",
+    [3]: "rounded-tl-none rounded-bl-none",
+  };
+
   return (
     <div {...props}>
       <FilterLabel text={t("status-filter-label")} />
-      <div className="flex">
-        <Button
-          variant="custom"
-          size="small"
-          onClick={() => filterStatus("ALL")}
-          className={`${SAME_CLASS} rounded-tr-none rounded-br-none ${
-            statusFilter === "ALL" ? activeClass : ""
-          }`}
-        >
-          {t("statusAll-filter")}
-        </Button>
-        <Button
-          variant="custom"
-          size="small"
-          onClick={() => filterStatus("OPEN")}
-          className={`${SAME_CLASS} rounded-none ${
-            statusFilter === "OPEN" ? activeClass : ""
-          }`}
-        >
-          {t("statusOpen-filter")}
-        </Button>
-        <Button
-          variant="custom"
-          onClick={() => filterStatus("CLOSE")}
-          size="small"
-          className={`${SAME_CLASS} rounded-tl-none rounded-bl-none ${
-            statusFilter === "CLOSE" ? activeClass : ""
-          }`}
-        >
-          {t("statusClose-filter")}
-        </Button>
+      <div className="flex w-full">
+        {statuses.map((s, idx) => {
+          const isActive = statusFilter === s.status;
+          const roundClass = (ROUND_CLASS as any)[idx + 1];
+          const extraClass = isActive ? activeClass : "";
+          return (
+            <Button
+              key={s.label + s.status + "key-s"}
+              variant="custom"
+              size="extraSmall"
+              onClick={() => filterStatus(s.status)}
+              className={`w-1/3 ${SAME_CLASS} ${roundClass} ${extraClass}`}
+            >
+              {t(s.label)}
+            </Button>
+          );
+        })}
       </div>
     </div>
   );

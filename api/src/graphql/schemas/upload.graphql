@@ -1,0 +1,40 @@
+enum FileAccessControl {
+	PRIVATE
+	PUBLIC_READ
+	PUBLIC_READ_WRITE
+	AWS_EXEC_READ
+	AUTHENTICATED_READ
+	BUCKET_OWNER_READ
+	BUCKET_OWNER_FULL_CONTROL
+}
+
+enum FileType {
+	video
+	image
+	application
+}
+
+type File {
+	url: String!
+	location: String!
+	fileName: String!
+	fileType: String!
+}
+
+input FileInput {
+	url: String!
+	location: String!
+	fileName: String!
+	fileType: String!
+}
+
+input UploadFilesInput {
+	companyName: String!
+	files: [Upload!]!
+	uploadsFileInputType: FileType!
+	fileAccessControl: FileAccessControl!
+}
+
+extend type Mutation {
+	uploadFiles(input: UploadFilesInput!): [File!]!
+}

@@ -1,6 +1,6 @@
 import { PlusIcon } from "@assets/icons/plus-icon";
 import { COLORS } from "@utils/colors";
-import { createUUID } from "@utils/functions";
+import { generateUUID } from "@utils/functions";
 import { findIndex } from "lodash";
 import { useTranslation } from "next-i18next";
 import React, { useEffect, useRef, useState } from "react";
@@ -40,7 +40,7 @@ const PPIPackageList: React.FC<IPPIPackageListProps> = ({
 
   function createPackage() {
     const newPackage = {
-      id: createUUID(),
+      id: generateUUID(),
     };
     if (onCreatedPackage) onCreatedPackage(newPackage);
   }

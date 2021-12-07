@@ -111,16 +111,10 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         getOptionValue={(option: IVietnamCity) => option.name}
       />
 
-      <ParticipantFilterForm
-        initValue={initValue}
-        register={register}
-        control={control}
-        errors={errors}
-      />
-
       <SelectInput
         name="details.sourceType"
         numberQueue={6}
+        required
         label={`${t("post-request-sourceType-label")}`}
         placeholder={t("post-request-sourceType-placeholder")}
         control={control}
@@ -128,7 +122,6 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         onChange={(_) => {
           trigger("details.sourceType");
         }}
-        isClearable
         getInitialValue={(option?: ISourceType) =>
           option?.id === initValue?.sourceTypeId
         }
@@ -137,6 +130,13 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
           t("source-type:" + option.label)
         }
         getOptionValue={(option: ISourceType) => option.id + ""}
+      />
+
+      <ParticipantFilterForm
+        initValue={initValue}
+        register={register}
+        control={control}
+        errors={errors}
       />
     </div>
   );

@@ -1,13 +1,18 @@
 type AuthResponse {
 	success: Boolean!
 	message: String!
+}
+
+type LoginResponse {
+	success: Boolean!
+	message: String!
 	token: String
-	role: ROLE
+	user: User
 }
 
 input LoginInput {
-	email: String
-	password: String
+	email: String!
+	password: String!
 }
 
 type MeInfoResponse {
@@ -16,5 +21,5 @@ type MeInfoResponse {
 }
 
 extend type Mutation {
-	meInfo: MeInfoResponse
+	login(input: LoginInput!): LoginResponse!
 }

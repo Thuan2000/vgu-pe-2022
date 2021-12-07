@@ -31,8 +31,8 @@ const TelegramIcon: React.FC<React.SVGAttributes<{}>> = ({
           y2="47.644"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#2AABEE" />
-          <stop offset="1" stop-color="#229ED9" />
+          <stop stopColor="#2AABEE" />
+          <stop offset="1" stopColor="#229ED9" />
         </linearGradient>
       </defs>
     </svg>

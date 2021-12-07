@@ -81,7 +81,7 @@ export function getActivePath(pathname: string) {
 export function getCompanyId() {
   const { company } = getMeData();
 
-  return company?.id as number;
+  return company?.id;
 }
 export function getCompanyName() {
   const { company } = getMeData();
@@ -121,6 +121,55 @@ export function callOnEnter(handler: (e: React.KeyboardEvent<any>) => void) {
   };
 }
 
-export function createUUID() {
-  return Math.random().toString(36).slice(2);
+// @TODO: Check this since it's from stackoverflow
+export function generateUUID() {
+  let d = new Date().getTime(); //Timestamp
+  let d2 =
+    (typeof performance !== "undefined" &&
+      performance.now &&
+      performance.now() * 1000) ||
+    0; //Time in microseconds since page-load or 0 if unsupported
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    let r = Math.random() * 16; //random number between 0 and 16
+    if (d > 0) {
+      //Use timestamp until depleted
+      r = (d + r) % 16 | 0;
+      d = Math.floor(d / 16);
+    } else {
+      //Use microseconds since page-load if supported
+      r = (d2 + r) % 16 | 0;
+      d2 = Math.floor(d2 / 16);
+    }
+    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+  });
+}
+
+export function getExtXversion(ext: string[]) {
+  let t = "";
+
+  ext.forEach((e) => (t += `${e}, ${e}x,`));
+
+  return t;
+}
+
+export function getDocumentAccept() {
+  return `.pdf, ${getExtXversion(["doc", "xls", "ppt"])}`;
+}
+
+export function removeTypenameOfChildrens(childrens: any[] = []) {
+  return childrens.map((child) => {
+    const { __typename, ...c } = child;
+    return c;
+  });
+}
+
+export function removeTypename(data: any) {
+  const { __typename, ...dataWithoutTypename } = data || {};
+  return dataWithoutTypename;
+}
+
+export function getYear(stringDate: string) {
+  if (!stringDate) return "";
+  const year = new Date(stringDate).getFullYear();
+  return year;
 }

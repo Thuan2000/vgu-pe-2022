@@ -6,11 +6,25 @@
 // TODO: handle the company registration (mutation companySignup). (See codes below from: https://www.apollographql.com/docs/apollo-server/data/file-uploads/)
 
 import UserController from "@controllers/user.controller";
-import { errorResponse } from "@utils";
+import {
+	EEMailTemplates,
+	EMAIL_MESSAGES,
+	EMAIL_SUBJECTS,
+	errorResponse
+} from "@utils";
 import CompanyController from "@controllers/company.controller";
 import { EUserRole } from "@utils/enums";
+import EmailService from "@services/email.service";
+import { IUser } from "@graphql/types";
+
+export const Query = {
+	company: (_, { slug }) => CompanyController.getCompany(slug)
+};
 
 export const Mutation = {
+	// @NOTES URGENT : Follow this
+	updateCompany: (_, { id, input }) =>
+		CompanyController.updateCompany(id, input),
 	/**
 	 * Company registered along with the owner
 	 * @param _
@@ -21,6 +35,9 @@ export const Mutation = {
 		_,
 		{ input: { licenseFiles, licenseNumber, companyName, ...owner } }
 	) => {
+		// @NOTES URGENT : This is wrong flow need to refactor
+		const email = new EmailService();
+
 		const companyController = new CompanyController();
 		const userController = new UserController();
 		const role = EUserRole.COMPANY_OWNER;
@@ -47,6 +64,14 @@ export const Mutation = {
 			licenseFiles,
 			licenseNumber,
 			companyName
+		});
+
+		// Send email to new user
+		email.sendEmail(owner?.email, {
+			message: EMAIL_MESSAGES.REGISTERED,
+			subject: EMAIL_SUBJECTS.REGISTERED,
+			name: owner?.name,
+			template: EEMailTemplates.REGISTRATION
 		});
 
 		return {

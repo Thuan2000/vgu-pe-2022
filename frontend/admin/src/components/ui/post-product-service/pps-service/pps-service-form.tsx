@@ -34,6 +34,8 @@ import {
 import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
 import { ROUTES } from "@utils/routes";
+import { ITagInput } from "@graphql/types.graphql";
+import { ITagWithNewRecord } from "@utils/interfaces";
 
 interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -183,7 +185,11 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
       answer: rf.answer,
     }));
     const location = locationRaw.name;
-    const tags: any[] = rawTags.map(({ name }) => ({ name, locale }));
+    const newTags: ITagInput[] = [];
+    const tags: ITagInput[] = rawTags.map(({ isNewRecord, ...tag }) => {
+      if (isNewRecord) newTags.push(tag);
+      return tag;
+    });
 
     const { price, packages: rawPackages } = pricing;
     const packages = formatRawPackages(rawPackages);
@@ -196,13 +202,14 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
       location,
       tags,
       faqs,
+      newTags,
       companyId: getCompanyId(),
       companyName: getCompanyName() as string,
       createdById: getLoggedInUser()?.id as any,
       ...attachment,
       ...(!!packages && packages?.length > 0 ? { packages } : { price }),
     };
-
+    console.log(value);
     createService({ variables: { input: value } });
   }
   function handleBackClick() {

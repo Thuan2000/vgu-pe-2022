@@ -6,7 +6,7 @@ import {
 import { Op, Sequelize } from "sequelize";
 import BuyingRequest from "@models/BuyingRequest";
 import User from "@models/User";
-import { uploadImages } from "@repositories/uploads.repository";
+import UploaderRepository from "@repositories/uploads.repository";
 import {
 	errorResponse,
 	generateSlug,
@@ -17,32 +17,32 @@ import Category from "../models/Category";
 import Industry from "../models/Industry";
 import Company from "@models/Company";
 import Project from "@models/Project";
-import {
-	searchQuery,
-	setBrGallery,
-	setProductName
-} from "@repositories/buying-request.repository";
+import { searchQuery } from "@repositories/buying-request.repository";
 import Bid from "@models/Bid";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
 
 class BuyingRequestController {
 	async getBuyingRequestBySlug(slug: string) {
-		const buyingRequest = await BuyingRequest.findOne({
-			where: { slug },
-			include: [
-				Category,
-				Industry,
-				{ model: User, as: "createdBy" },
-				Company,
-				{
-					model: BRDiscussionQuestion,
-					as: "discussionQuestions",
-					include: [User]
-				}
-			]
-		});
+		try {
+			const buyingRequest = await BuyingRequest.findOne({
+				where: { slug },
+				include: [
+					Category,
+					Industry,
+					{ model: User, as: "createdBy" },
+					Company,
+					{
+						model: BRDiscussionQuestion,
+						as: "discussionQuestions",
+						include: [User]
+					}
+				]
+			});
 
-		return buyingRequest;
+			return buyingRequest;
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	async getBuyingRequest(id: number) {
@@ -68,7 +68,7 @@ class BuyingRequestController {
 			location,
 			minBudget,
 			maxBudget,
-			// productName,
+			categoryId,
 			status,
 			limit
 		} = input;
@@ -106,6 +106,7 @@ class BuyingRequestController {
 					: {}),
 				...(status && status !== "ALL" ? { status } : {}),
 				...(industryId ? { industryId } : {}),
+				...(categoryId ? { categoryId } : {}),
 				...(location ? { location } : {})
 			},
 			order: [
@@ -205,15 +206,9 @@ class BuyingRequestController {
 		}
 	}
 
-	async createBuyingRequest({
-		gallery,
-		companyName,
-		...buyingRequestInput
-	}: ICreateBuyingRequestInput) {
+	async createBuyingRequest(buyingRequestInput: ICreateBuyingRequestInput) {
 		try {
 			const { name, companyId } = buyingRequestInput;
-
-			// setProductName(productName);
 
 			// Check duplicate
 			const duplicateBr = await BuyingRequest.findOne({
@@ -222,21 +217,18 @@ class BuyingRequestController {
 					companyId
 				}
 			});
-
 			if (duplicateBr) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
-			const brGallery = await uploadImages(companyName, gallery);
 
 			const newBuyingRequest = await BuyingRequest.create({
 				...buyingRequestInput,
-				companyId,
 				status: "OPEN"
 			});
 			newBuyingRequest.setDataValue(
 				"slug",
 				generateSlug(name, newBuyingRequest.getDataValue("id"))
 			);
-			setBrGallery(brGallery, newBuyingRequest);
-
+			// @TODO : Remove This later on es refactor
+			BuyingRequest.bulkInsert();
 			return newBuyingRequest.save().then(() => successResponse());
 		} catch (error) {
 			console.log(error);
@@ -244,24 +236,14 @@ class BuyingRequestController {
 		}
 	}
 
-	async updateBuyingRequest(
-		id,
-		{
-			companyName,
-			gallery,
-			oldGallery,
-			...newValue
-		}: IUpdateBuyingRequestInput
-	) {
-		const currentBr = await BuyingRequest.findByPk(id);
-		currentBr.update(newValue);
+	async updateBuyingRequest(id, newValue: IUpdateBuyingRequestInput) {
+		// @ TODO Make this work
+		// await BuyingRequest.update(newValue, { where: id });
 
-		const newGallery = await uploadImages(companyName, gallery);
-		currentBr.setDataValue("gallery", oldGallery);
+		const curBr = await BuyingRequest.findByPk(id);
+		curBr.update(newValue);
 
-		setBrGallery(newGallery, currentBr);
-
-		currentBr.save();
+		await curBr.save();
 
 		return successResponse();
 	}

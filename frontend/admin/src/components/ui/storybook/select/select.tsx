@@ -10,6 +10,7 @@ import InputLabel, { IInputLabelProps } from "../inputs/input-label";
 import ValidationError from "../validation-error";
 import { selectStyles } from "./select.styles";
 import { GetOptionLabel, GetOptionValue } from "react-select";
+import { isArray } from "lodash";
 
 export type Ref = any;
 
@@ -45,7 +46,9 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
     ref
   ) => {
     // This is for showing values
-    const [values, setValues] = useState<any[] | any>(value);
+    const [values, setValues] = useState<any[] | any>(
+      isArray(value) ? value : [value]
+    );
 
     if (["string", "number"].includes(typeof value) && getInitialValue) {
       for (const opt of options || []) {

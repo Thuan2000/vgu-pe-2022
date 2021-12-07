@@ -74,8 +74,18 @@ export function getSuffix(amount: number) {
   return "";
 }
 
-export function getActivePath(pathname: string) {
+export function getActivePagePath(pathname: string) {
   return `/${pathname.split("/")[1]}`;
+}
+
+export function getActivePageFromPath(pathname: string) {
+  return `${pathname.split("/")[1]}`;
+}
+
+export function getLoginCompanySlug() {
+  const { company } = getMeData();
+
+  return company?.slug as string;
 }
 
 export function getCompanyId() {
@@ -116,4 +126,46 @@ export function getBudgetRange(
 export function setCharAt(str: string, index: number, chr: string) {
   if (index > str.length - 1) return str;
   return str.substring(0, index) + chr + str.substring(index + 1);
+}
+
+// @TODO: Check this since it's from stackoverflow
+export function generateUUID() {
+  let d = new Date().getTime(); //Timestamp
+  let d2 =
+    (typeof performance !== "undefined" &&
+      performance.now &&
+      performance.now() * 1000) ||
+    0; //Time in microseconds since page-load or 0 if unsupported
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    let r = Math.random() * 16; //random number between 0 and 16
+    if (d > 0) {
+      //Use timestamp until depleted
+      r = (d + r) % 16 | 0;
+      d = Math.floor(d / 16);
+    } else {
+      //Use microseconds since page-load if supported
+      r = (d2 + r) % 16 | 0;
+      d2 = Math.floor(d2 / 16);
+    }
+    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+  });
+}
+
+export function isUserApproved() {
+  const { company } = getMeData();
+  return company?.approved;
+}
+
+export function toCamelCaseFromSnakeCase(label: string) {
+  label = label.toLowerCase();
+  label = setCharAt(label, 0, label[0]?.toUpperCase());
+  for (let i = 0; i < label.length; i++) {
+    const e = label[i];
+    if (e === "-") {
+      label = setCharAt(label, i, " ");
+      label = setCharAt(label, i + 1, label[i + 1]?.toUpperCase());
+    }
+  }
+  const decodedLabel = label.split("#")[0];
+  return decodedLabel;
 }
