@@ -1,6 +1,6 @@
 import React from "react";
 import SiteSocials from "../site-socials";
-import Navigations from "../navigations";
+import NavbarNavigations from "../navbar-navigations";
 import LanguageSelector from "../language-selector";
 import NavbarBottom from "./navbar-bottom";
 import { ROUTES } from "@utils/routes";
@@ -9,16 +9,17 @@ import AppliedFilter from "./applied-filter";
 
 const Navbar = () => {
   return (
-    <div className="hidden sm:flex flex-col sticky top-0 bg-white z-50 mx-[-10px] px-[10px]">
-      <div className="flex justify-between items-center py-3 border-b-2">
-        <SiteSocials />
-        <Navigations />
+    <div className="hidden sm:block sticky top-0 z-50">
+      <div className="flex justify-between items-center py-3 bg-gray-10 px-10 md:px-48">
+        <NavbarNavigations />
         <LanguageSelector />
       </div>
-      <NavbarBottom />
-      <div className="fic pb-1">
-        <Breadcrumb className="ml-1 mr-24" homeHref={ROUTES.HOMEPAGE} />
-        <AppliedFilter />
+      <div className={`px-10 md:px-48 bg-white`}>
+        <NavbarBottom />
+        <div className="fic pb-1">
+          <Breadcrumb className="ml-1 mr-24" homeHref={ROUTES.HOMEPAGE} />
+          <AppliedFilter />
+        </div>
       </div>
     </div>
   );

@@ -169,3 +169,21 @@ export function toCamelCaseFromSnakeCase(label: string) {
   const decodedLabel = label.split("#")[0];
   return decodedLabel;
 }
+
+export function getUserFullName() {
+  const { user } = getMeData();
+
+  return `${user?.firstName} ${user?.lastName}`;
+}
+
+export function getUserFirstName() {
+  const { user } = getMeData();
+
+  return `${user?.firstName}`;
+}
+
+export function getUserLastName() {
+  const { user } = getMeData();
+
+  return `${user?.lastName}`;
+}

@@ -3,6 +3,8 @@ import { PAGE_NAME_INTO_LABEL } from "@utils/constants";
 import {
   getActivePageFromPath,
   getLoginCompanySlug,
+  getUserFirstName,
+  getUserFullName,
   trimText,
 } from "@utils/functions";
 import { Page } from "@utils/interfaces";
@@ -14,6 +16,7 @@ import Link from "./link";
 
 import ProfileAvatar from "./profile-avatar";
 import Button from "./storybook/button";
+import Typography from "./storybook/typography";
 
 const POST_ROUTES = {
   ["san-pham-dich-vu"]: `${ROUTES.POST_PRODUCT_SERVICE}`,
@@ -30,7 +33,7 @@ const UserProfile = () => {
   const adminLink = process.env.NEXT_PUBLIC_ADMIN_URL;
   return (
     <div className="flex-center">
-      {!["ho-tro", "", "danh-ba-cong-ty"].includes(activePage) && (
+      {!["ho-tro", "", "danh-ba-cong-ty"].includes(activePage) ? (
         <div>
           <Link target="_blank" href={`${adminLink}${POST_ROUTES[activePage]}`}>
             <Button
@@ -41,6 +44,11 @@ const UserProfile = () => {
               {t(`post-${PAGE_NAME_INTO_LABEL[activePage]}-link-button-label`)}
             </Button>
           </Link>
+        </div>
+      ) : (
+        <div className={`fic space-x-1`}>
+          <Typography text={`${t("greeting")},`} />
+          <Typography text={getUserFullName()} variant="smallTitle" />
         </div>
       )}
       <ProfileAvatar />

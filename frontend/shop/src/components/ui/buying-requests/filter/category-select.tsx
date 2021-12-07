@@ -26,6 +26,11 @@ const CategorySelect: React.FC<ICategorySelectProps> = ({
   const industryId = getIndustryByLabel(industry)?.id;
   const categoryFilter = query.category as string;
 
+  useEffect(() => {
+    if (!industry) setQuery("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [industry]);
+
   function setQuery(category: string) {
     if (!category && query.category) delete query?.category;
 
@@ -51,7 +56,7 @@ const CategorySelect: React.FC<ICategorySelectProps> = ({
         name="categoryFilter"
         isClearable
         isDisabled={!industry}
-        value={getCategoryByLabel(categoryFilter)}
+        value={!industry ? null : getCategoryByLabel(categoryFilter)}
         getInitialValue={(opt: ICategory) => opt.slug === categoryFilter}
         placeholder={t("categoryFilter-placeholder")}
         onChange={handleChange}
