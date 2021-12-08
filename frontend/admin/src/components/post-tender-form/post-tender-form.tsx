@@ -64,8 +64,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
   });
 
   function handleCreateUpdateMutationComplete({ message, success }: IResponse) {
-    // if (success) router.push(ROUTES.POSTED_REQUESTS);
-    if (success) console.log(success);
+    if (success) router.push(ROUTES.POSTED_REQUESTS);
     else if (success === false) {
       alert(t(`BUYING_REQUEST-${message}-ERROR`));
       return;
