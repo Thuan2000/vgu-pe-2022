@@ -6,7 +6,7 @@ import Category from "./Category";
 import Project from "./Project";
 import User from "./User";
 import Industry from "./Industry";
-import ElasticSearch from "@services/elastic-search.service";
+import OpenSearch from "@services/open-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
 import Bid from "./Bid";
 import BRDiscussionQuestion from "./BRDiscussionQuestion";
@@ -25,12 +25,17 @@ class BuyingRequest extends Model {
 		name: { type: "text" }
 	};
 
+	static insertIndex(data: any) {
+		OpenSearch.insertBulk(BuyingRequest.indexName, [data]);
+	}
+
 	static createIndex() {
 		try {
-			ElasticSearch.createIndex(
+			OpenSearch.createIndex(
 				BuyingRequest.indexName,
 				BuyingRequest.mappingProperties
 			);
+
 			return successResponse();
 		} catch (err) {
 			console.log(err);
@@ -40,7 +45,7 @@ class BuyingRequest extends Model {
 
 	static deleteIndex() {
 		try {
-			ElasticSearch.deleteIndex(BuyingRequest.indexName);
+			OpenSearch.deleteIndex(BuyingRequest.indexName);
 			return successResponse();
 		} catch (err) {
 			console.log(err);
@@ -48,16 +53,13 @@ class BuyingRequest extends Model {
 		}
 	}
 
-	static async bulkInsert() {
+	static async firstBulkElasticSearch() {
 		try {
 			const buyingRequests = await BuyingRequest.findAll({
-				raw: true,
-				// TODO: index all attributes, not just  4 attributes.
-				// TODO: rename this function from bulkInsert to bulkIndexElasticsearch
+				raw: true
 				// TODO: only insert new data instead of indexing everything.
-				attributes: ["id", "name", "productName", "description"]
 			});
-			ElasticSearch.insertBulk(BuyingRequest.indexName, buyingRequests);
+			OpenSearch.insertBulk(BuyingRequest.indexName, buyingRequests);
 
 			return successResponse();
 		} catch (err) {
@@ -72,7 +74,7 @@ class BuyingRequest extends Model {
 	 * @returns [BuyingRequestIds]
 	 */
 	static async getMatchSearched(queryBody) {
-		const suggestion = await ElasticSearch.getSuggestion(
+		const suggestion = await OpenSearch.getSuggestion(
 			BuyingRequest.indexName,
 			queryBody
 		);
@@ -83,7 +85,7 @@ class BuyingRequest extends Model {
 	}
 
 	static async getNameSearchSuggestion(queryBody) {
-		const suggestion = await ElasticSearch.getSuggestion(
+		const suggestion = await OpenSearch.getSuggestion(
 			BuyingRequest.indexName,
 			queryBody
 		);

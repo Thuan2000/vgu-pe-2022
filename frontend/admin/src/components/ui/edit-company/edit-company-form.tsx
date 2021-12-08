@@ -239,7 +239,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
       turnLocationToString(w)
     );
 
-    const input: IUpdateCompanyDetailsInput = {
+    const input: IUpdateCompanyDetailsInput | any = {
       establishmentDate: general.establishmentDate,
       name: general.name,
       description: general.description as any,
@@ -260,7 +260,6 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
         warehouses: warehouses as any,
       },
     };
-    console.log(input);
     updateCompany({ variables: { id: getCompanyId()!, input } });
   }
 

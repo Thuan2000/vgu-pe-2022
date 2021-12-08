@@ -11,18 +11,25 @@ import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
 
 import Database from "@services/database.service";
 import { getUserFromToken } from "@utils/functions";
+import Sqs from "@services/sqs.service";
+import AWSService from "@services/aws.services";
 
 class App {
 	private apolloServer;
 	private app;
 
 	constructor() {
+		this.initAWS();
 		this.initDB();
 		// this.initializeMiddlewares();
 	}
 
 	private initDB() {
 		Database.connect();
+	}
+
+	private initAWS() {
+		AWSService.init();
 	}
 
 	public async start(): Promise<void> {
