@@ -7,7 +7,7 @@ interface IMappingProperties {
 	};
 }
 
-class ElasticSearch {
+class OpenSearch {
 	private static client = new Client({
 		node: process.env.ES_ENDPOINT,
 		auth: {
@@ -27,6 +27,18 @@ class ElasticSearch {
 		});
 	}
 
+	static insert(index: string, data: any) {
+		try {
+			const body = {
+				index: { _index: index },
+				...data
+			};
+			this.client.index({ index, body });
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
 	static insertBulk(index: string, rawDatas: unknown[]) {
 		try {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,7 +46,7 @@ class ElasticSearch {
 				{
 					index: { _index: index }
 				},
-				{ ...(data ? data : {}) }
+				{ ...(!!data ? data : {}) }
 			]);
 
 			this.client.bulk({ index, body });
@@ -62,4 +74,4 @@ class ElasticSearch {
 	}
 }
 
-export default ElasticSearch;
+export default OpenSearch;

@@ -228,7 +228,8 @@ class BuyingRequestController {
 				generateSlug(name, newBuyingRequest.getDataValue("id"))
 			);
 			// @TODO : Remove This later on es refactor
-			BuyingRequest.bulkInsert();
+			BuyingRequest.insertIndex(newBuyingRequest.toJSON());
+
 			return newBuyingRequest.save().then(() => successResponse());
 		} catch (error) {
 			console.log(error);

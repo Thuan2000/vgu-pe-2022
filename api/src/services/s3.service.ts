@@ -1,5 +1,5 @@
 import AWS from "aws-sdk";
-import { ENODE_ENV, generateUUID, NODE_ENV } from "@utils";
+import { generateUUID } from "@utils";
 import { IFileAccessControl } from "@graphql/types";
 
 interface S3UploadParams {
@@ -12,56 +12,11 @@ interface S3UploadParams {
 }
 
 class S3 {
-	private s3: AWS.S3;
-	private bucket: string;
-
-	constructor() {
-		this.initS3();
-	}
+	private s3: AWS.S3 = new AWS.S3({ apiVersion: "2006-03-01" });
+	private bucket: string = process.env.S3_BUCKET_NAME;
 
 	private processAccessControl(ac: IFileAccessControl) {
 		return ac.replace(/\_/g, "-").toLowerCase();
-	}
-
-	private initS3() {
-		if (NODE_ENV === ENODE_ENV.DEVELOPMENT) {
-			const {
-				AWS_REGION,
-				DEV_AWS_ACCESS_KEY,
-				DEV_AWS_SECRET_KEY
-			} = process.env;
-			this.updateAWSConfig(
-				AWS_REGION,
-				DEV_AWS_ACCESS_KEY,
-				DEV_AWS_SECRET_KEY
-			);
-			this.bucket = process.env.DEV_S3_BUCKET_NAME;
-		} else {
-			const {
-				AWS_REGION,
-				PROD_AWS_ACCESS_KEY,
-				PROD_AWS_SECRET_KEY
-			} = process.env;
-			this.updateAWSConfig(
-				AWS_REGION,
-				PROD_AWS_ACCESS_KEY,
-				PROD_AWS_SECRET_KEY
-			);
-			this.bucket = process.env.PROD_S3_BUCKET_NAME;
-		}
-		this.s3 = new AWS.S3({ apiVersion: "2006-03-01" });
-	}
-
-	private updateAWSConfig(
-		region: string,
-		accessKeyId: string,
-		secretAccessKey: string
-	) {
-		AWS.config.update({
-			region,
-			accessKeyId,
-			secretAccessKey
-		});
 	}
 
 	public uploadFile({
