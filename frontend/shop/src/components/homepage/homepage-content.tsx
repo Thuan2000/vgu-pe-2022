@@ -27,7 +27,7 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
       <HCSearchBy />
       <div className={`pb-10`}>
         <Typography
-          text="IFrame here"
+          text={t("iframe-here")}
           size="xl"
           align="center"
           className={`py-20 text-4xl`}

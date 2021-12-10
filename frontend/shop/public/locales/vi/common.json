@@ -96,5 +96,13 @@
   "post-COMPANY_PAGE_SEARCH_LABEL-link-button-label": "Đăng NCTM",
   "post-TENDER_PAGE_SEARCH_LABEL-link-button-label": "Đăng NCTM",
   "post-PRODUCT_SERVICE_PAGE_SEARCH_LABEL-link-button-label": "Đăng NCTM",
-  "homepage-breadcrumb": "Trang chủ"
+  "homepage-breadcrumb": "Trang chủ",
+  "product-search-button-title": "sản phẩm",
+  "tender-search-button-title": "NCTM",
+  "service-search-button-title": "dịch vụ",
+  "company-search-button-title": "công ty",
+  "searchBy-text": "Tìm kiếm theo ",
+  "iframe-here": "nội dung iframe",
+  "greeting": "Xin Chào",
+  "searchFor-text": "Tìm Kiếm"
 }

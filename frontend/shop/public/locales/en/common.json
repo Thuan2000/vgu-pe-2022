@@ -107,5 +107,7 @@
   "tender-search-button-title": "tenders",
   "service-search-button-title": "services",
   "company-search-button-title": "companies",
-  "searchBy-text": "Search by "
+  "searchBy-text": "Search by ",
+  "iframe-here": "IFrame here",
+  "searchFor-text": "Search For"
 }
