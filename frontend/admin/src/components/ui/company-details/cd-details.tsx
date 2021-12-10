@@ -47,7 +47,7 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
         }
       />
       <CDDetailQuestion
-        question={t("totalEmployees-text")}
+        question={t("mainProducts-text")}
         answer={settings?.mainProducts?.join(", ") as string}
       />
     </div>

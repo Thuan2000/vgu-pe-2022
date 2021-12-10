@@ -5,7 +5,6 @@ import React from "react";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
 import { useTranslation } from "react-i18next";
-import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
