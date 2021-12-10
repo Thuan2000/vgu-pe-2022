@@ -39,5 +39,29 @@
   "editCompany-nav-label": "Chỉnh sửa thông tin doanh nghiệp",
   "posted-label": "Ngày đăng",
   "due-time-text": "Hạn chót",
-  "edit-company-page-name": "Chỉnh Sửa Thông Tin Doanh Nghiệp"
+  "edit-company-page-name": "Chỉnh Sửa Thông Tin Doanh Nghiệp",
+  "company-page-name": "Hồ sơ công ty",
+  "setting-nav-label": "Cài đặt",
+  "companyTotalEmployee-text": "Số lượng nhân viên",
+  "not-setup": "Chưa được thiết lập",
+  "companyCertificates-title": "Giấy phép/ chứng chỉ",
+  "companyDetails-title": "Chi tiết",
+  "location-text": "Địa chỉ trụ sở",
+  "yearOfEstablished-text": "Năm thành lập",
+  "totalEmployees-text": "Số lượng nhân viên",
+  "businessType-text": "Loại doanh nghiệp",
+  "mainProducts-text": "Sản phẩm chính",
+
+  "singularCompanybranch-title": "Chi nhánh",
+  "pluralCompanybranch-title": "Chi nhánh",
+  "singularCompanyfactory-title": "Xưởng sản xuất",
+  "pluralCompanyfactory-title": "Xưởng sản xuất",
+  "singularCompanywarehouse-title": "Kho hàng",
+  "pluralCompanywarehouse-title": "Kho hàng",
+
+  "noFactory-message": "Chưa có sản xuất",
+  "noBranch-message": "Chưa có nhánh",
+  "noWarehouse-message": "Chưa có kho hàng",
+  "edit-button-label": "Chỉnh sửa",
+  "delete-button-label": "Xóa"
 }
