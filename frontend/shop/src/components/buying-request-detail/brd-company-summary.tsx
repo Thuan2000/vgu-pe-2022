@@ -6,7 +6,7 @@ import { ICompany } from "@graphql/types.graphql";
 import { useTranslation } from "next-i18next";
 import { siteSettings } from "@settings/site.settings";
 import VerifiedIcon from "@assets/icons/verified-icon";
-import BRDDetailQA from "./brd-detail-qa";
+import DetailQA from "../ui/detail-qa";
 
 interface IBRDCompanySummaryProps {
   company: ICompany;
@@ -29,6 +29,7 @@ const BRDCompanySummary: React.FC<IBRDCompanySummaryProps> = ({ company }) => {
             // src={company.image.url}
             src={siteSettings.imagePlaceholder}
             layout="fill"
+            alt={company.name + "image-preview"}
           />
         </div>
 
@@ -40,26 +41,23 @@ const BRDCompanySummary: React.FC<IBRDCompanySummaryProps> = ({ company }) => {
         </div>
       </div>
 
-      <div
-        className="grid grid-cols-2 space-y-2
-      "
-      >
-        <BRDDetailQA
+      <div className="grid grid-cols-2 space-y-2ssys">
+        <DetailQA
           question={`${t("brd-companyExperience-title")}:`}
           // answer={company.establishment}
           answer={"2021"}
         />
-        <BRDDetailQA
+        <DetailQA
           question={`${t("brd-businessType-title")}:`}
           // answer={company.businessType}
           answer={"Manufacturer, Trading Company"}
         />
-        <BRDDetailQA
+        <DetailQA
           question={`${t("brd-employeeTotal-title")}:`}
           // answer={company.employees.length}
           answer="50 Peoples"
         />
-        <BRDDetailQA
+        <DetailQA
           question={`${t("brd-mainProduct-title")}:`}
           // answer={company.mainProduct}
           answer="H Beam/Wire Rod/Galvanized Wire/Steel"

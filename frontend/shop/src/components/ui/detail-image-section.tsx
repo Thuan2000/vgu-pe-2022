@@ -5,21 +5,19 @@ import { IFile } from "@graphql/types.graphql";
 import { siteSettings } from "@settings/site.settings";
 
 interface IBRDBrImagesProps {
+  coverImage?: IFile;
   images?: IFile[];
 }
 
-const BRDBrImages: React.FC<IBRDBrImagesProps> = ({ images }) => {
+const BRDBrImages: React.FC<IBRDBrImagesProps> = ({ coverImage, images }) => {
   return (
     <div>
       <div
         className={`sm:w-80 sm:h-80 relative border rounded-sm overflow-hidden`}
       >
         <Image
-          src={
-            images && images.length > 1
-              ? images[0]?.url || siteSettings.logo.url
-              : siteSettings.logo.url
-          }
+          src={coverImage?.url || siteSettings.logo.url}
+          alt={"posted-detail-preview"}
           layout="fill"
         />
       </div>
@@ -35,7 +33,11 @@ const BRDBrImages: React.FC<IBRDBrImagesProps> = ({ images }) => {
                   +{images.length - (idx + 1)}
                 </div>
               )}
-              <Image src={img.url || siteSettings.logo.href} layout="fill" />
+              <Image
+                alt={img.fileName + "preview"}
+                src={img.url || siteSettings.logo.href}
+                layout="fill"
+              />
             </div>
           );
         })}

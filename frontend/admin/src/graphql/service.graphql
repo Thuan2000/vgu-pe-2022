@@ -1,3 +1,5 @@
+# import PaginationParts from "./pagination.fragment.graphql"
+
 mutation CreateService($input: CreateServiceInput!) {
   createService(input: $input) {
     id
@@ -10,7 +12,9 @@ query Services($input: FetchServicesInput) {
   services(input: $input) {
     services {
       id
-      coverImage
+      coverImage {
+        url
+      }
       location
       name
       price
@@ -21,7 +25,9 @@ query Services($input: FetchServicesInput) {
         name
       }
     }
-    count
+    pagination {
+      ...PaginationParts
+    }
   }
 }
 

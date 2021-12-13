@@ -13,14 +13,15 @@ import Button from "./storybook/button";
 const types: Page[] = [
   "nhu-cau-thu-mua",
   "danh-ba-cong-ty",
-  "san-pham-dich-vu",
+  "san-pham",
+  "dich-vu",
   // "ho-tro",
 ];
 
 interface ISearchTypeSelectorProps {}
 
 const SearchTypeSelector: React.FC<ISearchTypeSelectorProps> = ({}) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   const { pathname, ...router } = useRouter();
   const activePage = getActivePageFromPath(pathname);
 
@@ -49,7 +50,7 @@ const SearchTypeSelector: React.FC<ISearchTypeSelectorProps> = ({}) => {
         type="button"
         variant="custom"
         onClick={toggleTypeSelector}
-        className="!h-7 flex-center rounded-none border-r border-primary"
+        className="flex-center rounded-none focus:!ring-0 focus:!shadow-none border-r border-primary"
       >
         <p className="text-paragraph sm:min-w-[115px] text-dark-blue">
           {t((PAGE_NAME_INTO_LABEL as any)[activePage])}

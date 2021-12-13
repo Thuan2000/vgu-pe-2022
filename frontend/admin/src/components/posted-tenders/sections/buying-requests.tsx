@@ -13,7 +13,7 @@ import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import { BUYING_REQUESTS_GET_LIMIT } from "@utils/constants";
 import { useRouter } from "next/dist/client/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import NoTenders from "@components/posted-tenders/no-tenders";
+import NoPosted from "@components/posted-tenders/no-tenders";
 import CreateProject, { CPBR } from "@components/create-project";
 import { findIndex } from "lodash";
 import { getCompanyId } from "@utils/functions";
@@ -26,6 +26,7 @@ import { IExtraMenu } from "../buying-request/buying-request-card/buying-request
 import DeleteBrAlert from "@components/ui/delete-br-alert";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { ROUTES } from "@utils/routes";
 
 interface IBuyingRequestsProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -168,7 +169,14 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
 
   if (loading) return <Loading />;
 
-  if (!data?.adminBuyingRequests?.data?.length) return <NoTenders />;
+  if (!data?.adminBuyingRequests?.data?.length)
+    return (
+      <NoPosted
+        text={t("no-buying-request-yet-text-info")}
+        href={ROUTES.POST_REQUEST}
+        buttonLabel={t("create-post-button-label")}
+      />
+    );
   const brs = data?.adminBuyingRequests?.data as IBuyingRequest[];
 
   function removeFromSelecteds(br: IBuyingRequest) {
@@ -176,7 +184,6 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
       selectedBrs,
       (selected: any) => selected.id === br.id
     );
-
     if (index === -1) return;
 
     selectedBrs.splice(index, 1);

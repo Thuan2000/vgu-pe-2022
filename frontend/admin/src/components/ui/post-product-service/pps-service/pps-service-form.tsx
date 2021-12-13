@@ -39,6 +39,10 @@ import Swal from "sweetalert2";
 import { ROUTES } from "@utils/routes";
 import { ITagInput } from "@graphql/types.graphql";
 import { ITagWithNewRecord } from "@utils/interfaces";
+import {
+  IPPIPackage,
+  IPPIRow,
+} from "@components/ui/storybook/inputs/package-pricing-input/ppi-interfaces";
 
 interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -134,7 +138,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
         confirmButtonText: t("serviceCreated-button-label"),
       });
 
-      router.replace(ROUTES.HOMEPAGE);
+      router.replace(`${ROUTES.POSTED_PRODUCT_SERVICE}?target=service`);
     } else if (!success) alert(t(`CREATE-SERVICES-${message}-ERROR`));
   }
 
@@ -143,14 +147,14 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
    * @param rawPackages All the packages and the rows
    * @returns {formattedPackages[], lowestPrice, maximumPrice}
    */
-  function processRawPackages(rawPackages?: IPPIValue) {
-    if (!rawPackages || isEmpty(rawPackages)) return;
+  function processRawPackages(
+    packages: IPPIPackage[] = [],
+    rows: IPPIRow[] = []
+  ) {
     let minPrice = Number.MAX_VALUE;
     let maxPrice = Number.MIN_VALUE;
 
-    const packages = [...rawPackages.packages];
-    const rows = [...rawPackages.rows];
-    if (!packages || !rows) return;
+    if (!packages?.length) return;
     const formatedPackages = packages.map((pkg) => {
       const newPackage = Object.assign({}, pkg);
       delete newPackage.packageRows;
@@ -168,9 +172,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
           maxPrice = pr.value;
 
         return {
-          name: row?.name,
-          description: row?.description,
-          type: row?.inputType,
+          ...pr,
           value: JSON.stringify(pr?.value),
         };
       });
@@ -205,13 +207,13 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
       if (isNewRecord) newTags.push(tag);
       return tag;
     });
-    const coverImage = attachment?.images ? attachment?.images[0] : "";
+    const coverImage = attachment?.images && attachment?.images[0];
     const { price, packages: rawPackages } = pricing;
-    const {
-      formatedPackages: packages,
-      minPrice,
-      maxPrice,
-    } = processRawPackages(rawPackages) || {};
+    const packages = rawPackages?.packages;
+    const rows = rawPackages?.rows;
+
+    const { formatedPackages, minPrice, maxPrice } =
+      processRawPackages(packages, rows) || {};
     // @TODO find out why this happened
     const value: any = {
       name,
@@ -222,17 +224,16 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
       tags,
       faqs,
       newTags,
-      coverImage,
       companyId: getCompanyId(),
       companyName: getCompanyName() as string,
       createdById: getLoggedInUser()?.id as any,
-
+      ...(rows ? { packageRows: rows } : {}),
+      ...(coverImage ? { coverImage } : {}),
       ...attachment,
-      ...(!!packages && packages?.length > 0
-        ? { packages, minPrice, maxPrice }
+      ...(!!formatedPackages && formatedPackages?.length > 0
+        ? { packages: formatedPackages, minPrice, maxPrice }
         : { price }),
     };
-
     createService({ variables: { input: value } });
   }
 

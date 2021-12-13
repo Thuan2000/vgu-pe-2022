@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Typography from "@components/ui/storybook/typography";
 import { useTranslation } from "next-i18next";
-import { formatMoneyAmount } from "@utils/functions";
+import { formatMoneyAmount, getMoneySuffix } from "@utils/functions";
 import Checkbox from "@components/ui/storybook/checkbox";
 import ThreeDotIcon from "@assets/icons/three-dot-icon";
 import Button from "@components/ui/storybook/button";
@@ -56,17 +56,21 @@ const ServiceCard: React.FC<IServiceCardProps> = ({
 
   function getPrice() {
     if (!maxPrice && !minPrice)
-      return `${formatMoneyAmount(price)} ${t("form:budget-sign")}`;
+      return `${formatMoneyAmount(price)}${t(getMoneySuffix(price))} ${t(
+        "form:budget-sign"
+      )}`;
 
     return `${formatMoneyAmount(minPrice!)} ${t(
       "form:budget-sign"
-    )} - ${formatMoneyAmount(maxPrice!)} ${t("form:budget-sign")}`;
+    )} - ${formatMoneyAmount(maxPrice!)}${t(getMoneySuffix(price))} ${t(
+      "form:budget-sign"
+    )}`;
   }
 
   return (
     <div className={`shadow-top rounded-lg relative`}>
       <div className="relative w-full h-40">
-        <Image src={coverImage || siteSettings.logo.url} layout="fill" />
+        <Image src={coverImage?.url || siteSettings.logo.url} layout="fill" />
       </div>
 
       <div className={`p-4 font-semibold space-y-[2px]`}>
@@ -89,7 +93,9 @@ const ServiceCard: React.FC<IServiceCardProps> = ({
         />
 
         <div className={`relative cursor-pointer`}>
-          <ThreeDotIcon onClick={showServiceMenu} />
+          <div onClick={showServiceMenu} className={`p-2`}>
+            <ThreeDotIcon />
+          </div>
           {showMenu && (
             <div
               className={`absolute bg-white shadow-top z-50 right-0`}

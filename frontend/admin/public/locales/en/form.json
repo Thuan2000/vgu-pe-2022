@@ -291,5 +291,8 @@
   "posted-products-page-title": "Products",
   "services-deleted-title": "Services Deleted",
   "services-deleted-message": "Selected services has deleted successfully",
-  "okay-button-label": "Okay"
+  "okay-button-label": "Okay",
+  "PACKAGE_PRICE_LABEL": "Package Price",
+  "million-suffix": "tr",
+  "billion-suffix": "tỷ"
 }

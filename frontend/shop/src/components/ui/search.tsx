@@ -149,19 +149,16 @@ const Search = ({
   return (
     <div ref={outsideClickRef} className={`relative`} {...props}>
       <Form onSubmit={handleSearch}>
-        <div
-          className={`flex items-center h-8 rounded-md border border-green `}
-        >
+        <div className={`flex items-center rounded-md border border-green `}>
           <SearchTypeSelector />
           <div className="relative">
             <Input
-              className={`!h-7`}
               noBorder
               value={inputValue}
               onKeyDown={handleKeyDown}
               onFocus={handleInputFocus}
               onChange={handleInputChange}
-              inputClassName="border-none sm:w-[350px] !h-7"
+              inputClassName="border-none sm:w-[350px]"
             />
 
             {inputValue && (
@@ -175,7 +172,7 @@ const Search = ({
             type="button"
             variant="custom"
             onClick={handleSearch}
-            className="!h-7 flex-center px-2 border-l border-primary rounded-none"
+            className="flex-center px-2 border-l border-primary rounded-none"
           >
             <SearchIcon className={`w-4 h-4`} />
           </Button>

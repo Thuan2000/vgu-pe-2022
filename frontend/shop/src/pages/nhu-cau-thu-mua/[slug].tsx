@@ -6,11 +6,11 @@ import {
 } from "@graphql/buying-request.graphql";
 import { IBuyingRequest, ICompany } from "@graphql/types.graphql";
 import { APOLLO_STATE_NAME, initApollo } from "@utils/apollo";
-import { GetStaticProps } from "next";
-import React from "react";
-import BRDBrImages from "@components/buying-request-detail/brd-image-section";
+import { GetStaticPaths, GetStaticProps } from "next";
+import React, { useState } from "react";
+import BRDBrImages from "@components/ui/detail-image-section";
 import Typography from "@components/ui/storybook/typography";
-import { viDateFormat } from "@utils/functions";
+import { getCompanyId, viDateFormat } from "@utils/functions";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import BRDSocialShareList from "@components/buying-request-detail/brd-social-share-list";
@@ -31,9 +31,8 @@ interface IBuyingRequestDetailProps {
   br: IBuyingRequest;
 }
 
-// @TODO: Findout why error
-// export const getStaticPaths: GetStaticPaths = async (ctx) => {
-export const getStaticPaths: any = async (ctx: any) => {
+export const getStaticPaths: GetStaticPaths = async (ctx) => {
+  // export const getStaticPaths: any = async (ctx: any) => {
   const { locales } = ctx;
   const apolloClient = initApollo();
   const { data } = await apolloClient.query({
@@ -53,9 +52,7 @@ export const getStaticPaths: any = async (ctx: any) => {
     locales?.map((locale: any) => ({ params: { slug: product.slug }, locale }))
   );
 
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: "blocking" };
+  return { paths: paths as any, fallback: "blocking" };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
@@ -91,12 +88,14 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
 const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
   const { t } = useTranslation("common");
+  const [reload, setReload] = useState(false);
 
   const isPhone = useIsPhone();
   if (isPhone) return <PleaseOpenOnLaptop />;
 
-  function handleSetRefetch(refetchDiscussions: any) {}
-  function refetchDiscussions() {}
+  function refetchDiscussions() {
+    setReload(!reload);
+  }
 
   return (
     <>
@@ -109,7 +108,10 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
           <div className="flex space-x-4">
             {/* Left Section */}
             <div>
-              <BRDBrImages images={br.gallery || []} />
+              <BRDBrImages
+                coverImage={br?.coverImage!}
+                images={br.gallery || []}
+              />
               <div className="fic space-x-4">
                 <Typography
                   text={`${t("brd-share-label")}:`}
@@ -145,11 +147,13 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
           <div className="space-y-3 mt-4">
             <BRDDetail br={br} />
             <BRDCompanySummary company={br.company} />
-            <BRDDiscussion brId={parseInt(br.id)} />
-            <BRDAskQuestion
-              refetchDiscussions={refetchDiscussions}
-              brId={parseInt(br.id)}
-            />
+            <BRDDiscussion reload={reload} brId={parseInt(br.id)} />
+            {br.company.id !== getCompanyId() && (
+              <BRDAskQuestion
+                refetchDiscussions={refetchDiscussions}
+                brId={parseInt(br.id)}
+              />
+            )}
           </div>
         </div>
         <BRDAlsoNeeded brReference={br} />

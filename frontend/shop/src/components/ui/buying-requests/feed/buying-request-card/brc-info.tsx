@@ -42,6 +42,7 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
             className="border-b border-transparent hover:border-black new-tab-link"
             target="_blank"
             href={`${ROUTES.TENDERS}/${br.slug}`}
+            rel="noreferrer"
           >
             <Typography text={name} element="h3" size="md" />
           </Link>

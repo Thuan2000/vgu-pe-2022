@@ -23,6 +23,7 @@ type BuyingRequest {
 	createdAt: Date!
 	updatedAt: Date!
 	unit: String!
+	coverImage: File
 	gallery: [File!]
 	minSupplierExperience: Int
 	minSupplierSells: Int
@@ -40,6 +41,7 @@ input CreateBuyingRequestInput {
 	minBudget: Date!
 	maxBudget: Date!
 	minOrder: Int!
+	coverImage: FileInput
 	gallery: [FileInput!]
 	unit: String!
 	industryId: Int!
@@ -61,6 +63,7 @@ input UpdateBuyingRequestInput {
 	minBudget: Date!
 	maxBudget: Date!
 	minOrder: Int!
+	coverImage: FileInput
 	gallery: [FileInput]
 	unit: String!
 	companyId: Int!

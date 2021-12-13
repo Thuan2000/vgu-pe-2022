@@ -19,20 +19,8 @@ import UnderDevelopment from "@components/under-development";
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
 
-  const apollo = initApollo();
-  const { data } = await apollo.query({
-    query: ServicesDocument,
-    variables: {
-      input: {
-        offset: 0,
-        limit: 400,
-      },
-    },
-  });
-
   return {
     props: {
-      services: data.services.services,
       ...(await serverSideTranslations(locale!, ["common"])),
     },
   };
@@ -42,9 +30,7 @@ interface IProductAndServiceProps {
   services: IServiceListItem[];
 }
 
-const ProductAndService: React.FC<IProductAndServiceProps> = ({
-  services = [],
-}) => {
+const ProductAndService: React.FC<IProductAndServiceProps> = () => {
   const { t } = useTranslation("common");
 
   const isPhone = useIsPhone();
@@ -60,23 +46,6 @@ const ProductAndService: React.FC<IProductAndServiceProps> = ({
         />
       </Head>
       <main>
-        {/* <SideFilter />
-        <div className="grid grid-cols-4 gap-x-10 gap-y-3">
-          {services?.map((s) => {
-            return (
-              <div key={s.id} className={`shadow relative`}>
-                <div className="relative w-52 h-36 bg-red">
-                  <Image
-                    src={s.coverImage || siteSettings.logo.url}
-                    layout="fill"
-                    alt={s.name + "image-preview"}
-                  />
-                </div>
-                {s.name}
-              </div>
-            );
-          })}
-        </div> */}
         <UnderDevelopment />
       </main>
     </>

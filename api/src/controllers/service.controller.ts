@@ -2,6 +2,7 @@ import { ICreateServiceInput, IFetchServicesInput } from "@graphql/types";
 import Company from "@models/Company";
 import Service from "@models/Service";
 import TagRepository from "@repositories/tag.repository";
+import { generateSlug } from "@utils/functions";
 import {
 	createSuccessResponse,
 	errorResponse,
@@ -9,14 +10,29 @@ import {
 } from "@utils/responses";
 
 class ServiceController {
+	static async getService(slug) {
+		const service = Service.findOne({
+			where: { slug },
+			include: [{ model: Company, attributes: ["id", "name"] }]
+		});
+
+		return service;
+	}
+
 	static async getServices({ offset, limit, ...input }: IFetchServicesInput) {
 		try {
-			const { rows: services, count } = await Service.findAndCountAll({
+			const {
+				rows: services,
+				count: dataCount
+			} = await Service.findAndCountAll({
 				offset,
 				limit,
-				where: {},
+				where: {
+					...input
+				},
 				attributes: [
 					"id",
+					"slug",
 					"name",
 					"price",
 					"coverImage",
@@ -28,7 +44,11 @@ class ServiceController {
 				include: [{ model: Company, attributes: ["name"] }]
 			});
 
-			return { services, count };
+			const hasMore =
+				offset + services.length < dataCount &&
+				services.length === limit;
+			const pagination = { dataCount, hasMore };
+			return { services, pagination };
 		} catch (e) {
 			console.log(e);
 		}
@@ -68,17 +88,18 @@ class ServiceController {
 				createdById,
 				...serviceInput
 			});
+			newService.setDataValue(
+				"slug",
+				generateSlug(input.name, newService.getDataValue("id"))
+			);
 
 			TagRepository.createTags(newTags);
 
 			const tagNames = tags.map(t => t.name);
 			(newService as any).setTags(tagNames);
 
-			return newService
-				.save()
-				.then(() =>
-					createSuccessResponse(newService.getDataValue("id"))
-				);
+			await newService.save();
+			return createSuccessResponse(newService.getDataValue("id"));
 		} catch (e) {
 			console.log(e);
 			return errorResponse();

@@ -11,6 +11,9 @@ module.exports = {
 			name: {
 				type: Sequelize.STRING
 			},
+			slug: {
+				type: Sequelize.STRING
+			},
 			description: {
 				type: Sequelize.TEXT
 			},
@@ -45,6 +48,9 @@ module.exports = {
 				type: Sequelize.INTEGER
 			},
 			packages: {
+				type: Sequelize.JSON
+			},
+			packageRows: {
 				type: Sequelize.JSON
 			},
 			coverImage: {

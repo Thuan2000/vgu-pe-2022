@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 import Typography from "@components/ui/storybook/typography";
@@ -9,26 +9,35 @@ import BRDDiscussionQuestion from "./brd-discussion-question";
 
 interface IBRDDiscussionProps {
   brId: number;
+  reload: boolean;
 }
 
-const BRDDiscussion: React.FC<IBRDDiscussionProps> = ({ brId }) => {
+const BRDDiscussion: React.FC<IBRDDiscussionProps> = ({ reload, brId }) => {
   const { t } = useTranslation("common");
 
-  const { data } = useBrDiscussionQuestionsQuery({
-    variables: { input: { sort: "DATE" as any, brId, offset: 0, limit: 3 } },
+  function getInputParams() {
+    return { input: { sort: "DATE" as any, brId, offset: 0, limit: 5 } };
+  }
+  const { data, refetch } = useBrDiscussionQuestionsQuery({
+    variables: getInputParams(),
   });
-  const discussions = data?.brDiscussionQuestions;
 
+  useEffect(() => {
+    refetch(getInputParams());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reload]);
+
+  const discussions = data?.brDiscussionQuestions;
   return (
     <div className={`border space-y-4 relative rounded-md`}>
-      <div className="fic space-x-2 m-4">
+      <div className="flex items-baseline space-x-2 m-4">
         <Typography
           text={t("brd-discussion-title")}
           variant="title"
           size="md"
         />
         <Typography
-          text={`${t("brd-questions-text")}`}
+          text={`${discussions?.length} ${t("brd-questions-text")}`}
           variant="description"
           size="md"
         />
@@ -48,7 +57,7 @@ const BRDDiscussion: React.FC<IBRDDiscussionProps> = ({ brId }) => {
         </Button>
       </div>
 
-      {discussions && discussions.length > 1 ? (
+      {discussions && !!discussions.length ? (
         <div className="px-4">
           {discussions.map((d: any) => (
             <BRDDiscussionQuestion

@@ -44,7 +44,7 @@ export function formatMoneyAmount(ma: number) {
 
   if (maInString.length >= BILLION_COUNT) {
     const takenNumber = maInString.slice(0, maInString.length - 9);
-    const decimal = maInString.slice(-1, -BILLION_COUNT);
+    const decimal = maInString.slice(maInString.length - (BILLION_COUNT - 1));
 
     return `${thousandSeparator(takenNumber)},${decimal.substr(0, 1)}`;
   }
@@ -68,7 +68,7 @@ export function thousandSeparator(x: string | number) {
   );
 }
 
-export function getSuffix(amount: number) {
+export function getMoneySuffix(amount: number) {
   if (amount >= BILLION) return "billion-suffix";
   if (amount >= MILLION) return "million-suffix";
   return "";

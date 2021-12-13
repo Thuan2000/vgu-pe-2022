@@ -88,9 +88,13 @@ class CompanyController {
 				ownerId,
 				licenseNumber,
 				licenseFiles,
-				name: companyName,
-				slug: generateSlug(companyName)
+				name: companyName
 			});
+
+			newCompany.setDataValue(
+				"slug",
+				generateSlug(companyName, newCompany.getDataValue("id"))
+			);
 
 			// Setting user company id
 			const userNewToken = await UserRepository.setCompanyId(

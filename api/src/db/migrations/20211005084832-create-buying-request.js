@@ -38,6 +38,9 @@ module.exports = {
 			unit: {
 				type: Sequelize.STRING
 			},
+			coverImage: {
+				type: Sequelize.JSON
+			},
 			gallery: {
 				type: Sequelize.JSON
 			},

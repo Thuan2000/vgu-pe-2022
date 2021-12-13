@@ -95,5 +95,9 @@
   "create-service-button-label": "Create New Service",
   "item-selected-text": "Item selected",
   "total-label": "Total",
-  "services-label": "Services"
+  "services-label": "Services",
+  "no-services-yet-text-info": "Your company has no service yet",
+  "confirm-button-label": "Confirm",
+  "delete-service-message": "Are you sure want to delete selected services",
+  "delete-service-title": "Delete Service"
 }

@@ -17,6 +17,7 @@ class Service extends Model {
 Service.init(
 	{
 		name: DataTypes.STRING,
+		slug: DataTypes.STRING,
 		description: DataTypes.TEXT,
 		industryId: DataTypes.INTEGER,
 		categoryId: DataTypes.INTEGER,
@@ -28,6 +29,7 @@ Service.init(
 		minPrice: DataTypes.BIGINT,
 		maxPrice: DataTypes.BIGINT,
 		packages: DataTypes.JSON,
+		packageRows: DataTypes.JSON,
 		companyId: DataTypes.INTEGER,
 		coverImage: DataTypes.JSON,
 		createdById: DataTypes.INTEGER,

@@ -106,6 +106,7 @@ BuyingRequest.init(
 		maxBudget: DataTypes.BIGINT,
 		minOrder: DataTypes.INTEGER,
 		unit: DataTypes.STRING,
+		coverImage: DataTypes.JSON,
 		gallery: DataTypes.JSON,
 		biddersLimit: DataTypes.INTEGER,
 		minSupplierExperience: DataTypes.INTEGER,

@@ -6,5 +6,6 @@ export const Mutation = {
 };
 
 export const Query = {
-	services: (_, { input }) => ServiceController.getServices(input)
+	services: (_, { input }) => ServiceController.getServices(input),
+	service: (_, { slug }) => ServiceController.getService(slug)
 };

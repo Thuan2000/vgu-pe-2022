@@ -8,7 +8,11 @@ import Typography from "@components/ui/storybook/typography";
 import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import { getCategory } from "src/datas/categories";
-import { formatMoneyAmount, getSuffix, viDateFormat } from "@utils/functions";
+import {
+  formatMoneyAmount,
+  getMoneySuffix,
+  viDateFormat,
+} from "@utils/functions";
 import { getIndustry } from "@datas/industries";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -62,6 +66,14 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
   //   return text || t("no-filter");
   // }
 
+  function getPrice() {
+    return `${formatMoneyAmount(br?.minBudget)}${t(
+      getMoneySuffix(br?.minBudget)
+    )}${t("form:budget-sign")} - ${formatMoneyAmount(br?.maxBudget)}${t(
+      getMoneySuffix(br?.maxBudget)
+    )}${t("form:budget-sign")}`;
+  }
+
   return (
     <>
       <Head>
@@ -110,14 +122,10 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
                 }
               />
             </div>
-            <div className="mt-1 flex items-start">
+            <div className="mt-1 fic">
               <p className="mr-1">{t("budget-text")}:</p>
-              <p className="font-semibold">
-                {formatMoneyAmount(br?.minBudget)}
-                {t("common:" + getSuffix(br?.minBudget))}-{" "}
-                {formatMoneyAmount(br?.maxBudget)}
-                {t("common:" + getSuffix(br?.maxBudget))}
-              </p>
+              <Typography text={getPrice()} variant="smallTitle" />
+              <p className="font-semibold"></p>
             </div>
             <div className="mt-1 flex items-start">
               <p className="mr-1">{t("minimum-order-text")}:</p>

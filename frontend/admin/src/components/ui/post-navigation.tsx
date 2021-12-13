@@ -47,6 +47,7 @@ const PostNavigation: React.FC<IPostNavigation> = ({ navs }) => {
         onClick={() => (onClick ? onClick(label) : setFormPosition(idx + 1))}
         currentFormPosition={currentFormPosition}
         idx={idx}
+        navigateAble={!!onClick}
         label={label}
         isFilled={isFilled}
         isActive={isActive}

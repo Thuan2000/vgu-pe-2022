@@ -8,6 +8,12 @@ import {
   MOBILE_SIZE,
 } from "./constants";
 
+export function getMoneySuffix(amount: number) {
+  if (amount >= BILLION) return "billion-suffix";
+  if (amount >= MILLION) return "million-suffix";
+  return "";
+}
+
 export function checkIsMobile(width: number) {
   return width >= MOBILE_SIZE.min && width <= MOBILE_SIZE.max;
 }
@@ -30,13 +36,28 @@ export function timestampToDate(timestamp: number) {
   return `${day}-${month}-${year}`;
 }
 
+function appendZeroOnLessTen(count: number) {
+  return count < 10 ? `0${count}` : count;
+}
+
 export function viDateFormat(dateString: string | number) {
   const date = new Date(dateString);
-  const day = date.getDate() < 10 ? `0${date.getDay()}` : date.getDate();
-  const month = (date.getMonth() as number) + 1;
+  const day = appendZeroOnLessTen(date.getDate());
+  const month = appendZeroOnLessTen((date.getMonth() as number) + 1);
   const year = date.getFullYear();
 
   return `${day}.${month}.${year}`;
+}
+
+export function formatDateWithHour(dateString: string | number) {
+  const date = new Date(dateString);
+  const day = appendZeroOnLessTen(date.getDate());
+  const month = appendZeroOnLessTen((date.getMonth() as number) + 1);
+  const year = date.getFullYear();
+  const hour = appendZeroOnLessTen(date.getHours());
+  const minute = appendZeroOnLessTen(date.getMinutes());
+
+  return `${day}.${month}.${year} ${hour}:${minute}`;
 }
 
 export function formatMoneyAmount(ma: number) {
@@ -44,7 +65,7 @@ export function formatMoneyAmount(ma: number) {
 
   if (maInString.length >= BILLION_COUNT) {
     const takenNumber = maInString.slice(0, maInString.length - 9);
-    const decimal = maInString.slice(-1, -BILLION_COUNT);
+    const decimal = maInString.slice(maInString.length - (BILLION_COUNT - 1));
 
     return `${thousandSeparator(takenNumber)},${decimal.substr(0, 1)}`;
   }

@@ -1,8 +1,9 @@
-import CirclePlusIcon from "@assets/icons/circle-plus-icon";
-import { PlusIcon } from "@assets/icons/plus-icon";
+import DocumentAddIcon from "@assets/icons/document-add-icon";
 import ReloadIcon from "@assets/icons/reload-icon";
 import TrashCanIcon from "@assets/icons/trash-can-icon";
+import NoPosted from "@components/posted-tenders/no-tenders";
 import SearchInput from "@components/search-input";
+import DeleteServiceAlert from "@components/ui/delete-service-alert";
 import Link from "@components/ui/link";
 import Loading from "@components/ui/loading";
 import Pagination from "@components/ui/pagination";
@@ -16,12 +17,14 @@ import {
 } from "@graphql/service.graphql";
 import { IServiceListItem } from "@graphql/types.graphql";
 import { COLORS } from "@utils/colors";
+import { getCompanyId } from "@utils/functions";
 import { ROUTES } from "@utils/routes";
 import { findIndex, remove } from "lodash";
 import { useRouter } from "next/dist/client/router";
 import React, { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { useModal } from "src/contexts/modal.context";
 import Swal from "sweetalert2";
 import ServiceCard from "./service-card";
 
@@ -44,17 +47,19 @@ const PostedServices: React.FC<IPostedServicesProps> = ({}) => {
     variables: getFetchInputParam(),
   });
 
+  const { openModal } = useModal();
   const [deleteServices, { loading: deletingServices }] =
     useDeleteServicesMutation({ onCompleted: handleDeletedServices });
 
   const [selectedServices, setSelectedServices] = useState<IServiceListItem[]>(
     []
   );
-  const { services, count } = data?.services || {};
+  const { services, pagination } = data?.services || {};
 
   function getFetchInputParam() {
     return {
       input: {
+        companyId: getCompanyId(),
         limit: SERVICES_GET_LIMIT,
         offset: getOffset(),
       },
@@ -76,15 +81,37 @@ const PostedServices: React.FC<IPostedServicesProps> = ({}) => {
         confirmButtonText: t(`form:error-${message}-button`),
       });
     } else {
-      const { isDismissed } = await Swal.fire({
+      const { isDismissed, isConfirmed } = await Swal.fire({
         icon: "success",
         titleText: t(`form:services-deleted-title`),
         text: t(`form:services-deleted-message`),
         confirmButtonText: t(`form:okay-button-label`),
       });
       toast.success(t("form:services-deleted-title"));
-      if (isDismissed) refetchServices();
+      if (isDismissed || isConfirmed) refetchServices();
     }
+  }
+
+  function fireDeleteServicesAlert() {
+    openModal(
+      (
+        <DeleteServiceAlert
+          isLoading={deletingServices}
+          onDeleteClick={deleteSelectedServices}
+        />
+      ) as any
+    );
+  }
+
+  function fireDeleteServiceAlert(service: IServiceListItem) {
+    openModal(
+      (
+        <DeleteServiceAlert
+          isLoading={deletingServices}
+          onDeleteClick={() => deleteService(service)}
+        />
+      ) as any
+    );
   }
 
   function handlePaginationChange(idx: number) {
@@ -137,7 +164,7 @@ const PostedServices: React.FC<IPostedServicesProps> = ({}) => {
         <div className={`fic space-x-3`}>
           {!!selectedServices.length ? (
             <Button
-              onClick={deleteSelectedServices}
+              onClick={fireDeleteServicesAlert}
               loading={deletingServices}
               color="error"
             >
@@ -147,7 +174,7 @@ const PostedServices: React.FC<IPostedServicesProps> = ({}) => {
           ) : (
             <Link href={`${ROUTES.POST_PRODUCT_SERVICE}?target=service`}>
               <Button>
-                <PlusIcon className={`w-4 h-4 mr-3`} fill={COLORS.WHITE} />
+                <DocumentAddIcon className={`w-5 h-5 mr-2`} />
                 {t("create-service-button-label")}
               </Button>
             </Link>
@@ -185,7 +212,9 @@ const PostedServices: React.FC<IPostedServicesProps> = ({}) => {
         <Typography
           variant="smallTitle"
           color="gray"
-          text={`${t("total-label")}: ${count} ${t("services-label")}`}
+          text={`${t("total-label")}: ${pagination?.dataCount} ${t(
+            "services-label"
+          )}`}
         />
       </div>
 
@@ -199,7 +228,7 @@ const PostedServices: React.FC<IPostedServicesProps> = ({}) => {
             const isSelected = checkIsSelected(service as any);
             return (
               <ServiceCard
-                onDelete={deleteService}
+                onDelete={fireDeleteServiceAlert}
                 key={s?.id + "service-list-item"}
                 isSelected={isSelected}
                 onSelect={handleSelectService}
@@ -209,11 +238,15 @@ const PostedServices: React.FC<IPostedServicesProps> = ({}) => {
           })}
         </div>
       ) : (
-        <div>No Services</div>
+        <NoPosted
+          text={t("no-services-yet-text-info")}
+          href={`${ROUTES.POST_PRODUCT_SERVICE}?target=service`}
+          buttonLabel={t("create-service-button-label")}
+        />
       )}
 
       <Pagination
-        totalCount={count || 0}
+        totalCount={pagination?.dataCount || 0}
         limit={SERVICES_GET_LIMIT}
         activeIdx={activePageIdx}
         displayPageAmount={5}

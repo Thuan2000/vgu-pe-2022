@@ -110,5 +110,20 @@
   "searchBy-text": "Search by ",
   "iframe-here": "IFrame here",
   "searchFor-text": "Search For",
-  "yourCompanyRequest-button-label": "Your Tender"
+  "yourCompanyRequest-button-label": "Your Tender",
+  "SERVICES_NAV_LABEL": "Services",
+  "PRODUCT_NAV_LABEL": "Products",
+  "post-PRODUCT_PAGE_SEARCH_LABEL-link-button-label": "Post Product",
+  "PRODUCT_PAGE_SEARCH_LABEL": "Product",
+  "post-SERVICE_PAGE_SEARCH_LABEL-link-button-label": "Post Service",
+  "SERVICE_PAGE_SEARCH_LABEL": "Service",
+  "budget-sign": "₫",
+  "PACKAGE_PRICE_LABEL": "Package Price",
+  "PACKAGE_PRICE_DESCRIPTION": "Price of each package",
+  "package-text": "Package",
+  "service-sortBy-title": "Sort",
+  "service-updateKey-sort-button-label": "Your Question",
+  "service-date-sort-button-label": "Newest",
+  "service-questions-text": "Questions",
+  "service-discussion-title": "Discussion"
 }

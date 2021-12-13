@@ -53,6 +53,17 @@ function createApolloClient() {
                   : incoming;
               },
             },
+            services: {
+              keyArgs: false,
+              merge(existing, incoming) {
+                return existing
+                  ? {
+                      ...incoming,
+                      services: [...existing.services, ...incoming.services],
+                    }
+                  : incoming;
+              },
+            },
           },
         },
       },

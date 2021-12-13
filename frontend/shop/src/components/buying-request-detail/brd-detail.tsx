@@ -4,13 +4,14 @@ import { getSourceType } from "@datas/source-types";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import {
   formatMoneyAmount,
+  getMoneySuffix,
   getSuffix,
   trimText,
   viDateFormat,
 } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React, { useState } from "react";
-import BRDDetailQA from "./brd-detail-qa";
+import BRDDetailQA from "../ui/detail-qa";
 
 interface IBRDDetailProps extends React.HTMLAttributes<HTMLDivElement> {
   br: IBuyingRequest;
@@ -30,6 +31,14 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ br }) => {
     setIsShowMore((old) => !old);
   }
 
+  function getPrice() {
+    return `${formatMoneyAmount(br.minBudget!)}${t(
+      getMoneySuffix(br.maxBudget)
+    )} ${t("budget-sign")} - ${formatMoneyAmount(br.maxBudget!)}${t(
+      getMoneySuffix(br.maxBudget)
+    )} ${t("budget-sign")}`;
+  }
+
   return (
     <div
       className={`general p-4 border space-y-2 relative rounded-md ${
@@ -38,25 +47,10 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ br }) => {
     >
       <Typography text={t("brd-details-title")} variant="title" size="md" />
       <div className="grid grid-cols-2 space-y-1">
-        <BRDDetailQA question={`${t("brd-budget-title")}:`}>
-          <div className="fic">
-            <Typography
-              variant="smallTitle"
-              text={`${formatMoneyAmount(br.minBudget)}${t(
-                getSuffix(br.minBudget)
-              )}`}
-            />
-
-            <Typography variant="smallTitle" text="-" />
-
-            <Typography
-              variant="smallTitle"
-              text={`${formatMoneyAmount(br.maxBudget)}${t(
-                getSuffix(br.maxBudget)
-              )}`}
-            />
-          </div>
-        </BRDDetailQA>
+        <BRDDetailQA
+          question={`${t("brd-budget-title")}:`}
+          answer={getPrice()}
+        />
         <BRDDetailQA
           question={`${t("brd-minOrder-title")}:`}
           answer={`${br.minOrder} ${br.unit}`}
