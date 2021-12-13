@@ -33,7 +33,7 @@
 
 .checkbox:disabled + label {
   color: var(--text-base);
-  cursor: auto;
+  cursor: not-allowed;
 }
 
 .checkbox:disabled + label:before {

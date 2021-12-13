@@ -94,8 +94,9 @@ type ServicesResponse {
 
 extend type Mutation {
 	createService(input: CreateServiceInput!): CreateResponse!
+	deleteServices(ids: [Int!]!): Response!
 }
 
 extend type Query {
-	services(input: FetchServicesInput): ServicesResponse
+	services(input: FetchServicesInput): ServicesResponse!
 }

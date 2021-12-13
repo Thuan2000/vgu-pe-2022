@@ -12,6 +12,9 @@ import { ServicesDocument } from "@graphql/service.graphql";
 import Image from "next/image";
 import { siteSettings } from "@settings/site.settings";
 import SideFilter from "@components/ui/buying-requests/filter/side-filter";
+import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
+import useIsPhone from "src/hooks/isPhone.hook";
+import UnderDevelopment from "@components/under-development";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -29,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      services: data.services,
+      services: data.services.services,
       ...(await serverSideTranslations(locale!, ["common"])),
     },
   };
@@ -39,11 +42,14 @@ interface IProductAndServiceProps {
   services: IServiceListItem[];
 }
 
-const ProductAndService: React.FC<IProductAndServiceProps> = ({ services }) => {
+const ProductAndService: React.FC<IProductAndServiceProps> = ({
+  services = [],
+}) => {
   const { t } = useTranslation("common");
-  services = [...services, ...services, ...services];
-  // const isPhone = useIsPhone();
-  // if (isPhone) return <PleaseOpenOnLaptop />;
+
+  const isPhone = useIsPhone();
+  if (isPhone) return <PleaseOpenOnLaptop />;
+
   return (
     <>
       <Head>
@@ -54,10 +60,9 @@ const ProductAndService: React.FC<IProductAndServiceProps> = ({ services }) => {
         />
       </Head>
       <main>
-        <SideFilter />
+        {/* <SideFilter />
         <div className="grid grid-cols-4 gap-x-10 gap-y-3">
-          {services.map((s) => {
-            console.log(s);
+          {services?.map((s) => {
             return (
               <div key={s.id} className={`shadow relative`}>
                 <div className="relative w-52 h-36 bg-red">
@@ -71,7 +76,8 @@ const ProductAndService: React.FC<IProductAndServiceProps> = ({ services }) => {
               </div>
             );
           })}
-        </div>
+        </div> */}
+        <UnderDevelopment />
       </main>
     </>
   );

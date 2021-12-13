@@ -28,7 +28,7 @@ export const requestChildren = [
 export const productChildren = [
   {
     label: "postProduct/Service-nav-label",
-    href: ROUTES.POST_PRODUCT,
+    href: ROUTES.POST_PRODUCT_SERVICE,
   },
   {
     label: "postedProduct/Service-nav-label",

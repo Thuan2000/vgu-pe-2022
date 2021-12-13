@@ -2,7 +2,11 @@ import { ICreateServiceInput, IFetchServicesInput } from "@graphql/types";
 import Company from "@models/Company";
 import Service from "@models/Service";
 import TagRepository from "@repositories/tag.repository";
-import { createSuccessResponse, errorResponse } from "@utils/responses";
+import {
+	createSuccessResponse,
+	errorResponse,
+	successResponse
+} from "@utils/responses";
 
 class ServiceController {
 	static async getServices({ offset, limit, ...input }: IFetchServicesInput) {
@@ -21,11 +25,21 @@ class ServiceController {
 					"location",
 					"rating"
 				],
-				include: [{ model: Company, attributes: ["name", "id"] }]
+				include: [{ model: Company, attributes: ["name"] }]
 			});
 
 			return { services, count };
 		} catch (e) {
+			console.log(e);
+		}
+	}
+
+	static async deleteServices(ids: number[]) {
+		try {
+			await Service.destroy({ where: { id: ids } });
+			return successResponse();
+		} catch (e) {
+			return errorResponse();
 			console.log(e);
 		}
 	}

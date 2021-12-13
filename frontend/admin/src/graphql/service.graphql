@@ -19,9 +19,15 @@ query Services($input: FetchServicesInput) {
       rating
       company {
         name
-        id
       }
     }
     count
+  }
+}
+
+mutation DeleteServices($ids: [Int!]!) {
+  deleteServices(ids: $ids) {
+    success
+    message
   }
 }

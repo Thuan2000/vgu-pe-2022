@@ -4,8 +4,10 @@ import BuyingRequestCard from "@components/posted-tenders/buying-request/buying-
 import Loading from "@components/ui/loading";
 import Pagination from "@components/ui/pagination";
 import {
+  DeleteBuyingRequestsMutation,
   useBuyingRequestsQuery,
   useDeleteBuyingRequestMutation,
+  useDeleteBuyingRequestsMutation,
 } from "@graphql/buying-request.graphql";
 import { IBuyingRequest, IProject } from "@graphql/types.graphql";
 import { BUYING_REQUESTS_GET_LIMIT } from "@utils/constants";
@@ -22,6 +24,8 @@ import { PlusIcon } from "@assets/icons/plus-icon";
 import TrashCanIcon from "@assets/icons/trash-can-icon";
 import { IExtraMenu } from "../buying-request/buying-request-card/buying-request-card";
 import DeleteBrAlert from "@components/ui/delete-br-alert";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 interface IBuyingRequestsProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -37,11 +41,45 @@ function getParameter({ offset }: { offset: number }): any {
 
 const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
   const { t } = useTranslation();
-  // Modal Context
   const { openModal } = useModal();
 
-  const [deleteBr, { loading: deleteLoading }] =
-    useDeleteBuyingRequestMutation();
+  const [deleteBrs, { loading: deleting }] = useDeleteBuyingRequestsMutation({
+    notifyOnNetworkStatusChange: true,
+    onCompleted: handleDeletedBrs,
+  });
+
+  async function handleDeletedBrs({
+    deleteBuyingRequests: { message, success },
+  }: DeleteBuyingRequestsMutation) {
+    if (!success) {
+      Swal.fire({
+        icon: "error",
+        titleText: t(`form:error-${message}-title`),
+        text: t(`form:error-${message}-message`),
+        confirmButtonText: t(`form:error-${message}-button`),
+      });
+    } else {
+      const { isDismissed } = await Swal.fire({
+        icon: "success",
+        titleText: t(`form:services-deleted-title`),
+        text: t(`form:services-deleted-message`),
+        confirmButtonText: t(`form:okay-button-label`),
+      });
+      toast.success(t("form:services-deleted-title"));
+
+      if (isDismissed)
+        refetch({
+          companyId: getCompanyId(),
+          input: { limit: BUYING_REQUESTS_GET_LIMIT, offset: getOffset() },
+        });
+    }
+  }
+
+  function deleteSelectedBrs() {
+    const selectedBrIds = selectedBrs.map((br) => parseInt(br.id));
+
+    deleteBrs({ variables: { ids: selectedBrIds } });
+  }
 
   // Data fetching
   const { query, ...router } = useRouter();
@@ -66,20 +104,23 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
     variables: getParameter({ offset: getOffset() }),
   });
 
-  useEffect(() => {
-    refetch(getParameter({ offset: getOffset() }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deleteLoading]);
-
   async function onDelete(br: IBuyingRequest) {
-    await deleteBr({ variables: { id: parseInt(br.id) } });
+    await deleteBrs({ variables: { ids: [parseInt(br.id)] } });
+  }
+
+  function handleDeleteSelectedBrsClick() {
+    openModal(
+      (
+        <DeleteBrAlert isLoading={deleting} onDeleteClick={deleteSelectedBrs} />
+      ) as any
+    );
   }
 
   function handleDeleteBrClick(br: IBuyingRequest) {
     openModal(
       (
         <DeleteBrAlert
-          isLoading={deleteLoading}
+          isLoading={deleting}
           onDeleteClick={() => onDelete(br)}
         />
       ) as any
@@ -246,6 +287,7 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
   return (
     <>
       <BuyingRequestHeader
+        onDeleteBrClick={handleDeleteSelectedBrsClick}
         selecteds={selectedBrs}
         onAddToProjectClick={handleAddToProjectClick}
         setSelecteds={setSelectedBrs}

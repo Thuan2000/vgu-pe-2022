@@ -288,5 +288,8 @@
   "pps-service-singlePrice-label": "Service Price",
   "not-setup": "Not setup yet",
   "posted-services-page-title": "Services",
-  "posted-products-page-title": "Products"
+  "posted-products-page-title": "Products",
+  "services-deleted-title": "Services Deleted",
+  "services-deleted-message": "Selected services has deleted successfully",
+  "okay-button-label": "Okay"
 }
