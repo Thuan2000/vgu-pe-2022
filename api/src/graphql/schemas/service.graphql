@@ -4,9 +4,10 @@ type ServiceListItem {
 	location: String!
 	name: String!
 	price: Date
-	minPrice: String
-	maxPrice: String
+	minPrice: Int
+	maxPrice: Int
 	rating: Float
+	company: Company!
 }
 
 input FaqInput {
@@ -85,10 +86,15 @@ input FetchServicesInput {
 	maxPrice: Date
 }
 
+type ServicesResponse {
+	services: [ServiceListItem]!
+	count: Int!
+}
+
 extend type Mutation {
 	createService(input: CreateServiceInput!): CreateResponse!
 }
 
 extend type Query {
-	services(input: FetchServicesInput): [ServiceListItem]!
+	services(input: FetchServicesInput): ServicesResponse
 }

@@ -5,3 +5,23 @@ mutation CreateService($input: CreateServiceInput!) {
     success
   }
 }
+
+query Services($input: FetchServicesInput) {
+  services(input: $input) {
+    services {
+      id
+      coverImage
+      location
+      name
+      price
+      minPrice
+      maxPrice
+      rating
+      company {
+        name
+        id
+      }
+    }
+    count
+  }
+}

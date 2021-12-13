@@ -14,5 +14,6 @@ export const ROUTES = {
   BUYING_REQUESTS: "/tenders",
   PROJECTS: "/projects",
   POST_PRODUCT: "/post-product-service",
+  POSTED_PRODUCT: "/posted-product-service",
   EDIT_COMPANY: "/company-details",
 };

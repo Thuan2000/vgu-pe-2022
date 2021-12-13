@@ -1,6 +1,7 @@
 import React from "react";
 import DownVIcon from "@assets/icons/down-v-icon";
 import { COLORS } from "@utils/colors";
+import Button from "./storybook/button";
 
 interface IPaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   totalCount: number;
@@ -57,7 +58,7 @@ const Pagination: React.FC<IPaginationProps> = ({
 
   function changePage(newPageIdx: number) {
     if (activeIdx === newPageIdx) return;
-    if (newPageIdx < 1 || newPageIdx > pagesNumber) return;
+    // if (newPageIdx < 1 || newPageIdx > pagesNumber) return;
 
     onChangePage(newPageIdx);
   }
@@ -86,53 +87,61 @@ const Pagination: React.FC<IPaginationProps> = ({
       const isLast = count + 1 >= getSlicing().end;
       const isActive = count + 1 === activeIdx;
       return (
-        <button
+        <Button
+          variant="custom"
           key={`pagination-number-count-${count}`}
           onClick={() => changePage(count + 1)}
-          className={`border-2 radius-sm p-2 h-8 w-8 font-semibold text-${color} border-${color} flex-center rounded-sm
-                      ${!isLast && "mr-2"}
+          className={`border-2 text-${color} border-${color}
                       ${isActive && `text-${activeColor} border-${activeColor}`}
                     `}
         >
           {count + 1}
-        </button>
+        </Button>
       );
     });
 
   return (
     <div {...props}>
-      <div className={`flex items-center justify-${align} mt-2 w-full px-4`}>
-        <button
+      <div className={`fic space-x-4 justify-${align} mt-2 w-full px-4`}>
+        <Button
+          variant="custom"
+          size="small"
+          className={`border-2 !px-2 text-${color} border-${color}`}
           onClick={() => changePage(activeIdx - 1)}
-          className={`border-2 radius-sm p-2 h-8 w-8 font-semibold text-${color} border-${color} flex-center rounded-sm mr-4`}
+          disabled={activeIdx - 1 < pagesNumber}
         >
           <DownVIcon className="rotate-90" fill={COLORS.GRAY[100]} />
-        </button>
+        </Button>
         <div className="flex items-center">
           {pagesDom}
           {showLastIndexWithMore && (
             <>
-              <button
+              <Button
+                variant="custom"
                 // onClick={() => changePage(pagesNumber)}
                 className={`border-2 radius-sm p-2 h-8 w-8 font-semibold text-${color} border-${color} flex-center rounded-sm ml-2`}
               >
                 ...
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="custom"
                 onClick={() => changePage(pagesNumber)}
                 className={`border-2 radius-sm p-2 h-8 w-8 font-semibold text-${color} border-${color} flex-center rounded-sm ml-2`}
               >
                 {pagesNumber}
-              </button>
+              </Button>
             </>
           )}
         </div>
-        <button
+        <Button
+          variant="custom"
+          size="small"
+          className={`border-2 !px-2 text-${color} border-${color} mr-4`}
           onClick={() => changePage(activeIdx + 1)}
-          className={`border-2 radius-sm p-2 h-8 w-8 font-semibold text-${color} border-${color} flex-center rounded-sm ml-4`}
+          disabled={activeIdx + 1 > pagesNumber}
         >
           <DownVIcon className="-rotate-90" fill={COLORS.GRAY[100]} />
-        </button>
+        </Button>
       </div>
     </div>
   );

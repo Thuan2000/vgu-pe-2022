@@ -30,6 +30,10 @@ export const productChildren = [
     label: "postProduct/Service-nav-label",
     href: ROUTES.POST_PRODUCT,
   },
+  {
+    label: "postedProduct/Service-nav-label",
+    href: ROUTES.POSTED_PRODUCT,
+  },
 ];
 
 export const navigations: INavigation[] = [

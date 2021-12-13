@@ -1,5 +1,6 @@
 import Database from "@services/database.service";
 import { Model, DataTypes } from "sequelize";
+import Company from "./Company";
 import Tag from "./Tag";
 
 class Service extends Model {
@@ -28,6 +29,7 @@ Service.init(
 		maxPrice: DataTypes.BIGINT,
 		packages: DataTypes.JSON,
 		companyId: DataTypes.INTEGER,
+		coverImage: DataTypes.JSON,
 		createdById: DataTypes.INTEGER,
 		updatedById: DataTypes.INTEGER
 	},
@@ -39,5 +41,6 @@ Service.init(
 );
 
 Service.belongsToMany(Tag, { through: "service_tag" });
+Service.belongsTo(Company);
 
 export default Service;
