@@ -7,9 +7,13 @@ import { ROUTES } from "@utils/routes";
 import Breadcrumb from "../storybook/breadcrumb";
 import AppliedFilter from "./applied-filter";
 
-const Navbar = () => {
+interface INavbarProps {
+  className: string;
+}
+
+const Navbar: React.FC<INavbarProps> = ({ className }) => {
   return (
-    <div className="hidden sm:block sticky top-0 z-50">
+    <div className={`z-50 ${className}`}>
       <div className="flex justify-between items-center py-3 bg-gray-10 px-10 md:px-48">
         <NavbarNavigations />
         <LanguageSelector />

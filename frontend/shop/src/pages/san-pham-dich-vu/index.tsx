@@ -5,33 +5,45 @@ import React from "react";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
 import { useTranslation } from "react-i18next";
-import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
-import { ROUTES } from "@utils/routes";
+import { IServiceListItem } from "@graphql/types.graphql";
+import { initApollo } from "@utils/apollo";
+import { ServicesDocument } from "@graphql/service.graphql";
+import Image from "next/image";
+import { siteSettings } from "@settings/site.settings";
+import SideFilter from "@components/ui/buying-requests/filter/side-filter";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { token, role } = getAuthCredentials(ctx);
   const { locale } = ctx;
-  if (!isAuthenticated({ token, role } as any)) {
-    return {
-      redirect: {
-        destination: ROUTES.LOGIN,
-        permanent: false,
+
+  const apollo = initApollo();
+  const { data } = await apollo.query({
+    query: ServicesDocument,
+    variables: {
+      input: {
+        offset: 0,
+        limit: 400,
       },
-    };
-  }
+    },
+  });
 
   return {
     props: {
+      services: data.services,
       ...(await serverSideTranslations(locale!, ["common"])),
     },
   };
 };
 
-const ProductAndService = () => {
-  const { t } = useTranslation("common");
+interface IProductAndServiceProps {
+  services: IServiceListItem[];
+}
 
+const ProductAndService: React.FC<IProductAndServiceProps> = ({ services }) => {
+  const { t } = useTranslation("common");
+  services = [...services, ...services, ...services];
+  // const isPhone = useIsPhone();
+  // if (isPhone) return <PleaseOpenOnLaptop />;
   return (
     <>
       <Head>
@@ -42,12 +54,29 @@ const ProductAndService = () => {
         />
       </Head>
       <main>
-        <UnderDevelopment />
+        <SideFilter />
+        <div className="grid grid-cols-4 gap-x-10 gap-y-3">
+          {services.map((s) => {
+            console.log(s);
+            return (
+              <div key={s.id} className={`shadow relative`}>
+                <div className="relative w-52 h-36 bg-red">
+                  <Image
+                    src={s.coverImage || siteSettings.logo.url}
+                    layout="fill"
+                    alt={s.name + "image-preview"}
+                  />
+                </div>
+                {s.name}
+              </div>
+            );
+          })}
+        </div>
       </main>
     </>
   );
 };
 
-ProductAndService.Layout = PageLayout;
+(ProductAndService as any).Layout = PageLayout;
 
 export default ProductAndService;

@@ -1,9 +1,34 @@
-import { ICreateServiceInput } from "@graphql/types";
+import { ICreateServiceInput, IFetchServicesInput } from "@graphql/types";
 import Service from "@models/Service";
 import TagRepository from "@repositories/tag.repository";
 import { createSuccessResponse, errorResponse } from "@utils/responses";
 
 class ServiceController {
+	static async getServices({ offset, limit, ...input }: IFetchServicesInput) {
+		try {
+			console.log(input);
+
+			const services = await Service.findAll({
+				offset,
+				limit,
+				where: {},
+				attributes: [
+					"id",
+					"name",
+					"price",
+					"minPrice",
+					"maxPrice",
+					"location",
+					"rating"
+				]
+			});
+
+			return services;
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
 	static async createService(input: ICreateServiceInput) {
 		try {
 			const {

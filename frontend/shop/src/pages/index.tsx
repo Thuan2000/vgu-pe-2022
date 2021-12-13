@@ -5,11 +5,12 @@ import React from "react";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
 import { useTranslation } from "react-i18next";
-import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
 import HomepageContent from "@components/homepage/homepage-content";
+import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
+import useIsPhone from "src/hooks/isPhone.hook";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { token } = getAuthCredentials(ctx);
@@ -32,6 +33,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const Homepage = () => {
   const { t } = useTranslation("common");
+
+  const isPhone = useIsPhone();
+  if (isPhone) return <PleaseOpenOnLaptop />;
 
   return (
     <>

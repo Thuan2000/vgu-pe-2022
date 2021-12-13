@@ -2,7 +2,6 @@ import { IBuyingRequest } from "@graphql/types.graphql";
 import React from "react";
 import BrcImage from "./brc-image";
 import BrcInfo from "./brc-info";
-import { useModal } from "src/contexts/modal.context";
 
 interface IBuyingRequestCardProps {
   br: IBuyingRequest;

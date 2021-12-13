@@ -13,7 +13,7 @@ const SideFilter: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="hidden sm:block space-y-2 bg-white p-2 min-h-[87vh]">
+    <div className="hidden sm:block space-y-2 bg-white p-2">
       <div className="flex items-center w-[250px]">
         <FilterIcon fill={COLORS.PRIMARY.DEFAULT} className="mr-4" />
         <Typography

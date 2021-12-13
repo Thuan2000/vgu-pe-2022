@@ -33,6 +33,15 @@ module.exports = {
 				type: Sequelize.JSON
 			},
 			price: {
+				type: Sequelize.BIGINT
+			},
+			minPrice: {
+				type: Sequelize.BIGINT
+			},
+			maxPrice: {
+				type: Sequelize.BIGINT
+			},
+			rating: {
 				type: Sequelize.INTEGER
 			},
 			packages: {
