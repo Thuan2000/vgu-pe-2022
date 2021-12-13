@@ -1,3 +1,14 @@
+type ServiceListItem {
+	id: Int!
+	coverImage: String
+	location: String!
+	name: String!
+	price: Date
+	minPrice: String
+	maxPrice: String
+	rating: Float
+}
+
 input FaqInput {
 	question: String!
 	answer: String!
@@ -58,8 +69,26 @@ input CreateServiceInput {
 	companyName: String!
 	createdById: Int!
 	newTags: [TagInput!]
+	minPrice: Date
+	maxPrice: Date
+}
+
+input FetchServicesInput {
+	offset: Int!
+	limit: Int!
+	searchValue: String
+	categoryId: Int
+	location: String
+	status: BRStatus
+	industryId: Int
+	minPrice: Date
+	maxPrice: Date
 }
 
 extend type Mutation {
 	createService(input: CreateServiceInput!): CreateResponse!
+}
+
+extend type Query {
+	services(input: FetchServicesInput): [ServiceListItem]!
 }

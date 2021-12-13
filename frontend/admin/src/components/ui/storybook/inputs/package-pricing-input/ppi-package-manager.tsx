@@ -18,13 +18,22 @@ export interface IPPIPackageManagerProps {
   onAbort: () => void;
 }
 
+export const PPI_PACKAGE_PRICE_NAME = "PACKAGE_PRICE_LABEL";
+
+export const packagePriceRow: IPPIRow = {
+  id: generateUUID(),
+  inputType: "PRICE",
+  name: PPI_PACKAGE_PRICE_NAME,
+  description: "PACKAGE_PRICE_DESCRIPTION",
+};
+
 const PPIPackageManager: React.FC<IPPIPackageManagerProps> = ({
   onChange,
   value,
   onAbort,
 }) => {
   const { t } = useTranslation("form");
-  const [rows, setRows] = useState<IPPIRow[]>(value?.rows || []);
+  const [rows, setRows] = useState<IPPIRow[]>(value?.rows || [packagePriceRow]);
   const [packages, setPackages] = useState<IPPIPackage[]>(
     value?.packages || [{ id: generateUUID() }]
   );
@@ -92,13 +101,14 @@ const PPIPackageManager: React.FC<IPPIPackageManagerProps> = ({
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 select-none">
       <div className="text-center border rounded-sm flex">
         <PPIRowList
           onDeleteRow={handleDeleteRow}
           onUpdatedRow={handleUpdateRow}
           onCreatedRow={handleCreatedRow}
           rows={rows}
+          packagePriceRow={packagePriceRow}
         />
         <PPIPackageList
           onDelete={handlePackageDelete}
@@ -106,6 +116,7 @@ const PPIPackageManager: React.FC<IPPIPackageManagerProps> = ({
           value={value}
           rows={rows}
           packages={packages}
+          packagePriceRow={packagePriceRow}
           onCreatedPackage={handleCreatedPackage}
         />
       </div>

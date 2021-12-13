@@ -95,7 +95,7 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
           variant="description"
           text={trimText(br.description || "", 140) || t("NO_DESCRIPTION")}
         />
-        {br.company.id !== getCompanyId() && (
+        {br.company.id !== getCompanyId() ? (
           <Button
             variant="custom"
             size="small"
@@ -103,6 +103,10 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
           >
             <MessageIcon className="mr-3" />
             {t("chatNow-button-label")}
+          </Button>
+        ) : (
+          <Button disabled size="small">
+            {t("yourCompanyRequest-button-label")}
           </Button>
         )}
       </div>

@@ -6,7 +6,7 @@ import {
 } from "@graphql/buying-request.graphql";
 import { IBuyingRequest, ICompany } from "@graphql/types.graphql";
 import { APOLLO_STATE_NAME, initApollo } from "@utils/apollo";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import React from "react";
 import BRDBrImages from "@components/buying-request-detail/brd-image-section";
 import Typography from "@components/ui/storybook/typography";
@@ -24,7 +24,6 @@ import BRDAskQuestion from "@components/buying-request-detail/brd-ask-question";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
 import BRDAlsoNeeded from "@components/buying-request-detail/brd-also-needed";
-import UnderDevelopment from "@components/under-development";
 import useIsPhone from "src/hooks/isPhone.hook";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 

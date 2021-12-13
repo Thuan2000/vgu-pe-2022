@@ -1,0 +1,12 @@
+query Services($input: FetchServicesInput) {
+  services(input: $input) {
+    id
+    coverImage
+    location
+    name
+    price
+    minPrice
+    maxPrice
+    rating
+  }
+}

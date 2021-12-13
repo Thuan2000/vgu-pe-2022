@@ -2,6 +2,7 @@ import TriangleIcon from "@assets/icons/triangle-icon";
 import Typography from "@components/ui/storybook/typography";
 import { IFile } from "@graphql/types.graphql";
 import { COLORS } from "@utils/colors";
+import { trimText } from "@utils/functions";
 import React from "react";
 
 interface IPPSAttachmentVideosReviewProps {
@@ -38,7 +39,7 @@ const PPSAttachmentVideosReview: React.FC<IPPSAttachmentVideosReviewProps> = ({
             <Typography
               className="text-center py-2"
               variant="smallTitle"
-              text={v.fileName}
+              text={trimText(v.fileName, 30)}
             />
           </div>
         );

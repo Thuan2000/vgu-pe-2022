@@ -3,7 +3,7 @@ import { COLORS } from "@utils/colors";
 import { generateUUID } from "@utils/functions";
 import { findIndex } from "lodash";
 import { useTranslation } from "next-i18next";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import PPIEmptyPr from "./ppi-empty-pr";
 import { IPPIPackage, IPPIRow } from "./ppi-interfaces";
 import { IPPIValue } from "./ppi-package-manager";
@@ -17,6 +17,7 @@ interface IPPIPackageListProps {
   onChange?: (value: IPPIPackage[]) => void;
   onDelete: (packages: IPPIPackage[]) => void;
   value: IPPIValue;
+  packagePriceRow: IPPIRow;
 }
 
 const PPIPackageList: React.FC<IPPIPackageListProps> = ({
@@ -26,6 +27,7 @@ const PPIPackageList: React.FC<IPPIPackageListProps> = ({
   onDelete,
   rows,
   value,
+  packagePriceRow,
 }) => {
   const { t } = useTranslation("form");
 
@@ -77,6 +79,7 @@ const PPIPackageList: React.FC<IPPIPackageListProps> = ({
             onePackageOnly={packages.length === 1}
             value={getValuedPkg(pkg)}
             rows={rows}
+            packagePriceRow={packagePriceRow}
           />
         );
       })}

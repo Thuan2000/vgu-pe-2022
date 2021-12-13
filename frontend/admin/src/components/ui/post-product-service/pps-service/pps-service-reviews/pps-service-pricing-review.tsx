@@ -1,6 +1,7 @@
 import ReviewQA from "@components/ui/review-qa";
 import ReviewSectionTitle from "@components/ui/review-section-title";
 import PPIPackageList from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-list";
+import { packagePriceRow } from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
 import PPIRowList from "@components/ui/storybook/inputs/package-pricing-input/ppi-row-list";
 import Typography from "@components/ui/storybook/typography";
 import { formatMoneyAmount } from "@utils/functions";
@@ -39,8 +40,9 @@ const PPSPricingReview: React.FC<IPPSPricingReviewProps> = ({
         />
       ) : (
         <div className="text-center border rounded-sm flex">
-          <PPIRowList rows={rows} />
+          <PPIRowList rows={rows} packagePriceRow={packagePriceRow} />
           <PPIPackageList
+            packagePriceRow={packagePriceRow}
             onDelete={() => {}}
             value={packages as any}
             rows={rows}
