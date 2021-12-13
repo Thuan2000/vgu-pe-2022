@@ -67,6 +67,7 @@ input CreateServiceInput {
 	price: Int
 	packages: [PackageInput!]
 	companyId: Int!
+	coverImage: String
 	companyName: String!
 	createdById: Int!
 	newTags: [TagInput!]
