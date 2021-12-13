@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
+import Service from "./Service";
 
 class Company extends Model {
 	/**

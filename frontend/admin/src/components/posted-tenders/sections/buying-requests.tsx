@@ -272,7 +272,7 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
         activeIdx={activePageIdx}
         onChangePage={handlePageChange}
         totalCount={totalBRs || 1}
-        color="gray-200"
+        color=""
         activeColor="primary"
         displayPageAmount={5}
         limit={BUYING_REQUESTS_GET_LIMIT}

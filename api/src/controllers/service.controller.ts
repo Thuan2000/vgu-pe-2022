@@ -1,4 +1,5 @@
 import { ICreateServiceInput, IFetchServicesInput } from "@graphql/types";
+import Company from "@models/Company";
 import Service from "@models/Service";
 import TagRepository from "@repositories/tag.repository";
 import { createSuccessResponse, errorResponse } from "@utils/responses";
@@ -6,9 +7,7 @@ import { createSuccessResponse, errorResponse } from "@utils/responses";
 class ServiceController {
 	static async getServices({ offset, limit, ...input }: IFetchServicesInput) {
 		try {
-			console.log(input);
-
-			const services = await Service.findAll({
+			const { rows: services, count } = await Service.findAndCountAll({
 				offset,
 				limit,
 				where: {},
@@ -16,14 +15,16 @@ class ServiceController {
 					"id",
 					"name",
 					"price",
+					"coverImage",
 					"minPrice",
 					"maxPrice",
 					"location",
 					"rating"
-				]
+				],
+				include: [{ model: Company, attributes: ["name", "id"] }]
 			});
 
-			return services;
+			return { services, count };
 		} catch (e) {
 			console.log(e);
 		}

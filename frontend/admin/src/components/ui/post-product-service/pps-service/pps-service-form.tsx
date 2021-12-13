@@ -205,6 +205,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
       if (isNewRecord) newTags.push(tag);
       return tag;
     });
+    const coverImage = attachment?.images ? attachment?.images[0] : "";
     const { price, packages: rawPackages } = pricing;
     const {
       formatedPackages: packages,
@@ -221,6 +222,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
       tags,
       faqs,
       newTags,
+      coverImage,
       companyId: getCompanyId(),
       companyName: getCompanyName() as string,
       createdById: getLoggedInUser()?.id as any,
