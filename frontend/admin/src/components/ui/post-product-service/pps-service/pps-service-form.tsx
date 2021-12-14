@@ -19,17 +19,17 @@ import Form from "@components/form";
 import PPSServiceFooterButton from "./pps-service-footer-button";
 import PPSServicePricingInput from "./pps-service-pricing-input";
 import PPSServiceReview from "./pps-service-review";
-import {
-  IPPIValue,
-  PPI_PACKAGE_PRICE_NAME,
-} from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
-import { findIndex, isEmpty } from "lodash";
+import { PPI_PACKAGE_PRICE_NAME } from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
+import { findIndex } from "lodash";
 import {
   useCreateServiceMutation,
+  useUpdateServiceMutation,
   CreateServiceMutation,
+  UpdateServiceMutation,
 } from "@graphql/service.graphql";
-import { ICreateServiceInput } from "@graphql/types.graphql";
+import { IService } from "@graphql/types.graphql";
 import {
+  generateUUID,
   getCompanyId,
   getCompanyName,
   getLoggedInUser,
@@ -38,20 +38,104 @@ import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
 import { ROUTES } from "@utils/routes";
 import { ITagInput } from "@graphql/types.graphql";
-import { ITagWithNewRecord } from "@utils/interfaces";
+
 import {
   IPPIPackage,
   IPPIRow,
 } from "@components/ui/storybook/inputs/package-pricing-input/ppi-interfaces";
+import { getCategory } from "@datas/categories";
+import { getIndustry } from "@datas/industries";
+import { getLocationByName } from "@utils/vietnam-cities";
 
-interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  initValue?: IService;
+}
 
-const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
+function removeTypename(withTypename: any[] = []) {
+  const withoutTypename = withTypename?.map(({ __typename, ...wt }: any) => wt);
+
+  return withoutTypename;
+}
+
+function addIdAndRemoveTypename(arr: any[] = []) {
+  return arr.map(({ __typename, ...a }: any) => ({ id: generateUUID(), ...a }));
+}
+
+function processPackages(packages: IPPIPackage[]) {
+  const processed = packages.map(({ __typename, id, packageRows }: any) => {
+    const processedPRs = packageRows?.map(
+      ({ __typename, rowId, value }: any) => ({
+        rowId,
+        value: JSON.parse(value),
+      })
+    );
+
+    return { id, packageRows: processedPRs };
+  });
+
+  return processed;
+}
+
+function generateDefaultValues(initValue: IService) {
+  const {
+    description,
+    name,
+    location,
+    categoryId,
+    industryId,
+    certificates,
+    images,
+    videos,
+    faqs,
+    tags,
+    price,
+    packages,
+    packageRows,
+  } = initValue;
+  const defaultValue: IPostServiceFormValues = {
+    attachment: {
+      certificates: removeTypename(certificates || []),
+      images: removeTypename(images || []),
+      videos: removeTypename(videos || []),
+    },
+    category: {
+      name,
+      category: getCategory(categoryId),
+      industry: getIndustry(industryId),
+    },
+    details: {
+      description,
+      faqs: addIdAndRemoveTypename(faqs || []),
+      tags: addIdAndRemoveTypename(tags || []),
+      location: getLocationByName(location),
+    },
+    pricing: {
+      price,
+      ...(!!packageRows?.length && !!packages?.length
+        ? {
+            packages: {
+              rows: removeTypename(packageRows || []),
+              packages: processPackages(packages || []),
+            },
+          }
+        : ({} as any)),
+    },
+  };
+
+  return defaultValue;
+}
+
+const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
   const { t } = useTranslation("form");
   const { locale, query, ...router } = useRouter();
   const [createService, { loading }] = useCreateServiceMutation({
     onCompleted: handleCreatedService,
   });
+
+  const [updateService, { loading: updating }] = useUpdateServiceMutation({
+    onCompleted: handleUpdatedService,
+  });
+
   const formPosition = parseInt(query.formPosition as string) || 1;
 
   function changeSection(newPosition: number) {
@@ -72,6 +156,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
     handleSubmit,
   } = useForm<IPostServiceFormValues>({
     resolver: yupResolver(ppsServiceSchema),
+    defaultValues: initValue ? generateDefaultValues(initValue) : {},
   });
 
   // Changing section if there's an error and user submitting
@@ -127,9 +212,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
     changeSection(formPosition + 1);
   }
 
-  function handleCreatedService({
-    createService: { message, success },
-  }: CreateServiceMutation) {
+  function fireSuccessErrorMessage(success: boolean, message: string) {
     if (success) {
       Swal.fire({
         icon: "success",
@@ -140,6 +223,18 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
 
       router.replace(`${ROUTES.POSTED_PRODUCT_SERVICE}?target=service`);
     } else if (!success) alert(t(`CREATE-SERVICES-${message}-ERROR`));
+  }
+
+  function handleCreatedService({
+    createService: { message, success },
+  }: CreateServiceMutation) {
+    fireSuccessErrorMessage(success, message);
+  }
+
+  function handleUpdatedService({
+    updateService: { message, success },
+  }: UpdateServiceMutation) {
+    fireSuccessErrorMessage(success, message);
   }
 
   /**
@@ -153,7 +248,6 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
   ) {
     let minPrice = Number.MAX_VALUE;
     let maxPrice = Number.MIN_VALUE;
-
     if (!packages?.length) return;
     const formatedPackages = packages.map((pkg) => {
       const newPackage = Object.assign({}, pkg);
@@ -176,7 +270,6 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
           value: JSON.stringify(pr?.value),
         };
       });
-
       newPackage.packageRows = newPrs as any;
 
       return newPackage;
@@ -203,18 +296,21 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
     }));
     const location = locationRaw.name;
     const newTags: ITagInput[] = [];
-    const tags: ITagInput[] = rawTags.map(({ isNewRecord, ...tag }) => {
+    const tags: string[] = rawTags.map(({ isNewRecord, id, ...tag }: any) => {
       if (isNewRecord) newTags.push(tag);
-      return tag;
+      return tag.name;
     });
-    const coverImage = attachment?.images && attachment?.images[0];
+
+    const { images, ...attachmentRest } = attachment;
+
+    const coverImage =
+      images && !!images.length ? attachment?.images[0] : undefined;
     const { price, packages: rawPackages } = pricing;
     const packages = rawPackages?.packages;
     const rows = rawPackages?.rows;
 
     const { formatedPackages, minPrice, maxPrice } =
       processRawPackages(packages, rows) || {};
-    // @TODO find out why this happened
     const value: any = {
       name,
       description,
@@ -224,17 +320,29 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
       tags,
       faqs,
       newTags,
-      companyId: getCompanyId(),
-      companyName: getCompanyName() as string,
-      createdById: getLoggedInUser()?.id as any,
-      ...(rows ? { packageRows: rows } : {}),
-      ...(coverImage ? { coverImage } : {}),
-      ...attachment,
-      ...(!!formatedPackages && formatedPackages?.length > 0
-        ? { packages: formatedPackages, minPrice, maxPrice }
-        : { price }),
+      packageRows: rows || null,
+      coverImage,
+      ...attachmentRest,
+      packages: formatedPackages || null,
+      minPrice: minPrice || null,
+      maxPrice: maxPrice || null,
+      price: price || null,
     };
-    createService({ variables: { input: value } });
+
+    if (!!initValue) {
+      updateService({ variables: { input: { id: initValue.id, ...value } } });
+    } else {
+      createService({
+        variables: {
+          input: {
+            ...value,
+            companyId: getCompanyId(),
+            companyName: getCompanyName() as string,
+            createdById: getLoggedInUser()?.id as any,
+          },
+        },
+      });
+    }
   }
 
   function handleBackClick() {
@@ -293,7 +401,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
       </div>
 
       <PPSServiceFooterButton
-        loading={loading}
+        loading={loading || updating}
         onNextClick={handleNextClick}
         onBackClick={handleBackClick}
         formPosition={formPosition}

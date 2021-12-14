@@ -1,0 +1,54 @@
+# import FileFragment from "./file.fragment.graphql"
+
+fragment ServiceParts on Service {
+  id
+  name
+  slug
+  industryId
+  categoryId
+  description
+  price
+  minPrice
+  maxPrice
+  rating
+  location
+  coverImage {
+    url
+  }
+  company {
+    id
+    name
+  }
+  packages {
+    id
+    packageRows {
+      rowId
+      value
+    }
+  }
+  packageRows {
+    id
+    description
+    inputType
+    name
+  }
+  images {
+    ...FileFragment
+  }
+  videos {
+    ...FileFragment
+  }
+  certificates {
+    ...FileFragment
+  }
+  faqs {
+    question
+    answer
+  }
+  tags {
+    name
+    locale
+  }
+  createdAt
+  updatedAt
+}

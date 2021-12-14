@@ -6,7 +6,7 @@ import { useTranslation } from "next-i18next";
 import React from "react";
 import PPIEmptyPr from "./ppi-empty-pr";
 import { IPPIPackage, IPPIRow } from "./ppi-interfaces";
-import { IPPIValue } from "./ppi-package-manager";
+import { IPPIValue, PPI_PACKAGE_PRICE_ID } from "./ppi-package-manager";
 import PPIPackageItem from "./ppi-package-item";
 import PPITableItemWrapper from "./ppi-table-item-wrapper";
 
@@ -99,9 +99,12 @@ const PPIPackageList: React.FC<IPPIPackageListProps> = ({
             <PlusIcon fill={COLORS.BOLDER} className="mr-2" />
             {t("input-package-pricing-addPackage-label")}
           </PPITableItemWrapper>
-          {rows.map((row) => (
-            <PPIEmptyPr key={row.id + "pakcage-empty-row"} />
-          ))}
+          {rows.map((row) => {
+            if (row.id === PPI_PACKAGE_PRICE_ID) return;
+
+            return <PPIEmptyPr key={row.id + "pakcage-empty-row"} />;
+          })}
+          <PPIEmptyPr />
           <PPIEmptyPr />
         </div>
       )}

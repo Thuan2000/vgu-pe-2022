@@ -1,7 +1,8 @@
-import SDBrImages from "@components/ui/detail-image-section";
-import SDSocialShareList from "@components/buying-request-detail/brd-social-share-list";
+import DetailImages from "@components/detail-image-section";
 import PageLayout from "@components/layouts/page-layout";
+import EditDeleteService from "@components/service-detail/edit-delete-service";
 import SDDescription from "@components/service-detail/sd-desc";
+import SDDetail from "@components/service-detail/sd-detail";
 import SDName from "@components/service-detail/sd-name";
 import SDPrice from "@components/service-detail/sd-price";
 import Typography from "@components/ui/storybook/typography";
@@ -9,21 +10,44 @@ import { ServiceDocument } from "@graphql/service.graphql";
 import { IService } from "@graphql/types.graphql";
 import { initApollo } from "@utils/apollo";
 import { viDateFormat } from "@utils/functions";
+import { generateHeadTitle } from "@utils/seo-utils";
 import { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React, { useState } from "react";
-import SDCompanySummary from "@components/buying-request-detail/brd-company-summary";
-import SDDetail from "@components/service-detail/sd-detail";
 import Head from "next/head";
-import { generateHeadTitle } from "@utils/seo-utils";
-import SDPackages from "@components/service-detail/sd-packages";
-import SDDiscussion from "@components/service-detail/sd-discussion/sdd";
-import SDDAskQuestion from "@components/service-detail/sd-discussion/sdd-ask";
+import React, { useState } from "react";
 
 interface IServiceDetailProps {
   service: IService;
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { locale, params } = ctx;
+
+  const slug = params?.slug;
+
+  const apollo = initApollo();
+  const { data } = await apollo.query({
+    query: ServiceDocument,
+    variables: {
+      slug,
+    },
+  });
+
+  const service = data.service;
+
+  return {
+    props: {
+      service,
+      ...(await serverSideTranslations(locale!, [
+        "common",
+        "category",
+        "form",
+        "industry",
+      ])),
+    },
+  };
+};
 
 const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
   const { t } = useTranslation();
@@ -41,12 +65,6 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
     createdAt,
   } = service;
 
-  const [reload, setReload] = useState(false);
-
-  function refetchDiscussions() {
-    setReload(!reload);
-  }
-
   return (
     <>
       <Head>
@@ -56,20 +74,9 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
           content="DSConnect.VN | Sàn thương mại điện tử B2B đa ngành, uy tín hàng đầu Việt Nam"
         />
       </Head>
-      <div className="flex space-x-7 justify-between">
+      <div className="flex space-x-7 justify-between bg-white p-5 rounded-md shadow">
         <div className="pb-10 w-full">
           <div className="flex space-x-4">
-            {/* Left Section */}
-            <div>
-              <SDBrImages coverImage={coverImage!} images={images || []} />
-              <div className="fic space-x-4">
-                <Typography
-                  text={`${t("brd-share-label")}:`}
-                  variant="smallTitle"
-                />
-                <SDSocialShareList />
-              </div>
-            </div>
             {/* Right Section */}
             <div className="w-full">
               <SDName
@@ -85,51 +92,22 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
                 companyId={company?.id!}
               />
             </div>
+
+            {/* Left Section */}
+            <div>
+              <div className="fic">
+                <EditDeleteService service={service} />
+              </div>
+              <DetailImages coverImage={coverImage!} images={images || []} />
+            </div>
           </div>
           <div className="space-y-3 mt-4">
             <SDDetail service={service} />
-            <SDCompanySummary company={company} />
-            {!!service.packages?.length && (
-              <SDPackages
-                packages={service.packages}
-                rows={service.packageRows!}
-              />
-            )}
-            <SDDiscussion serviceId={service.id} reload={reload} />
-            <SDDAskQuestion
-              refetchDiscussions={refetchDiscussions}
-              serviceId={service.id}
-            />
           </div>
         </div>
       </div>
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { locale, params } = ctx;
-  const slug = params?.slug;
-
-  const apollo = initApollo();
-  const { data } = await apollo.query({
-    query: ServiceDocument,
-    variables: { slug },
-  });
-
-  const service = data.service;
-
-  return {
-    props: {
-      service,
-      ...(await serverSideTranslations(locale!, [
-        "common",
-        "industry",
-        "category",
-        "form",
-      ])),
-    },
-  };
 };
 
 (ServiceDetail as any).Layout = PageLayout;
