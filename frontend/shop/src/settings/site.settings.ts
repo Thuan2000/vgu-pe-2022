@@ -34,8 +34,12 @@ export const siteSettings = {
       href: ROUTES.TENDERS,
     },
     {
-      label: "PRODUCT_SERVICES_NAV_LABEL",
-      href: ROUTES.PRODUCT_SERVICES,
+      label: "PRODUCT_NAV_LABEL",
+      href: ROUTES.PRODUCTS,
+    },
+    {
+      label: "SERVICES_NAV_LABEL",
+      href: ROUTES.SERVICES,
     },
     {
       label: "SUPPORT_NAV_LABEL",

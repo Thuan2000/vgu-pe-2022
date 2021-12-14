@@ -1,0 +1,53 @@
+enum ServiceDSort {
+	DATE
+}
+
+type ServiceDiscussionAnswer {
+	user: User!
+	companyName: String!
+	answer: String
+}
+
+type ServiceDiscussionQuestion {
+	user: User!
+	companyName: String!
+	question: String!
+	answers: [ServiceDiscussionAnswer!]
+	createdAt: Date!
+}
+
+input ServiceDiscussionsInput {
+	serviceId: Int!
+	sort: ServiceDSort!
+	offset: Int!
+	limit: Int!
+}
+
+input CreateServiceDiscussionQuestionInput {
+	serviceId: Int!
+	userId: Int!
+	companyName: String!
+	question: String!
+}
+
+input CreateServiceDiscussionAnswerInput {
+	serviceDiscussionQuestionId: Int!
+	userId: Int!
+	companyName: String!
+	answer: String!
+}
+
+extend type Query {
+	serviceDiscussionQuestions(
+		input: ServiceDiscussionsInput
+	): [ServiceDiscussionQuestion!]!
+}
+
+extend type Mutation {
+	createServiceDiscussionQuestion(
+		input: CreateServiceDiscussionQuestionInput!
+	): CreateResponse
+	createServiceDiscussionAnswer(
+		input: CreateServiceDiscussionAnswerInput!
+	): CreateResponse
+}

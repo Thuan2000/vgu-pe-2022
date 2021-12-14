@@ -1,0 +1,42 @@
+fragment ServiceParts on Service {
+  id
+  name
+  industryId
+  categoryId
+  description
+  price
+  minPrice
+  maxPrice
+  rating
+  coverImage {
+    url
+  }
+  company {
+    id
+    name
+  }
+  packages {
+    id
+    packageRows {
+      rowId
+      value
+    }
+  }
+  packageRows {
+    id
+    description
+    inputType
+    name
+  }
+  images {
+    url
+  }
+  videos {
+    url
+  }
+  certificates {
+    url
+  }
+  createdAt
+  updatedAt
+}

@@ -1,7 +1,39 @@
+# import PaginationParts from "./pagination.fragment.graphql"
+
 mutation CreateService($input: CreateServiceInput!) {
   createService(input: $input) {
     id
     message
     success
+  }
+}
+
+query Services($input: FetchServicesInput) {
+  services(input: $input) {
+    services {
+      id
+      coverImage {
+        url
+      }
+      location
+      name
+      price
+      minPrice
+      maxPrice
+      rating
+      company {
+        name
+      }
+    }
+    pagination {
+      ...PaginationParts
+    }
+  }
+}
+
+mutation DeleteServices($ids: [Int!]!) {
+  deleteServices(ids: $ids) {
+    success
+    message
   }
 }

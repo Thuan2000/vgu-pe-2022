@@ -1,5 +1,6 @@
 import HelpIcon from "@assets/icons/navigations/help-icon";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useOutsideClickRef } from "src/hooks/useOutsideClickRef";
 import Typography from "../../typography";
 import PPIAddUpdateRowMenu from "./ppi-add-row/ppi-add-update-row-menu";
@@ -21,6 +22,7 @@ const PPIRowHeadItem: React.FC<IPPIRowHeadItemProps> = ({
   onDelete,
   isDisabled,
 }) => {
+  const { t } = useTranslation("form");
   const [isUpdatingRow, setIsUpdatingRow] = useState(false);
   const [isShowingTooltip, setIsShowingTooltip] = useState(false);
   const wrapperRef = useOutsideClickRef(hideCreateMenu);
@@ -47,11 +49,11 @@ const PPIRowHeadItem: React.FC<IPPIRowHeadItemProps> = ({
       <PPITableItemWrapper
         {...(isDisabled ? {} : { onClick: () => setIsUpdatingRow(true) })}
         isHead
-        className="border-b cursor-pointer"
+        className="border-b cursor-pointer select-none"
       >
         <div className="fic">
-          <Typography text={row.name} />
-          {row.description && (
+          <Typography text={t(row?.name)} />
+          {row?.description && (
             <div className="relative">
               <HelpIcon
                 className="ml-2 w-4 h-4"
@@ -60,7 +62,7 @@ const PPIRowHeadItem: React.FC<IPPIRowHeadItemProps> = ({
               />
               {isShowingTooltip && (
                 <div className="absolute bg-dark-blue opacity-90 p-2 text-left bottom-full text-white z-50 animate-fadeIn triangle-pointer rounded -translate-y-3 -translate-x-1">
-                  {row.description}
+                  {t(row.description)}
                 </div>
               )}
             </div>

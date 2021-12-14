@@ -19,9 +19,10 @@ import Button from "./storybook/button";
 import Typography from "./storybook/typography";
 
 const POST_ROUTES = {
-  ["san-pham-dich-vu"]: `${ROUTES.POST_PRODUCT_SERVICE}`,
+  ["san-pham"]: `${ROUTES.POST_PRODUCT_SERVICE}?target=product`,
+  ["dich-vu"]: `${ROUTES.POST_PRODUCT_SERVICE}?target=service`,
   ["nhu-cau-thu-mua"]: `${ROUTES.POST_TENDER}`,
-  ["danh-ba-cong-ty"]: `asdf`,
+  ["danh-ba-cong-ty"]: `#`,
   ["ho-tro"]: `${ROUTES.POST_TENDER}`,
 };
 
@@ -37,7 +38,7 @@ const UserProfile = () => {
         <div>
           <Link target="_blank" href={`${adminLink}${POST_ROUTES[activePage]}`}>
             <Button
-              className={`px-3 h-7`}
+              className={`px-3 h-9`}
               size="extraSmall"
               style={{ fontSize: 12 }}
             >

@@ -1,20 +1,26 @@
 import React from "react";
-import PostNavigation from "./ui/post-navigation";
+import PostNavigation, { INav } from "./ui/post-navigation";
 
 interface IPostPageWrapperProps {
-  navs: any[];
+  navs: INav[];
+  noXPadding?: boolean;
 }
 
 const PostPageWrapper: React.FC<IPostPageWrapperProps> = ({
   children,
   navs,
+  noXPadding,
 }) => {
   return (
     <div>
-      <div className="px-5">
+      <div className={"px-5"}>
         <PostNavigation navs={navs} />
       </div>
-      <div className="bg-white shadow-md md:rounded-sm border-t-2 translate-y-[-2px] border-primary px-5 py-6 mb-5">
+      <div
+        className={`bg-white shadow-md md:rounded-sm border-t-2 translate-y-[-2px] border-primary py-6 mb-5 ${
+          !noXPadding ? "px-5" : ""
+        } `}
+      >
         {children}
       </div>
     </div>

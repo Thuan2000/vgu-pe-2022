@@ -1,4 +1,5 @@
 import FilterIcon from "@assets/icons/filter-icon";
+import Footer from "@components/layouts/footer";
 import PageLayout from "@components/layouts/page-layout";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import BuyingRequestsList from "@components/ui/buying-requests/feed/buying-requests-list";
@@ -55,14 +56,11 @@ const BuyingRequests: React.FC = () => {
           content="DSConnect.VN | The best B2B Ecommerce in Vietnam provide a fast supply demain chain to fit your need"
         />
       </Head>
-      <div className="flex relative ">
-        <div className="fixed ">
+      <div className="flex relative mb-8">
+        <div className="sticky top-40 h-fit-content">
           <SideFilter />
         </div>
-        <div className="invisible mr-4">
-          <SideFilter />
-        </div>
-        <div>
+        <div className={`w-full`}>
           <BuyingRequestsList className="mt-4 w-full space-y-4" />
         </div>
       </div>

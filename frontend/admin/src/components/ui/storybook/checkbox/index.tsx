@@ -9,16 +9,17 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Checkbox = React.forwardRef<HTMLInputElement, Props>(
-  ({ className, label, name, error, ...rest }, ref) => {
+  ({ className, label, name, error, disabled, ...rest }, ref) => {
     return (
-      <div className={className}>
-        <div className="flex items-center">
+      <div className={`${disabled && "!cursor-not-allowed"} ${className}`}>
+        <div className={`flex items-center`}>
           <input
             id={name}
             name={name}
             type="checkbox"
             ref={ref}
             className={styles.checkbox}
+            disabled={disabled}
             {...rest}
           />
 

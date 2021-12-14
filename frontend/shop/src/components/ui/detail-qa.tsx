@@ -1,16 +1,12 @@
 import Typography from "@components/ui/storybook/typography";
 import React from "react";
 
-interface IBRDDetailQAProps {
+interface IDetailQAProps {
   question: string;
   answer?: string;
 }
 
-const BRDDetailQA: React.FC<IBRDDetailQAProps> = ({
-  question,
-  children,
-  answer,
-}) => {
+const DetailQA: React.FC<IDetailQAProps> = ({ question, children, answer }) => {
   return (
     <div className="fic space-x-2">
       <Typography text={question} color="gray-400" />
@@ -19,4 +15,4 @@ const BRDDetailQA: React.FC<IBRDDetailQAProps> = ({
     </div>
   );
 };
-export default BRDDetailQA;
+export default DetailQA;

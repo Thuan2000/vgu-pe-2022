@@ -11,6 +11,8 @@ import { ModalProvider } from "src/contexts/modal.context";
 import "../styles/custom-scrollbar.css";
 import "../styles/custom-datepicker.css";
 import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const NoLayout: React.FC<any> = ({ children }) => <>{children}</>;
 
@@ -25,6 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Layout>
           <Component {...pageProps} />
         </Layout>
+        <ToastContainer autoClose={2000} theme="colored" />
       </ModalProvider>
     </ApolloProvider>
   );

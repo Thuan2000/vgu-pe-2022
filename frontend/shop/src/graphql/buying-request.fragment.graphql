@@ -35,6 +35,9 @@ fragment BuyingRequestParts on BuyingRequest {
   createdAt
   updatedAt
   location
+  coverImage {
+    url
+  }
   description
   minSupplierExperience
   minSupplierSells

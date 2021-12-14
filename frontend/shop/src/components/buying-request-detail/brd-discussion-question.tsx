@@ -1,6 +1,6 @@
 import Typography from "@components/ui/storybook/typography";
 import { IBrDiscussionQuestion } from "@graphql/types.graphql";
-import { viDateFormat } from "@utils/functions";
+import { formatDateWithHour } from "@utils/functions";
 import React from "react";
 
 interface IBRDDiscussionQuestionProps {
@@ -21,7 +21,10 @@ const BRDDiscussionQuestion: React.FC<IBRDDiscussionQuestionProps> = ({
         <Typography text={companyName} color="gray" />
       </div>
       <Typography text={question} />
-      <Typography text={viDateFormat(createdAt || "")} variant="description" />
+      <Typography
+        text={formatDateWithHour(createdAt || "")}
+        variant="description"
+      />
     </div>
   );
 };

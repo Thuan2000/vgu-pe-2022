@@ -19,8 +19,6 @@ const PPIFileAttacher: React.FC<IPPIFileAttacherProps> = ({
 }) => {
   const { t } = useTranslation("form");
   const [file, setFile] = useState<File>(value);
-  console.log(value);
-  console.log(file);
   const { getRootProps, getInputProps } = useDropzone({
     accept: `.pdf, ${getSimilar("doc")}, ${getSimilar("xls")}, ${getSimilar(
       "ppt"

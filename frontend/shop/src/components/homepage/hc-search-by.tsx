@@ -17,8 +17,8 @@ export interface HomepageSearchBy {
 
 const HCSearchBy: React.FC<IHCSearchByProps> = ({}) => {
   const searchByItems: HomepageSearchBy[] = [
-    { href: `${ROUTES.PRODUCT_SERVICES}`, keyword: "product" },
-    { href: `${ROUTES.PRODUCT_SERVICES}`, keyword: "service" },
+    { href: `${ROUTES.PRODUCTS}`, keyword: "product" },
+    { href: `${ROUTES.SERVICES}`, keyword: "service" },
     { href: `${ROUTES.TENDERS}`, keyword: "tender" },
     { href: `${ROUTES.COMPANIES}`, keyword: "company" },
   ];

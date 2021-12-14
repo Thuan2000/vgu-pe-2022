@@ -1,3 +1,4 @@
+import { generateUUID } from "@utils/functions";
 import { findIndex } from "lodash";
 import { useTranslation } from "next-i18next";
 import React, { useState } from "react";
@@ -10,9 +11,9 @@ import {
   PPIDateInput,
   PPIPlainInput,
   PPIPriceInput,
-  PPIPriceRangeInput,
 } from "./ppi-input-item";
 import { IPPIRow, IPPIPackage } from "./ppi-interfaces";
+import { PPI_PACKAGE_PRICE_NAME } from "./ppi-package-manager";
 import PPITableItemWrapper from "./ppi-table-item-wrapper";
 import PPIUpdatePackage from "./ppi-update-package";
 
@@ -26,6 +27,7 @@ interface IPPIPackageItemProps {
   idx: number;
   isDisabled?: boolean;
   wFull?: boolean;
+  packagePriceRow: IPPIRow;
 }
 
 const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
@@ -38,6 +40,7 @@ const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
   onDelete,
   isDisabled,
   wFull,
+  packagePriceRow,
 }) => {
   const { t } = useTranslation("form");
   const [isUpdatingPackageHead, setIsUpdatingPackageHead] = useState(false);
@@ -48,7 +51,6 @@ const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
       rowId: row.id,
       value,
     };
-
     if (!pkg.packageRows) {
       pkg.packageRows = [newPr];
     } else {
@@ -62,14 +64,13 @@ const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
 
   function getRowValue(row: IPPIRow) {
     if (!value?.packageRows) return;
-
-    const idx = findIndex(value?.packageRows, (pr) => row.id === pr.rowId);
+    const idx = findIndex(value?.packageRows, (pr) => row?.id === pr?.rowId);
 
     return value?.packageRows?.at(idx)?.value;
   }
 
   function getInput(row: IPPIRow) {
-    const { inputType } = row;
+    const { inputType } = row || {};
 
     const value = getRowValue(row);
 
@@ -80,7 +81,6 @@ const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
       isDisabled,
       onChange: handleChange,
     };
-
     switch (inputType) {
       case "PLAIN":
         return <PPIPlainInput {...param} />;
@@ -90,8 +90,8 @@ const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
         return <PPICheckboxInput {...param} />;
       case "PRICE":
         return <PPIPriceInput {...param} />;
-      case "PRICE_RANGE":
-        return <PPIPriceRangeInput {...param} />;
+      // case "PRICE_RANGE":
+      //   return <PPIPriceRangeInput {...param} />;
       case "ATTACHMENT":
         return <PPIAttachmentInput {...param} />;
     }
@@ -127,6 +127,7 @@ const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
         )}
       </PPITableItemWrapper>
       {rows?.map((row) => {
+        if (row.name === PPI_PACKAGE_PRICE_NAME) return;
         return (
           <PPITableItemWrapper
             key={"ppi-package-item" + row.id + pkg.id}
@@ -137,6 +138,13 @@ const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
         );
       })}
       {!isDisabled && <PPIEmptyPr />}
+
+      <PPITableItemWrapper
+        key={"ppi-package-item" + "packageprice" + pkg.id}
+        className="border-b overflow-hidden"
+      >
+        {getInput(packagePriceRow)}
+      </PPITableItemWrapper>
     </div>
   );
 };

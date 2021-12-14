@@ -5,22 +5,19 @@ import React from "react";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
 import { useTranslation } from "react-i18next";
-import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
-import { ROUTES } from "@utils/routes";
+import { IServiceListItem } from "@graphql/types.graphql";
+import { initApollo } from "@utils/apollo";
+import { ServicesDocument } from "@graphql/service.graphql";
+import Image from "next/image";
+import { siteSettings } from "@settings/site.settings";
+import SideFilter from "@components/ui/buying-requests/filter/side-filter";
+import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
+import useIsPhone from "src/hooks/isPhone.hook";
+import UnderDevelopment from "@components/under-development";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { token, role } = getAuthCredentials(ctx);
   const { locale } = ctx;
-  if (!isAuthenticated({ token, role } as any)) {
-    return {
-      redirect: {
-        destination: ROUTES.LOGIN,
-        permanent: false,
-      },
-    };
-  }
 
   return {
     props: {
@@ -29,8 +26,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-const ProductAndService = () => {
+interface IProductAndServiceProps {
+  services: IServiceListItem[];
+}
+
+const ProductAndService: React.FC<IProductAndServiceProps> = () => {
   const { t } = useTranslation("common");
+
+  const isPhone = useIsPhone();
+  if (isPhone) return <PleaseOpenOnLaptop />;
 
   return (
     <>
@@ -48,6 +52,6 @@ const ProductAndService = () => {
   );
 };
 
-ProductAndService.Layout = PageLayout;
+(ProductAndService as any).Layout = PageLayout;
 
 export default ProductAndService;

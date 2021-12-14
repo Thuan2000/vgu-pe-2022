@@ -93,9 +93,13 @@ class ProjectController {
 
 		const newProject = await Project.create({
 			name,
-			slug: generateSlug(name),
 			...project
 		});
+
+		newProject.setDataValue(
+			"slug",
+			generateSlug(name, newProject.getDataValue("id"))
+		);
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(newProject as any).setBuyingRequests(buyingRequests);

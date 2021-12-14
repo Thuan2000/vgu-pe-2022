@@ -1,0 +1,32 @@
+# import PaginationParts from "./pagination.fragment.graphql"
+# import ServiceParts from "./service.fragment.graphql"
+
+query Services($input: FetchServicesInput) {
+  services(input: $input) {
+    services {
+      id
+      slug
+      coverImage {
+        url
+      }
+      location
+      name
+      price
+      minPrice
+      maxPrice
+      company {
+        name
+      }
+      rating
+    }
+    pagination {
+      ...PaginationParts
+    }
+  }
+}
+
+query Service($slug: String!) {
+  service(slug: $slug) {
+    ...ServiceParts
+  }
+}

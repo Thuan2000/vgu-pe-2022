@@ -1,5 +1,9 @@
 import LTEIcon from "@assets/icons/lte-icon";
-import { formatMoneyAmount, getSuffix, viDateFormat } from "@utils/functions";
+import {
+  formatMoneyAmount,
+  getMoneySuffix,
+  viDateFormat,
+} from "@utils/functions";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { DetailsFormValue } from "../post-request-schema";
@@ -55,12 +59,12 @@ const DetailsSection: React.FC<IGeneralSection> = ({
         <p className=" flex">
           <span className="mr-5">
             {formatMoneyAmount(minBudget)}
-            {`${t("common:" + getSuffix(minBudget))} ${t("budget-sign")}`}
+            {`${t("common:" + getMoneySuffix(minBudget))} ${t("budget-sign")}`}
           </span>
           {" - "}
           <span className="ml-5">
             {formatMoneyAmount(maxBudget)}
-            {`${t("common:" + getSuffix(maxBudget))} ${t("budget-sign")}`}
+            {`${t("common:" + getMoneySuffix(maxBudget))} ${t("budget-sign")}`}
           </span>
         </p>
       </div>

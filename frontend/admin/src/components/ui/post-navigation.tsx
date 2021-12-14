@@ -2,8 +2,11 @@ import { useRouter } from "next/dist/client/router";
 import React from "react";
 import PostNavigationItem from "./post-navigation-item";
 
-interface INav {
+export interface INav {
   label: string;
+  getIsActive?: (label: string) => boolean;
+  getIsFilled?: (label: string) => boolean;
+  onClick?: (label: string) => void;
 }
 
 interface IPostNavigation {
@@ -29,17 +32,22 @@ const PostNavigation: React.FC<IPostNavigation> = ({ navs }) => {
   }
 
   const navsUi = navs.map((nav, idx) => {
-    const { label } = nav;
-    const isActive = currentFormPosition === idx + 1;
-    const isFilled = currentFormPosition > idx + 1;
-    const extraClass = idx !== 0 && idx !== navs.length - 1 ? "mx-2" : "";
+    const { label, getIsActive, getIsFilled, onClick } = nav;
+    const isActive = getIsActive
+      ? getIsActive(label)
+      : currentFormPosition === idx + 1;
+    const isFilled = getIsFilled
+      ? getIsFilled(label)
+      : currentFormPosition > idx + 1;
+    const extraClass = idx !== navs.length - 1 ? "mr-2" : "";
 
     return (
       <PostNavigationItem
         key={label}
-        onClick={() => setFormPosition(idx + 1)}
+        onClick={() => (onClick ? onClick(label) : setFormPosition(idx + 1))}
         currentFormPosition={currentFormPosition}
         idx={idx}
+        navigateAble={!!onClick}
         label={label}
         isFilled={isFilled}
         isActive={isActive}

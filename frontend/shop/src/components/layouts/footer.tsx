@@ -16,7 +16,8 @@ const footerLeftLinks = [
   { href: ROUTES.HOMEPAGE, label: "HOMEPAGE_NAV_LABEL" },
   { href: ROUTES.COMPANIES, label: "COMPANY_NAV_LABEL" },
   { href: ROUTES.TENDERS, label: "TENDER_NAV_LABEL" },
-  { href: ROUTES.PRODUCT_SERVICES, label: "PRODUCT_SERVICES_NAV_LABEL" },
+  { href: ROUTES.PRODUCTS, label: "PRODUCT_NAV_LABEL" },
+  { href: ROUTES.SERVICES, label: "SERVICES_NAV_LABEL" },
 ];
 
 const Footer: React.FC<IFooterProps> = ({}) => {

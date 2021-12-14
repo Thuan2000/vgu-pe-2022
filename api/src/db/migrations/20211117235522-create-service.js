@@ -11,6 +11,9 @@ module.exports = {
 			name: {
 				type: Sequelize.STRING
 			},
+			slug: {
+				type: Sequelize.STRING
+			},
 			description: {
 				type: Sequelize.TEXT
 			},
@@ -33,9 +36,24 @@ module.exports = {
 				type: Sequelize.JSON
 			},
 			price: {
+				type: Sequelize.BIGINT
+			},
+			minPrice: {
+				type: Sequelize.BIGINT
+			},
+			maxPrice: {
+				type: Sequelize.BIGINT
+			},
+			rating: {
 				type: Sequelize.INTEGER
 			},
 			packages: {
+				type: Sequelize.JSON
+			},
+			packageRows: {
+				type: Sequelize.JSON
+			},
+			coverImage: {
 				type: Sequelize.JSON
 			},
 			createdAt: {

@@ -56,7 +56,7 @@
   "post-request-name-desc": "Please create name with given formula: “Request - product/service - amount”",
   "min-budget-label": "From",
   "max-budget-label": "To",
-  "budget-sign": "$",
+  "budget-sign": "₫",
   "quantity-label": "Quantity",
   "unit-label": "Unit",
   "post-request-productName-label": "Product Name",
@@ -286,5 +286,13 @@
   "ec-certificates-input-label": "Certificates",
   "update-company-button-label": "Update Company",
   "pps-service-singlePrice-label": "Service Price",
-  "not-setup": "Not setup yet"
+  "not-setup": "Not setup yet",
+  "posted-services-page-title": "Services",
+  "posted-products-page-title": "Products",
+  "services-deleted-title": "Services Deleted",
+  "services-deleted-message": "Selected services has deleted successfully",
+  "okay-button-label": "Okay",
+  "PACKAGE_PRICE_LABEL": "Package Price",
+  "million-suffix": "tr",
+  "billion-suffix": "tỷ"
 }

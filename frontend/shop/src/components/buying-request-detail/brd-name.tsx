@@ -30,12 +30,14 @@ const BRDName: React.FC<IBRDNameProps> = ({
         variant="postedDate"
         text={`${t("postedAt-text")}: ${createdAt}`}
       />
-      <div className="flex mt-1">
-        <Chip
-          text={t(status)}
-          background={status === "CLOSE" ? "error" : "secondary-1"}
-        />
-      </div>
+      {!!status && (
+        <div className="flex mt-1">
+          <Chip
+            text={t(status)}
+            background={status === "CLOSE" ? "error" : "secondary-1"}
+          />
+        </div>
+      )}
     </div>
   );
 };

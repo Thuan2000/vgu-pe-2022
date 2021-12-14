@@ -13,6 +13,7 @@ export const ROUTES = {
   POSTED_REQUESTS: "/posted-tenders",
   BUYING_REQUESTS: "/tenders",
   PROJECTS: "/projects",
-  POST_PRODUCT: "/post-product-service",
+  POST_PRODUCT_SERVICE: "/post-product-service",
+  POSTED_PRODUCT_SERVICE: "/posted-product-service",
   EDIT_COMPANY: "/company-details",
 };

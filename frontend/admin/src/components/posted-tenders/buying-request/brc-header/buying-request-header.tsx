@@ -11,11 +11,12 @@ import { ROUTES } from "@utils/routes";
 import React, { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import useIsPhone from "src/hooks/isPhone.hook";
-import { useDeleteBuyingRequestsMutation } from "@graphql/buying-request.graphql";
 import SpinLoading from "@components/ui/storybook/spin-loading";
 import { COLORS } from "@utils/colors";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import SearchInput from "@components/search-input";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 interface IBuyingRequestSearchProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -23,6 +24,7 @@ interface IBuyingRequestSearchProps
   selecteds: IBuyingRequest[];
   setSelecteds: (value: IBuyingRequest[]) => void;
   onAddToProjectClick: () => void;
+  onDeleteBrClick: () => void;
 }
 
 const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({
@@ -30,18 +32,10 @@ const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({
   selecteds,
   setSelecteds,
   onAddToProjectClick,
+  onDeleteBrClick,
 }) => {
   const { t } = useTranslation();
   const isPhone = useIsPhone();
-  const [deleteBrs, { loading, data }] = useDeleteBuyingRequestsMutation({
-    onCompleted: (data) => console.log(data),
-  });
-
-  function deleteSelectedBrs() {
-    const selectedBrIds = selecteds.map((br) => parseInt(br.id));
-
-    deleteBrs({ variables: { ids: selectedBrIds } });
-  }
 
   function handleSelectAllChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) setSelecteds([...brs]);
@@ -73,12 +67,8 @@ const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({
       </div>
       <div className="md:ml-auto flex items-center justify-between w-full md:w-fit-content">
         {!isPhone && !!selecteds.length && (
-          <button onClick={deleteSelectedBrs}>
-            {loading ? (
-              <SpinLoading color={COLORS.GRAY[200]} className="mr-4" />
-            ) : (
-              <TrashCanIcon className="mr-4" />
-            )}
+          <button onClick={onDeleteBrClick}>
+            <TrashCanIcon className="mr-4" />
           </button>
         )}
         <Checkbox

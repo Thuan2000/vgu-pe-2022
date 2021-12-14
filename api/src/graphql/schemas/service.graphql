@@ -1,3 +1,16 @@
+type ServiceListItem {
+	id: Int!
+	slug: String!
+	location: String!
+	name: String!
+	company: Company!
+	price: Date
+	minPrice: Int
+	maxPrice: Int
+	rating: Float
+	coverImage: File
+}
+
 input FaqInput {
 	question: String!
 	answer: String!
@@ -10,11 +23,23 @@ input PackageInput {
 	packageRows: [PackageRowsInput!]!
 }
 
-input PackageRowsInput {
+type PackageRow {
+	id: String!
 	name: String!
-	value: String!
-	type: String!
+	inputType: String!
 	description: String
+}
+
+input PackageRowInput {
+	id: String!
+	name: String!
+	inputType: String!
+	description: String
+}
+
+input PackageRowsInput {
+	rowId: String!
+	value: String!
 }
 
 input GroupServiceInput {
@@ -30,12 +55,32 @@ input GroupInput {
 	services: [GroupServiceInput!]!
 }
 
+type ServicePackageRow {
+	rowId: String!
+	value: String!
+}
+
+type ServicePackage {
+	id: String!
+	packageRows: [ServicePackageRow!]!
+}
+
 type Service {
 	id: Int!
-	name: Int!
+	name: String!
 	industryId: Int!
 	categoryId: Int!
 	description: String!
+	createdAt: Date!
+	updatedAt: Date!
+	company: Company!
+	price: Date
+	minPrice: Date
+	maxPrice: Date
+	rating: Float
+	coverImage: File
+	packages: [ServicePackage!]
+	packageRows: [PackageRow!]
 	images: [File!]
 	videos: [File!]
 	certificates: [File!]
@@ -54,12 +99,40 @@ input CreateServiceInput {
 	videos: [FileInput!]
 	price: Int
 	packages: [PackageInput!]
+	packageRows: [PackageRowInput!]
 	companyId: Int!
+	coverImage: FileInput
 	companyName: String!
 	createdById: Int!
 	newTags: [TagInput!]
+	minPrice: Date
+	maxPrice: Date
+}
+
+input FetchServicesInput {
+	companyId: Int
+	offset: Int!
+	limit: Int!
+	searchValue: String
+	categoryId: Int
+	location: String
+	status: BRStatus
+	industryId: Int
+	minPrice: Date
+	maxPrice: Date
+}
+
+type ServicesResponse {
+	services: [ServiceListItem]!
+	pagination: Pagination!
 }
 
 extend type Mutation {
 	createService(input: CreateServiceInput!): CreateResponse!
+	deleteServices(ids: [Int!]!): Response!
+}
+
+extend type Query {
+	services(input: FetchServicesInput): ServicesResponse!
+	service(slug: String!): Service!
 }

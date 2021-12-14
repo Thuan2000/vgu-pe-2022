@@ -1,0 +1,39 @@
+mutation CreateServiceDiscussionQuestion(
+  $input: CreateServiceDiscussionQuestionInput!
+) {
+  createServiceDiscussionQuestion(input: $input) {
+    id
+    success
+    message
+  }
+}
+
+mutation CreateServiceDiscussionAnswer(
+  $input: CreateServiceDiscussionAnswerInput!
+) {
+  createServiceDiscussionAnswer(input: $input) {
+    id
+    success
+    message
+  }
+}
+
+query ServiceDiscussionQuestions($input: ServiceDiscussionsInput!) {
+  serviceDiscussionQuestions(input: $input) {
+    user {
+      firstName
+      lastName
+    }
+    companyName
+    question
+    createdAt
+    answers {
+      user {
+        firstName
+        lastName
+      }
+      companyName
+      answer
+    }
+  }
+}

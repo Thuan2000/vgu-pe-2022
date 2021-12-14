@@ -34,7 +34,6 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   postedTextLabel,
   ...props
 }) => {
-  console.log(br);
   return (
     <div
       className={`border rounded-md shadow-md flex relative md:w-49p max-h-44

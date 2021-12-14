@@ -1,5 +1,10 @@
 import Typography from "@components/ui/storybook/typography";
-import { formatMoneyAmount, getSuffix, viDateFormat } from "@utils/functions";
+import {
+  formatMoneyAmount,
+  getMoneySuffix,
+  getSuffix,
+  viDateFormat,
+} from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React from "react";
 
@@ -20,31 +25,23 @@ const BRDPrice: React.FC<IBRDPriceProps> = ({
 }) => {
   const { t } = useTranslation("common");
 
+  function getPrice() {
+    return `${formatMoneyAmount(minBudget!)}${t(getMoneySuffix(maxBudget))} ${t(
+      "budget-sign"
+    )} - ${formatMoneyAmount(maxBudget!)}${t(getMoneySuffix(maxBudget))} ${t(
+      "budget-sign"
+    )}`;
+  }
   return (
     <div className="border-t border-b py-2 mt-3 fic justify-between w-full px-5">
       <div>
         <Typography variant="description" text={t("brd-budget-title")} />
-        <div className="flex space-x-[2px]">
-          <Typography
-            variant="smallTitle"
-            text={`${formatMoneyAmount(minBudget)}${t(getSuffix(minBudget))}`}
-          />
-
-          <Typography variant="smallTitle" text="-" />
-
-          <Typography
-            variant="smallTitle"
-            text={`${formatMoneyAmount(maxBudget)}${t(getSuffix(maxBudget))}`}
-          />
-        </div>
+        <Typography variant="smallTitle" text={getPrice()} />
       </div>
 
       <div>
         <Typography variant="description" text={t("brd-minOrder-title")} />
-        <div className="flex">
-          <Typography variant="smallTitle" text={minOrder + ""} />
-          <Typography variant="smallTitle" text={unit} />
-        </div>
+        <Typography variant="smallTitle" text={`${minOrder} ${unit}`} />
       </div>
 
       <div>

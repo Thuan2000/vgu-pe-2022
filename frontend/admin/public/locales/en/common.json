@@ -90,5 +90,14 @@
   "companyEdited-success-message": "Company Detail Updated Succesfully",
   "companyEdited-error-message": "Company Detail Not Updated",
   "company-page-name": "Company Detail",
-  "setting-nav-label": "Settings"
+  "setting-nav-label": "Settings",
+  "postedProduct/Service-nav-label": "Posted Product/Service",
+  "create-service-button-label": "Create New Service",
+  "item-selected-text": "Item selected",
+  "total-label": "Total",
+  "services-label": "Services",
+  "no-services-yet-text-info": "Your company has no service yet",
+  "confirm-button-label": "Confirm",
+  "delete-service-message": "Are you sure want to delete selected services",
+  "delete-service-title": "Delete Service"
 }

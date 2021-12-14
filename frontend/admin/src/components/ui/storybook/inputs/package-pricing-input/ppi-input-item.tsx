@@ -21,13 +21,16 @@ interface IPPIInput {
 }
 
 function getPrValue(row: IPPIRow, pkg: IPPIPackage) {
+  // console.log(row, pkg);
+  // return 100;
   const idx = findIndex(pkg.packageRows, (pr) => row.id === pr.rowId);
   if (idx === -1) {
-    if (row.inputType === "PRICE") return { price: "", unit: "" };
+    if (row.inputType === "PRICE") return "";
     if (row.inputType === "ATTACHMENT") return null;
 
     return "";
   }
+
   return pkg.packageRows?.at(idx)?.value;
 }
 
@@ -45,6 +48,7 @@ export const PPIDateInput: React.FC<IPPIInput> = ({
       placeholderText={t("ppi-date-input-placeholder")}
       wrapperClassName="h-full"
       value={getPrValue(row, pkg)}
+      minDate={new Date()}
       onChange={(e) => onChange(pkg, row, e)}
       disabled={isDisabled}
     />
@@ -99,6 +103,7 @@ export const PPIPriceInput: React.FC<IPPIInput> = ({
 }) => {
   const { t } = useTranslation("form");
   const value = getPrValue(row, pkg);
+  // const value = 1000;
 
   return (
     <div className="flex items-center w-full">
@@ -107,61 +112,62 @@ export const PPIPriceInput: React.FC<IPPIInput> = ({
         noBorder
         placeholder={t("ppi-price-input-placeholder")}
         inputClassName="!rounded-none !border-none"
-        onChange={(e) => onChange(pkg, row, { ...value, price: e })}
-        value={value?.price}
+        // onChange={(e) => onChange(pkg, row, { ...value, price: e })}
+        onChange={(e) => onChange(pkg, row, e)}
+        value={value}
         {...preventSubmitOnEnter()}
         disabled={isDisabled}
       />
-      <span className="mr-[-1px] z-0">{"/"}</span>
+      {/* <span className="mr-[-1px] z-0">{"/"}</span>
       <PPIUnitInput
         value={value?.unit}
         onChange={(v) => onChange(pkg, row, { ...value, unit: v })}
         disabled={isDisabled}
-      />
+      /> */}
     </div>
   );
 };
 
-export const PPIPriceRangeInput: React.FC<IPPIInput> = ({
-  row,
-  isDisabled,
-  onChange,
-  pkg,
-}) => {
-  const { t } = useTranslation("form");
-  const value = getPrValue(row, pkg);
+// export const PPIPriceRangeInput: React.FC<IPPIInput> = ({
+//   row,
+//   isDisabled,
+//   onChange,
+//   pkg,
+// }) => {
+//   const { t } = useTranslation("form");
+//   const value = getPrValue(row, pkg);
 
-  return (
-    <div className="flex items-center w-full">
-      <NumInput
-        suffix={` ${t("budget-sign")}`}
-        noBorder
-        inputClassName="!rounded-none !border-none"
-        onChange={(e) => onChange(pkg, row, { ...value, minPrice: e })}
-        value={value?.minPrice}
-        {...preventSubmitOnEnter()}
-        disabled={isDisabled}
-      />
-      <span className="mr-2">{"-"}</span>
+//   return (
+//     <div className="flex items-center w-full">
+//       <NumInput
+//         suffix={` ${t("budget-sign")}`}
+//         noBorder
+//         inputClassName="!rounded-none !border-none"
+//         onChange={(e) => onChange(pkg, row, { ...value, minPrice: e })}
+//         value={value?.minPrice}
+//         {...preventSubmitOnEnter()}
+//         disabled={isDisabled}
+//       />
+//       <span className="mr-2">{"-"}</span>
 
-      <NumInput
-        suffix={` ${t("budget-sign")}`}
-        noBorder
-        placeholder={t("ppi-price-input-placeholder")}
-        inputClassName="!rounded-none !border-none"
-        onChange={(e) => onChange(pkg, row, { ...value, maxPrice: e })}
-        value={value?.maxPrice}
-        disabled={isDisabled}
-      />
-      <span className="mr-2">{"/"}</span>
-      <PPIUnitInput
-        value={value?.unit}
-        onChange={(v) => onChange(pkg, row, { ...value, unit: v })}
-        disabled={isDisabled}
-      />
-    </div>
-  );
-};
+//       <NumInput
+//         suffix={` ${t("budget-sign")}`}
+//         noBorder
+//         placeholder={t("ppi-price-input-placeholder")}
+//         inputClassName="!rounded-none !border-none"
+//         onChange={(e) => onChange(pkg, row, { ...value, maxPrice: e })}
+//         value={value?.maxPrice}
+//         disabled={isDisabled}
+//       />
+//       <span className="mr-2">{"/"}</span>
+//       <PPIUnitInput
+//         value={value?.unit}
+//         onChange={(v) => onChange(pkg, row, { ...value, unit: v })}
+//         disabled={isDisabled}
+//       />
+//     </div>
+//   );
+// };
 
 export const PPIAttachmentInput: React.FC<IPPIInput> = ({
   onChange,

@@ -19,8 +19,11 @@ import Form from "@components/form";
 import PPSServiceFooterButton from "./pps-service-footer-button";
 import PPSServicePricingInput from "./pps-service-pricing-input";
 import PPSServiceReview from "./pps-service-review";
-import { IPPIValue } from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
-import { findIndex } from "lodash";
+import {
+  IPPIValue,
+  PPI_PACKAGE_PRICE_NAME,
+} from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
+import { findIndex, isEmpty } from "lodash";
 import {
   useCreateServiceMutation,
   CreateServiceMutation,
@@ -36,6 +39,10 @@ import Swal from "sweetalert2";
 import { ROUTES } from "@utils/routes";
 import { ITagInput } from "@graphql/types.graphql";
 import { ITagWithNewRecord } from "@utils/interfaces";
+import {
+  IPPIPackage,
+  IPPIRow,
+} from "@components/ui/storybook/inputs/package-pricing-input/ppi-interfaces";
 
 interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -131,40 +138,51 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
         confirmButtonText: t("serviceCreated-button-label"),
       });
 
-      router.replace(ROUTES.HOMEPAGE);
+      router.replace(`${ROUTES.POSTED_PRODUCT_SERVICE}?target=service`);
     } else if (!success) alert(t(`CREATE-SERVICES-${message}-ERROR`));
   }
 
-  function formatRawPackages(rawPackages?: IPPIValue) {
-    if (!rawPackages) return;
-    const { packages, rows } = rawPackages;
-    if (!packages || !rows) return;
+  /**
+   *
+   * @param rawPackages All the packages and the rows
+   * @returns {formattedPackages[], lowestPrice, maximumPrice}
+   */
+  function processRawPackages(
+    packages: IPPIPackage[] = [],
+    rows: IPPIRow[] = []
+  ) {
+    let minPrice = Number.MAX_VALUE;
+    let maxPrice = Number.MIN_VALUE;
 
+    if (!packages?.length) return;
     const formatedPackages = packages.map((pkg) => {
-      const newPrs = pkg?.packageRows?.map((pr) => {
+      const newPackage = Object.assign({}, pkg);
+      delete newPackage.packageRows;
+
+      const newPrs = pkg?.packageRows?.flatMap((pr) => {
         const idx = findIndex(rows, (r) => r.id === pr.rowId);
+
+        if (idx === -1) return [];
         const row = rows[idx];
 
-        if (row.inputType === "PRICE")
-          pr.value = {
-            ...pr.value,
-            unit: pr?.value?.unit?.name,
-          };
+        // Getting the price
+        if (row.name === PPI_PACKAGE_PRICE_NAME && pr.value <= minPrice)
+          minPrice = pr.value;
+        if (row.name === PPI_PACKAGE_PRICE_NAME && pr.value >= maxPrice)
+          maxPrice = pr.value;
 
         return {
-          name: row?.name,
-          description: row?.description,
-          type: row?.inputType,
+          ...pr,
           value: JSON.stringify(pr?.value),
         };
       });
 
-      pkg.packageRows = newPrs as any;
+      newPackage.packageRows = newPrs as any;
 
-      return pkg;
+      return newPackage;
     });
-    console.log(formatedPackages);
-    return formatedPackages;
+
+    return { formatedPackages, minPrice, maxPrice };
   }
 
   function onSubmit(values: IPostServiceFormValues) {
@@ -173,7 +191,6 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
     const { industry, category, name } = categorySection;
     const industryId = industry.id;
     const categoryId = category.id;
-
     const {
       faqs: rawFaqs,
       tags: rawTags,
@@ -190,9 +207,13 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
       if (isNewRecord) newTags.push(tag);
       return tag;
     });
-
+    const coverImage = attachment?.images && attachment?.images[0];
     const { price, packages: rawPackages } = pricing;
-    const packages = formatRawPackages(rawPackages);
+    const packages = rawPackages?.packages;
+    const rows = rawPackages?.rows;
+
+    const { formatedPackages, minPrice, maxPrice } =
+      processRawPackages(packages, rows) || {};
     // @TODO find out why this happened
     const value: any = {
       name,
@@ -206,12 +227,16 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = () => {
       companyId: getCompanyId(),
       companyName: getCompanyName() as string,
       createdById: getLoggedInUser()?.id as any,
+      ...(rows ? { packageRows: rows } : {}),
+      ...(coverImage ? { coverImage } : {}),
       ...attachment,
-      ...(!!packages && packages?.length > 0 ? { packages } : { price }),
+      ...(!!formatedPackages && formatedPackages?.length > 0
+        ? { packages: formatedPackages, minPrice, maxPrice }
+        : { price }),
     };
-    console.log(value);
     createService({ variables: { input: value } });
   }
+
   function handleBackClick() {
     changeSection(formPosition - 1);
   }
