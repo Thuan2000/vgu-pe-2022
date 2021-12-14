@@ -21,7 +21,7 @@ const Navbar: React.FC<INavbarProps> = ({ className }) => {
       <div className={`px-10 md:px-48 bg-white`}>
         <NavbarBottom />
         <div className="fic pb-1">
-          <Breadcrumb className="ml-1 mr-24" homeHref={ROUTES.HOMEPAGE} />
+          <Breadcrumb className="ml-1 " homeHref={ROUTES.HOMEPAGE} />
           <AppliedFilter />
         </div>
       </div>

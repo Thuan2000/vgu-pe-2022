@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Typography from "@components/ui/storybook/typography";
 import { useTranslation } from "next-i18next";
-import { formatMoneyAmount, getMoneySuffix } from "@utils/functions";
+import { formatMoneyAmount, getMoneySuffix, trimText } from "@utils/functions";
 import Checkbox from "@components/ui/storybook/checkbox";
 import ThreeDotIcon from "@assets/icons/three-dot-icon";
 import Button from "@components/ui/storybook/button";
@@ -40,7 +40,7 @@ const ServiceCard: React.FC<IServiceCardProps> = ({ service }) => {
         "budget-sign"
       )}`;
 
-    return `${formatMoneyAmount(minPrice!)} ${t(
+    return `${formatMoneyAmount(minPrice!)}${t(getMoneySuffix(price))} ${t(
       "budget-sign"
     )} - ${formatMoneyAmount(maxPrice!)}${t(getMoneySuffix(price))} ${t(
       "budget-sign"
@@ -67,12 +67,16 @@ const ServiceCard: React.FC<IServiceCardProps> = ({ service }) => {
               className="border-b border-transparent hover:border-black new-tab-link"
               rel="noreferrer"
             >
-              <Typography text={name} element="h3" size="md" />
+              <Typography text={trimText(name, 25)} element="h3" size="md" />
             </Link>
           </div>
           <Typography text={location} color="gray" size="md" />
         </div>
-        <Typography text={company.name} color="primary" size="md" />
+        <Typography
+          text={trimText(company.name, 25)}
+          color="primary"
+          size="md"
+        />
         <Typography text={`${getPrice()}`} color="secondary-1" />
       </div>
     </div>

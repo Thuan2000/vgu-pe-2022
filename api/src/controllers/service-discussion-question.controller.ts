@@ -17,7 +17,6 @@ class ServiceDiscussionQuestionController {
 				offset,
 				include: [User, ServiceDiscussionAnswer]
 			});
-			console.log(questions);
 
 			return questions;
 		} catch (error) {
@@ -29,7 +28,6 @@ class ServiceDiscussionQuestionController {
 	static async createQuestion(input: any) {
 		try {
 			const question = await ServiceDiscussionQuestion.create(input);
-			console.log(question.toJSON());
 
 			return createSuccessResponse(question.getDataValue("id"));
 		} catch (e) {

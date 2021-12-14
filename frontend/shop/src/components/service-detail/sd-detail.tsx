@@ -20,8 +20,15 @@ interface IBRDDetailProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const BRDDetail: React.FC<IBRDDetailProps> = ({ service }) => {
-  const { description, minPrice, maxPrice, categoryId, industryId, price } =
-    service;
+  const {
+    description,
+    minPrice,
+    maxPrice,
+    categoryId,
+    industryId,
+    price,
+    location,
+  } = service;
   const { t } = useTranslation("common");
   const [isShowMore, setIsShowMore] = useState(false);
   function getDesc() {
@@ -59,11 +66,7 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ service }) => {
         <DetailQA question={`${t("brd-budget-title")}:`}>
           <Typography variant="smallTitle" text={getPrice()} />
         </DetailQA>
-        <DetailQA
-          question={`${t("sd-location-title")}:`}
-          // answer={`${location}`}
-          answer={`Hanoi`}
-        />
+        <DetailQA question={`${t("location-title")}:`} answer={`${location}`} />
         <DetailQA
           question={`${t("brd-location-title")}:`}
           answer={getIndustryCategory()}

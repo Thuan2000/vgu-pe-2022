@@ -120,7 +120,7 @@ class ServiceController {
 			TagRepository.createTags(newTags);
 			(service as any).setTags(tags);
 
-			return createSuccessResponse(parseInt(id));
+			return createSuccessResponse(id);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();
