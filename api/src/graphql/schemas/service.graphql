@@ -5,13 +5,18 @@ type ServiceListItem {
 	name: String!
 	company: Company!
 	price: Date
-	minPrice: Int
-	maxPrice: Int
+	minPrice: Date
+	maxPrice: Date
 	rating: Float
 	coverImage: File
 }
 
 input FaqInput {
+	question: String!
+	answer: String!
+}
+
+type Faq {
 	question: String!
 	answer: String!
 }
@@ -68,7 +73,9 @@ type ServicePackage {
 type Service {
 	id: Int!
 	name: String!
+	slug: String!
 	industryId: Int!
+	location: String!
 	categoryId: Int!
 	description: String!
 	createdAt: Date!
@@ -79,6 +86,8 @@ type Service {
 	maxPrice: Date
 	rating: Float
 	coverImage: File
+	faqs: [Faq!]
+	tags: [Tag!]!
 	packages: [ServicePackage!]
 	packageRows: [PackageRow!]
 	images: [File!]
@@ -92,18 +101,39 @@ input CreateServiceInput {
 	categoryId: Int!
 	description: String!
 	location: String!
-	tags: [TagInput!]
+	tags: [String!]!
 	faqs: [FaqInput!]
 	images: [FileInput!]
 	certificates: [FileInput!]
 	videos: [FileInput!]
-	price: Int
+	price: Date
 	packages: [PackageInput!]
 	packageRows: [PackageRowInput!]
 	companyId: Int!
 	coverImage: FileInput
 	companyName: String!
 	createdById: Int!
+	newTags: [TagInput!]
+	minPrice: Date
+	maxPrice: Date
+}
+
+input UpdateServiceInput {
+	id: Int!
+	name: String!
+	industryId: Int!
+	categoryId: Int!
+	description: String!
+	location: String!
+	tags: [String!]!
+	faqs: [FaqInput!]
+	images: [FileInput!]
+	certificates: [FileInput!]
+	videos: [FileInput!]
+	price: Date
+	packages: [PackageInput!]
+	packageRows: [PackageRowInput!]
+	coverImage: FileInput
 	newTags: [TagInput!]
 	minPrice: Date
 	maxPrice: Date
@@ -129,6 +159,7 @@ type ServicesResponse {
 
 extend type Mutation {
 	createService(input: CreateServiceInput!): CreateResponse!
+	updateService(input: UpdateServiceInput!): CreateResponse!
 	deleteServices(ids: [Int!]!): Response!
 }
 

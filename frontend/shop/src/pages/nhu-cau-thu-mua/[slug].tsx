@@ -8,7 +8,7 @@ import { IBuyingRequest, ICompany } from "@graphql/types.graphql";
 import { APOLLO_STATE_NAME, initApollo } from "@utils/apollo";
 import { GetStaticPaths, GetStaticProps } from "next";
 import React, { useState } from "react";
-import BRDBrImages from "@components/ui/detail-image-section";
+import DetailImages from "@components/ui/detail-image-section";
 import Typography from "@components/ui/storybook/typography";
 import { getCompanyId, viDateFormat } from "@utils/functions";
 import { useTranslation } from "react-i18next";
@@ -108,7 +108,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
           <div className="flex space-x-4">
             {/* Left Section */}
             <div>
-              <BRDBrImages
+              <DetailImages
                 coverImage={br?.coverImage!}
                 images={br.gallery || []}
               />

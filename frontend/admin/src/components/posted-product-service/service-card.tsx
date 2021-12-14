@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Typography from "@components/ui/storybook/typography";
 import { useTranslation } from "next-i18next";
-import { formatMoneyAmount, getMoneySuffix } from "@utils/functions";
+import { formatMoneyAmount, getMoneySuffix, trimText } from "@utils/functions";
 import Checkbox from "@components/ui/storybook/checkbox";
 import ThreeDotIcon from "@assets/icons/three-dot-icon";
 import Button from "@components/ui/storybook/button";
@@ -12,6 +12,8 @@ import { useOutsideClickRef } from "src/hooks/useOutsideClickRef";
 import RemoveIcon from "@assets/icons/remove-icon";
 import { COLORS } from "@utils/colors";
 import TrashCanIcon from "@assets/icons/trash-can-icon";
+import Link from "@components/ui/link";
+import { ROUTES } from "@utils/routes";
 
 interface IServiceCardProps {
   service: IServiceListItem;
@@ -34,13 +36,13 @@ const ServiceCard: React.FC<IServiceCardProps> = ({
     coverImage,
     name,
     location,
+    slug,
     maxPrice,
     minPrice,
     price,
     rating,
     company,
   } = service;
-
   function showServiceMenu() {
     setShowMenu(true);
   }
@@ -55,18 +57,17 @@ const ServiceCard: React.FC<IServiceCardProps> = ({
   }
 
   function getPrice() {
-    if (!maxPrice && !minPrice)
+    if (!maxPrice || !minPrice)
       return `${formatMoneyAmount(price)}${t(getMoneySuffix(price))} ${t(
         "form:budget-sign"
       )}`;
-
-    return `${formatMoneyAmount(minPrice!)} ${t(
-      "form:budget-sign"
-    )} - ${formatMoneyAmount(maxPrice!)}${t(getMoneySuffix(price))} ${t(
-      "form:budget-sign"
-    )}`;
+    else
+      return `${formatMoneyAmount(minPrice)}${t(getMoneySuffix(minPrice))} ${t(
+        "form:budget-sign"
+      )} - ${formatMoneyAmount(maxPrice)}${t(getMoneySuffix(maxPrice))} ${t(
+        "form:budget-sign"
+      )}`;
   }
-
   return (
     <div className={`shadow-top rounded-lg relative`}>
       <div className="relative w-full h-40">
@@ -75,10 +76,16 @@ const ServiceCard: React.FC<IServiceCardProps> = ({
 
       <div className={`p-4 font-semibold space-y-[2px]`}>
         <div>
-          <Typography text={name} size="md" />
+          <Link href={`${ROUTES.SERVICES}/${slug}`}>
+            <Typography text={trimText(name, 25)} size="md" />
+          </Link>
           <Typography text={location} color="gray" size="md" />
         </div>
-        <Typography text={company.name} color="primary" size="md" />
+        <Typography
+          text={trimText(company.name, 25)}
+          color="primary"
+          size="md"
+        />
         <Typography text={`${getPrice()}`} color="secondary-1" />
       </div>
 

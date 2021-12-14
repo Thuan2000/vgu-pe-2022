@@ -99,5 +99,14 @@
   "no-services-yet-text-info": "Your company has no service yet",
   "confirm-button-label": "Confirm",
   "delete-service-message": "Are you sure want to delete selected services",
-  "delete-service-title": "Delete Service"
+  "delete-service-title": "Delete Service",
+  "budget-sign": "₫",
+  "industry-category-title": "Industry & Category",
+  "readMore-text": "Read more",
+  "details-title": "Details",
+  "budget-title": "Budget",
+  "location-title": "Delivery Location",
+  "postedAt-text": "Posted At",
+  "view-more-button-label": "View More",
+  "view-less-button-label": "View Less"
 }

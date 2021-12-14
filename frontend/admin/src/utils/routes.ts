@@ -15,5 +15,6 @@ export const ROUTES = {
   PROJECTS: "/projects",
   POST_PRODUCT_SERVICE: "/post-product-service",
   POSTED_PRODUCT_SERVICE: "/posted-product-service",
+  SERVICES: "/services",
   EDIT_COMPANY: "/company-details",
 };
