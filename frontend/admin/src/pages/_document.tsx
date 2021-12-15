@@ -17,7 +17,7 @@ class MyDocument extends Document {
     const { locale } = this.props.__NEXT_DATA__;
 
     if (process.env.NODE_ENV !== "production") {
-      i18n!.reloadResources(locale);
+      i18n?.reloadResources(locale);
     }
 
     return (
