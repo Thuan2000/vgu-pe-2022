@@ -46,11 +46,10 @@
   "englishLanguage-label": "Tiếng Anh",
   "vietnameseLanguage-label": "Tiếng Việt",
   "chatNow-button-label": "Chat Ngay",
-  "budgetFrom-label": "Từ",
   "productService-nav-label": "Sản phẩm/Dịch vụ",
   "postProduct/Service-nav-label": "Đăng Sản Phẩm/Dịch vụ",
   "homepage": "Trang chủ",
-  "companyDirectory": "Danh bạ công ty",
+  "companyDirectory": "Nhà cung cấp",
   "productAndService": "Sản phẩm và Dịch vụ",
   "support": "Hỗ trợ",
   "brd-companySummary-title": "Thông tin doanh nghiệp",
@@ -104,5 +103,25 @@
   "searchBy-text": "Tìm kiếm theo ",
   "iframe-here": "nội dung iframe",
   "greeting": "Xin Chào",
-  "searchFor-text": "Tìm kiếm"
+  "searchFor-text": "Tìm kiếm",
+  "budget-sign": "đ",
+  
+  "will-available-soon-text": "Tính năng sẽ hoạt động trong thời gian tới, vui lòng trở lại sau!",
+
+  "SERVICES_NAV_LABEL": "Dịch vụ",
+  "PRODUCT_NAV_LABEL": "Sản phẩm",
+  "yourCompanyRequest-button-label": "NCTM của bạn",
+
+  "to-homepage": "Về Trang chủ",
+
+  "post-PRODUCT_PAGE_SEARCH_LABEL-link-button-label": "Đăng Sản phẩm",
+  "PRODUCT_PAGE_SEARCH_LABEL": "Sản phẩm",
+  "post-SERVICE_PAGE_SEARCH_LABEL-link-button-label": "Đăng Dịch vụ",
+  "SERVICE_PAGE_SEARCH_LABEL": "Dịch vụ",
+
+  "budgetRange-filter-label": "Khoảng ngân sách ",
+  "min": "Min",
+  "max": "Max",
+  "budgetTo-label": "Đến",
+  "budgetFrom-label": "Từ"
 }
