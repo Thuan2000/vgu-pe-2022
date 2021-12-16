@@ -14,6 +14,7 @@ import CDUpperRow from "@components/ui/company-details/upper-row";
 import CDCertificates from "@components/ui/company-details/cd-certificates";
 import CDDetails from "@components/ui/company-details/cd-details";
 import CDBfw from "@components/ui/company-details/cd-bfw";
+import { ROUTES } from "@utils/routes";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale, params } = ctx;
@@ -26,6 +27,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   });
 
   const company = data.company;
+
+  if (!company)
+    return {
+      redirect: {
+        destination: ROUTES.HOMEPAGE,
+        permanent: false,
+      },
+    };
+
   return {
     props: {
       ...spreadApolloToState(apollo),

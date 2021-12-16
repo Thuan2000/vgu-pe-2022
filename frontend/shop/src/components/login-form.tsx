@@ -16,7 +16,12 @@ import Input from "./ui/storybook/inputs/input";
 import Link from "./ui/link";
 import Checkbox from "./ui/storybook/checkbox";
 import { LoginMutation, useLoginMutation } from "../graphql/auth.graphql";
-import { setAuthCredentials, setMeData } from "../utils/auth-utils";
+import {
+  getRedirectLinkAfterLogin,
+  removeRedirectLinkAfterLogin,
+  setAuthCredentials,
+  setMeData,
+} from "../utils/auth-utils";
 import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "../utils/routes";
 import PasswordInput from "./ui/password-input";
@@ -63,7 +68,8 @@ const LoginForm = () => {
       setAuthCredentials(token!);
       setMeData({ user });
       toast.success(t(`form:welcomeBack-message ${user?.firstName}`));
-      router.replace(ROUTES.HOMEPAGE);
+      router.replace(getRedirectLinkAfterLogin() || ROUTES.HOMEPAGE);
+      removeRedirectLinkAfterLogin();
     } else {
       const { isConfirmed } = await Swal.fire({
         icon: "info",

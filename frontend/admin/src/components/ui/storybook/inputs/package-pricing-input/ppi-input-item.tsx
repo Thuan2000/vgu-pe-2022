@@ -100,16 +100,13 @@ export const PPIPriceInput: React.FC<IPPIInput> = ({
 }) => {
   const { t } = useTranslation("form");
   const value = getPrValue(row, pkg);
-  // const value = 1000;
 
   return (
     <div className="flex items-center w-full">
       <NumInput
         suffix={` ${t("budget-sign")}`}
-        noBorder
         placeholder={t("ppi-price-input-placeholder")}
         inputClassName="!rounded-none !border-none"
-        // onChange={(e) => onChange(pkg, row, { ...value, price: e })}
         onChange={(e) => onChange(pkg, row, e)}
         value={value}
         {...preventSubmitOnEnter()}

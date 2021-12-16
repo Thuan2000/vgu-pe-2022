@@ -5,13 +5,13 @@ import { useTranslation } from "react-i18next";
 import { removeAuthCredentials, removeMeData } from "../utils/auth-utils";
 import { ROUTES } from "../utils/routes";
 const Logout = () => {
-  const { replace } = useRouter();
+  const { replace, locale } = useRouter();
   const { t } = useTranslation("common");
 
   useEffect(() => {
     removeAuthCredentials();
     removeMeData();
-    replace(ROUTES.LOGIN);
+    replace(ROUTES.LOGIN(locale));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -3,8 +3,14 @@ export const ROUTES = {
 
   DISCOVER_HOMEPAGE: `https://google.com/`,
   // DISCOVER_HOMEPAGE: `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}/`,
-  LOGIN: `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}/login`,
-  SIGNUP: `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}/signup`,
+  LOGIN: (locale?: string) =>
+    `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}${
+      locale ? `/${locale}/` : `/`
+    }login`,
+  SIGNUP: (locale: string) =>
+    `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}${
+      locale ? `/${locale}/` : `/`
+    }signup`,
   FORGET_PASSWORD: "/forget-password",
   LOGOUT: "/logout",
   SETTINGS: "/settings",

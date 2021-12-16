@@ -14,14 +14,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
   const { token } = getAuthCredentials(ctx);
 
-  if (!isAuthenticated({ token } as any)) {
-    return {
-      redirect: {
-        destination: ROUTES.LOGIN,
-        permanent: false,
-      },
-    };
-  }
+  // if (!isAuthenticated({ token } as any)) {
+  //   return {
+  //     redirect: {
+  //       destination: ROUTES.LOGIN,
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   return {
     props: {

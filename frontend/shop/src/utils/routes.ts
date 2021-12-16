@@ -1,6 +1,7 @@
 export const ROUTES = {
+  TO_LOGIN: (locale: string) => `${locale}/login`,
+  LOGIN: `/login`,
   HOMEPAGE: "/",
-  LOGIN: "/login",
   SIGNUP: "/signup",
   FORGET_PASSWORD: "#",
   LOGOUT: "/logout",

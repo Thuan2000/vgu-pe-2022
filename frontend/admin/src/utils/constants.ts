@@ -26,6 +26,7 @@ export const ROLE = "ROLE";
 export const TOKEN = "token";
 export const PERMISSIONS = "permissions";
 export const AUTH_CRED = "AUTH_CRED";
+export const REDIRECT_AFTER_LOGIN = "REDIRECT_AFTER_LOGIN";
 export const LOGGED_IN_USER = "LOGGED_IN_USER";
 export const LOGGED_IN_COMPANY = "LOGGED_IN_COMPANY";
 
