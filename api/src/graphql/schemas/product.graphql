@@ -58,11 +58,13 @@ input VariationDetailInput {
 	options: [VariationOption!]
 	# Example Red
 	price: Date!
-	salePrice: {
-		minOrder: Int!
-		price: Date!
-	}
+	salePrice: SalePriceInput
 	image: FileInput!
+}
+
+input SalePriceInput {
+	minOrder: Int!
+	price: Date!
 }
 
 input VariationOption {
