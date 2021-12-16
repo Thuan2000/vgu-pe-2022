@@ -1,8 +1,71 @@
-type ProductName {
-	name: String
-	searchedCount: Int
+input CreateProductInput {
+	# The company that create this product
+	companyId: Int!
+	# Product name in string
+	name: String!
+	# Industry Id of the product
+	industryId: Int!
+	# Category Id of the product
+	categoryId: Int!
+	# Minimal 200 letters
+	description: String!
+	# minOrder
+	minOrder: Int!
+	# Location in string
+	warehouseLocation: String!
+	# Cover image is the first image of the inputted images
+	# see pps-service-form.tsx onSubmit function
+	coverImage: FileInput!
+	# Images
+	gallery: [FileInput!]
+	# Videos
+	videos: [FileInput!]
+	# Certificates
+	certificates: [FileInput!]
+	# Variation
+	variation: [VariationInput]
+	variationPrice: [VariationPriceInput]
+	minPrice: Date
+	maxPrice: Date
+	price: Date
 }
 
-extend type Query {
-	productNames: [ProductName]
+# Variation input example
+# Name : color
+# classifications: ["red", "blue", "green"]
+input VariationInput {
+	# Must unique
+	name: String!
+	classifications: [String!]
+}
+
+input VariationDetailInput {
+	# Name of variation detail is just mix of classification name
+	# Example of multi vatiation
+	# color : Red, size: S
+	# Name : Red/S
+	# -----------------------
+	# If it's only one variation will be like the following
+	# Example of single variation
+	# Material : Wood
+	# Name : Wood
+	name: String!
+	isSingleVariation: Boolean!
+	# Options
+	# Options is an JSON.Stringify of variations
+	# Example there's 2 variation (Color & Size)
+	# Options will be [{name: "color", value: "red"}, {name: "size", value: "S" }]
+	options: [VariationOption!]
+	# Example Red
+	price: Date!
+	salePrice: {
+		minOrder: Int!
+		price: Date!
+	}
+	image: FileInput!
+}
+
+input VariationOption {
+	name: String!
+	value: String!
 }
