@@ -23,8 +23,8 @@ input CreateProductInput {
 	# Certificates
 	certificates: [FileInput!]
 	# Variation
-	variation: [VariationInput]
-	variationPrice: [VariationPriceInput]
+	variation: [VariationInput!]
+	variationDetail: [VariationDetailInput!]
 	minPrice: Date
 	maxPrice: Date
 	price: Date
