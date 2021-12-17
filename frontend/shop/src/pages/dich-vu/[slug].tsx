@@ -1,5 +1,5 @@
-import BRDBrImages from "@components/ui/detail-image-section";
-import BRDSocialShareList from "@components/buying-request-detail/brd-social-share-list";
+import SDBrImages from "@components/ui/detail-image-section";
+import SDSocialShareList from "@components/buying-request-detail/brd-social-share-list";
 import PageLayout from "@components/layouts/page-layout";
 import SDDescription from "@components/service-detail/sd-desc";
 import SDName from "@components/service-detail/sd-name";
@@ -13,10 +13,8 @@ import { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useState } from "react";
-import BRDAskQuestion from "@components/buying-request-detail/brd-ask-question";
-import BRDCompanySummary from "@components/buying-request-detail/brd-company-summary";
+import SDCompanySummary from "@components/buying-request-detail/brd-company-summary";
 import SDDetail from "@components/service-detail/sd-detail";
-import BRDDiscussion from "@components/buying-request-detail/brd-discussion";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
 import SDPackages from "@components/service-detail/sd-packages";
@@ -63,13 +61,13 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
           <div className="flex space-x-4">
             {/* Left Section */}
             <div>
-              <BRDBrImages coverImage={coverImage!} images={images || []} />
+              <SDBrImages coverImage={coverImage!} images={images || []} />
               <div className="fic space-x-4">
                 <Typography
                   text={`${t("brd-share-label")}:`}
                   variant="smallTitle"
                 />
-                <BRDSocialShareList />
+                <SDSocialShareList />
               </div>
             </div>
             {/* Right Section */}
@@ -90,7 +88,7 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
           </div>
           <div className="space-y-3 mt-4">
             <SDDetail service={service} />
-            <BRDCompanySummary company={company} />
+            <SDCompanySummary company={company} />
             {!!service.packages?.length && (
               <SDPackages
                 packages={service.packages}

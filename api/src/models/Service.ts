@@ -22,6 +22,7 @@ Service.init(
 		industryId: DataTypes.INTEGER,
 		categoryId: DataTypes.INTEGER,
 		location: DataTypes.STRING,
+		faqs: DataTypes.JSON,
 		images: DataTypes.JSON,
 		certificates: DataTypes.JSON,
 		videos: DataTypes.JSON,

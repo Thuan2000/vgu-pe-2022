@@ -1,4 +1,11 @@
+import CheckmarkIcon from "@assets/icons/checkmark-icon";
+import XIcon from "@assets/icons/x-icon";
 import { IPackageRow } from "@graphql/types.graphql";
+import {
+  formatMoneyAmount,
+  getMoneySuffix,
+  viDateFormat,
+} from "@utils/functions";
 import { findIndex } from "lodash";
 import { useTranslation } from "next-i18next";
 import React from "react";
@@ -16,10 +23,21 @@ const SDPPackageItem: React.FC<ISDPPackageItemProps> = ({ rows, pkg, idx }) => {
   const { t } = useTranslation();
   let packagePriceRow = {};
   function getRowValue(row: ISDPRow) {
-    if (!pkg?.packageRows) return;
     const idx = findIndex(pkg?.packageRows, (pr) => row?.id === pr?.rowId);
     if (idx === -1) return "-";
-    return JSON.parse(pkg?.packageRows[idx]?.value);
+    if (!pkg?.packageRows) return;
+
+    const packageRowValue = JSON.parse(pkg?.packageRows?.[idx].value);
+    if (row.inputType === "ATTACHMENT") return packageRowValue.path;
+    else if (row.inputType === "DATE") return viDateFormat(packageRowValue);
+    else if (row.inputType === "PRICE")
+      return `${formatMoneyAmount(packageRowValue)}${t(
+        getMoneySuffix(packageRowValue)
+      )} ${t("budget-sign")}`;
+    else if (row.inputType === "CHECKBOX")
+      return packageRowValue ? <CheckmarkIcon /> : <XIcon />;
+
+    return packageRowValue;
   }
 
   return (

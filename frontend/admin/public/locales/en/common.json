@@ -33,8 +33,8 @@
   "create-post-button-label": "Create Request",
   "all-request-nav-title": "All Requests",
   "projects-nav-title": "Projects",
-  "million-suffix": "tr",
-  "billion-suffix": "tỷ",
+  "million-suffix": "m",
+  "billion-suffix": "b",
   "add-to-project-button-label": "Add To Project",
   "text-loading": "Loading",
   "loading-text": "Loading",
@@ -99,5 +99,16 @@
   "no-services-yet-text-info": "Your company has no service yet",
   "confirm-button-label": "Confirm",
   "delete-service-message": "Are you sure want to delete selected services",
-  "delete-service-title": "Delete Service"
+  "delete-service-title": "Delete Service",
+  "budget-sign": "₫",
+  "industry-category-title": "Industry & Category",
+  "readMore-text": "Read more",
+  "details-title": "Details",
+  "budget-title": "Budget",
+  "location-title": "Delivery Location",
+  "postedAt-text": "Posted At",
+  "view-more-button-label": "View More",
+  "view-less-button-label": "View Less",
+  "homepage-breadcrumb": "Homepage",
+  "not-setup": "Not setup yet"
 }

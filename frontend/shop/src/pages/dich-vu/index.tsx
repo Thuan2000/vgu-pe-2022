@@ -7,15 +7,9 @@ import { generateHeadTitle } from "@utils/seo-utils";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { IServiceListItem } from "@graphql/types.graphql";
-import { initApollo } from "@utils/apollo";
-import { ServicesDocument } from "@graphql/service.graphql";
-import Image from "next/image";
-import { siteSettings } from "@settings/site.settings";
 import SideFilter from "@components/ui/buying-requests/filter/side-filter";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import useIsPhone from "src/hooks/isPhone.hook";
-import UnderDevelopment from "@components/under-development";
-import ServiceCard from "@components/services/service-card";
 import ServicesList from "@components/services/services-list";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -23,7 +17,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale!, ["common"])),
+      ...(await serverSideTranslations(locale!, [
+        "common",
+        "form",
+        "category",
+        "industry",
+      ])),
     },
   };
 };
@@ -48,7 +47,7 @@ const ProductAndService: React.FC<IProductAndServiceProps> = () => {
       </Head>
       <main className={`flex space-x-6 mb-10`}>
         <div className="sticky top-40 h-fit-content">
-          <SideFilter />
+          <SideFilter noStatusFilter />
         </div>
 
         <ServicesList />

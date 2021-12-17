@@ -95,5 +95,5 @@ type Mutation {
 }
 
 extend type Query {
-	company(slug: String!): Company!
+	company(slug: String!): Company
 }

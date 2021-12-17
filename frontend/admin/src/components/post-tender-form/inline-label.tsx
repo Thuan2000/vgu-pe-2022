@@ -20,7 +20,7 @@ const InlineLabel: React.FC<InlineLabelProps> = ({
       <p className={`text-sm ${textClass}`} style={{ width: labelWidth }}>
         {text}
       </p>
-      <p className={`${narrowColon ? "ml-1 mr-2" : "ml-6 mr-5"}`}>:</p>
+      <p className={`${narrowColon ? "ml-1 mr-2" : "mr-5"}`}>:</p>
     </div>
   );
 };

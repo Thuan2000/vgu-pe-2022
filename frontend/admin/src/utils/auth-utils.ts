@@ -1,6 +1,6 @@
 import Cookie from "js-cookie";
 import SSRCookie from "cookie";
-import { AUTH_CRED, LOGGED_IN_USER } from "./constants";
+import { AUTH_CRED, LOGGED_IN_USER, REDIRECT_AFTER_LOGIN } from "./constants";
 import { ICompany, IMeInfoResponse, IUser } from "@graphql/types.graphql";
 
 const cookieDomain = { domain: `.${process.env.NEXT_PUBLIC_DOMAIN}` };
@@ -51,6 +51,19 @@ export function hasAccess(
     );
   }
   return false;
+}
+
+export function checkIsLogin() {
+  const authCred = getAuthCredentials();
+  return !!authCred.token;
+}
+
+export function setRedirectLinkAfterLogin(url: string) {
+  Cookie.set(
+    REDIRECT_AFTER_LOGIN,
+    url,
+    !isDevelopment ? { ...cookieDomain } : {}
+  );
 }
 
 export function isAuthenticated(_cookies: { token: string; role: string }) {

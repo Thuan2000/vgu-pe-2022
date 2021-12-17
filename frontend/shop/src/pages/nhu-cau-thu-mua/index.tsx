@@ -17,18 +17,8 @@ import { useTranslation } from "react-i18next";
 import useIsPhone from "src/hooks/isPhone.hook";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { token } = getAuthCredentials(ctx);
-
   const { locale } = ctx;
 
-  if (!token || !isAuthenticated({ token })) {
-    return {
-      redirect: {
-        destination: ROUTES.LOGIN,
-        permanent: false,
-      },
-    };
-  }
   return {
     props: {
       ...(await serverSideTranslations(locale!, [

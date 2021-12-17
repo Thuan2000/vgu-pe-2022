@@ -20,7 +20,16 @@ const REMOVE_VALUE_ACTION_META = {
 
 export const Select = React.forwardRef<Ref, ISelectProps>(
   (
-    { isMulti, onChange, name, getInitialValue, options, value, ...props },
+    {
+      isMulti,
+      onChange,
+      name,
+      getInitialValue,
+      options,
+      value,
+      isDisabled,
+      ...props
+    },
     ref
   ) => {
     // This is for showing values
@@ -54,7 +63,7 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
       handleChange(newValues, actionMeta);
     }
     return (
-      <div>
+      <div className={`${isDisabled && "cursor-not-allowed"}`}>
         <ReactSelect
           ref={ref}
           name={name}
@@ -66,6 +75,7 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
           controlShouldRenderValue={!isMulti}
           onChange={isMulti ? handleChange : onChange}
           value={value}
+          isDisabled={isDisabled}
           {...props}
         />
         {isMulti && (

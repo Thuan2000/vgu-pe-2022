@@ -10,7 +10,6 @@ import Input from "../input";
 import { NumInput } from "../number-input";
 import PPIFileAttacher from "./ppi-file-attacher";
 import { IPPIPackage, IPPIRow } from "./ppi-interfaces";
-import PPIUnitInput from "./ppi-unit-input";
 
 interface IPPIInput {
   pkg: IPPIPackage;
@@ -21,8 +20,6 @@ interface IPPIInput {
 }
 
 function getPrValue(row: IPPIRow, pkg: IPPIPackage) {
-  // console.log(row, pkg);
-  // return 100;
   const idx = findIndex(pkg.packageRows, (pr) => row.id === pr.rowId);
   if (idx === -1) {
     if (row.inputType === "PRICE") return "";
@@ -30,8 +27,7 @@ function getPrValue(row: IPPIRow, pkg: IPPIPackage) {
 
     return "";
   }
-
-  return pkg.packageRows?.at(idx)?.value;
+  return pkg.packageRows?.[idx]?.value;
 }
 
 export const PPIDateInput: React.FC<IPPIInput> = ({
@@ -41,13 +37,14 @@ export const PPIDateInput: React.FC<IPPIInput> = ({
   isDisabled,
 }) => {
   const { t } = useTranslation("form");
+  const value = getPrValue(row, pkg);
   return (
     <Datepicker
       rootClassName="h-full w-full flex-center"
       className="w-full h-full !pl-4"
       placeholderText={t("ppi-date-input-placeholder")}
       wrapperClassName="h-full"
-      value={getPrValue(row, pkg)}
+      value={value && typeof value === "string" ? new Date(value) : value}
       minDate={new Date()}
       onChange={(e) => onChange(pkg, row, e)}
       disabled={isDisabled}
@@ -103,16 +100,13 @@ export const PPIPriceInput: React.FC<IPPIInput> = ({
 }) => {
   const { t } = useTranslation("form");
   const value = getPrValue(row, pkg);
-  // const value = 1000;
 
   return (
     <div className="flex items-center w-full">
       <NumInput
         suffix={` ${t("budget-sign")}`}
-        noBorder
         placeholder={t("ppi-price-input-placeholder")}
         inputClassName="!rounded-none !border-none"
-        // onChange={(e) => onChange(pkg, row, { ...value, price: e })}
         onChange={(e) => onChange(pkg, row, e)}
         value={value}
         {...preventSubmitOnEnter()}

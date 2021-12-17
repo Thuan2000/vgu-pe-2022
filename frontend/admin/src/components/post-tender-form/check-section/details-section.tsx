@@ -43,8 +43,8 @@ const DetailsSection: React.FC<IGeneralSection> = ({
   }
 
   return (
-    <div className="space-y-3 mb-5">
-      <div className={`flex justify-between mb-5 ${hasImage && "md:w-2/3"}`}>
+    <div className="space-y-3">
+      <div className={`flex justify-between ${hasImage && "md:w-2/3"}`}>
         <h3>{t("details-information-title")}</h3>
         <p
           className="text-blue cursor-pointer"

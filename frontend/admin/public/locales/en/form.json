@@ -235,7 +235,7 @@
   "pps-product-button-label": "Product",
   "pps-service-button-label": "Service",
   "pleaseChoose-pps-target": "Please Choose Product / Service",
-  "post-request-gallery-note": "Bạn chỉ có thể đăng tối đa 10 hình ảnh, kích thước hình ảnh phải là 1080px 1080px",
+  "post-request-gallery-note": "You can only post under 10 images, the size must be 1080px 1080px",
   "error-too-many-files-message": "Maximum allowed files is:",
   "error-file-too-large-message": "Maximum file size exceeded (50 Mb)",
   "slot-left-message": "Slot left",
@@ -294,5 +294,6 @@
   "okay-button-label": "Okay",
   "PACKAGE_PRICE_LABEL": "Package Price",
   "million-suffix": "tr",
-  "billion-suffix": "tỷ"
+  "billion-suffix": "tỷ",
+  "companyAddress-input-label": "Company Address"
 }

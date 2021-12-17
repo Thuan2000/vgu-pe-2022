@@ -25,6 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
+
   return {
     props: {
       ...(await serverSideTranslations(locale!, ["form", "common"])),
@@ -45,7 +46,12 @@ const SignUp = () => {
         />
       </Head>
       <div className="fixed w-screen h-screen">
-        <Image src={RegisterIllustration} objectFit="cover" layout="fill" />
+        <Image
+          alt="Signup-alt-preview"
+          src={RegisterIllustration}
+          objectFit="cover"
+          layout="fill"
+        />
       </div>
       <div className="flex flex-col md:flex-row">
         <div className="md:w-1/2 md:relative invisible sm:visible"></div>

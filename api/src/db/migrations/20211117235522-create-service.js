@@ -56,6 +56,9 @@ module.exports = {
 			coverImage: {
 				type: Sequelize.JSON
 			},
+			faqs: {
+				type: Sequelize.JSON
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE

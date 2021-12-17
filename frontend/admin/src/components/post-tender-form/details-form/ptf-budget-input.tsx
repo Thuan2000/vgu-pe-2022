@@ -61,6 +61,7 @@ const PRFBudgetInput: React.FC<IPRFBudgetInputProps> = ({
             onChange={() => {
               trigger("details.minBudget");
             }}
+            className={`w-full`}
             absoluteErrorMessage={!isPhone}
             allowNegative={false}
             error={t(errors?.details?.minBudget?.message || "")}
@@ -84,6 +85,7 @@ const PRFBudgetInput: React.FC<IPRFBudgetInputProps> = ({
             }}
             absoluteErrorMessage={!isPhone}
             allowNegative={false}
+            className={`w-full`}
             error={t(errors?.details?.maxBudget?.message || "")}
           />
         </InlineFormInputWrapper>

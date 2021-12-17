@@ -13,12 +13,24 @@ import "../styles/custom-datepicker.css";
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { useAuth } from "src/hooks/useAuth.hook";
+import { useRouter } from "next/dist/client/router";
+import { ROUTES } from "@utils/routes";
+import { setRedirectLinkAfterLogin } from "@utils/auth-utils";
 
 const NoLayout: React.FC<any> = ({ children }) => <>{children}</>;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);
   const Layout = (Component as any).Layout ?? NoLayout;
+  const { replace, locale, pathname } = useRouter();
+  const { isLogin } = useAuth();
+
+  if (!isLogin && typeof window !== "undefined" && pathname !== ROUTES.LOGOUT) {
+    const fullHref = window.location.href;
+    setRedirectLinkAfterLogin(fullHref);
+    replace(ROUTES.LOGIN(locale!));
+  }
 
   return (
     <ApolloProvider client={apolloClient}>

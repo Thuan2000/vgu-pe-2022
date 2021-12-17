@@ -1,6 +1,11 @@
-import { ICreateServiceInput, IFetchServicesInput } from "@graphql/types";
+import {
+	ICreateServiceInput,
+	IFetchServicesInput,
+	IUpdateServiceInput
+} from "@graphql/types";
 import Company from "@models/Company";
 import Service from "@models/Service";
+import Tag from "@models/Tag";
 import TagRepository from "@repositories/tag.repository";
 import { generateSlug } from "@utils/functions";
 import {
@@ -11,9 +16,9 @@ import {
 
 class ServiceController {
 	static async getService(slug) {
-		const service = Service.findOne({
+		const service = await Service.findOne({
 			where: { slug },
-			include: [{ model: Company, attributes: ["id", "name"] }]
+			include: [{ model: Company, attributes: ["id", "name"] }, Tag]
 		});
 
 		return service;
@@ -94,12 +99,28 @@ class ServiceController {
 			);
 
 			TagRepository.createTags(newTags);
-
-			const tagNames = tags.map(t => t.name);
-			(newService as any).setTags(tagNames);
+			(newService as any).setTags(tags);
 
 			await newService.save();
 			return createSuccessResponse(newService.getDataValue("id"));
+		} catch (e) {
+			console.log(e);
+			return errorResponse();
+		}
+	}
+
+	static async updateService(input: IUpdateServiceInput) {
+		try {
+			const { tags, newTags, id, ...newInput } = input;
+			console.log(input);
+
+			const service = await Service.findByPk(id);
+			service.update(newInput);
+
+			TagRepository.createTags(newTags);
+			(service as any).setTags(tags);
+
+			return createSuccessResponse(id);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();

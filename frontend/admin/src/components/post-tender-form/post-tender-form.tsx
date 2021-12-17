@@ -23,7 +23,11 @@ import {
   useUpdateBuyingRequestMutation,
 } from "@graphql/buying-request.graphql";
 import { ROUTES } from "@utils/routes";
-import { IBuyingRequest, IResponse } from "@graphql/types.graphql";
+import {
+  IBuyingRequest,
+  ICreateBuyingRequestInput,
+  IResponse,
+} from "@graphql/types.graphql";
 import {
   getCompanyId,
   getCompanyName,
@@ -139,13 +143,19 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     const industryId = parseInt(industry.id + "");
     const categoryId = parseInt(category.id + "");
 
-    const values: any = {
+    const coverImage = generalRest?.gallery?.[0];
+
+    const userId = getLoggedInUser()?.id;
+
+    const values: ICreateBuyingRequestInput = {
       companyId: getCompanyId(),
       [initValue ? "updatedById" : "createdById"]: getLoggedInUser()?.id,
       location: locationName,
       industryId,
       categoryId,
       sourceTypeId: sourceType?.id,
+      createdById: userId!,
+      coverImage,
       ...allowedCompany,
       ...generalRest,
       ...detailsRest,
@@ -157,7 +167,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
       await updateBr({
         variables: {
           id: parseInt(initValue.id),
-          newValue: values,
+          newValue: { ...values, updatedById: userId! },
         },
       });
     } else

@@ -33,6 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         "form",
         "industry",
         "category",
+        "business-type",
       ])),
     },
   };

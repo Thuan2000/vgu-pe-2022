@@ -32,7 +32,7 @@ function createApolloClient() {
   });
 
   // For connection to backend
-  const httpLink = createUploadLink({
+  const httpLink: any = createUploadLink({
     uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
   });
 

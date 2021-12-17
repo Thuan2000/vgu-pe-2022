@@ -55,7 +55,7 @@ const PRFQuantityInput: React.FC<IPRFQuantityInputProps> = ({
         >
           <InlineLabel
             labelWidth={INLINE_LABEL_WIDTH}
-            className={`${isMinOrderError && "!mt-2"} ${!isPhone && "hidden"}`}
+            className={`${isMinOrderError && "!mt-2"}`}
             text={t("quantity-label")}
           />
           <NumberInput
@@ -87,6 +87,7 @@ const PRFQuantityInput: React.FC<IPRFQuantityInputProps> = ({
               trigger("details.unit");
             }}
             absoluteErrorMessage={!isPhone}
+            className={`w-full`}
             error={t(errors?.details?.unit?.message || "")}
           />
         </InlineFormInputWrapper>

@@ -20,8 +20,8 @@ const GeneralSection: React.FC<IGeneralSection> = ({
   const { t } = useTranslation("form");
   return (
     <div className="flex">
-      <div className={`w-full ${hasImage && "md:w-2/3"}`}>
-        <div className="flex justify-between mb-5">
+      <div className={`w-full space-y-2 ${hasImage && "md:w-2/3"} `}>
+        <div className="flex justify-between ">
           <h3>{t("general-information-check-title")}</h3>
           <p
             className="text-blue cursor-pointer"
@@ -30,14 +30,17 @@ const GeneralSection: React.FC<IGeneralSection> = ({
             {t("edit-label")}
           </p>
         </div>
-        <div className="mb-5">
+        <div className="">
           <p className="text-semibold font-semibold">
             {t("check-request-name")}
           </p>
-          <p className="">{name}</p>
+          <p className="">
+            {`${t("requestNamePrefix-value")} - `}
+            {name}
+          </p>
         </div>
 
-        <div className="mb-5">
+        <div className="">
           <p className="text-semibold font-semibold">
             {t("check-industry-label")}
           </p>
@@ -49,7 +52,7 @@ const GeneralSection: React.FC<IGeneralSection> = ({
         </div>
 
         {description && (
-          <div className="mb-5">
+          <div className="">
             <p className="text-semibold font-semibold">
               {t("check-desctiption-label")}
             </p>

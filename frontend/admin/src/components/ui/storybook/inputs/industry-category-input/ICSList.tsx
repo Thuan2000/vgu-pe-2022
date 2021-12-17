@@ -4,6 +4,7 @@ import React from "react";
 import ICSListComponent from "./ICSListComponent";
 import ICSListWrapper from "./ICSListWrapper";
 import { Control, Controller } from "react-hook-form";
+import { FontSize } from "@utils/interfaces";
 
 export interface IICSListProps {
   industryControllerName: string;
@@ -15,6 +16,7 @@ export interface IICSListProps {
   onCategoryClick: (category: ICategory) => void;
   industries: IIndustry[];
   categories: ICategory[];
+  optionTextSize: FontSize;
   getCategoryLabel: (e: ICategory) => string;
   getIndustryLabel: (e: IIndustry) => string;
   onIndustryChange?: (e: IIndustry) => void;
@@ -29,6 +31,7 @@ const ICSList: React.FC<IICSListProps> = ({
   selectedCategory,
   industries,
   categories,
+  optionTextSize,
   onIndustryClick,
   onIndustryChange,
   onCategoryChange,
@@ -50,6 +53,7 @@ const ICSList: React.FC<IICSListProps> = ({
                 const isActive = industry === selectedIndustry;
                 return (
                   <ICSListComponent
+                    textSize={optionTextSize || "sm"}
                     key={industry.id + "ic-industry"}
                     isActive={isActive}
                     hasChildren
@@ -84,6 +88,7 @@ const ICSList: React.FC<IICSListProps> = ({
                 const isActive = category === selectedCategory;
                 return (
                   <ICSListComponent
+                    textSize={optionTextSize || "sm"}
                     key={category.id + "ic-category"}
                     isActive={isActive}
                     label={getCategoryLabel(category)}

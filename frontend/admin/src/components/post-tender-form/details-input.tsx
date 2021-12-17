@@ -9,14 +9,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
 import ParticipantFilterForm from "./participant-filter-form";
-import DocumentInput from "@components/ui/storybook/document-input";
-import { useProductNamesQuery } from "@graphql/product.graphql";
-import ProductNameSelect from "@components/ui/post-request/product-name-input";
-import {
-  IBuyingRequest,
-  IIndustry,
-  IProductName,
-} from "@graphql/types.graphql";
+import { IBuyingRequest } from "@graphql/types.graphql";
 import SelectInput from "@components/ui/storybook/select-input";
 import PRFBudgetInput from "./details-form/ptf-budget-input";
 import PRFQuantityInput from "./details-form/prf-quantity-input";
@@ -39,30 +32,12 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
   control,
   initValue,
   trigger,
-  getValues,
   errors,
 }) => {
   const { t } = useTranslation("form");
-  const {
-    data,
-    refetch: refetchProductNames,
-    loading,
-  } = useProductNamesQuery();
-  const [productNames, setProductNames] = useState<Array<IProductName>>(
-    data?.productNames as Array<IProductName>
-  );
 
   const { locale } = useRouter();
 
-  useEffect(() => {
-    refetchProductNames();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (data?.productNames)
-      setProductNames(data.productNames as Array<IProductName>);
-  }, [data?.productNames]);
   return (
     <div className="md:w-2/3 space-y-3 sm:mb-5">
       <PRFBudgetInput

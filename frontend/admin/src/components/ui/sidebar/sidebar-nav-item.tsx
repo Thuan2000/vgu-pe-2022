@@ -1,4 +1,5 @@
 import DownVIcon from "@assets/icons/down-v-icon";
+import { COLORS } from "@utils/colors";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Link from "../link";
@@ -33,17 +34,23 @@ const SidebarNavItem: React.FC<SidebarNavItem> = ({
         `}
       >
         <li
-          className={`flex items-center text-md pl
-            ${isActive && !isChildren && "text-primary"}
+          className={`flex items-center text-md font-semibold text-gray-300
+            ${isActive && !isChildren && "!text-primary"}
             ${isChildren && "ml-[18px] py-3 px-7 w-full mr-5 rounded-sm"}
             ${
               isActive &&
               isChildren &&
-              "font-semibold text-bold-color bg-primary bg-opacity-30"
+              "!text-bold-color bg-primary bg-opacity-30"
             }
           `}
         >
-          {Icon && <Icon className="mr-3 w-4 h-4" isActive={isActive} />}
+          {Icon && (
+            <Icon
+              className="mr-3 w-4 h-4"
+              fill={COLORS.GRAY?.[300]}
+              isActive={isActive}
+            />
+          )}
           {t(label)}
         </li>
         {hasChildren && (

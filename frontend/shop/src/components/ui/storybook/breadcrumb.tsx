@@ -1,10 +1,12 @@
 import HomeIcon from "@assets/icons/navigations/home-icon";
+import UpVIcon from "@assets/icons/up-v-icon";
 import { COLORS } from "@utils/colors";
 import { toCamelCaseFromSnakeCase } from "@utils/functions";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Link from "../link";
+import Typography from "./typography";
 
 interface IBreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {
   homeHref: string;
@@ -43,13 +45,13 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
     isChevron?: boolean;
   }) {
     return (
-      <p
-        className={`text-primary whitespace-nowrap flex-shrink-0 text-${
-          isChevron ? "lg" : "xs"
-        } ${isLast && "!text-black"}`}
-      >
-        {label}
-      </p>
+      <Typography
+        className={`text-gray-300 whitespace-nowrap text-md flex-shrink-0 
+          ${isLast && "!text-primary px-2 border-2 border-primary rounded-sm"}
+          ${!isLast && "h-[22px]"}
+        `}
+        text={label}
+      />
     );
   }
 
@@ -57,22 +59,23 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
 
   return (
     <div {...props}>
-      <div className="border border-primary rounded-sm bg-gray-10 py-1 fic space-x-1 w-fit-content px-5">
+      <div className="fic space-x-1 w-fit-content px-5 pt-2">
         {links.length >= 1 ? (
           <Link href={homeHref}>
-            <HomeIcon fill={COLORS.PRIMARY.DEFAULT} className="w-5 h-5" />
+            <Item label={t("homepage-breadcrumb")} />
+            {/* <HomeIcon fill={COLORS.GRAY[200]} className="w-6 h-6" /> */}
           </Link>
         ) : (
           <div className="fic">
-            <HomeIcon className="w-5 h-5 mr-2" />
-            <Item label={t("homepage-breadcrumb")} isLast />
+            <HomeIcon className="w-6 h-6 mr-2" />
+            <Item label={t("homepage-breadcrumb")} />
           </div>
         )}
         {links.map((p, idx) => {
           const isLast = idx === paths.length - 1;
           return (
             <>
-              <Item isChevron label="›" isLast />
+              <UpVIcon className="rotate-90 w-3 h-3" />
               {!isLast ? (
                 <Link href={p.href}>
                   <Item label={p.label} />

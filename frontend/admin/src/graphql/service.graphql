@@ -1,7 +1,16 @@
 # import PaginationParts from "./pagination.fragment.graphql"
+# import ServiceParts from "./service.fragment.graphql"
 
 mutation CreateService($input: CreateServiceInput!) {
   createService(input: $input) {
+    id
+    message
+    success
+  }
+}
+
+mutation UpdateService($input: UpdateServiceInput!) {
+  updateService(input: $input) {
     id
     message
     success
@@ -12,6 +21,7 @@ query Services($input: FetchServicesInput) {
   services(input: $input) {
     services {
       id
+      slug
       coverImage {
         url
       }
@@ -35,5 +45,11 @@ mutation DeleteServices($ids: [Int!]!) {
   deleteServices(ids: $ids) {
     success
     message
+  }
+}
+
+query Service($slug: String!) {
+  service(slug: $slug) {
+    ...ServiceParts
   }
 }

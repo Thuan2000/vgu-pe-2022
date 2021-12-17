@@ -1,10 +1,11 @@
 type Tag {
 	name: String!
+	locale: LOCALE!
 }
 
 input TagInput {
 	name: String!
-	locale: LOCALE!
+	locale: LOCALE
 }
 
 extend type Query {

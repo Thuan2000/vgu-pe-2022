@@ -36,12 +36,18 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
   const { locale } = useRouter();
   const firstRun = useRef(true);
 
-  const { data } = useTagsQuery({ variables: { locale: locale as any } });
+  const { data, refetch } = useTagsQuery({
+    variables: { locale: locale as any },
+  });
   const tagsWithoutTypename = data?.tags
     ? data?.tags?.map(({ __typename, ...t }: any) => ({ locale, ...t }))
     : [];
 
   const [tags, setTags] = useState(tagsWithoutTypename);
+
+  useEffect(() => {
+    refetch({ locale: locale as any });
+  }, []);
 
   useEffect(() => {
     if (firstRun.current) firstRun.current = false;

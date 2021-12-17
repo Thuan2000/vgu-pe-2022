@@ -5,7 +5,11 @@ import PageLayout from "@components/layouts/page-layout";
 import Chip from "@components/ui/chip";
 import Loading from "@components/ui/loading";
 import Typography from "@components/ui/storybook/typography";
-import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
+import {
+  BuyingRequestBySlugDocument,
+  BuyingRequestDocument,
+  useBuyingRequestBySlugQuery,
+} from "@graphql/buying-request.graphql";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import { getCategory } from "src/datas/categories";
 import {
@@ -21,12 +25,26 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
+import UpVIcon from "@assets/icons/up-v-icon";
+import { COLORS } from "@utils/colors";
+import { initApollo } from "@utils/apollo";
 
 export const getServerSideProps: GetStaticProps = async (ctx) => {
   const { locale, params } = ctx;
+
+  const slug = params!.slug;
+  const apollo = initApollo();
+
+  const { data } = await apollo.query({
+    query: BuyingRequestBySlugDocument,
+    variables: { slug },
+  });
+
+  const br = data?.buyingRequestBySlug;
+
   return {
     props: {
-      ...params,
+      br,
       ...(await serverSideTranslations(locale!, [
         "common",
         "form",
@@ -37,20 +55,10 @@ export const getServerSideProps: GetStaticProps = async (ctx) => {
   };
 };
 
-const BuyingRequestDetails = ({ slug, ...props }: any) => {
+const BuyingRequestDetails = ({ br }: any) => {
   const { t } = useTranslation("common");
-  const { data, loading, refetch } = useBuyingRequestBySlugQuery({
-    variables: { slug },
-  });
-  const br = data?.buyingRequestBySlug;
-  const createdBy = data?.buyingRequestBySlug.createdBy;
 
-  useEffect(() => {
-    refetch({ slug });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (loading) return <Loading />;
+  const createdBy = br.createdBy;
 
   // function getParticipantFilter(allowedCompany: IAllowedCompany) {
   //   if (!allowedCompany) return t("NO_PARTICIPANT_FILTER_TEXT");
@@ -89,7 +97,10 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
                 br={br as IBuyingRequest}
               />
             )}
-            <h2 className="text-secondary-1 font-semibold">{br?.name}</h2>
+            <h2 className="text-secondary-1 font-semibold">
+              {`${t("form:requestNamePrefix-value")} - `}
+              {br?.name}
+            </h2>
             <p className="text-lg text-gray-300">{`${createdBy?.firstName} ${createdBy?.lastName}`}</p>
             <Chip
               text={br?.status as string}
@@ -143,14 +154,17 @@ const BuyingRequestDetails = ({ slug, ...props }: any) => {
             </div> */}
             <div className="mt-1 flex items-start">
               <p className="mr-1">{t("application")}:</p>
-              <p className="font-semibold">
-                {!!br?.categoryId ? (
-                  <span className="font-semibold">
-                    {t("category:" + getCategory(br.categoryId).label)}
-                  </span>
-                ) : (
-                  <span className="font-semibold">{t("no-type")}</span>
-                )}
+              <p className="font-semibold fic">
+                <span className="font-semibold">
+                  {t("industry:" + getIndustry(br!.industryId).label)}
+                </span>
+                <UpVIcon
+                  className="rotate-90 mx-1 w-3 h-3"
+                  fill={COLORS.BOLDER}
+                />
+                <span className="font-semibold">
+                  {t("category:" + getCategory(br!.categoryId).label)}
+                </span>
               </p>
             </div>
           </div>

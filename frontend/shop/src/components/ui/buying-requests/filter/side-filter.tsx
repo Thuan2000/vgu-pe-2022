@@ -9,7 +9,11 @@ import IndustrySelect from "./industry-select";
 import LocationSearch from "./location-search";
 import StatusCheckbox from "./status-selector";
 
-const SideFilter: React.FC = () => {
+interface ISideFilterProps {
+  noStatusFilter?: boolean;
+}
+
+const SideFilter: React.FC<ISideFilterProps> = ({ noStatusFilter }) => {
   const { t } = useTranslation();
 
   return (
@@ -22,7 +26,7 @@ const SideFilter: React.FC = () => {
           variant="special-heading"
         />
       </div>
-      <StatusCheckbox />
+      {!noStatusFilter && <StatusCheckbox />}
       <LocationSearch />
       <IndustrySelect />
       <CategorySelect />

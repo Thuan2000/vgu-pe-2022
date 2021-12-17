@@ -13,7 +13,10 @@ import {
   PPIPriceInput,
 } from "./ppi-input-item";
 import { IPPIRow, IPPIPackage } from "./ppi-interfaces";
-import { PPI_PACKAGE_PRICE_NAME } from "./ppi-package-manager";
+import {
+  PPI_PACKAGE_PRICE_ID,
+  PPI_PACKAGE_PRICE_NAME,
+} from "./ppi-package-manager";
 import PPITableItemWrapper from "./ppi-table-item-wrapper";
 import PPIUpdatePackage from "./ppi-update-package";
 
@@ -65,8 +68,8 @@ const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
   function getRowValue(row: IPPIRow) {
     if (!value?.packageRows) return;
     const idx = findIndex(value?.packageRows, (pr) => row?.id === pr?.rowId);
-
-    return value?.packageRows?.at(idx)?.value;
+    if (idx === -1) return "";
+    return value?.packageRows[idx]?.value;
   }
 
   function getInput(row: IPPIRow) {
@@ -126,8 +129,8 @@ const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
           </div>
         )}
       </PPITableItemWrapper>
-      {rows?.map((row) => {
-        if (row.name === PPI_PACKAGE_PRICE_NAME) return;
+      {rows?.map((row, idx) => {
+        if (row.id === PPI_PACKAGE_PRICE_ID) return;
         return (
           <PPITableItemWrapper
             key={"ppi-package-item" + row.id + pkg.id}

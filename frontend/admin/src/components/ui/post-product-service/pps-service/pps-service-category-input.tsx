@@ -41,6 +41,7 @@ const PPSServiceCategoryInput: React.FC<IPPSServiceCategoryInputProps> = ({
         error={t(errors.category?.name?.message || "")}
       />
       <IndustryCategorySelect
+        optionTextSize="xs"
         required
         label={t("serviceIndustryCategory-label")}
         control={control}

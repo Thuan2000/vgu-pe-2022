@@ -19,9 +19,10 @@ export interface IPPIPackageManagerProps {
 }
 
 export const PPI_PACKAGE_PRICE_NAME = "PACKAGE_PRICE_LABEL";
+export const PPI_PACKAGE_PRICE_ID = "package-price-label-row-id-52vdsavsd94vd";
 
 export const packagePriceRow: IPPIRow = {
-  id: generateUUID(),
+  id: PPI_PACKAGE_PRICE_ID,
   inputType: "PRICE",
   name: PPI_PACKAGE_PRICE_NAME,
   description: "PACKAGE_PRICE_DESCRIPTION",
@@ -33,11 +34,12 @@ const PPIPackageManager: React.FC<IPPIPackageManagerProps> = ({
   onAbort,
 }) => {
   const { t } = useTranslation("form");
-  const [rows, setRows] = useState<IPPIRow[]>(value?.rows || [packagePriceRow]);
+  const [rows, setRows] = useState<IPPIRow[]>(
+    !!value?.rows?.length ? [...value?.rows] : [packagePriceRow]
+  );
   const [packages, setPackages] = useState<IPPIPackage[]>(
     value?.packages || [{ id: generateUUID() }]
   );
-
   function handleCreatedRow(r: IPPIRow) {
     setRows([...rows, r]);
   }

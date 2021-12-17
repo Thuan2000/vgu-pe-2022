@@ -35,7 +35,6 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
   trigger,
   control,
   getValues,
-  initValue,
   errors,
 }) => {
   const { t } = useTranslation("form");
@@ -87,6 +86,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
       />
 
       <IndustryCategorySelect
+        optionTextSize="xs"
         control={control}
         categoryControllerName="general.category"
         industryControllerName="general.industry"

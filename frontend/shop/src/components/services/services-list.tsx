@@ -1,5 +1,8 @@
 import { NetworkStatus } from "@apollo/client";
+import { getCategoryByLabel } from "@datas/categories";
+import { getIndustryByLabel } from "@datas/industries";
 import { useServicesQuery } from "@graphql/service.graphql";
+import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import Loader from "../ui/storybook/loader/loader";
@@ -11,12 +14,28 @@ interface IServicesListProps {}
 
 const ServicesList: React.FC<IServicesListProps> = ({}) => {
   const [page, setPage] = useState<number>(0);
+
+  const { query, ...router } = useRouter();
+
+  const searchValue = query.name as string;
+  const location = query.location as string;
+  const productName = query.productName as string;
+  const industryId = parseInt(
+    getIndustryByLabel(query.industry as string)?.id + ""
+  );
+  const categoryId = parseInt(
+    getCategoryByLabel(query.category as string)?.id + ""
+  );
+  const minBudget = query.minBudget as string;
+  const maxBudget = query.maxBudget as string;
+
   const {
     data,
     loading: fetching,
     networkStatus,
     error,
     fetchMore,
+    refetch,
   } = useServicesQuery({ variables: getServiceFetchInput() });
   const services = data?.services.services || [];
   const hasMore = data?.services.pagination.hasMore || false;
@@ -33,9 +52,36 @@ const ServicesList: React.FC<IServicesListProps> = ({}) => {
 
   function getServiceFetchInput() {
     return {
-      input: { offset: getOffset(page), limit: SERVICES_LIMIT },
+      input: {
+        offset: getOffset(page),
+        limit: SERVICES_LIMIT,
+        ...(searchValue ? { searchValue } : {}),
+        ...(location ? { location } : {}),
+        ...(productName ? { productName } : {}),
+        ...(industryId ? { industryId } : {}),
+        ...(minBudget ? { minBudget } : {}),
+        ...(categoryId ? { categoryId } : {}),
+        ...(maxBudget ? { maxBudget } : {}),
+      },
     };
   }
+
+  useEffect(() => {
+    function reFetch() {
+      refetch(getServiceFetchInput());
+    }
+    if (data) reFetch();
+    setPage(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    searchValue,
+    location,
+    productName,
+    industryId,
+    categoryId,
+    minBudget,
+    maxBudget,
+  ]);
 
   function getOffset(page: number) {
     return page * SERVICES_LIMIT;

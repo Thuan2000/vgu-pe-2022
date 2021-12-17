@@ -21,7 +21,7 @@ const BidParticipantFilterInput: React.FC<IBidParticipantFilterInputProps> = ({
     <div className="flex items-center mb-5">
       <InlineLabel labelWidth="192px" text={label} />
 
-      <NumberInput className="md:w-2/3" {...rest} />
+      <NumberInput className="md:w-full" {...rest} />
     </div>
   );
 };

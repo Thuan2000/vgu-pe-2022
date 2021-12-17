@@ -62,6 +62,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
         <Input
           {...register("general.name")}
           error={t(errors?.general?.name?.message || "")}
+          required
           disabled
           onChange={(e) => {
             register("general.name").onChange(e);
@@ -74,6 +75,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
         <PhoneNumberInput
           name="general.contactNumber"
           control={control}
+          required
           onChange={() => {
             trigger("general.contactNumber");
           }}
@@ -86,6 +88,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
         <TextArea
           {...register("general.description")}
           error={t(errors?.general?.description?.message || "")}
+          required
           onChange={(e) => {
             register("general.description").onChange(e);
             trigger("general.description");
@@ -96,6 +99,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
         <div className="space-y-2">
           <NumberInput
             name="general.employeeAmount"
+            required
             onChange={() => {
               trigger("general.employeeAmount");
             }}
@@ -105,6 +109,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
             error={t(errors?.general?.employeeAmount?.message || "")}
           />
           <DateInput
+            required
             name="general.establishmentDate"
             onChange={() => {
               trigger("general.establishmentDate");
@@ -124,11 +129,12 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
                   opt.name === initValue?.settings?.location,
               }
             : {})}
-          label={t("location-input-label")}
+          label={t("check-location-label")}
           onChange={() => {
             trigger("general.location");
           }}
-          placeholder={t("location-input-placeholder")}
+          required
+          placeholder={t("check-location-label")}
           control={control}
           options={vietnamCities}
           getOptionLabel={(opt) => opt.name}
@@ -137,6 +143,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
         />
 
         <Input
+          required
           {...register("general.address")}
           error={t(errors?.general?.address?.message || "")}
           onChange={(e) => {
@@ -148,6 +155,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
         />
 
         <SelectInput
+          required
           name="general.industry"
           {...(initValue?.industryId
             ? { getInitialValue: (opt) => opt.id === initValue?.industryId }
@@ -165,6 +173,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
         />
 
         <SelectInput
+          required
           name="general.businessType"
           {...(initValue?.businessTypeId
             ? { getInitialValue: (opt) => opt.id === initValue?.businessTypeId }
@@ -176,8 +185,8 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           placeholder={t("businessType-input-placeholder")}
           control={control}
           options={businessTypes}
-          getOptionLabel={(opt) => opt.label}
-          getOptionValue={(opt) => opt.label}
+          getOptionLabel={(opt) => t("business-type:" + opt.label)}
+          getOptionValue={(opt) => t("business-type:" + opt.label)}
           error={t((errors?.general?.businessType as any)?.message || "")}
         />
 
