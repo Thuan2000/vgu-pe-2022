@@ -108,5 +108,7 @@
   "location-title": "Delivery Location",
   "postedAt-text": "Posted At",
   "view-more-button-label": "View More",
-  "view-less-button-label": "View Less"
+  "view-less-button-label": "View Less",
+  "homepage-breadcrumb": "Homepage",
+  "not-setup": "Not setup yet"
 }

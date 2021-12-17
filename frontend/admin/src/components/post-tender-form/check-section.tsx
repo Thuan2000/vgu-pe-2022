@@ -26,7 +26,7 @@ const CheckSection: React.FC<ICheckSectionProps> = ({
 
   return (
     <div>
-      <h3 className="text-md sm:text-lg mb-2">
+      <h3 className="text-md sm:text-lg mb-5">
         {t("check-section-title-label")}
       </h3>
       {hasImage && (

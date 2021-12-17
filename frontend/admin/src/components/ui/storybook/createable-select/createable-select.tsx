@@ -5,6 +5,7 @@ import { ActionMeta, Props } from "react-select";
 import Createable from "react-select/creatable";
 import InputErrorMessage from "../inputs/input-error";
 import InputLabel, { IInputLabelProps } from "../inputs/input-label";
+import { selectStyles } from "../select/select.styles";
 import {
   getCreateActionMeta,
   getSelectActionMeta,
@@ -140,7 +141,7 @@ const CreateableSelect = React.forwardRef(
             onChange={handleChange}
             onCreateOption={handleCreateOption}
             options={options}
-            styles={createableStyles}
+            styles={selectStyles}
             closeMenuOnScroll
             className={`rounded-sm border shadow ${inputClassName}`}
             ref={ref as any}

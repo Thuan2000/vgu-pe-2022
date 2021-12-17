@@ -43,7 +43,7 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
                 "business-type:" +
                   getBusinessType(company.businessTypeId as number)?.label
               ) as string)
-            : (t("not-setup") as string)
+            : (t("common:not-setup") as string)
         }
       />
       <CDDetailQuestion

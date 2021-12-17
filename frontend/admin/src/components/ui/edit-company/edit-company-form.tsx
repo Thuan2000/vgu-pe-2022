@@ -173,7 +173,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   }: UpdateCompanyDetailMutation) {
     const { payload, success } = updateCompany ?? {};
     if (success && !!payload) {
-      const { user, company: oldCompany } = getMeData();
+      const { company: oldCompany } = getMeData();
 
       Swal.fire({
         icon: "success",

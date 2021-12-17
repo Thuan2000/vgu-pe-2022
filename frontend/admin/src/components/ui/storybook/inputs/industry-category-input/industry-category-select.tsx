@@ -8,12 +8,14 @@ import Typography from "../../typography";
 import ValidationError from "../../validation-error";
 import InputLabel, { IInputLabelProps } from "../input-label";
 import ICSList from "./ICSList";
+import { FontSize } from "@utils/interfaces";
 
 interface IIndustryCategorySelectProps extends IInputLabelProps {
   control: Control<any>;
   industryControllerName: string;
   categoryControllerName: string;
   error?: string;
+  optionTextSize?: FontSize;
   getCategoryLabel: (e: ICategory) => string;
   getIndustryLabel: (e: IIndustry) => string;
   onIndustryChange?: (e: IIndustry) => void;
@@ -29,6 +31,7 @@ const IndustryCategorySelect: React.FC<IIndustryCategorySelectProps> = ({
   queueBackground,
   label,
   required,
+  optionTextSize = "xs",
   error,
   getCategoryLabel,
   getIndustryLabel,
@@ -72,6 +75,7 @@ const IndustryCategorySelect: React.FC<IIndustryCategorySelectProps> = ({
           <SearchInput className="sm:w-80" />
           <ICSList
             control={control}
+            optionTextSize={optionTextSize}
             industryControllerName={industryControllerName}
             categoryControllerName={categoryControllerName}
             onIndustryChange={onIndustryChange}

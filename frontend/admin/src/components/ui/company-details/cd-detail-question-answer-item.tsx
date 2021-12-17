@@ -21,7 +21,7 @@ const CDDetailQuestionAnswer: React.FC<ICDDetailQuestionAnswerProps> = ({
         variant="description"
       />
       <Typography
-        text={answer ? answer.toString() : t("not-setup")}
+        text={answer ? answer.toString() : t("common:not-setup")}
         variant="smallTitle"
       />
     </div>

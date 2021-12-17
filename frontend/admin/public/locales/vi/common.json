@@ -70,7 +70,6 @@
   "singularCompanywarehouse-title": "Kho hàng",
   "pluralCompanywarehouse-title": "Kho hàng",
 
-
   "noFactory-message": "Chưa có sản xuất",
   "noBranch-message": "Chưa có nhánh",
   "noWarehouse-message": "Chưa có kho hàng",
@@ -89,6 +88,6 @@
   "industry-category-title": "Loại ngành & danh mục",
   "details-title": "Chi tiết",
   "budget-title": "Ngân sách",
-  "location-title": "Địa điểm"
-
+  "location-title": "Địa điểm",
+  "homepage-breadcrumb": "Trang chủ"
 }

@@ -29,6 +29,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     pathname !== ROUTES.LOGIN &&
     pathname !== ROUTES.LOGOUT
   ) {
+    console.log(pathname);
+    console.log(ROUTES.LOGIN);
+    console.log(ROUTES.LOGOUT);
+    console.log("Jalan");
     const fullHref = window.location.href;
     setRedirectLinkAfterLogin(fullHref);
     replace(ROUTES.TO_LOGIN(locale!));

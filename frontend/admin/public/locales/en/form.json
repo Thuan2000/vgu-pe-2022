@@ -294,5 +294,6 @@
   "okay-button-label": "Okay",
   "PACKAGE_PRICE_LABEL": "Package Price",
   "million-suffix": "tr",
-  "billion-suffix": "tỷ"
+  "billion-suffix": "tỷ",
+  "companyAddress-input-label": "Company Address"
 }

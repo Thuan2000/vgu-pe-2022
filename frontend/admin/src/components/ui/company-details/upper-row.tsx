@@ -27,7 +27,7 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
               size="small"
             >
               <PencilIcon className={`mr-3`} />
-              {t("editCompany-button-label")}
+              {t("edit-button-label")}
             </Button>
           </Link>
           <Image

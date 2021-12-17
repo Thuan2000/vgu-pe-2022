@@ -39,6 +39,25 @@ export function viDateFormat(dateString: string | number) {
   return `${day}.${month}.${year}`;
 }
 
+export function toCamelCaseFromSnakeCase(label: string) {
+  label = label.toLowerCase();
+  label = setCharAt(label, 0, label[0]?.toUpperCase());
+  for (let i = 0; i < label.length; i++) {
+    const e = label[i];
+    if (e === "-") {
+      label = setCharAt(label, i, " ");
+      label = setCharAt(label, i + 1, label[i + 1]?.toUpperCase());
+    }
+  }
+  const decodedLabel = label.split("#")[0];
+  return decodedLabel;
+}
+
+export function setCharAt(str: string, index: number, chr: string) {
+  if (index > str.length - 1) return str;
+  return str.substring(0, index) + chr + str.substring(index + 1);
+}
+
 export function formatMoneyAmount(ma: number) {
   let maInString = ma?.toString() || "";
 

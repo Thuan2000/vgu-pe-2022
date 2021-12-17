@@ -19,28 +19,7 @@ export const siteSettings = {
     websiteUrl: "https://emolyze.tech",
     address: "",
   },
-  navigations: [
-    {
-      label: "Trang chủ",
-      href: "#",
-    },
-    {
-      label: "Suppliers",
-      href: "#",
-    },
-    {
-      label: "Nhu cầu mua",
-      href: "#",
-    },
-    {
-      label: "Sản phẩm",
-      href: "#",
-    },
-    {
-      label: "Hỗ trợ",
-      href: "#",
-    },
-  ],
+
   socials: [
     {
       social: "facebook",

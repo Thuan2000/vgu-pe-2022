@@ -182,7 +182,7 @@
   "ppi-row-price-input-type-label": "Giá",
   "abort-set-package-pricing": "Xóa gói",
   "ppi-row-add-row-button-label": "Thêm gói",
-  "pricing-not-setted-error":"Vui lòng thêm giá dịch vụ",
+  "pricing-not-setted-error": "Vui lòng thêm giá dịch vụ",
   "posted-label": "Ngày đăng",
   "companyName-input-label": "Tên Doanh Nghiệp",
   "description-input-label": "Mô Tả",
@@ -208,7 +208,7 @@
   "ec-addBranch-label": "Chi Nhánh",
   "ec-addBranch-button-label": "Thêm Chi Nhánh",
   "ec-addFactory-label": "Nhà máy",
-  "ec-addFactory-button-label" : "Thêm Nhà Máy",
+  "ec-addFactory-button-label": "Thêm Nhà Máy",
   "ec-addWarehouse-label": "Kho Chứa",
   "ec-addWarehouse-button-label": "Thêm Kho Chứa",
   "addBranch-form-title": "Thêm Chi Nhánh",
@@ -239,6 +239,7 @@
   "minSupplierSuffix_label": "đơn vị",
 
   "posted-services-page-title": "Dịch vụ",
-  "posted-products-page-title": "Sản phẩm"
-
+  "posted-products-page-title": "Sản phẩm",
+  "companyAddress-input-label": "Địa chỉ công ty",
+  "error-address-required": "Vui lòng thêm địa chỉ công ty"
 }

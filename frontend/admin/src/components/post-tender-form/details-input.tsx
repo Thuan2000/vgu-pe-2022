@@ -9,9 +9,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
 import ParticipantFilterForm from "./participant-filter-form";
-import DocumentInput from "@components/ui/storybook/document-input";
-import ProductNameSelect from "@components/ui/post-request/product-name-input";
-import { IBuyingRequest, IIndustry } from "@graphql/types.graphql";
+import { IBuyingRequest } from "@graphql/types.graphql";
 import SelectInput from "@components/ui/storybook/select-input";
 import PRFBudgetInput from "./details-form/ptf-budget-input";
 import PRFQuantityInput from "./details-form/prf-quantity-input";

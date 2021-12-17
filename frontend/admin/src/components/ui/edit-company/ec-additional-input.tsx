@@ -7,6 +7,7 @@ import {
   UseFormTrigger,
   UseFormGetValues,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import DocumentInput from "../storybook/document-input";
 import { ECFormValues } from "./ec-schema";
 
@@ -19,10 +20,12 @@ interface IECAdditionalInputProps {
 }
 
 const ECAdditionalInput: React.FC<IECAdditionalInputProps> = ({ control }) => {
+  const { t } = useTranslation("form");
+
   return (
     <div className="space-y-5 w-2/3">
       <DocumentInput
-        label={"ec-gallery-input-label"}
+        label={t("ec-gallery-input-label")}
         control={control}
         name="additional.gallery"
         accept="image/*"
@@ -31,7 +34,7 @@ const ECAdditionalInput: React.FC<IECAdditionalInputProps> = ({ control }) => {
       />
 
       <DocumentInput
-        label={"ec-certificates-input-label"}
+        label={t("ec-certificates-input-label")}
         control={control}
         name="additional.certificates"
         accept={getDocumentAccept()}
