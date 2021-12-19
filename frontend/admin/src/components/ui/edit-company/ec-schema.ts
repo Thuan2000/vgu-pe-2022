@@ -11,7 +11,7 @@ export type ECGeneralFormValues = {
   description: string;
   establishmentDate: Date;
   industry: IIndustry;
-  businessType: IBusinessType;
+  businessTypes: IBusinessType[];
   location: IVietnamCity;
   address: string;
   profileImage?: IFile;

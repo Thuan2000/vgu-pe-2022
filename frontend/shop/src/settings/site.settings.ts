@@ -2,6 +2,7 @@ import FacebookGrayIcon from "@assets/icons/socials/facebook-gray-icon";
 import InstagramGrayIcon from "@assets/icons/socials/instagram-gray-icon";
 import { ROUTES } from "@utils/routes";
 import AvatarIcon from "@assets/Avatars.svg";
+import ProfilePlaceholder from "@assets/company-profile-placeholder.svg";
 
 export const siteSettings = {
   appName: "SDConnect",
@@ -15,6 +16,7 @@ export const siteSettings = {
   },
   defaultLanguange: "vi",
   imagePlaceholder: AvatarIcon,
+  companyProfileImagePlaceholder: ProfilePlaceholder,
   author: {
     name: "Emolyze.tech",
     websiteUrl: "https://emolyze.tech",
@@ -41,10 +43,10 @@ export const siteSettings = {
       label: "SERVICES_NAV_LABEL",
       href: ROUTES.SERVICES,
     },
-    {
-      label: "SUPPORT_NAV_LABEL",
-      href: ROUTES.SUPPORT,
-    },
+    // {
+    //   label: "SUPPORT_NAV_LABEL",
+    //   href: ROUTES.SUPPORT,
+    // },
   ],
   socials: [
     {

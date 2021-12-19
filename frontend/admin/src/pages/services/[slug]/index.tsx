@@ -10,6 +10,7 @@ import { ServiceDocument } from "@graphql/service.graphql";
 import { IService } from "@graphql/types.graphql";
 import { initApollo } from "@utils/apollo";
 import { viDateFormat } from "@utils/functions";
+import { PAGE_NAME } from "@utils/pagePath";
 import { generateHeadTitle } from "@utils/seo-utils";
 import { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
@@ -111,5 +112,6 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
 };
 
 (ServiceDetail as any).Layout = PageLayout;
+(ServiceDetail as any).PageName = PAGE_NAME.POSTED_PRODUCT;
 
 export default ServiceDetail;

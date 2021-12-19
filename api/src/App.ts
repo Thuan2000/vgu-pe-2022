@@ -11,7 +11,6 @@ import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
 
 import Database from "@services/database.service";
 import { getUserFromToken } from "@utils/functions";
-import Sqs from "@services/sqs.service";
 import AWSService from "@services/aws.services";
 
 class App {

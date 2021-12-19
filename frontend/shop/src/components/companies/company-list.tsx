@@ -1,43 +1,47 @@
-import { NetworkStatus } from "@apollo/client";
-import { getCategoryByLabel } from "@datas/categories";
-import { getIndustryByLabel } from "@datas/industries";
-import { useServicesQuery } from "@graphql/service.graphql";
-import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
+import { useCompaniesQuery } from "@graphql/company.graphql";
+import { useTranslation } from "next-i18next";
+import CompanyCard from "./company-card";
+import { useRouter } from "next/router";
+import { getIndustryByLabel } from "@datas/industries";
+import { NetworkStatus } from "@apollo/client";
 import useInfiniteScroll from "react-infinite-scroll-hook";
-import Loader from "../ui/storybook/loader/loader";
-import ServiceCard from "./service-card";
+import Loader from "@components/ui/storybook/loader/loader";
+import { viFormatDateToOriginalDate } from "@utils/functions";
 
-const SERVICES_LIMIT = 30;
+interface ICompanyListProps {}
 
-interface IServicesListProps {}
+const COMPANIES_LIMIT = 1;
 
-const ServicesList: React.FC<IServicesListProps> = ({}) => {
+const CompanyList: React.FC<ICompanyListProps> = ({}) => {
+  const { t } = useTranslation();
   const [page, setPage] = useState<number>(0);
 
-  const { query, ...router } = useRouter();
+  const { query } = useRouter();
 
   const searchValue = query.name as string;
   const location = query.location as string;
+  const establishment = query.establishment as string;
   const industryId = parseInt(
     getIndustryByLabel(query.industry as string)?.id + ""
   );
-  const categoryId = parseInt(
-    getCategoryByLabel(query.category as string)?.id + ""
-  );
-  const minBudget = query.minBudget as string;
-  const maxBudget = query.maxBudget as string;
+
+  function getOffset(page: number) {
+    return page * COMPANIES_LIMIT;
+  }
 
   const {
     data,
-    loading: fetching,
+    refetch,
+    fetchMore,
     networkStatus,
     error,
-    fetchMore,
-    refetch,
-  } = useServicesQuery({ variables: getServiceFetchInput() });
-  const services = data?.services.services || [];
-  const hasMore = data?.services.pagination.hasMore || false;
+    loading: fetching,
+  } = useCompaniesQuery({
+    variables: getServiceFetchInput(),
+  });
+  const companies = data?.companies?.companies;
+  const hasMore = data?.companies?.pagination?.hasMore;
 
   useEffect(() => {
     function getMoreBrs() {
@@ -53,13 +57,16 @@ const ServicesList: React.FC<IServicesListProps> = ({}) => {
     return {
       input: {
         offset: getOffset(page),
-        limit: SERVICES_LIMIT,
+        limit: COMPANIES_LIMIT,
         ...(searchValue ? { searchValue } : {}),
         ...(location ? { location } : {}),
         ...(industryId ? { industryId } : {}),
-        ...(minBudget ? { minBudget } : {}),
-        ...(categoryId ? { categoryId } : {}),
-        ...(maxBudget ? { maxBudget } : {}),
+        ...(establishment
+          ? {
+              establishmentDate:
+                viFormatDateToOriginalDate(establishment).getTime(),
+            }
+          : {}),
       },
     };
   }
@@ -71,17 +78,13 @@ const ServicesList: React.FC<IServicesListProps> = ({}) => {
     if (data) reFetch();
     setPage(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue, location, industryId, categoryId, minBudget, maxBudget]);
-
-  function getOffset(page: number) {
-    return page * SERVICES_LIMIT;
-  }
+  }, [searchValue, location, industryId, establishment]);
 
   const [sentryRef] = useInfiniteScroll({
     loading: networkStatus === NetworkStatus.fetchMore,
     onLoadMore,
     disabled: !!error,
-    hasNextPage: hasMore,
+    hasNextPage: hasMore || false,
     rootMargin: "0px 0px 200px 0px",
   });
 
@@ -90,17 +93,17 @@ const ServicesList: React.FC<IServicesListProps> = ({}) => {
   }
 
   return (
-    <div className={`grid grid-cols-4 gap-x-10 gap-y-5 w-full`}>
-      {services.map((s) => {
-        return <ServiceCard service={s as any} key={s?.id + "service-card"} />;
+    <main className={`mt-4 w-full space-y-4`}>
+      {companies?.map((c) => {
+        return <CompanyCard key={"company-list" + c.id} company={c as any} />;
       })}
-
       {(fetching || hasMore) && (
         <div ref={sentryRef} className="pt-2">
           <Loader spinnerOnly className="mt-4" />
         </div>
       )}
-    </div>
+    </main>
   );
 };
-export default ServicesList;
+
+export default CompanyList;

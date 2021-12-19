@@ -26,7 +26,7 @@ const HCSearchBy: React.FC<IHCSearchByProps> = ({}) => {
   return (
     <div className={`grid grid-cols-4 gap-x-10`}>
       {searchByItems.map((sbi) => (
-        <HCSearchByItem item={sbi} key={sbi + "search-by-homepage"} />
+        <HCSearchByItem item={sbi} key={sbi.keyword + "search-by-homepage"} />
       ))}
     </div>
   );

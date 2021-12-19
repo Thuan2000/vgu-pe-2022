@@ -1,6 +1,8 @@
 import PageLayout from "@components/layouts/page-layout";
 import PostPageWrapper from "@components/post-page-wrapper";
 import PostedServices from "@components/posted-product-service/posted-services";
+import UnderDevelopment from "@components/under-development";
+import { PAGE_NAME } from "@utils/pagePath";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/dist/client/router";
@@ -55,7 +57,13 @@ const PostedProductServices: React.FC<IPostedProductServicesProps> = ({}) => {
   return (
     <div>
       <PostPageWrapper noXPadding navs={postedPSNavs}>
-        {target === serviceTarget ? <PostedServices /> : <div>Product</div>}
+        {target === serviceTarget ? (
+          <PostedServices />
+        ) : (
+          <div>
+            <UnderDevelopment />
+          </div>
+        )}
       </PostPageWrapper>
     </div>
   );
@@ -72,5 +80,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 (PostedProductServices as any).Layout = PageLayout;
+(PostedProductServices as any).PageName = PAGE_NAME.POSTED_PRODUCT;
 
 export default PostedProductServices;

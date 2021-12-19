@@ -3,7 +3,7 @@ import Footer from "@components/layouts/footer";
 import PageLayout from "@components/layouts/page-layout";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import BuyingRequestsList from "@components/ui/buying-requests/feed/buying-requests-list";
-import SideFilter from "@components/ui/buying-requests/filter/side-filter";
+import SideFilter from "@components/ui/common-filter/side-filter";
 import AppliedFilter from "@components/ui/navbar/applied-filter";
 import UnderDevelopment from "@components/under-development";
 import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
@@ -46,14 +46,14 @@ const BuyingRequests: React.FC = () => {
           content="DSConnect.VN | The best B2B Ecommerce in Vietnam provide a fast supply demain chain to fit your need"
         />
       </Head>
-      <div className="flex relative mb-8">
+      <main className="flex relative space-x-6 mb-8">
         <div className="sticky top-40 h-fit-content">
           <SideFilter />
         </div>
         <div className={`w-full`}>
-          <BuyingRequestsList className="mt-4 w-full space-y-4" />
+          <BuyingRequestsList />
         </div>
-      </div>
+      </main>
     </>
   );
 };

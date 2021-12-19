@@ -39,8 +39,8 @@ function modalReducer(state: StateType, { type, ...action }: ActionType) {
 
 const initCtxValue: ModalContextType = {
   state: initState,
-  openModal: (_) => console.log("Opening modal "),
-  closeModal: () => console.log("Closing modal"),
+  openModal: (_) => null,
+  closeModal: () => null,
 };
 
 const ModalContext = React.createContext<ModalContextType>(initCtxValue);

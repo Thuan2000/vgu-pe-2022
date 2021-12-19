@@ -13,7 +13,10 @@ const ECFormGeneralResolver = yup.object({
     .string()
     .required("ec-form-establishmentDate-required-error"),
   industry: yup.object().required("ec-form-industry-required-error"),
-  businessType: yup.object().required("ec-form-businessType-required-error"),
+  businessTypes: yup
+    .array()
+    .min(1, "ec-form-businessType-required-error")
+    .required("ec-form-businessType-required-error"),
   // mainProducts: yup.array().required("ec-form-mainProducts-required-error"),
 });
 

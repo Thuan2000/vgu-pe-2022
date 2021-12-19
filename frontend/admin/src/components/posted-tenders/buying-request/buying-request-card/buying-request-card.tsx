@@ -8,6 +8,7 @@ import Checkbox from "@components/ui/storybook/checkbox";
 import { siteSettings } from "@settings/site.settings";
 import BrcExtras from "./brc-extras";
 import BRCExternalInfo from "./brc-external-info";
+import { useTranslation } from "react-i18next";
 
 export interface IExtraMenu {
   label: string;
@@ -34,6 +35,8 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
   postedTextLabel,
   ...props
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className={`border rounded-md shadow-md flex relative md:w-49p max-h-44
@@ -62,7 +65,9 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
       </div>
       <div className="ml-2 md:ml-5 py-4 w-full">
         <BRCGeneralInfo
-          name={br.name}
+          name={`${t("form:requestNamePrefix-value")} - 
+            ${br.name}
+            `}
           minOrder={br.minOrder}
           status={br.status}
           location={br.location}

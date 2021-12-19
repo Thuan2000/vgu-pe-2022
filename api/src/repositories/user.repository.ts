@@ -8,7 +8,7 @@ import {
 	EMAIL_SUBJECTS
 } from "@utils/email_constants";
 import { getUserName } from "@utils/functions";
-import { Model } from "sequelize/types";
+import { Model } from "sequelize";
 import User from "@models/User";
 import AuthRepository from "./auth.repository";
 

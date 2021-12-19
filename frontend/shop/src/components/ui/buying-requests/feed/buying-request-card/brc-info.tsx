@@ -44,7 +44,11 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
             href={`${ROUTES.TENDERS}/${br.slug}`}
             rel="noreferrer"
           >
-            <Typography text={name} element="h3" size="md" />
+            <Typography
+              text={`${t("requestNamePrefix-value")} - ${name}`}
+              element="h3"
+              size="md"
+            />
           </Link>
           <div className="flex items-center space-x-2">
             <div className="flex items-center space-x-1">

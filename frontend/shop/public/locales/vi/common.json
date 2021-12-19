@@ -105,7 +105,7 @@
   "greeting": "Xin Chào",
   "searchFor-text": "Tìm kiếm",
   "budget-sign": "đ",
-  
+
   "will-available-soon-text": "Tính năng sẽ hoạt động trong thời gian tới, vui lòng trở lại sau!",
 
   "SERVICES_NAV_LABEL": "Dịch vụ",
@@ -123,5 +123,6 @@
   "min": "Min",
   "max": "Max",
   "budgetTo-label": "Đến",
-  "budgetFrom-label": "Từ"
+  "budgetFrom-label": "Từ",
+  "requestNamePrefix-value": "Cần mua"
 }

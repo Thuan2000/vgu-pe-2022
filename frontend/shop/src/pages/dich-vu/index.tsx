@@ -7,7 +7,7 @@ import { generateHeadTitle } from "@utils/seo-utils";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { IServiceListItem } from "@graphql/types.graphql";
-import SideFilter from "@components/ui/buying-requests/filter/side-filter";
+import SideFilter from "@components/ui/common-filter/side-filter";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import useIsPhone from "src/hooks/isPhone.hook";
 import ServicesList from "@components/services/services-list";

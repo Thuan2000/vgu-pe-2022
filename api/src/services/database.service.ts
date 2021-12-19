@@ -1,5 +1,4 @@
 import "dotenv/config";
-import { ENODE_ENV, NODE_ENV } from "@utils";
 import { Options, Sequelize } from "sequelize";
 
 export enum ESequelizeDialect {

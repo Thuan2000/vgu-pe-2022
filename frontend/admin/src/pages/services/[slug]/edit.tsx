@@ -8,6 +8,7 @@ import { IService } from "@components/ui/storybook/inputs/group-pricing-input/gp
 import PageLayout from "@components/layouts/page-layout";
 import PostPageWrapper from "@components/post-page-wrapper";
 import { postProductNavs } from "@components/ui/post-product-service/pps-contstants";
+import { PAGE_NAME } from "@utils/pagePath";
 
 interface IEditServiceProps {
   service: IService;
@@ -52,5 +53,6 @@ const EditService: React.FC<IEditServiceProps> = ({ service }) => {
 };
 
 (EditService as any).Layout = PageLayout;
+(EditService as any).PageName = PAGE_NAME.POSTED_PRODUCT;
 
 export default EditService;

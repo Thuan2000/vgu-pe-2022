@@ -123,7 +123,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
             {/* Right section */}
             <div className="w-full">
               <BRDName
-                name={br.name}
+                name={`${t("requestNamePrefix-value")} - ${br.name}`}
                 companyName={br.company.name}
                 createdAt={viDateFormat(br.createdAt)}
                 status={br.status}

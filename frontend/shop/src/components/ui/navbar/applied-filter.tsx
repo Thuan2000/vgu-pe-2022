@@ -9,7 +9,7 @@ const AppliedFilter: React.FC<IAppliedFilterProps> = ({}) => {
   const { query } = useRouter();
 
   return (
-    <div className="fic ml-40 justify-start w-2/3 flex-wrap">
+    <div className="fic ml-16 justify-start w-2/3 flex-wrap">
       {(keys(query) as any)?.map((q: any) => {
         if (q === "slug") return;
         return (

@@ -13,7 +13,9 @@ import S3 from "@services/s3.service";
 import EmailService from "@services/email.service";
 import UserRepository from "@repositories/user.repository";
 import User from "@models/User";
-import { IUpdateCompanyDetailsInput } from "@graphql/types";
+import { IFetchCompanyInput, IUpdateCompanyDetailsInput } from "@graphql/types";
+import { Op, Sequelize } from "sequelize";
+import CompanyRepository from "@repositories/company.repository";
 
 type IRegisterResp = {
 	success: boolean;
@@ -24,6 +26,57 @@ type IRegisterResp = {
 class CompanyController {
 	s3 = new S3();
 	email = new EmailService();
+
+	static async getCompanies({
+		limit,
+		offset,
+		establishmentDate,
+		...input
+	}: IFetchCompanyInput) {
+		const {
+			count: dataCount,
+			rows: companies
+		} = await Company.findAndCountAll({
+			limit,
+			offset,
+			where: {
+				...(establishmentDate
+					? {
+							establishmentDate: {
+								[Op.gte]: establishmentDate
+							}
+					  }
+					: {}),
+				...input
+			},
+			nest: true,
+			raw: true,
+			attributes: [
+				"id",
+				"name",
+				"slug",
+				CompanyRepository.sequelizeFnGetBranchAmount() as any,
+				CompanyRepository.sequelizeFnGetMainProducts() as any,
+				CompanyRepository.sequelizeFnGetCoverImage() as any,
+				"location",
+				"industryId",
+				"businessTypeIds",
+				"establishmentDate"
+				// "responseTime"
+			]
+		});
+
+		const hasMore =
+			offset + companies.length < dataCount && companies.length === limit;
+
+		return {
+			companies,
+			pagination: {
+				dataCount,
+				hasMore
+			}
+		};
+	}
 
 	static async getCompany(slug: string) {
 		try {

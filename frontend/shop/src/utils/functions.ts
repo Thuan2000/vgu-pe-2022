@@ -49,6 +49,12 @@ export function viDateFormat(dateString: string | number) {
   return `${day}.${month}.${year}`;
 }
 
+export function viFormatDateToOriginalDate(viDateFormat: string) {
+  const [day, month, year]: any = viDateFormat?.split(".") || [];
+
+  return new Date(year, month - 1, day);
+}
+
 export function formatDateWithHour(dateString: string | number) {
   const date = new Date(dateString);
   const day = appendZeroOnLessTen(date.getDate());
@@ -207,4 +213,19 @@ export function getUserLastName() {
   const { user } = getMeData();
 
   return `${user?.lastName}`;
+}
+
+/**
+ *
+ * @param date stringDate
+ *
+ */
+export function getCompanyExperience(date: string) {
+  const companyYear = new Date(date).getFullYear();
+  const nowYear = new Date().getFullYear();
+
+  return {
+    amount: companyYear - nowYear,
+    timeUnit: "YEAR",
+  };
 }

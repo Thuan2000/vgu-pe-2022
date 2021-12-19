@@ -1,6 +1,10 @@
 import React from "react";
 
-import { getBusinessType } from "@datas/businessTypes";
+import {
+  businessTypes,
+  getBusinessType,
+  getBusinessTypes,
+} from "@datas/businessTypes";
 import { ICompany } from "@graphql/types.graphql";
 import { getYear } from "@utils/functions";
 import { useTranslation } from "next-i18next";
@@ -14,6 +18,15 @@ interface ICDDetailsProps {
 const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
   const { t } = useTranslation();
   const { settings } = company || {};
+
+  function getBusinessTypesText() {
+    const bts = getBusinessTypes(company?.businessTypeIds as number[]);
+
+    return bts.map((bt: any, idx: number) => {
+      return `${t("business-type:" + bt.label)}, `;
+    });
+  }
+
   return (
     <div className={`col-span-2 border p-3 rounded-md space-y-1`}>
       <Typography
@@ -38,11 +51,8 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
       <CDDetailQuestion
         question={t("businessType-text")}
         answer={
-          !!company.businessTypeId
-            ? (t(
-                "business-type:" +
-                  getBusinessType(company.businessTypeId as number)?.label
-              ) as string)
+          !!company.businessTypeIds
+            ? getBusinessTypesText()
             : (t("common:not-setup") as string)
         }
       />

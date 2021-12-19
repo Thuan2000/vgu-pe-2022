@@ -64,6 +64,18 @@ function createApolloClient() {
                   : incoming;
               },
             },
+            companies: {
+              keyArgs: false,
+              merge(existing, incoming) {
+                console.log(existing?.companies);
+                return existing
+                  ? {
+                      ...incoming,
+                      companies: [...existing.companies, ...incoming.companies],
+                    }
+                  : incoming;
+              },
+            },
           },
         },
       },
