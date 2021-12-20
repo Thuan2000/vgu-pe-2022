@@ -105,7 +105,7 @@ extend type Mutation {
 }
 
 extend type Query {
-	bulkData: Response!
+	firstBulk: Response!
 	deleteIndex: Response!
 	createIndex: Response!
 	adminBuyingRequests(

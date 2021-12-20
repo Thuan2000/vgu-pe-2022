@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import BuyingRequest from "@models/BuyingRequest";
 import ProductName from "@models/ProductName";
 
@@ -40,24 +41,63 @@ export function setBrGallery(data: Promise<unknown>[], br: BuyingRequest) {
 	});
 }
 
-export const searchQuery = (inputName: string) => ({
-	bool: {
-		should: [
-			{
-				match: {
-					name: inputName?.toLowerCase()
-				}
-			},
-			{
-				wildcard: {
-					name: `*${inputName?.toLowerCase()}*`
-				}
-			},
-			{
-				fuzzy: {
-					name: inputName?.toLowerCase()
-				}
+function getNameShouldQuery(name: string) {
+	return [
+		{
+			match: {
+				name: name?.toLowerCase()
 			}
-		]
-	}
-});
+		},
+		{
+			wildcard: {
+				name: `*${name?.toLowerCase()}*`
+			}
+		},
+		{
+			fuzzy: {
+				name: name?.toLowerCase()
+			}
+		}
+	];
+}
+
+function getMinBudgetFilter(minBudget) {
+	if (!minBudget) return {};
+	return { minBudget: { gte: minBudget } };
+}
+
+function getMaxBudgetFilter(maxBudget) {
+	if (!maxBudget) return {};
+	return { maxBudget: { lte: maxBudget } };
+}
+
+export const searchQuery = (inputName: string, filter: any) => {
+	const queryAll = { match_all: {} };
+	if (!inputName) return queryAll;
+
+	const query = {
+		bool: {
+			should: getNameShouldQuery(inputName),
+			filter: [
+				{
+					range: {
+						...getMinBudgetFilter(filter.minBudget),
+						...getMaxBudgetFilter(filter.maxBudget)
+					}
+				}
+			]
+		}
+	};
+
+	return query;
+};
+
+export function nameSuggestionQuery(name: string) {
+	const query = {
+		bool: {
+			should: getNameShouldQuery(name)
+		}
+	};
+
+	return query;
+}

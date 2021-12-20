@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import {
 	ICreateBuyingRequestInput,
 	IFetchBrInput,
@@ -17,7 +18,10 @@ import Category from "../models/Category";
 import Industry from "../models/Industry";
 import Company from "@models/Company";
 import Project from "@models/Project";
-import { searchQuery } from "@repositories/buying-request.repository";
+import {
+	nameSuggestionQuery,
+	searchQuery
+} from "@repositories/buying-request.repository";
 import Bid from "@models/Bid";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
 
@@ -74,76 +78,78 @@ class BuyingRequestController {
 		} = input;
 
 		const queryBody = {
-			_source: ["id"],
-			query: searchQuery(searchValue)
+			query: searchQuery(searchValue, {
+				minBudget,
+				industryId,
+				categoryId
+			}),
+			sort: [{ status: { order: "desc" } }]
 		};
 
-		// TODO: Instead of querying ids from ES and then query again from MySQL. Return results from E.S. directly.
-		const { idCount, ids } = searchValue
-			? await BuyingRequest.getMatchSearched(queryBody)
-			: { idCount: null, ids: null };
+		const { dataCount: count, brs } = await BuyingRequest.getMatchSearched(
+			queryBody
+		);
+		const hasMore = offset + brs.length < count && brs.length === limit;
 
-		const { rows: data, count } = await BuyingRequest.findAndCountAll({
-			...(!searchValue ? { offset } : {}),
-			...(!searchValue ? { limit } : {}),
-			distinct: true,
-			where: {
-				...(ids ? { id: ids } : {}),
-				...(companyId ? { companyId } : {}),
-				...(minBudget
-					? {
-							minBudget: {
-								[Op.gte]: minBudget
-							}
-					  }
-					: {}),
-				...(maxBudget
-					? {
-							maxBudget: {
-								[Op.lte]: maxBudget
-							}
-					  }
-					: {}),
-				...(status && status !== "ALL" ? { status } : {}),
-				...(industryId ? { industryId } : {}),
-				...(categoryId ? { categoryId } : {}),
-				...(location ? { location } : {})
-			},
-			order: [
-				[
-					Sequelize.fn(
-						"FIELD",
-						Sequelize.col("buyingRequest.companyId"),
-						companyId
-					),
-					"ASC"
-				],
+		// const { rows: data, count } = await BuyingRequest.findAndCountAll({
+		// 	...(!searchValue ? { offset } : {}),
+		// 	...(!searchValue ? { limit } : {}),
+		// 	distinct: true,
+		// 	where: {
+		// 		// ...(ids ? { id: ids } : {}),
+		// 		...(companyId ? { companyId } : {}),
+		// 		...(minBudget
+		// 			? {
+		// 					minBudget: {
+		// 						[Op.gte]: minBudget
+		// 					}
+		// 			  }
+		// 			: {}),
+		// 		...(maxBudget
+		// 			? {
+		// 					maxBudget: {
+		// 						[Op.lte]: maxBudget
+		// 					}
+		// 			  }
+		// 			: {}),
+		// 		...(status && status !== "ALL" ? { status } : {}),
+		// 		...(industryId ? { industryId } : {}),
+		// 		...(categoryId ? { categoryId } : {}),
+		// 		...(location ? { location } : {})
+		// 	},
+		// 	order: [
+		// 		[
+		// 			Sequelize.fn(
+		// 				"FIELD",
+		// 				Sequelize.col("buyingRequest.companyId"),
+		// 				companyId
+		// 			),
+		// 			"ASC"
+		// 		]
 
-				ids
-					? Sequelize.fn("FIELD", Sequelize.col("buyingRequest.id"), [
-							...ids
-					  ])
-					: ["id", "asc"]
-			],
-			include: [
-				Company,
-				Category,
-				Project,
-				Industry,
-				{
-					model: Bid,
-					as: "bids",
-					attributes: ["id", "createdAt"],
-					include: [{ model: Company, attributes: ["id"] }]
-				},
-				{ model: User, as: "createdBy" }
-			]
-		});
+		// 		// ids
+		// 		// 	? Sequelize.fn("FIELD", Sequelize.col("buyingRequest.id"), [
+		// 		// 			...ids
+		// 		// 	  ])
+		// 		// 	: ["id", "asc"]
+		// 	],
+		// 	include: [
+		// 		Company,
+		// 		Project,
+		// 		{
+		// 			model: Bid,
+		// 			as: "bids",
+		// 			attributes: ["id", "createdAt"],
+		// 			include: [{ model: Company, attributes: ["id"] }]
+		// 		},
+		// 		{ model: User, as: "createdBy" }
+		// 	]
+		// });
 
-		const hasMore = offset + data.length < count && data.length === limit;
+		// const hasMore = offset + data.length < count && data.length === limit;
 
 		return {
-			data,
+			data: brs,
 			pagination: {
 				dataCount: count,
 				hasMore
@@ -227,6 +233,7 @@ class BuyingRequestController {
 				"slug",
 				generateSlug(name, newBuyingRequest.getDataValue("id"))
 			);
+
 			// @TODO : Remove This later on es refactor
 			BuyingRequest.insertIndex(newBuyingRequest.toJSON());
 
@@ -239,7 +246,7 @@ class BuyingRequestController {
 
 	async updateBuyingRequest(id, newValue: IUpdateBuyingRequestInput) {
 		// @ TODO Make this work
-		// await BuyingRequest.update(newValue, { where: id });
+		// await BuyingRequest.updateESIndex(newValue, { where: id });
 
 		const curBr = await BuyingRequest.findByPk(id);
 		curBr.update(newValue);
@@ -251,9 +258,8 @@ class BuyingRequestController {
 
 	async getSuggestion(inputName: string, limit: number) {
 		const queryBody = {
-			query: searchQuery(inputName),
+			query: nameSuggestionQuery(inputName),
 			highlight: {
-				// eslint-disable-next-line @typescript-eslint/camelcase
 				tags_schema: "styled",
 				fields: {
 					name: {}
