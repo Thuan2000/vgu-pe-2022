@@ -83,12 +83,12 @@
   "postedAt-text": "Ngày đăng",
   "categoryFilter-placeholder": "Tư vấn doanh nghiệp",
   "HOMEPAGE_NAV_LABEL": "Trang chủ",
-  "COMPANY_NAV_LABEL": "Danh bạ công ty",
+  "COMPANY_NAV_LABEL": "Nhà cung cấp",
   "TENDER_NAV_LABEL": "Nhu cầu thu mua",
   "PRODUCT_SERVICES_NAV_LABEL": "Sản phẩm / Dịch vụ",
   "SUPPORT_NAV_LABEL": "Hỗ trợ",
   "TENDER_PAGE_SEARCH_LABEL": "Nhu cầu thu mua",
-  "COMPANY_PAGE_SEARCH_LABEL": "Danh bạ công ty",
+  "COMPANY_PAGE_SEARCH_LABEL": "Nhà cung cấp",
   "PRODUCT_SERVICE_PAGE_SEARCH_LABEL": "Sản phẩm / Dịch vụ",
   "SUPPORT_PAGE_SEARCH_LABEL": "Trang chủ",
   "HOMEPAGE_PAGE_SEARCH_LABEL": "Hỗ trợ",
@@ -124,5 +124,10 @@
   "max": "Max",
   "budgetTo-label": "Đến",
   "budgetFrom-label": "Từ",
-  "requestNamePrefix-value": "Cần mua"
+  "requestNamePrefix-value": "Cần mua",
+
+  "min-establishmentDate-filter-label": "Ngày thành lập tối thiểu",
+  "establishmentDate-filter-placeholder": "12/12/2021",
+  "danh-ba-cong-ty": "Nhà cung cấp",
+  "nhu-cau-thu-mua": "Nhu cầu thu mua"
 }
