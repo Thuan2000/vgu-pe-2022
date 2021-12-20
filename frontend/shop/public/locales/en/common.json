@@ -96,7 +96,7 @@
   "post-COMPANY_PAGE_SEARCH_LABEL-link-button-label": "Update Company",
   "post-TENDER_PAGE_SEARCH_LABEL-link-button-label": "Post Tender",
   "post-PRODUCT_SERVICE_PAGE_SEARCH_LABEL-link-button-label": "Post Product / Service",
-  "danh-ba-cong-ty": "Compaies",
+  "danh-ba-cong-ty": "Companies",
   "nhu-cau-thu-mua": "Tenders",
   "san-pham-dich-vu": "Products / Services",
   "ho-tro": "Support",
@@ -125,5 +125,14 @@
   "service-updateKey-sort-button-label": "Your Question",
   "service-date-sort-button-label": "Newest",
   "service-questions-text": "Questions",
-  "service-discussion-title": "Discussion"
+  "service-discussion-title": "Discussion",
+  "requestNamePrefix-value": "Request",
+  "no-information": "No Information",
+  "branches-text": "Branches",
+  "branch-text": "Branch",
+  "year-text": "Year",
+  "years-text": "Years",
+  "yourCompany-button-label": "Your Company",
+  "min-establishmentDate-filter-label": "Min Establishment Date",
+  "establishmentDate-filter-placeholder": "12/12/2021"
 }

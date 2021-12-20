@@ -23,7 +23,7 @@ class AuthController {
 							"name",
 							"slug",
 							"industryId",
-							"businessTypeId",
+							"businessTypeIds",
 							"approved",
 							"establishmentDate"
 							// [Sequelize.fn("JSON_VALUE",Sequelize.col("settings"),"$.contactNumber"),"contact number"]

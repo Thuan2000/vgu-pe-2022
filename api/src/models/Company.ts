@@ -1,6 +1,5 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
-import Service from "./Service";
 
 class Company extends Model {
 	/**
@@ -18,16 +17,18 @@ Company.init(
 		name: DataTypes.STRING,
 		description: DataTypes.TEXT,
 		industryId: DataTypes.INTEGER,
-		businessTypeId: DataTypes.INTEGER,
+		businessTypeIds: DataTypes.JSON,
 		establishmentDate: DataTypes.DATE,
 		location: DataTypes.STRING,
+		membership: DataTypes.INTEGER,
 		settings: DataTypes.JSON,
 		slug: DataTypes.STRING,
 		licenseNumber: DataTypes.STRING,
 		licenseFiles: DataTypes.JSON,
 		certificates: DataTypes.JSON,
 		approved: DataTypes.BOOLEAN,
-		ownerId: DataTypes.INTEGER
+		ownerId: DataTypes.INTEGER,
+		isFullInfo: DataTypes.BOOLEAN
 	},
 	{
 		tableName: "companies",

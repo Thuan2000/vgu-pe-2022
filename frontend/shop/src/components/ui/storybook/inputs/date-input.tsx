@@ -26,7 +26,6 @@ interface DatepickerProps extends ReactDatePickerProps {
   inputClassName?: string;
   variant?: "normal" | "solid" | "outline";
   shadow?: boolean;
-  name: string;
   note?: string;
   error?: string;
 }

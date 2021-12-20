@@ -74,7 +74,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
         {links.map((p, idx) => {
           const isLast = idx === paths.length - 1;
           return (
-            <>
+            <div key={p.href + "breadcrumb"} className={`fic space-x-1`}>
               <UpVIcon className="rotate-90 w-3 h-3" />
               {!isLast ? (
                 <Link href={p.href}>
@@ -83,7 +83,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
               ) : (
                 <Item isLast label={p.label} />
               )}
-            </>
+            </div>
           );
         })}
       </div>

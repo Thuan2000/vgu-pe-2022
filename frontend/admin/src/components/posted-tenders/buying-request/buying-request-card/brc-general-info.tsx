@@ -27,7 +27,9 @@ const BRCGeneralInfo: React.FC<IBRCGeneralInfoProps> = ({
   return (
     <div {...props}>
       <Link href={`${ROUTES.BUYING_REQUESTS}/${slug}`}>
-        <h5 className="text-dark-blue md:text-md cursor-pointer">{name}</h5>
+        <h5 className="text-dark-blue md:text-md cursor-pointer">{`${t(
+          "form:requestNamePrefix-value"
+        )} - ${name}`}</h5>
       </Link>
       <p className="text-xs md:text-sm text-gray-300 md:my-1">
         {minOrder} {unit}

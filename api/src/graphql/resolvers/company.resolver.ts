@@ -18,7 +18,8 @@ import EmailService from "@services/email.service";
 import { IUser } from "@graphql/types";
 
 export const Query = {
-	company: (_, { slug }) => CompanyController.getCompany(slug)
+	company: (_, { slug }) => CompanyController.getCompany(slug),
+	companies: (_, { input }) => CompanyController.getCompanies(input)
 };
 
 export const Mutation = {

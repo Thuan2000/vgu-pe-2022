@@ -1,5 +1,5 @@
 import Form from "@components/form";
-import { getBusinessType } from "@datas/businessTypes";
+import { getBusinessTypes } from "@datas/businessTypes";
 import { getIndustry } from "@datas/industries";
 import {
   UpdateCompanyDetailMutation,
@@ -98,9 +98,9 @@ function getDefaultValue(initValue: ICompany) {
         settings?.address as string
       ),
       ...returnObjectIfExist(
-        !!initValue?.businessTypeId,
-        "businessType",
-        getBusinessType(initValue?.businessTypeId as number)
+        !!initValue?.businessTypeIds,
+        "businessTypes",
+        getBusinessTypes(initValue?.businessTypeIds as any)
       ),
       ...returnObjectIfExist(
         !!settings?.mainProducts,
@@ -239,13 +239,15 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
       turnLocationToString(w)
     );
 
+    const businessTypeIds = general.businessTypes.map((bt) => bt.id);
+
     const input: IUpdateCompanyDetailsInput | any = {
       establishmentDate: general.establishmentDate,
       name: general.name,
       description: general.description as any,
       industryId: (general.industry as any).id,
       location: general.location.name,
-      businessTypeId: general.businessType.id as any,
+      businessTypeIds,
       settings: {
         certificates: additional.certificates,
         address: general.address,

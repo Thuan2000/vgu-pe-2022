@@ -27,6 +27,7 @@ import {
   IBuyingRequest,
   ICreateBuyingRequestInput,
   IResponse,
+  IUpdateBuyingRequestInput,
 } from "@graphql/types.graphql";
 import {
   getCompanyId,
@@ -147,32 +148,32 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
 
     const userId = getLoggedInUser()?.id;
 
-    const values: ICreateBuyingRequestInput = {
+    const values: ICreateBuyingRequestInput | IUpdateBuyingRequestInput = {
       companyId: getCompanyId(),
       [initValue ? "updatedById" : "createdById"]: getLoggedInUser()?.id,
       location: locationName,
       industryId,
       categoryId,
       sourceTypeId: sourceType?.id,
-      createdById: userId!,
+      endDate: new Date(endDate).getTime(),
       coverImage,
+      ...(!!initValue ? { updatedById: userId! } : { createdById: userId! }),
       ...allowedCompany,
       ...generalRest,
       ...detailsRest,
-      endDate: new Date(endDate).getTime(),
     };
 
-    if (initValue) {
+    if (!!initValue) {
       // Old gallery is the posted gallery files
       await updateBr({
         variables: {
           id: parseInt(initValue.id),
-          newValue: { ...values, updatedById: userId! },
+          newValue: values as IUpdateBuyingRequestInput,
         },
       });
     } else
       await createBuyingRequest({
-        variables: { input: values },
+        variables: { input: values as ICreateBuyingRequestInput },
       });
   }
 

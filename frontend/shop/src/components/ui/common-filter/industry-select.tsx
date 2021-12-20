@@ -6,7 +6,6 @@ import FilterLabel from "./filter-label";
 import { useRouter } from "next/dist/client/router";
 import {
   getIndustryByLabel,
-  getIndustryBySlug,
   IIndustry,
   industriesData,
 } from "@datas/industries";
@@ -40,7 +39,7 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
   }
 
   return (
-    <div {...props}>
+    <div>
       <FilterLabel text={t("industry-filter-label")} />
       <Select
         options={industriesData || []}

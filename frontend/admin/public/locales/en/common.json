@@ -110,5 +110,7 @@
   "view-more-button-label": "View More",
   "view-less-button-label": "View Less",
   "homepage-breadcrumb": "Homepage",
-  "not-setup": "Not setup yet"
+  "not-setup": "Not setup yet",
+  "posted-product-page-name": "Posted Product & Service",
+  "location-text": "Location"
 }

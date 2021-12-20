@@ -126,7 +126,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           {...(initValue?.settings?.location
             ? {
                 getInitialValue: (opt) =>
-                  opt.name === initValue?.settings?.location,
+                  opt?.name === initValue?.settings?.location,
               }
             : {})}
           label={t("check-location-label")}
@@ -137,9 +137,9 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           placeholder={t("check-location-label")}
           control={control}
           options={vietnamCities}
-          getOptionLabel={(opt) => opt.name}
+          getOptionLabel={(opt) => opt?.name}
           error={t((errors?.general?.location as any)?.message || "")}
-          getOptionValue={(opt) => opt.name}
+          getOptionValue={(opt) => opt?.name}
         />
 
         <Input
@@ -158,7 +158,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           required
           name="general.industry"
           {...(initValue?.industryId
-            ? { getInitialValue: (opt) => opt.id === initValue?.industryId }
+            ? { getInitialValue: (opt) => opt?.id === initValue?.industryId }
             : {})}
           label={t("industry-input-label")}
           onChange={() => {
@@ -167,27 +167,25 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           placeholder={t("industry-input-placeholder")}
           control={control}
           options={industriesData}
-          getOptionLabel={(opt) => t("industry:" + opt.label)}
+          getOptionLabel={(opt) => t("industry:" + opt?.label)}
           error={t((errors?.general?.industry as any)?.message || "")}
-          getOptionValue={(opt) => opt.label}
+          getOptionValue={(opt) => opt?.label}
         />
 
         <SelectInput
           required
-          name="general.businessType"
-          {...(initValue?.businessTypeId
-            ? { getInitialValue: (opt) => opt.id === initValue?.businessTypeId }
-            : {})}
+          name="general.businessTypes"
+          isMulti
           onChange={() => {
-            trigger("general.businessType");
+            trigger("general.businessTypes");
           }}
           label={t("businessType-input-label")}
           placeholder={t("businessType-input-placeholder")}
           control={control}
           options={businessTypes}
-          getOptionLabel={(opt) => t("business-type:" + opt.label)}
-          getOptionValue={(opt) => t("business-type:" + opt.label)}
-          error={t((errors?.general?.businessType as any)?.message || "")}
+          getOptionLabel={(opt) => t("business-type:" + opt?.label)}
+          getOptionValue={(opt) => t("business-type:" + opt?.label)}
+          error={t((errors?.general?.businessTypes as any)?.message || "")}
         />
 
         <ECMainProductInput

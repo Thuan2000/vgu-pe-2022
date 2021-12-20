@@ -21,6 +21,9 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false
 			},
+			membership: {
+				type: Sequelize.INTEGER
+			},
 			description: {
 				type: Sequelize.TEXT
 			},
@@ -38,6 +41,10 @@ module.exports = {
 				type: Sequelize.INTEGER,
 				allowNull: false
 			},
+			isFullInfo: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: false
+			},
 			location: {
 				type: Sequelize.STRING
 			},
@@ -47,8 +54,8 @@ module.exports = {
 			industryId: {
 				type: Sequelize.INTEGER
 			},
-			businessTypeId: {
-				type: Sequelize.STRING
+			businessTypeIds: {
+				type: Sequelize.JSON
 			},
 			establishmentDate: {
 				type: Sequelize.DATE

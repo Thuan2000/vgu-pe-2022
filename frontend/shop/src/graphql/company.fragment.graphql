@@ -12,7 +12,7 @@ fragment CompanyFragment on Company {
   ownerId
   establishmentDate
   location
-  businessTypeId
+  businessTypeIds
   licenseFiles {
     ...FileFragment
   }

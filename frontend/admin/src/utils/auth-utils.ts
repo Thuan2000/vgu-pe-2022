@@ -53,7 +53,7 @@ export function hasAccess(
   return false;
 }
 
-export function checkIsLogin() {
+export function isLogin() {
   const authCred = getAuthCredentials();
   return !!authCred.token;
 }

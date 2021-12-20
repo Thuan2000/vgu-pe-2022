@@ -11,7 +11,7 @@ import { initApollo } from "@utils/apollo";
 import { ServicesDocument } from "@graphql/service.graphql";
 import Image from "next/image";
 import { siteSettings } from "@settings/site.settings";
-import SideFilter from "@components/ui/buying-requests/filter/side-filter";
+import SideFilter from "@components/ui/common-filter/side-filter";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import useIsPhone from "src/hooks/isPhone.hook";
 import UnderDevelopment from "@components/under-development";

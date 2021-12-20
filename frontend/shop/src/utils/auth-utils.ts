@@ -86,7 +86,7 @@ export function setMeData({ user }: { user: IUser }) {
   );
 }
 
-export function checkIsLogin() {
+export function isLogin() {
   const authCred = getAuthCredentials();
   return !!authCred.token;
 }

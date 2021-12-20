@@ -48,11 +48,43 @@ input BFWInput {
 	gallery: [FileInput!]
 }
 
+type CompaniesItem {
+	id: Int!
+	name: String!
+	slug: String!
+	productAmount: Int
+	branchAmount: Int
+	profileImage: File
+	mainProducts: [String!]
+	establishmentDate: Date
+	location: String
+	industryId: Int
+	categoryId: Int
+	businessTypeIds: [Int]
+	responseTime: Int # In minutes
+}
+
+input FetchCompanyInput {
+	limit: Int!
+	offset: Int!
+	location: String
+	establishmentDate: Date
+	industryId: Int
+	categoryId: Int
+	businessTypeId: Int
+}
+
+type CompaniesResponse {
+	companies: [CompaniesItem!]!
+	pagination: Pagination
+}
+
 type Company {
 	id: Int!
 	name: String!
 	slug: String!
 	licenseNumber: String!
+	businessTypeIds: [Int]
 	location: String
 	ownerId: Int!
 	approved: Boolean!
@@ -60,7 +92,6 @@ type Company {
 	licenseFiles: [File!]
 	settings: CompanySettings
 	industryId: Int
-	businessTypeId: Int
 	establishmentDate: Date
 }
 
@@ -81,7 +112,7 @@ input UpdateCompanyDetailsInput {
 	description: String!
 	location: String!
 	industryId: Int!
-	businessTypeId: Int!
+	businessTypeIds: [Int]!
 	establishmentDate: Date!
 	settings: CompanySettingsInput
 }
@@ -96,4 +127,5 @@ type Mutation {
 
 extend type Query {
 	company(slug: String!): Company
+	companies(input: FetchCompanyInput!): CompaniesResponse!
 }

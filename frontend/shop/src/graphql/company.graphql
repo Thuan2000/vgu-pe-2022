@@ -1,6 +1,33 @@
+# import PaginationParts from "./pagination.fragment.graphql"
+
 mutation CompanySignup($input: CompanyRegisterInput!) {
   companySignup(input: $input) {
     message
     success
+  }
+}
+
+query Companies($input: FetchCompanyInput!) {
+  companies(input: $input) {
+    companies {
+      id
+      name
+      slug
+      productAmount
+      industryId
+      categoryId
+      branchAmount
+      businessTypeIds
+      mainProducts
+      establishmentDate
+      location
+      responseTime
+      profileImage {
+        url
+      }
+    }
+    pagination {
+      ...PaginationParts
+    }
   }
 }
