@@ -1,5 +1,5 @@
-schema: "http://localhost:8080/graphql"
-# schema: "https://api.dev.sdconnect.vn/graphql"
+#schema: "http://localhost:8080/graphql"
+schema: "https://api.dev.sdconnect.vn/graphql"
 documents: "**/*.graphql"
 plugins:
   - typescript-operations
