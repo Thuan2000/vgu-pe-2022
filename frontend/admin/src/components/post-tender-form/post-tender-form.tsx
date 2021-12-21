@@ -147,7 +147,6 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     const coverImage = generalRest?.gallery?.[0];
 
     const userId = getLoggedInUser()?.id;
-
     const values: ICreateBuyingRequestInput | IUpdateBuyingRequestInput = {
       companyId: getCompanyId(),
       [initValue ? "updatedById" : "createdById"]: getLoggedInUser()?.id,
@@ -155,12 +154,12 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
       industryId,
       categoryId,
       sourceTypeId: sourceType?.id,
-      endDate: new Date(endDate).getTime(),
       coverImage,
       ...(!!initValue ? { updatedById: userId! } : { createdById: userId! }),
       ...allowedCompany,
       ...generalRest,
       ...detailsRest,
+      endDate: new Date(endDate).getTime(),
     };
 
     if (!!initValue) {
