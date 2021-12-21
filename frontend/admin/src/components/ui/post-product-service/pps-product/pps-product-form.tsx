@@ -51,6 +51,7 @@ interface IPPSProductFormProps extends React.HTMLAttributes<HTMLDivElement> {
   initValue?: IProduct;
 }
 
+
 function removeTypename(withTypename: any[] = []) {
   const withoutTypename = withTypename?.map(({ __typename, ...wt }: any) => wt);
 
