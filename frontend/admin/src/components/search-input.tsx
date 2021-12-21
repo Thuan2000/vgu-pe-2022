@@ -1,11 +1,16 @@
 import SearchIcon from "@assets/icons/search-icon";
 import { COLORS } from "@utils/colors";
+import { useTranslation } from "next-i18next";
 import React from "react";
 import Input from "./ui/storybook/inputs/input";
+
+
+
 
 interface ISearchInputProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const SearchInput: React.FC<ISearchInputProps> = ({ className, ...props }) => {
+  const { t } = useTranslation("form");
   return (
     <div
       className={`flex items-center w-full border rounded-md overflow-hidden ${className}`}
@@ -15,7 +20,7 @@ const SearchInput: React.FC<ISearchInputProps> = ({ className, ...props }) => {
       <Input
         noBorder
         className="h-10 w-full focus:none"
-        placeholder="Tìm kiếm"
+        placeholder={t("search-Placeholder")}
       />
       <button
         type="button"
@@ -24,6 +29,9 @@ const SearchInput: React.FC<ISearchInputProps> = ({ className, ...props }) => {
         <SearchIcon fill={COLORS.GRAY[200]} />
       </button>
     </div>
+
+    
   );
+  
 };
 export default SearchInput;

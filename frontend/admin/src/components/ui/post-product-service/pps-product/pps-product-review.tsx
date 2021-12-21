@@ -4,18 +4,18 @@ import Typography from "@components/ui/storybook/typography";
 import React from "react";
 import { UseFormGetValues } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import PPSCategoryReview from "./pps-service-reviews/pps-service-category-review";
-import PPSDetailsReview from "./pps-service-reviews/pps-service-details-review";
-import PPSAttachmentReview from "./pps-service-reviews/pps-service-attachment-review";
-import { IPostServiceFormValues } from "./pps-service-interface";
-import PPSPricingReview from "./pps-service-reviews/pps-service-pricing-review";
+import PPSCategoryReview from "./pps-product-reviews/pps-product-category-review";
+import PPSDetailsReview from "./pps-product-reviews/pps-product-details-review";
+import PPSAttachmentReview from "./pps-product-reviews/pps-product-attachment-review";
+import { IPostProductFormValues } from "./pps-product-interface";
+import PPSPricingReview from "./pps-product-reviews/pps-product-pricing-review";
 
-interface IPPSServiceReviewProps {
+interface IPPSProductReviewProps {
   changeSection: (t: number) => void;
-  getValues: UseFormGetValues<IPostServiceFormValues>;
+  getValues: UseFormGetValues<IPostProductFormValues>;
 }
 
-const PPSServiceReview: React.FC<IPPSServiceReviewProps> = ({
+const PPSProductReview: React.FC<IPPSProductReviewProps> = ({
   changeSection,
   getValues,
 }) => {
@@ -48,4 +48,4 @@ const PPSServiceReview: React.FC<IPPSServiceReviewProps> = ({
     </div>
   );
 };
-export default PPSServiceReview;
+export default PPSProductReview;
