@@ -1,12 +1,5 @@
-import { getMeData, setMeData } from "@utils/auth-utils";
 import { PAGE_NAME_INTO_LABEL } from "@utils/constants";
-import {
-  getActivePageFromPath,
-  getLoginCompanySlug,
-  getUserFirstName,
-  getUserFullName,
-  trimText,
-} from "@utils/functions";
+import { getActivePageFromPath, getUserFullName } from "@utils/functions";
 import { Page } from "@utils/interfaces";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";

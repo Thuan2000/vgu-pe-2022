@@ -41,12 +41,19 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
         >
           <p className="text-heading font-semibold">{company?.name}</p>
         </Link>
-        {/* {!company?.approved && (
-          <p className="text-xs text-gray-300 mt-1">{t("not-verified")}</p>
-        )} */}
       </div>
       <div className="border border-t-0 rounded-md rounded-t-none">
         {/* <Link href={ROUTES.SETTINGS}> */}
+        <Link
+          target="_blank"
+          rel="noreferrer"
+          href={`${ROUTES.ADMIN_LINK}/${getLoginCompanySlug()}`}
+        >
+          <div className="px-3 py-2 flex items-center ">
+            <AvatarIcon fill="#82868C" className="mr-4 h-6 w-4" />
+            <p className="text-gray-400 h-6">{t("admin-panel-menu-label")}</p>
+          </div>
+        </Link>
         <Link
           target="_blank"
           rel="noreferrer"
@@ -57,6 +64,7 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
             <p className="text-gray-400 h-6">{t("settings-menu")}</p>
           </div>
         </Link>
+
         <Link href={ROUTES.LOGOUT}>
           <div className="px-3 py-2 flex items-center">
             <LogoutIcon className="mr-4 h-6 w-4" />
