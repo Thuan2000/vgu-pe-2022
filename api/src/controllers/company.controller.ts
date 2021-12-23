@@ -182,6 +182,8 @@ class CompanyController {
 				generateSlug(companyName, newCompany.getDataValue("id"))
 			);
 
+			await newCompany.save();
+
 			// Setting user company id
 			const userNewToken = await UserRepository.setCompanyId(
 				ownerId,

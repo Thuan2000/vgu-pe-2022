@@ -135,5 +135,7 @@
   "yourCompany-button-label": "Your Company",
   "min-establishmentDate-filter-label": "Min Establishment Date",
   "establishmentDate-filter-placeholder": "12/12/2021",
-  "admin-panel-menu-label": "Admin Panel"
+  "admin-panel-menu-label": "Admin Panel",
+  "reply-text": "Reply",
+  "question-answer-input-placeholder": "Type your answer"
 }
