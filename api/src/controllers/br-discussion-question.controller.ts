@@ -20,7 +20,23 @@ class BRDiscussionQuestionController {
 				where: { brId },
 				limit,
 				offset,
-				include: [User, BRDiscussionAnswer]
+				include: [
+					{
+						model: User,
+						attributes: ["firstName", "lastName", "id"]
+					},
+					{
+						model: BRDiscussionAnswer,
+						as: "answers",
+						include: [
+							{
+								model: User,
+								attributes: ["firstName", "lastName", "id"]
+							}
+						],
+						attributes: ["answer", "companyName", "createdAt"]
+					}
+				]
 			});
 
 			return questions;

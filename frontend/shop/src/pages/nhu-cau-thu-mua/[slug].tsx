@@ -97,6 +97,8 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
     setReload(!reload);
   }
 
+  const isMyBr = br.company.id === getCompanyId();
+
   return (
     <>
       <Head>
@@ -147,8 +149,12 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
           <div className="space-y-3 mt-4">
             <BRDDetail br={br} />
             <BRDCompanySummary company={br.company} />
-            <BRDDiscussion reload={reload} brId={parseInt(br.id)} />
-            {br.company.id !== getCompanyId() && (
+            <BRDDiscussion
+              isMyBr={isMyBr}
+              reload={reload}
+              brId={parseInt(br.id)}
+            />
+            {!isMyBr && (
               <BRDAskQuestion
                 refetchDiscussions={refetchDiscussions}
                 brId={parseInt(br.id)}
