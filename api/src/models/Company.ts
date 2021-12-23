@@ -27,6 +27,7 @@ Company.init(
 		licenseFiles: DataTypes.JSON,
 		certificates: DataTypes.JSON,
 		approved: DataTypes.BOOLEAN,
+		approverId: DataTypes.INTEGER,
 		ownerId: DataTypes.INTEGER,
 		isFullInfo: DataTypes.BOOLEAN
 	},

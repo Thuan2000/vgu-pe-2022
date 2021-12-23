@@ -1,5 +1,6 @@
 import FacebookGrayIcon from "@assets/icons/socials/facebook-gray-icon";
 import InstagramGrayIcon from "@assets/icons/socials/instagram-gray-icon";
+import ProfilePlaceholder from "@assets/company-profile-placeholder.svg";
 
 export const siteSettings = {
   appName: "SDConnect",
@@ -11,6 +12,7 @@ export const siteSettings = {
     width: 256,
     height: 70,
   },
+  companyProfileImagePlaceholder: ProfilePlaceholder,
   placeholderImage:
     "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/image-placeholder.jpg",
   defaultLanguange: "en",
