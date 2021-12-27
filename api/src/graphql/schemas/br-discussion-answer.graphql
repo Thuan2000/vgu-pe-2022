@@ -1,0 +1,16 @@
+input CreateBRDiscussionAnswerInput {
+	brDiscussionQuestionId: Int!
+	userId: Int!
+	companyName: String!
+	answer: String!
+}
+
+type DiscussionAnswers {
+	user: User!
+	companyName: String!
+	answer: String!
+}
+
+type mutation {
+	createBRDiscussionAnswer(input: CreateBRDiscussionAnswerInput!): Response!
+}

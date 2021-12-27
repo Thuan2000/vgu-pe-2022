@@ -16,6 +16,7 @@ mutation CreateBRDiscussionAnswer($input: CreateBRDiscussionAnswerInput!) {
 
 query BRDiscussionQuestions($input: BRDiscussionsInput!) {
   brDiscussionQuestions(input: $input) {
+    id
     user {
       firstName
       lastName
@@ -28,6 +29,7 @@ query BRDiscussionQuestions($input: BRDiscussionsInput!) {
         firstName
         lastName
       }
+      createdAt
       companyName
       answer
     }

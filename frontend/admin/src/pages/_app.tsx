@@ -16,6 +16,8 @@ import { ToastContainer } from "react-toastify";
 import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "@utils/routes";
 import { isLogin, setRedirectLinkAfterLogin } from "@utils/auth-utils";
+import { getLoggedInUser } from "@utils/functions";
+import { GetServerSideProps } from "next";
 
 const NoLayout: React.FC<any> = ({ children }) => <>{children}</>;
 
@@ -33,6 +35,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     setRedirectLinkAfterLogin(fullHref);
     replace(ROUTES.LOGIN(locale!));
   }
+
+  const role = getLoggedInUser()?.role;
+
+  if (role === "SUPER_ADMIN" && pathname !== ROUTES.HOMEPAGE)
+    replace(ROUTES.HOMEPAGE);
 
   return (
     <ApolloProvider client={apolloClient}>

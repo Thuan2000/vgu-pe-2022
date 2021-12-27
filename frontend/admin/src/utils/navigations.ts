@@ -1,3 +1,4 @@
+import AvatarIcon from "@assets/icons/avatar-icon";
 import HomeIcon from "@assets/icons/navigations/home-icon";
 import LogoutIcon from "@assets/icons/navigations/logout-icon";
 import ProductIcon from "@assets/icons/navigations/product-icon";
@@ -36,7 +37,7 @@ export const productChildren = [
   },
 ];
 
-export const navigations: INavigation[] = [
+export const commonNavigations: INavigation[] = [
   {
     label: "home-nav-label",
     href: ROUTES.HOMEPAGE,
@@ -55,6 +56,19 @@ export const navigations: INavigation[] = [
     href: productChildren[0].href,
     icon: ProductIcon,
     children: productChildren,
+  },
+  {
+    label: "companyPage-nav-label",
+    href: "[company-slug]",
+    icon: AvatarIcon,
+  },
+];
+
+export const superAdminNavigations: INavigation[] = [
+  {
+    label: "home-nav-label",
+    href: ROUTES.HOMEPAGE,
+    icon: HomeIcon,
   },
 ];
 

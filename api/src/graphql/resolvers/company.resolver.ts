@@ -15,15 +15,18 @@ import {
 import CompanyController from "@controllers/company.controller";
 import { EUserRole } from "@utils/enums";
 import EmailService from "@services/email.service";
-import { IUser } from "@graphql/types";
 
 export const Query = {
+	unapprovedCompanies: (_, { input }) =>
+		CompanyController.getUnapproved(input),
 	company: (_, { slug }) => CompanyController.getCompany(slug),
 	companies: (_, { input }) => CompanyController.getCompanies(input)
 };
 
 export const Mutation = {
 	// @NOTES URGENT : Follow this
+	approveCompany: (_, { id, approverId }) =>
+		CompanyController.approveCompany(id, approverId),
 	updateCompany: (_, { id, input }) =>
 		CompanyController.updateCompany(id, input),
 	/**

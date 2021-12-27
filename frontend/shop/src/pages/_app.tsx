@@ -25,7 +25,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     !isLogin() &&
     typeof window !== "undefined" &&
     pathname !== ROUTES.LOGIN &&
-    pathname !== ROUTES.LOGOUT
+    pathname !== ROUTES.LOGOUT &&
+    pathname !== ROUTES.SIGNUP
   ) {
     const fullHref = window.location.href;
     setRedirectLinkAfterLogin(fullHref);
