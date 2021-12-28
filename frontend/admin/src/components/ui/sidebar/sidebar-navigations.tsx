@@ -5,8 +5,7 @@ import SidebarNavItem from "./sidebar-nav-item";
 import {
   bottomNavigations,
   INavigation,
-  commonNavigations,
-  superAdminNavigations,
+  navigations,
 } from "@utils/navigations";
 import { getActivePath, getLoggedInUser } from "@utils/functions";
 import { getMeData } from "@utils/auth-utils";
@@ -34,48 +33,47 @@ const SidebarNavigations = () => {
   return (
     <ul className="flex-col text-gray-300 h-full">
       <div>
-        {(role === "SUPER_ADMIN"
-          ? superAdminNavigations
-          : commonNavigations
-        ).map(({ label, href, icon: Icon, children, managedLinks = [] }) => {
-          let isActive = !!children
-            ? checkIsActiveChildren(children)
-            : checkIsActive([href, ...managedLinks]);
+        {navigations.map(
+          ({ label, href, icon: Icon, children, managedLinks = [] }) => {
+            let isActive = !!children
+              ? checkIsActiveChildren(children)
+              : checkIsActive([href, ...managedLinks]);
 
-          if (href === "[company-slug]") {
-            href = getMeData().company?.slug!;
-            isActive = getActivePath(pathname) === "/[company-slug]";
+            if (href === "[company-slug]") {
+              href = getMeData().company?.slug!;
+              isActive = getActivePath(pathname) === "/[company-slug]";
+            }
+
+            return (
+              <div
+                className={`overflow-hidden max-h-12 ${
+                  isActive && "max-h-56 transition-all duration-300"
+                }`}
+                key={`${label}-${href}-navigation`}
+              >
+                <SidebarNavItem
+                  isActive={isActive}
+                  href={`${href}` || ""}
+                  Icon={Icon}
+                  label={label}
+                  hasChildren={children && children?.length > 0}
+                />
+                {children?.map(({ href, label, managedLinks = [] }) => {
+                  const isActiveChild = checkIsActive([href, ...managedLinks]);
+                  return (
+                    <SidebarNavItem
+                      isActive={isActiveChild}
+                      isChildren
+                      key={href + label}
+                      label={label}
+                      href={`${href}` || ""}
+                    />
+                  );
+                })}
+              </div>
+            );
           }
-
-          return (
-            <div
-              className={`overflow-hidden max-h-12 ${
-                isActive && "max-h-56 transition-all duration-300"
-              }`}
-              key={`${label}-${href}-navigation`}
-            >
-              <SidebarNavItem
-                isActive={isActive}
-                href={`${href}` || ""}
-                Icon={Icon}
-                label={label}
-                hasChildren={children && children?.length > 0}
-              />
-              {children?.map(({ href, label, managedLinks = [] }) => {
-                const isActiveChild = checkIsActive([href, ...managedLinks]);
-                return (
-                  <SidebarNavItem
-                    isActive={isActiveChild}
-                    isChildren
-                    key={href + label}
-                    label={label}
-                    href={`${href}` || ""}
-                  />
-                );
-              })}
-            </div>
-          );
-        })}
+        )}
       </div>
 
       <div className={`mt-auto -translate-y-10`}>

@@ -38,9 +38,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const role = getLoggedInUser()?.role;
 
-  if (role === "SUPER_ADMIN" && pathname !== ROUTES.HOMEPAGE)
-    replace(ROUTES.HOMEPAGE);
-
   return (
     <ApolloProvider client={apolloClient}>
       <ModalProvider>

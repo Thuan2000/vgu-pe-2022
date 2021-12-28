@@ -37,7 +37,7 @@ export const productChildren = [
   },
 ];
 
-export const commonNavigations: INavigation[] = [
+export const navigations: INavigation[] = [
   {
     label: "home-nav-label",
     href: ROUTES.HOMEPAGE,
@@ -61,14 +61,6 @@ export const commonNavigations: INavigation[] = [
     label: "companyPage-nav-label",
     href: "[company-slug]",
     icon: AvatarIcon,
-  },
-];
-
-export const superAdminNavigations: INavigation[] = [
-  {
-    label: "home-nav-label",
-    href: ROUTES.HOMEPAGE,
-    icon: HomeIcon,
   },
 ];
 

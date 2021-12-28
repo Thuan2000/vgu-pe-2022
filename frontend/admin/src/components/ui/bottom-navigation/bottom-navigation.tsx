@@ -1,6 +1,6 @@
 import { COLORS } from "@utils/colors";
 import { getActivePath } from "@utils/functions";
-import { commonNavigations } from "@utils/navigations";
+import { navigations } from "@utils/navigations";
 import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,7 +17,7 @@ const BottomNavigation: React.FC<IPhoneBottomNavigationProps> = (props) => {
     return getActivePath(pathname) === href;
   }
 
-  const navs = commonNavigations.map((nav, idx) => {
+  const navs = navigations.map((nav, idx) => {
     const { href, label, icon: Icon } = nav;
     const isActive = checkIsActive(href);
     return (
