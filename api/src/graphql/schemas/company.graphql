@@ -137,7 +137,7 @@ type UnapprovedCompany {
 	user: UnapprovedCompanyOwner!
 }
 
-type Mutation {
+extend type Mutation {
 	companySignup(input: CompanyRegisterInput!): AuthResponse!
 	approveCompany(id: Int!, approverId: Int!): Response!
 	updateCompany(

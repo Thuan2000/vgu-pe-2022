@@ -1,8 +1,8 @@
 import { IFile } from "@graphql/types.graphql";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
-import { IVietnamCity, vietnamCities } from "@utils/vietnam-cities";
-import React, { useState } from "react";
-import { Control, Controller, useForm } from "react-hook-form";
+import { IVietnamCity, vietnamProvinces } from "@utils/vietnam-cities";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import Button from "../../storybook/button";
 import DocumentInput from "../../storybook/document-input";
@@ -133,7 +133,7 @@ const AddBFWForm: React.FC<IAddBFWFormProps> = ({
         required
         label={t("addBFW-location-input-label")}
         placeholder={t("addBFW-location-input-placeholder")}
-        options={vietnamCities}
+        options={vietnamProvinces}
         onChange={() => {
           trigger("location");
         }}

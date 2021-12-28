@@ -10,7 +10,7 @@ import {
 import CreateableSelectInput from "@components/ui/storybook/createable-select/createable-select-input";
 import { IPostServiceFormValues } from "./pps-service-interface";
 import SelectInput from "@components/ui/storybook/select-input";
-import { vietnamCities } from "@utils/vietnam-cities";
+import { vietnamProvinces } from "@utils/vietnam-cities";
 import FaqInput from "@components/ui/storybook/inputs/faq-input/faq-input";
 import { generateUUID } from "@utils/functions";
 import { useTagsQuery } from "@graphql/tag.graphql";
@@ -82,7 +82,7 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
         label={t("post-service-location-input-label")}
         placeholder={t("post-service-location-input-placeholder")}
         numberQueue={5}
-        options={vietnamCities}
+        options={vietnamProvinces}
         getOptionLabel={(opt) => opt.name}
         getOptionValue={(opt) => opt.id}
         control={control}

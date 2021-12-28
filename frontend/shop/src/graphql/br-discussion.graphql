@@ -8,7 +8,6 @@ mutation CreateBRDiscussionQuestion($input: CreateBRDiscussionQuestionInput!) {
 
 mutation CreateBRDiscussionAnswer($input: CreateBRDiscussionAnswerInput!) {
   createBRDiscussionAnswer(input: $input) {
-    id
     success
     message
   }

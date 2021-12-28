@@ -11,6 +11,6 @@ type DiscussionAnswers {
 	answer: String!
 }
 
-type mutation {
+extend type Mutation {
 	createBRDiscussionAnswer(input: CreateBRDiscussionAnswerInput!): Response!
 }
