@@ -20,6 +20,8 @@ import {
 } from "@graphql/types";
 import { Op, Sequelize } from "sequelize";
 import CompanyRepository from "@repositories/company.repository";
+import Subscription from "../models/Subscription";
+import CompanySubscription from "../models/CompanySubscription";
 
 type IRegisterResp = {
 	success: boolean;
@@ -67,8 +69,23 @@ class CompanyController {
 				"businessTypeIds",
 				"establishmentDate"
 				// "responseTime"
+			],
+			include: [
+				{
+					model: CompanySubscription,
+					as: "subscription",
+					attributes: ["startAt", "endAt", "monthAmount"],
+					include: [
+						{
+							model: Subscription,
+							as: "subscriptionDetail"
+						}
+					]
+				}
 			]
 		});
+
+		console.log(companies);
 
 		const hasMore =
 			offset + companies.length < dataCount && companies.length === limit;

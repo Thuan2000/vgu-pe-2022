@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
+import CompanySubscription from "./CompanySubscription";
 
 class Company extends Model {
 	/**
@@ -37,5 +38,7 @@ Company.init(
 		modelName: "company"
 	}
 );
+
+Company.hasOne(CompanySubscription, { as: "subscription" });
 
 export default Company;

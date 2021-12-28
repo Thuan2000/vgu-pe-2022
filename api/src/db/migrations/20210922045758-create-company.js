@@ -30,6 +30,9 @@ module.exports = {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false
 			},
+			companySubscriptionId: {
+				type: Sequelize.INTEGER
+			},
 			approverId: {
 				type: Sequelize.INTEGER
 			},

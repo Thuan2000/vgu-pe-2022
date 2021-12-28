@@ -124,5 +124,9 @@
   "approve-company-title": "Approve Company",
   "approve-company-message": "Are you sure want to approve this company?",
   "companyApproved-success-message": "Company approved successfully",
-  "no-unapproved-companies": "No unapproved company"
+  "no-unapproved-companies": "No unapproved company",
+  "post-service-label": "Post Service",
+  "post-product-label": "Post Product",
+  "post-tender-label": "Post Tender",
+  "lets-start-text": "Lets start"
 }
