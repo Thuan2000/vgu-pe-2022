@@ -85,8 +85,6 @@ class CompanyController {
 			]
 		});
 
-		console.log(companies);
-
 		const hasMore =
 			offset + companies.length < dataCount && companies.length === limit;
 
