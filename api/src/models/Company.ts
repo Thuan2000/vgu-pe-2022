@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
+import CompanySubscription from "./CompanySubscription";
 
 class Company extends Model {
 	/**
@@ -27,6 +28,7 @@ Company.init(
 		licenseFiles: DataTypes.JSON,
 		certificates: DataTypes.JSON,
 		approved: DataTypes.BOOLEAN,
+		approverId: DataTypes.INTEGER,
 		ownerId: DataTypes.INTEGER,
 		isFullInfo: DataTypes.BOOLEAN
 	},
@@ -36,5 +38,7 @@ Company.init(
 		modelName: "company"
 	}
 );
+
+Company.hasOne(CompanySubscription, { as: "subscription" });
 
 export default Company;

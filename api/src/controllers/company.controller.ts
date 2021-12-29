@@ -13,9 +13,15 @@ import S3 from "@services/s3.service";
 import EmailService from "@services/email.service";
 import UserRepository from "@repositories/user.repository";
 import User from "@models/User";
-import { IFetchCompanyInput, IUpdateCompanyDetailsInput } from "@graphql/types";
+import {
+	IFetchCompanyInput,
+	IFetchUnapprovedCompaniesInput,
+	IUpdateCompanyDetailsInput
+} from "@graphql/types";
 import { Op, Sequelize } from "sequelize";
 import CompanyRepository from "@repositories/company.repository";
+import Subscription from "../models/Subscription";
+import CompanySubscription from "../models/CompanySubscription";
 
 type IRegisterResp = {
 	success: boolean;
@@ -63,6 +69,19 @@ class CompanyController {
 				"businessTypeIds",
 				"establishmentDate"
 				// "responseTime"
+			],
+			include: [
+				{
+					model: CompanySubscription,
+					as: "subscription",
+					attributes: ["startAt", "endAt", "monthAmount"],
+					include: [
+						{
+							model: Subscription,
+							as: "subscriptionDetail"
+						}
+					]
+				}
 			]
 		});
 
@@ -91,6 +110,35 @@ class CompanyController {
 		}
 	}
 
+	static async getUnapproved(input: IFetchUnapprovedCompaniesInput) {
+		const companies = await Company.findAll({
+			where: {
+				approved: 0
+			},
+			include: [
+				{
+					model: User,
+					association: Company.belongsTo(User, {
+						foreignKey: "ownerId"
+					})
+				}
+			]
+		});
+
+		return companies;
+	}
+
+	static async approveCompany(id: number, approverId: number) {
+		try {
+			await Company.update(
+				{ approved: 1, approverId },
+				{ where: { id } }
+			);
+			return successResponse();
+		} catch (e) {
+			return errorResponse();
+		}
+	}
 	static async updateCompany(id: number, input: IUpdateCompanyDetailsInput) {
 		try {
 			const [updatedId] = await Company.update(input, {
@@ -148,6 +196,8 @@ class CompanyController {
 				"slug",
 				generateSlug(companyName, newCompany.getDataValue("id"))
 			);
+
+			await newCompany.save();
 
 			// Setting user company id
 			const userNewToken = await UserRepository.setCompanyId(

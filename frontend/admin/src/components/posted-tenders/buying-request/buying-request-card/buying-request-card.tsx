@@ -65,9 +65,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({
       </div>
       <div className="ml-2 md:ml-5 py-4 w-full">
         <BRCGeneralInfo
-          name={`${t("form:requestNamePrefix-value")} - 
-            ${br.name}
-            `}
+          name={br.name}
           minOrder={br.minOrder}
           status={br.status}
           location={br.location}

@@ -62,6 +62,7 @@ type CompaniesItem {
 	categoryId: Int
 	businessTypeIds: [Int]
 	responseTime: Int # In minutes
+	subscription: CompanySubscription
 }
 
 input FetchCompanyInput {
@@ -93,6 +94,20 @@ type Company {
 	settings: CompanySettings
 	industryId: Int
 	establishmentDate: Date
+	subscription: CompanySubscription
+}
+
+type CompanySubscription {
+	startAt: Date!
+	endAt: Date!
+	monthAmount: Int!
+	subscriptionDetail: Subscription!
+}
+
+type Subscription {
+	nameEn: String!
+	nameVn: String!
+	monthlyPrice: Date!
 }
 
 input CompanyRegisterInput {
@@ -117,8 +132,29 @@ input UpdateCompanyDetailsInput {
 	settings: CompanySettingsInput
 }
 
-type Mutation {
+input FetchUnapprovedCompaniesInput {
+	name: String
+}
+
+type UnapprovedCompanyOwner {
+	firstName: String!
+	lastName: String!
+	email: String!
+	phoneNumber: String!
+}
+
+type UnapprovedCompany {
+	id: Int!
+	name: String!
+	licenseNumber: String!
+	licenseFiles: [File!]!
+	createdAt: Date!
+	user: UnapprovedCompanyOwner!
+}
+
+extend type Mutation {
 	companySignup(input: CompanyRegisterInput!): AuthResponse!
+	approveCompany(id: Int!, approverId: Int!): Response!
 	updateCompany(
 		id: Int!
 		input: UpdateCompanyDetailsInput!
@@ -128,4 +164,7 @@ type Mutation {
 extend type Query {
 	company(slug: String!): Company
 	companies(input: FetchCompanyInput!): CompaniesResponse!
+	unapprovedCompanies(
+		input: FetchUnapprovedCompaniesInput!
+	): [UnapprovedCompany!]!
 }

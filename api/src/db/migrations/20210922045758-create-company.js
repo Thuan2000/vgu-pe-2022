@@ -14,8 +14,7 @@ module.exports = {
 				allowNull: false
 			},
 			slug: {
-				type: Sequelize.STRING,
-				allowNull: false
+				type: Sequelize.STRING
 			},
 			licenseNumber: {
 				type: Sequelize.STRING,
@@ -30,6 +29,12 @@ module.exports = {
 			approved: {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false
+			},
+			companySubscriptionId: {
+				type: Sequelize.INTEGER
+			},
+			approverId: {
+				type: Sequelize.INTEGER
 			},
 			licenseFiles: {
 				type: Sequelize.JSON

@@ -29,7 +29,8 @@ BRDiscussionQuestion.init(
 
 BRDiscussionQuestion.belongsTo(User);
 BRDiscussionQuestion.hasMany(BRDiscussionAnswer, {
-	foreignKey: "brDiscussionQuestionId"
+	foreignKey: "brDiscussionQuestionId",
+	as: "answers"
 });
 
 export default BRDiscussionQuestion;

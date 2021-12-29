@@ -1,6 +1,7 @@
 overwrite: true
-#schema: "http://localhost:8080/graphql"
-schema: "https://api.dev.sdconnect.vn/graphql"
+# schema: "http://localhost:8080/graphql"
+# schema: "https://api.dev.sdconnect.vn/graphql"
+schema: ${NEXT_PUBLIC_GRAPHQL_ENDPOINT}
 documents: null
 generates:
   src/graphql/types.graphql.d.ts:

@@ -45,6 +45,14 @@ const sqls = [
 	{
 		name: "BR Project",
 		path: getFilePath("br_project.sql")
+	},
+	{
+		name: "Subscription",
+		path: getFilePath("subscriptions.sql")
+	},
+	{
+		name: "Company Subscription",
+		path: getFilePath("company_subscriptions.sql")
 	}
 ];
 

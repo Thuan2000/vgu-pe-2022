@@ -9,19 +9,12 @@ import UnderDevelopment from "@components/under-development";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
+import { getLoggedInUser } from "@utils/functions";
+import SuperAdminContent from "@components/super-admin-content";
+import HomepageContent from "@components/homepage/homepage-content";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
-  const { token } = getAuthCredentials(ctx);
-
-  // if (!isAuthenticated({ token } as any)) {
-  //   return {
-  //     redirect: {
-  //       destination: ROUTES.LOGIN,
-  //       permanent: false,
-  //     },
-  //   };
-  // }
 
   return {
     props: {
@@ -33,6 +26,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const Homepage = () => {
   const { t } = useTranslation("common");
 
+  const role = getLoggedInUser()?.role;
+
   return (
     <>
       <Head>
@@ -43,7 +38,7 @@ const Homepage = () => {
         />
       </Head>
       <main>
-        <UnderDevelopment />
+        <HomepageContent />
       </main>
     </>
   );

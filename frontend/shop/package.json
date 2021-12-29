@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "precodegen": "rm -rf src/graphql/*.d.ts",
-    "codegen": "yarn graphql-let && graphql-codegen",
+    "codegen": "node -r dotenv/config $(yarn bin)/graphql-let && node -r dotenv/config $(yarn bin)/graphql-codegen",
     "predev": "rm -rf .next",
     "dev": "yarn codegen && cross-env NODE_ENV=development next dev",
     "build": "yarn codegen && next build",

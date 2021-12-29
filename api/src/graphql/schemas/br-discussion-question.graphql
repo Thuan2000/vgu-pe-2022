@@ -5,10 +5,12 @@ enum BRDSort {
 type BRDiscussionAnswer {
 	user: User!
 	companyName: String!
-	answer: String
+	answer: String!
+	createdAt: Date!
 }
 
 type BRDiscussionQuestion {
+	id: Int!
 	user: User!
 	companyName: String!
 	question: String!
@@ -44,8 +46,5 @@ extend type Query {
 extend type Mutation {
 	createBRDiscussionQuestion(
 		input: CreateBRDiscussionQuestionInput!
-	): CreateResponse
-	createBRDiscussionAnswer(
-		input: CreateBRDiscussionAnswerInput!
-	): CreateResponse
+	): CreateResponse!
 }

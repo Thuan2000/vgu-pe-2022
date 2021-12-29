@@ -25,13 +25,8 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
       </div>
 
       <HCSearchBy />
-      <div className={`pb-10`}>
-        <Typography
-          text={t("iframe-here")}
-          size="xl"
-          align="center"
-          className={`py-20 text-4xl`}
-        />
+      <div className={`pb-10 w-full`}>
+        <iframe src="https://sdconnect.vn" className={`w-full min-h-[600px]`} />
       </div>
     </div>
   );

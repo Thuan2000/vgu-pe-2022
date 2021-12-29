@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   getVietnamCityByName,
   IVietnamCity,
-  vietnamCities,
-} from "src/datas/vietnam-cities";
+  vietnamProvinces,
+} from "@datas/vietnam-provinces";
 import Select from "@components/ui/storybook/inputs/select";
 import FilterLabel from "./filter-label";
 import { useRouter } from "next/dist/client/router";
@@ -38,7 +38,7 @@ const LocationSearch: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     <div {...props}>
       <FilterLabel text={t("location-filter-label")} />
       <Select
-        options={vietnamCities}
+        options={vietnamProvinces}
         name="locationFilter"
         isClearable
         getInitialValue={(opt) => opt.name === locationFilter}
