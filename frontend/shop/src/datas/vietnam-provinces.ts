@@ -1,12 +1,12 @@
 import { findIndex } from "lodash";
 
-export function getLocationByName(name: string) {
-  const idx = findIndex(vietnamProvinces, (vc) => vc.name === name);
-  return vietnamProvinces[idx];
-}
-
 export interface IVietnamCity {
   name: string;
+}
+
+export function getVietnamCityByName(name: string) {
+  const idx = findIndex(vietnamProvinces, (city) => name === city.name);
+  return vietnamProvinces[idx];
 }
 
 export const vietnamProvinces: IVietnamCity[] = [

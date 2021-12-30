@@ -129,5 +129,8 @@
   "min-establishmentDate-filter-label": "Ngày thành lập tối thiểu",
   "establishmentDate-filter-placeholder": "12/12/2021",
   "danh-ba-cong-ty": "Nhà cung cấp",
-  "nhu-cau-thu-mua": "Nhu cầu thu mua"
+  "nhu-cau-thu-mua": "Nhu cầu thu mua",
+
+  "phone-view-not-ready-text": "Giao diện cho điện thoại chưa được hỗ trợ",
+  "please-open-on-laptop-text": "Vui lòng truy cập bằng máy tính"
 }

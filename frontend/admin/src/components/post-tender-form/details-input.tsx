@@ -14,7 +14,7 @@ import SelectInput from "@components/ui/storybook/select-input";
 import PRFBudgetInput from "./details-form/ptf-budget-input";
 import PRFQuantityInput from "./details-form/prf-quantity-input";
 import DateInput from "@components/ui/storybook/inputs/date-input";
-import { IVietnamCity, vietnamCities } from "@utils/vietnam-cities";
+import { IVietnamCity, vietnamProvinces } from "@utils/vietnam-cities";
 import { ISourceType, sourceTypes } from "src/datas/source-type";
 import { useRouter } from "next/dist/client/router";
 
@@ -74,7 +74,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         label={`${t("post-request-location-label")}`}
         placeholder={t("post-request-location-placeholder")}
         control={control}
-        options={vietnamCities}
+        options={vietnamProvinces}
         onChange={(_) => {
           trigger("details.location");
         }}

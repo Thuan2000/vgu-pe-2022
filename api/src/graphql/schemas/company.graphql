@@ -62,6 +62,7 @@ type CompaniesItem {
 	categoryId: Int
 	businessTypeIds: [Int]
 	responseTime: Int # In minutes
+	subscription: CompanySubscription
 }
 
 input FetchCompanyInput {
@@ -93,6 +94,20 @@ type Company {
 	settings: CompanySettings
 	industryId: Int
 	establishmentDate: Date
+	subscription: CompanySubscription
+}
+
+type CompanySubscription {
+	startAt: Date!
+	endAt: Date!
+	monthAmount: Int!
+	subscriptionDetail: Subscription!
+}
+
+type Subscription {
+	nameEn: String!
+	nameVn: String!
+	monthlyPrice: Date!
 }
 
 input CompanyRegisterInput {
@@ -137,7 +152,7 @@ type UnapprovedCompany {
 	user: UnapprovedCompanyOwner!
 }
 
-type Mutation {
+extend type Mutation {
 	companySignup(input: CompanyRegisterInput!): AuthResponse!
 	approveCompany(id: Int!, approverId: Int!): Response!
 	updateCompany(

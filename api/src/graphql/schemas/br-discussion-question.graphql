@@ -47,7 +47,4 @@ extend type Mutation {
 	createBRDiscussionQuestion(
 		input: CreateBRDiscussionQuestionInput!
 	): CreateResponse!
-	createBRDiscussionAnswer(
-		input: CreateBRDiscussionAnswerInput!
-	): CreateResponse!
 }

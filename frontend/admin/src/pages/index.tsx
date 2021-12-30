@@ -11,6 +11,7 @@ import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
 import { getLoggedInUser } from "@utils/functions";
 import SuperAdminContent from "@components/super-admin-content";
+import HomepageContent from "@components/homepage/homepage-content";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -37,7 +38,7 @@ const Homepage = () => {
         />
       </Head>
       <main>
-        {role === "SUPER_ADMIN" ? <SuperAdminContent /> : <UnderDevelopment />}
+        <HomepageContent />
       </main>
     </>
   );
