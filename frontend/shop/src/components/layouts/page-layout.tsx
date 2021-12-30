@@ -9,8 +9,9 @@ const PageLayout: React.FC = ({ children }) => {
   return (
     <>
       {!isPhone && <Navbar className="fixed top-0 w-full" />}
-      <div className={`mt-40 px-10 md:px-48`}>{children}</div>
-      <Footer />
+      {!isPhone && <div className={`mt-40 px-10 md:px-48`}>{children}</div>}
+      {isPhone && <div>{children}</div>}
+      {!isPhone && <Footer />}
     </>
   );
 };

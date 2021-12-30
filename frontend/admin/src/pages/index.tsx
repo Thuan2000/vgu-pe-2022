@@ -38,7 +38,7 @@ const Homepage = () => {
         />
       </Head>
       <main>
-        <HomepageContent />
+      <HomepageContent />
       </main>
     </>
   );
