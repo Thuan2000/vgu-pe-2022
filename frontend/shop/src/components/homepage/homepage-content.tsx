@@ -26,7 +26,7 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
       <div className={`pb-10 w-full`}>
         <iframe
           src="https://iframe.sdconnect.vn"
-          className={`w-full min-h-[600px]`}
+          className={`max-w-[100vw] w-full min-h-[600px]`}
         />
       </div>
     </div>
