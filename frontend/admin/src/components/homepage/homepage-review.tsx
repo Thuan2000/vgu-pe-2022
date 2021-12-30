@@ -1,7 +1,6 @@
 import PostRequestAnimationIcon from "@assets/icons/post-request-animation-icon";
 import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
-import Typography from "@components/ui/storybook/typography";
 import { ROUTES } from "@utils/routes";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -54,12 +53,17 @@ const HomepageReview: React.FC<IHomepageReviewProps> = ({
               {t("logout-button")}
             </Button>
           </Link>
-          <Button
-            size="small"
-            className="md:w-1/2.5 ml-2"
+          <Link
+            href={ROUTES.SETTINGS}
           >
-            {t("setting-button")}
-          </Button>
+            <Button
+
+              size="small"
+              className="md:w-1/2.5 ml-2"
+            >
+              {t("setting-button")}
+            </Button>
+          </Link>
         </div>
 
       </div>

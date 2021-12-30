@@ -43,8 +43,6 @@ const HomepageChat: React.FC<IHomepageChatProps> = ({
               size="xl"
               color={"gray-400"}
             />
-          
-          
         </div>
       </div>
       <Icon

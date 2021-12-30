@@ -1,5 +1,4 @@
 import type { GetServerSideProps } from "next";
-
 import PageLayout from "@components/layouts/page-layout";
 import React from "react";
 import Head from "next/head";
