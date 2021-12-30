@@ -46,7 +46,7 @@ class CompanyController {
 			limit,
 			offset,
 			where: {
-				// approved: 1,
+				approved: 1,
 				...(establishmentDate
 					? {
 							establishmentDate: {
