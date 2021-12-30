@@ -7,12 +7,10 @@ import {
   PPS_CATEGORY_FORM_INDEX,
   PPS_REVIEW_FORM_INDEX,
   PPS_DETAILS_FORM_INDEX,
-  PPS_ATTACHMENT_FORM_INDEX,
   PPS_PRICING_FORM_INDEX,
 } from "./pps-product-constants";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { ppsProductSchema } from "./pps-product-schema";
-import PPSProductAttachmentInput from "./pps-product-attachment-input";
 import PPSProductDetailsInput from "./pps-product-details-input";
 import Form from "@components/form";
 import PPSProductFooterButton from "./pps-product-footer-button";
@@ -26,107 +24,20 @@ import {
   CreateServiceMutation,
   UpdateServiceMutation,
 } from "@graphql/service.graphql";
-import { IProduct } from "@graphql/types.graphql";
-import {
-  generateUUID,
-  getCompanyId,
-  getCompanyName,
-  getLoggedInUser,
-} from "@utils/functions";
 import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
 import { ROUTES } from "@utils/routes";
-import { ITagInput } from "@graphql/types.graphql";
 
 import {
   IPPIPackage,
   IPPIRow,
 } from "@components/ui/storybook/inputs/package-pricing-input/ppi-interfaces";
-import { getCategory } from "@datas/categories";
-import { getIndustry } from "@datas/industries";
-import { getLocationByName } from "@utils/vietnam-cities";
 import { IPostProductFormValues } from "./pps-product-interface";
+import UnderDevelopment from "@components/under-development";
 
-interface IPPSProductFormProps extends React.HTMLAttributes<HTMLDivElement> {
-  initValue?: IProduct;
-}
+interface IPPSProductFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-
-function removeTypename(withTypename: any[] = []) {
-  const withoutTypename = withTypename?.map(({ __typename, ...wt }: any) => wt);
-
-  return withoutTypename;
-}
-
-function addIdAndRemoveTypename(arr: any[] = []) {
-  return arr.map(({ __typename, ...a }: any) => ({ id: generateUUID(), ...a }));
-}
-
-function processPackages(packages: IPPIPackage[]) {
-  const processed = packages.map(({ __typename, id, packageRows }: any) => {
-    const processedPRs = packageRows?.map(
-      ({ __typename, rowId, value }: any) => ({
-        rowId,
-        value: JSON.parse(value),
-      })
-    );
-
-    return { id, packageRows: processedPRs };
-  });
-
-  return processed;
-}
-
-function generateDefaultValues(initValue: IProduct) {
-  const {
-    description,
-    name,
-    location,
-    categoryId,
-    industryId,
-    certificates,
-    images,
-    videos,
-    faqs,
-    tags,
-    price,
-    packages,
-    packageRows,
-  } = initValue;
-  const defaultValue: IPostProductFormValues = {
-    attachment: {
-      certificates: removeTypename(certificates || []),
-      images: removeTypename(images || []),
-      videos: removeTypename(videos || []),
-    },
-    category: {
-      name,
-      category: getCategory(categoryId),
-      industry: getIndustry(industryId),
-    },
-    details: {
-      description,
-      faqs: addIdAndRemoveTypename(faqs || []),
-      tags: addIdAndRemoveTypename(tags || []),
-      location: getLocationByName(location),
-    },
-    pricing: {
-      price,
-      ...(!!packageRows?.length && !!packages?.length
-        ? {
-            packages: {
-              rows: removeTypename(packageRows || []),
-              packages: processPackages(packages || []),
-            },
-          }
-        : ({} as any)),
-    },
-  };
-
-  return defaultValue;
-}
-
-const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValue }) => {
+const PPSProductForm: React.FC<IPPSProductFormProps> = ({}) => {
   const { t } = useTranslation("form");
   const { locale, query, ...router } = useRouter();
   const [createService, { loading }] = useCreateServiceMutation({
@@ -157,19 +68,12 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValue }) => {
     handleSubmit,
   } = useForm<IPostProductFormValues>({
     resolver: yupResolver(ppsProductSchema),
-    defaultValues: initValue ? generateDefaultValues(initValue) : {},
   });
 
   // Changing section if there's an error and user submitting
   useEffect(() => {
     if (errors && errors.category && formPosition > PPS_CATEGORY_FORM_INDEX)
       changeSection(PPS_CATEGORY_FORM_INDEX);
-    else if (
-      errors &&
-      errors.attachment &&
-      formPosition > PPS_ATTACHMENT_FORM_INDEX
-    )
-      changeSection(PPS_ATTACHMENT_FORM_INDEX);
     else if (errors && errors.details && formPosition > PPS_DETAILS_FORM_INDEX)
       changeSection(PPS_DETAILS_FORM_INDEX);
     else if (errors && errors.pricing && formPosition > PPS_PRICING_FORM_INDEX)
@@ -182,18 +86,14 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValue }) => {
   }
 
   // Redirect to first section if user jump using query
-  useEffect(() => {
-    if (formPosition > PPS_CATEGORY_FORM_INDEX && !isDirtyCategory())
-      changeSection(PPS_CATEGORY_FORM_INDEX);
-  }, []);
+  // useEffect(() => {
+  //   if (formPosition > PPS_CATEGORY_FORM_INDEX && !isDirtyCategory())
+  //     changeSection(PPS_CATEGORY_FORM_INDEX);
+  // }, []);
 
   async function handleNextClick() {
     if (formPosition === PPS_CATEGORY_FORM_INDEX) {
       const data = await trigger("category");
-      if (!data) return;
-    }
-    if (formPosition === PPS_ATTACHMENT_FORM_INDEX) {
-      const data = await trigger("attachment");
       if (!data) return;
     }
     if (formPosition === PPS_DETAILS_FORM_INDEX) {
@@ -280,75 +180,14 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValue }) => {
   }
 
   function onSubmit(values: IPostProductFormValues) {
-    const { attachment, category: categorySection, details, pricing } = values;
-
-    const { industry, category, name } = categorySection;
-    const industryId = industry.id;
-    const categoryId = category.id;
-    const {
-      faqs: rawFaqs,
-      tags: rawTags,
-      location: locationRaw,
-      description,
-    } = details;
-    const faqs = rawFaqs?.map((rf) => ({
-      question: rf.question,
-      answer: rf.answer,
-    }));
-    const location = locationRaw.name;
-    const newTags: ITagInput[] = [];
-    const tags: string[] = rawTags.map(({ isNewRecord, id, ...tag }: any) => {
-      if (isNewRecord) newTags.push(tag);
-      return tag.name;
-    });
-
-    const { images, ...attachmentRest } = attachment;
-
-    const coverImage =
-      images && !!images.length ? attachment?.images[0] : undefined;
-    const { price, packages: rawPackages } = pricing;
-    const packages = rawPackages?.packages;
-    const rows = rawPackages?.rows;
-
-    const { formatedPackages, minPrice, maxPrice } =
-      processRawPackages(packages, rows) || {};
-    const value: any = {
-      name,
-      description,
-      industryId,
-      categoryId,
-      location,
-      tags,
-      faqs,
-      newTags,
-      packageRows: rows || null,
-      coverImage,
-      ...attachmentRest,
-      packages: formatedPackages || null,
-      minPrice: minPrice || null,
-      maxPrice: maxPrice || null,
-      price: price || null,
-    };
-
-    if (!!initValue) {
-      updateService({ variables: { input: { id: initValue.id, ...value } } });
-    } else {
-      createService({
-        variables: {
-          input: {
-            ...value,
-            companyId: getCompanyId(),
-            companyName: getCompanyName() as string,
-            createdById: getLoggedInUser()?.id as any,
-          },
-        },
-      });
-    }
+    const { category, details, pricing } = values;
   }
 
   function handleBackClick() {
     changeSection(formPosition - 1);
   }
+
+  return <UnderDevelopment />;
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="pt-2 space-y-2">
@@ -359,15 +198,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValue }) => {
       >
         {formPosition === PPS_CATEGORY_FORM_INDEX && (
           <PPSProductCategoryInput
-            errors={errors}
-            trigger={trigger}
-            control={control}
-            register={register}
-          />
-        )}
-
-        {formPosition === PPS_ATTACHMENT_FORM_INDEX && (
-          <PPSProductAttachmentInput
             errors={errors}
             trigger={trigger}
             control={control}

@@ -46,6 +46,7 @@ class CompanyController {
 			limit,
 			offset,
 			where: {
+				// approved: 1,
 				...(establishmentDate
 					? {
 							establishmentDate: {
@@ -84,6 +85,8 @@ class CompanyController {
 				}
 			]
 		});
+
+		console.log(companies);
 
 		const hasMore =
 			offset + companies.length < dataCount && companies.length === limit;

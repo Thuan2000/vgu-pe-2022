@@ -9,15 +9,16 @@ import {
 
 import CreateableSelectInput from "@components/ui/storybook/createable-select/createable-select-input";
 import { IPostProductFormValues } from "./pps-product-interface";
-import SelectInput from "@components/ui/storybook/select-input";
-import { vietnamCities } from "@utils/vietnam-cities";
 import FaqInput from "@components/ui/storybook/inputs/faq-input/faq-input";
-import { generateUUID } from "@utils/functions";
 import { useTagsQuery } from "@graphql/tag.graphql";
 import { useRouter } from "next/dist/client/router";
-import { ILocale, ITagInput } from "@graphql/types.graphql";
+import { ILocale } from "@graphql/types.graphql";
 import TextArea from "@components/ui/storybook/inputs/text-area";
 import { ITagWithNewRecord } from "@utils/interfaces";
+import NumberInput from "@components/ui/storybook/inputs/number-input";
+import LocationInput from "@components/ui/location-input/location-input";
+import DocumentInput from "@components/ui/storybook/document-input";
+import { getDocumentAccept } from "@utils/functions";
 
 interface IPPSProductDetailsInputProps {
   register: UseFormRegister<IPostProductFormValues>;
@@ -78,40 +79,66 @@ const PPSProductDetailsInput: React.FC<IPPSProductDetailsInputProps> = ({
         error={t(errors.details?.description?.message || "")}
       />
 
-      <SelectInput
-        label={t("post-product-location-input-label")}
-        placeholder={t("post-product-location-input-placeholder")}
-        numberQueue={5}
-        options={vietnamCities}
-        getOptionLabel={(opt) => opt.name}
-        getOptionValue={(opt) => opt.id}
+      <NumberInput
+        label={t("minOrder-input-label")}
+        numberQueue={2}
         control={control}
-        onChange={(_) => trigger("details.location")}
-        name="details.location"
+        onChange={() => {
+          trigger("details.minOrder");
+        }}
         required
-        error={t((errors?.details?.location as any)?.message)}
+        name="details.minOrder"
+        error={t(errors.details?.minOrder?.message || "")}
       />
 
-      <CreateableSelectInput
-        label={t("post-product-tags-input-label")}
-        placeholder={t("post-product-tags-input-placeholder")}
-        isMulti
+      <LocationInput
+        label={t("minOrder-input-label")}
+        numberQueue={3}
+        required
+        control={control}
+        name="details.location"
+        onChange={() => {
+          trigger("details.location");
+        }}
+      />
+
+      <DocumentInput
+        required
+        inputFileType="image"
+        control={control}
+        numberQueue={4}
+        multiple
+        name="details.images"
+        onChange={(_) => trigger("details.images")}
+        accept="image/*"
+        label={t("postService-image-input-label")}
+        error={t((errors.details?.images as any)?.message || "")}
+      />
+
+      <DocumentInput
+        required
+        inputFileType="video"
+        control={control}
+        numberQueue={5}
+        multiple
+        name="details.videos"
+        onChange={(_) => trigger("details.videos")}
+        accept="video/*"
+        label={t("postService-videos-input-label")}
+        error={t((errors.details?.videos as any)?.message || "")}
+      />
+
+      <DocumentInput
+        required
+        control={control}
+        inputFileType="application"
+        multiple
         numberQueue={6}
-        control={control}
-        onChange={(_) => trigger("details.tags")}
-        name="details.tags"
-        getOptionLabel={(o) => o.label || o.name}
-        getOptionValue={(o) => o.label || o.name}
-        options={tags}
-        createNewOption={createNewTag}
-        error={t((errors?.details?.tags as any)?.message)}
-      />
-
-      <FaqInput
-        control={control}
-        name="details.faqs"
-        numberQueue={7}
-        label={t("post-product-faq-input-label")}
+        name="details.certificates"
+        onChange={(_) => trigger("details.certificates")}
+        accept={getDocumentAccept()}
+        label={t("postService-certificates-input-label")}
+        error={t((errors.details?.certificates as any)?.message || "")}
       />
     </div>
   );

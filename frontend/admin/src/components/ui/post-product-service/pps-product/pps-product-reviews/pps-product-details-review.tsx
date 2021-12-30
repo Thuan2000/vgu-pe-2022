@@ -17,15 +17,6 @@ const PPSDetailsReview: React.FC<IPPSDetailsReviewProps> = ({
 }) => {
   const { t } = useTranslation("form");
 
-  function getTags() {
-    let text = "";
-    details?.tags.forEach((t, idx) => {
-      text += `${idx > 0 ? ", " : ""}${t.name}`;
-    });
-
-    return text;
-  }
-
   return (
     <div className="sm:w-2/3">
       <ReviewSectionTitle
@@ -37,20 +28,6 @@ const PPSDetailsReview: React.FC<IPPSDetailsReviewProps> = ({
           label={t("pps-productLocation-review-label")}
           value={details?.location?.name}
         />
-        <ReviewQA
-          label={t("pps-productLocation-review-label")}
-          value={getTags()}
-        />
-
-        {details?.faqs?.length > 0 && (
-          <>
-            <Typography
-              className="text-semibold"
-              text={t("pps-productFaqs-review-label")}
-            />
-            <FAQList faqs={details?.faqs} />
-          </>
-        )}
       </div>
     </div>
   );

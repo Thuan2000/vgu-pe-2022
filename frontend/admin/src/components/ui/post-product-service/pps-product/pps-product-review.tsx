@@ -6,7 +6,6 @@ import { UseFormGetValues } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import PPSCategoryReview from "./pps-product-reviews/pps-product-category-review";
 import PPSDetailsReview from "./pps-product-reviews/pps-product-details-review";
-import PPSAttachmentReview from "./pps-product-reviews/pps-product-attachment-review";
 import { IPostProductFormValues } from "./pps-product-interface";
 import PPSPricingReview from "./pps-product-reviews/pps-product-pricing-review";
 
@@ -33,11 +32,6 @@ const PPSProductReview: React.FC<IPPSProductReviewProps> = ({
         <PPSDetailsReview
           changeSection={changeSection}
           details={getValues("details")}
-        />
-        <Divider />
-        <PPSAttachmentReview
-          changeSection={changeSection}
-          attachment={getValues("attachment")}
         />
         <Divider />
         <PPSPricingReview

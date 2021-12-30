@@ -6,9 +6,7 @@ const categorySchema = yup.object({
   category: yup.object().required("category-required-error"),
 });
 
-const generalSchema = yup.object({
-
-});
+const generalSchema = yup.object({});
 
 const detailsSchema = yup.object({
   description: yup
@@ -16,14 +14,10 @@ const detailsSchema = yup.object({
     .min(10, "error-productDescription-too-short")
     .required("error-productName-required"),
   location: yup.object().required("error-productLocation-required"),
-  tags: yup
-    .array()
-    .min(1, "error-productTags-required-error")
-    .required("error-productTags-required-error"),
 });
 
 export const ppsProductSchema = yup.object({
-  category: categorySchema,
-  general: generalSchema,
-  details: detailsSchema,
+  // category: categorySchema,
+  // general: generalSchema,
+  // details: detailsSchema,
 });

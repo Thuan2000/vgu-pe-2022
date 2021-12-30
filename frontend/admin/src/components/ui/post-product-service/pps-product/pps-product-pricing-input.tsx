@@ -1,6 +1,5 @@
 import { PlusIcon } from "@assets/icons/plus-icon";
 import Button from "@components/ui/storybook/button";
-import GroupPricingInput from "@components/ui/storybook/inputs/group-pricing-input/group-pricing-input";
 import InputLabel from "@components/ui/storybook/inputs/input-label";
 import PackagePricingInput from "@components/ui/storybook/inputs/package-pricing-input";
 import ValidationError from "@components/ui/storybook/validation-error";
@@ -15,6 +14,7 @@ import {
 } from "react-hook-form";
 import { IPostProductFormValues } from "./pps-product-interface";
 import PPSProductSinglePricingInput from "./pps-product-pricing-single-price";
+import ProductPriceInput from "./product-price-input";
 
 interface IPPSProductPricingInputProps {
   register: UseFormRegister<IPostProductFormValues>;
@@ -48,48 +48,9 @@ const PPSProductPricingInput: React.FC<IPPSProductPricingInputProps> = ({
     !!control._formValues.pricing?.packages
   );
 
-  // const [isAddingGroups, setIsAddingGroups] = useState(
-  //   !!control._formValues.pricing?.groups
-  // );
-
   return (
     <div className="space-y-5 min-h-[65vh]">
-      {!isAddingPackages && <PPSProductSinglePricingInput control={control} />}
-      <div className="space-y-2">
-        <InputLabel
-          numberQueue={!isAddingPackages ? 9 : 8}
-          label={t("packagePricing-input-label")}
-        />
-        {!isAddingPackages && (
-          <AddButton
-            label={t("post-product-addPackage")}
-            onClick={() => setIsAddingPackages(true)}
-          />
-        )}
-        {isAddingPackages && (
-          <PackagePricingInput
-            onAbort={() => setIsAddingPackages(false)}
-            control={control}
-            name="pricing.packages"
-          />
-        )}
-      </div>
-
-      <ValidationError message={t((errors?.pricing as any)?.message)} />
-
-      {/* @KEEP */}
-      {/* <div className="space-y-2">
-        <InputLabel label={t("groupPricing-input-label")} />
-        {!isAddingGroups && (
-          <AddButton
-            label={t("post-product-addPackage")}
-            onClick={() => setIsAddingGroups(true)}
-          />
-        )}
-        {isAddingGroups && (
-          <GroupPricingInput control={control} name="pricing.groups" />
-        )}
-      </div> */}
+      <ProductPriceInput />
     </div>
   );
 };

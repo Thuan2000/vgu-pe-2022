@@ -12,11 +12,7 @@ export interface IPPSFCategorySection {
   industry: IIndustry;
 }
 
-export interface IPPSFAttachmentSection {
-  images: IFile[];
-  videos: IFile[];
-  certificates: IFile[];
-}
+export interface IPPSFAttachmentSection {}
 
 export interface IPPSFPricingSection {
   price: number;
@@ -25,14 +21,15 @@ export interface IPPSFPricingSection {
 
 export interface IPPSFDetailsSection {
   description: string;
-  tags: ITagWithNewRecord[];
+  minOrder: number;
   location: IVietnamCity;
-  faqs: IFaq[];
+  images: IFile[];
+  videos: IFile[];
+  certificates: IFile[];
 }
 
 export interface IPostProductFormValues {
   category: IPPSFCategorySection;
-  attachment: IPPSFAttachmentSection;
   details: IPPSFDetailsSection;
   pricing: IPPSFPricingSection;
 }
