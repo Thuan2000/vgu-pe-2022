@@ -192,3 +192,13 @@ export function getYear(stringDate: string) {
   const year = new Date(stringDate).getFullYear();
   return year;
 }
+
+export function removeTypenameFromArray(withTypename: any[] = []) {
+  const withoutTypename = withTypename?.map(({ __typename, ...wt }: any) => wt);
+
+  return withoutTypename;
+}
+
+export function addIdAndRemoveTypename(arr: any[] = []) {
+  return arr.map(({ __typename, ...a }: any) => ({ id: generateUUID(), ...a }));
+}
