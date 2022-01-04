@@ -57,7 +57,7 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
         <Link
           target="_blank"
           rel="noreferrer"
-          href={`${ROUTES.ADMIN_LINK}/${getLoginCompanySlug()}`}
+          href={`${ROUTES.ADMIN_LINK}/${ROUTES.SETTINGS}`}
         >
           <div className="px-3 py-2 flex items-center ">
             <SettingIcon className="mr-4 h-6 w-4" />

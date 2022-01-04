@@ -17,7 +17,7 @@ const SideFilter: React.FC<ISideFilterProps> = ({ noStatusFilter }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="hidden sm:block space-y-2 bg-white p-2 flex-shrink-0">
+    <div className="hidden sm:block mt-2 space-y-2 bg-white p-2 flex-shrink-0">
       <div className="flex items-center w-[250px]">
         <FilterIcon fill={COLORS.PRIMARY.DEFAULT} className="mr-4" />
         <Typography

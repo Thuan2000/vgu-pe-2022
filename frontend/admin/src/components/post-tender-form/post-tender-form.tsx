@@ -147,8 +147,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     const coverImage = generalRest?.gallery?.[0];
 
     const userId = getLoggedInUser()?.id;
-    const values: ICreateBuyingRequestInput | IUpdateBuyingRequestInput = {
-      companyId: getCompanyId(),
+    const values: any = {
       [initValue ? "updatedById" : "createdById"]: getLoggedInUser()?.id,
       location: locationName,
       industryId,
@@ -167,12 +166,18 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
       await updateBr({
         variables: {
           id: parseInt(initValue.id),
-          newValue: values as IUpdateBuyingRequestInput,
+          newValue: values,
         },
       });
     } else
       await createBuyingRequest({
-        variables: { input: values as ICreateBuyingRequestInput },
+        variables: {
+          input: {
+            ...values,
+            companyId: getCompanyId()!,
+            companyName: getCompanyName()!,
+          },
+        },
       });
   }
 
