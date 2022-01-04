@@ -155,32 +155,34 @@ const DocumentUploader = ({
       )}
 
       <div className={`select-none space-y-2 ${!!numberQueue && "ml-8"}`}>
-        <div className="flex items-center flex-wrap mb-2">
-          {!thumbOnInput &&
-            files?.map((file, idx) => {
-              return (
-                <DUThumb
-                  key={file.url + "document"}
-                  file={file}
-                  onClick={openDocument}
-                  onDelete={() => handleDelete(idx)}
-                />
-              );
-            })}
-          {!thumbOnInput &&
-            loading &&
-            loadingThumbs?.map((idx) => {
-              return (
-                <DUThumb
-                  key={idx + "loading-thumb" + generateUUID()}
-                  file={{} as any}
-                  isLoading
-                  onClick={() => {}}
-                  onDelete={() => {}}
-                />
-              );
-            })}
-        </div>
+        {(!!files.length || !!loadingThumbs.length) && (
+          <div className="flex items-center flex-wrap mb-2">
+            {!thumbOnInput &&
+              files?.map((file, idx) => {
+                return (
+                  <DUThumb
+                    key={file.url + "document"}
+                    file={file}
+                    onClick={openDocument}
+                    onDelete={() => handleDelete(idx)}
+                  />
+                );
+              })}
+            {!thumbOnInput &&
+              loading &&
+              loadingThumbs?.map((idx) => {
+                return (
+                  <DUThumb
+                    key={idx + "loading-thumb" + generateUUID()}
+                    file={{} as any}
+                    isLoading
+                    onClick={() => {}}
+                    onDelete={() => {}}
+                  />
+                );
+              })}
+          </div>
+        )}
         <div
           style={{ ...inputStyle }}
           {...getRootProps({

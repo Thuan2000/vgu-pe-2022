@@ -81,7 +81,7 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
       <SelectInput
         label={t("post-service-location-input-label")}
         placeholder={t("post-service-location-input-placeholder")}
-        numberQueue={5}
+        numberQueue={2}
         options={vietnamProvinces}
         getOptionLabel={(opt) => opt.name}
         getOptionValue={(opt) => opt.id}
@@ -96,7 +96,7 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
         label={t("post-service-tags-input-label")}
         placeholder={t("post-service-tags-input-placeholder")}
         isMulti
-        numberQueue={6}
+        numberQueue={3}
         control={control}
         onChange={(_) => trigger("details.tags")}
         name="details.tags"
@@ -110,7 +110,7 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
       <FaqInput
         control={control}
         name="details.faqs"
-        numberQueue={7}
+        numberQueue={4}
         label={t("post-service-faq-input-label")}
       />
     </div>

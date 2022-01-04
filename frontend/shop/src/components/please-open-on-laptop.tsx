@@ -9,22 +9,20 @@ const PleaseOpenOnLaptop: React.FC<IPleaseOpenOnLaptopProps> = () => {
   const { t } = useTranslation("common");
 
   return (
-    <div className="flex h-screen justify-center items-center">
+    <div className="flex h-screen mt-28">
       <div className = "flex flex-col">
-        <div className="w-full z-40">
+        <div className="w-full">
           <Image
             className=""
             src={UnderConstructionIllustration}
             objectFit="cover"
             alt={t("under-development")}
           />
-          <div className="absolute inset-0 flex flex-col justify-end items-center mb-24">
+          <div className="absolute inset-0 flex flex-col justify-end items-center mb-32">
             <p className="md:w-32 lg:w-48 text-3xl font-bold text-center">{t("phone-view-not-ready-text")}</p>
             <p className="flex justify-center my-2 text-xl z-20 text-center">{t("please-open-on-laptop-text")}</p>
           </div>
         </div>
-
-        
       </div>
     </div>
   );

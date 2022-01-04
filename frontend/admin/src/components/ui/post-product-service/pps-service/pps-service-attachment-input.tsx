@@ -29,7 +29,7 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
       <DocumentInput
         inputFileType="image"
         control={control}
-        numberQueue={2}
+        numberQueue={1}
         multiple
         name="attachment.images"
         onChange={(_) => trigger("attachment.images")}
@@ -41,7 +41,7 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
       <DocumentInput
         inputFileType="video"
         control={control}
-        numberQueue={3}
+        numberQueue={2}
         multiple
         name="attachment.videos"
         onChange={(_) => trigger("attachment.videos")}
@@ -55,7 +55,7 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
         control={control}
         required
         multiple
-        numberQueue={4}
+        numberQueue={3}
         name="attachment.certificates"
         onChange={(_) => trigger("attachment.certificates")}
         accept={getDocumentAccept()}

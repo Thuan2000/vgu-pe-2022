@@ -3,10 +3,14 @@ import PostProductIcon from "@assets/icons/post-product-icon";
 import PostRequestAnimationIcon from "@assets/icons/post-request-animation-icon";
 import PostServiceIcon from "@assets/icons/post-service-icon";
 import UnderDevelopment from "@components/under-development";
+import { getLoggedInUser } from "@utils/functions";
 import { ROUTES } from "@utils/routes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import HomepageMenuItem from "./homepage-menu-item";
+import HomepageReview from "./homepage-review";
+import HomepageSubcription from "./homepage-subcription";
+import HomepageChat from "./homepage-chat-now";
 
 interface IHomepageContentProps {}
 
@@ -34,9 +38,31 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
           />
         </div>
         <div>
-          <UnderDevelopment />
+          {/*Account review and next payment bla bla bla*/}
+          <div className="grid grid-rows-2 gap-y-4">
+            <HomepageReview
+              label={t("account-review-label")}
+              userName={`${getLoggedInUser()?.firstName} ${
+                getLoggedInUser()?.lastName
+              }`}
+              userEmail={t(getLoggedInUser()?.email || "")}
+              userRole={t(getLoggedInUser()?.role || "")}
+            />
+            <HomepageSubcription
+              label={t("subcription")}
+            />
+          </div>
         </div>
+        
       </div>
+      <div className={`space-y-4 mt-5`}>
+          <HomepageChat
+            label={t("chat-now-label")}
+            url=""
+            icon={PostRequestAnimationIcon}
+          />
+          
+        </div>
     </div>
   );
 };

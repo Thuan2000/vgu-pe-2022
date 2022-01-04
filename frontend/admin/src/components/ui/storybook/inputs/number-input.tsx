@@ -49,14 +49,16 @@ const NumberInput: React.FC<INumberInputProps> = ({
                 name={name}
               />
             )}
-            <NumInput
-              onChange={(e) => {
-                onChange(e);
-                if (inputOnChange) inputOnChange(e);
-              }}
-              {...field}
-              {...props}
-            />
+            <div className={`${!!label && "ml-8"}`}>
+              <NumInput
+                onChange={(e) => {
+                  onChange(e);
+                  if (inputOnChange) inputOnChange(e);
+                }}
+                {...field}
+                {...props}
+              />
+            </div>
           </div>
         );
       }}

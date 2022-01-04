@@ -1,6 +1,4 @@
-import Button from "@components/ui/storybook/button";
 import Typography from "@components/ui/storybook/typography";
-import UnderDevelopment from "@components/under-development";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import BannerSlider from "./banner-slider";
@@ -26,7 +24,10 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
 
       <HCSearchBy />
       <div className={`pb-10 w-full`}>
-        <iframe src="https://sdconnect.vn" className={`w-full min-h-[600px]`} />
+        <iframe
+          src="https://iframe.sdconnect.vn"
+          className={`max-w-[100vw] w-full min-h-[600px]`}
+        />
       </div>
     </div>
   );
