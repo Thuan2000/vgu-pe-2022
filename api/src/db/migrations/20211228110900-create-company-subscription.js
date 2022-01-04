@@ -20,9 +20,6 @@ module.exports = {
 			startAt: {
 				type: Sequelize.BIGINT
 			},
-			endAt: {
-				type: Sequelize.BIGINT
-			},
 			totalPrice: {
 				type: Sequelize.INTEGER
 			},

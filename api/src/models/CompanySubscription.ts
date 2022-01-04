@@ -20,7 +20,6 @@ CompanySubscription.init(
 		subscriptionId: DataTypes.INTEGER,
 		monthAmount: DataTypes.INTEGER,
 		startAt: DataTypes.BIGINT,
-		endAt: DataTypes.BIGINT,
 		totalPrice: DataTypes.INTEGER
 	},
 	{

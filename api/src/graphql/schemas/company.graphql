@@ -99,7 +99,6 @@ type Company {
 
 type CompanySubscription {
 	startAt: Date!
-	endAt: Date!
 	monthAmount: Int!
 	subscriptionDetail: Subscription!
 }

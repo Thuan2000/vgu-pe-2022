@@ -6,7 +6,8 @@ import {
 	generateSlug,
 	errorResponse,
 	successResponse,
-	successResponseWithPayload
+	successResponseWithPayload,
+	DEFAULT_SUBSCRIPTION_ID
 } from "@utils";
 import Company from "@models/Company";
 import S3 from "@services/s3.service";
@@ -75,7 +76,7 @@ class CompanyController {
 				{
 					model: CompanySubscription,
 					as: "subscription",
-					attributes: ["startAt", "endAt", "monthAmount"],
+					attributes: ["startAt", "monthAmount"],
 					include: [
 						{
 							model: Subscription,
@@ -137,6 +138,15 @@ class CompanyController {
 				{ approved: 1, approverId },
 				{ where: { id } }
 			);
+
+			// Setting company subscription
+			await CompanySubscription.create({
+				companyId: id,
+				subscriptionId: DEFAULT_SUBSCRIPTION_ID,
+				monthAmount: 3,
+				startAt: new Date()
+			});
+
 			return successResponse();
 		} catch (e) {
 			return errorResponse();
