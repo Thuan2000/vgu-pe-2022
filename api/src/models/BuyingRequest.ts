@@ -22,7 +22,8 @@ class BuyingRequest extends Model {
 	private static indexName = "buying_requests";
 	private static mappingProperties = {
 		name: { type: "text" },
-		status: { type: "keyword" }
+		status: { type: "keyword" },
+		location: { type: "keyword" }
 	};
 
 	static insertIndex(data: any) {

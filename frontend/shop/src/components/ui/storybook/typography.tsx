@@ -19,7 +19,7 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
     | "pageTitle";
   element?: "h6" | "h4" | "h3" | "h2" | "h1" | "p";
   size?: "xs" | "sm" | "md" | "lg" | "xl";
-  text: string;
+  text?: string;
   isHaveReadMore?: boolean;
   color?: TextColor;
   align?: "left" | "center" | "right";
@@ -43,7 +43,7 @@ const classesNames = {
 
 const Typography: React.FC<ITypographyProps> = ({
   className: inputClassname,
-  text,
+  text = "",
   variant,
   color,
   size = "sm",

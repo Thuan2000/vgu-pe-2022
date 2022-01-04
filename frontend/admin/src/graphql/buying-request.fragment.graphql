@@ -18,12 +18,6 @@ fragment BuyingRequestParts on BuyingRequest {
     fileName
     fileType
   }
-  createdBy {
-    id
-    firstName
-    lastName
-    email
-  }
   projects {
     id
     name

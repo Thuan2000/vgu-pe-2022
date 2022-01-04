@@ -18,10 +18,7 @@ import Category from "../models/Category";
 import Industry from "../models/Industry";
 import Company from "@models/Company";
 import Project from "@models/Project";
-import {
-	nameSuggestionQuery,
-	searchQuery
-} from "@repositories/buying-request.repository";
+import BuyingRequestRepository from "@repositories/buying-request.repository";
 import Bid from "@models/Bid";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
 
@@ -78,10 +75,13 @@ class BuyingRequestController {
 		} = input;
 
 		const queryBody = {
-			query: searchQuery(searchValue, {
-				minBudget,
-				industryId,
-				categoryId
+			query: BuyingRequestRepository.getSearchQuery(searchValue, {
+				...(!!status ? { status } : {}),
+				...(!!minBudget ? { minBudget } : {}),
+				...(!!maxBudget ? { maxBudget } : {}),
+				...(!!categoryId ? { categoryId } : {}),
+				...(!!industryId ? { industryId } : {}),
+				...(!!location ? { location } : {})
 			}),
 			sort: [{ status: { order: "desc" } }]
 		};
@@ -89,64 +89,8 @@ class BuyingRequestController {
 		const { dataCount: count, brs } = await BuyingRequest.getMatchSearched(
 			queryBody
 		);
+
 		const hasMore = offset + brs.length < count && brs.length === limit;
-
-		// const { rows: data, count } = await BuyingRequest.findAndCountAll({
-		// 	...(!searchValue ? { offset } : {}),
-		// 	...(!searchValue ? { limit } : {}),
-		// 	distinct: true,
-		// 	where: {
-		// 		// ...(ids ? { id: ids } : {}),
-		// 		...(companyId ? { companyId } : {}),
-		// 		...(minBudget
-		// 			? {
-		// 					minBudget: {
-		// 						[Op.gte]: minBudget
-		// 					}
-		// 			  }
-		// 			: {}),
-		// 		...(maxBudget
-		// 			? {
-		// 					maxBudget: {
-		// 						[Op.lte]: maxBudget
-		// 					}
-		// 			  }
-		// 			: {}),
-		// 		...(status && status !== "ALL" ? { status } : {}),
-		// 		...(industryId ? { industryId } : {}),
-		// 		...(categoryId ? { categoryId } : {}),
-		// 		...(location ? { location } : {})
-		// 	},
-		// 	order: [
-		// 		[
-		// 			Sequelize.fn(
-		// 				"FIELD",
-		// 				Sequelize.col("buyingRequest.companyId"),
-		// 				companyId
-		// 			),
-		// 			"ASC"
-		// 		]
-
-		// 		// ids
-		// 		// 	? Sequelize.fn("FIELD", Sequelize.col("buyingRequest.id"), [
-		// 		// 			...ids
-		// 		// 	  ])
-		// 		// 	: ["id", "asc"]
-		// 	],
-		// 	include: [
-		// 		Company,
-		// 		Project,
-		// 		{
-		// 			model: Bid,
-		// 			as: "bids",
-		// 			attributes: ["id", "createdAt"],
-		// 			include: [{ model: Company, attributes: ["id"] }]
-		// 		},
-		// 		{ model: User, as: "createdBy" }
-		// 	]
-		// });
-
-		// const hasMore = offset + data.length < count && data.length === limit;
 
 		return {
 			data: brs,
@@ -214,7 +158,7 @@ class BuyingRequestController {
 
 	async createBuyingRequest(buyingRequestInput: ICreateBuyingRequestInput) {
 		try {
-			const { name, companyId } = buyingRequestInput;
+			const { name, companyId, companyName } = buyingRequestInput;
 
 			// Check duplicate
 			const duplicateBr = await BuyingRequest.findOne({
@@ -235,7 +179,12 @@ class BuyingRequestController {
 			);
 
 			// @TODO : Remove This later on es refactor
-			BuyingRequest.insertIndex(newBuyingRequest.toJSON());
+			// BuyingRequest.insertIndex(newBuyingRequest.toJSON());
+			BuyingRequestRepository.insertCreateToElasticSearch(
+				newBuyingRequest.toJSON(),
+				companyId,
+				companyName
+			);
 
 			return newBuyingRequest.save().then(() => successResponse());
 		} catch (error) {
@@ -258,7 +207,7 @@ class BuyingRequestController {
 
 	async getSuggestion(inputName: string, limit: number) {
 		const queryBody = {
-			query: nameSuggestionQuery(inputName),
+			query: BuyingRequestRepository.nameSuggestionQuery(inputName),
 			highlight: {
 				tags_schema: "styled",
 				fields: {
