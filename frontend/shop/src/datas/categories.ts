@@ -223,4 +223,12 @@ export const categoriesData = [
     industryId: 4,
     slug: "workers-accomodations",
   },
+
+  // Fiftg
+  {
+    id: 44,
+    label: "WORKERS ACCOMODATIONS",
+    industryId: 5,
+    slug: "workers-accomodations",
+  },
 ];

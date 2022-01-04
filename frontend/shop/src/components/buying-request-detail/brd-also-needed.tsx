@@ -18,7 +18,7 @@ const BRDAlsoNeeded: React.FC<IBRDAlsoNeededProps> = ({ brReference }) => {
   const { data } = useDiscoveryBuyingRequestsQuery({
     variables: {
       input: {
-        companyId: brReference.company.id,
+        companyId: brReference.company?.id,
         offset: 0,
         limit: ALSO_NEEDED_BR_LIMIT,
       },

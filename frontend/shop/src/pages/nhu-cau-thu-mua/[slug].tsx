@@ -97,7 +97,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
     setReload(!reload);
   }
 
-  const isMyBr = br.company.id === getCompanyId();
+  const isMyBr = br.company?.id === getCompanyId();
 
   return (
     <>
@@ -126,7 +126,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
             <div className="w-full">
               <BRDName
                 name={`${t("requestNamePrefix-value")} - ${br.name}`}
-                companyName={br.company.name}
+                companyName={br.company?.name!}
                 createdAt={viDateFormat(br.createdAt)}
                 status={br.status}
               />
@@ -142,13 +142,13 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
                 industryId={br.industryId}
                 categoryId={br.categoryId}
                 description={br.description || ""}
-                companyId={br.company.id}
+                companyId={br.company?.id!}
               />
             </div>
           </div>
           <div className="space-y-3 mt-4">
             <BRDDetail br={br} />
-            <BRDCompanySummary company={br.company} />
+            <BRDCompanySummary company={br.company!} />
             <BRDDiscussion
               isMyBr={isMyBr}
               reload={reload}
