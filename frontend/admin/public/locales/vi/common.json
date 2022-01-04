@@ -97,5 +97,12 @@
   "cancel-sub": "Hủy đăng kí",
   "what-can-we-help-you": "Chúng tôi có thể giúp gì cho bạn?",
   "lets-chat-text": "Nhắn tin ngay",
-  "companyPage-nav-label": "Công ty"
+  "companyPage-nav-label": "Công ty",
+
+  "post-service-label": "Đăng Dịch vụ",
+  "post-product-label": "Đăng Sản phẩm",
+  "post-tender-label": "Đăng Nhu cầu mua",
+
+  "logout-button": "Đăng xuất",
+  "setting-button": "Cài đặt"
 }
