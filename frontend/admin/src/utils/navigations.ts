@@ -72,6 +72,12 @@ export const settingSidebar = {
 
 export const bottomNavigations = [
   {
+    label: "setting-nav-label",
+    managedLinks: [],
+    href: ROUTES.SETTINGS,
+    icon: SettingsIcon,
+  },
+  {
     label: "logout-nav-label",
     managedLinks: [],
     href: ROUTES.LOGOUT,
