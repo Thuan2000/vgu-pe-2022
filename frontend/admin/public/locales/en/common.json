@@ -112,5 +112,27 @@
   "homepage-breadcrumb": "Homepage",
   "not-setup": "Not setup yet",
   "posted-product-page-name": "Posted Product & Service",
-  "location-text": "Location"
+  "location-text": "Location",
+  "admin-panel-menu-label": "Company Page",
+  "registration-code": "Registration Code",
+  "owner-text": "Owner",
+  "name-text": "Name",
+  "email-text": "Email",
+  "phone-text": "Phone",
+  "approve-company": "Approve Company",
+  "disapprove-company": "Disapprove Company",
+  "approve-company-title": "Approve Company",
+  "approve-company-message": "Are you sure want to approve this company?",
+  "companyApproved-success-message": "Company approved successfully",
+  "no-unapproved-companies": "No unapproved company",
+  "post-service-label": "Post Service",
+  "post-product-label": "Post Product",
+  "post-tender-label": "Post Tender",
+  "lets-start-text": "Lets start",
+  "company-subcription-label": "Company Subcription",
+  "next-payment-date-label": "Next payment",
+  "cancel-sub": "Cancel subcription",
+
+  "what-can-we-help-you": "What can we help you with?",
+  "lets-chat-text": "Chat with Us"
 }

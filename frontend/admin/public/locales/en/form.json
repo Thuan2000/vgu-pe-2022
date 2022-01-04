@@ -206,7 +206,7 @@
   "addFaq-button-label": "Add",
   "post-request-description-is-required-error": "Please input description",
   "postProductService-content-title": "Please select what you want to Post",
-  "postProductService-content-subtitle": "Làm cho quá trình dễ dàng hơn bằng cách chọn đúng hướng",
+  "postProductService-content-subtitle": "Make it easier by choosing right way",
   "serviceName-input-label": "Service Name",
   "serviceName-input-placeholder": "Service Name",
   "serviceIndustryCategory-label": "Service Industry & Category",
@@ -293,7 +293,41 @@
   "services-deleted-message": "Selected services has deleted successfully",
   "okay-button-label": "Okay",
   "PACKAGE_PRICE_LABEL": "Package Price",
-  "million-suffix": "tr",
-  "billion-suffix": "tỷ",
-  "companyAddress-input-label": "Company Address"
+  "million-suffix": "m",
+  "billion-suffix": "b",
+  "companyAddress-input-label": "Company Address",
+
+  "search-Placeholder": "Search",
+
+  "productName-input-label": "Product Name",
+  "productName-input-placeholder": "Product Name",
+  "error-productName-required": "Please input product name",
+
+  "productIndustryCategory-label": "Product Industry & Category",
+
+  "postProduct-description-input-label": "Product Description",
+  "error-productDescription-too-short": "Description should be more than 200 letters",
+  "post-product-location-input-label": "Product Location",
+  "post-product-location-input-placeholder": "Indonesia",
+  "error-productLocation-required": "Please select product location",
+  "post-product-tags-input-label": "Product Tags",
+  "post-product-tags-input-placeholder": "Tags",
+  "error-productTags-required-error": "Please set product tags",
+  "post-product-faq-input-label": "FAQs",
+
+  "postProduct-image-input-label": "Product Images",
+  "postProduct-videos-input-label": "Product Videos",
+  "postProduct-certificates-input-label": "Product Certificates",
+
+  "post-product-addSinglePrice": "Add Single Price",
+  "post-product-addPackage": "Add Packages",
+
+  "pps-review-product-name": "Name",
+  "pps-review-product-industryCategory": "Industry & Category",
+  "pps-productLocation-review-label": "Product Location",
+  "pps-productFaqs-review-label": "FAQs",
+  "pps-product-singlePrice-label": "Single Price",
+  "pps-review-note": "Check all the information carefully before posting",
+
+  "post-product-button-label": "Post"
 }

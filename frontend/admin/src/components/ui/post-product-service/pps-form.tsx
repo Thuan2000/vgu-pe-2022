@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Typography from "../storybook/typography";
 import PPSDescription from "./pps-description";
-import PPSProductForm from "./pps-product-form";
+import PPSProductForm from "./pps-product/pps-product-form";
 import PPSServiceForm from "./pps-service/pps-service-form";
 import PPSTargetSelector, { CreateTarget } from "./pps-target-selector";
 

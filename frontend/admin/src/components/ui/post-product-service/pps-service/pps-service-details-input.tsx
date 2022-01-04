@@ -10,7 +10,7 @@ import {
 import CreateableSelectInput from "@components/ui/storybook/createable-select/createable-select-input";
 import { IPostServiceFormValues } from "./pps-service-interface";
 import SelectInput from "@components/ui/storybook/select-input";
-import { vietnamCities } from "@utils/vietnam-cities";
+import { vietnamProvinces } from "@utils/vietnam-cities";
 import FaqInput from "@components/ui/storybook/inputs/faq-input/faq-input";
 import { generateUUID } from "@utils/functions";
 import { useTagsQuery } from "@graphql/tag.graphql";
@@ -81,8 +81,8 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
       <SelectInput
         label={t("post-service-location-input-label")}
         placeholder={t("post-service-location-input-placeholder")}
-        numberQueue={5}
-        options={vietnamCities}
+        numberQueue={2}
+        options={vietnamProvinces}
         getOptionLabel={(opt) => opt.name}
         getOptionValue={(opt) => opt.id}
         control={control}
@@ -96,7 +96,7 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
         label={t("post-service-tags-input-label")}
         placeholder={t("post-service-tags-input-placeholder")}
         isMulti
-        numberQueue={6}
+        numberQueue={3}
         control={control}
         onChange={(_) => trigger("details.tags")}
         name="details.tags"
@@ -110,7 +110,7 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
       <FaqInput
         control={control}
         name="details.faqs"
-        numberQueue={7}
+        numberQueue={4}
         label={t("post-service-faq-input-label")}
       />
     </div>

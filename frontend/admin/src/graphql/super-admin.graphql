@@ -1,0 +1,17 @@
+query Unapproved($input: FetchUnapprovedCompaniesInput!) {
+  unapprovedCompanies(input: $input) {
+    id
+    name
+    licenseNumber
+    licenseFiles {
+      fileName
+      url
+    }
+    user {
+      firstName
+      lastName
+      email
+      phoneNumber
+    }
+  }
+}

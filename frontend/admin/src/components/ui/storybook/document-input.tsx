@@ -7,12 +7,14 @@ import { IDocumentUploaderProps } from "./document-uploader/document-uploader";
 interface DocumentInputProps extends IDocumentUploaderProps {
   control: any;
   name: string;
+  className?: string;
 }
 
 const DocumentInput = ({
   control,
   name,
   onChange: inputOnChange,
+  className,
   ...props
 }: DocumentInputProps) => {
   return (
@@ -20,7 +22,7 @@ const DocumentInput = ({
       control={control}
       name={name}
       render={({ field: { ref, onChange, ...rest } }) => (
-        <>
+        <div className={className}>
           <DocumentUploader
             onChange={(e) => {
               onChange(e);
@@ -29,7 +31,7 @@ const DocumentInput = ({
             {...rest}
             {...props}
           />
-        </>
+        </div>
       )}
     />
   );

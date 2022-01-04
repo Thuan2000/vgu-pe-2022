@@ -2,7 +2,7 @@ import React from "react";
 import { Controller, UseFormTrigger } from "react-hook-form";
 import Select, { ISelectProps } from "./select";
 
-interface ISelectInput extends ISelectProps {
+export interface ISelectInput extends ISelectProps {
   control: any;
   rules?: any;
   name: string;

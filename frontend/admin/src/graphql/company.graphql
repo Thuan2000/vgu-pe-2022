@@ -13,3 +13,10 @@ query Company($slug: String!) {
     ...CompanyFragment
   }
 }
+
+mutation ApproveCompany($id: Int!, $approverId: Int!) {
+  approveCompany(id: $id, approverId: $approverId) {
+    success
+    message
+  }
+}

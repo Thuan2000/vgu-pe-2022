@@ -22,7 +22,7 @@ const PPSServiceReview: React.FC<IPPSServiceReviewProps> = ({
   const { t } = useTranslation("form");
   return (
     <div>
-      <Typography text={"pps-review-note"} variant="description" />
+      <Typography text={t("pps-review-note")} variant="description" />
 
       <div className="mt-5 space-y-5">
         <PPSCategoryReview

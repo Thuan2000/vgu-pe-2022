@@ -6,16 +6,23 @@ import {
 	generateSlug,
 	errorResponse,
 	successResponse,
-	successResponseWithPayload
+	successResponseWithPayload,
+	DEFAULT_SUBSCRIPTION_ID
 } from "@utils";
 import Company from "@models/Company";
 import S3 from "@services/s3.service";
 import EmailService from "@services/email.service";
 import UserRepository from "@repositories/user.repository";
 import User from "@models/User";
-import { IFetchCompanyInput, IUpdateCompanyDetailsInput } from "@graphql/types";
+import {
+	IFetchCompanyInput,
+	IFetchUnapprovedCompaniesInput,
+	IUpdateCompanyDetailsInput
+} from "@graphql/types";
 import { Op, Sequelize } from "sequelize";
 import CompanyRepository from "@repositories/company.repository";
+import Subscription from "../models/Subscription";
+import CompanySubscription from "../models/CompanySubscription";
 
 type IRegisterResp = {
 	success: boolean;
@@ -40,6 +47,7 @@ class CompanyController {
 			limit,
 			offset,
 			where: {
+				approved: 1,
 				...(establishmentDate
 					? {
 							establishmentDate: {
@@ -63,8 +71,23 @@ class CompanyController {
 				"businessTypeIds",
 				"establishmentDate"
 				// "responseTime"
+			],
+			include: [
+				{
+					model: CompanySubscription,
+					as: "subscription",
+					attributes: ["startAt", "monthAmount"],
+					include: [
+						{
+							model: Subscription,
+							as: "subscriptionDetail"
+						}
+					]
+				}
 			]
 		});
+
+		console.log(companies);
 
 		const hasMore =
 			offset + companies.length < dataCount && companies.length === limit;
@@ -91,6 +114,44 @@ class CompanyController {
 		}
 	}
 
+	static async getUnapproved(input: IFetchUnapprovedCompaniesInput) {
+		const companies = await Company.findAll({
+			where: {
+				approved: 0
+			},
+			include: [
+				{
+					model: User,
+					association: Company.belongsTo(User, {
+						foreignKey: "ownerId"
+					})
+				}
+			]
+		});
+
+		return companies;
+	}
+
+	static async approveCompany(id: number, approverId: number) {
+		try {
+			await Company.update(
+				{ approved: 1, approverId },
+				{ where: { id } }
+			);
+
+			// Setting company subscription
+			await CompanySubscription.create({
+				companyId: id,
+				subscriptionId: DEFAULT_SUBSCRIPTION_ID,
+				monthAmount: 3,
+				startAt: new Date()
+			});
+
+			return successResponse();
+		} catch (e) {
+			return errorResponse();
+		}
+	}
 	static async updateCompany(id: number, input: IUpdateCompanyDetailsInput) {
 		try {
 			const [updatedId] = await Company.update(input, {
@@ -148,6 +209,8 @@ class CompanyController {
 				"slug",
 				generateSlug(companyName, newCompany.getDataValue("id"))
 			);
+
+			await newCompany.save();
 
 			// Setting user company id
 			const userNewToken = await UserRepository.setCompanyId(

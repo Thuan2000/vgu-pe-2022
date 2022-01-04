@@ -6,13 +6,14 @@ import {
   bottomNavigations,
   INavigation,
   navigations,
-  settingSidebar,
 } from "@utils/navigations";
-import { getActivePath } from "@utils/functions";
+import { getActivePath, getLoggedInUser } from "@utils/functions";
 import { getMeData } from "@utils/auth-utils";
 
 const SidebarNavigations = () => {
   const { pathname } = useRouter();
+
+  const role = getLoggedInUser()?.role;
 
   function checkIsActive(href: string[]) {
     return href.includes(getActivePath(pathname));
@@ -34,9 +35,15 @@ const SidebarNavigations = () => {
       <div>
         {navigations.map(
           ({ label, href, icon: Icon, children, managedLinks = [] }) => {
-            const isActive = !!children
+            let isActive = !!children
               ? checkIsActiveChildren(children)
               : checkIsActive([href, ...managedLinks]);
+
+            if (href === "[company-slug]") {
+              href = getMeData().company?.slug!;
+              isActive = getActivePath(pathname) === "/[company-slug]";
+            }
+
             return (
               <div
                 className={`overflow-hidden max-h-12 ${
@@ -70,13 +77,13 @@ const SidebarNavigations = () => {
       </div>
 
       <div className={`mt-auto -translate-y-10`}>
-        <SidebarNavItem
+        {/* <SidebarNavItem
           key={`${settingSidebar.label}-setting-bottom-navigation`}
           isActive={getActivePath(pathname) === "/[company-slug]"}
           href={getMeData().company?.slug || ""}
           label={settingSidebar.label}
           Icon={settingSidebar.icon}
-        />
+        /> */}
 
         {bottomNavigations.map(({ href, icon, managedLinks, label }) => {
           const isActive = checkIsActive([href, ...managedLinks]);

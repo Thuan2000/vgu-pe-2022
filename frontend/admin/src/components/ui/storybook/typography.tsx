@@ -3,6 +3,8 @@ import cn from "classnames";
 
 type TextColor = "primary" | "gray" | "gray-400" | "black" | "secondary-1";
 
+type TFontWeight = "bold" | "semibold" | "light";
+
 interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
   variant?:
     | "question"
@@ -18,6 +20,7 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
     | "bigTitle"
     | "pageTitle";
   element?: "h6" | "h4" | "h3" | "h2" | "h1" | "p";
+  weight?: TFontWeight;
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   text: string;
   isHaveReadMore?: boolean;
@@ -45,6 +48,7 @@ const Typography: React.FC<ITypographyProps> = ({
   className: inputClassname,
   text,
   variant,
+  weight,
   color,
   size = "sm",
   element: Element = "p",
@@ -57,6 +61,7 @@ const Typography: React.FC<ITypographyProps> = ({
     !!variant && classesNames[variant],
     `text-${size}`,
     `text-${color}`,
+    `font-${weight}`,
     inputClassname
   );
 

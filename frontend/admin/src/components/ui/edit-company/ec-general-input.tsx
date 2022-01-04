@@ -3,7 +3,7 @@ import { businessTypes } from "@datas/businessTypes";
 import { industriesData } from "@datas/industries";
 import { ICompany } from "@graphql/types.graphql";
 import { COLORS } from "@utils/colors";
-import { vietnamCities } from "@utils/vietnam-cities";
+import { vietnamProvinces } from "@utils/vietnam-cities";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import {
@@ -136,7 +136,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           required
           placeholder={t("check-location-label")}
           control={control}
-          options={vietnamCities}
+          options={vietnamProvinces}
           getOptionLabel={(opt) => opt?.name}
           error={t((errors?.general?.location as any)?.message || "")}
           getOptionValue={(opt) => opt?.name}

@@ -6,6 +6,7 @@ import { ModalProvider } from "src/contexts/modal.context";
 import ModalContainer from "@components/modal-container";
 
 import "react-toastify/dist/ReactToastify.css";
+import "../styles/custom-scrollbar.css";
 import "../styles/custom-datepicker.css";
 import "../styles/globals.css";
 import { ToastContainer } from "react-toastify";
@@ -25,7 +26,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     !isLogin() &&
     typeof window !== "undefined" &&
     pathname !== ROUTES.LOGIN &&
-    pathname !== ROUTES.LOGOUT
+    pathname !== ROUTES.LOGOUT &&
+    pathname !== ROUTES.SIGNUP
   ) {
     const fullHref = window.location.href;
     setRedirectLinkAfterLogin(fullHref);

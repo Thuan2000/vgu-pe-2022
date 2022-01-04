@@ -80,8 +80,9 @@
   "will-available-soon-text": "It will be available soon. Please come back again later",
   "sorry-title": "Sorry",
   "this-page-is-under-development-message": "This page is under development",
-  "phone-view-not-ready-text": "Phone view not developed yet",
-  "please-open-on-laptop-text": "Please use laptop to open this page",
+  "phone-view-not-ready-text": "View not yet supported on mobile",
+
+  "please-open-on-laptop-text": "Please view on desktop",
   "HOMEPAGE_NAV_LABEL": "Homepage",
   "COMPANY_NAV_LABEL": "Companies",
   "TENDER_NAV_LABEL": "Tenders",
@@ -134,5 +135,8 @@
   "years-text": "Years",
   "yourCompany-button-label": "Your Company",
   "min-establishmentDate-filter-label": "Min Establishment Date",
-  "establishmentDate-filter-placeholder": "12/12/2021"
+  "establishmentDate-filter-placeholder": "12/12/2021",
+  "admin-panel-menu-label": "Admin Panel",
+  "reply-text": "Reply",
+  "question-answer-input-placeholder": "Type your answer"
 }

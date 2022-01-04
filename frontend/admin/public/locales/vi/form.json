@@ -103,7 +103,7 @@
   "additional-nav-label": "Bổ sung",
   "error-serviceDescription-too-short": "Mô tả nên có trên 200 từ",
   "error-serviceLocation-required": "Vui lòng chọn địa điểm cung cấp dịch vụ",
-  "error-serviceTags-required-error": "Vui lòng thêm từ khóa dịch vụ",
+  "error-serviceTags-required-error": "Vui lòng thêm từ khóa cho dịch vụ",
   "postService-description-input-label": "Mô tả dịch vụ",
   "post-service-location-input-label": "Địa điểm cung cấp dịch vụ",
   "post-request-industry-category-label": "Chọn danh mục",
@@ -121,7 +121,7 @@
   "faq-answer-required-error": "Vui lòng nhập câu trả lời",
   "cancel-button-label": "Hủy",
   "create-button-label": "Tạo FAQs",
-  "check-nav-label": "Xác nhận thông tin",
+  "check-nav-label": "Xác nhận",
   "pps-review-service-name": "Tên dịch vụ",
   "pps-review-service-industryCategory": "Loại ngành dịch vụ",
   "pps-serviceLocation-review-label": "Địa điểm cung cấp dịch vụ",
@@ -144,8 +144,8 @@
   "postProductService-content-subtitle": "Làm cho quá trình dễ dàng hơn bằng cách chọn đúng hướng",
   "serviceName-input-label": "Tên dịch vụ",
   "serviceName-input-placeholder": "Tên dịch vụ",
-  "serviceIndustryCategory-label": "Loại doanh dịch vụ",
-  "industry-required-error": "Vui lòng chọn loại doanh nghiệp",
+  "serviceIndustryCategory-label": "Loại ngành dịch vụ",
+  "industry-required-error": "Vui lòng chọn loại ngành dịch vụ",
   "category-required-error": "Vui lòng chọn dịch vụ",
   "error-serviceName-required": "Vui lòng nhập dịch vụ",
   "pps-product-button-label": "Sản phẩm",
@@ -241,5 +241,38 @@
   "posted-services-page-title": "Dịch vụ",
   "posted-products-page-title": "Sản phẩm",
   "companyAddress-input-label": "Địa chỉ công ty",
-  "error-address-required": "Vui lòng thêm địa chỉ công ty"
+  "error-address-required": "Vui lòng thêm địa chỉ công ty",
+
+  "search-Placeholder": "Tìm kiếm",
+
+  "productName-input-label": "Tên sản phẩm",
+  "productName-input-placeholder": "Tên sản phẩm",
+  "error-productName-required": "Vui lòng nhập sản phẩm",
+
+  "productIndustryCategory-label": "Loại ngành sản phẩm",
+
+  "postProduct-description-input-label": "Mô tả sản phẩm",
+  "error-productDescription-too-short": "Mô tả nên có trên 200 kí tự",
+  "post-product-location-input-label": "Địa điểm cung cấp sản phẩm",
+  "post-product-location-input-placeholder": "Indonesia",
+  "error-productLocation-required": "Vui lòng chọn địa điểm cung cấp sản phẩm",
+  "post-product-tags-input-label": "Từ khóa sản phẩm",
+  "post-product-tags-input-placeholder": "Từ khóa",
+  "error-productTags-required-error": "Vui lòng thêm từ khóa cho sản phẩm",
+  "post-product-faq-input-label": "FAQs",
+
+  "postProduct-image-input-label": "Tải hình ảnh lên",
+  "postProduct-videos-input-label": "Tải video lên",
+  "postProduct-certificates-input-label": "Tải giấy chứng nhận lên",
+
+  "post-product-addSinglePrice": "Thêm giá bán lẻ",
+  "post-product-addPackage": "Thêm giá bán sỉ",
+
+  "pps-review-product-name": "Tên sản phẩm",
+  "pps-review-product-industryCategory": "Loại ngành sản phẩm",
+  "pps-productLocation-review-label": "Địa điểm cung cấp sản phẩm",
+  "pps-productFaqs-review-label": "FAQs",
+  "pps-product-singlePrice-label": "Giá bán lẻ",
+
+  "post-product-button-label": "Đăng"
 }

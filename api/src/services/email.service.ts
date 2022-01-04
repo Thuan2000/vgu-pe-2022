@@ -4,6 +4,8 @@ import handlebars from "handlebars";
 import path from "path";
 
 import { EEMailTemplates } from "@utils/email_constants";
+import AWS from "aws-sdk";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 class EmailService {
 	private transporter: Transporter;
@@ -14,16 +16,24 @@ class EmailService {
 	}
 
 	private async initNodemailer() {
-		const tranportOptions: any = {
+		const tranportOptions: SMTPTransport.Options = {
 			host: process.env.SMTP_HOST,
-			port: process.env.SMTP_PORT,
-			secure: process.env.SMTP_SECURE, // true for 465, false for other port as strings
+			port: parseInt(process.env.SMTP_PORT),
+			secure: !!process.env.SMTP_SECURE, // true for 465, false for other port as strings
 			auth: {
 				user: process.env.SMTP_USERNAME,
 				pass: process.env.SMTP_PASSWORD
 			}
 		};
-		this.transporter = Nodemailer.createTransport(tranportOptions);
+
+		const ses = new AWS.SES({
+			apiVersion: "2010-12-01",
+			region: "ap-southeast-1"
+		});
+
+		this.transporter = Nodemailer.createTransport({
+			SES: { ses, aws: AWS }
+		});
 	}
 
 	/**
