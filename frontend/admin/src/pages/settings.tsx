@@ -1,41 +1,87 @@
-import React from "react";
 import PageLayout from "@components/layouts/page-layout";
-import { useTranslation } from "react-i18next";
+import PostPageWrapper from "@components/post-page-wrapper";
+import PostedServices from "@components/posted-product-service/posted-services";
+import SettingGeneralForm from "@components/ui/setting-form/setting-general";
+import UnderDevelopment from "@components/under-development";
+import { PAGE_NAME } from "@utils/pagePath";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import SettingPageWrapper from "../components/setting-page-wrapper";
-import SettingGeneralForm from "../components/ui/setting-form/setting-general";
+import { useRouter } from "next/dist/client/router";
+import React from "react";
+import SettingSecurityForm from "@components/ui/setting-form/setting-security";
 
-export const postRequestNavs = [
+const generalLabel = "settings-general-page-title";
+const securityLabel = "settings-security-page-title";
+const generalTarget = "general";
+const securityTarget = "security";
+
+interface ISettingsProps {}
+
+const Settings: React.FC<ISettingsProps> = ({}) => {
+  const { query, ...router } = useRouter();
+  const target = query.target;
+  function getIsActiveGeneralNav(label: string) {
+    return label === generalLabel && target !== securityTarget;
+  }
+
+  function getIsActiveSecurityNav(label: string) {
+    return label === securityLabel && target === securityTarget;
+  }
+
+  function handleNavClick(label: string) {
+    if (label === generalLabel && target !== securityTarget) return;
+    if (label === securityLabel && target === securityTarget) return;
+
+    const { pathname } = router;
+
+    router.replace({
+      pathname,
+      query: {
+        ...query,
+        target: label === generalLabel ? generalTarget : securityTarget,
+      },
+    });
+  }
+
+  const settingsNavs = [
     {
-      label: "general-nav-label",
+      label: generalLabel,
+      getIsActive: getIsActiveGeneralNav,
+      onClick: handleNavClick,
     },
     {
-      label: "security-nav-label",
+      label: securityLabel,
+      getIsActive: getIsActiveSecurityNav,
+      onClick: handleNavClick,
     },
-];
+  ];
+
+  return (
+    <div>
+      <PostPageWrapper noXPadding navs={settingsNavs}>
+        {target === securityTarget ? (
+          <SettingSecurityForm />
+        ) : (
+          <div>
+            <SettingGeneralForm />
+          </div>
+        )}
+      </PostPageWrapper>
+    </div>
+  );
+};
+
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const { locale } = ctx;
-    return {
-        props: {
-            ...(await serverSideTranslations(locale!, [
-                "common",
-                "form",
-            ])),
-        },
-    };
+  const { locale, query } = ctx;
+  return {
+    props: {
+      query,
+      ...(await serverSideTranslations(locale!, ["common", "form"])),
+    },
+  };
 };
 
-const Settings = () => {
-    const { t } = useTranslation("common");
-    return (
-        <div>
-            <SettingPageWrapper navs={postRequestNavs}>
-                <SettingGeneralForm />
-            </SettingPageWrapper>
-        </div>
-    );
-};
+(Settings as any).Layout = PageLayout;
+(Settings as any).PageName = PAGE_NAME.SETTINGS;
 
-Settings.Layout = PageLayout;
 export default Settings;

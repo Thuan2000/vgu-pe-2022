@@ -6,17 +6,15 @@ import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
 import { ROUTES } from "@utils/routes";
 import DownVIcon from "@assets/icons/down-v-icon";
-import { ISourceType, sourceTypes } from "src/datas/source-type";
-import SelectInput from "@components/ui/storybook/select-input";
-import { vietnamProvinces } from "@utils/vietnam-cities";
+
 interface ISettingGeneralFormProps {}
 
 const SettingGeneralForm: React.FC<ISettingGeneralFormProps> = () => {
   const { t } = useTranslation("form");
-  const { query } = useRouter();
+  const { query, ...router } = useRouter();
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 mx-5">
         <Typography
             text={t("setting-subcription-plan-label")}
             align="left"
@@ -48,7 +46,6 @@ const SettingGeneralForm: React.FC<ISettingGeneralFormProps> = () => {
                     href={ROUTES.SETTINGS}
                 >
                     <Button
-
                         size="small"
                         className="md:w-1/1 ml-2"
                         >
@@ -94,13 +91,38 @@ const SettingGeneralForm: React.FC<ISettingGeneralFormProps> = () => {
             <p className="font-semibold text-semibold text-lg mx-14">VND 100.000.000</p>
             
         </div>
+        
         <Typography
             text={t("setting-lang-label")}
             align="left"
             variant="bigTitle"
         />
         <p className="font-semibold text-semibold text-gray-300 text-lg">{t("setting-lang-title")}</p>
+        <div className="flex flex-row justify-end">
+            <Link
+                href={ROUTES.LOGOUT}
 
+            >
+                <Button
+                    variant="cancel"
+                    size="small"
+                    className="md:w-1/1"
+                    >
+                    {t("cancel-button")}
+                </Button>
+            </Link>
+            <Link
+                href={ROUTES.SETTINGS}
+
+            >
+                <Button
+                    size="small"
+                    className="md:w-1/1 ml-2"
+                    >
+                    {t("save-button")}
+                </Button>
+            </Link>
+        </div>
         
         
     </div>
