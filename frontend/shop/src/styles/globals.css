@@ -162,5 +162,9 @@ em[class^="hlt"] {
   @apply font-semibold not-italic;
 }
 
+.animation-hover-scale {
+  @apply hover:scale-110 cursor-pointer duration-150 transition-transform delay-100;
+}
+
 @tailwind components;
 @tailwind utilities;
