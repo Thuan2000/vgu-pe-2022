@@ -78,11 +78,6 @@ type BuyingRequestsResponse {
 	pagination: Pagination!
 }
 
-type NameSuggestion {
-	name: String!
-	highlightedName: String!
-}
-
 input FetchBRInput {
 	companyId: Int
 	offset: Int!

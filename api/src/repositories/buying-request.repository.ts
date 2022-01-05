@@ -1,41 +1,14 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import OpenSearchFunction from "@/functions/open-search.function";
 import BuyingRequest from "@models/BuyingRequest";
 
-function getNameShouldQuery(name: string) {
-	if (!name) return { should: [{ match_all: {} }] };
-
-	return {
-		must: [
-			{
-				match: {
-					name: name?.toLowerCase()
-				}
-			}
-		]
-	};
-}
-
-function getRangeFilter(key: string, value: number) {
-	return {
-		range: { [key]: { [key.includes("min") ? "gte" : "lte"]: value } }
-	};
-}
-
-function getMatchFilter(key: string, value: string | number) {
-	return { match: { [key]: value } };
-}
-
-function getTermFilter(key: string, value: string | number) {
-	return { term: { [key]: value } };
-}
-
 const filterKeyFunction = {
-	industryId: getMatchFilter,
-	categoryId: getMatchFilter,
-	minBudget: getRangeFilter,
-	maxBudget: getRangeFilter,
-	location: getTermFilter,
-	status: getTermFilter
+	industryId: OpenSearchFunction.getMatchFilter,
+	categoryId: OpenSearchFunction.getMatchFilter,
+	minBudget: OpenSearchFunction.getRangeFilter,
+	maxBudget: OpenSearchFunction.getRangeFilter,
+	location: OpenSearchFunction.getTermFilter,
+	status: OpenSearchFunction.getTermFilter
 };
 
 function getFilter(f) {
@@ -66,7 +39,7 @@ class BuyingRequestRepository {
 	static getSearchQuery = (inputName: string, filter: any) => {
 		const query = {
 			bool: {
-				...getNameShouldQuery(inputName),
+				...OpenSearchFunction.getNameMustQuery(inputName),
 				filter: getFilter(filter)
 			}
 		};
@@ -77,7 +50,7 @@ class BuyingRequestRepository {
 	static nameSuggestionQuery(name: string) {
 		const query = {
 			bool: {
-				...getNameShouldQuery(name)
+				...OpenSearchFunction.getNameSuggestionQuery(name)
 			}
 		};
 

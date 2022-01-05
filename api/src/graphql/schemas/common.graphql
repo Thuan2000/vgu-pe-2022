@@ -41,3 +41,8 @@ enum POST_REQUEST_STATUS {
 	OPEN
 	CLOSE
 }
+
+type NameSuggestion {
+	name: String!
+	highlightedName: String!
+}

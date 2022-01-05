@@ -61,7 +61,6 @@ class OpenSearch {
 
 	static emptyIndex(index) {
 		this.deleteIndex(index);
-		setTimeout(() => this.createIndex(index), 5000);
 	}
 
 	public static async getSuggestion(index: string, body) {

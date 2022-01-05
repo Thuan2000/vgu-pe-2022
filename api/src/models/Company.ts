@@ -1,15 +1,89 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
 import CompanySubscription from "./CompanySubscription";
+import OpenSearch from "@services/open-search.service";
+import { successResponse, errorResponse } from "@utils/responses";
 
 class Company extends Model {
-	/**
-	 * Helper method for defining associations.
-	 * This method is not a part of Sequelize lifecycle.
-	 * The `models/index` file will call this method automatically.
-	 */
 	static associate() {
 		// define association here
+	}
+
+	private static indexName = "companies";
+	private static mappingProperties = {
+		name: { type: "text" },
+		location: { type: "keyword" }
+	};
+
+	static insertIndex(data: any) {
+		OpenSearch.insertBulk(Company.indexName, [data]);
+	}
+
+	static createIndex() {
+		try {
+			OpenSearch.createIndex(
+				Company.indexName,
+				Company.mappingProperties
+			);
+
+			return successResponse();
+		} catch (err) {
+			console.log(err);
+			return errorResponse(err);
+		}
+	}
+
+	static deleteIndex() {
+		try {
+			OpenSearch.deleteIndex(Company.indexName);
+			return successResponse();
+		} catch (err) {
+			console.log(err);
+			return errorResponse(err);
+		}
+	}
+
+	static async firstBulkElasticSearch() {
+		try {
+			const companies = await Company.findAll();
+
+			const comps = companies.map(br => br.toJSON());
+
+			OpenSearch.insertBulk(Company.indexName, comps);
+
+			return successResponse();
+		} catch (err) {
+			console.log(err);
+			return errorResponse(err);
+		}
+	}
+
+	/**
+	 *
+	 * @param queryBody ElasticSearch Query Body
+	 * @returns [Companys]
+	 */
+	static async getMatchSearched(queryBody) {
+		const suggestion = await OpenSearch.getSuggestion(
+			Company.indexName,
+			queryBody
+		);
+
+		const hits = suggestion.body?.hits;
+
+		const dataCount = hits?.total?.value;
+		const companies = hits?.hits.map(hit => hit._source);
+
+		return { dataCount, companies };
+	}
+
+	static async getNameSearchSuggestion(queryBody) {
+		const suggestion = await OpenSearch.getSuggestion(
+			Company.indexName,
+			queryBody
+		);
+
+		return suggestion.body?.hits?.hits || [];
 	}
 }
 
