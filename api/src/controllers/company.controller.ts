@@ -129,65 +129,79 @@ class CompanyController {
 		establishmentDate,
 		...input
 	}: IFetchCompanyInput) {
-		const {
-			count: dataCount,
-			rows: companies
-		} = await Company.findAndCountAll({
-			limit,
-			offset,
-			where: {
-				approved: 1,
-				...(establishmentDate
-					? {
-							establishmentDate: {
-								[Op.gte]: establishmentDate
+		try {
+			const {
+				count: dataCount,
+				rows: companies
+			} = await Company.findAndCountAll({
+				limit,
+				offset,
+				where: {
+					approved: 1,
+					...(establishmentDate
+						? {
+								establishmentDate: {
+									[Op.gte]: establishmentDate
+								}
+						  }
+						: {}),
+					...input
+				},
+				nest: true,
+				raw: true,
+				attributes: [
+					"id",
+					"name",
+					"slug",
+					CompanyFunction.sequelizeFnGetBranchAmount() as any,
+					CompanyFunction.sequelizeFnGetMainProducts() as any,
+					CompanyFunction.sequelizeFnGetCoverImage() as any,
+					"location",
+					"industryId",
+					"businessTypeIds",
+					"establishmentDate",
+					"createdAt",
+					"approverId",
+					"updatedAt"
+				],
+				include: [
+					{
+						model: CompanySubscription,
+						as: "subscription",
+						attributes: ["startAt", "monthAmount"],
+						include: [
+							{
+								model: Subscription,
+								as: "subscriptionDetail"
 							}
-					  }
-					: {}),
-				...input
-			},
-			nest: true,
-			raw: true,
-			attributes: [
-				"id",
-				"name",
-				"slug",
-				CompanyFunction.sequelizeFnGetBranchAmount() as any,
-				CompanyFunction.sequelizeFnGetMainProducts() as any,
-				CompanyFunction.sequelizeFnGetCoverImage() as any,
-				"location",
-				"industryId",
-				"approverId",
-				"businessTypeIds",
-				"establishmentDate",
-				"createdAt",
-				"updatedAt"
-			],
-			include: [
-				{
-					model: CompanySubscription,
-					as: "subscription",
-					attributes: ["startAt", "monthAmount"],
-					include: [
-						{
-							model: Subscription,
-							as: "subscriptionDetail"
-						}
-					]
+						]
+					},
+					{
+						model: User,
+						as: "approver",
+						association: Company.belongsTo(User, {
+							foreignKey: "approverId",
+							as: "approver"
+						})
+					}
+				]
+			});
+
+			const hasMore =
+				offset + companies.length < dataCount &&
+				companies.length === limit;
+
+			return {
+				companies,
+				pagination: {
+					dataCount,
+					hasMore
 				}
-			]
-		});
-
-		const hasMore =
-			offset + companies.length < dataCount && companies.length === limit;
-
-		return {
-			companies,
-			pagination: {
-				dataCount,
-				hasMore
-			}
-		};
+			};
+		} catch (e) {
+			console.error(e);
+			return errorResponse();
+		}
 	}
 
 	static async getCompany(slug: string) {
@@ -233,11 +247,13 @@ class CompanyController {
 				companyId: id,
 				subscriptionId: DEFAULT_SUBSCRIPTION_ID,
 				monthAmount: 3,
-				startAt: new Date()
+				startAt: new Date().getTime()
 			});
 
 			return successResponse();
 		} catch (e) {
+			console.log(e);
+
 			return errorResponse();
 		}
 	}
