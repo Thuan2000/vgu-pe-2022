@@ -16,6 +16,8 @@ const DetailImages: React.FC<IDetailImagesProps> = ({ coverImage, images }) => {
   const coverImageUrl = coverImage?.url || siteSettings.logo.url;
 
   function showImagePreviewModal(defaultActiveUrl: string) {
+    if (!coverImage?.url) return;
+
     openModal(
       (
         <ImagePreview
