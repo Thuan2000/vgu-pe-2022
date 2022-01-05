@@ -10,15 +10,8 @@ import OpenSearch from "@services/open-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
 import Bid from "./Bid";
 import BRDiscussionQuestion from "./BRDiscussionQuestion";
-import { IBuyingRequest } from "@graphql/types";
 
 class BuyingRequest extends Model {
-	/**
-	 * Helper method for defining associations.
-	 * This method is not a part of Sequelize lifecycle.
-	 * The `models/index` file will call this method automatically.
-	 */
-
 	private static indexName = "buying_requests";
 	private static mappingProperties = {
 		name: { type: "text" },

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 import { Client } from "@opensearch-project/opensearch";
+import { errorResponse } from "@utils/responses";
 
 interface IMappingProperties {
 	[key: string]: {
@@ -61,7 +62,6 @@ class OpenSearch {
 
 	static emptyIndex(index) {
 		this.deleteIndex(index);
-		setTimeout(() => this.createIndex(index), 5000);
 	}
 
 	public static async getSuggestion(index: string, body) {
@@ -71,6 +71,22 @@ class OpenSearch {
 		});
 
 		return data;
+	}
+
+	public static async deleteDoc(index: string, id) {
+		try {
+			await this.client.delete_by_query({
+				index,
+				body: {
+					query: {
+						match: { id }
+					}
+				}
+			});
+		} catch (e) {
+			console.error(e);
+			return errorResponse();
+		}
 	}
 }
 

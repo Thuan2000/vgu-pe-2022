@@ -1,7 +1,9 @@
 import { NetworkStatus } from "@apollo/client";
+import Typography from "@components/ui/storybook/typography";
 import { getCategoryByLabel } from "@datas/categories";
 import { getIndustryByLabel } from "@datas/industries";
 import { useServicesQuery } from "@graphql/service.graphql";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
@@ -13,6 +15,7 @@ const SERVICES_LIMIT = 30;
 interface IServicesListProps {}
 
 const ServicesList: React.FC<IServicesListProps> = ({}) => {
+  const { t } = useTranslation();
   const [page, setPage] = useState<number>(0);
 
   const { query, ...router } = useRouter();
@@ -88,6 +91,15 @@ const ServicesList: React.FC<IServicesListProps> = ({}) => {
   function onLoadMore() {
     if (hasMore) setPage((old) => old + 1);
   }
+
+  if (!fetching && !services.length)
+    return (
+      <Typography
+        className={`w-full text-2xl`}
+        align="center"
+        text={t("no-services-yet-message")}
+      />
+    );
 
   return (
     <div className={`grid grid-cols-4 gap-x-10 gap-y-5 w-full`}>

@@ -60,29 +60,17 @@ class BuyingRequestController {
 		return allBuyingRequests;
 	}
 
-	async getDiscoveryBuyingRequests(input: IFetchBrInput) {
-		const {
-			companyId,
-			offset,
-			searchValue,
-			industryId,
-			location,
-			minBudget,
-			maxBudget,
-			categoryId,
-			status,
-			limit
-		} = input;
-
+	async getDiscoveryBuyingRequests({
+		companyId,
+		limit,
+		offset,
+		searchValue,
+		...input
+	}: IFetchBrInput) {
 		const queryBody = {
-			query: BuyingRequestRepository.getSearchQuery(searchValue, {
-				...(!!status ? { status } : {}),
-				...(!!minBudget ? { minBudget } : {}),
-				...(!!maxBudget ? { maxBudget } : {}),
-				...(!!categoryId ? { categoryId } : {}),
-				...(!!industryId ? { industryId } : {}),
-				...(!!location ? { location } : {})
-			}),
+			size: limit,
+			from: offset,
+			query: BuyingRequestRepository.getSearchQuery(searchValue, input),
 			sort: [{ status: { order: "desc" } }]
 		};
 
@@ -208,6 +196,7 @@ class BuyingRequestController {
 	async getSuggestion(inputName: string, limit: number) {
 		const queryBody = {
 			query: BuyingRequestRepository.nameSuggestionQuery(inputName),
+			_source: ["name"],
 			highlight: {
 				tags_schema: "styled",
 				fields: {

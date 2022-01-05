@@ -152,6 +152,7 @@ type UnapprovedCompany {
 }
 
 extend type Mutation {
+	getCompanyNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	companySignup(input: CompanyRegisterInput!): AuthResponse!
 	approveCompany(id: Int!, approverId: Int!): Response!
 	updateCompany(
@@ -163,6 +164,9 @@ extend type Mutation {
 extend type Query {
 	company(slug: String!): Company
 	companies(input: FetchCompanyInput!): CompaniesResponse!
+	createCompanyIndex: Response!
+	firstBulkCompanyIndex: Response!
+	deleteCompanyIndex: Response!
 	unapprovedCompanies(
 		input: FetchUnapprovedCompaniesInput!
 	): [UnapprovedCompany!]!
