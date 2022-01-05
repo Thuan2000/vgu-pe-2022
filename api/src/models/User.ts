@@ -46,4 +46,4 @@ User.init(
 	}
 );
 
-User.belongsTo(Company, { as: "company" });
+// User.belongsTo(Company, { as: "company" });

@@ -153,15 +153,14 @@ class CompanyController {
 					"id",
 					"name",
 					"slug",
+					CompanyFunction.sequelizeFnGetCoverImage() as any,
 					CompanyFunction.sequelizeFnGetBranchAmount() as any,
 					CompanyFunction.sequelizeFnGetMainProducts() as any,
-					CompanyFunction.sequelizeFnGetCoverImage() as any,
 					"location",
 					"industryId",
 					"businessTypeIds",
 					"establishmentDate",
 					"createdAt",
-					"approverId",
 					"updatedAt"
 				],
 				include: [
@@ -178,11 +177,7 @@ class CompanyController {
 					},
 					{
 						model: User,
-						as: "approver",
-						association: Company.belongsTo(User, {
-							foreignKey: "approverId",
-							as: "approver"
-						})
+						as: "approver"
 					}
 				]
 			});
