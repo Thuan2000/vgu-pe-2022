@@ -194,7 +194,6 @@ const PostedServices: React.FC<IPostedServicesProps> = ({}) => {
 
           <Button
             onClick={refetchServices}
-            loading={fetching}
             variant="custom"
             className={`border`}
           >

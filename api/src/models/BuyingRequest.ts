@@ -101,6 +101,26 @@ class BuyingRequest extends Model {
 
 		return suggestion.body?.hits?.hits || [];
 	}
+
+	static async deleteEsBrs(ids: number[]) {
+		try {
+			ids.forEach(id => {
+				OpenSearch.deleteDoc(BuyingRequest.indexName, id);
+			});
+		} catch (e) {
+			console.log(e);
+			return errorResponse();
+		}
+	}
+
+	static async updateEsBr(id: number, newData) {
+		try {
+			OpenSearch.updateDoc(BuyingRequest.indexName, id, newData);
+		} catch (e) {
+			console.log(e);
+			return errorResponse();
+		}
+	}
 }
 
 BuyingRequest.init(

@@ -18,6 +18,7 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
   defaultActiveUrl,
   images,
 }) => {
+  const { closeModal } = useModal();
   const [activeImageUrl, setActiveImageUrl] = useState(defaultActiveUrl);
 
   const [activeImageIdx, setActiveImageIdx] = useState(getActiveImageIdx());
@@ -28,7 +29,8 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
   }, [activeImageUrl]);
 
   useEffect(() => {
-    setActiveImageUrl(images[activeImageIdx].url);
+    if (!images[activeImageIdx]) return;
+    setActiveImageUrl(images[activeImageIdx]?.url);
   }, [activeImageIdx]);
 
   function getActiveImageIdx() {
@@ -40,6 +42,7 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
     <div>
       <XIcon
         fill={COLORS.WHITE}
+        onClick={closeModal}
         className={`animation-hover-scale absolute top-10 right-32 w-5 h-5`}
       />
       <div className={`relative`} onClick={(e) => e.preventDefault()}>

@@ -90,11 +90,20 @@ class Service extends Model {
 		return suggestion.body?.hits?.hits || [];
 	}
 
-	static async deleteServices(ids: number[]) {
+	static async deleteEsServices(ids: number[]) {
 		try {
 			ids.forEach(id => {
 				OpenSearch.deleteDoc(Service.indexName, id);
 			});
+		} catch (e) {
+			console.log(e);
+			return errorResponse();
+		}
+	}
+
+	static async updateEsService(id: number, newData) {
+		try {
+			OpenSearch.updateDoc(Service.indexName, id, newData);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();

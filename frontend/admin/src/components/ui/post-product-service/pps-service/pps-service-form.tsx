@@ -89,13 +89,18 @@ function generateDefaultValues(initValue: IService) {
     faqs,
     tags,
     price,
+    coverImage,
     packages,
     packageRows,
   } = initValue;
+
+  const getImages = !!images?.length ? images : [];
+  const getCoverImageInArray = !!coverImage ? [images] : [];
+
   const defaultValue: IPostServiceFormValues = {
     attachment: {
       certificates: removeTypename(certificates || []),
-      images: removeTypename(images || []),
+      images: removeTypename([...getCoverImageInArray, ...getImages] || []),
       videos: removeTypename(videos || []),
     },
     category: {
@@ -320,6 +325,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       tags,
       faqs,
       newTags,
+      images,
       packageRows: rows || null,
       coverImage,
       ...attachmentRest,

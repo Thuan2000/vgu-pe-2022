@@ -102,22 +102,89 @@ class CompanyController {
 	s3 = new S3();
 	email = new EmailService();
 
-	static async getCompanies({ offset, limit, searchValue, ...input }) {
-		const queryBody = {
-			query: CompanyRepository.getSearchQuery(searchValue, input)
-		};
+	// static async getCompanies({ offset, limit, searchValue, ...input }) {
+	// 	const queryBody = {
+	// 		query: CompanyRepository.getSearchQuery(searchValue, input)
+	// 	};
 
-		const { dataCount: count, companies } = await Company.getMatchSearched(
-			queryBody
-		);
+	// 	const { dataCount: count, companies } = await Company.getMatchSearched(
+	// 		queryBody
+	// 	);
+
+	// 	const hasMore =
+	// 		offset + companies.length < count && companies.length === limit;
+
+	// 	return {
+	// 		companies,
+	// 		pagination: {
+	// 			dataCount: count,
+	// 			hasMore
+	// 		}
+	// 	};
+	// }
+
+	static async getCompanies({
+		limit,
+		offset,
+		establishmentDate,
+		...input
+	}: IFetchCompanyInput) {
+		const {
+			count: dataCount,
+			rows: companies
+		} = await Company.findAndCountAll({
+			limit,
+			offset,
+			where: {
+				approved: 1,
+				...(establishmentDate
+					? {
+							establishmentDate: {
+								[Op.gte]: establishmentDate
+							}
+					  }
+					: {}),
+				...input
+			},
+			nest: true,
+			raw: true,
+			attributes: [
+				"id",
+				"name",
+				"slug",
+				CompanyFunction.sequelizeFnGetBranchAmount() as any,
+				CompanyFunction.sequelizeFnGetMainProducts() as any,
+				CompanyFunction.sequelizeFnGetCoverImage() as any,
+				"location",
+				"industryId",
+				"approverId",
+				"businessTypeIds",
+				"establishmentDate",
+				"createdAt",
+				"updatedAt"
+			],
+			include: [
+				{
+					model: CompanySubscription,
+					as: "subscription",
+					attributes: ["startAt", "monthAmount"],
+					include: [
+						{
+							model: Subscription,
+							as: "subscriptionDetail"
+						}
+					]
+				}
+			]
+		});
 
 		const hasMore =
-			offset + companies.length < count && companies.length === limit;
+			offset + companies.length < dataCount && companies.length === limit;
 
 		return {
 			companies,
 			pagination: {
-				dataCount: count,
+				dataCount,
 				hasMore
 			}
 		};

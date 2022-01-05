@@ -21,6 +21,7 @@ import Project from "@models/Project";
 import BuyingRequestRepository from "@repositories/buying-request.repository";
 import Bid from "@models/Bid";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
+import OpenSearch from "@services/open-search.service";
 
 class BuyingRequestController {
 	async getBuyingRequestBySlug(slug: string) {
@@ -124,6 +125,7 @@ class BuyingRequestController {
 
 	async deleteBuyingRequest(id: number) {
 		try {
+			BuyingRequest.deleteEsBrs([id]);
 			await BuyingRequest.destroy({ where: { id } });
 
 			return successResponse();
@@ -135,8 +137,8 @@ class BuyingRequestController {
 
 	async deleteBuyingRequests(ids: number[]) {
 		try {
+			BuyingRequest.deleteEsBrs(ids);
 			await BuyingRequest.destroy({ where: { id: ids } });
-
 			return successResponse();
 		} catch (e) {
 			console.log(e);
@@ -185,8 +187,13 @@ class BuyingRequestController {
 		// @ TODO Make this work
 		// await BuyingRequest.updateESIndex(newValue, { where: id });
 
-		const curBr = await BuyingRequest.findByPk(id);
+		const curBr = await BuyingRequest.findByPk(id, {
+			include: [Company]
+		});
+
 		curBr.update(newValue);
+
+		BuyingRequest.updateEsBr(id, { ...curBr.toJSON(), ...newValue });
 
 		await curBr.save();
 

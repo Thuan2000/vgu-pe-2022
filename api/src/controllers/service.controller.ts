@@ -30,6 +30,7 @@ import {
 import Company from "@models/Company";
 import Service from "@models/Service";
 import Tag from "@models/Tag";
+import User from "@models/User";
 import ServiceRepository from "@repositories/service.repository";
 import TagRepository from "@repositories/tag.repository";
 import { generateSlug } from "@utils/functions";
@@ -79,7 +80,7 @@ class ServiceController {
 
 	static async deleteServices(ids: number[]) {
 		try {
-			Service.deleteServices(ids);
+			Service.deleteEsServices(ids);
 			await Service.destroy({ where: { id: ids } });
 
 			return successResponse();
@@ -141,11 +142,15 @@ class ServiceController {
 		try {
 			const { tags, newTags, id, ...newInput } = input;
 
-			const service = await Service.findByPk(id);
+			const service = await Service.findByPk(id, {
+				include: [Company]
+			});
 			service.update(newInput);
 
 			TagRepository.createTags(newTags);
 			(service as any).setTags(tags);
+
+			Service.updateEsService(id, { ...service.toJSON(), ...newInput });
 
 			return createSuccessResponse(id);
 		} catch (e) {

@@ -54,6 +54,7 @@ type CompaniesItem {
 	slug: String!
 	productAmount: Int
 	branchAmount: Int
+	approverId: Int
 	profileImage: File
 	mainProducts: [String!]
 	establishmentDate: Date
