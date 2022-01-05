@@ -63,6 +63,8 @@ type CompaniesItem {
 	businessTypeIds: [Int]
 	responseTime: Int # In minutes
 	subscription: CompanySubscription
+	createdAt: Date
+	updatedAt: Date
 }
 
 input FetchCompanyInput {
@@ -95,6 +97,8 @@ type Company {
 	industryId: Int
 	establishmentDate: Date
 	subscription: CompanySubscription
+	createdAt: Date
+	updatedAt: Date
 }
 
 type CompanySubscription {
