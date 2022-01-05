@@ -23,6 +23,6 @@ export function getBusinessType(id: number) {
 }
 
 export function getBusinessTypes(ids: number[]) {
-  const bts = ids.map((id) => businessTypes[id - 1]) as any;
+  const bts = ids?.map((id) => businessTypes[id - 1]) as any;
   return bts;
 }

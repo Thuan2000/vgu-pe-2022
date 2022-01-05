@@ -68,6 +68,8 @@ class BuyingRequestController {
 		...input
 	}: IFetchBrInput) {
 		const queryBody = {
+			size: limit,
+			from: offset,
 			query: BuyingRequestRepository.getSearchQuery(searchValue, input),
 			sort: [{ status: { order: "desc" } }]
 		};
