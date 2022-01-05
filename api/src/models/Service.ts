@@ -7,14 +7,26 @@ import Tag from "./Tag";
 
 class Service extends Model {
 	private static indexName = "services";
+	private static mappingProperties = {
+		name: { type: "text" },
+		status: { type: "keyword" },
+		location: { type: "keyword" }
+	};
 
 	static insertToIndex(data: any) {
-		OpenSearch.insertBulk(Service.indexName, [data]);
+		try {
+			OpenSearch.insertBulk(Service.indexName, [data]);
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	static createIndex() {
 		try {
-			OpenSearch.createIndex(Service.indexName);
+			OpenSearch.createIndex(
+				Service.indexName,
+				Service.mappingProperties
+			);
 
 			return successResponse();
 		} catch (err) {
@@ -36,9 +48,12 @@ class Service extends Model {
 	static async firstBulkElasticSearch() {
 		try {
 			const services = await Service.findAll({
-				raw: true
+				include: [Company, Tag]
 			});
-			OpenSearch.insertBulk(Service.indexName, services);
+
+			const srvcs = services.map(s => s.toJSON());
+
+			OpenSearch.insertBulk(Service.indexName, srvcs);
 
 			return successResponse();
 		} catch (err) {
@@ -53,14 +68,17 @@ class Service extends Model {
 	 * @returns [ServiceIds]
 	 */
 	static async getMatchSearched(queryBody) {
-		const suggestion = await OpenSearch.getSuggestion(
+		const data = await OpenSearch.getSuggestion(
 			Service.indexName,
 			queryBody
 		);
-		const idCount = suggestion?.body?.hits?.total?.value;
-		const ids = suggestion.body?.hits?.hits.map(sug => sug?._source?.id);
 
-		return { idCount, ids } || { idCount: 0, ids: [] };
+		const hits = data.body?.hits;
+
+		const dataCount = hits?.total?.value;
+		const services = hits?.hits.map(hit => hit._source);
+
+		return { dataCount, services };
 	}
 
 	static async getNameSearchSuggestion(queryBody) {
@@ -70,6 +88,17 @@ class Service extends Model {
 		);
 
 		return suggestion.body?.hits?.hits || [];
+	}
+
+	static async deleteServices(ids: number[]) {
+		try {
+			ids.forEach(id => {
+				OpenSearch.deleteDoc(Service.indexName, id);
+			});
+		} catch (e) {
+			console.log(e);
+			return errorResponse();
+		}
 	}
 }
 

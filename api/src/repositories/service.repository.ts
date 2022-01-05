@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import OpenSearchFunction from "@/functions/open-search.function";
-import Company from "@models/Company";
-import { isEmptyObject } from "@utils/functions";
+import BuyingRequest from "@models/BuyingRequest";
+import Service from "@models/Service";
 
 const filterKeyFunction = {
+	companyId: OpenSearchFunction.getMatchFilter,
 	industryId: OpenSearchFunction.getMatchFilter,
+	categoryId: OpenSearchFunction.getMatchFilter,
+	minBudget: OpenSearchFunction.getRangeFilter,
+	maxBudget: OpenSearchFunction.getRangeFilter,
 	location: OpenSearchFunction.getTermFilter
 };
 
@@ -17,23 +22,27 @@ function getFilter(f) {
 	return filter;
 }
 
-class CompanyRepository {
-	// static async insertToElasticSearch(
-	// 	{name, location, industryId}
-	// ) {
-	// 	const newBr = { company, ...br };
+class ServiceRepository {
+	static async insertCreateToElasticSearch(service, companyId, companyName) {
+		try {
+			const company = {
+				id: companyId,
+				name: companyName
+			};
 
-	// 	Company.insertIndex(newBr);
-	// }
+			Service.insertToIndex({ company, ...service });
+		} catch (e) {
+			console.log(e);
+		}
+	}
 
 	static getSearchQuery = (inputName: string, filter: any) => {
 		const query = {
 			bool: {
 				...OpenSearchFunction.getNameMustQuery(inputName),
-				...(!isEmptyObject(filter) ? { filter: getFilter(filter) } : {})
+				filter: getFilter(filter)
 			}
 		};
-		console.log(query);
 
 		return query;
 	};
@@ -49,4 +58,4 @@ class CompanyRepository {
 	}
 }
 
-export default CompanyRepository;
+export default ServiceRepository;
