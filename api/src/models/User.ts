@@ -45,5 +45,3 @@ User.init(
 		modelName: "user" // We need to choose the model name
 	}
 );
-
-// User.belongsTo(Company, { as: "company" });

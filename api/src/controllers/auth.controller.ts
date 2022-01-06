@@ -18,6 +18,7 @@ class AuthController {
 					{
 						model: Company,
 						as: "company",
+						association: User.belongsTo(Company, { as: "company" }),
 						attributes: [
 							"id",
 							"name",
@@ -25,8 +26,15 @@ class AuthController {
 							"industryId",
 							"businessTypeIds",
 							"approved",
-							"establishmentDate"
-							// [Sequelize.fn("JSON_VALUE",Sequelize.col("settings"),"$.contactNumber"),"contact number"]
+							"establishmentDate",
+							[
+								Sequelize.fn(
+									"JSON_VALUE",
+									Sequelize.col("settings"),
+									Sequelize.literal(`"$.contactNumber"`)
+								),
+								"contactNumber"
+							]
 						]
 					}
 				]
