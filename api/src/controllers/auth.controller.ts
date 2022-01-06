@@ -18,7 +18,6 @@ class AuthController {
 					{
 						model: Company,
 						as: "company",
-						association: User.belongsTo(Company, { as: "company" }),
 						attributes: [
 							"id",
 							"name",

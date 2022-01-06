@@ -13,6 +13,7 @@ import {
   UseFormTrigger,
 } from "react-hook-form";
 import { IPostProductFormValues } from "./pps-product-interface";
+import ProductPriceInput from "./product-price-input";
 
 interface IPPSProductPricingInputProps {
   register: UseFormRegister<IPostProductFormValues>;
@@ -62,7 +63,33 @@ const PPSProductPricingInput: React.FC<IPPSProductPricingInputProps> = ({
           text={`${t("single-price-input-label")} : `}
         />
 
-        <NumberInput control={control} name="pricing.singlePrice" />
+        <NumberInput
+          control={control}
+          className={`w-full`}
+          suffix={` ${t("budget-sign")}`}
+          name="pricing.singlePrice"
+        />
+      </div>
+
+      <div className="flex items-start space-x-5">
+        <Typography
+          weight="bold"
+          color="black"
+          className={`flex-shrink-0 mt-3`}
+          text={`${t("single-price-input-label")} : `}
+        />
+
+        <div className={`w-full relative`}>
+          <ProductPriceInput />
+          {/* <Button
+            variant="outline"
+            color="secondary-1"
+            className="hover:!bg-secondary-1 w-full"
+          >
+            <PlusIcon fill={COLORS["SECONDARY-1"].DEFAULT} className={`mr-3`} />
+            {t("product-pricing-add-classification-group")}
+          </Button> */}
+        </div>
       </div>
     </div>
   );
