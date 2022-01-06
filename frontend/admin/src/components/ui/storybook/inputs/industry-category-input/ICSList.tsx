@@ -5,11 +5,13 @@ import ICSListComponent from "./ICSListComponent";
 import ICSListWrapper from "./ICSListWrapper";
 import { Control, Controller } from "react-hook-form";
 import { FontSize } from "@utils/interfaces";
+import { useTranslation } from "next-i18next";
 
 export interface IICSListProps {
   industryControllerName: string;
   categoryControllerName: string;
   control: Control<any>;
+  searchValue?: string;
   selectedIndustry?: IIndustry;
   selectedCategory?: ICategory;
   onIndustryClick: (industry: IIndustry) => void;
@@ -27,6 +29,7 @@ const ICSList: React.FC<IICSListProps> = ({
   industryControllerName,
   categoryControllerName,
   control,
+  searchValue = "",
   selectedIndustry,
   selectedCategory,
   industries,
@@ -39,6 +42,20 @@ const ICSList: React.FC<IICSListProps> = ({
   getCategoryLabel,
   getIndustryLabel,
 }) => {
+  const { t } = useTranslation();
+
+  function isMatchIndustry(ind: IIndustry) {
+    return t("industry:" + ind.label)
+      .toLowerCase()
+      .includes(searchValue?.toLowerCase());
+  }
+
+  function filteredIndustries() {
+    return industries.filter((ind) => {
+      return isMatchIndustry(ind) || ind === selectedIndustry;
+    });
+  }
+
   return (
     <div className="flex mt-3 border rounded-sm">
       <Controller
@@ -47,7 +64,7 @@ const ICSList: React.FC<IICSListProps> = ({
         render={({ field: { onChange, value, ...field } }) => {
           return (
             <ICSListWrapper>
-              {industries.map((industry) => {
+              {filteredIndustries().map((industry) => {
                 if (value === industry && !selectedIndustry)
                   onIndustryClick(value);
                 const isActive = industry === selectedIndustry;

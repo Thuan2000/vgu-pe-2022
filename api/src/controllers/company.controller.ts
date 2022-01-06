@@ -10,63 +10,74 @@
 // 	establishmentDate,
 // 	...input
 // }: IFetchCompanyInput) {
-// 	const {
-// 		count: dataCount,
-// 		rows: companies
-// 	} = await Company.findAndCountAll({
-// 		limit,
-// 		offset,
-// 		where: {
-// 			approved: 1,
-// 			...(establishmentDate
-// 				? {
-// 						establishmentDate: {
-// 							[Op.gte]: establishmentDate
+// 	try {
+// 		const {
+// 			count: dataCount,
+// 			rows: companies
+// 		} = await Company.findAndCountAll({
+// 			limit,
+// 			offset,
+// 			where: {
+// 				approved: 1,
+// 				...(establishmentDate
+// 					? {
+// 							establishmentDate: {
+// 								[Op.gte]: establishmentDate
+// 							}
 // 						}
-// 					}
-// 				: {}),
-// 			...input
-// 		},
-// 		nest: true,
-// 		raw: true,
-// 		attributes: [
-// 			"id",
-// 			"name",
-// 			"slug",
-// 			CompanyFunction.sequelizeFnGetBranchAmount() as any,
-// 			CompanyFunction.sequelizeFnGetMainProducts() as any,
-// 			CompanyFunction.sequelizeFnGetCoverImage() as any,
-// 			"location",
-// 			"industryId",
-// 			"businessTypeIds",
-// 			"establishmentDate"
-// 			// "responseTime"
-// 		],
-// 		include: [
-// 			{
-// 				model: CompanySubscription,
-// 				as: "subscription",
-// 				attributes: ["startAt", "monthAmount"],
-// 				include: [
-// 					{
-// 						model: Subscription,
-// 						as: "subscriptionDetail"
-// 					}
-// 				]
+// 					: {}),
+// 				...input
+// 			},
+// 			nest: true,
+// 			raw: true,
+// 			attributes: [
+// 				"id",
+// 				"name",
+// 				"slug",
+// 				CompanyFunction.sequelizeFnGetCoverImage() as any,
+// 				CompanyFunction.sequelizeFnGetBranchAmount() as any,
+// 				CompanyFunction.sequelizeFnGetMainProducts() as any,
+// 				"location",
+// 				"industryId",
+// 				"businessTypeIds",
+// 				"establishmentDate",
+// 				"createdAt",
+// 				"updatedAt"
+// 			],
+// 			include: [
+// 				{
+// 					model: CompanySubscription,
+// 					as: "subscription",
+// 					attributes: ["startAt", "monthAmount"],
+// 					include: [
+// 						{
+// 							model: Subscription,
+// 							as: "subscriptionDetail"
+// 						}
+// 					]
+// 				},
+// 				{
+// 					model: User,
+// 					as: "approver"
+// 				}
+// 			]
+// 		});
+
+// 		const hasMore =
+// 			offset + companies.length < dataCount &&
+// 			companies.length === limit;
+
+// 		return {
+// 			companies,
+// 			pagination: {
+// 				dataCount,
+// 				hasMore
 // 			}
-// 		]
-// 	});
-
-// 	const hasMore =
-// 		offset + companies.length < dataCount && companies.length === limit;
-
-// 	return {
-// 		companies,
-// 		pagination: {
-// 			dataCount,
-// 			hasMore
-// 		}
-// 	};
+// 		};
+// 	} catch (e) {
+// 		console.error(e);
+// 		return errorResponse();
+// 	}
 // }
 
 import {
@@ -82,15 +93,11 @@ import EmailService from "@services/email.service";
 import UserRepository from "@repositories/user.repository";
 import User from "@models/User";
 import {
-	IFetchCompanyInput,
 	IFetchUnapprovedCompaniesInput,
 	IUpdateCompanyDetailsInput
 } from "@graphql/types";
-import { Op, Sequelize } from "sequelize";
 import CompanyRepository from "@repositories/company.repository";
-import Subscription from "../models/Subscription";
 import CompanySubscription from "../models/CompanySubscription";
-import CompanyFunction from "@/functions/company.function";
 
 type IRegisterResp = {
 	success: boolean;
@@ -102,101 +109,25 @@ class CompanyController {
 	s3 = new S3();
 	email = new EmailService();
 
-	// static async getCompanies({ offset, limit, searchValue, ...input }) {
-	// 	const queryBody = {
-	// 		query: CompanyRepository.getSearchQuery(searchValue, input)
-	// 	};
+	static async getCompanies({ offset, limit, searchValue, ...input }) {
+		const queryBody = {
+			query: CompanyRepository.getSearchQuery(searchValue, input)
+		};
 
-	// 	const { dataCount: count, companies } = await Company.getMatchSearched(
-	// 		queryBody
-	// 	);
+		const { dataCount: count, companies } = await Company.getMatchSearched(
+			queryBody
+		);
 
-	// 	const hasMore =
-	// 		offset + companies.length < count && companies.length === limit;
+		const hasMore =
+			offset + companies.length < count && companies.length === limit;
 
-	// 	return {
-	// 		companies,
-	// 		pagination: {
-	// 			dataCount: count,
-	// 			hasMore
-	// 		}
-	// 	};
-	// }
-
-	static async getCompanies({
-		limit,
-		offset,
-		establishmentDate,
-		...input
-	}: IFetchCompanyInput) {
-		try {
-			const {
-				count: dataCount,
-				rows: companies
-			} = await Company.findAndCountAll({
-				limit,
-				offset,
-				where: {
-					approved: 1,
-					...(establishmentDate
-						? {
-								establishmentDate: {
-									[Op.gte]: establishmentDate
-								}
-						  }
-						: {}),
-					...input
-				},
-				nest: true,
-				raw: true,
-				attributes: [
-					"id",
-					"name",
-					"slug",
-					CompanyFunction.sequelizeFnGetCoverImage() as any,
-					CompanyFunction.sequelizeFnGetBranchAmount() as any,
-					CompanyFunction.sequelizeFnGetMainProducts() as any,
-					"location",
-					"industryId",
-					"businessTypeIds",
-					"establishmentDate",
-					"createdAt",
-					"updatedAt"
-				],
-				include: [
-					{
-						model: CompanySubscription,
-						as: "subscription",
-						attributes: ["startAt", "monthAmount"],
-						include: [
-							{
-								model: Subscription,
-								as: "subscriptionDetail"
-							}
-						]
-					},
-					{
-						model: User,
-						as: "approver"
-					}
-				]
-			});
-
-			const hasMore =
-				offset + companies.length < dataCount &&
-				companies.length === limit;
-
-			return {
-				companies,
-				pagination: {
-					dataCount,
-					hasMore
-				}
-			};
-		} catch (e) {
-			console.error(e);
-			return errorResponse();
-		}
+		return {
+			companies,
+			pagination: {
+				dataCount: count,
+				hasMore
+			}
+		};
 	}
 
 	static async getCompany(slug: string) {

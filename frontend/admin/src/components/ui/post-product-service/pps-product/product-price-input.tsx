@@ -19,24 +19,7 @@ const ProductPriceInput: React.FC<IProductPriceInputProps> = ({}) => {
 
   return (
     <div>
-      <InputLabel
-        label={t("product-price-input-label")}
-        required={true}
-        labelFontSize={"lg"}
-      />
-
-      <div className={`mt-3`}>
-        <div className="fic space-x-5">
-          <Typography
-            weight="bold"
-            color="black"
-            className={`flex-shrink-0`}
-            text={`${t("single-price-input-label")} : `}
-          />
-
-          <NumInput onChange={handleSinglePriceChange} value={singlePrice} />
-        </div>
-      </div>
+      <div className={`mt-3`}></div>
     </div>
   );
 };
