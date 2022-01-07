@@ -54,6 +54,7 @@ type CompaniesItem {
 	slug: String!
 	productAmount: Int
 	branchAmount: Int
+	owner: User
 	approver: User
 	profileImage: File
 	mainProducts: [String!]
@@ -92,6 +93,8 @@ type Company {
 	location: String
 	ownerId: Int!
 	approved: Boolean!
+	owner: User
+	approver: User
 	description: String
 	licenseFiles: [File!]
 	settings: CompanySettings
