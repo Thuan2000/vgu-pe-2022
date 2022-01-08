@@ -329,5 +329,6 @@
   "pps-product-singlePrice-label": "Single Price",
   "pps-review-note": "Check all the information carefully before posting",
 
-  "post-product-button-label": "Post"
+  "post-product-button-label": "Post",
+  "group-price-groupClassification-input-label": "Classifications"
 }

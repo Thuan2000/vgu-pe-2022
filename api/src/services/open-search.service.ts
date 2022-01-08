@@ -88,6 +88,20 @@ class OpenSearch {
 			return errorResponse();
 		}
 	}
+
+	// Find the better way to update doc
+	/**
+	 *
+	 * @param index string
+	 * @param id number
+	 * @param newData Make sure to include all association
+	 */
+	public static async updateDoc(index: string, id: number, newData) {
+		// Remove first
+		this.deleteDoc(index, id);
+
+		this.insertBulk(index, [newData]);
+	}
 }
 
 export default OpenSearch;

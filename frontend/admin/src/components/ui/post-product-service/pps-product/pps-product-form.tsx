@@ -187,8 +187,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({}) => {
     changeSection(formPosition - 1);
   }
 
-  return <UnderDevelopment />;
-
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="pt-2 space-y-2">
       <div

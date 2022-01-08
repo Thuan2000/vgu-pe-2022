@@ -1,4 +1,4 @@
-import SDBrImages from "@components/ui/detail-image-section";
+import DetailImages from "@components/ui/detail-image-section";
 import SDSocialShareList from "@components/buying-request-detail/brd-social-share-list";
 import PageLayout from "@components/layouts/page-layout";
 import SDDescription from "@components/service-detail/sd-desc";
@@ -61,7 +61,7 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
           <div className="flex space-x-4">
             {/* Left Section */}
             <div>
-              <SDBrImages coverImage={coverImage!} images={images || []} />
+              <DetailImages coverImage={coverImage!} images={images || []} />
               <div className="fic space-x-4">
                 <Typography
                   text={`${t("brd-share-label")}:`}

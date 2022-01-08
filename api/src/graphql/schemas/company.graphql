@@ -54,6 +54,8 @@ type CompaniesItem {
 	slug: String!
 	productAmount: Int
 	branchAmount: Int
+	owner: User
+	approver: User
 	profileImage: File
 	mainProducts: [String!]
 	establishmentDate: Date
@@ -63,6 +65,8 @@ type CompaniesItem {
 	businessTypeIds: [Int]
 	responseTime: Int # In minutes
 	subscription: CompanySubscription
+	createdAt: Date
+	updatedAt: Date
 }
 
 input FetchCompanyInput {
@@ -89,12 +93,16 @@ type Company {
 	location: String
 	ownerId: Int!
 	approved: Boolean!
+	owner: User
+	approver: User
 	description: String
 	licenseFiles: [File!]
 	settings: CompanySettings
 	industryId: Int
 	establishmentDate: Date
 	subscription: CompanySubscription
+	createdAt: Date
+	updatedAt: Date
 }
 
 type CompanySubscription {
