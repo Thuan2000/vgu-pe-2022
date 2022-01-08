@@ -100,7 +100,7 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
           variant="description"
           text={trimText(br.description || "", 140) || t("NO_DESCRIPTION")}
         />
-        {br.company.id !== getCompanyId() ? (
+        {br?.company?.id !== getCompanyId() ? (
           <Button
             variant="custom"
             size="small"

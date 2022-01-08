@@ -10,19 +10,13 @@ import OpenSearch from "@services/open-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
 import Bid from "./Bid";
 import BRDiscussionQuestion from "./BRDiscussionQuestion";
-import { IBuyingRequest } from "@graphql/types";
 
 class BuyingRequest extends Model {
-	/**
-	 * Helper method for defining associations.
-	 * This method is not a part of Sequelize lifecycle.
-	 * The `models/index` file will call this method automatically.
-	 */
-
 	private static indexName = "buying_requests";
 	private static mappingProperties = {
-		id: { type: "integer" },
-		name: { type: "text" }
+		name: { type: "text" },
+		status: { type: "keyword" },
+		location: { type: "keyword" }
 	};
 
 	static insertIndex(data: any) {
@@ -56,10 +50,22 @@ class BuyingRequest extends Model {
 	static async firstBulkElasticSearch() {
 		try {
 			const buyingRequests = await BuyingRequest.findAll({
-				raw: true
-				// TODO: only insert new data instead of indexing everything.
+				include: [
+					Company,
+					Project,
+					{
+						model: Bid,
+						as: "bids",
+						attributes: ["id", "createdAt"],
+						include: [{ model: Company, attributes: ["id"] }]
+					},
+					{ model: User, as: "createdBy" }
+				]
 			});
-			OpenSearch.insertBulk(BuyingRequest.indexName, buyingRequests);
+
+			const brs = buyingRequests.map(br => br.toJSON());
+
+			OpenSearch.insertBulk(BuyingRequest.indexName, brs);
 
 			return successResponse();
 		} catch (err) {
@@ -71,17 +77,20 @@ class BuyingRequest extends Model {
 	/**
 	 *
 	 * @param queryBody ElasticSearch Query Body
-	 * @returns [BuyingRequestIds]
+	 * @returns [BuyingRequests]
 	 */
 	static async getMatchSearched(queryBody) {
 		const suggestion = await OpenSearch.getSuggestion(
 			BuyingRequest.indexName,
 			queryBody
 		);
-		const idCount = suggestion?.body?.hits?.total?.value;
-		const ids = suggestion.body?.hits?.hits.map(sug => sug?._source?.id);
 
-		return { idCount, ids } || { idCount: 0, ids: [] };
+		const hits = suggestion.body?.hits;
+
+		const dataCount = hits?.total?.value;
+		const brs = hits?.hits.map(hit => hit._source);
+
+		return { dataCount, brs };
 	}
 
 	static async getNameSearchSuggestion(queryBody) {

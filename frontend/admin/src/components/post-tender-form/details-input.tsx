@@ -104,7 +104,9 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         getOptionLabel={(option: ISourceType) =>
           t("source-type:" + option.label)
         }
-        getOptionValue={(option: ISourceType) => option.id + ""}
+        getOptionValue={(option: ISourceType) =>
+          t("source-type:" + option.label)
+        }
       />
 
       <ParticipantFilterForm

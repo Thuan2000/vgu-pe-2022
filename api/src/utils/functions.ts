@@ -76,3 +76,17 @@ export function generateUUID() {
 		return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
 	});
 }
+
+function undefinedPropertiesObj(obj) {
+	let isAllUndefined = true;
+	Object.keys(obj).forEach(k => {
+		if (!!obj[k]) isAllUndefined = false;
+	});
+	return isAllUndefined;
+}
+
+export function isEmptyObject(obj) {
+	if (!Object.keys(obj).length) return true;
+
+	return undefinedPropertiesObj(obj);
+}

@@ -1,16 +1,104 @@
 import Database from "@services/database.service";
+import OpenSearch from "@services/open-search.service";
+import { successResponse, errorResponse } from "@utils/responses";
 import { Model, DataTypes } from "sequelize";
 import Company from "./Company";
 import Tag from "./Tag";
 
 class Service extends Model {
+	private static indexName = "services";
+	private static mappingProperties = {
+		name: { type: "text" },
+		status: { type: "keyword" },
+		location: { type: "keyword" }
+	};
+
+	static insertToIndex(data: any) {
+		try {
+			OpenSearch.insertBulk(Service.indexName, [data]);
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
+	static createIndex() {
+		try {
+			OpenSearch.createIndex(
+				Service.indexName,
+				Service.mappingProperties
+			);
+
+			return successResponse();
+		} catch (err) {
+			console.log(err);
+			return errorResponse(err);
+		}
+	}
+
+	static deleteIndex() {
+		try {
+			OpenSearch.deleteIndex(Service.indexName);
+			return successResponse();
+		} catch (err) {
+			console.log(err);
+			return errorResponse(err);
+		}
+	}
+
+	static async firstBulkElasticSearch() {
+		try {
+			const services = await Service.findAll({
+				include: [Company, Tag]
+			});
+
+			const srvcs = services.map(s => s.toJSON());
+
+			OpenSearch.insertBulk(Service.indexName, srvcs);
+
+			return successResponse();
+		} catch (err) {
+			console.log(err);
+			return errorResponse(err);
+		}
+	}
+
 	/**
-	 * Helper method for defining associations.
-	 * This method is not a part of Sequelize lifecycle.
-	 * The `models/index` file will call this method automatically.
+	 *
+	 * @param queryBody ElasticSearch Query Body
+	 * @returns [ServiceIds]
 	 */
-	static associate(models) {
-		// define association here
+	static async getMatchSearched(queryBody) {
+		const data = await OpenSearch.getSuggestion(
+			Service.indexName,
+			queryBody
+		);
+
+		const hits = data.body?.hits;
+
+		const dataCount = hits?.total?.value;
+		const services = hits?.hits.map(hit => hit._source);
+
+		return { dataCount, services };
+	}
+
+	static async getNameSearchSuggestion(queryBody) {
+		const suggestion = await OpenSearch.getSuggestion(
+			Service.indexName,
+			queryBody
+		);
+
+		return suggestion.body?.hits?.hits || [];
+	}
+
+	static async deleteServices(ids: number[]) {
+		try {
+			ids.forEach(id => {
+				OpenSearch.deleteDoc(Service.indexName, id);
+			});
+		} catch (e) {
+			console.log(e);
+			return errorResponse();
+		}
 	}
 }
 

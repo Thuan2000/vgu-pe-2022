@@ -6,6 +6,7 @@ import { ModalProvider } from "src/contexts/modal.context";
 import ModalContainer from "@components/modal-container";
 
 import "react-toastify/dist/ReactToastify.css";
+import "../styles/custom-scrollbar.css";
 import "../styles/custom-datepicker.css";
 import "../styles/globals.css";
 import { ToastContainer } from "react-toastify";

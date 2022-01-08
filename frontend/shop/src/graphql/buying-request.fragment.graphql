@@ -22,12 +22,6 @@ fragment BuyingRequestParts on BuyingRequest {
     id
     name
   }
-  createdBy {
-    id
-    firstName
-    lastName
-    email
-  }
   projects {
     id
     name
