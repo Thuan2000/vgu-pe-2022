@@ -229,3 +229,10 @@ export function getCompanyExperience(date: string) {
     timeUnit: "YEAR",
   };
 }
+
+
+export function getYear(stringDate: string) {
+  if (!stringDate) return "";
+  const year = new Date(stringDate).getFullYear();
+  return year;
+}

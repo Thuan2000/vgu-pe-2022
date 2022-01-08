@@ -1,4 +1,5 @@
 # import PaginationParts from "./pagination.fragment.graphql"
+# import CompanyFragment from "company.fragment.graphql";
 
 mutation CompanySignup($input: CompanyRegisterInput!) {
   companySignup(input: $input) {
@@ -29,5 +30,11 @@ query Companies($input: FetchCompanyInput!) {
     pagination {
       ...PaginationParts
     }
+  }
+}
+
+query Company($slug: String!) {
+  company(slug: $slug) {
+    ...CompanyFragment
   }
 }

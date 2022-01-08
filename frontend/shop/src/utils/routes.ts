@@ -13,7 +13,7 @@ export const ROUTES = {
   PRODUCTS: "/san-pham",
   SERVICES: "/dich-vu",
   SUPPORT: "/ho-tro",
-  COMPANIES: "/danh-ba-cong-ty",
+  COMPANIES: "/nha-cung-cap",
   COMPANY_DETAIL: "/company-details",
   ADMIN_LINK: `${process.env.NEXT_PUBLIC_ADMIN_URL}`,
 };

@@ -16,6 +16,8 @@ export const siteSettings = {
   },
   defaultLanguange: "vi",
   imagePlaceholder: AvatarIcon,
+  placeholderImage:
+    "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/image-placeholder.jpg",
   companyProfileImagePlaceholder: ProfilePlaceholder,
   author: {
     name: "Emolyze.tech",
