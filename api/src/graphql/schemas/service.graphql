@@ -158,16 +158,13 @@ type ServicesResponse {
 }
 
 extend type Mutation {
-	serviceNameSuggestion: [NameSuggestion!]
+	serviceNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	createService(input: CreateServiceInput!): CreateResponse!
 	updateService(input: UpdateServiceInput!): CreateResponse!
 	deleteServices(ids: [Int!]!): Response!
 }
 
 extend type Query {
-	createServiceEsIndex: Response!
-	bulkServiceEsIndex: Response!
-	deleteServiceEsIndex: Response!
 	services(input: FetchServicesInput): ServicesResponse!
 	service(slug: String!): Service!
 }

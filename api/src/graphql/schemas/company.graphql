@@ -56,7 +56,7 @@ type CompaniesItem {
 	branchAmount: Int
 	owner: User
 	approver: User
-	profileImage: File
+	settings: CompanySettings
 	mainProducts: [String!]
 	establishmentDate: Date
 	location: String
@@ -172,9 +172,6 @@ extend type Mutation {
 extend type Query {
 	company(slug: String!): Company
 	companies(input: FetchCompanyInput!): CompaniesResponse!
-	createCompanyIndex: Response!
-	firstBulkCompanyIndex: Response!
-	deleteCompanyIndex: Response!
 	unapprovedCompanies(
 		input: FetchUnapprovedCompaniesInput!
 	): [UnapprovedCompany!]!

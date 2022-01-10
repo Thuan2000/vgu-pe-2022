@@ -1,3 +1,9 @@
 import ProductController from "@controllers/product.controller";
 
-const productController = new ProductController();
+export const Mutation = {
+	createProduct: (_, { input }) => ProductController.createProduct(input)
+};
+
+export const Query = {
+	products: (_, { input }) => ProductController.getProducts(input)
+};

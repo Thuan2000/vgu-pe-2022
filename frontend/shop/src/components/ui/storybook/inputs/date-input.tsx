@@ -136,7 +136,7 @@ export const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
           />
           <DateIcon
             onClick={focusDateInput}
-            className="absolute y-center right-5 cursor-pointer"
+            className="absolute y-center right-3 cursor-pointer"
           />
           <InputErrorMessage error={error} />
         </div>

@@ -1,42 +1,37 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useTranslation } from "next-i18next";
-import {
-  UseFormRegister,
-  FieldErrors,
-  Control,
-  UseFormTrigger,
-} from "react-hook-form";
-
-import CreateableSelectInput from "@components/ui/storybook/createable-select/createable-select-input";
-import { IPostProductFormValues } from "./pps-product-interface";
-import FaqInput from "@components/ui/storybook/inputs/faq-input/faq-input";
-import { useTagsQuery } from "@graphql/tag.graphql";
-import { useRouter } from "next/dist/client/router";
-import { ILocale } from "@graphql/types.graphql";
-import TextArea from "@components/ui/storybook/inputs/text-area";
-import { ITagWithNewRecord } from "@utils/interfaces";
-import NumberInput from "@components/ui/storybook/inputs/number-input";
 import LocationInput from "@components/ui/location-input/location-input";
-import DocumentInput from "@components/ui/storybook/document-input";
-import { getDocumentAccept } from "@utils/functions";
+import CreateableSelectInput from "@components/ui/storybook/createable-select/createable-select-input";
+import Input from "@components/ui/storybook/inputs/input";
+import SwitchInput from "@components/ui/storybook/inputs/switch-input";
+import { useTagsQuery } from "@graphql/tag.graphql";
+import { ILocale } from "@graphql/types.graphql";
+import { generateUUID } from "@utils/functions";
+import { ITagWithNewRecord } from "@utils/interfaces";
+import { useRouter } from "next/dist/client/router";
+import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import locale from "yup/lib/locale";
+import DimensionInput from "./dimension-input";
+import { PPS_PRODUCT_DETAILS_FORM_INDEX } from "./pps-product-constants";
+import {
+  IPostProductFormValues,
+  IProductStatus,
+} from "./pps-product-interface";
+import TagsInput from "./tags-input";
 
-interface IPPSProductDetailsInputProps {
-  register: UseFormRegister<IPostProductFormValues>;
-  errors: FieldErrors<IPostProductFormValues>;
-  control: Control<IPostProductFormValues>;
-  trigger: UseFormTrigger<IPostProductFormValues>;
-}
+interface IPPSProductDetailsInputProps {}
 
-const PPSProductDetailsInput: React.FC<IPPSProductDetailsInputProps> = ({
-  errors,
-  control,
-  trigger,
-  register,
-}) => {
+const PPSProductDetailsInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
   const { t } = useTranslation("form");
   const { locale } = useRouter();
-  const firstRun = useRef(true);
+  const {
+    register,
+    trigger,
+    formState: { errors },
+    control,
+  } = useFormContext<IPostProductFormValues>();
 
+  const [statuses, setStatuses] = useState<IProductStatus[]>([]);
   const { data, refetch } = useTagsQuery({
     variables: { locale: locale as any },
   });
@@ -46,14 +41,14 @@ const PPSProductDetailsInput: React.FC<IPPSProductDetailsInputProps> = ({
 
   const [tags, setTags] = useState(tagsWithoutTypename);
 
-  useEffect(() => {
-    refetch({ locale: locale as any });
-  }, []);
+  function createStatus(name: string) {
+    const newStatus: IProductStatus = {
+      id: generateUUID(),
+      value: name,
+    };
 
-  useEffect(() => {
-    if (firstRun.current) firstRun.current = false;
-    else setTags(data?.tags || []);
-  }, [data?.tags]);
+    return newStatus;
+  }
 
   function createNewTag(name: string) {
     const newTag: ITagWithNewRecord = {
@@ -67,32 +62,29 @@ const PPSProductDetailsInput: React.FC<IPPSProductDetailsInputProps> = ({
 
   return (
     <div className="space-y-3">
-      <TextArea
-        {...register("details.description")}
+      <Input
+        {...register("details.brandName")}
         required
         onChange={(e) => {
-          register("details.description").onChange(e);
-          trigger("details.description");
+          register("details.brandName").onChange(e);
+          trigger("details.brandName");
         }}
         numberQueue={1}
-        label={t("postProduct-description-input-label")}
-        error={t(errors.details?.description?.message || "")}
+        label={t("brandName-input-label")}
+        placeholder={t("brandName-input-placeholder")}
+        error={t(errors.details?.brandName?.message || "")}
       />
 
-      <NumberInput
-        label={t("minOrder-input-label")}
+      <TagsInput
+        label={t("post-product-tags-input-label")}
+        placeholder={t("post-product-tags-input-placeholder")}
         numberQueue={2}
-        control={control}
-        onChange={() => {
-          trigger("details.minOrder");
-        }}
-        required
-        name="details.minOrder"
-        error={t(errors.details?.minOrder?.message || "")}
+        inputFormPosition={PPS_PRODUCT_DETAILS_FORM_INDEX}
+        name="details.tags"
       />
 
       <LocationInput
-        label={t("minOrder-input-label")}
+        label={t("location-input-label")}
         numberQueue={3}
         required
         control={control}
@@ -102,43 +94,54 @@ const PPSProductDetailsInput: React.FC<IPPSProductDetailsInputProps> = ({
         }}
       />
 
-      <DocumentInput
-        required
-        inputFileType="image"
+      <CreateableSelectInput
+        label={t("post-product-status-input-label")}
+        placeholder={t("post-product-status-input-placeholder")}
+        numberQueue={3}
         control={control}
-        numberQueue={4}
-        multiple
-        name="details.images"
-        onChange={(_) => trigger("details.images")}
-        accept="image/*"
-        label={t("postService-image-input-label")}
-        error={t((errors.details?.images as any)?.message || "")}
+        onChange={(_) => trigger("details.status")}
+        name="details.status"
+        getOptionLabel={(o) => o?.label || o?.value}
+        getOptionValue={(o) => o?.label || o?.value}
+        options={statuses}
+        createNewOption={createStatus}
+        error={t((errors?.details?.status as any)?.message)}
       />
 
-      <DocumentInput
-        required
-        inputFileType="video"
+      <SwitchInput
+        labelProps={{
+          label: t("post-product-isCustom-input-label"),
+          numberQueue: 4,
+        }}
         control={control}
-        numberQueue={5}
-        multiple
-        name="details.videos"
-        onChange={(_) => trigger("details.videos")}
-        accept="video/*"
-        label={t("postService-videos-input-label")}
-        error={t((errors.details?.videos as any)?.message || "")}
+        name="details.isCustom"
       />
 
-      <DocumentInput
-        required
+      <SwitchInput
+        labelProps={{
+          label: t("post-product-isPreorder-input-label"),
+          numberQueue: 5,
+        }}
         control={control}
-        inputFileType="application"
-        multiple
-        numberQueue={6}
-        name="details.certificates"
-        onChange={(_) => trigger("details.certificates")}
-        accept={getDocumentAccept()}
-        label={t("postService-certificates-input-label")}
-        error={t((errors.details?.certificates as any)?.message || "")}
+        name="details.isPreorder"
+      />
+
+      <DimensionInput
+        control={control}
+        name="details.baseDimension"
+        labelProps={{
+          label: t("post-product-baseDimension-input-label"),
+          numberQueue: 6,
+        }}
+      />
+
+      <DimensionInput
+        control={control}
+        name="details.packagedDimension"
+        labelProps={{
+          label: t("post-product-packagedDimension-input-label"),
+          numberQueue: 7,
+        }}
       />
     </div>
   );

@@ -40,7 +40,7 @@ const UserProfile = () => {
           </Link>
         </div>
       ) : (
-        <div className={`fic space-x-1`}>
+        <div className={`fic space-x-1 flex-shrink-0`}>
           <Typography text={`${t("greeting")},`} />
           <Typography text={getUserFullName()} variant="smallTitle" />
         </div>

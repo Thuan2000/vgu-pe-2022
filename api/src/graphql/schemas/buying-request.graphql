@@ -92,7 +92,7 @@ input FetchBRInput {
 }
 
 extend type Mutation {
-	getSuggestion(name: String!, limit: Int!): [NameSuggestion!]
+	getBrsNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	createBuyingRequest(input: CreateBuyingRequestInput): Response!
 	updateBuyingRequest(id: Int!, newValue: UpdateBuyingRequestInput): Response!
 	deleteBuyingRequest(id: Int!): Response!
@@ -100,9 +100,6 @@ extend type Mutation {
 }
 
 extend type Query {
-	firstBulk: Response!
-	deleteIndex: Response!
-	createIndex: Response!
 	adminBuyingRequests(
 		companyId: Int!
 		input: FetchBRInput!

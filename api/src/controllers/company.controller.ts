@@ -163,10 +163,14 @@ class CompanyController {
 
 	static async approveCompany(id: number, approverId: number) {
 		try {
-			await Company.update(
+			// const company = Company.findByPk(id);
+			const resp = await Company.update(
 				{ approved: 1, approverId },
 				{ where: { id } }
 			);
+
+			const data = await Company.findByPk(id);
+			Company.updateEsCompany(id, data.toJSON());
 
 			// Setting company subscription
 			await CompanySubscription.create({
@@ -186,11 +190,13 @@ class CompanyController {
 
 	static async updateCompany(id: number, input: IUpdateCompanyDetailsInput) {
 		try {
-			const [updatedId] = await Company.update(input, {
+			const resp = await Company.update(input, {
 				where: { id }
 			});
 
-			const data = await Company.findByPk(updatedId);
+			const data = await Company.findByPk(id);
+
+			Company.updateEsCompany(id, data.toJSON());
 
 			return successResponseWithPayload(data);
 		} catch (e) {
@@ -265,6 +271,8 @@ class CompanyController {
 			);
 
 			await newCompany.save();
+
+			Company.insertIndex(newCompany.toJSON());
 
 			// Setting user company id
 			const userNewToken = await UserRepository.setCompanyId(

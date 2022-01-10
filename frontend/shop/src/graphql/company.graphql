@@ -23,8 +23,11 @@ query Companies($input: FetchCompanyInput!) {
       establishmentDate
       location
       responseTime
-      profileImage {
-        url
+      settings {
+        profileImage {
+          url
+        }
+        mainProducts
       }
     }
     pagination {
@@ -36,5 +39,12 @@ query Companies($input: FetchCompanyInput!) {
 query Company($slug: String!) {
   company(slug: $slug) {
     ...CompanyFragment
+  }
+}
+
+mutation GetCompanyNameSuggestion($name: String!, $limit: Int!) {
+  getCompanyNameSuggestion(name: $name, limit: $limit) {
+    name
+    highlightedName
   }
 }

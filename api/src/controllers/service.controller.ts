@@ -160,6 +160,8 @@ class ServiceController {
 	}
 
 	static async getNameSuggestion(inputName: string, limit: number) {
+		console.log(inputName);
+
 		const queryBody = {
 			query: ServiceRepository.nameSuggestionQuery(inputName),
 			_source: ["name"],

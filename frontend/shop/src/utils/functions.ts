@@ -18,8 +18,8 @@ export function checkIsMobile(width: number) {
   return width >= MOBILE_SIZE.min && width <= MOBILE_SIZE.max;
 }
 
-export function trimText(text: string, limit: number) {
-  if (!text) return "";
+export function trimText(text?: string, limit?: number) {
+  if (!text || !limit) return text || "";
 
   if (text.length < limit) return text;
 

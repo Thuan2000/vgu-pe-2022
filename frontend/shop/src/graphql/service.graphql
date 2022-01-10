@@ -30,3 +30,10 @@ query Service($slug: String!) {
     ...ServiceParts
   }
 }
+
+mutation ServiceNameSuggestion($name: String!, $limit: Int!) {
+  serviceNameSuggestion(name: $name, limit: $limit) {
+    highlightedName
+    name
+  }
+}

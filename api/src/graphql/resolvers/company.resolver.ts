@@ -15,12 +15,8 @@ import {
 import CompanyController from "@controllers/company.controller";
 import { EUserRole } from "@utils/enums";
 import EmailService from "@services/email.service";
-import Company from "@models/Company";
 
 export const Query = {
-	createCompanyIndex: () => Company.createIndex(),
-	firstBulkCompanyIndex: () => Company.firstBulkElasticSearch(),
-	deleteCompanyIndex: () => Company.deleteIndex(),
 	unapprovedCompanies: (_, { input }) =>
 		CompanyController.getUnapproved(input),
 	company: (_, { slug }) => CompanyController.getCompany(slug),

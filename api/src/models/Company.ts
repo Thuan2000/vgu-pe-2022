@@ -49,6 +49,7 @@ class Company extends Model {
 			const companies = await Company.findAll();
 
 			const comps = companies.map(br => br.toJSON());
+			if (!comps.length) return errorResponse("No companies yet");
 
 			OpenSearch.insertBulk(Company.indexName, comps);
 
@@ -85,6 +86,15 @@ class Company extends Model {
 		);
 
 		return suggestion.body?.hits?.hits || [];
+	}
+
+	static async updateEsCompany(id: number, newData) {
+		try {
+			OpenSearch.updateDoc(Company.indexName, id, newData);
+		} catch (e) {
+			console.log(e);
+			return errorResponse();
+		}
 	}
 }
 
