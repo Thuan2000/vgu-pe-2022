@@ -10,9 +10,6 @@ export const Mutation = {
 };
 
 export const Query = {
-	createServiceEsIndex: () => Service.createIndex(),
-	bulkServiceEsIndex: () => Service.firstBulkElasticSearch(),
-	deleteServiceEsIndex: () => Service.deleteIndex(),
 	services: (_, { input }) => ServiceController.getServices(input),
 	service: (_, { slug }) => ServiceController.getService(slug)
 };

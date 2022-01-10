@@ -1,0 +1,33 @@
+mutation CreateProduct($input: CreateProductInput!) {
+  createProduct(input: $input) {
+    id
+    success
+    message
+  }
+}
+
+query Products($input: FetchProductsInput!) {
+  products(input: $input) {
+    data {
+      name
+      brandName
+      categoryId
+      categoryId
+      maxPrice
+      minPrice
+      price
+      warehouseLocation
+      coverImage {
+        url
+      }
+      company {
+        id
+        name
+      }
+    }
+    pagination {
+      dataCount
+      hasMore
+    }
+  }
+}

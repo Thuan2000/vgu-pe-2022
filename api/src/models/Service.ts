@@ -13,14 +13,6 @@ class Service extends Model {
 		location: { type: "keyword" }
 	};
 
-	static insertToIndex(data: any) {
-		try {
-			OpenSearch.insertBulk(Service.indexName, [data]);
-		} catch (e) {
-			console.log(e);
-		}
-	}
-
 	static createIndex() {
 		try {
 			OpenSearch.createIndex(
@@ -52,6 +44,7 @@ class Service extends Model {
 			});
 
 			const srvcs = services.map(s => s.toJSON());
+			if (!srvcs.length) return errorResponse("No services yet");
 
 			OpenSearch.insertBulk(Service.indexName, srvcs);
 
@@ -59,6 +52,14 @@ class Service extends Model {
 		} catch (err) {
 			console.log(err);
 			return errorResponse(err);
+		}
+	}
+
+	static insertToIndex(data: any) {
+		try {
+			OpenSearch.insertBulk(Service.indexName, [data]);
+		} catch (e) {
+			console.log(e);
 		}
 	}
 

@@ -63,9 +63,10 @@ class BuyingRequest extends Model {
 				]
 			});
 
-			const brs = buyingRequests.map(br => br.toJSON());
+			const tenders = buyingRequests.map(br => br.toJSON());
+			if (!tenders.length) return errorResponse("No tenders yet");
 
-			OpenSearch.insertBulk(BuyingRequest.indexName, brs);
+			OpenSearch.insertBulk(BuyingRequest.indexName, tenders);
 
 			return successResponse();
 		} catch (err) {

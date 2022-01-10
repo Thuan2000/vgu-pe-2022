@@ -1,6 +1,8 @@
 input CreateProductInput {
 	# The company that create this product
 	companyId: Int!
+	# The company that create this product
+	companyName: String!
 	# Product name in string
 	name: String!
 	# Industry Id of the product
@@ -23,23 +25,37 @@ input CreateProductInput {
 	# Certificates
 	certificates: [FileInput!]
 	# Variation
-	variation: [VariationInput!]
-	variationDetail: [VariationDetailInput!]
+	variations: [VariationInput!]
 	minPrice: Date
 	maxPrice: Date
 	price: Date
+
+	brandName: String!
+	tags: [String!]!
+	newTags: [TagInput!]
+	status: String
+	isCustom: Boolean
+	isPreorder: Boolean
+	baseDimension: DimensionInput
+	packagedDimension: DimensionInput
+	warranty: WarrantyInput
 }
 
-# Variation input example
-# Name : color
-# classifications: ["red", "blue", "green"]
+input WarrantyInput {
+	type: String
+	period: Float
+}
+
+input DimensionInput {
+	measureUnit: String
+	width: Float
+	length: Float
+	height: Float
+	weight: Float
+	weightUnit: String
+}
+
 input VariationInput {
-	# Must unique
-	name: String!
-	classifications: [String!]
-}
-
-input VariationDetailInput {
 	# Name of variation detail is just mix of classification name
 	# Example of multi vatiation
 	# color : Red, size: S
@@ -49,17 +65,23 @@ input VariationDetailInput {
 	# Example of single variation
 	# Material : Wood
 	# Name : Wood
-	name: String!
-	isSingleVariation: Boolean!
+	title: String!
 	# Options
 	# Options is an JSON.Stringify of variations
 	# Example there's 2 variation (Color & Size)
 	# Options will be [{name: "color", value: "red"}, {name: "size", value: "S" }]
-	options: [VariationOption!]
+	options: [VariationOptionInput!]
 	# Example Red
 	price: Date!
-	salePrice: SalePriceInput
-	image: FileInput!
+	# salePrice: SalePriceInput
+	image: FileInput
+}
+
+type Variation {
+	title: String!
+	options: [VariationOption!]
+	price: Date!
+	image: File
 }
 
 input SalePriceInput {
@@ -67,7 +89,70 @@ input SalePriceInput {
 	price: Date!
 }
 
-input VariationOption {
+input VariationOptionInput {
 	name: String!
 	value: String!
+}
+
+type VariationOption {
+	name: String!
+	value: String!
+}
+
+input FetchProductsInput {
+	offset: Int!
+	limit: Int!
+	companyId: Int
+	searchValue: String
+	industryId: Int
+	categoryId: Int
+	location: String
+	price: Date
+	minPrice: Date
+	maxPrice: Date
+}
+
+type FetchProducts {
+	data: [ProductListItem!]
+	pagination: Pagination
+}
+
+type Product {
+	id: Int!
+	name: String!
+	industryId: Int!
+	categoryId: Int!
+	warehouseLocation: String
+	coverImage: File
+	gallery: File
+	brandName: String
+	variations: [Variation]
+	videos: File
+	certificates: File
+	price: Date
+	maxPrice: Date
+	minPrice: Date
+}
+
+type ProductListItem {
+	id: Int!
+	name: String!
+	slug: String!
+	industryId: Int!
+	categoryId: Int!
+	coverImage: File
+	company: Company!
+	warehouseLocation: String!
+	brandName: String!
+	price: Date
+	maxPrice: Date
+	minPrice: Date
+}
+
+extend type Mutation {
+	createProduct(input: CreateProductInput!): CreateResponse!
+}
+
+extend type Query {
+	products(input: FetchProductsInput!): FetchProducts!
 }

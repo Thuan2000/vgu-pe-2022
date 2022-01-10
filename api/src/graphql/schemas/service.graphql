@@ -165,9 +165,6 @@ extend type Mutation {
 }
 
 extend type Query {
-	createServiceEsIndex: Response!
-	bulkServiceEsIndex: Response!
-	deleteServiceEsIndex: Response!
 	services(input: FetchServicesInput): ServicesResponse!
 	service(slug: String!): Service!
 }

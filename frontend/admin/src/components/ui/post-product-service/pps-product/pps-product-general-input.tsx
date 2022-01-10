@@ -1,0 +1,103 @@
+import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "next-i18next";
+import {
+  UseFormRegister,
+  FieldErrors,
+  Control,
+  UseFormTrigger,
+} from "react-hook-form";
+
+import { IPostProductFormValues } from "./pps-product-interface";
+import { useTagsQuery } from "@graphql/tag.graphql";
+import { useRouter } from "next/dist/client/router";
+import { ILocale } from "@graphql/types.graphql";
+import TextArea from "@components/ui/storybook/inputs/text-area";
+import { ITagWithNewRecord } from "@utils/interfaces";
+import NumberInput from "@components/ui/storybook/inputs/number-input";
+import LocationInput from "@components/ui/location-input/location-input";
+import DocumentInput from "@components/ui/storybook/document-input";
+import { getDocumentAccept } from "@utils/functions";
+
+interface IPPSProductDetailsInputProps {
+  register: UseFormRegister<IPostProductFormValues>;
+  errors: FieldErrors<IPostProductFormValues>;
+  control: Control<IPostProductFormValues>;
+  trigger: UseFormTrigger<IPostProductFormValues>;
+}
+
+const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({
+  errors,
+  control,
+  trigger,
+  register,
+}) => {
+  const { t } = useTranslation("form");
+
+  return (
+    <div className="space-y-3">
+      <TextArea
+        {...register("general.description")}
+        required
+        onChange={(e) => {
+          register("general.description").onChange(e);
+          trigger("general.description");
+        }}
+        numberQueue={1}
+        label={t("postProduct-description-input-label")}
+        error={t(errors.general?.description?.message || "")}
+      />
+
+      <NumberInput
+        label={t("minOrder-input-label")}
+        numberQueue={2}
+        control={control}
+        onChange={() => {
+          trigger("general.minOrder");
+        }}
+        required
+        name="general.minOrder"
+        error={t(errors.general?.minOrder?.message || "")}
+      />
+
+      <DocumentInput
+        required
+        inputFileType="image"
+        control={control}
+        numberQueue={4}
+        multiple
+        name="general.images"
+        onChange={(_) => trigger("general.images")}
+        accept="image/*"
+        label={t("postService-image-input-label")}
+        error={t((errors.general?.images as any)?.message || "")}
+      />
+
+      <DocumentInput
+        required
+        inputFileType="video"
+        control={control}
+        numberQueue={5}
+        multiple
+        name="general.videos"
+        onChange={(_) => trigger("general.videos")}
+        accept="video/*"
+        label={t("postService-videos-input-label")}
+        error={t((errors.general?.videos as any)?.message || "")}
+      />
+
+      <DocumentInput
+        required
+        control={control}
+        inputFileType="application"
+        multiple
+        numberQueue={6}
+        name="general.certificates"
+        onChange={(_) => trigger("general.certificates")}
+        accept={getDocumentAccept()}
+        label={t("postService-certificates-input-label")}
+        error={t((errors.general?.certificates as any)?.message || "")}
+      />
+    </div>
+  );
+};
+export default PPSProductGeneralInput;

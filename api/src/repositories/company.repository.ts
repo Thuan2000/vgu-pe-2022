@@ -33,7 +33,6 @@ class CompanyRepository {
 				...(!isEmptyObject(filter) ? { filter: getFilter(filter) } : {})
 			}
 		};
-		console.log(query);
 
 		return query;
 	};

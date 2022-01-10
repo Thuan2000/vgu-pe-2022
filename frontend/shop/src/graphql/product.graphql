@@ -1,0 +1,27 @@
+query Products($input: FetchProductsInput!) {
+  products(input: $input) {
+    data {
+      id
+      slug
+      name
+      brandName
+      categoryId
+      categoryId
+      maxPrice
+      minPrice
+      price
+      warehouseLocation
+      coverImage {
+        url
+      }
+      company {
+        id
+        name
+      }
+    }
+    pagination {
+      dataCount
+      hasMore
+    }
+  }
+}

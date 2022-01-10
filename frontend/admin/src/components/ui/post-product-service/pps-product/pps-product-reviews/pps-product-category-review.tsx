@@ -5,6 +5,7 @@ import React from "react";
 import { IPPSFCategorySection } from "../pps-product-interface";
 import ReviewQA from "../../../review-qa";
 import ReviewSectionTitle from "../../../review-section-title";
+import { PPS_PRODUCT_CATEGORY_FORM_INDEX } from "../pps-product-constants";
 
 interface IPPSCategoryReviewProps {
   category: IPPSFCategorySection;
@@ -26,7 +27,7 @@ const PPSCategoryReview: React.FC<IPPSCategoryReviewProps> = ({
   return (
     <div className="sm:w-2/3">
       <ReviewSectionTitle
-        onClick={() => changeSection(1)}
+        onClick={() => changeSection(PPS_PRODUCT_CATEGORY_FORM_INDEX)}
         title={t("category-nav-label")}
       />
       <div className="space-y-2 mt-2">

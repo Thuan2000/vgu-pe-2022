@@ -8,6 +8,7 @@ import PPSCategoryReview from "./pps-product-reviews/pps-product-category-review
 import PPSDetailsReview from "./pps-product-reviews/pps-product-details-review";
 import { IPostProductFormValues } from "./pps-product-interface";
 import PPSPricingReview from "./pps-product-reviews/pps-product-pricing-review";
+import PPSGeneralReview from "./pps-product-reviews/pps-product-general-review";
 
 interface IPPSProductReviewProps {
   changeSection: (t: number) => void;
@@ -29,15 +30,14 @@ const PPSProductReview: React.FC<IPPSProductReviewProps> = ({
           category={getValues("category")}
         />
         <Divider />
-        <PPSDetailsReview
-          changeSection={changeSection}
-          details={getValues("details")}
-        />
+        <PPSGeneralReview changeSection={changeSection} />
         <Divider />
         <PPSPricingReview
           changeSection={changeSection}
           pricing={getValues("pricing")}
         />
+        <Divider />
+        <PPSDetailsReview changeSection={changeSection} />
       </div>
     </div>
   );

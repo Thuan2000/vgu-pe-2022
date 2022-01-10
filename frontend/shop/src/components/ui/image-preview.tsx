@@ -85,7 +85,7 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
           <ArrowPrevIcon fill={COLORS.WHITE} />
         </div>
       )}
-      {activeImageIdx < images.length && (
+      {activeImageIdx < images.length - 1 && (
         <div
           onClick={() => setActiveImageIdx((old) => ++old)}
           className={`absolute top-1/2 -translate-y-1/2 right-14 p-4 rounded-full bg-black animation-hover-scale`}

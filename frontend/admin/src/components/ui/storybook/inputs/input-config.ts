@@ -12,6 +12,7 @@ export const inputClasses = {
   numberInput: "text-right",
   noBorder:
     "border-none shadow-none focus:border-none focus:shadow-none active:border-none active:shadow-none",
+  disabled: "!cursor-not-allowed bg-gray-200 bg-opacity-30",
 };
 
 export interface IInputProps

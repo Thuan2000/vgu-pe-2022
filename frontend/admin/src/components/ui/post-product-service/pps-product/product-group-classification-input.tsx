@@ -6,33 +6,42 @@ import { findIndex } from "lodash";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import { Control, Controller } from "react-hook-form";
-import { IGroupClassification } from "./product-price-input";
+import { IGroupClassification } from "./product-group-form";
 
-interface IProductGroupClassificationInputProps {
+interface IProductGroupClassificationInputProps
+  extends Partial<IClassInputProps> {
   control: Control<any>;
   name: string;
 }
 
 const ProductGroupClassificationInput: React.FC<
   IProductGroupClassificationInputProps
-> = ({ control, name, ...props }) => {
+> = ({ control, name, onChange: parentOnChange, ...props }) => {
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { onChange, value } }) => (
-        <ClassificationInput value={value} onChange={onChange} />
+        <ClassificationInput
+          value={value}
+          onChange={(e) => {
+            onChange(e);
+            if (!!parentOnChange) parentOnChange(e);
+          }}
+          {...(props as any)}
+        />
       )}
     />
   );
 };
 
 interface IClassInputProps {
+  disabled: boolean;
   value: IGroupClassification[];
   onChange: (e: IGroupClassification[]) => void;
 }
 
-const defaultValue: IGroupClassification[] = [
+const defaultClassificationValue = (): IGroupClassification[] => [
   {
     id: generateUUID(),
     name: "",
@@ -41,9 +50,10 @@ const defaultValue: IGroupClassification[] = [
 
 function ClassificationInput({
   onChange,
-  value: classifications = defaultValue,
+  disabled,
+  value: classifications = defaultClassificationValue(),
 }: IClassInputProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation("form");
 
   function addClassification() {
     if (!classifications[classifications.length - 1]?.name) return;
@@ -61,23 +71,45 @@ function ClassificationInput({
     if (idx === -1) return;
 
     classifications.splice(idx, 1);
+    onChange([...classifications]);
+  }
 
+  function handleClassificationChange({ id, name }: IGroupClassification) {
+    const idx = findIndex(classifications, (v) => v.id === id);
+    if (idx === -1) return;
+
+    classifications[idx].name = name;
     onChange([...classifications]);
   }
 
   return (
     <div className={`w-full space-y-4`}>
-      {classifications.map((c) => {
-        return (
-          <div className={`fic w-full space-x-3`}>
-            <Input className={`w-full`} />
+      {classifications.map((c, idx) => {
+        const error =
+          !c.name && !disabled ? t("classification-name-required-error") : "";
 
-            <TrashCanIcon
-              className={`cursor-pointer ${
-                classifications.length < 2 && "invisible"
-              }`}
-              onClick={() => deleteClassification(c)}
+        return (
+          <div
+            className={`flex items-${
+              !!error ? "start" : "center"
+            } w-full space-x-3`}
+          >
+            <Input
+              disabled={disabled}
+              onChange={(e) =>
+                handleClassificationChange({ id: c.id, name: e.target.value })
+              }
+              autoFocus={idx === classifications.length - 1}
+              value={c.name}
+              error={error}
+              className={`w-full`}
             />
+
+            {classifications.length > 1 && (
+              <Button variant="custom" onClick={() => deleteClassification(c)}>
+                <TrashCanIcon className={`cursor-pointer`} />
+              </Button>
+            )}
           </div>
         );
       })}
@@ -86,7 +118,10 @@ function ClassificationInput({
         variant="outline"
         color="secondary-1"
         onClick={addClassification}
-        className="hover:!bg-secondary-1 w-full"
+        disabled={disabled}
+        className={`w-full hover:!bg-white ${
+          !disabled && "hover:!text-secondary-1"
+        }`}
       >
         {t("pgci-add-classification-button-label")}
       </Button>

@@ -18,14 +18,18 @@ class OpenSearch {
 	});
 
 	static createIndex(index, properties?: IMappingProperties) {
-		this.client.indices.create({
-			index,
-			body: {
-				mappings: {
-					...(properties ? { properties } : {})
+		try {
+			this.client.indices.create({
+				index,
+				body: {
+					mappings: {
+						...(properties ? { properties } : {})
+					}
 				}
-			}
-		});
+			});
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	static insert(index: string, data: any) {
@@ -36,13 +40,12 @@ class OpenSearch {
 			};
 			this.client.index({ index, body });
 		} catch (e) {
-			console.log(e);
+			console.error(e);
 		}
 	}
 
 	static insertBulk(index: string, rawDatas: unknown[]) {
 		try {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const body = rawDatas.flatMap((data: any) => [
 				{
 					index: { _index: index }
@@ -52,16 +55,24 @@ class OpenSearch {
 
 			this.client.bulk({ index, body });
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	}
 
 	static deleteIndex(index: string) {
-		this.client.indices.delete({ index });
+		try {
+			this.client.indices.delete({ index });
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	static emptyIndex(index) {
-		this.deleteIndex(index);
+		try {
+			this.deleteIndex(index);
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	public static async getSuggestion(index: string, body) {

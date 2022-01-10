@@ -4,10 +4,6 @@ import BuyingRequest from "@models/BuyingRequest";
 const buyingRequestController = new BuyingRequestController();
 
 export const Query = {
-	deleteIndex: BuyingRequest.deleteIndex,
-	createIndex: BuyingRequest.createIndex,
-	// TODO: Have a cronjob that calls this API every 1 minute (1440 times per day).
-	firstBulk: BuyingRequest.firstBulkElasticSearch,
 	buyingRequestBySlug: (_, { slug }) =>
 		buyingRequestController.getBuyingRequestBySlug(slug),
 	buyingRequest: (_, { id }) => buyingRequestController.getBuyingRequest(id),
