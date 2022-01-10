@@ -100,9 +100,6 @@ extend type Mutation {
 }
 
 extend type Query {
-	firstBulk: Response!
-	deleteIndex: Response!
-	createIndex: Response!
 	adminBuyingRequests(
 		companyId: Int!
 		input: FetchBRInput!

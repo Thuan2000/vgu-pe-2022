@@ -14,6 +14,7 @@ import { IFile, IFileAccessControl, IFileType } from "@graphql/types.graphql";
 import DUThumb from "./du-thumb";
 import Image from "next/image";
 import Loader from "../loader/loader";
+import { isEmpty } from "lodash";
 
 export interface IFileWithTypename extends IFile {
   __typename?: string;
@@ -29,8 +30,8 @@ export interface IDocumentUploaderProps {
   required?: boolean;
   maxFiles?: number;
   dropZoneText?: string;
-  onChange?: (e: any) => void;
-  value?: any;
+  onChange?: (e: IFile[]) => void;
+  value?: IFile[];
   error?: string;
   inputFileType: IFileType;
   accessControl?: IFileAccessControl;
@@ -38,12 +39,18 @@ export interface IDocumentUploaderProps {
   dropZonePlaceholder?: ReactSVGElement;
   inputStyle?: React.CSSProperties;
   thumbOnInput?: boolean;
+  inputClassName?: string;
 }
 
-function getPreviewFiles(values: IFileWithTypename[]) {
-  if (!values) return [];
-  const files = values.map(({ __typename, ...file }) => file);
-  return files;
+function getRemovedTypename(values: IFileWithTypename[]) {
+  if (!values || !isEmpty(values)) return [];
+  const files = values.flatMap((file) => {
+    if (!file) return [];
+
+    const { __typename, ...rest } = file;
+    return rest;
+  });
+  return files as any;
 }
 
 const DocumentUploader = ({
@@ -61,14 +68,16 @@ const DocumentUploader = ({
   numberQueue,
   inputFileType,
   onChange,
-  value,
+  value: files = [],
   maxFiles = 10,
   accessControl = "PUBLIC_READ",
+  inputClassName,
 }: IDocumentUploaderProps) => {
+  if (!accept) throw "PLEASE_SET_THE_ACCEPT_CORRECTLY";
+
   const { t } = useTranslation("form");
-  const [files, setFiles] = useState<IFile[]>(getPreviewFiles(value) || []);
+
   const [loadingThumbs, setLoadingThumbs] = useState<string[]>([]);
-  const firstRun = useRef(true);
   const { getRootProps, getInputProps } = useDropzone({
     accept,
     multiple,
@@ -81,15 +90,8 @@ const DocumentUploader = ({
     onCompleted: () => setLoadingThumbs([]),
   });
 
-  useEffect(() => {
-    if (firstRun.current) firstRun.current = false;
-    else if (onChange) onChange(files);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [files]);
-
   async function handleOnDrop(acceptedFiles: File[]) {
-    if (!!maxFiles && files.length + acceptedFiles.length > maxFiles) {
+    if (!!maxFiles && files?.length + acceptedFiles?.length > maxFiles) {
       fireErrorModal("too-many-files");
       return;
     }
@@ -109,16 +111,18 @@ const DocumentUploader = ({
     const accFiles = uploadedFiles?.map(
       ({ __typename, ...file }: IFileWithTypename) => file
     );
+    if (!onChange) return;
 
-    if (!!files.length && multiple) setFiles([...files, ...accFiles!]);
-    else setFiles(accFiles!);
+    if (!!files?.length && multiple) onChange([...files, ...accFiles!]);
+    else onChange(accFiles!);
   }
 
   function handleDelete(index: number) {
     // @ts-ignore
-    files.splice(index, 1);
-    const newFiles = [...files];
-    setFiles(newFiles);
+    files?.splice(index, 1);
+
+    if (!onChange) return;
+    onChange([...files]);
   }
 
   function openDocument(url: string) {
@@ -130,7 +134,7 @@ const DocumentUploader = ({
       icon: "error",
       text: `${t(`form:error-${errorCode}-message`)} 
         ${errorCode === "too-many-files" ? maxFiles || 10 : ""},
-        ${maxFiles - files.length}
+        ${maxFiles - files?.length}
         ${t("form:slot-left-message")}
       `,
       confirmButtonColor: COLORS.GREEN,
@@ -155,7 +159,7 @@ const DocumentUploader = ({
       )}
 
       <div className={`select-none space-y-2 ${!!numberQueue && "ml-8"}`}>
-        {(!!files.length || !!loadingThumbs.length) && (
+        {(!!files?.length || !!loadingThumbs.length) && (
           <div className="flex items-center flex-wrap mb-2">
             {!thumbOnInput &&
               files?.map((file, idx) => {
@@ -186,9 +190,9 @@ const DocumentUploader = ({
         <div
           style={{ ...inputStyle }}
           {...getRootProps({
-            className: `border-dashed border-2 h-24 flex-center rounded relative
+            className: `${inputClassName} border-dashed border-2 h-24 flex-center rounded relative
             ${
-              loading || (!!maxFiles && files.length >= maxFiles)
+              loading || (!!maxFiles && files?.length >= maxFiles)
                 ? "cursor-not-allowed"
                 : "cursor-pointer border-primary focus:border-primary focus:outline-none"
             }`,
@@ -196,11 +200,11 @@ const DocumentUploader = ({
         >
           <input
             {...getInputProps({
-              disabled: loading || (!!maxFiles && files.length >= maxFiles),
+              disabled: loading || (!!maxFiles && files?.length >= maxFiles),
             })}
           />
-          {thumbOnInput && files.length > 0 && (
-            <div>{!loading && <Image src={files[0].url} layout="fill" />}</div>
+          {thumbOnInput && files?.length > 0 && (
+            <div>{!loading && <Image src={files[0]?.url} layout="fill" />}</div>
           )}
           {thumbOnInput && loading ? (
             <Loader simple className="w-10 h-10" />
@@ -208,7 +212,7 @@ const DocumentUploader = ({
             <p className="text-xs text-center">
               <span
                 className={`font-semibold ${
-                  loading || (!!maxFiles && files.length >= maxFiles)
+                  loading || (!!maxFiles && files?.length >= maxFiles)
                     ? "text-gray-300"
                     : "text-primary"
                 }`}
@@ -225,7 +229,7 @@ const DocumentUploader = ({
             className="mt-3 text-xs px-6"
             type="button"
             color="secondary-1"
-            disabled={loading || (!!maxFiles && files.length >= maxFiles)}
+            disabled={loading || (!!maxFiles && files?.length >= maxFiles)}
             {...getRootProps()}
           >
             <UploadIcon className="mr-5" /> {t("upload-file")}

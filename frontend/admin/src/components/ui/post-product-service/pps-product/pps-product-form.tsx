@@ -1,54 +1,58 @@
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 import PPSProductCategoryInput from "./pps-product-category-input";
 import { useRouter } from "next/dist/client/router";
 import {
-  PPS_CATEGORY_FORM_INDEX,
-  PPS_REVIEW_FORM_INDEX,
-  PPS_DETAILS_FORM_INDEX,
-  PPS_PRICING_FORM_INDEX,
+  PPS_PRODUCT_CATEGORY_FORM_INDEX,
+  PPS_PRODUCT_REVIEW_FORM_INDEX,
+  PPS_PRODUCT_DETAILS_FORM_INDEX,
+  PPS_PRODUCT_PRICING_FORM_INDEX,
+  PPS_PRODUCT_GENERAL_FORM_INDEX,
 } from "./pps-product-constants";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { ppsProductSchema } from "./pps-product-schema";
-import PPSProductDetailsInput from "./pps-product-details-input";
+import PPSProductGeneralInput from "./pps-product-general-input";
 import Form from "@components/form";
 import PPSProductFooterButton from "./pps-product-footer-button";
 import PPSServicePricingInput from "./pps-product-pricing-input";
 import PPSProductReview from "./pps-product-review";
-import { PPI_PACKAGE_PRICE_NAME } from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
-import { findIndex } from "lodash";
-import {
-  useCreateServiceMutation,
-  useUpdateServiceMutation,
-  CreateServiceMutation,
-  UpdateServiceMutation,
-} from "@graphql/service.graphql";
 import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
 import { ROUTES } from "@utils/routes";
 
-import {
-  IPPIPackage,
-  IPPIRow,
-} from "@components/ui/storybook/inputs/package-pricing-input/ppi-interfaces";
 import { IPostProductFormValues } from "./pps-product-interface";
-import UnderDevelopment from "@components/under-development";
+import PPSProductDetailsInput from "./pps-product-details-input";
+import {
+  ICreateProductInput,
+  ITagInput,
+  IVariationInput,
+} from "@graphql/types.graphql";
+import { useCreateProductMutation } from "@graphql/product.graphql";
+import { getCompanyId, getCompanyName } from "@utils/functions";
 
-interface IPPSProductFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface IPPSProductFormProps {
+  initValues?: any;
+}
 
-const PPSProductForm: React.FC<IPPSProductFormProps> = ({}) => {
+const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   const { t } = useTranslation("form");
   const { locale, query, ...router } = useRouter();
-  const [createService, { loading }] = useCreateServiceMutation({
-    onCompleted: handleCreatedService,
-  });
-
-  const [updateService, { loading: updating }] = useUpdateServiceMutation({
-    onCompleted: handleUpdatedService,
-  });
-
   const formPosition = parseInt(query.formPosition as string) || 1;
+  const methods = useForm<IPostProductFormValues>({
+    resolver: yupResolver(ppsProductSchema),
+  });
+  const {
+    control,
+    register,
+    formState: { errors, dirtyFields },
+    trigger,
+    getValues,
+    setError,
+    handleSubmit,
+  } = methods;
+
+  const [createProduct, { loading: creating }] = useCreateProductMutation();
 
   function changeSection(newPosition: number) {
     const { pathname } = router;
@@ -58,58 +62,61 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({}) => {
     });
   }
 
-  const {
-    control,
-    register,
-    formState: { errors, dirtyFields },
-    trigger,
-    getValues,
-    setError,
-    handleSubmit,
-  } = useForm<IPostProductFormValues>({
-    resolver: yupResolver(ppsProductSchema),
-  });
-
   // Changing section if there's an error and user submitting
   useEffect(() => {
-    if (errors && errors.category && formPosition > PPS_CATEGORY_FORM_INDEX)
-      changeSection(PPS_CATEGORY_FORM_INDEX);
-    else if (errors && errors.details && formPosition > PPS_DETAILS_FORM_INDEX)
-      changeSection(PPS_DETAILS_FORM_INDEX);
-    else if (errors && errors.pricing && formPosition > PPS_PRICING_FORM_INDEX)
-      changeSection(PPS_PRICING_FORM_INDEX);
+    if (
+      errors &&
+      errors.category &&
+      formPosition > PPS_PRODUCT_CATEGORY_FORM_INDEX
+    )
+      changeSection(PPS_PRODUCT_CATEGORY_FORM_INDEX);
+    else if (
+      errors &&
+      errors.details &&
+      formPosition > PPS_PRODUCT_DETAILS_FORM_INDEX
+    )
+      changeSection(PPS_PRODUCT_DETAILS_FORM_INDEX);
+    else if (
+      errors &&
+      errors.pricing &&
+      formPosition > PPS_PRODUCT_PRICING_FORM_INDEX
+    )
+      changeSection(PPS_PRODUCT_PRICING_FORM_INDEX);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  function isDirtyCategory() {
-    return !!dirtyFields.category;
-  }
-
   // Redirect to first section if user jump using query
-  // useEffect(() => {
-  //   if (formPosition > PPS_CATEGORY_FORM_INDEX && !isDirtyCategory())
-  //     changeSection(PPS_CATEGORY_FORM_INDEX);
-  // }, []);
+  useEffect(() => {
+    if (formPosition > PPS_PRODUCT_CATEGORY_FORM_INDEX && !dirtyFields.category)
+      changeSection(PPS_PRODUCT_CATEGORY_FORM_INDEX);
+  }, []);
 
   async function handleNextClick() {
-    if (formPosition === PPS_CATEGORY_FORM_INDEX) {
+    if (formPosition === PPS_PRODUCT_CATEGORY_FORM_INDEX) {
       const data = await trigger("category");
       if (!data) return;
     }
-    if (formPosition === PPS_DETAILS_FORM_INDEX) {
-      const data = await trigger("details");
+    if (formPosition === PPS_PRODUCT_GENERAL_FORM_INDEX) {
+      const data = await trigger("general");
       if (!data) return;
     }
-    if (formPosition === PPS_PRICING_FORM_INDEX) {
-      const isValid =
-        !!getValues("pricing.packages") || !!getValues("pricing.price");
-      const data = await trigger("pricing");
-      if (!data || !isValid) {
+    if (formPosition === PPS_PRODUCT_PRICING_FORM_INDEX) {
+      // const isValid =
+      //   !!getValues("pricing.variants") || !!getValues("pricing.price");
+      const data =
+        (await trigger("pricing.price")) ||
+        (await trigger("pricing.variations"));
+      if (!data) {
         setError("pricing", { message: "pricing-not-setted-error" });
         return;
       }
     }
-    if (formPosition >= PPS_REVIEW_FORM_INDEX) return;
+    if (formPosition === PPS_PRODUCT_DETAILS_FORM_INDEX) {
+      const data = await trigger("details");
+      if (!data) return;
+    }
+    if (formPosition >= PPS_PRODUCT_REVIEW_FORM_INDEX) return;
+
     changeSection(formPosition + 1);
   }
 
@@ -126,61 +133,98 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({}) => {
     } else if (!success) alert(t(`CREATE-SERVICES-${message}-ERROR`));
   }
 
-  function handleCreatedService({
-    createService: { message, success },
-  }: CreateServiceMutation) {
-    fireSuccessErrorMessage(success, message);
-  }
+  function getMinMaxPrice(variations: IVariationInput[] = []) {
+    const pricing = {
+      minPrice: Number.MAX_VALUE,
+      maxPrice: Number.MIN_VALUE,
+    };
 
-  function handleUpdatedService({
-    updateService: { message, success },
-  }: UpdateServiceMutation) {
-    fireSuccessErrorMessage(success, message);
-  }
-
-  /**
-   *
-   * @param rawPackages All the packages and the rows
-   * @returns {formattedPackages[], lowestPrice, maximumPrice}
-   */
-  function processRawPackages(
-    packages: IPPIPackage[] = [],
-    rows: IPPIRow[] = []
-  ) {
-    let minPrice = Number.MAX_VALUE;
-    let maxPrice = Number.MIN_VALUE;
-    if (!packages?.length) return;
-    const formatedPackages = packages.map((pkg) => {
-      const newPackage = Object.assign({}, pkg);
-      delete newPackage.packageRows;
-
-      const newPrs = pkg?.packageRows?.flatMap((pr) => {
-        const idx = findIndex(rows, (r) => r.id === pr.rowId);
-
-        if (idx === -1) return [];
-        const row = rows[idx];
-
-        // Getting the price
-        if (row.name === PPI_PACKAGE_PRICE_NAME && pr.value <= minPrice)
-          minPrice = pr.value;
-        if (row.name === PPI_PACKAGE_PRICE_NAME && pr.value >= maxPrice)
-          maxPrice = pr.value;
-
-        return {
-          ...pr,
-          value: JSON.stringify(pr?.value),
-        };
-      });
-      newPackage.packageRows = newPrs as any;
-
-      return newPackage;
+    variations.forEach(({ price }) => {
+      if (price < pricing.minPrice) pricing.minPrice = price;
+      else if (price > pricing.maxPrice) pricing.maxPrice = price;
     });
 
-    return { formatedPackages, minPrice, maxPrice };
+    return pricing;
   }
 
   function onSubmit(values: IPostProductFormValues) {
-    const { category, details, pricing } = values;
+    const { category: categoryForm, general, details, pricing } = values;
+
+    const { name, industry, category } = categoryForm;
+    const { images, certificates, minOrder, description, videos } = general;
+    const { price, variations: rawVariations } = pricing;
+    const {
+      tags: rawTags,
+      brandName,
+      baseDimension,
+      location,
+      isCustom,
+      isPreorder,
+      packagedDimension,
+      status: rawStatus,
+      warranty,
+    } = details;
+
+    const status = rawStatus.value;
+
+    const variations: IVariationInput[] = rawVariations?.map(
+      ({ id, ...rest }) => rest
+    );
+
+    const coverImage = images?.[0];
+
+    const newTags: ITagInput[] = [];
+    const tags: string[] = rawTags.map(({ isNewRecord, id, ...tag }: any) => {
+      if (isNewRecord) newTags.push(tag);
+      return tag.name;
+    });
+
+    const minMaxPrice = getMinMaxPrice(variations);
+
+    const inputValues: ICreateProductInput | any = {
+      // From category tab
+      name,
+      industryId: industry.id,
+      categoryId: category.id,
+
+      // From General tab
+      coverImage,
+      certificates,
+      minOrder,
+      description,
+      videos,
+      warehouseLocation: location.name,
+
+      // From Pricing tab
+      price,
+      variations,
+      ...(!!variations?.length ? { minMaxPrice } : {}),
+
+      // From Details tab
+      brandName,
+      tags,
+      newTags,
+      baseDimension,
+      isCustom,
+      isPreorder,
+      packagedDimension,
+      status,
+
+      gallery: images,
+    };
+
+    if (initValues) {
+    } else {
+      createProduct({
+        variables: {
+          input: {
+            companyId: getCompanyId(),
+            companyName: getCompanyName(),
+            ...inputValues,
+          },
+        },
+      });
+    }
   }
 
   function handleBackClick() {
@@ -188,54 +232,57 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({}) => {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="pt-2 space-y-2">
-      <div
-        className={
-          formPosition === PPS_REVIEW_FORM_INDEX ? "sm:w-full" : "sm:w-2/3"
-        }
-      >
-        {formPosition === PPS_CATEGORY_FORM_INDEX && (
-          <PPSProductCategoryInput
-            errors={errors}
-            trigger={trigger}
-            control={control}
-            register={register}
-          />
-        )}
-
-        {formPosition === PPS_DETAILS_FORM_INDEX && (
-          <PPSProductDetailsInput
-            errors={errors}
-            trigger={trigger}
-            control={control}
-            register={register}
-          />
-        )}
-
-        {formPosition === PPS_PRICING_FORM_INDEX && (
-          <PPSServicePricingInput
-            errors={errors}
-            trigger={trigger}
-            control={control}
-            register={register}
-          />
-        )}
-
-        {formPosition === PPS_REVIEW_FORM_INDEX && (
-          <PPSProductReview
-            changeSection={changeSection}
-            getValues={getValues}
-          />
-        )}
-      </div>
-
-      <PPSProductFooterButton
-        loading={loading || updating}
-        onNextClick={handleNextClick}
-        onBackClick={handleBackClick}
-        formPosition={formPosition}
-      />
-    </Form>
+    <FormProvider {...methods}>
+      <Form onSubmit={handleSubmit(onSubmit)} className="pt-2 space-y-2">
+        <div
+          className={
+            formPosition === PPS_PRODUCT_REVIEW_FORM_INDEX
+              ? "sm:w-full"
+              : "sm:w-2/3"
+          }
+        >
+          {formPosition === PPS_PRODUCT_CATEGORY_FORM_INDEX && (
+            <PPSProductCategoryInput
+              errors={errors}
+              trigger={trigger}
+              control={control}
+              register={register}
+            />
+          )}
+          {formPosition === PPS_PRODUCT_GENERAL_FORM_INDEX && (
+            <PPSProductGeneralInput
+              errors={errors}
+              trigger={trigger}
+              control={control}
+              register={register}
+            />
+          )}
+          {formPosition === PPS_PRODUCT_PRICING_FORM_INDEX && (
+            <PPSServicePricingInput
+              errors={errors}
+              trigger={trigger}
+              control={control}
+              register={register}
+            />
+          )}
+          {formPosition === PPS_PRODUCT_DETAILS_FORM_INDEX && (
+            <PPSProductDetailsInput />
+          )}
+          {formPosition === PPS_PRODUCT_REVIEW_FORM_INDEX && (
+            <PPSProductReview
+              changeSection={changeSection}
+              getValues={getValues}
+            />
+          )}
+        </div>
+        <PPSProductFooterButton
+          loading={creating}
+          onNextClick={handleNextClick}
+          onBackClick={handleBackClick}
+          formPosition={formPosition}
+        />
+      </Form>
+    </FormProvider>
   );
 };
 export default PPSProductForm;

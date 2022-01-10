@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash";
 import Swal from "sweetalert2";
 import { getMeData } from "./auth-utils";
 import {
@@ -201,4 +202,15 @@ export function removeTypenameFromArray(withTypename: any[] = []) {
 
 export function addIdAndRemoveTypename(arr: any[] = []) {
   return arr.map(({ __typename, ...a }: any) => ({ id: generateUUID(), ...a }));
+}
+
+export function isEmptyObject(obj: any) {
+  if (isEmpty(obj)) return true;
+
+  let empty = true;
+  Object.keys(obj).forEach((key) => {
+    if (!!obj[key]) empty = false;
+  });
+
+  return empty;
 }

@@ -1,19 +1,22 @@
 import { PlusIcon } from "@assets/icons/plus-icon";
 import Button from "@components/ui/storybook/button";
 import InputLabel from "@components/ui/storybook/inputs/input-label";
-import NumberInput from "@components/ui/storybook/inputs/number-input";
-import Typography from "@components/ui/storybook/typography";
 import { COLORS } from "@utils/colors";
 import { useTranslation } from "next-i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   UseFormRegister,
   FieldErrors,
   Control,
   UseFormTrigger,
+  useWatch,
 } from "react-hook-form";
 import { IPostProductFormValues } from "./pps-product-interface";
-import ProductPriceInput from "./product-price-input";
+import PPSPVIInput from "./ppsp-variation-image/ppspvi-input";
+import PPSPVPInput from "./ppsp-variation-price/pppspvp-input";
+import { IGroupFormValues } from "./product-group-form";
+import ProductGroupInput from "./product-group-input";
+import ProductSinglePriceInput from "./product-single-price-input";
 
 interface IPPSProductPricingInputProps {
   register: UseFormRegister<IPostProductFormValues>;
@@ -43,9 +46,11 @@ const PPSProductPricingInput: React.FC<IPPSProductPricingInputProps> = ({
   trigger,
 }) => {
   const { t } = useTranslation("form");
-  const [isAddingPackages, setIsAddingPackages] = useState(
-    !!control._formValues.pricing?.packages
-  );
+
+  const groups: any = useWatch<IPostProductFormValues>({
+    control,
+    name: "pricing.groups",
+  }) as any;
 
   return (
     <div className="space-y-5 min-h-[65vh]">
@@ -55,43 +60,17 @@ const PPSProductPricingInput: React.FC<IPPSProductPricingInputProps> = ({
         labelFontSize={"lg"}
       />
 
-      <div className="fic space-x-5">
-        <Typography
-          weight="bold"
-          color="black"
-          className={`flex-shrink-0`}
-          text={`${t("single-price-input-label")} : `}
-        />
+      {!groups?.length && (
+        <ProductSinglePriceInput control={control} name="pricing.price" />
+      )}
 
-        <NumberInput
-          control={control}
-          className={`w-full`}
-          suffix={` ${t("budget-sign")}`}
-          name="pricing.singlePrice"
-        />
-      </div>
+      <ProductGroupInput control={control} name="pricing.groups" />
 
-      <div className="flex items-start space-x-5">
-        <Typography
-          weight="bold"
-          color="black"
-          className={`flex-shrink-0 mt-3`}
-          text={`${t("single-price-input-label")} : `}
-        />
-
-        <div className={`w-full relative`}>
-          <ProductPriceInput />
-          {/* <Button
-            variant="outline"
-            color="secondary-1"
-            className="hover:!bg-secondary-1 w-full"
-          >
-            <PlusIcon fill={COLORS["SECONDARY-1"].DEFAULT} className={`mr-3`} />
-            {t("product-pricing-add-classification-group")}
-          </Button> */}
-        </div>
-      </div>
+      <PPSPVPInput control={control} name="pricing.variations" />
+      {/* @TODO: Make this available asap */}
+      {/* <PPSPVIInput control={control} name="pricing.variations" /> */}
     </div>
   );
 };
+
 export default PPSProductPricingInput;

@@ -11,6 +11,7 @@ export interface INumInputProps extends NumberFormatProps, IInputLabelProps {
   shadow?: boolean;
   error?: string;
   absoluteErrorMessage?: boolean;
+  inputClassName?: string;
 }
 
 interface INumberInputProps extends INumInputProps {

@@ -17,7 +17,7 @@ const detailsSchema = yup.object({
 });
 
 export const ppsProductSchema = yup.object({
-  // category: categorySchema,
-  // general: generalSchema,
+  category: categorySchema,
+  general: generalSchema,
   // details: detailsSchema,
 });

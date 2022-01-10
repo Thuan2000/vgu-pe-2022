@@ -28,6 +28,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
       noBorder,
       noteFontSize,
       labelFontSize,
+      disabled,
       ...rest
     },
     ref
@@ -38,6 +39,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
         [inputClasses.normal]: variant === "normal",
         [inputClasses.solid]: variant === "solid",
         [inputClasses.outline]: variant === "outline",
+        [inputClasses.disabled]: disabled,
         [inputClasses.shadow]: shadow,
         [inputClasses.noBorder]: noBorder,
       },
@@ -73,6 +75,7 @@ const Input = React.forwardRef<HTMLInputElement, IInputProps>(
               autoCorrect="off"
               spellCheck="false"
               aria-invalid={error ? "true" : "false"}
+              disabled={disabled}
               {...rest}
             />
             {prefix && (
