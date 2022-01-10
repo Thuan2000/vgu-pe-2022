@@ -28,7 +28,10 @@ import {
   ITagInput,
   IVariationInput,
 } from "@graphql/types.graphql";
-import { useCreateProductMutation } from "@graphql/product.graphql";
+import {
+  CreateProductMutation,
+  useCreateProductMutation,
+} from "@graphql/product.graphql";
 import { getCompanyId, getCompanyName } from "@utils/functions";
 
 interface IPPSProductFormProps {
@@ -52,7 +55,9 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     handleSubmit,
   } = methods;
 
-  const [createProduct, { loading: creating }] = useCreateProductMutation();
+  const [createProduct, { loading: creating }] = useCreateProductMutation({
+    onCompleted: handleCompleteCreated,
+  });
 
   function changeSection(newPosition: number) {
     const { pathname } = router;
@@ -90,6 +95,12 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     if (formPosition > PPS_PRODUCT_CATEGORY_FORM_INDEX && !dirtyFields.category)
       changeSection(PPS_PRODUCT_CATEGORY_FORM_INDEX);
   }, []);
+
+  function handleCompleteCreated({
+    createProduct: { message, success },
+  }: CreateProductMutation) {
+    fireSuccessErrorMessage(success, message);
+  }
 
   async function handleNextClick() {
     if (formPosition === PPS_PRODUCT_CATEGORY_FORM_INDEX) {
@@ -129,7 +140,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
         confirmButtonText: t("serviceCreated-button-label"),
       });
 
-      router.replace(`${ROUTES.POSTED_PRODUCT_SERVICE}?target=service`);
+      router.replace(`${ROUTES.POSTED_PRODUCT_SERVICE}?target=product`);
     } else if (!success) alert(t(`CREATE-SERVICES-${message}-ERROR`));
   }
 
@@ -198,7 +209,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       // From Pricing tab
       price,
       variations,
-      ...(!!variations?.length ? { minMaxPrice } : {}),
+      ...(!!variations?.length ? minMaxPrice : {}),
 
       // From Details tab
       brandName,
