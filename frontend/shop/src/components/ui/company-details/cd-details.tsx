@@ -14,6 +14,7 @@ import FacebookIcon from "@assets/icons/socials/facebook-icon";
 import MessangerIcon from "@assets/icons/socials/messanger-icon";
 import TelegramIcon from "@assets/icons/socials/telegram-icon";
 import LinkIcon from "@assets/icons/socials/link-icon";
+import { getIndustry } from "@datas/industries";
 
 interface ICDDetailsProps {
   company: ICompany;
@@ -45,10 +46,10 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
           variant="description"
           element="h3"
           size="md"
-          text={company.description || " "}
+          text={company?.description || " "}
         />
       </div>
-      
+
       <div>
         <Typography
           variant="smallTitle"
@@ -57,15 +58,15 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
           text={t("companyDetails-title")}
           className="mb-2"
         />
-        <div className = "grid grid-cols-3">
-          <div className = "col-start-1">
+        <div className="grid grid-cols-3">
+          <div className="col-start-1">
             <CDDetailQuestion
               question={t("location-text")}
-              answer={company.location || ""}
+              answer={company?.location || ""}
             />
             <CDDetailQuestion
               question={t("yearOfEstablished-text")}
-              answer={getYear(company.establishmentDate) + ""}
+              answer={getYear(company?.establishmentDate) + ""}
             />
             <CDDetailQuestion
               question={t("companyTotalEmployee-text")}
@@ -73,30 +74,30 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
             />
             <CDDetailQuestion
               question={t("contactNumber-text")}
-              answer={settings?.contactNumber as number}
+              answer={settings?.contactNumber as unknown as number}
             />
           </div>
-          <div className = "col-start-3">
+          <div className="col-start-3">
             <CDDetailQuestion
-                question={t("address-text")}
-                answer={settings?.address as string}
-              />
-              <CDDetailQuestion
-                question={t("industry-text")}
-                answer={getYear(company.industryId) + ""}
-              />
-              <CDDetailQuestion
-                question={t("businessType-text")}
-                answer={
-                  !!company.businessTypeIds
-                    ? getBusinessTypesText()
-                    : (t("common:not-setup") as string)
-                }
-              />
-              <CDDetailQuestion
-                question={t("mainProducts-text")}
-                answer={settings?.mainProducts?.join(", ") as string}
-              />
+              question={t("address-text")}
+              answer={settings?.address as string}
+            />
+            <CDDetailQuestion
+              question={t("industry-text")}
+              answer={getIndustry(company?.industryId as any) + ""}
+            />
+            <CDDetailQuestion
+              question={t("businessType-text")}
+              answer={
+                !!company?.businessTypeIds
+                  ? getBusinessTypesText()
+                  : (t("common:not-setup") as string)
+              }
+            />
+            <CDDetailQuestion
+              question={t("mainProducts-text")}
+              answer={settings?.mainProducts?.join(", ") as string}
+            />
           </div>
         </div>
       </div>
@@ -109,16 +110,20 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
           text={t("companySocialMedia-title")}
           className="mt-5 mb-2"
         />
-        
       </div>
       {/*SOCIAL MEDIA HERE*/}
-      
-      <Typography text={t("share-label")} variant="BRTitle" size="md" className="mt-0.5"/>
+
+      <Typography
+        text={t("share-label")}
+        variant="BRTitle"
+        size="md"
+        className="mt-0.5"
+      />
       <div className="flex">
         <FacebookIcon />
-        <MessangerIcon className="ml-3"/>
-        <TelegramIcon className="ml-3"/>
-        <LinkIcon className="ml-3"/>
+        <MessangerIcon className="ml-3" />
+        <TelegramIcon className="ml-3" />
+        <LinkIcon className="ml-3" />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
+import { IVietnamCity } from "@datas/vietnam-provinces";
 import { IFile } from "@graphql/types.graphql";
-import { IVietnamCity } from "@utils/vietnam-cities";
 
 export interface IRawBFW {
   id: string;
