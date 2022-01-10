@@ -7,7 +7,7 @@ import Typography from "../storybook/typography";
 interface ICDBfwProps {
   bfws: IBfw[];
   noBfwMessage: string;
-  bfwFor: "branch" | "warehouse" | "factory";
+  bfwFor: "branch" | "warehouse" | "factory" | "products" | "services";
 }
 
 const CDBfw: React.FC<ICDBfwProps> = ({ bfws, noBfwMessage, bfwFor }) => {

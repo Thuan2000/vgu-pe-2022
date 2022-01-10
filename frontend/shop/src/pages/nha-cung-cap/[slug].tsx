@@ -14,6 +14,7 @@ import CDUpperRow from "@components/ui/company-details/upper-row";
 import CDCertificates from "@components/ui/company-details/cd-certificates";
 import CDDetails from "@components/ui/company-details/cd-details";
 import CDBfw from "@components/ui/company-details/cd-bfw";
+import CDRequests from "@components/ui/company-details/cd-requests";
 
 interface ICompanyDetailProps {
   company: ICompany;
@@ -78,11 +79,6 @@ const CompanyDetail: React.FC<ICompanyDetailProps> = ({ company }) => {
           bfwFor="branch"
           noBfwMessage={t("noBranch-message")}
           bfws={(settings?.branches as any) || []}
-        />
-        <CDBfw
-          bfwFor="warehouse"
-          noBfwMessage={t("noWarehouse-message")}
-          bfws={(settings?.warehouses as any) || []}
         />
         <CDCertificates certificates={settings?.certificates || []} />
       </div>

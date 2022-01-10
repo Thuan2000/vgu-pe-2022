@@ -68,7 +68,7 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
               answer={getYear(company.establishmentDate) + ""}
             />
             <CDDetailQuestion
-              question={t("totalEmployees-text")}
+              question={t("companyTotalEmployee-text")}
               answer={settings?.employeeAmount as number}
             />
             <CDDetailQuestion
