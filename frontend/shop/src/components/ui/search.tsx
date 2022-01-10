@@ -11,9 +11,14 @@ import XIcon from "@assets/icons/x-icon";
 import Button from "./storybook/button";
 import { useOutsideClickRef } from "src/hooks/useOutsideClickRef";
 import SearchTypeSelector from "./search-type-selector";
+import { useGetCompanyNameSuggestionMutation } from "@graphql/company.graphql";
+import { useServiceNameSuggestionMutation } from "@graphql/service.graphql";
+import { getActivePageFromPath } from "@utils/functions";
 
 const TYPING_TIMEOUT = 350;
 const MAX_SUGGESTIONS = 5;
+
+let timeout: NodeJS.Timeout;
 
 const Search = ({
   className,
@@ -21,40 +26,68 @@ const Search = ({
 }: React.HTMLAttributes<HTMLDivElement>) => {
   const { t } = useTranslation();
 
-  const [getSuggestion] = useGetBrNameSuggestionMutation();
+  const [getBrsSuggestion] = useGetBrNameSuggestionMutation();
+  const [getCompaniesSuggestion] = useGetCompanyNameSuggestionMutation();
+  const [getServicesSuggestion] = useServiceNameSuggestionMutation();
+  const [getProductsSuggestion] = useServiceNameSuggestionMutation();
+  const suggestionFunctions: any = {
+    ["danh-ba-cong-ty"]: getCompaniesSuggestion,
+    ["dich-vu"]: getServicesSuggestion,
+    ["nhu-cau-thu-mua"]: getBrsSuggestion,
+    ["san-pham"]: getProductsSuggestion,
+  };
+
   const [suggestions, setSuggestions] = useState<INameSuggestion[]>([]);
   const [isShowSuggestion, setIsShowSuggestion] = useState(false);
   const [focusedSuggestion, setFocusedSuggestion] = useState(-1);
   const outsideClickRef = useOutsideClickRef(hideSuggestion);
   const { pathname, query, ...router } = useRouter();
+  const activePage = getActivePageFromPath(pathname);
 
   const [inputValue, setInputValue] = useState<string>(
     (query?.name as string) || ""
   );
+
+  useEffect(() => {
+    setInputValue("");
+  }, [activePage]);
+
+  useEffect(() => {
+    setInputValue((query?.name as string) || "");
+  }, [query?.name]);
+
+  function getSuggestionVariables() {
+    return {
+      variables: {
+        name: inputValue,
+        limit: MAX_SUGGESTIONS,
+      },
+    };
+  }
+
+  async function getSuggestions() {
+    if (!suggestionFunctions[activePage]) return;
+
+    const { data } =
+      (await suggestionFunctions[activePage](getSuggestionVariables())) || {};
+
+    const key = Object.keys(data)[0];
+
+    setSuggestions((data?.[key] as any) || []);
+  }
+
   /**
    * Handling suggestions fetch
    */
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
-
-    function getSuggestions() {
+    function getNameSuggestions() {
       if (timeout) clearTimeout(timeout);
       if (!inputValue) return;
 
-      timeout = setTimeout(async () => {
-        const { data } =
-          (await getSuggestion({
-            variables: {
-              inputName: inputValue,
-              limit: MAX_SUGGESTIONS,
-            },
-          })) || {};
-
-        setSuggestions((data?.getSuggestion as any) || []);
-      }, TYPING_TIMEOUT);
+      timeout = setTimeout(getSuggestions, TYPING_TIMEOUT);
     }
 
-    getSuggestions();
+    getNameSuggestions();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);

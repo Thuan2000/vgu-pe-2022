@@ -34,3 +34,10 @@ query Companies($input: FetchCompanyInput!) {
     }
   }
 }
+
+mutation GetCompanyNameSuggestion($name: String!, $limit: Int!) {
+  getCompanyNameSuggestion(name: $name, limit: $limit) {
+    name
+    highlightedName
+  }
+}

@@ -28,8 +28,8 @@ query DiscoveryBuyingRequests($input: FetchBRInput!) {
   }
 }
 
-mutation GetBRNameSuggestion($inputName: String!, $limit: Int!) {
-  getSuggestion(name: $inputName, limit: $limit) {
+mutation GetBRNameSuggestion($name: String!, $limit: Int!) {
+  getBrsNameSuggestion(name: $name, limit: $limit) {
     name
     highlightedName
   }

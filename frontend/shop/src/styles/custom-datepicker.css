@@ -62,3 +62,12 @@
   background-color: var(--color-primary) !important;
   color: white !important;
 }
+
+.react-datepicker__input-container .react-datepicker__close-icon::after {
+  background-color: transparent;
+  color: var(--color-gray-200);
+  width: 20px;
+  height: 20px;
+  font-size: 18pt;
+  transform: translateX(-30px);
+}

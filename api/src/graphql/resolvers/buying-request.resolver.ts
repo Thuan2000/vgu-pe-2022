@@ -16,7 +16,7 @@ export const Query = {
 };
 
 export const Mutation = {
-	getSuggestion: (_, { name, limit }) =>
+	getBrsNameSuggestion: (_, { name, limit }) =>
 		buyingRequestController.getSuggestion(name, limit),
 	createBuyingRequest: (_, { input }) =>
 		buyingRequestController.createBuyingRequest(input),

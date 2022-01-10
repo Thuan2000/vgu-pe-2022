@@ -168,8 +168,6 @@ class BuyingRequestController {
 				generateSlug(name, newBuyingRequest.getDataValue("id"))
 			);
 
-			// @TODO : Remove This later on es refactor
-			// BuyingRequest.insertIndex(newBuyingRequest.toJSON());
 			BuyingRequestRepository.insertCreateToElasticSearch(
 				newBuyingRequest.toJSON(),
 				companyId,
