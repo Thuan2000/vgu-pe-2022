@@ -26,6 +26,15 @@ class MyDocument extends Document {
 				<body>
 					<Main />
 					<NextScript />
+					<script>
+						window.onUsersnapCXLoad = function(api) {
+							api.init();
+						}
+						var script = document.createElement('script');
+						script.defer = 1;
+						script.src = 'https://widget.usersnap.com/global/load/d29420f8-4a66-4ff2-886f-ea64ed0c2d27?onload=onUsersnapCXLoad';
+						document.getElementsByTagName('head')[0].appendChild(script);
+					</script>
 				</body>
 			</Html>
 		);
