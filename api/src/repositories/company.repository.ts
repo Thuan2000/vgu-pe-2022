@@ -33,8 +33,6 @@ class CompanyRepository {
 			}
 		};
 
-		console.log(query.bool.should);
-
 		return query;
 	};
 
