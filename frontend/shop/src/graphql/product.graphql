@@ -25,3 +25,10 @@ query Products($input: FetchProductsInput!) {
     }
   }
 }
+
+mutation ProductNameSuggestion($name: String!, $limit: Int!) {
+  productNameSuggestion(name: $name, limit: $limit) {
+    highlightedName
+    name
+  }
+}

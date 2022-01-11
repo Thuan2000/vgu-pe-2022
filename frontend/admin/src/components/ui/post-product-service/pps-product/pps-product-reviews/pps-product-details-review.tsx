@@ -52,7 +52,7 @@ const PPSDetailsReview: React.FC<IPPSDetailsReviewProps> = ({
           label={t("pps-product-tags-review-label")}
           value={getTagNames() || t("no-information-text")}
         />
-        {!!status.value && (
+        {!!status?.value && (
           <ReviewQA
             label={t("pps-product-status-review-label")}
             value={status?.value || t("no-information-text")}
@@ -60,7 +60,11 @@ const PPSDetailsReview: React.FC<IPPSDetailsReviewProps> = ({
         )}
         <ReviewQA
           label={t("pps-product-isCustom-review-label")}
-          value={isCustom + "" || t("no-information-text")}
+          value={isCustom ? t("yes-it-is-text") : t("no-it-is-not-text")}
+        />
+        <ReviewQA
+          label={t("pps-product-isPreorder-review-label")}
+          value={isPreorder ? t("yes-it-is-text") : t("no-it-is-not-text")}
         />
 
         {!isEmptyObject(packagedDimension) ||

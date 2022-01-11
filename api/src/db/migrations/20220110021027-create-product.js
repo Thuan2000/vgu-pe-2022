@@ -17,6 +17,12 @@ module.exports = {
 			slug: {
 				type: Sequelize.STRING
 			},
+			description: {
+				type: Sequelize.TEXT
+			},
+			minOrder: {
+				type: Sequelize.INTEGER
+			},
 			industryId: {
 				type: Sequelize.INTEGER
 			},

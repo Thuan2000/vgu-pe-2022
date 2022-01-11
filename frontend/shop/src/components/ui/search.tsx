@@ -14,6 +14,7 @@ import SearchTypeSelector from "./search-type-selector";
 import { useGetCompanyNameSuggestionMutation } from "@graphql/company.graphql";
 import { useServiceNameSuggestionMutation } from "@graphql/service.graphql";
 import { getActivePageFromPath } from "@utils/functions";
+import { useProductNameSuggestionMutation } from "@graphql/product.graphql";
 
 const TYPING_TIMEOUT = 350;
 const MAX_SUGGESTIONS = 5;
@@ -29,9 +30,9 @@ const Search = ({
   const [getBrsSuggestion] = useGetBrNameSuggestionMutation();
   const [getCompaniesSuggestion] = useGetCompanyNameSuggestionMutation();
   const [getServicesSuggestion] = useServiceNameSuggestionMutation();
-  const [getProductsSuggestion] = useServiceNameSuggestionMutation();
+  const [getProductsSuggestion] = useProductNameSuggestionMutation();
   const suggestionFunctions: any = {
-    ["danh-ba-cong-ty"]: getCompaniesSuggestion,
+    ["nha-cung-cap"]: getCompaniesSuggestion,
     ["dich-vu"]: getServicesSuggestion,
     ["nhu-cau-thu-mua"]: getBrsSuggestion,
     ["san-pham"]: getProductsSuggestion,
@@ -50,6 +51,7 @@ const Search = ({
 
   useEffect(() => {
     setInputValue("");
+    setSuggestions([]);
   }, [activePage]);
 
   useEffect(() => {
@@ -66,13 +68,12 @@ const Search = ({
   }
 
   async function getSuggestions() {
+    setSuggestions([]);
     if (!suggestionFunctions[activePage]) return;
-
     const { data } =
       (await suggestionFunctions[activePage](getSuggestionVariables())) || {};
 
     const key = Object.keys(data)[0];
-
     setSuggestions((data?.[key] as any) || []);
   }
 
@@ -185,21 +186,41 @@ const Search = ({
         <div className={`flex items-center rounded-md border border-green `}>
           <SearchTypeSelector />
           <div className="relative">
-            <Input
-              noBorder
-              value={inputValue}
-              onKeyDown={handleKeyDown}
-              onFocus={handleInputFocus}
-              onChange={handleInputChange}
-              inputClassName="border-none sm:w-[350px]"
-            />
-
-            {inputValue && (
-              <XIcon
-                className="absolute right-5 top-1/2 -translate-y-1/2 w-3 h-3 cursor-pointer"
-                onClick={clearSearch}
+            <div>
+              <Input
+                noBorder
+                value={inputValue}
+                onKeyDown={handleKeyDown}
+                onFocus={handleInputFocus}
+                onChange={handleInputChange}
+                inputClassName="border-none sm:w-[350px]"
               />
-            )}
+
+              {inputValue && (
+                <XIcon
+                  className="absolute right-5 top-1/2 -translate-y-1/2 w-3 h-3 cursor-pointer"
+                  onClick={clearSearch}
+                />
+              )}
+            </div>
+            <div className="bg-white top-full mt-[1px] left-[-1px] right-[-1px] absolute border-r border-l border-primary rounded-b-lg overflow-hidden z-[9999]">
+              {isShowSuggestion &&
+                suggestions &&
+                suggestions.slice(0, MAX_SUGGESTIONS).map((sug, idx) => {
+                  return (
+                    <p
+                      onClick={() => handleSelectedInput(sug.name)}
+                      className={`px-4 py-3 border-b border-primary z-[99999] cursor-pointer 
+                    ${focusedSuggestion === idx && "bg-gray-10"}
+                  `}
+                      key={sug.highlightedName + "suggestion-key" + idx}
+                      dangerouslySetInnerHTML={{
+                        __html: sug.highlightedName,
+                      }}
+                    />
+                  );
+                })}
+            </div>
           </div>
           <Button
             type="button"
@@ -209,24 +230,6 @@ const Search = ({
           >
             <SearchIcon className={`w-4 h-4`} />
           </Button>
-        </div>
-        <div className="bg-white left-[125px] right-0 absolute border-r border-l border-primary rounded-b-lg overflow-hidden z-[9999]">
-          {isShowSuggestion &&
-            suggestions &&
-            suggestions.slice(0, MAX_SUGGESTIONS).map((sug, idx) => {
-              return (
-                <p
-                  onClick={() => handleSelectedInput(sug.name)}
-                  className={`px-4 py-3 border-b border-primary z-[99999] cursor-pointer 
-                    ${focusedSuggestion === idx && "bg-gray-10"}
-                  `}
-                  key={sug.highlightedName + "suggestion-key" + idx}
-                  dangerouslySetInnerHTML={{
-                    __html: sug.highlightedName,
-                  }}
-                />
-              );
-            })}
         </div>
       </Form>
     </div>

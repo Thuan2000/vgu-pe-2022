@@ -1,5 +1,6 @@
 import PageLayout from "@components/layouts/page-layout";
 import PostPageWrapper from "@components/post-page-wrapper";
+import PostedProducts from "@components/posted-product-service/posted-products";
 import PostedServices from "@components/posted-product-service/posted-services";
 import UnderDevelopment from "@components/under-development";
 import { PAGE_NAME } from "@utils/pagePath";
@@ -57,13 +58,7 @@ const PostedProductServices: React.FC<IPostedProductServicesProps> = ({}) => {
   return (
     <div>
       <PostPageWrapper noXPadding navs={postedPSNavs}>
-        {target === serviceTarget ? (
-          <PostedServices />
-        ) : (
-          <div>
-            <UnderDevelopment />
-          </div>
-        )}
+        {target === serviceTarget ? <PostedServices /> : <PostedProducts />}
       </PostPageWrapper>
     </div>
   );

@@ -1,26 +1,3 @@
-// const {
-// 	rows: services,
-// 	count: dataCount
-// } = await Service.findAndCountAll({
-// 	offset,
-// 	limit,
-// 	where: {
-// 		...input
-// 	},
-// 	attributes: [
-// 		"id",
-// 		"slug",
-// 		"name",
-// 		"price",
-// 		"coverImage",
-// 		"minPrice",
-// 		"maxPrice",
-// 		"location",
-// 		"rating"
-// 	],
-// 	include: [{ model: Company, attributes: ["name"] }]
-// });
-
 /* eslint-disable @typescript-eslint/camelcase */
 import {
 	ICreateServiceInput,
@@ -160,8 +137,6 @@ class ServiceController {
 	}
 
 	static async getNameSuggestion(inputName: string, limit: number) {
-		console.log(inputName);
-
 		const queryBody = {
 			query: ServiceRepository.nameSuggestionQuery(inputName),
 			_source: ["name"],

@@ -5,6 +5,7 @@ import {
   FieldErrors,
   Control,
   UseFormTrigger,
+  useFormContext,
 } from "react-hook-form";
 
 import { IPostProductFormValues } from "./pps-product-interface";
@@ -17,21 +18,20 @@ import NumberInput from "@components/ui/storybook/inputs/number-input";
 import LocationInput from "@components/ui/location-input/location-input";
 import DocumentInput from "@components/ui/storybook/document-input";
 import { getDocumentAccept } from "@utils/functions";
+import { MINIMUM_PRODUCT_DESC } from "./pps-product-schema";
 
-interface IPPSProductDetailsInputProps {
-  register: UseFormRegister<IPostProductFormValues>;
-  errors: FieldErrors<IPostProductFormValues>;
-  control: Control<IPostProductFormValues>;
-  trigger: UseFormTrigger<IPostProductFormValues>;
-}
+interface IPPSProductDetailsInputProps {}
 
-const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({
-  errors,
-  control,
-  trigger,
-  register,
-}) => {
+const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
   const { t } = useTranslation("form");
+  const {
+    formState: { errors },
+    control,
+    trigger,
+    register,
+  } = useFormContext<IPostProductFormValues>();
+
+  const descriptionError = errors.general?.description?.message;
 
   return (
     <div className="space-y-3">
@@ -44,7 +44,11 @@ const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({
         }}
         numberQueue={1}
         label={t("postProduct-description-input-label")}
-        error={t(errors.general?.description?.message || "")}
+        error={
+          !!descriptionError
+            ? `${t(descriptionError)}: ${MINIMUM_PRODUCT_DESC}`
+            : ""
+        }
       />
 
       <NumberInput

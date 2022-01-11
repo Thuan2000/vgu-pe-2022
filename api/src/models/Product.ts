@@ -120,6 +120,8 @@ Product.init(
 		companyId: DataTypes.INTEGER,
 		name: DataTypes.STRING,
 		slug: DataTypes.STRING,
+		description: DataTypes.TEXT,
+		minOrder: DataTypes.INTEGER,
 		industryId: DataTypes.INTEGER,
 		categoryId: DataTypes.INTEGER,
 		warehouseLocation: DataTypes.STRING,

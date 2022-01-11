@@ -31,6 +31,16 @@ class ProductRepository {
 
 		return query;
 	};
+
+	static nameSuggestionQuery(name: string) {
+		const query = {
+			bool: {
+				...OpenSearchFunction.getNameSuggestionQuery(name)
+			}
+		};
+
+		return query;
+	}
 }
 
 export default ProductRepository;

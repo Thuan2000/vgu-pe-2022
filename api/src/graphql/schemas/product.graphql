@@ -1,3 +1,30 @@
+type Product {
+	id: Int!
+	name: String!
+	company: Company!
+	industryId: Int!
+	categoryId: Int!
+	description: String!
+	minOrder: Int!
+	warehouseLocation: String!
+	coverImage: File!
+	gallery: [File!]
+	videos: [File!]
+	certificates: [File!]
+	variations: [Variation!]
+	minPrice: Date
+	maxPrice: Date
+	price: Date
+	brandName: String!
+	tags: [Tag!]!
+	status: String
+	isCustom: Boolean
+	isPreorder: Boolean
+	baseDimension: Dimension
+	packagedDimension: Dimension
+	# warranty: Warranty
+}
+
 input CreateProductInput {
 	# The company that create this product
 	companyId: Int!
@@ -41,9 +68,49 @@ input CreateProductInput {
 	warranty: WarrantyInput
 }
 
+input UpdateProductInput {
+	name: String!
+	industryId: Int!
+	categoryId: Int!
+	description: String!
+	minOrder: Int!
+	warehouseLocation: String!
+	coverImage: FileInput!
+	gallery: [FileInput!]
+	videos: [FileInput!]
+	certificates: [FileInput!]
+	variations: [VariationInput!]
+	minPrice: Date
+	maxPrice: Date
+	price: Date
+	brandName: String!
+	tags: [String!]!
+	newTags: [TagInput!]
+	status: String
+	isCustom: Boolean
+	isPreorder: Boolean
+	baseDimension: DimensionInput
+	packagedDimension: DimensionInput
+	warranty: WarrantyInput
+}
+
 input WarrantyInput {
 	type: String
 	period: Float
+}
+
+type Warranty {
+	type: String
+	period: Float
+}
+
+type Dimension {
+	measureUnit: String
+	width: Float
+	length: Float
+	height: Float
+	weight: Float
+	weightUnit: String
 }
 
 input DimensionInput {
@@ -117,23 +184,6 @@ type FetchProducts {
 	pagination: Pagination
 }
 
-type Product {
-	id: Int!
-	name: String!
-	industryId: Int!
-	categoryId: Int!
-	warehouseLocation: String
-	coverImage: File
-	gallery: File
-	brandName: String
-	variations: [Variation]
-	videos: File
-	certificates: File
-	price: Date
-	maxPrice: Date
-	minPrice: Date
-}
-
 type ProductListItem {
 	id: Int!
 	name: String!
@@ -151,8 +201,12 @@ type ProductListItem {
 
 extend type Mutation {
 	createProduct(input: CreateProductInput!): CreateResponse!
+	updateProduct(id: Int!, input: UpdateProductInput!): Response!
+	deleteProducts(ids: [Int!]!): Response!
+	productNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 }
 
 extend type Query {
 	products(input: FetchProductsInput!): FetchProducts!
+	product(slug: String!): Product!
 }

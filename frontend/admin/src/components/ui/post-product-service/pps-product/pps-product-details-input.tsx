@@ -23,7 +23,6 @@ interface IPPSProductDetailsInputProps {}
 
 const PPSProductDetailsInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
   const { t } = useTranslation("form");
-  const { locale } = useRouter();
   const {
     register,
     trigger,
@@ -32,14 +31,6 @@ const PPSProductDetailsInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
   } = useFormContext<IPostProductFormValues>();
 
   const [statuses, setStatuses] = useState<IProductStatus[]>([]);
-  const { data, refetch } = useTagsQuery({
-    variables: { locale: locale as any },
-  });
-  const tagsWithoutTypename = data?.tags
-    ? data?.tags?.map(({ __typename, ...t }: any) => ({ locale, ...t }))
-    : [];
-
-  const [tags, setTags] = useState(tagsWithoutTypename);
 
   function createStatus(name: string) {
     const newStatus: IProductStatus = {
@@ -48,16 +39,6 @@ const PPSProductDetailsInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
     };
 
     return newStatus;
-  }
-
-  function createNewTag(name: string) {
-    const newTag: ITagWithNewRecord = {
-      name,
-      locale: locale as ILocale,
-      isNewRecord: true,
-    };
-
-    return newTag;
   }
 
   return (
@@ -88,6 +69,7 @@ const PPSProductDetailsInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
         numberQueue={3}
         required
         control={control}
+        error={t((errors.details?.location as any)?.message || "")}
         name="details.location"
         onChange={() => {
           trigger("details.location");
