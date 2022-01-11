@@ -18,21 +18,22 @@ function getFilter(f) {
 }
 
 class CompanyRepository {
-	// static async insertToElasticSearch(
-	// 	{name, location, industryId}
-	// ) {
-	// 	const newBr = { company, ...br };
-
-	// 	Company.insertIndex(newBr);
-	// }
-
 	static getSearchQuery = (inputName: string, filter: any) => {
 		const query = {
 			bool: {
 				...OpenSearchFunction.getNameMustQuery(inputName),
-				...(!isEmptyObject(filter) ? { filter: getFilter(filter) } : {})
+				...(!isEmptyObject(filter)
+					? {
+							filter: [
+								{ match: { approved: true } },
+								...getFilter(filter)
+							]
+					  }
+					: { filter: [{ match: { approved: true } }] })
 			}
 		};
+
+		console.log(query.bool.should);
 
 		return query;
 	};
