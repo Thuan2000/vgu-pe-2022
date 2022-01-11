@@ -28,18 +28,15 @@ class MyDocument extends Document {
       <Html>
         <Head />
         <script
-          async
-          src={`https://widget.usersnap.com/global/load/${USERSNAP_GLOBAL_API_KEY}?onload=onUsersnapCXLoad`}
-        />
-        <script
           dangerouslySetInnerHTML={{
             __html: `
-              window.onUsersnapCXLoad = function(api) {
-                // store the Usersnap global api on the window, if case you want to use it in other contexts
-                window.Usersnap = api; 
-                api.init();
-                api.show('${USERSNAP_API_KEY}') 
-            }         
+              window.Userback = window.Userback || {};
+              Userback.access_token = '33613|62791|T63yQVODtngQUfihvnPPjw7Yk';
+              (function(d) {
+                  var s = d.createElement('script');s.async = true;
+                  s.src = 'https://static.userback.io/widget/v1.js';
+                  (d.head || d.body).appendChild(s);
+              })(document);
             `,
           }}
         />
