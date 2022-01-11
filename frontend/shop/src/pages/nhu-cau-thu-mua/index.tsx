@@ -1,13 +1,7 @@
-import FilterIcon from "@assets/icons/filter-icon";
-import Footer from "@components/layouts/footer";
 import PageLayout from "@components/layouts/page-layout";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import BuyingRequestsList from "@components/ui/buying-requests/feed/buying-requests-list";
 import SideFilter from "@components/ui/common-filter/side-filter";
-import AppliedFilter from "@components/ui/navbar/applied-filter";
-import UnderDevelopment from "@components/under-development";
-import { getAuthCredentials, isAuthenticated } from "@utils/auth-utils";
-import { ROUTES } from "@utils/routes";
 import { generateHeadTitle } from "@utils/seo-utils";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";

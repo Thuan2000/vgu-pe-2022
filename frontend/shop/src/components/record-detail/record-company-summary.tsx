@@ -7,12 +7,20 @@ import { useTranslation } from "next-i18next";
 import { siteSettings } from "@settings/site.settings";
 import VerifiedIcon from "@assets/icons/verified-icon";
 import DetailQA from "../ui/detail-qa";
+import { getYear } from "@utils/functions";
+import {
+  getBusinessType,
+  getBusinessTypes,
+  IBusinessType,
+} from "@datas/businessTypes";
 
-interface IBRDCompanySummaryProps {
+interface IRecordCompanySummaryProps {
   company: ICompany;
 }
 
-const BRDCompanySummary: React.FC<IBRDCompanySummaryProps> = ({ company }) => {
+const RecordCompanySummary: React.FC<IRecordCompanySummaryProps> = ({
+  company,
+}) => {
   const { t } = useTranslation("common");
 
   return (
@@ -44,26 +52,32 @@ const BRDCompanySummary: React.FC<IBRDCompanySummaryProps> = ({ company }) => {
       <div className="grid grid-cols-2 space-y-2ssys">
         <DetailQA
           question={`${t("brd-companyExperience-title")}:`}
-          // answer={company.establishment}
-          answer={"2021"}
+          answer={
+            getYear(company.establishmentDate) + "" || t("no-information")
+          }
         />
         <DetailQA
           question={`${t("brd-businessType-title")}:`}
-          // answer={company.businessType}
-          answer={"Manufacturer, Trading Company"}
+          answer={
+            getBusinessTypes((company.businessTypeIds as number[]) || [])
+              .map((bt: IBusinessType) => t("business-type:" + bt.label))
+              .join(", ") || t("no-information")
+          }
         />
         <DetailQA
           question={`${t("brd-employeeTotal-title")}:`}
-          // answer={company.employees.length}
-          answer="50 Peoples"
+          answer={
+            (company.settings?.employeeAmount as any) || t("no-information")
+          }
         />
         <DetailQA
           question={`${t("brd-mainProduct-title")}:`}
-          // answer={company.mainProduct}
-          answer="H Beam/Wire Rod/Galvanized Wire/Steel"
+          answer={
+            company.settings?.mainProducts?.join(", ") || t("no-information")
+          }
         />
       </div>
     </div>
   );
 };
-export default BRDCompanySummary;
+export default RecordCompanySummary;

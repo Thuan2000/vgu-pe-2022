@@ -13,13 +13,15 @@ interface ISDDescriptionProps {
   categoryId: number;
   description: string;
   companyId: number;
+  location: string;
 }
 
-const SDDescription: React.FC<ISDDescriptionProps> = ({
+const RecordDescription: React.FC<ISDDescriptionProps> = ({
   industryId,
   categoryId,
   description,
   companyId,
+  location,
 }) => {
   const { t } = useTranslation("common");
 
@@ -32,12 +34,17 @@ const SDDescription: React.FC<ISDDescriptionProps> = ({
   }
 
   function scrollToDetail() {
-    const { pathname } = router;
     router.replace("#detail");
   }
 
   return (
     <div className="mt-3 space-y-2">
+      <div className="flex space-x-2">
+        <Typography text={`${t("location-title")}:`} className="text-black" />
+        <div className="flex space-x-1 fic">
+          <Typography text={location} variant="smallTitle" />
+        </div>
+      </div>
       <div className="flex space-x-2">
         <Typography
           text={`${t("brd-industry-category-title")}:`}
@@ -71,4 +78,4 @@ const SDDescription: React.FC<ISDDescriptionProps> = ({
     </div>
   );
 };
-export default SDDescription;
+export default RecordDescription;

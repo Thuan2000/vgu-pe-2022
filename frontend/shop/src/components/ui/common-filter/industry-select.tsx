@@ -46,10 +46,10 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
         name="industryFilter"
         isClearable
         value={getIndustryByLabel(industryFilter) || null}
-        getInitialValue={(opt: IIndustry) => opt.slug === industryFilter}
+        getInitialValue={(opt: IIndustry) => opt.label === industryFilter}
         placeholder={t("industryFilter-placeholder")}
         onChange={handleChange}
-        getOptionValue={((option: IIndustry) => option?.slug) as any}
+        getOptionValue={((option: IIndustry) => option?.label) as any}
         getOptionLabel={
           ((option: IIndustry) => t("industry:" + option?.label)) as any
         }

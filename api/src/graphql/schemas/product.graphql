@@ -22,6 +22,8 @@ type Product {
 	isPreorder: Boolean
 	baseDimension: Dimension
 	packagedDimension: Dimension
+	createdAt: Date!
+	updatedAt: Date!
 	# warranty: Warranty
 }
 
