@@ -15,7 +15,11 @@ interface ISDPriceProps {
   price: number;
 }
 
-const SDPrice: React.FC<ISDPriceProps> = ({ minPrice, maxPrice, price }) => {
+const RecordPrice: React.FC<ISDPriceProps> = ({
+  minPrice,
+  maxPrice,
+  price,
+}) => {
   const { t } = useTranslation("common");
 
   function getPrice() {
@@ -36,4 +40,4 @@ const SDPrice: React.FC<ISDPriceProps> = ({ minPrice, maxPrice, price }) => {
     </div>
   );
 };
-export default SDPrice;
+export default RecordPrice;

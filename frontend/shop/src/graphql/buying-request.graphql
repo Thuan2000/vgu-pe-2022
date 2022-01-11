@@ -1,10 +1,14 @@
 # import UserFragment from "./user.fragment.graphql"
 # import BuyingRequestParts from "./buying-request.fragment.graphql"
 # import PaginationParts from "./pagination.fragment.graphql"
+# import CompanyFragment from "./company.fragment.graphql"
 
 query BuyingRequest($slug: String!) {
   buyingRequestBySlug(slug: $slug) {
     ...BuyingRequestParts
+    company {
+      ...CompanyFragment
+    }
     discussionQuestions {
       user {
         firstName
@@ -21,6 +25,10 @@ query DiscoveryBuyingRequests($input: FetchBRInput!) {
   discoveryBuyingRequests(input: $input) {
     data {
       ...BuyingRequestParts
+      company {
+        id
+        name
+      }
     }
     pagination {
       ...PaginationParts

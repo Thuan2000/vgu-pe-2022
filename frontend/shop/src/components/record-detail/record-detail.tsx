@@ -2,24 +2,17 @@ import Button from "@components/ui/storybook/button";
 import Typography from "@components/ui/storybook/typography";
 import { getCategory } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
-import { getSourceType } from "@datas/source-types";
-import { IBuyingRequest, IService } from "@graphql/types.graphql";
-import {
-  formatMoneyAmount,
-  getSuffix,
-  thousandSeparator,
-  trimText,
-  viDateFormat,
-} from "@utils/functions";
+import { IProduct, IService } from "@graphql/types.graphql";
+import { thousandSeparator, trimText } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React, { useState } from "react";
 import DetailQA from "../ui/detail-qa";
 
-interface IBRDDetailProps extends React.HTMLAttributes<HTMLDivElement> {
-  service: IService;
+interface IRecordDetailProps extends React.HTMLAttributes<HTMLDivElement> {
+  record: IService | IProduct;
 }
 
-const BRDDetail: React.FC<IBRDDetailProps> = ({ service }) => {
+const RecordDetail: React.FC<IRecordDetailProps> = ({ record }) => {
   const {
     description,
     minPrice,
@@ -28,7 +21,8 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ service }) => {
     industryId,
     price,
     location,
-  } = service;
+    warehouseLocation,
+  } = record as any;
   const { t } = useTranslation("common");
   const [isShowMore, setIsShowMore] = useState(false);
   function getDesc() {
@@ -39,7 +33,6 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ service }) => {
   function handleShowMore() {
     setIsShowMore((old) => !old);
   }
-
   function getIndustryCategory() {
     return `${t("industry:" + getIndustry(industryId)?.label)} › ${t(
       "category:" + getCategory(categoryId)?.label
@@ -53,7 +46,6 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ service }) => {
     return `${thousandSeparator(minPrice!)} ${t("budget-sign")} 
     - ${thousandSeparator(maxPrice!)} ${t("budget-sign")}`;
   }
-
   return (
     <div
       id="detail"
@@ -66,9 +58,12 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ service }) => {
         <DetailQA question={`${t("brd-budget-title")}:`}>
           <Typography variant="smallTitle" text={getPrice()} />
         </DetailQA>
-        <DetailQA question={`${t("location-title")}:`} answer={`${location}`} />
         <DetailQA
-          question={`${t("brd-location-title")}:`}
+          question={`${t("location-title")}:`}
+          answer={`${warehouseLocation || location}`}
+        />
+        <DetailQA
+          question={`${t("industry-title")}:`}
           answer={getIndustryCategory()}
         />
       </div>
@@ -86,7 +81,7 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ service }) => {
         />
       </div>
 
-      {!!service?.description && service?.description?.length > 350 && (
+      {!!record?.description && record?.description?.length > 350 && (
         <div
           className={`${!isShowMore && "absolute bottom-2 w-full px-4 left-0"}`}
         >
@@ -105,4 +100,4 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ service }) => {
     </div>
   );
 };
-export default BRDDetail;
+export default RecordDetail;

@@ -55,6 +55,7 @@
   "brd-details-title": "Details",
   "brd-budget-title": "Budget",
   "brd-location-title": "Delivery Location",
+  "location-title": "Delivery Location",
   "brd-endDate-title": "End Date",
   "brd-minOrder-title": "Minimum Order",
   "brd-sourceType-title": "Type",
@@ -153,7 +154,7 @@
   "mainProducts-text": "Main Products",
 
   "companySocialMedia-title": "Social Media",
-  
+
   "singularCompanyfactory-title": "Factory",
   "pluralCompanyfactory-title": "factories",
   "singularCompanybranch-title": "Branches",
@@ -163,7 +164,7 @@
   "singularCompanyservices-title": "Company Services",
   "pluralCompanyservices-title": "services",
   "companyCertificates-title": "Certificates",
-  
+
   "TotalPD-text": "Number of product",
   "RpTime-text": "Response time",
   "chat-button": "Chat",

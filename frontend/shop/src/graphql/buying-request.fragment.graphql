@@ -18,10 +18,7 @@ fragment BuyingRequestParts on BuyingRequest {
     fileName
     fileType
   }
-  company {
-    id
-    name
-  }
+
   projects {
     id
     name

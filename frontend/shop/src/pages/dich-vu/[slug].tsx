@@ -1,9 +1,9 @@
 import DetailImages from "@components/ui/detail-image-section";
-import SDSocialShareList from "@components/buying-request-detail/brd-social-share-list";
+import RecordSocialShareList from "@components/record-detail/record-social-share-list";
 import PageLayout from "@components/layouts/page-layout";
-import SDDescription from "@components/service-detail/sd-desc";
-import SDName from "@components/service-detail/sd-name";
-import SDPrice from "@components/service-detail/sd-price";
+import RecordDescription from "@components/record-detail/record-desc";
+import RecordName from "@components/record-detail/record-name";
+import RecordPrice from "@components/record-detail/record-price";
 import Typography from "@components/ui/storybook/typography";
 import { ServiceDocument } from "@graphql/service.graphql";
 import { IService } from "@graphql/types.graphql";
@@ -13,13 +13,13 @@ import { GetServerSideProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useState } from "react";
-import SDCompanySummary from "@components/buying-request-detail/brd-company-summary";
-import SDDetail from "@components/service-detail/sd-detail";
+import RecordCompanySummary from "@components/record-detail/record-company-summary";
+import RecordDetail from "@components/record-detail/record-detail";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
-import SDPackages from "@components/service-detail/sd-packages";
-import SDDiscussion from "@components/service-detail/sd-discussion/sdd";
-import SDDAskQuestion from "@components/service-detail/sd-discussion/sdd-ask";
+import RecordPackages from "@components/service-detail/sd-packages";
+import RecordDiscussion from "@components/service-detail/sd-discussion/sdd";
+import RecordDAskQuestion from "@components/service-detail/sd-discussion/sdd-ask";
 
 interface IServiceDetailProps {
   service: IService;
@@ -38,6 +38,7 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
     price,
     industryId,
     categoryId,
+    location,
     createdAt,
   } = service;
 
@@ -67,18 +68,23 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
                   text={`${t("brd-share-label")}:`}
                   variant="smallTitle"
                 />
-                <SDSocialShareList />
+                <RecordSocialShareList />
               </div>
             </div>
             {/* Right Section */}
             <div className="w-full">
-              <SDName
+              <RecordName
                 name={name}
                 companyName={company?.name!}
                 createdAt={viDateFormat(createdAt)}
               />
-              <SDPrice minPrice={minPrice} maxPrice={maxPrice} price={price} />
-              <SDDescription
+              <RecordPrice
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+                price={price}
+              />
+              <RecordDescription
+                location={location}
                 industryId={industryId}
                 categoryId={categoryId}
                 description={description || ""}
@@ -87,16 +93,16 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
             </div>
           </div>
           <div className="space-y-3 mt-4">
-            <SDDetail service={service} />
-            <SDCompanySummary company={company} />
+            <RecordDetail record={service} />
+            <RecordCompanySummary company={company} />
             {!!service.packages?.length && (
-              <SDPackages
+              <RecordPackages
                 packages={service.packages}
                 rows={service.packageRows!}
               />
             )}
-            <SDDiscussion serviceId={service.id} reload={reload} />
-            <SDDAskQuestion
+            <RecordDiscussion serviceId={service.id} reload={reload} />
+            <RecordDAskQuestion
               refetchDiscussions={refetchDiscussions}
               serviceId={service.id}
             />
