@@ -7,10 +7,6 @@ import Document, {
 } from "next/document";
 import { i18n } from "next-i18next";
 
-// Replace with the API keys from your widget installation page
-const USERSNAP_GLOBAL_API_KEY = "d29420f8-4a66-4ff2-886f-ea64ed0c2d27";
-const USERSNAP_API_KEY = "d3aa037f-24cb-4f5b-ad05-09a975e6cfe5";
-
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
