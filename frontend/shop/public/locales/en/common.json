@@ -176,5 +176,6 @@
 
   "not-setup": "Not setup yet",
 
-  "no-services-yet-message": "There is no service yet"
+  "no-services-yet-message": "There is no service yet",
+  "no-products-yet-message": "Thers is no product yet"
 }
