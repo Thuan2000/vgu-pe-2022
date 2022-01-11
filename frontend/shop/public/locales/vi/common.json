@@ -133,5 +133,11 @@
   "nhu-cau-thu-mua": "Nhu cầu thu mua",
 
   "phone-view-not-ready-text": "Giao diện cho điện thoại chưa được hỗ trợ",
-  "please-open-on-laptop-text": "Vui lòng truy cập bằng máy tính"
+  "please-open-on-laptop-text": "Vui lòng truy cập bằng máy tính",
+
+  "yourCompany-button-label": "Doanh nghiệp của bạn",
+  "no-information": "Chưa có thông tin",
+
+  "no-services-yet-message": "Chưa có dịch vụ được đăng tải",
+  "no-products-yet-message": "Chưa có sản phẩm được đăng tải"
 }
