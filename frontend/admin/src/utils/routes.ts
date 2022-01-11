@@ -11,6 +11,7 @@ export const ROUTES = {
   POST_PRODUCT_SERVICE: "/post-product-service",
   POSTED_PRODUCT_SERVICE: "/posted-product-service",
   SERVICES: "/services",
+  PRODUCTS: "/products",
   EDIT_COMPANY: "/company-details",
   LOGIN: (locale?: string) =>
     `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}${

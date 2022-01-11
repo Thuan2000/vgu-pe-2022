@@ -26,8 +26,8 @@ export interface IPPSFGeneralSection {
   description: string;
   minOrder: number;
   images: IFile[];
-  videos: IFile[];
-  certificates: IFile[];
+  videos?: IFile[];
+  certificates?: IFile[];
 }
 
 export interface IProductDimension {
@@ -52,7 +52,7 @@ export interface IProductWarranty {
 export interface IPPSFDetailsSection {
   brandName: string;
   tags: ITagWithNewRecord[];
-  status: IProductStatus;
+  status?: IProductStatus;
   location: IVietnamCity;
   isCustom: boolean;
   isPreorder: boolean;

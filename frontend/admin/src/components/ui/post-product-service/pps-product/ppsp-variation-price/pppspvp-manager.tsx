@@ -6,7 +6,6 @@ import { IPostProductFormValues } from "../pps-product-interface";
 import { IGroupFormValues } from "../product-group-form";
 import PPSPVPAllVariationPriceInput from "./pppspvp-all-variation-price-input";
 import { getCartesianVariation, getVariationDetails } from "../pppsp-util";
-import PPSPVPAllVariationManager from "./ppspvp-all-variation-manager";
 import { useTranslation } from "react-i18next";
 import Typography from "@components/ui/storybook/typography";
 import PPSProductInlineLabel from "../pps-product-inline-label";
@@ -36,7 +35,7 @@ const PPSPVPManager: React.FC<IPPSPVPManagerProps> = ({
   onChange,
 }) => {
   const { t } = useTranslation("form");
-  const { control } = useFormContext<IPostProductFormValues>();
+  const { control, trigger } = useFormContext<IPostProductFormValues>();
 
   const groups: IGroupFormValues[] = useWatch<IPostProductFormValues>({
     control,
@@ -95,6 +94,7 @@ const PPSPVPManager: React.FC<IPPSPVPManagerProps> = ({
 
     value[idx].price = newPrice;
     onChange([...value]);
+    trigger("pricing");
   }
 
   if (!variationOptions?.length) return <div />;

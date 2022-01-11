@@ -72,6 +72,7 @@ type CompaniesItem {
 input FetchCompanyInput {
 	limit: Int!
 	offset: Int!
+	searchValue: String
 	location: String
 	establishmentDate: Date
 	industryId: Int

@@ -4,11 +4,7 @@ import { generateUUID } from "@utils/functions";
 import { findIndex } from "lodash";
 import { useTranslation } from "next-i18next";
 import React from "react";
-import {
-  useFormContext,
-  UseFormGetValues,
-  UseFormSetValue,
-} from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { IPostProductFormValues } from "./pps-product-interface";
 import PGAddGroupButton from "./product-group-add-group-button";
 import ProductGroupForm, { IGroupFormValues } from "./product-group-form";
@@ -23,7 +19,7 @@ const ProductGroupManager: React.FC<IProductGroupManagerProps> = ({
   onChange,
 }) => {
   const { t } = useTranslation("form");
-
+  const { setValue } = useFormContext<IPostProductFormValues>();
   function getIsAddButtonDisabled() {
     return (
       !!groups.length &&
@@ -34,6 +30,8 @@ const ProductGroupManager: React.FC<IProductGroupManagerProps> = ({
 
   function generatePackage() {
     if (getIsAddButtonDisabled()) return;
+
+    if (groups.length <= 1) setValue("pricing.price", "" as any);
 
     const newPackage: IGroupFormValues = {
       id: generateUUID(),

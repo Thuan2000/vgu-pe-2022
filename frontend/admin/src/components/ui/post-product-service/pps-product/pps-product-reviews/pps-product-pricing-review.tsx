@@ -4,7 +4,11 @@ import PPIPackageList from "@components/ui/storybook/inputs/package-pricing-inpu
 import { packagePriceRow } from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
 import PPIRowList from "@components/ui/storybook/inputs/package-pricing-input/ppi-row-list";
 import Typography from "@components/ui/storybook/typography";
-import { formatMoneyAmount, getMoneySuffix } from "@utils/functions";
+import {
+  formatMoneyAmount,
+  getMoneySuffix,
+  thousandSeparator,
+} from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import { useFormContext } from "react-hook-form";
@@ -13,7 +17,6 @@ import {
   IPostProductFormValues,
   IPPSFPricingSection,
 } from "../pps-product-interface";
-import VariationPriceInputItem from "../ppsp-variation-price/variation-item";
 import VariationPriceInputItemWrapper from "../ppsp-variation-price/variation-price-input-item-wrapper";
 
 interface IPPSPricingReviewProps {
@@ -75,7 +78,9 @@ const PPSPricingReview: React.FC<IPPSPricingReviewProps> = ({
                     <Typography text={title} />
                   </VariationPriceInputItemWrapper>
                   <VariationPriceInputItemWrapper isFooter={isLast} isRightSide>
-                    <Typography text={price + ""} />
+                    <Typography
+                      text={thousandSeparator(price + " ") + t("budget-sign")}
+                    />
                   </VariationPriceInputItemWrapper>
                 </div>
               );

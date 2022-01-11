@@ -1,0 +1,62 @@
+#import FileFragment from "./file.fragment.graphql"
+
+fragment ProductFragment on Product {
+  id
+  name
+  company {
+    id
+    name
+  }
+  coverImage {
+    ...FileFragment
+  }
+  industryId
+  categoryId
+  description
+  minOrder
+  warehouseLocation
+  gallery {
+    ...FileFragment
+  }
+  videos {
+    ...FileFragment
+  }
+  certificates {
+    ...FileFragment
+  }
+  variations {
+    price
+    options {
+      name
+      value
+    }
+    title
+  }
+  minPrice
+  maxPrice
+  price
+  brandName
+  status
+  isCustom
+  isPreorder
+  baseDimension {
+    measureUnit
+    width
+    length
+    height
+    weight
+    weightUnit
+  }
+  packagedDimension {
+    measureUnit
+    width
+    length
+    height
+    weight
+    weightUnit
+  }
+  tags {
+    locale
+    name
+  }
+}

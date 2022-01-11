@@ -211,7 +211,7 @@
   "serviceName-input-placeholder": "Service Name",
   "serviceIndustryCategory-label": "Service Industry & Category",
   "error-serviceName-required": "Please input service name",
-  "error-serviceDescription-too-short": "Description should be more than 200 letters",
+  "error-serviceDescription-too-short": "Description should be more than 100 letters",
   "error-serviceLocation-required": "Please select service location",
   "error-serviceTags-required-error": "Please set service tags",
   "postService-description-input-label": "Service Description",
@@ -383,5 +383,7 @@
   "width-text-label": "Width",
   "weight-text-label": "Weight",
   "height-text-label": "Height",
-  "length-text-label": "Length"
+  "length-text-label": "Length",
+  "yes-it-is-text": "Yes",
+  "no-it-is-not-text": "No"
 }

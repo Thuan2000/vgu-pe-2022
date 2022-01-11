@@ -81,7 +81,6 @@ function ClassificationInput({
     classifications[idx].name = name;
     onChange([...classifications]);
   }
-
   return (
     <div className={`w-full space-y-4`}>
       {classifications.map((c, idx) => {

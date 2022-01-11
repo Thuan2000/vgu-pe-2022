@@ -54,8 +54,8 @@ const TagsInput: React.FC<ITagsInputProps> = ({
         return;
       }
 
-      const { data } = await refetch(locale as any);
-      setTags(data.tags);
+      const { data } = (await refetch(locale as any)) || {};
+      setTags(data?.tags);
     }
 
     handleRefetch();
@@ -63,7 +63,7 @@ const TagsInput: React.FC<ITagsInputProps> = ({
 
   function createNewTag(name: string) {
     const newTag: ITagWithNewRecord = {
-      name,
+      name: name as any,
       locale: locale as ILocale,
       isNewRecord: true,
     };
@@ -77,6 +77,7 @@ const TagsInput: React.FC<ITagsInputProps> = ({
       placeholder={placeholder}
       numberQueue={numberQueue}
       isMulti
+      error={t((errors.details?.tags as any)?.message || "")}
       control={control}
       onChange={(_) => trigger(name)}
       name={name}
@@ -84,7 +85,6 @@ const TagsInput: React.FC<ITagsInputProps> = ({
       getOptionValue={(o) => o?.label || o?.name}
       options={tags as any}
       createNewOption={createNewTag}
-      error={t((errors?.details?.tags as any)?.message)}
     />
   );
 };

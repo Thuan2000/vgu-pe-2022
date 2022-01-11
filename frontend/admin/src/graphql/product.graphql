@@ -1,3 +1,5 @@
+#import ProductFragment from "./product.fragment.graphql"
+
 mutation CreateProduct($input: CreateProductInput!) {
   createProduct(input: $input) {
     id
@@ -6,10 +8,26 @@ mutation CreateProduct($input: CreateProductInput!) {
   }
 }
 
+mutation UpdateProduct($id: Int!, $input: UpdateProductInput!) {
+  updateProduct(id: $id, input: $input) {
+    success
+    message
+  }
+}
+
+mutation DeleteProducts($ids: [Int!]!) {
+  deleteProducts(ids: $ids) {
+    success
+    message
+  }
+}
+
 query Products($input: FetchProductsInput!) {
   products(input: $input) {
     data {
+      id
       name
+      slug
       brandName
       categoryId
       categoryId
@@ -29,5 +47,11 @@ query Products($input: FetchProductsInput!) {
       dataCount
       hasMore
     }
+  }
+}
+
+query Product($slug: String!) {
+  product(slug: $slug) {
+    ...ProductFragment
   }
 }

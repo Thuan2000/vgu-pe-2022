@@ -110,6 +110,8 @@ class CompanyController {
 	email = new EmailService();
 
 	static async getCompanies({ offset, limit, searchValue, ...input }) {
+		console.log(searchValue);
+
 		const queryBody = {
 			query: CompanyRepository.getSearchQuery(searchValue, input)
 		};

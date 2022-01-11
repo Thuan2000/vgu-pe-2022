@@ -5,14 +5,14 @@ import Search from "../search";
 import UserProfile from "../user-profile";
 import { useRouter } from "next/dist/client/router";
 import { getActivePageFromPath } from "@utils/functions";
-import { Page } from "@utils/interfaces";
+import { PageName } from "@utils/interfaces";
 
 const UNSEARCHABLES = ["ho-tro", ""];
 
 const NavbarBottom = () => {
   const { pathname } = useRouter();
 
-  const activePage = getActivePageFromPath(pathname) as Page;
+  const activePage = getActivePageFromPath(pathname) as PageName;
 
   return (
     <div className="flex-center justify-between pt-2">
