@@ -4,7 +4,6 @@ import { ApolloProvider } from "@apollo/client";
 import { useApollo } from "../utils/apollo";
 import { ModalProvider } from "src/contexts/modal.context";
 import ModalContainer from "@components/modal-container";
-import Script from "next/script";
 
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/custom-scrollbar.css";
@@ -43,21 +42,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Layout>
         <ToastContainer autoClose={2000} theme="colored" />
-        <Script
-          onLoad={() => {
-            // @ts-ignore
-            window.onUsersnapCXLoad = function (api) {
-              api.init();
-            };
-            // @ts-ignore
-            var script = document.createElement("script");
-            // @ts-ignore
-            script.defer = 1;
-            script.src =
-              "https://widget.usersnap.com/global/load/d29420f8-4a66-4ff2-886f-ea64ed0c2d27?onload=onUsersnapCXLoad";
-            document.getElementsByTagName("head")[0].appendChild(script);
-          }}
-        />
       </ModalProvider>
     </ApolloProvider>
   );
