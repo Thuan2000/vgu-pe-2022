@@ -2,7 +2,7 @@ import ArrowDownIcon from "@assets/icons/arrow-down-icon";
 import { PAGE_NAME_INTO_LABEL } from "@utils/constants";
 
 import { getActivePageFromPath } from "@utils/functions";
-import { Page } from "@utils/interfaces";
+import { PageName } from "@utils/interfaces";
 
 import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
@@ -10,9 +10,9 @@ import { useTranslation } from "react-i18next";
 import { useOutsideClickRef } from "src/hooks/useOutsideClickRef";
 import Button from "./storybook/button";
 
-const types: Page[] = [
+const types: PageName[] = [
   "nhu-cau-thu-mua",
-  "danh-ba-cong-ty",
+  "nha-cung-cap",
   "san-pham",
   "dich-vu",
   // "ho-tro",
@@ -39,7 +39,7 @@ const SearchTypeSelector: React.FC<ISearchTypeSelectorProps> = ({}) => {
     isSelectingType ? hideTypeSelector() : showTypeSelector();
   }
 
-  function handleTypeClick(type: Page) {
+  function handleTypeClick(type: PageName) {
     router.replace(type);
     hideTypeSelector();
   }
@@ -70,7 +70,7 @@ const SearchTypeSelector: React.FC<ISearchTypeSelectorProps> = ({}) => {
                   idx === types.length - 1 && "border-b-0"
                 }`}
               >
-                {t(PAGE_NAME_INTO_LABEL[type])}
+                {t(PAGE_NAME_INTO_LABEL[type as any])}
               </div>
             );
           })}

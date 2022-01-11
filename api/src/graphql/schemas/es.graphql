@@ -1,0 +1,6 @@
+extend type Query {
+	createEsIndexes: Response
+	firstBulkEsIndexes: Response
+	deleteEsIndexes: Response
+	refreshElasticSearch: Response
+}

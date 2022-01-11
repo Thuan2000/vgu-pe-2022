@@ -1,0 +1,42 @@
+#import ProductFragment from "./product.fragment.graphql"
+
+query Products($input: FetchProductsInput!) {
+  products(input: $input) {
+    data {
+      id
+      slug
+      name
+      brandName
+      categoryId
+      categoryId
+      maxPrice
+      minPrice
+      price
+      warehouseLocation
+      coverImage {
+        url
+      }
+      company {
+        id
+        name
+      }
+    }
+    pagination {
+      dataCount
+      hasMore
+    }
+  }
+}
+
+mutation ProductNameSuggestion($name: String!, $limit: Int!) {
+  productNameSuggestion(name: $name, limit: $limit) {
+    highlightedName
+    name
+  }
+}
+
+query Product($slug: String!) {
+  product(slug: $slug) {
+    ...ProductFragment
+  }
+}

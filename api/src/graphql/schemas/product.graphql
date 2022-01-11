@@ -1,6 +1,37 @@
+type Product {
+	id: Int!
+	name: String!
+	company: Company!
+	industryId: Int!
+	categoryId: Int!
+	description: String!
+	minOrder: Int!
+	warehouseLocation: String!
+	coverImage: File!
+	gallery: [File!]
+	videos: [File!]
+	certificates: [File!]
+	variations: [Variation!]
+	minPrice: Date
+	maxPrice: Date
+	price: Date
+	brandName: String!
+	tags: [Tag!]!
+	status: String
+	isCustom: Boolean
+	isPreorder: Boolean
+	baseDimension: Dimension
+	packagedDimension: Dimension
+	createdAt: Date!
+	updatedAt: Date!
+	# warranty: Warranty
+}
+
 input CreateProductInput {
 	# The company that create this product
 	companyId: Int!
+	# The company that create this product
+	companyName: String!
 	# Product name in string
 	name: String!
 	# Industry Id of the product
@@ -23,23 +54,77 @@ input CreateProductInput {
 	# Certificates
 	certificates: [FileInput!]
 	# Variation
-	variation: [VariationInput!]
-	variationDetail: [VariationDetailInput!]
+	variations: [VariationInput!]
 	minPrice: Date
 	maxPrice: Date
 	price: Date
+
+	brandName: String!
+	tags: [String!]!
+	newTags: [TagInput!]
+	status: String
+	isCustom: Boolean
+	isPreorder: Boolean
+	baseDimension: DimensionInput
+	packagedDimension: DimensionInput
+	warranty: WarrantyInput
 }
 
-# Variation input example
-# Name : color
-# classifications: ["red", "blue", "green"]
-input VariationInput {
-	# Must unique
+input UpdateProductInput {
 	name: String!
-	classifications: [String!]
+	industryId: Int!
+	categoryId: Int!
+	description: String!
+	minOrder: Int!
+	warehouseLocation: String!
+	coverImage: FileInput!
+	gallery: [FileInput!]
+	videos: [FileInput!]
+	certificates: [FileInput!]
+	variations: [VariationInput!]
+	minPrice: Date
+	maxPrice: Date
+	price: Date
+	brandName: String!
+	tags: [String!]!
+	newTags: [TagInput!]
+	status: String
+	isCustom: Boolean
+	isPreorder: Boolean
+	baseDimension: DimensionInput
+	packagedDimension: DimensionInput
+	warranty: WarrantyInput
 }
 
-input VariationDetailInput {
+input WarrantyInput {
+	type: String
+	period: Float
+}
+
+type Warranty {
+	type: String
+	period: Float
+}
+
+type Dimension {
+	measureUnit: String
+	width: Float
+	length: Float
+	height: Float
+	weight: Float
+	weightUnit: String
+}
+
+input DimensionInput {
+	measureUnit: String
+	width: Float
+	length: Float
+	height: Float
+	weight: Float
+	weightUnit: String
+}
+
+input VariationInput {
 	# Name of variation detail is just mix of classification name
 	# Example of multi vatiation
 	# color : Red, size: S
@@ -49,17 +134,23 @@ input VariationDetailInput {
 	# Example of single variation
 	# Material : Wood
 	# Name : Wood
-	name: String!
-	isSingleVariation: Boolean!
+	title: String!
 	# Options
 	# Options is an JSON.Stringify of variations
 	# Example there's 2 variation (Color & Size)
 	# Options will be [{name: "color", value: "red"}, {name: "size", value: "S" }]
-	options: [VariationOption!]
+	options: [VariationOptionInput!]
 	# Example Red
 	price: Date!
-	salePrice: SalePriceInput
-	image: FileInput!
+	# salePrice: SalePriceInput
+	image: FileInput
+}
+
+type Variation {
+	title: String!
+	options: [VariationOption!]
+	price: Date!
+	image: File
 }
 
 input SalePriceInput {
@@ -67,7 +158,57 @@ input SalePriceInput {
 	price: Date!
 }
 
-input VariationOption {
+input VariationOptionInput {
 	name: String!
 	value: String!
+}
+
+type VariationOption {
+	name: String!
+	value: String!
+}
+
+input FetchProductsInput {
+	offset: Int!
+	limit: Int!
+	companyId: Int
+	searchValue: String
+	industryId: Int
+	categoryId: Int
+	location: String
+	price: Date
+	minPrice: Date
+	maxPrice: Date
+}
+
+type FetchProducts {
+	data: [ProductListItem!]
+	pagination: Pagination
+}
+
+type ProductListItem {
+	id: Int!
+	name: String!
+	slug: String!
+	industryId: Int!
+	categoryId: Int!
+	coverImage: File
+	company: Company!
+	warehouseLocation: String!
+	brandName: String!
+	price: Date
+	maxPrice: Date
+	minPrice: Date
+}
+
+extend type Mutation {
+	createProduct(input: CreateProductInput!): CreateResponse!
+	updateProduct(id: Int!, input: UpdateProductInput!): Response!
+	deleteProducts(ids: [Int!]!): Response!
+	productNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
+}
+
+extend type Query {
+	products(input: FetchProductsInput!): FetchProducts!
+	product(slug: String!): Product!
 }

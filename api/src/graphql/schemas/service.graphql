@@ -158,6 +158,7 @@ type ServicesResponse {
 }
 
 extend type Mutation {
+	serviceNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	createService(input: CreateServiceInput!): CreateResponse!
 	updateService(input: UpdateServiceInput!): CreateResponse!
 	deleteServices(ids: [Int!]!): Response!

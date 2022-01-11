@@ -13,12 +13,12 @@ import Typography from "@components/ui/storybook/typography";
 import { getCompanyId, viDateFormat } from "@utils/functions";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import BRDSocialShareList from "@components/buying-request-detail/brd-social-share-list";
+import RecordSocialShareList from "@components/record-detail/record-social-share-list";
 import BRDName from "@components/buying-request-detail/brd-name";
 import BRDPrice from "@components/buying-request-detail/brd-price";
 import BRDDescription from "@components/buying-request-detail/brd-desc";
 import BRDDetail from "@components/buying-request-detail/brd-detail";
-import BRDCompanySummary from "@components/buying-request-detail/brd-company-summary";
+import RecordCompanySummary from "@components/record-detail/record-company-summary";
 import BRDDiscussion from "@components/buying-request-detail/brd-discussion";
 import BRDAskQuestion from "@components/buying-request-detail/brd-ask-question";
 import Head from "next/head";
@@ -81,6 +81,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         "industry",
         "category",
         "form",
+        "business-type",
       ])),
     },
   };
@@ -97,7 +98,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
     setReload(!reload);
   }
 
-  const isMyBr = br.company.id === getCompanyId();
+  const isMyBr = br.company?.id === getCompanyId();
 
   return (
     <>
@@ -119,14 +120,14 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
                   text={`${t("brd-share-label")}:`}
                   variant="smallTitle"
                 />
-                <BRDSocialShareList />
+                <RecordSocialShareList />
               </div>
             </div>
             {/* Right section */}
             <div className="w-full">
               <BRDName
                 name={`${t("requestNamePrefix-value")} - ${br.name}`}
-                companyName={br.company.name}
+                companyName={br.company?.name!}
                 createdAt={viDateFormat(br.createdAt)}
                 status={br.status}
               />
@@ -142,13 +143,13 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
                 industryId={br.industryId}
                 categoryId={br.categoryId}
                 description={br.description || ""}
-                companyId={br.company.id}
+                companyId={br.company?.id!}
               />
             </div>
           </div>
           <div className="space-y-3 mt-4">
             <BRDDetail br={br} />
-            <BRDCompanySummary company={br.company} />
+            <RecordCompanySummary company={br.company!} />
             <BRDDiscussion
               isMyBr={isMyBr}
               reload={reload}

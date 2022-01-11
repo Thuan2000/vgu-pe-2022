@@ -7,14 +7,11 @@ import { generateHeadTitle } from "@utils/seo-utils";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { IServiceListItem } from "@graphql/types.graphql";
-import { initApollo } from "@utils/apollo";
-import { ServicesDocument } from "@graphql/service.graphql";
-import Image from "next/image";
-import { siteSettings } from "@settings/site.settings";
-import SideFilter from "@components/ui/common-filter/side-filter";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import useIsPhone from "src/hooks/isPhone.hook";
 import UnderDevelopment from "@components/under-development";
+import SideFilter from "@components/ui/common-filter/side-filter";
+import ProductsList from "@components/products/products-list";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -45,8 +42,12 @@ const ProductAndService: React.FC<IProductAndServiceProps> = () => {
           content="DSConnect.VN | Sàn thương mại điện tử B2B đa ngành, uy tín hàng đầu Việt Nam"
         />
       </Head>
-      <main>
-        <UnderDevelopment />
+      <main className={`flex space-x-6 mb-10`}>
+        <div className="sticky top-40 h-fit-content">
+          <SideFilter noStatusFilter />
+        </div>
+
+        <ProductsList />
       </main>
     </>
   );

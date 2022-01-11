@@ -101,7 +101,7 @@
   "general-nav-label": "Thông tin chung",
   "details-nav-label": "Chi tiết",
   "additional-nav-label": "Bổ sung",
-  "error-serviceDescription-too-short": "Mô tả nên có trên 200 từ",
+  "error-serviceDescription-too-short": "Mô tả nên có trên 100 từ",
   "error-serviceLocation-required": "Vui lòng chọn địa điểm cung cấp dịch vụ",
   "error-serviceTags-required-error": "Vui lòng thêm từ khóa cho dịch vụ",
   "postService-description-input-label": "Mô tả dịch vụ",
@@ -274,5 +274,7 @@
   "pps-productFaqs-review-label": "FAQs",
   "pps-product-singlePrice-label": "Giá bán lẻ",
 
-  "post-product-button-label": "Đăng"
+  "post-product-button-label": "Đăng",
+
+  "recentlySelected-label": "Đang chọn"
 }

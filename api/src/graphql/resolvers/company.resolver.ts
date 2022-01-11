@@ -24,6 +24,8 @@ export const Query = {
 };
 
 export const Mutation = {
+	getCompanyNameSuggestion: (_, { name, limit }) =>
+		CompanyController.getNameSuggestion(name, limit),
 	// @NOTES URGENT : Follow this
 	approveCompany: (_, { id, approverId }) =>
 		CompanyController.approveCompany(id, approverId),

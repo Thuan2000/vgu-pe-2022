@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 import { Client } from "@opensearch-project/opensearch";
+import { errorResponse } from "@utils/responses";
 
 interface IMappingProperties {
 	[key: string]: {
@@ -17,14 +18,18 @@ class OpenSearch {
 	});
 
 	static createIndex(index, properties?: IMappingProperties) {
-		this.client.indices.create({
-			index,
-			body: {
-				mappings: {
-					...(properties ? { properties } : {})
+		try {
+			this.client.indices.create({
+				index,
+				body: {
+					mappings: {
+						...(properties ? { properties } : {})
+					}
 				}
-			}
-		});
+			});
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	static insert(index: string, data: any) {
@@ -35,13 +40,12 @@ class OpenSearch {
 			};
 			this.client.index({ index, body });
 		} catch (e) {
-			console.log(e);
+			console.error(e);
 		}
 	}
 
 	static insertBulk(index: string, rawDatas: unknown[]) {
 		try {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const body = rawDatas.flatMap((data: any) => [
 				{
 					index: { _index: index }
@@ -51,17 +55,24 @@ class OpenSearch {
 
 			this.client.bulk({ index, body });
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	}
 
 	static deleteIndex(index: string) {
-		this.client.indices.delete({ index });
+		try {
+			this.client.indices.delete({ index });
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	static emptyIndex(index) {
-		this.deleteIndex(index);
-		setTimeout(() => this.createIndex(index), 5000);
+		try {
+			this.deleteIndex(index);
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	public static async getSuggestion(index: string, body) {
@@ -71,6 +82,36 @@ class OpenSearch {
 		});
 
 		return data;
+	}
+
+	public static async deleteDoc(index: string, id) {
+		try {
+			await this.client.delete_by_query({
+				index,
+				body: {
+					query: {
+						match: { id }
+					}
+				}
+			});
+		} catch (e) {
+			console.error(e);
+			return errorResponse();
+		}
+	}
+
+	// Find the better way to update doc
+	/**
+	 *
+	 * @param index string
+	 * @param id number
+	 * @param newData Make sure to include all association
+	 */
+	public static async updateDoc(index: string, id: number, newData) {
+		// Remove first
+		this.deleteDoc(index, id);
+
+		this.insertBulk(index, [newData]);
 	}
 }
 

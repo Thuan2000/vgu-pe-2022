@@ -1,6 +1,7 @@
 import { FontSize } from "@utils/interfaces";
 import React from "react";
 import NumberLabel from "./queue-number";
+import RequiredSign from "./required-sign";
 
 export interface IInputLabelProps {
   numberQueue?: number | string;
@@ -27,12 +28,7 @@ const InputLabel: React.FC<IInputLabelProps> = ({
 }) => {
   /* If required is true, append a red (*) to label */
   const requiredAppendix = required ? (
-    <span
-      style={{ color: "red", fontWeight: "normal" }}
-      className={`text-${labelFontSize}`}
-    >
-      &nbsp;*
-    </span>
+    <RequiredSign size={labelFontSize} />
   ) : (
     <div />
   );

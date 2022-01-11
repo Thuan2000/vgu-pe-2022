@@ -54,7 +54,9 @@ type CompaniesItem {
 	slug: String!
 	productAmount: Int
 	branchAmount: Int
-	profileImage: File
+	owner: User
+	approver: User
+	settings: CompanySettings
 	mainProducts: [String!]
 	establishmentDate: Date
 	location: String
@@ -63,11 +65,14 @@ type CompaniesItem {
 	businessTypeIds: [Int]
 	responseTime: Int # In minutes
 	subscription: CompanySubscription
+	createdAt: Date
+	updatedAt: Date
 }
 
 input FetchCompanyInput {
 	limit: Int!
 	offset: Int!
+	searchValue: String
 	location: String
 	establishmentDate: Date
 	industryId: Int
@@ -89,12 +94,16 @@ type Company {
 	location: String
 	ownerId: Int!
 	approved: Boolean!
+	owner: User
+	approver: User
 	description: String
 	licenseFiles: [File!]
 	settings: CompanySettings
 	industryId: Int
 	establishmentDate: Date
 	subscription: CompanySubscription
+	createdAt: Date
+	updatedAt: Date
 }
 
 type CompanySubscription {
@@ -152,6 +161,7 @@ type UnapprovedCompany {
 }
 
 extend type Mutation {
+	getCompanyNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	companySignup(input: CompanyRegisterInput!): AuthResponse!
 	approveCompany(id: Int!, approverId: Int!): Response!
 	updateCompany(

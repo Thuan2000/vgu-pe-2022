@@ -1,6 +1,7 @@
 export const ROUTES = {
   TO_LOGIN: (locale: string) => `${locale}/login`,
   LOGIN: `/login`,
+  SETTINGS: "/settings",
   HOMEPAGE: "/",
   SIGNUP: "/signup",
   FORGET_PASSWORD: "#",
@@ -12,7 +13,7 @@ export const ROUTES = {
   PRODUCTS: "/san-pham",
   SERVICES: "/dich-vu",
   SUPPORT: "/ho-tro",
-  COMPANIES: "/danh-ba-cong-ty",
+  COMPANIES: "/nha-cung-cap",
   COMPANY_DETAIL: "/company-details",
   ADMIN_LINK: `${process.env.NEXT_PUBLIC_ADMIN_URL}`,
 };

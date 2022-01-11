@@ -1,0 +1,57 @@
+#import ProductFragment from "./product.fragment.graphql"
+
+mutation CreateProduct($input: CreateProductInput!) {
+  createProduct(input: $input) {
+    id
+    success
+    message
+  }
+}
+
+mutation UpdateProduct($id: Int!, $input: UpdateProductInput!) {
+  updateProduct(id: $id, input: $input) {
+    success
+    message
+  }
+}
+
+mutation DeleteProducts($ids: [Int!]!) {
+  deleteProducts(ids: $ids) {
+    success
+    message
+  }
+}
+
+query Products($input: FetchProductsInput!) {
+  products(input: $input) {
+    data {
+      id
+      name
+      slug
+      brandName
+      categoryId
+      categoryId
+      maxPrice
+      minPrice
+      price
+      warehouseLocation
+      coverImage {
+        url
+      }
+      company {
+        id
+        name
+      }
+    }
+    pagination {
+      dataCount
+      hasMore
+    }
+  }
+}
+
+query Product($slug: String!) {
+  product(slug: $slug) {
+    ...ProductFragment
+  }
+}

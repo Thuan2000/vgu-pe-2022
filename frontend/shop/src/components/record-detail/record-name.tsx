@@ -1,5 +1,4 @@
 import VerifiedIcon from "@assets/icons/verified-icon";
-import Chip from "@components/ui/storybook/chip";
 import Typography from "@components/ui/storybook/typography";
 import { useTranslation } from "next-i18next";
 import React from "react";
@@ -10,7 +9,11 @@ interface ISDNameProps {
   createdAt: string;
 }
 
-const SDName: React.FC<ISDNameProps> = ({ name, companyName, createdAt }) => {
+const RecordName: React.FC<ISDNameProps> = ({
+  name,
+  companyName,
+  createdAt,
+}) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -26,4 +29,4 @@ const SDName: React.FC<ISDNameProps> = ({ name, companyName, createdAt }) => {
     </div>
   );
 };
-export default SDName;
+export default RecordName;

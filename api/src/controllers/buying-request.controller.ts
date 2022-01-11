@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import {
 	ICreateBuyingRequestInput,
 	IFetchBrInput,
@@ -17,9 +18,10 @@ import Category from "../models/Category";
 import Industry from "../models/Industry";
 import Company from "@models/Company";
 import Project from "@models/Project";
-import { searchQuery } from "@repositories/buying-request.repository";
+import BuyingRequestRepository from "@repositories/buying-request.repository";
 import Bid from "@models/Bid";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
+import OpenSearch from "@services/open-search.service";
 
 class BuyingRequestController {
 	async getBuyingRequestBySlug(slug: string) {
@@ -59,91 +61,28 @@ class BuyingRequestController {
 		return allBuyingRequests;
 	}
 
-	async getDiscoveryBuyingRequests(input: IFetchBrInput) {
-		const {
-			companyId,
-			offset,
-			searchValue,
-			industryId,
-			location,
-			minBudget,
-			maxBudget,
-			categoryId,
-			status,
-			limit
-		} = input;
-
+	async getDiscoveryBuyingRequests({
+		companyId,
+		limit,
+		offset,
+		searchValue,
+		...input
+	}: IFetchBrInput) {
 		const queryBody = {
-			_source: ["id"],
-			query: searchQuery(searchValue)
+			size: limit,
+			from: offset,
+			query: BuyingRequestRepository.getSearchQuery(searchValue, input),
+			sort: [{ status: { order: "desc" } }]
 		};
 
-		// TODO: Instead of querying ids from ES and then query again from MySQL. Return results from E.S. directly.
-		const { idCount, ids } = searchValue
-			? await BuyingRequest.getMatchSearched(queryBody)
-			: { idCount: null, ids: null };
+		const { dataCount: count, brs } = await BuyingRequest.getMatchSearched(
+			queryBody
+		);
 
-		const { rows: data, count } = await BuyingRequest.findAndCountAll({
-			...(!searchValue ? { offset } : {}),
-			...(!searchValue ? { limit } : {}),
-			distinct: true,
-			where: {
-				...(ids ? { id: ids } : {}),
-				...(companyId ? { companyId } : {}),
-				...(minBudget
-					? {
-							minBudget: {
-								[Op.gte]: minBudget
-							}
-					  }
-					: {}),
-				...(maxBudget
-					? {
-							maxBudget: {
-								[Op.lte]: maxBudget
-							}
-					  }
-					: {}),
-				...(status && status !== "ALL" ? { status } : {}),
-				...(industryId ? { industryId } : {}),
-				...(categoryId ? { categoryId } : {}),
-				...(location ? { location } : {})
-			},
-			order: [
-				[
-					Sequelize.fn(
-						"FIELD",
-						Sequelize.col("buyingRequest.companyId"),
-						companyId
-					),
-					"ASC"
-				],
-
-				ids
-					? Sequelize.fn("FIELD", Sequelize.col("buyingRequest.id"), [
-							...ids
-					  ])
-					: ["id", "asc"]
-			],
-			include: [
-				Company,
-				Category,
-				Project,
-				Industry,
-				{
-					model: Bid,
-					as: "bids",
-					attributes: ["id", "createdAt"],
-					include: [{ model: Company, attributes: ["id"] }]
-				},
-				{ model: User, as: "createdBy" }
-			]
-		});
-
-		const hasMore = offset + data.length < count && data.length === limit;
+		const hasMore = offset + brs.length < count && brs.length === limit;
 
 		return {
-			data,
+			data: brs,
 			pagination: {
 				dataCount: count,
 				hasMore
@@ -186,6 +125,7 @@ class BuyingRequestController {
 
 	async deleteBuyingRequest(id: number) {
 		try {
+			BuyingRequest.deleteEsBrs([id]);
 			await BuyingRequest.destroy({ where: { id } });
 
 			return successResponse();
@@ -197,8 +137,8 @@ class BuyingRequestController {
 
 	async deleteBuyingRequests(ids: number[]) {
 		try {
+			BuyingRequest.deleteEsBrs(ids);
 			await BuyingRequest.destroy({ where: { id: ids } });
-
 			return successResponse();
 		} catch (e) {
 			console.log(e);
@@ -208,7 +148,7 @@ class BuyingRequestController {
 
 	async createBuyingRequest(buyingRequestInput: ICreateBuyingRequestInput) {
 		try {
-			const { name, companyId } = buyingRequestInput;
+			const { name, companyId, companyName } = buyingRequestInput;
 
 			// Check duplicate
 			const duplicateBr = await BuyingRequest.findOne({
@@ -227,8 +167,12 @@ class BuyingRequestController {
 				"slug",
 				generateSlug(name, newBuyingRequest.getDataValue("id"))
 			);
-			// @TODO : Remove This later on es refactor
-			BuyingRequest.insertIndex(newBuyingRequest.toJSON());
+
+			BuyingRequestRepository.insertCreateToElasticSearch(
+				newBuyingRequest.toJSON(),
+				companyId,
+				companyName
+			);
 
 			return newBuyingRequest.save().then(() => successResponse());
 		} catch (error) {
@@ -239,10 +183,15 @@ class BuyingRequestController {
 
 	async updateBuyingRequest(id, newValue: IUpdateBuyingRequestInput) {
 		// @ TODO Make this work
-		// await BuyingRequest.update(newValue, { where: id });
+		// await BuyingRequest.updateESIndex(newValue, { where: id });
 
-		const curBr = await BuyingRequest.findByPk(id);
+		const curBr = await BuyingRequest.findByPk(id, {
+			include: [Company]
+		});
+
 		curBr.update(newValue);
+
+		BuyingRequest.updateEsBr(id, { ...curBr.toJSON(), ...newValue });
 
 		await curBr.save();
 
@@ -251,9 +200,9 @@ class BuyingRequestController {
 
 	async getSuggestion(inputName: string, limit: number) {
 		const queryBody = {
-			query: searchQuery(inputName),
+			query: BuyingRequestRepository.nameSuggestionQuery(inputName),
+			_source: ["name"],
 			highlight: {
-				// eslint-disable-next-line @typescript-eslint/camelcase
 				tags_schema: "styled",
 				fields: {
 					name: {}

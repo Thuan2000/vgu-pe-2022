@@ -1,7 +1,85 @@
+/* eslint-disable @typescript-eslint/camelcase */
 /**
  * Copyright Emolyze Tech ©2021
  * Good codes make the world a better place!
  */
+
+//  static async getCompanies({
+// 	limit,
+// 	offset,
+// 	establishmentDate,
+// 	...input
+// }: IFetchCompanyInput) {
+// 	try {
+// 		const {
+// 			count: dataCount,
+// 			rows: companies
+// 		} = await Company.findAndCountAll({
+// 			limit,
+// 			offset,
+// 			where: {
+// 				approved: 1,
+// 				...(establishmentDate
+// 					? {
+// 							establishmentDate: {
+// 								[Op.gte]: establishmentDate
+// 							}
+// 						}
+// 					: {}),
+// 				...input
+// 			},
+// 			nest: true,
+// 			raw: true,
+// 			attributes: [
+// 				"id",
+// 				"name",
+// 				"slug",
+// 				CompanyFunction.sequelizeFnGetCoverImage() as any,
+// 				CompanyFunction.sequelizeFnGetBranchAmount() as any,
+// 				CompanyFunction.sequelizeFnGetMainProducts() as any,
+// 				"location",
+// 				"industryId",
+// 				"businessTypeIds",
+// 				"establishmentDate",
+// 				"createdAt",
+// 				"updatedAt"
+// 			],
+// 			include: [
+// 				{
+// 					model: CompanySubscription,
+// 					as: "subscription",
+// 					attributes: ["startAt", "monthAmount"],
+// 					include: [
+// 						{
+// 							model: Subscription,
+// 							as: "subscriptionDetail"
+// 						}
+// 					]
+// 				},
+// 				{
+// 					model: User,
+// 					as: "approver"
+// 				}
+// 			]
+// 		});
+
+// 		const hasMore =
+// 			offset + companies.length < dataCount &&
+// 			companies.length === limit;
+
+// 		return {
+// 			companies,
+// 			pagination: {
+// 				dataCount,
+// 				hasMore
+// 			}
+// 		};
+// 	} catch (e) {
+// 		console.error(e);
+// 		return errorResponse();
+// 	}
+// }
+
 import {
 	generateSlug,
 	errorResponse,
@@ -15,13 +93,10 @@ import EmailService from "@services/email.service";
 import UserRepository from "@repositories/user.repository";
 import User from "@models/User";
 import {
-	IFetchCompanyInput,
 	IFetchUnapprovedCompaniesInput,
 	IUpdateCompanyDetailsInput
 } from "@graphql/types";
-import { Op, Sequelize } from "sequelize";
 import CompanyRepository from "@repositories/company.repository";
-import Subscription from "../models/Subscription";
 import CompanySubscription from "../models/CompanySubscription";
 
 type IRegisterResp = {
@@ -34,68 +109,24 @@ class CompanyController {
 	s3 = new S3();
 	email = new EmailService();
 
-	static async getCompanies({
-		limit,
-		offset,
-		establishmentDate,
-		...input
-	}: IFetchCompanyInput) {
-		const {
-			count: dataCount,
-			rows: companies
-		} = await Company.findAndCountAll({
-			limit,
-			offset,
-			where: {
-				approved: 1,
-				...(establishmentDate
-					? {
-							establishmentDate: {
-								[Op.gte]: establishmentDate
-							}
-					  }
-					: {}),
-				...input
-			},
-			nest: true,
-			raw: true,
-			attributes: [
-				"id",
-				"name",
-				"slug",
-				CompanyRepository.sequelizeFnGetBranchAmount() as any,
-				CompanyRepository.sequelizeFnGetMainProducts() as any,
-				CompanyRepository.sequelizeFnGetCoverImage() as any,
-				"location",
-				"industryId",
-				"businessTypeIds",
-				"establishmentDate"
-				// "responseTime"
-			],
-			include: [
-				{
-					model: CompanySubscription,
-					as: "subscription",
-					attributes: ["startAt", "monthAmount"],
-					include: [
-						{
-							model: Subscription,
-							as: "subscriptionDetail"
-						}
-					]
-				}
-			]
-		});
+	static async getCompanies({ offset, limit, searchValue, ...input }) {
+		console.log(searchValue);
 
-		console.log(companies);
+		const queryBody = {
+			query: CompanyRepository.getSearchQuery(searchValue, input)
+		};
+
+		const { dataCount: count, companies } = await Company.getMatchSearched(
+			queryBody
+		);
 
 		const hasMore =
-			offset + companies.length < dataCount && companies.length === limit;
+			offset + companies.length < count && companies.length === limit;
 
 		return {
 			companies,
 			pagination: {
-				dataCount,
+				dataCount: count,
 				hasMore
 			}
 		};
@@ -134,37 +165,68 @@ class CompanyController {
 
 	static async approveCompany(id: number, approverId: number) {
 		try {
-			await Company.update(
+			// const company = Company.findByPk(id);
+			const resp = await Company.update(
 				{ approved: 1, approverId },
 				{ where: { id } }
 			);
+
+			const data = await Company.findByPk(id);
+			Company.updateEsCompany(id, data.toJSON());
 
 			// Setting company subscription
 			await CompanySubscription.create({
 				companyId: id,
 				subscriptionId: DEFAULT_SUBSCRIPTION_ID,
 				monthAmount: 3,
-				startAt: new Date()
+				startAt: new Date().getTime()
 			});
 
 			return successResponse();
 		} catch (e) {
+			console.log(e);
+
 			return errorResponse();
 		}
 	}
+
 	static async updateCompany(id: number, input: IUpdateCompanyDetailsInput) {
 		try {
-			const [updatedId] = await Company.update(input, {
+			const resp = await Company.update(input, {
 				where: { id }
 			});
 
-			const data = await Company.findByPk(updatedId);
+			const data = await Company.findByPk(id);
+
+			Company.updateEsCompany(id, data.toJSON());
 
 			return successResponseWithPayload(data);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();
 		}
+	}
+
+	static async getNameSuggestion(inputName: string, limit: number) {
+		const queryBody = {
+			query: CompanyRepository.nameSuggestionQuery(inputName),
+			highlight: {
+				tags_schema: "styled",
+				fields: {
+					name: {}
+				}
+			},
+			_source: ["name"],
+			size: limit
+		};
+		const comps = await Company.getNameSearchSuggestion(queryBody);
+
+		const suggestions = comps.map(br => ({
+			name: br?._source?.name,
+			highlightedName: br?.highlight?.name[0]
+		}));
+
+		return suggestions;
 	}
 
 	/**
@@ -211,6 +273,8 @@ class CompanyController {
 			);
 
 			await newCompany.save();
+
+			Company.insertIndex(newCompany.toJSON());
 
 			// Setting user company id
 			const userNewToken = await UserRepository.setCompanyId(

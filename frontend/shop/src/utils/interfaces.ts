@@ -1,12 +1,22 @@
 import { ITagInput } from "@graphql/types.graphql";
 import { Control } from "react-hook-form";
 
-export type Page =
-  | "nhu-cau-thu-mua"
-  | "danh-ba-cong-ty"
-  | "san-pham"
+export type PageName =
+  | "nha-cung-cap"
   | "dich-vu"
-  | "ho-tro";
+  | "nhu-cau-thu-mua"
+  | "san-pham";
+
+export type PageNameLabel = {
+  [key in PageName]: any;
+};
+
+export const pageNames: PageName[] = [
+  "nha-cung-cap",
+  "dich-vu",
+  "nhu-cau-thu-mua",
+  "san-pham",
+];
 
 export interface IController {
   control: Control<any>;

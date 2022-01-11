@@ -1,40 +1,49 @@
-import { Sequelize } from "sequelize";
+import OpenSearchFunction from "@/functions/open-search.function";
+import Company from "@models/Company";
+import { isEmptyObject } from "@utils/functions";
+
+const filterKeyFunction = {
+	industryId: OpenSearchFunction.getMatchFilter,
+	location: OpenSearchFunction.getTermFilter
+};
+
+function getFilter(f) {
+	const filter = Object.keys(f).flatMap(k => {
+		if (!f[k]) return [];
+
+		return filterKeyFunction[k](k, f[k]);
+	});
+
+	return filter;
+}
 
 class CompanyRepository {
-	static sequelizeFnGetBranchAmount() {
-		return [
-			Sequelize.fn(
-				"JSON_LENGTH",
-				Sequelize.fn(
-					"JSON_EXTRACT",
-					Sequelize.col("settings"),
-					Sequelize.literal(`"$.branches"`)
-				)
-			),
-			"branchAmount"
-		];
-	}
+	static getSearchQuery = (inputName: string, filter: any) => {
+		const query = {
+			bool: {
+				...OpenSearchFunction.getNameMustQuery(inputName),
+				...(!isEmptyObject(filter)
+					? {
+							filter: [
+								{ match: { approved: true } },
+								...getFilter(filter)
+							]
+					  }
+					: { filter: [{ match: { approved: true } }] })
+			}
+		};
 
-	static sequelizeFnGetCoverImage() {
-		return [
-			Sequelize.fn(
-				"JSON_EXTRACT",
-				Sequelize.col("settings"),
-				Sequelize.literal(`"$.profileImage"`)
-			),
-			"profileImage"
-		];
-	}
+		return query;
+	};
 
-	static sequelizeFnGetMainProducts() {
-		return [
-			Sequelize.fn(
-				"JSON_EXTRACT",
-				Sequelize.col("settings"),
-				Sequelize.literal(`"$.mainProducts"`)
-			),
-			"mainProducts"
-		];
+	static nameSuggestionQuery(name: string) {
+		const query = {
+			bool: {
+				...OpenSearchFunction.getNameSuggestionQuery(name)
+			}
+		};
+
+		return query;
 	}
 }
 

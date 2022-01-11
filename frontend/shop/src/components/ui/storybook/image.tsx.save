@@ -1,0 +1,25 @@
+import React from "react";
+import { default as NextImage, ImageProps } from "next/image";
+
+interface IImageProps extends ImageProps {}
+
+const Image: React.FC<IImageProps> = ({
+  className,
+  width,
+  height,
+  ...props
+}) => {
+  const sizeClass = !!width && !!height ? `h-[${height}px] w-[${width}px]` : "";
+
+  return (
+    <div className={`relative ${sizeClass}`}>
+      <NextImage
+        layout="fill"
+        objectFit="contain"
+        alt="image-preview"
+        {...props}
+      />
+    </div>
+  );
+};
+export default Image;

@@ -1,17 +1,18 @@
 import React from "react";
-import Link from "next/link";
 
 import Logo from "../logo";
 import Search from "../search";
 import UserProfile from "../user-profile";
 import { useRouter } from "next/dist/client/router";
 import { getActivePageFromPath } from "@utils/functions";
-import { Page } from "@utils/interfaces";
+import { PageName } from "@utils/interfaces";
+
+const UNSEARCHABLES = ["ho-tro", ""];
 
 const NavbarBottom = () => {
   const { pathname } = useRouter();
 
-  const activePage = getActivePageFromPath(pathname) as Page;
+  const activePage = getActivePageFromPath(pathname) as PageName;
 
   return (
     <div className="flex-center justify-between pt-2">
@@ -20,12 +21,7 @@ const NavbarBottom = () => {
           <Logo size="medium" />
         </div>
         <div className="fic">
-          {/* <Category /> */}
-          {!["ho-tro", ""].includes(activePage) && <Search />}
-          {/* <SaveIcon className="mx-4" /> */}
-          {/* <Link href={ROUTES.NOTIFICATIONS} passHref>
-            <NotificationIcon />
-          </Link> */}
+          {!UNSEARCHABLES.includes(activePage) && <Search />}
         </div>
       </div>
 

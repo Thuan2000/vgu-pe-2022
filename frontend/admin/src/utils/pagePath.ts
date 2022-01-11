@@ -8,6 +8,7 @@ export const PAGE_NAME = {
   POST_PRODUCT: "post-product-page-name",
   POSTED_PRODUCT: "posted-product-page-name",
   EDIT_COMPANY: "company-page-name",
+  SETTINGS: "settings-page-name"
 };
 
 export const PAGE_NAME_BY_ROUTE = {
@@ -19,4 +20,5 @@ export const PAGE_NAME_BY_ROUTE = {
   [ROUTES.POST_PRODUCT_SERVICE]: PAGE_NAME.POST_PRODUCT,
   ["/posted-product-service"]: PAGE_NAME.POSTED_PRODUCT,
   ["/[company-slug]"]: PAGE_NAME.EDIT_COMPANY,
+  [ROUTES.SETTINGS]: PAGE_NAME.SETTINGS
 };

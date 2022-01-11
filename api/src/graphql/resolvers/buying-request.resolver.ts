@@ -4,10 +4,6 @@ import BuyingRequest from "@models/BuyingRequest";
 const buyingRequestController = new BuyingRequestController();
 
 export const Query = {
-	deleteIndex: BuyingRequest.deleteIndex,
-	createIndex: BuyingRequest.createIndex,
-	// TODO: Have a cronjob that calls this API every 1 minute (1440 times per day).
-	bulkData: BuyingRequest.firstBulkElasticSearch,
 	buyingRequestBySlug: (_, { slug }) =>
 		buyingRequestController.getBuyingRequestBySlug(slug),
 	buyingRequest: (_, { id }) => buyingRequestController.getBuyingRequest(id),
@@ -20,7 +16,7 @@ export const Query = {
 };
 
 export const Mutation = {
-	getSuggestion: (_, { name, limit }) =>
+	getBrsNameSuggestion: (_, { name, limit }) =>
 		buyingRequestController.getSuggestion(name, limit),
 	createBuyingRequest: (_, { input }) =>
 		buyingRequestController.createBuyingRequest(input),

@@ -1,27 +1,26 @@
 import { PlusIcon } from "@assets/icons/plus-icon";
 import Button from "@components/ui/storybook/button";
 import InputLabel from "@components/ui/storybook/inputs/input-label";
-import PackagePricingInput from "@components/ui/storybook/inputs/package-pricing-input";
 import ValidationError from "@components/ui/storybook/validation-error";
 import { COLORS } from "@utils/colors";
 import { useTranslation } from "next-i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   UseFormRegister,
   FieldErrors,
   Control,
   UseFormTrigger,
+  useWatch,
+  useFormContext,
 } from "react-hook-form";
 import { IPostProductFormValues } from "./pps-product-interface";
-import PPSProductSinglePricingInput from "./pps-product-pricing-single-price";
-import ProductPriceInput from "./product-price-input";
+import PPSPVIInput from "./ppsp-variation-image/ppspvi-input";
+import PPSPVPInput from "./ppsp-variation-price/pppspvp-input";
+import { IGroupFormValues } from "./product-group-form";
+import ProductGroupInput from "./product-group-input";
+import ProductSinglePriceInput from "./product-single-price-input";
 
-interface IPPSProductPricingInputProps {
-  register: UseFormRegister<IPostProductFormValues>;
-  errors: FieldErrors<IPostProductFormValues>;
-  control: Control<IPostProductFormValues>;
-  trigger: UseFormTrigger<IPostProductFormValues>;
-}
+interface IPPSProductPricingInputProps {}
 
 export function AddButton({ onClick, label }: any) {
   return (
@@ -37,21 +36,55 @@ export function AddButton({ onClick, label }: any) {
   );
 }
 
-const PPSProductPricingInput: React.FC<IPPSProductPricingInputProps> = ({
-  register,
-  errors,
-  control,
-  trigger,
-}) => {
+const PPSProductPricingInput: React.FC<IPPSProductPricingInputProps> = ({}) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<IPostProductFormValues>();
   const { t } = useTranslation("form");
-  const [isAddingPackages, setIsAddingPackages] = useState(
-    !!control._formValues.pricing?.packages
-  );
+
+  const groups: any = useWatch<IPostProductFormValues>({
+    control,
+    name: "pricing.groups",
+  }) as any;
+
+  const pricingError = errors?.pricing;
+
+  function hasPricingError() {
+    return pricingError?.price && pricingError?.variations;
+  }
 
   return (
     <div className="space-y-5 min-h-[65vh]">
-      <ProductPriceInput />
+      <div className="space-y-2">
+        <InputLabel
+          label={t("product-price-input-label")}
+          required={true}
+          labelFontSize={"lg"}
+        />
+
+        {!groups?.length && (
+          <ProductSinglePriceInput control={control} name="pricing.price" />
+        )}
+
+        <ProductGroupInput control={control} name="pricing.groups" />
+
+        <PPSPVPInput control={control} name="pricing.variations" />
+        {/* @TODO: Make this available asap */}
+        {/* <PPSPVIInput control={control} name="pricing.variations" /> */}
+      </div>
+      <div>
+        <ValidationError
+          message={
+            hasPricingError()
+              ? t((pricingError?.variations as any)?.message || "") ||
+                t((pricingError?.price as any)?.message || "")
+              : ""
+          }
+        />
+      </div>
     </div>
   );
 };
+
 export default PPSProductPricingInput;

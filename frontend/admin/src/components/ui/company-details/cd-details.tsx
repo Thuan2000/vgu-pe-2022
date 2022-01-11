@@ -22,9 +22,9 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
   function getBusinessTypesText() {
     const bts = getBusinessTypes(company?.businessTypeIds as number[]);
 
-    return bts.map((bt: any, idx: number) => {
-      return `${t("business-type:" + bt.label)}, `;
-    });
+    return bts
+      .map((bt: any, idx: number) => t("business-type:" + bt.label))
+      .join(", ");
   }
 
   return (

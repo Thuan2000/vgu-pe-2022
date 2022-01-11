@@ -13,6 +13,7 @@ import { trimText, getCompanyId, getCompanyExperience } from "@utils/functions";
 import { siteSettings } from "@settings/site.settings";
 import Image from "next/image";
 import { getBusinessType } from "@datas/businessTypes";
+import LocationIcon from "@assets/icons/location-icon";
 
 interface ICompanyCardProps {
   company: ICompaniesItem;
@@ -26,13 +27,12 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
     branchAmount,
     businessTypeIds,
     establishmentDate,
+    settings,
     location,
-    mainProducts,
     productAmount,
     responseTime,
     industryId,
     categoryId,
-    profileImage,
   } = company;
 
   const { t } = useTranslation();
@@ -48,7 +48,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
   }
 
   function getCompanyMainProducts() {
-    return mainProducts?.join(", ");
+    return settings?.mainProducts?.join(", ");
   }
 
   return (
@@ -59,7 +59,8 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
           <div className={`relative w-[55px] h-[55px] flex-shrink-0`}>
             <Image
               src={
-                profileImage?.url || siteSettings.companyProfileImagePlaceholder
+                settings?.profileImage?.url ||
+                siteSettings.companyProfileImagePlaceholder
               }
               alt="Good"
               // objectFit={isSdConnectLogo ? "contain" : "cover"}
@@ -78,6 +79,10 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
             </Link>
             {/* CHIPS */}
             <div className="fic space-x-2">
+              <Chip
+                icon={LocationIcon}
+                text={location ? `${location}` : noInfoText}
+              />
               <Chip
                 text={
                   branchAmount

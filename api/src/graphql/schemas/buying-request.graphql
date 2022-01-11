@@ -15,7 +15,6 @@ type BuyingRequest {
 	description: String
 	projects: [Project!]
 	sourceTypeId: Int
-	createdBy: User!
 	minBudget: Date!
 	maxBudget: Date!
 	minOrder: Int!
@@ -27,7 +26,8 @@ type BuyingRequest {
 	gallery: [File!]
 	minSupplierExperience: Int
 	minSupplierSells: Int
-	company: Company!
+	company: Company
+	createdBy: User
 	bids: [Bid!]
 	lastOpened: Date!
 	discussionQuestions: [BRDiscussionQuestion!]
@@ -47,6 +47,7 @@ input CreateBuyingRequestInput {
 	industryId: Int!
 	categoryId: Int!
 	companyId: Int!
+	companyName: String!
 	createdById: Int!
 	minSupplierExperience: Int
 	minSupplierSells: Int
@@ -66,7 +67,6 @@ input UpdateBuyingRequestInput {
 	coverImage: FileInput
 	gallery: [FileInput]
 	unit: String!
-	companyId: Int!
 	updatedById: Int!
 	minSupplierExperience: Int
 	minSupplierSells: Int
@@ -76,11 +76,6 @@ input UpdateBuyingRequestInput {
 type BuyingRequestsResponse {
 	data: [BuyingRequest]!
 	pagination: Pagination!
-}
-
-type NameSuggestion {
-	name: String!
-	highlightedName: String!
 }
 
 input FetchBRInput {
@@ -97,7 +92,7 @@ input FetchBRInput {
 }
 
 extend type Mutation {
-	getSuggestion(name: String!, limit: Int!): [NameSuggestion!]
+	getBrsNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	createBuyingRequest(input: CreateBuyingRequestInput): Response!
 	updateBuyingRequest(id: Int!, newValue: UpdateBuyingRequestInput): Response!
 	deleteBuyingRequest(id: Int!): Response!
@@ -105,9 +100,6 @@ extend type Mutation {
 }
 
 extend type Query {
-	bulkData: Response!
-	deleteIndex: Response!
-	createIndex: Response!
 	adminBuyingRequests(
 		companyId: Int!
 		input: FetchBRInput!

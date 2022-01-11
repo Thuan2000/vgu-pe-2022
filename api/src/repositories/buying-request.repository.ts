@@ -1,63 +1,61 @@
+/* eslint-disable @typescript-eslint/camelcase */
+import OpenSearchFunction from "@/functions/open-search.function";
 import BuyingRequest from "@models/BuyingRequest";
-import ProductName from "@models/ProductName";
 
-export async function setProductName(productName: string) {
-	const duplicateProductName: ProductName = await ProductName.findOne({
-		where: { name: productName }
+const filterKeyFunction = {
+	industryId: OpenSearchFunction.getMatchFilter,
+	categoryId: OpenSearchFunction.getMatchFilter,
+	minBudget: OpenSearchFunction.getRangeFilter,
+	maxBudget: OpenSearchFunction.getRangeFilter,
+	location: OpenSearchFunction.getTermFilter,
+	status: OpenSearchFunction.getTermFilter
+};
+
+function getFilter(f) {
+	const filter = Object.keys(f).flatMap(k => {
+		if (!f[k]) return [];
+
+		return filterKeyFunction[k](k, f[k]);
 	});
 
-	// Creating product name for later use
-	if (duplicateProductName) {
-		duplicateProductName.set(
-			"searchedCount",
-			parseInt(duplicateProductName.getDataValue("searchedCount")) + 1
-		);
-		duplicateProductName.save();
-	} else {
-		const newProductName = await ProductName.create({
-			name: productName,
-			searchedCount: 0
-		});
-		newProductName.save();
-	}
-
-	return "Done";
+	return filter;
 }
 
-export function setBrGallery(data: Promise<unknown>[], br: BuyingRequest) {
-	let doneCount = 0;
+class BuyingRequestRepository {
+	static async insertCreateToElasticSearch(
+		br,
+		companyId: number,
+		companyName
+	) {
+		const company = {
+			id: companyId,
+			name: companyName
+		};
+		const newBr = { company, ...br };
 
-	data.forEach(async d => {
-		d.then(img => {
-			++doneCount;
-			const currentImgs = br.getDataValue("gallery") || [];
-			br.set("gallery", [...currentImgs, img]);
+		BuyingRequest.insertIndex(newBr);
+	}
 
-			if (doneCount >= data.length - 1) {
-				br.save();
+	static getSearchQuery = (inputName: string, filter: any) => {
+		const query = {
+			bool: {
+				...OpenSearchFunction.getNameMustQuery(inputName),
+				filter: getFilter(filter)
 			}
-		});
-	});
+		};
+
+		return query;
+	};
+
+	static nameSuggestionQuery(name: string) {
+		const query = {
+			bool: {
+				...OpenSearchFunction.getNameSuggestionQuery(name)
+			}
+		};
+
+		return query;
+	}
 }
 
-export const searchQuery = (inputName: string) => ({
-	bool: {
-		should: [
-			{
-				match: {
-					name: inputName?.toLowerCase()
-				}
-			},
-			{
-				wildcard: {
-					name: `*${inputName?.toLowerCase()}*`
-				}
-			},
-			{
-				fuzzy: {
-					name: inputName?.toLowerCase()
-				}
-			}
-		]
-	}
-});
+export default BuyingRequestRepository;
