@@ -14,27 +14,22 @@ const data = [
   {
     id: 1,
     title: "banner:promotion-slide-one",
-    bannerUrl: "/promotion/photo-1.jpg",
+    bannerUrl: "/promotion/banner-1.png",
   },
   {
     id: 2,
     title: "banner:promotion-slide-two",
-    bannerUrl: "/promotion/photo-2.jpg",
+    bannerUrl: "/promotion/banner-2.png",
   },
   {
     id: 3,
     title: "banner:promotion-slide-three",
-    bannerUrl: "/promotion/photo-3.jpg",
+    bannerUrl: "/promotion/banner-3.png",
   },
   {
     id: 4,
     title: "banner:promotion-slide-four",
-    bannerUrl: "/promotion/photo-4.jpg",
-  },
-  {
-    id: 5,
-    title: "banner:promotion-slide-five",
-    bannerUrl: "/promotion/photo-5.jpg",
+    bannerUrl: "/promotion/banner-4.png",
   },
 ];
 
