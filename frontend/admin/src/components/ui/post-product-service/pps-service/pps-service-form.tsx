@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 
 import { IPostServiceFormValues } from "./pps-service-interface";
 import PPSServiceCategoryInput from "./pps-service-category-input";
@@ -29,10 +29,12 @@ import {
 } from "@graphql/service.graphql";
 import { IService } from "@graphql/types.graphql";
 import {
+  addIdAndRemoveTypenameFromArray,
   generateUUID,
   getCompanyId,
   getCompanyName,
   getLoggedInUser,
+  removeTypenameFromArray,
 } from "@utils/functions";
 import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
@@ -51,27 +53,19 @@ interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {
   initValue?: IService;
 }
 
-function removeTypename(withTypename: any[] = []) {
-  const withoutTypename = withTypename?.map(({ __typename, ...wt }: any) => wt);
-
-  return withoutTypename;
-}
-
-function addIdAndRemoveTypename(arr: any[] = []) {
-  return arr.map(({ __typename, ...a }: any) => ({ id: generateUUID(), ...a }));
-}
-
 function processPackages(packages: IPPIPackage[]) {
-  const processed = packages.map(({ __typename, id, packageRows }: any) => {
-    const processedPRs = packageRows?.map(
-      ({ __typename, rowId, value }: any) => ({
-        rowId,
-        value: JSON.parse(value),
-      })
-    );
+  const processed = packages.map(
+    ({ __typename, id, price, packageRows }: any) => {
+      const processedPRs = packageRows?.map(
+        ({ __typename, rowId, value }: any) => ({
+          rowId,
+          value: JSON.parse(value),
+        })
+      );
 
-    return { id, packageRows: processedPRs };
-  });
+      return { id, price, packageRows: processedPRs };
+    }
+  );
 
   return processed;
 }
@@ -94,14 +88,13 @@ function generateDefaultValues(initValue: IService) {
     packageRows,
   } = initValue;
 
-  const getImages = !!images?.length ? images : [];
-  const getCoverImageInArray = !!coverImage ? [images] : [];
+  let getImages = !!images?.length ? images : [];
 
   const defaultValue: IPostServiceFormValues = {
     attachment: {
-      certificates: removeTypename(certificates || []),
-      images: removeTypename([...getCoverImageInArray, ...getImages] || []),
-      videos: removeTypename(videos || []),
+      certificates: removeTypenameFromArray(certificates || []),
+      images: removeTypenameFromArray(getImages || []),
+      videos: removeTypenameFromArray(videos || []),
     },
     category: {
       name,
@@ -110,17 +103,18 @@ function generateDefaultValues(initValue: IService) {
     },
     details: {
       description,
-      faqs: addIdAndRemoveTypename(faqs || []),
-      tags: addIdAndRemoveTypename(tags || []),
+      faqs: addIdAndRemoveTypenameFromArray(faqs || []),
+      tags: addIdAndRemoveTypenameFromArray(tags || []),
       location: getLocationByName(location),
     },
     pricing: {
+      isSinglePrice: !!price,
       price,
       ...(!!packageRows?.length && !!packages?.length
         ? {
             packages: {
-              rows: removeTypename(packageRows || []),
-              packages: processPackages(packages || []),
+              rows: removeTypenameFromArray(packageRows || []),
+              packages: processPackages((packages as any) || []),
             },
           }
         : ({} as any)),
@@ -151,18 +145,19 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
     });
   }
 
+  const methods = useForm<IPostServiceFormValues>({
+    resolver: yupResolver(ppsServiceSchema),
+    defaultValues: initValue ? generateDefaultValues(initValue) : {},
+  });
+
   const {
     control,
     register,
     formState: { errors, dirtyFields },
     trigger,
     getValues,
-    setError,
     handleSubmit,
-  } = useForm<IPostServiceFormValues>({
-    resolver: yupResolver(ppsServiceSchema),
-    defaultValues: initValue ? generateDefaultValues(initValue) : {},
-  });
+  } = methods;
 
   // Changing section if there's an error and user submitting
   useEffect(() => {
@@ -205,13 +200,8 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       if (!data) return;
     }
     if (formPosition === PPS_PRICING_FORM_INDEX) {
-      const isValid =
-        !!getValues("pricing.packages") || !!getValues("pricing.price");
       const data = await trigger("pricing");
-      if (!data || !isValid) {
-        setError("pricing", { message: "pricing-not-setted-error" });
-        return;
-      }
+      if (!data) return;
     }
     if (formPosition >= PPS_REVIEW_FORM_INDEX) return;
     changeSection(formPosition + 1);
@@ -356,63 +346,55 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="pt-2 space-y-2">
-      <div
-        className={
-          formPosition === PPS_REVIEW_FORM_INDEX ? "sm:w-full" : "sm:w-2/3"
-        }
-      >
-        {formPosition === PPS_CATEGORY_FORM_INDEX && (
-          <PPSServiceCategoryInput
-            errors={errors}
-            trigger={trigger}
-            control={control}
-            register={register}
-          />
-        )}
-
-        {formPosition === PPS_ATTACHMENT_FORM_INDEX && (
-          <PPSServiceAttachmentInput
-            errors={errors}
-            trigger={trigger}
-            control={control}
-            register={register}
-          />
-        )}
-
-        {formPosition === PPS_DETAILS_FORM_INDEX && (
-          <PPSServiceDetailsInput
-            errors={errors}
-            trigger={trigger}
-            control={control}
-            register={register}
-          />
-        )}
-
-        {formPosition === PPS_PRICING_FORM_INDEX && (
-          <PPSServicePricingInput
-            errors={errors}
-            trigger={trigger}
-            control={control}
-            register={register}
-          />
-        )}
-
-        {formPosition === PPS_REVIEW_FORM_INDEX && (
-          <PPSServiceReview
-            changeSection={changeSection}
-            getValues={getValues}
-          />
-        )}
-      </div>
-
-      <PPSServiceFooterButton
-        loading={loading || updating}
-        onNextClick={handleNextClick}
-        onBackClick={handleBackClick}
-        formPosition={formPosition}
-      />
-    </Form>
+    <FormProvider {...methods}>
+      <Form onSubmit={handleSubmit(onSubmit)} className="pt-2 space-y-2">
+        <div
+          className={
+            formPosition === PPS_REVIEW_FORM_INDEX ? "sm:w-full" : "sm:w-2/3"
+          }
+        >
+          {formPosition === PPS_CATEGORY_FORM_INDEX && (
+            <PPSServiceCategoryInput
+              errors={errors}
+              trigger={trigger}
+              control={control}
+              register={register}
+            />
+          )}
+          {formPosition === PPS_ATTACHMENT_FORM_INDEX && (
+            <PPSServiceAttachmentInput
+              errors={errors}
+              trigger={trigger}
+              control={control}
+              register={register}
+            />
+          )}
+          {formPosition === PPS_DETAILS_FORM_INDEX && (
+            <PPSServiceDetailsInput
+              errors={errors}
+              trigger={trigger}
+              control={control}
+              register={register}
+            />
+          )}
+          {formPosition === PPS_PRICING_FORM_INDEX && (
+            <PPSServicePricingInput />
+          )}
+          {formPosition === PPS_REVIEW_FORM_INDEX && (
+            <PPSServiceReview
+              changeSection={changeSection}
+              getValues={getValues}
+            />
+          )}
+        </div>
+        <PPSServiceFooterButton
+          loading={loading || updating}
+          onNextClick={handleNextClick}
+          onBackClick={handleBackClick}
+          formPosition={formPosition}
+        />
+      </Form>
+    </FormProvider>
   );
 };
 export default PPSServiceForm;

@@ -26,6 +26,7 @@ export type PPIPriceValue =
 
 export interface IPPIPackage {
   id: string;
+  price: number;
   packageRows?: IPPIPackageRow[];
 }
 

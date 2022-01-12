@@ -17,7 +17,7 @@ class BuyingRequest extends Model {
 		location: { type: "keyword" }
 	};
 
-	static insertIndex(data: any) {
+	static async insertToIndex(data: any) {
 		OpenSearch.insertBulk(BuyingRequest.indexName, [data]);
 	}
 
@@ -103,9 +103,11 @@ class BuyingRequest extends Model {
 
 	static async deleteEsBrs(ids: number[]) {
 		try {
-			ids.forEach(id => {
-				OpenSearch.deleteDoc(BuyingRequest.indexName, id);
-			});
+			const data = await Promise.all(
+				ids.map(id => OpenSearch.deleteDoc(BuyingRequest.indexName, id))
+			);
+
+			return data;
 		} catch (e) {
 			console.log(e);
 			return errorResponse();
@@ -114,7 +116,11 @@ class BuyingRequest extends Model {
 
 	static async updateEsBr(id: number, newData) {
 		try {
-			OpenSearch.updateDoc(BuyingRequest.indexName, id, newData);
+			return await OpenSearch.updateDoc(
+				BuyingRequest.indexName,
+				id,
+				newData
+			);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();

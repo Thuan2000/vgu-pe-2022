@@ -1,27 +1,16 @@
 import { PlusIcon } from "@assets/icons/plus-icon";
 import Button from "@components/ui/storybook/button";
-import GroupPricingInput from "@components/ui/storybook/inputs/group-pricing-input/group-pricing-input";
 import InputLabel from "@components/ui/storybook/inputs/input-label";
 import PackagePricingInput from "@components/ui/storybook/inputs/package-pricing-input";
 import ValidationError from "@components/ui/storybook/validation-error";
 import { COLORS } from "@utils/colors";
 import { useTranslation } from "next-i18next";
 import React, { useState } from "react";
-import {
-  UseFormRegister,
-  FieldErrors,
-  Control,
-  UseFormTrigger,
-} from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { IPostServiceFormValues } from "./pps-service-interface";
 import PPSServiceSinglePricingInput from "./pps-service-pricing-single-price";
 
-interface IPPSServicePricingInputProps {
-  register: UseFormRegister<IPostServiceFormValues>;
-  errors: FieldErrors<IPostServiceFormValues>;
-  control: Control<IPostServiceFormValues>;
-  trigger: UseFormTrigger<IPostServiceFormValues>;
-}
+interface IPPSServicePricingInputProps {}
 
 export function AddButton({ onClick, label }: any) {
   return (
@@ -37,24 +26,47 @@ export function AddButton({ onClick, label }: any) {
   );
 }
 
-const PPSServicePricingInput: React.FC<IPPSServicePricingInputProps> = ({
-  register,
-  errors,
-  control,
-  trigger,
-}) => {
+const PPSServicePricingInput: React.FC<IPPSServicePricingInputProps> = ({}) => {
+  const {
+    formState: { errors },
+    setValue,
+    getValues,
+    control,
+  } = useFormContext<IPostServiceFormValues>();
+
   const { t } = useTranslation("form");
   const [isAddingPackages, setIsAddingPackages] = useState(
     !!control._formValues.pricing?.packages
   );
 
-  // const [isAddingGroups, setIsAddingGroups] = useState(
-  //   !!control._formValues.pricing?.groups
-  // );
+  function getErrorMessage() {
+    const pricingError = errors?.pricing;
+
+    if (
+      !getValues("pricing.isSinglePrice") &&
+      !isAddingPackages &&
+      errors?.pricing
+    )
+      return "price-required-error";
+
+    const packagesError = (pricingError?.packages as any)?.message;
+    const priceError = pricingError?.price?.message;
+    const packagePriceError =
+      errors.pricing?.packages?.packages?.[0].price?.message;
+    return !!priceError && !priceError?.includes("NaN")
+      ? priceError
+      : packagePriceError || packagesError;
+  }
+
+  function handleAddSinglePriceButton() {
+    setValue("pricing.isSinglePrice", false);
+    setValue("pricing.price", "" as any);
+    setIsAddingPackages(true);
+  }
 
   return (
     <div className="space-y-5 min-h-[65vh]">
-      {!isAddingPackages && <PPSServiceSinglePricingInput control={control} />}
+      {!isAddingPackages && <PPSServiceSinglePricingInput />}
       <div className="space-y-2">
         <InputLabel
           numberQueue={!isAddingPackages ? 9 : 8}
@@ -63,7 +75,7 @@ const PPSServicePricingInput: React.FC<IPPSServicePricingInputProps> = ({
         {!isAddingPackages && (
           <AddButton
             label={t("post-service-addPackage")}
-            onClick={() => setIsAddingPackages(true)}
+            onClick={handleAddSinglePriceButton}
           />
         )}
         {isAddingPackages && (
@@ -75,7 +87,7 @@ const PPSServicePricingInput: React.FC<IPPSServicePricingInputProps> = ({
         )}
       </div>
 
-      <ValidationError message={t((errors?.pricing as any)?.message)} />
+      <ValidationError message={t(getErrorMessage())} />
 
       {/* @KEEP */}
       {/* <div className="space-y-2">

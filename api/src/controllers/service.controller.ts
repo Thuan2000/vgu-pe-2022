@@ -7,7 +7,6 @@ import {
 import Company from "@models/Company";
 import Service from "@models/Service";
 import Tag from "@models/Tag";
-import User from "@models/User";
 import ServiceRepository from "@repositories/service.repository";
 import TagRepository from "@repositories/tag.repository";
 import { generateSlug } from "@utils/functions";
@@ -57,8 +56,8 @@ class ServiceController {
 
 	static async deleteServices(ids: number[]) {
 		try {
-			Service.deleteEsServices(ids);
-			await Service.destroy({ where: { id: ids } });
+			const r = await Service.deleteEsServices(ids);
+			const resp = await Service.destroy({ where: { id: ids } });
 
 			return successResponse();
 		} catch (e) {
@@ -99,15 +98,17 @@ class ServiceController {
 			TagRepository.createTags(newTags);
 			(newService as any).setTags(tags);
 
-			// @TODO : Remove This later on es refactor
+			const company = {
+				id: companyId,
+				name: companyName
+			};
 
-			ServiceRepository.insertCreateToElasticSearch(
-				newService.toJSON(),
-				companyId,
-				companyName
-			);
-
+			const r = await Service.insertToIndex({
+				company,
+				...newService.toJSON()
+			});
 			await newService.save();
+
 			return createSuccessResponse(newService.getDataValue("id"));
 		} catch (e) {
 			console.log(e);
@@ -127,7 +128,10 @@ class ServiceController {
 			TagRepository.createTags(newTags);
 			(service as any).setTags(tags);
 
-			Service.updateEsService(id, { ...service.toJSON(), ...newInput });
+			await Service.updateEsService(id, {
+				...service.toJSON(),
+				...newInput
+			});
 
 			return createSuccessResponse(id);
 		} catch (e) {

@@ -31,8 +31,13 @@ const PPIPackageList: React.FC<IPPIPackageListProps> = ({
 }) => {
   const { t } = useTranslation("form");
 
-  function handlePkgChange(pkg: IPPIPackage) {
+  function handlePkgChange(
+    pkg: IPPIPackage,
+    args: { isPackagePrice: boolean; value: number }
+  ) {
     const idx = findIndex(packages, (p) => p.id === pkg.id);
+
+    if (args.isPackagePrice) pkg.price = args.value;
 
     if (!packages.length || idx === -1) packages.push(pkg);
     else packages[idx] = pkg;
@@ -41,8 +46,9 @@ const PPIPackageList: React.FC<IPPIPackageListProps> = ({
   }
 
   function createPackage() {
-    const newPackage = {
+    const newPackage: IPPIPackage = {
       id: generateUUID(),
+      price: 0,
     };
     if (onCreatedPackage) onCreatedPackage(newPackage);
   }

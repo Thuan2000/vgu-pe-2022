@@ -20,6 +20,7 @@ export interface IPPSFAttachmentSection {
 }
 
 export interface IPPSFPricingSection {
+  isSinglePrice: boolean;
   price: number;
   packages: IPPIValue;
 }
