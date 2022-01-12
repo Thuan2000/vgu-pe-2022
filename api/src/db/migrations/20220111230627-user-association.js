@@ -1,6 +1,7 @@
 "use strict";
 
-const targetTableName = require("./20211117235522-create-service").tableName;
+const targetTableName = require("./20210916090212-users").tableName;
+
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		/**
@@ -13,26 +14,10 @@ module.exports = {
 			queryInterface.addColumn(targetTableName, "companyId", {
 				type: Sequelize.INTEGER,
 				references: {
-					model: "companies",
+					model: require("./20210922045758-create-company").tableName,
 					key: "id"
 				},
 				onDelete: "CASCADE"
-			}),
-			queryInterface.addColumn(targetTableName, "createdById", {
-				type: Sequelize.INTEGER,
-				references: {
-					model: "users",
-					key: "id"
-				},
-				onDelete: "CASCADE"
-			}),
-			queryInterface.addColumn(targetTableName, "updatedById", {
-				type: Sequelize.INTEGER,
-				references: {
-					model: "users",
-					key: "id"
-				},
-				onDelete: "SET NULL"
 			})
 		]);
 	},
@@ -44,5 +29,6 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.dropTable('users');
 		 */
+		queryInterface.removeColumn(targetTableName, "companyId");
 	}
 };

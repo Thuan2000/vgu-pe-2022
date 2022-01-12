@@ -1,7 +1,10 @@
 "use strict";
+
+const tableName = "units";
+
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable("units", {
+		await queryInterface.createTable(tableName, {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -25,6 +28,6 @@ module.exports = {
 		});
 	},
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.dropTable("units");
+		await queryInterface.dropTable(tableName);
 	}
 };

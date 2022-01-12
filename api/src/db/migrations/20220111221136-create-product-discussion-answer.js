@@ -1,6 +1,6 @@
 "use strict";
 
-const tableName = "company_subscriptions";
+const tableName = "product_discussion_answers";
 
 module.exports = {
 	tableName,
@@ -12,36 +12,38 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			companyId: {
+			userId: {
 				type: Sequelize.INTEGER,
 				references: {
-					model: require("./20210922045758-create-company").tableName,
+					model: require("./20210916090212-users").tableName,
 					key: "id"
-				},
-				onDelete: "CASCADE"
+				}
 			},
-			subscriptionId: {
+			productDiscussionQuestionId: {
 				type: Sequelize.INTEGER,
 				references: {
-					model: require("./20211228110527-create-subscription")
+					model: require("./20220111215538-create-product-discussion-question")
 						.tableName,
 					key: "id"
+				}
+			},
+			question: {
+				type: Sequelize.TEXT
+			},
+			companyName: {
+				type: Sequelize.STRING,
+				references: {
+					model: require("./20210922045758-create-company").tableName,
+					key: "name"
 				},
 				onDelete: "CASCADE"
 			},
-			monthAmount: {
-				type: Sequelize.INTEGER
-			},
-			startAt: {
-				type: Sequelize.BIGINT
-			},
-			totalPrice: {
-				type: Sequelize.INTEGER
-			},
 			createdAt: {
+				allowNull: false,
 				type: Sequelize.DATE
 			},
 			updatedAt: {
+				allowNull: false,
 				type: Sequelize.DATE
 			}
 		});

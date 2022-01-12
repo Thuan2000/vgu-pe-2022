@@ -2,10 +2,8 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
 import Company from "./Company";
-import Category from "./Category";
 import Project from "./Project";
 import User from "./User";
-import Industry from "./Industry";
 import OpenSearch from "@services/open-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
 import Bid from "./Bid";
@@ -157,8 +155,6 @@ BuyingRequest.init(
 	}
 );
 
-BuyingRequest.belongsToMany(Category, { through: "br_category" });
-
 BuyingRequest.belongsToMany(Project, {
 	through: "br_project",
 	onDelete: "CASCADE"
@@ -171,7 +167,6 @@ Project.belongsToMany(BuyingRequest, {
 });
 
 BuyingRequest.belongsTo(Company, { foreignKey: "companyId" });
-BuyingRequest.belongsTo(Industry, { foreignKey: "industryId" });
 BuyingRequest.belongsTo(User, { foreignKey: "createdById", as: "createdBy" });
 BuyingRequest.hasMany(BRDiscussionQuestion, {
 	foreignKey: "brId",

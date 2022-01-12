@@ -3,10 +3,9 @@ import ImageIcon from "@assets/icons/image-icon";
 import Button from "@components/ui/storybook/button";
 import TextArea from "@components/ui/storybook/inputs/text-area";
 import {
-  CreateServiceDiscussionAnswerMutation,
-  CreateServiceDiscussionQuestionMutation,
-  useCreateServiceDiscussionQuestionMutation,
-} from "@graphql/service-discussion.graphql";
+  CreateProductDiscussionQuestionMutation,
+  useCreateProductDiscussionQuestionMutation,
+} from "@graphql/product-discussion.graphql";
 import { getCompanyName, getLoggedInUser } from "@utils/functions";
 
 import { useTranslation } from "next-i18next";
@@ -14,19 +13,19 @@ import React, { useState, ChangeEvent } from "react";
 import Swal from "sweetalert2";
 
 interface ISDDAskQuestionProps {
-  serviceId: number;
+  productId: number;
   refetchDiscussions: () => void;
 }
 
 const PDDAskQuestion: React.FC<ISDDAskQuestionProps> = ({
-  serviceId,
+  productId,
   refetchDiscussions,
 }) => {
   const ICON_SIZE = 5;
   const iconClass = `w-${ICON_SIZE} h-${ICON_SIZE}`;
 
   const { t } = useTranslation("form");
-  const [createQuestion] = useCreateServiceDiscussionQuestionMutation({
+  const [createQuestion] = useCreateProductDiscussionQuestionMutation({
     onCompleted: handleQuestionCreated,
   });
   const [question, setQuestion] = useState("");
@@ -36,9 +35,9 @@ const PDDAskQuestion: React.FC<ISDDAskQuestionProps> = ({
   }
 
   function handleQuestionCreated({
-    createServiceDiscussionQuestion,
-  }: CreateServiceDiscussionQuestionMutation) {
-    const { message, success } = createServiceDiscussionQuestion || {};
+    createProductDiscussionQuestion,
+  }: CreateProductDiscussionQuestionMutation) {
+    const { message, success } = createProductDiscussionQuestion || {};
     if (success === false) {
       Swal.fire({
         icon: "error",
@@ -58,7 +57,7 @@ const PDDAskQuestion: React.FC<ISDDAskQuestionProps> = ({
     const input = {
       userId: getLoggedInUser()?.id,
       companyName: getCompanyName(),
-      serviceId,
+      productId,
       question,
     };
 

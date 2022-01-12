@@ -3,21 +3,21 @@ import { useTranslation } from "next-i18next";
 
 import Typography from "@components/ui/storybook/typography";
 import Button from "@components/ui/storybook/button";
-import { useServiceDiscussionQuestionsQuery } from "@graphql/service-discussion.graphql";
+import { useProductDiscussionQuestionsQuery } from "@graphql/product-discussion.graphql";
 import SDDDiscussionQuestion from "./pdd-question";
 
 interface IPDDiscussionProps {
-  serviceId: number;
+  productId: number;
   reload: boolean;
 }
 
-const PDDiscussion: React.FC<IPDDiscussionProps> = ({ reload, serviceId }) => {
+const PDDiscussion: React.FC<IPDDiscussionProps> = ({ reload, productId }) => {
   const { t } = useTranslation("common");
 
   function getInputParams() {
-    return { input: { sort: "DATE" as any, serviceId, offset: 0, limit: 5 } };
+    return { input: { sort: "DATE" as any, productId, offset: 0, limit: 5 } };
   }
-  const { data, refetch } = useServiceDiscussionQuestionsQuery({
+  const { data, refetch } = useProductDiscussionQuestionsQuery({
     variables: getInputParams(),
   });
 
@@ -26,17 +26,17 @@ const PDDiscussion: React.FC<IPDDiscussionProps> = ({ reload, serviceId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
-  const discussions = data?.serviceDiscussionQuestions;
+  const discussions = data?.productDiscussionQuestions;
   return (
     <div className={`border space-y-4 relative rounded-md`}>
       <div className="flex items-baseline space-x-2 m-4">
         <Typography
-          text={t("service-discussion-title")}
+          text={t("product-discussion-title")}
           variant="title"
           size="md"
         />
         <Typography
-          text={`${discussions?.length} ${t("service-questions-text")}`}
+          text={`${discussions?.length} ${t("product-questions-text")}`}
           variant="description"
           size="md"
         />
@@ -44,15 +44,15 @@ const PDDiscussion: React.FC<IPDDiscussionProps> = ({ reload, serviceId }) => {
 
       <div className="fic bg-gray-100 bg-opacity-60 px-4 py-1 space-x-2">
         <Typography
-          text={`${t("service-sortBy-title")}:`}
+          text={`${t("product-sortBy-title")}:`}
           variant="smallTitle"
           color="gray-400"
         />
         <Button size="small" className="text-gray-400" variant="custom">
-          {t("service-updateKey-sort-button-label")}
+          {t("product-updateKey-sort-button-label")}
         </Button>
         <Button size="small" className="text-gray-400" variant="custom">
-          {t("service-date-sort-button-label")}
+          {t("product-date-sort-button-label")}
         </Button>
       </div>
 
@@ -68,7 +68,7 @@ const PDDiscussion: React.FC<IPDDiscussionProps> = ({ reload, serviceId }) => {
       ) : (
         <div className="px-4 pb-4">
           <Typography
-            text={t("no-discussion-for-service")}
+            text={t("no-discussion-for-product")}
             variant="description"
           />
         </div>

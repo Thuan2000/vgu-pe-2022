@@ -59,7 +59,7 @@ export const navigations: INavigation[] = [
   },
   {
     label: "companyPage-nav-label",
-    href: "[company-slug]",
+    href: "company-slug",
     icon: AvatarIcon,
   },
 ];

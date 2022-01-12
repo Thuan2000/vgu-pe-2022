@@ -39,7 +39,7 @@ const SidebarNavigations = () => {
               ? checkIsActiveChildren(children)
               : checkIsActive([href, ...managedLinks]);
 
-            if (href === "[company-slug]") {
+            if (href === "company-slug") {
               href = getMeData().company?.slug!;
               isActive = getActivePath(pathname) === "/[company-slug]";
             }

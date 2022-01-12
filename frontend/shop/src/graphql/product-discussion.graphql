@@ -1,0 +1,39 @@
+mutation CreateProductDiscussionQuestion(
+  $input: CreateProductDiscussionQuestionInput!
+) {
+  createProductDiscussionQuestion(input: $input) {
+    id
+    success
+    message
+  }
+}
+
+mutation CreateProductDiscussionAnswer(
+  $input: CreateProductDiscussionAnswerInput!
+) {
+  createProductDiscussionAnswer(input: $input) {
+    id
+    success
+    message
+  }
+}
+
+query ProductDiscussionQuestions($input: ProductDiscussionsInput!) {
+  productDiscussionQuestions(input: $input) {
+    user {
+      firstName
+      lastName
+    }
+    companyName
+    question
+    createdAt
+    answers {
+      user {
+        firstName
+        lastName
+      }
+      companyName
+      answer
+    }
+  }
+}

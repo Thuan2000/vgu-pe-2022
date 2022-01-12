@@ -1,6 +1,7 @@
 "use strict";
 
-const targetTableName = require("./20211117235522-create-service").tableName;
+const targetTableName = require("./20210922045758-create-company").tableName;
+
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		/**
@@ -10,29 +11,21 @@ module.exports = {
 		 * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
 		 */
 		return Promise.all([
-			queryInterface.addColumn(targetTableName, "companyId", {
+			queryInterface.addColumn(targetTableName, "ownerId", {
 				type: Sequelize.INTEGER,
 				references: {
-					model: "companies",
+					model: require("./20210916090212-users").tableName,
 					key: "id"
 				},
-				onDelete: "CASCADE"
+				onDelete: "CASCADE",
+				allowNull: false
 			}),
-			queryInterface.addColumn(targetTableName, "createdById", {
+			queryInterface.addColumn(targetTableName, "approverId", {
 				type: Sequelize.INTEGER,
 				references: {
-					model: "users",
+					model: require("./20210916090212-users").tableName,
 					key: "id"
-				},
-				onDelete: "CASCADE"
-			}),
-			queryInterface.addColumn(targetTableName, "updatedById", {
-				type: Sequelize.INTEGER,
-				references: {
-					model: "users",
-					key: "id"
-				},
-				onDelete: "SET NULL"
+				}
 			})
 		]);
 	},
@@ -44,5 +37,9 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.dropTable('users');
 		 */
+		return Promise.all([
+			queryInterface.removeColumn(targetTableName, "ownerId"),
+			queryInterface.removeColumn(targetTableName, "approverId")
+		]);
 	}
 };

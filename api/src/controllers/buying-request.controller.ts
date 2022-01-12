@@ -29,8 +29,6 @@ class BuyingRequestController {
 			const buyingRequest = await BuyingRequest.findOne({
 				where: { slug },
 				include: [
-					Category,
-					Industry,
 					{ model: User, as: "createdBy" },
 					Company,
 					{

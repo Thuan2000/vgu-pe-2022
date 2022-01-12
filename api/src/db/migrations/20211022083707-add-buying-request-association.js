@@ -1,5 +1,8 @@
 "use strict";
 
+const targetTableName = require("./20211005084832-create-buying-request")
+	.tableName;
+
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		/**
@@ -18,26 +21,26 @@ module.exports = {
 			// 	onDelete: "SET NULL"
 			// }),
 
-			queryInterface.addColumn("buying_requests", "companyId", {
+			queryInterface.addColumn(targetTableName, "companyId", {
 				type: Sequelize.INTEGER,
 				references: {
-					model: "companies",
+					model: require("./20210922045758-create-company").tableName,
 					key: "id"
 				},
 				onDelete: "CASCADE"
 			}),
-			queryInterface.addColumn("buying_requests", "createdById", {
+			queryInterface.addColumn(targetTableName, "createdById", {
 				type: Sequelize.INTEGER,
 				references: {
-					model: "users",
+					model: require("./20210916090212-users").tableName,
 					key: "id"
 				},
 				onDelete: "CASCADE"
 			}),
-			queryInterface.addColumn("buying_requests", "updatedById", {
+			queryInterface.addColumn(targetTableName, "updatedById", {
 				type: Sequelize.INTEGER,
 				references: {
-					model: "users",
+					model: require("./20210916090212-users").tableName,
 					key: "id"
 				},
 				onDelete: "SET NULL"
@@ -45,15 +48,12 @@ module.exports = {
 		]);
 	},
 
-	down: async queryInterface => {
+	down: async (queryInterface, Sequelize) => {
 		/**
 		 * Add reverting commands here.
 		 *
 		 * Example:
 		 * await queryInterface.dropTable('users');
 		 */
-		return Promise.all([
-			queryInterface.removeColumn("buying_requests", "industryId")
-		]);
 	}
 };

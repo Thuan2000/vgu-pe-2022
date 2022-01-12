@@ -35,7 +35,7 @@ User.init(
 		},
 		// @foreign key of roles name
 		role: {
-			type: DataTypes.INTEGER
+			type: DataTypes.STRING
 		}
 	},
 	{
