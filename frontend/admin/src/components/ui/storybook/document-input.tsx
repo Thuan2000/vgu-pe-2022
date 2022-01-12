@@ -21,13 +21,14 @@ const DocumentInput = ({
     <Controller
       control={control}
       name={name}
-      render={({ field: { ref, onChange, ...rest } }) => (
+      render={({ field: { ref, onChange, value, ...rest } }) => (
         <div className={className}>
           <DocumentUploader
             onChange={(e) => {
               onChange(e);
               if (inputOnChange) inputOnChange(e);
             }}
+            value={value}
             {...rest}
             {...props}
           />
