@@ -1,7 +1,11 @@
 "use strict";
+
+const tableName = "roles";
+
 module.exports = {
+	tableName,
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable("roles", {
+		await queryInterface.createTable(tableName, {
 			name: {
 				allowNull: false,
 				primaryKey: true,
@@ -20,6 +24,6 @@ module.exports = {
 		});
 	},
 	down: async queryInterface => {
-		await queryInterface.dropTable("roles");
+		await queryInterface.dropTable(tableName);
 	}
 };

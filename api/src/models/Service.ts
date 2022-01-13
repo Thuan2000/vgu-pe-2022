@@ -55,9 +55,9 @@ class Service extends Model {
 		}
 	}
 
-	static insertToIndex(data: any) {
+	static async insertToIndex(data: any) {
 		try {
-			OpenSearch.insertBulk(Service.indexName, [data]);
+			return await OpenSearch.insertBulk(Service.indexName, [data]);
 		} catch (e) {
 			console.log(e);
 		}
@@ -93,9 +93,11 @@ class Service extends Model {
 
 	static async deleteEsServices(ids: number[]) {
 		try {
-			ids.forEach(id => {
-				OpenSearch.deleteDoc(Service.indexName, id);
-			});
+			const data = await Promise.all(
+				ids.map(id => OpenSearch.deleteDoc(Service.indexName, id))
+			);
+
+			return data;
 		} catch (e) {
 			console.log(e);
 			return errorResponse();
@@ -104,7 +106,7 @@ class Service extends Model {
 
 	static async updateEsService(id: number, newData) {
 		try {
-			OpenSearch.updateDoc(Service.indexName, id, newData);
+			return await OpenSearch.updateDoc(Service.indexName, id, newData);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();

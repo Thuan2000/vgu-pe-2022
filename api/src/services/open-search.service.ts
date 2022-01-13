@@ -44,7 +44,7 @@ class OpenSearch {
 		}
 	}
 
-	static insertBulk(index: string, rawDatas: unknown[]) {
+	static async insertBulk(index: string, rawDatas: unknown[]) {
 		try {
 			const body = rawDatas.flatMap((data: any) => [
 				{
@@ -53,15 +53,16 @@ class OpenSearch {
 				{ ...(!!data ? data : {}) }
 			]);
 
-			this.client.bulk({ index, body });
+			const data = await this.client.bulk({ index, body });
+			return data;
 		} catch (err) {
 			console.error(err);
 		}
 	}
 
-	static deleteIndex(index: string) {
+	static async deleteIndex(index: string) {
 		try {
-			this.client.indices.delete({ index });
+			return await this.client.indices.delete({ index });
 		} catch (e) {
 			console.error(e);
 		}
@@ -86,7 +87,7 @@ class OpenSearch {
 
 	public static async deleteDoc(index: string, id) {
 		try {
-			await this.client.delete_by_query({
+			return await this.client.delete_by_query({
 				index,
 				body: {
 					query: {
@@ -109,9 +110,10 @@ class OpenSearch {
 	 */
 	public static async updateDoc(index: string, id: number, newData) {
 		// Remove first
-		this.deleteDoc(index, id);
+		await this.deleteDoc(index, id);
+		const inserted = await this.insertBulk(index, [newData]);
 
-		this.insertBulk(index, [newData]);
+		return inserted;
 	}
 }
 

@@ -1,5 +1,6 @@
 import Database from "@services/database.service";
 import { Model, DataTypes } from "sequelize";
+import Company from "./Company";
 import ServiceDiscussionAnswer from "./ServiceDiscussionAnswer";
 import User from "./User";
 
@@ -17,12 +18,18 @@ ServiceDiscussionQuestion.init(
 	{
 		serviceId: DataTypes.INTEGER,
 		question: DataTypes.TEXT,
-		userId: DataTypes.INTEGER,
-		companyName: DataTypes.STRING
+		userId: {
+			type: DataTypes.INTEGER,
+			references: { model: User, key: "id" }
+		},
+		companyName: {
+			type: DataTypes.STRING,
+			references: { model: Company, key: "name" }
+		}
 	},
 	{
 		sequelize: Database.sequelize,
-		modelName: "ServiceDiscussion",
+		modelName: "ServiceDiscussionQuestions",
 		tableName: "service_discussion_questions"
 	}
 );

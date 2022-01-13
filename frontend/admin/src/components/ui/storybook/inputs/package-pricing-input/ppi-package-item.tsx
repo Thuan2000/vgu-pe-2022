@@ -24,7 +24,10 @@ interface IPPIPackageItemProps {
   rows: IPPIRow[];
   pkg: IPPIPackage;
   onePackageOnly?: boolean;
-  onChange: (pkg: IPPIPackage) => void;
+  onChange: (
+    pkg: IPPIPackage,
+    args: { isPackagePrice: boolean; value: number }
+  ) => void;
   onDelete: (pkgId: string) => void;
   value?: IPPIPackage;
   idx: number;
@@ -62,7 +65,10 @@ const PPIPackageItem: React.FC<IPPIPackageItemProps> = ({
       else pkg.packageRows[prIndex] = newPr;
     }
 
-    onChange(pkg);
+    onChange(pkg, {
+      isPackagePrice: row.id === PPI_PACKAGE_PRICE_ID,
+      value,
+    });
   }
 
   function getRowValue(row: IPPIRow) {

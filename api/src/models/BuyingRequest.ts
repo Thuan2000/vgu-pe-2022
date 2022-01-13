@@ -2,10 +2,8 @@
 import { DataTypes, Model } from "sequelize";
 import Database from "@services/database.service";
 import Company from "./Company";
-import Category from "./Category";
 import Project from "./Project";
 import User from "./User";
-import Industry from "./Industry";
 import OpenSearch from "@services/open-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
 import Bid from "./Bid";
@@ -19,7 +17,7 @@ class BuyingRequest extends Model {
 		location: { type: "keyword" }
 	};
 
-	static insertIndex(data: any) {
+	static async insertToIndex(data: any) {
 		OpenSearch.insertBulk(BuyingRequest.indexName, [data]);
 	}
 
@@ -105,9 +103,11 @@ class BuyingRequest extends Model {
 
 	static async deleteEsBrs(ids: number[]) {
 		try {
-			ids.forEach(id => {
-				OpenSearch.deleteDoc(BuyingRequest.indexName, id);
-			});
+			const data = await Promise.all(
+				ids.map(id => OpenSearch.deleteDoc(BuyingRequest.indexName, id))
+			);
+
+			return data;
 		} catch (e) {
 			console.log(e);
 			return errorResponse();
@@ -116,7 +116,11 @@ class BuyingRequest extends Model {
 
 	static async updateEsBr(id: number, newData) {
 		try {
-			OpenSearch.updateDoc(BuyingRequest.indexName, id, newData);
+			return await OpenSearch.updateDoc(
+				BuyingRequest.indexName,
+				id,
+				newData
+			);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();
@@ -157,8 +161,6 @@ BuyingRequest.init(
 	}
 );
 
-BuyingRequest.belongsToMany(Category, { through: "br_category" });
-
 BuyingRequest.belongsToMany(Project, {
 	through: "br_project",
 	onDelete: "CASCADE"
@@ -171,7 +173,6 @@ Project.belongsToMany(BuyingRequest, {
 });
 
 BuyingRequest.belongsTo(Company, { foreignKey: "companyId" });
-BuyingRequest.belongsTo(Industry, { foreignKey: "industryId" });
 BuyingRequest.belongsTo(User, { foreignKey: "createdById", as: "createdBy" });
 BuyingRequest.hasMany(BRDiscussionQuestion, {
 	foreignKey: "brId",

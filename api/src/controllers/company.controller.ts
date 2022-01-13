@@ -4,82 +4,6 @@
  * Good codes make the world a better place!
  */
 
-//  static async getCompanies({
-// 	limit,
-// 	offset,
-// 	establishmentDate,
-// 	...input
-// }: IFetchCompanyInput) {
-// 	try {
-// 		const {
-// 			count: dataCount,
-// 			rows: companies
-// 		} = await Company.findAndCountAll({
-// 			limit,
-// 			offset,
-// 			where: {
-// 				approved: 1,
-// 				...(establishmentDate
-// 					? {
-// 							establishmentDate: {
-// 								[Op.gte]: establishmentDate
-// 							}
-// 						}
-// 					: {}),
-// 				...input
-// 			},
-// 			nest: true,
-// 			raw: true,
-// 			attributes: [
-// 				"id",
-// 				"name",
-// 				"slug",
-// 				CompanyFunction.sequelizeFnGetCoverImage() as any,
-// 				CompanyFunction.sequelizeFnGetBranchAmount() as any,
-// 				CompanyFunction.sequelizeFnGetMainProducts() as any,
-// 				"location",
-// 				"industryId",
-// 				"businessTypeIds",
-// 				"establishmentDate",
-// 				"createdAt",
-// 				"updatedAt"
-// 			],
-// 			include: [
-// 				{
-// 					model: CompanySubscription,
-// 					as: "subscription",
-// 					attributes: ["startAt", "monthAmount"],
-// 					include: [
-// 						{
-// 							model: Subscription,
-// 							as: "subscriptionDetail"
-// 						}
-// 					]
-// 				},
-// 				{
-// 					model: User,
-// 					as: "approver"
-// 				}
-// 			]
-// 		});
-
-// 		const hasMore =
-// 			offset + companies.length < dataCount &&
-// 			companies.length === limit;
-
-// 		return {
-// 			companies,
-// 			pagination: {
-// 				dataCount,
-// 				hasMore
-// 			}
-// 		};
-// 	} catch (e) {
-// 		console.error(e);
-// 		return errorResponse();
-// 	}
-// }
-
 import {
 	generateSlug,
 	errorResponse,
@@ -170,8 +94,9 @@ class CompanyController {
 				{ approved: 1, approverId },
 				{ where: { id } }
 			);
-
 			const data = await Company.findByPk(id);
+			if (!data) return;
+
 			Company.updateEsCompany(id, data.toJSON());
 
 			// Setting company subscription

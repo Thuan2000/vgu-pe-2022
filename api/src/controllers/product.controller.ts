@@ -46,7 +46,7 @@ class ProductController {
 			company
 		});
 
-		Product.insertToIndex(esProduct);
+		const r = await Product.insertToIndex(esProduct);
 		TagRepository.createTags(newTags);
 		(newProduct as any).setTags(tags);
 
@@ -112,7 +112,7 @@ class ProductController {
 
 	static async deleteProducts(ids: number[]) {
 		try {
-			Product.deleteEsProduct(ids);
+			const r = await Product.deleteEsProduct(ids);
 			await Product.destroy({ where: { id: ids } });
 
 			return successResponse();

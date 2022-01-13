@@ -1,7 +1,10 @@
 "use strict";
+
+const tableName = "monthly_incomes";
+
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable("monthly_incomes", {
+		await queryInterface.createTable(tableName, {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -26,6 +29,6 @@ module.exports = {
 		});
 	},
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.dropTable("monthly_incomes");
+		await queryInterface.dropTable(tableName);
 	}
 };

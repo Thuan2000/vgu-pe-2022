@@ -1,6 +1,9 @@
 "use strict";
 
+const tableName = "users";
+
 module.exports = {
+	tableName,
 	up: async (queryInterface, Sequelize) => {
 		/**
 		 * Add altering commands here.
@@ -8,7 +11,7 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
 		 */
-		await queryInterface.createTable("users", {
+		await queryInterface.createTable(tableName, {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -29,9 +32,6 @@ module.exports = {
 			password: {
 				type: Sequelize.STRING,
 				allowNull: false
-			},
-			companyId: {
-				type: Sequelize.STRING
 			},
 			phoneNumber: {
 				type: Sequelize.STRING
@@ -59,6 +59,6 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.dropTable('users');
 		 */
-		queryInterface.dropTable("users");
+		queryInterface.dropTable(tableName);
 	}
 };

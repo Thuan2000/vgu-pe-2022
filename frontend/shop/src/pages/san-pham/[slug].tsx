@@ -19,6 +19,8 @@ import { generateHeadTitle } from "@utils/seo-utils";
 import SDDiscussion from "@components/service-detail/sd-discussion/sdd";
 import SDDAskQuestion from "@components/service-detail/sd-discussion/sdd-ask";
 import { ProductDocument } from "@graphql/product.graphql";
+import PDDiscussion from "@components/product-detail/pd-discussion";
+import PDDAskQuestion from "@components/product-detail/pd-discussion/pdd-ask";
 
 interface IServiceDetailProps {
   product: IProduct;
@@ -95,10 +97,10 @@ const ProductDetail: React.FC<IServiceDetailProps> = ({ product }) => {
           <div className="space-y-3 mt-4">
             <RecordDetail record={product} />
             <RecordCompanySummary company={company} />
-            <SDDiscussion serviceId={product.id} reload={reload} />
-            <SDDAskQuestion
+            <PDDiscussion productId={product.id} reload={reload} />
+            <PDDAskQuestion
               refetchDiscussions={refetchDiscussions}
-              serviceId={product.id}
+              productId={product.id}
             />
           </div>
         </div>

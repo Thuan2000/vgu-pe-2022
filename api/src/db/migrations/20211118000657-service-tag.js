@@ -20,7 +20,7 @@ module.exports = {
 			serviceId: {
 				type: Sequelize.INTEGER,
 				references: {
-					model: "services",
+					model: require("./20211117235522-create-service").tableName,
 					key: "id"
 				},
 				onDelete: "CASCADE",
