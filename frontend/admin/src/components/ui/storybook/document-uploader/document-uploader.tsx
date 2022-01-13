@@ -16,6 +16,7 @@ import Image from "next/image";
 import Loader from "../loader/loader";
 import { useModal } from "src/contexts/modal.context";
 import ImageCropper, { CroppedImage } from "./image-cropper";
+import { create } from "yup/lib/number";
 
 export interface IFileWithTypename extends IFile {
   __typename?: string;
@@ -68,7 +69,6 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
 
   const { t } = useTranslation("form");
   const [loadingThumbs, setLoadingThumbs] = useState<string[]>([]);
-
   const [needToEditedFiles, setNeedToEditedFiles] = useState<File[]>([]);
 
   const { openModal, closeModal } = useModal();
@@ -85,7 +85,6 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
 
   useEffect(() => {
     if (!needToEditedFiles.length) return;
-
     openModal(
       (
         <ImageCropper
@@ -95,54 +94,58 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
       ) as any,
       {
         onClose: () => setNeedToEditedFiles([]),
-        // closeOnClickOutside: false,
+        closeOnClickOutside: false,
       }
     );
   }, [needToEditedFiles]);
 
   function handleFinishCropping(croppedImgs: CroppedImage[]) {
+    console.log(croppedImgs);
     setNeedToEditedFiles([]);
     closeModal();
     const croppedFiles = croppedImgs.map(({ croppedUrl }) => {
       const file: IFile = {
         url: croppedUrl,
         fileName: generateUUID(),
-        fileType: "image/jpeg",
+        fileType: "image/png",
         location: generateUUID(),
       };
-
       return file;
     });
+    
     if (onChange) onChange([...files, ...croppedFiles]);
   }
 
   async function handleOnDrop(acceptedFiles: File[]) {
-    setNeedToEditedFiles(acceptedFiles);
-    return;
-    // if (!!maxFiles && files?.length + acceptedFiles?.length > maxFiles) {
-    //   fireErrorModal("too-many-files");
-    //   return;
-    // }
+    if (!!maxFiles && files?.length + acceptedFiles?.length > maxFiles) {
+      fireErrorModal("too-many-files");
+      return;
+    }
+    if (inputFileType === "image") {
+      setNeedToEditedFiles(acceptedFiles);
+      return;
+    }
+    else {
+      setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
+      const { data } = await uploadFiles({
+        variables: {
+          input: {
+            companyName: getCompanyName() as string,
+            files: acceptedFiles,
+            uploadsFileInputType: inputFileType as any,
+            fileAccessControl: accessControl as any,
+          },
+        },
+      });
+      const uploadedFiles = data?.uploadFiles;
+      const accFiles = uploadedFiles?.map(
+        ({ __typename, ...file }: IFileWithTypename) => file
+      );
+      if (!onChange) return;
 
-    // setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
-    // const { data } = await uploadFiles({
-    //   variables: {
-    //     input: {
-    //       companyName: getCompanyName() as string,
-    //       files: acceptedFiles,
-    //       uploadsFileInputType: inputFileType as any,
-    //       fileAccessControl: accessControl as any,
-    //     },
-    //   },
-    // });
-    // const uploadedFiles = data?.uploadFiles;
-    // const accFiles = uploadedFiles?.map(
-    //   ({ __typename, ...file }: IFileWithTypename) => file
-    // );
-    // if (!onChange) return;
-
-    // if (!!files?.length && multiple) onChange([...files, ...accFiles!]);
-    // else onChange(accFiles!);
+      if (!!files?.length && multiple) onChange([...files, ...accFiles!]);
+      else onChange(accFiles!);
+    }
   }
 
   function handleDelete(index: number) {
