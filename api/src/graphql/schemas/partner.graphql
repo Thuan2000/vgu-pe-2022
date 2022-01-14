@@ -3,6 +3,7 @@ type Partner {
 	title: String!
 	description: String
 	logoUrl: String!
+	websiteUrl: String!
 }
 
 input PartnerInput {
@@ -10,6 +11,7 @@ input PartnerInput {
 	title: String!
 	description: String
 	logoUrl: String!
+	websiteUrl: String!
 }
 
 extend type Mutation {

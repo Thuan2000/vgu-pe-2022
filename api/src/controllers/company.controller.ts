@@ -87,7 +87,11 @@ class CompanyController {
 		return companies;
 	}
 
-	static async approveCompany(id: number, approverId: number) {
+	static async approveCompany(
+		id: number,
+		approverId: number,
+		expDate: number
+	) {
 		try {
 			// const company = Company.findByPk(id);
 			const resp = await Company.update(
@@ -103,8 +107,8 @@ class CompanyController {
 			await CompanySubscription.create({
 				companyId: id,
 				subscriptionId: DEFAULT_SUBSCRIPTION_ID,
-				monthAmount: 3,
-				startAt: new Date().getTime()
+				startAt: new Date().getTime(),
+				endAt: expDate
 			});
 
 			return successResponse();
