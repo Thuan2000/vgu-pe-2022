@@ -14,5 +14,6 @@ export const EMAIL_TITLES = {
 };
 
 export enum EEMailTemplates {
-	REGISTRATION = "register.html"
+	REGISTRATION = "register.html",
+	VERIFICATION = "verified.html"
 }

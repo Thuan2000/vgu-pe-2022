@@ -9,7 +9,10 @@ import {
 	errorResponse,
 	successResponse,
 	successResponseWithPayload,
-	DEFAULT_SUBSCRIPTION_ID
+	DEFAULT_SUBSCRIPTION_ID,
+	EEMailTemplates,
+	EMAIL_MESSAGES,
+	EMAIL_SUBJECTS
 } from "@utils";
 import Company from "@models/Company";
 import S3 from "@services/s3.service";
@@ -31,7 +34,6 @@ type IRegisterResp = {
 
 class CompanyController {
 	s3 = new S3();
-	email = new EmailService();
 
 	static async getCompanies({ offset, limit, searchValue, ...input }) {
 		console.log(searchValue);
@@ -95,10 +97,14 @@ class CompanyController {
 		try {
 			// const company = Company.findByPk(id);
 			const resp = await Company.update(
-				{ approved: 1, approverId },
+				{ approved: 0, approverId },
 				{ where: { id } }
 			);
-			const data = await Company.findByPk(id);
+
+			const data = await Company.findByPk(id, {
+				include: [{ model: User, as: "owner" }]
+			});
+
 			if (!data) return;
 
 			Company.updateEsCompany(id, data.toJSON());
@@ -109,6 +115,14 @@ class CompanyController {
 				subscriptionId: DEFAULT_SUBSCRIPTION_ID,
 				startAt: new Date().getTime(),
 				endAt: expDate
+			});
+
+			const email = new EmailService();
+			email.sendEmail((data.toJSON() as any).owner.email, {
+				message: EMAIL_MESSAGES.REGISTERED,
+				subject: EMAIL_SUBJECTS.REGISTERED,
+				name: (data.toJSON() as any).owner.name,
+				template: EEMailTemplates.VERIFICATION
 			});
 
 			return successResponse();
