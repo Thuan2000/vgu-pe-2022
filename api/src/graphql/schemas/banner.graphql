@@ -6,7 +6,6 @@ type Banner {
 }
 
 input BannerInput {
-	id: Int!
 	title: String
 	description: String
 	imgUrl: String!
