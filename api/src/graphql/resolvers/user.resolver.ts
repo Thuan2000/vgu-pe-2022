@@ -5,9 +5,11 @@
 
 import UserController from "@controllers/user.controller";
 
-const userController = new UserController();
+export const Mutation = {
+	checkEmail: (_, { email }) => UserController.checkEmail(email)
+};
 
 export const Query = {
-	user: (_, { id }) => userController.getUser(id),
-	users: () => userController.getUsers()
+	user: (_, { id }) => UserController.getUser(id),
+	users: () => UserController.getUsers()
 };

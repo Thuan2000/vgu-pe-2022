@@ -22,3 +22,11 @@ type User {
 	company: UserCompany!
 	phoneNumber: String!
 }
+
+type CheckEmailResponse {
+	isExist: Boolean!
+}
+
+extend type Mutation {
+	checkEmail(email: String!): CheckEmailResponse!
+}
