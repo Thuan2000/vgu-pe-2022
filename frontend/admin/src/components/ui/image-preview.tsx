@@ -9,6 +9,9 @@ import { COLORS } from "@utils/colors";
 import ArrowPrevIcon from "@assets/icons/arrow-prev-icon";
 import { findIndex } from "lodash";
 
+const ACTIVE_IMAGE_SIZE = 550;
+const THUMB_IMAGE_SIZE = 80;
+
 interface IImagePreviewProps {
   defaultActiveUrl: string;
   images: IFile[];
@@ -47,7 +50,11 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
       />
       <div className={`relative`} onClick={(e) => e.preventDefault()}>
         <div
-          className={`relative bg-black bg-opacity-70 h-[600px] w-[1000px] aspect-square -translate-y-24`}
+          className={`relative bg-black bg-opacity-70 aspect-square -translate-y-24`}
+          style={{
+            width: ACTIVE_IMAGE_SIZE,
+            height: ACTIVE_IMAGE_SIZE,
+          }}
         >
           <Image
             src={activeImageUrl}
@@ -58,7 +65,7 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
         </div>
         <div
           onClick={(e) => e.preventDefault()}
-          className={`flex absolute top-[100] translate-y-10 left-0 right-0 justify-center`}
+          className={`flex absolute top-[100] translate-y-2 left-0 right-0 justify-center`}
         >
           {images.map((img, idx) => {
             const isActive = idx === activeImageIdx;
@@ -66,7 +73,11 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
               <div
                 key={img.fileName + img.url}
                 onClick={() => setActiveImageUrl(img.url)}
-                className={`animation-hover-scale mr-5 rounded-sm overflow-hidden relative bg-black bg-opacity-70 h-[80px] w-[80px] -translate-y-10 
+                style={{
+                  width: THUMB_IMAGE_SIZE,
+                  height: THUMB_IMAGE_SIZE,
+                }}
+                className={`animation-hover-scale mr-5 rounded-sm overflow-hidden relative bg-black bg-opacity-70 -translate-y-10
                   ${isActive && activeThumbClass}
                 `}
               >

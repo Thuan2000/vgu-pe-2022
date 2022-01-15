@@ -1,5 +1,6 @@
 import DetailImages from "@components/detail-image-section";
 import PageLayout from "@components/layouts/page-layout";
+import ImagesSection from "@components/post-tender-form/check-section/images-section";
 import EditDeleteService from "@components/service-detail/edit-delete-service";
 import SDDescription from "@components/service-detail/sd-desc";
 import SDDetail from "@components/service-detail/sd-detail";
@@ -99,7 +100,12 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
               <div className="fic">
                 <EditDeleteService service={service} />
               </div>
-              <DetailImages coverImage={coverImage!} images={images || []} />
+              <ImagesSection
+                imgWidth={350}
+                imgHeight={350}
+                getImageSrc={(img) => img.url}
+                images={images || []}
+              />
             </div>
           </div>
           <div className="space-y-3 mt-4">
