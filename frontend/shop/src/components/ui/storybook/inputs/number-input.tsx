@@ -8,6 +8,10 @@ import cn from "classnames";
 
 import { inputClasses } from "./input-config";
 import InputLabel from "./input-label";
+import { PlusIcon } from "@assets/icons/plus-icon";
+import { MinusIcon } from "@assets/icons/minus-icon";
+import { COLORS } from "@utils/colors";
+import Button from "../button";
 
 interface INumInputProps extends Partial<NumberFormatProps> {
   label?: string;
@@ -17,6 +21,8 @@ interface INumInputProps extends Partial<NumberFormatProps> {
   variant?: "normal" | "solid" | "outline";
   shadow?: boolean;
   error?: string;
+  withIncrementor?: boolean;
+  withDecrementor?: boolean;
   onChange?: (e: any) => void;
 }
 
@@ -46,9 +52,12 @@ const NumberInput: React.FC<INumberInputProps> = ({
     />
   );
 };
+
 export const NumInput: React.FC<INumInputProps> = React.forwardRef(
   (
     {
+      withIncrementor,
+      withDecrementor,
       label,
       queueBackground,
       numberQueue,
@@ -94,6 +103,19 @@ export const NumInput: React.FC<INumInputProps> = React.forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value, max, min]);
 
+    function increment() {
+      if (!onChange) return;
+
+      if (!value) onChange(min || 1);
+      else onChange((value as number) + 1);
+    }
+
+    function decrement() {
+      if (!onChange) return;
+
+      if (!value) onChange(max || 0);
+      else onChange((value as number) - 1);
+    }
     return (
       <>
         {label && (
@@ -105,15 +127,39 @@ export const NumInput: React.FC<INumInputProps> = React.forwardRef(
             name={name}
           />
         )}
-        <NumberFormat
-          className={rootClassName}
-          thousandSeparator={thousandSeparator}
-          decimalSeparator={decimalSeparator}
-          onValueChange={(e) => handleChange(e)}
-          value={value}
-          getInputRef={ref}
-          {...props}
-        />
+        <div className="fic">
+          {withDecrementor && (
+            <Button
+              onClick={decrement}
+              variant="custom"
+              className={`border rounded-l-sm ${rootClassName} !w-fit-content !rounded-r-none`}
+            >
+              <MinusIcon fill={COLORS.GRAY[300]} className={`w-4 h-4`} />
+            </Button>
+          )}
+          <NumberFormat
+            className={`${rootClassName} 
+              ${withIncrementor && "border-r-0 rounded-r-none"}
+              ${withDecrementor && "border-l-0 rounded-l-none"}
+            `}
+            thousandSeparator={thousandSeparator}
+            decimalSeparator={decimalSeparator}
+            onValueChange={(e) => handleChange(e)}
+            value={value}
+            getInputRef={ref}
+            {...props}
+          />
+
+          {withIncrementor && (
+            <Button
+              onClick={increment}
+              variant="custom"
+              className={`border rounded-r-sm ${rootClassName} !w-fit-content !rounded-l-none`}
+            >
+              <PlusIcon fill={COLORS.GRAY[300]} className={`w-4 h-4`} />
+            </Button>
+          )}
+        </div>
         {error && (
           <p className="my-2 text-xs text-start text-red-500">{error}</p>
         )}

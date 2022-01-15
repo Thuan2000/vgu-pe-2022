@@ -119,8 +119,8 @@ class CompanyController {
 
 			const email = new EmailService();
 			email.sendEmail((data.toJSON() as any).owner.email, {
-				message: EMAIL_MESSAGES.REGISTERED,
-				subject: EMAIL_SUBJECTS.REGISTERED,
+				message: EMAIL_MESSAGES.VERIFIED,
+				subject: EMAIL_SUBJECTS.VERIFIED,
 				name: (data.toJSON() as any).owner.name,
 				template: EEMailTemplates.VERIFICATION
 			});

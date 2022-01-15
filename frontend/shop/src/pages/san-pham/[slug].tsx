@@ -5,7 +5,7 @@ import RecordDescription from "@components/record-detail/record-desc";
 import RecordName from "@components/record-detail/record-name";
 import RecordPrice from "@components/record-detail/record-price";
 import Typography from "@components/ui/storybook/typography";
-import { IProduct } from "@graphql/types.graphql";
+import { IProduct, IVariation } from "@graphql/types.graphql";
 import { initApollo } from "@utils/apollo";
 import { viDateFormat } from "@utils/functions";
 import { GetServerSideProps } from "next";
@@ -21,6 +21,7 @@ import SDDAskQuestion from "@components/service-detail/sd-discussion/sdd-ask";
 import { ProductDocument } from "@graphql/product.graphql";
 import PDDiscussion from "@components/product-detail/pd-discussion";
 import PDDAskQuestion from "@components/product-detail/pd-discussion/pdd-ask";
+import ProductVariationPrice from "@components/record-detail/product-variation-price";
 
 interface IServiceDetailProps {
   product: IProduct;
@@ -42,6 +43,7 @@ const ProductDetail: React.FC<IServiceDetailProps> = ({ product }) => {
     industryId,
     categoryId,
     createdAt,
+    variations,
   } = product;
 
   const [reload, setReload] = useState(false);
@@ -85,6 +87,7 @@ const ProductDetail: React.FC<IServiceDetailProps> = ({ product }) => {
                 maxPrice={maxPrice}
                 price={price}
               />
+              <ProductVariationPrice variations={variations!} />
               <RecordDescription
                 location={warehouseLocation}
                 industryId={industryId}
