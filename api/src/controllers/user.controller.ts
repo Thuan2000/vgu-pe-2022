@@ -14,11 +14,11 @@ class UserController {
 	emailer = new EmailService();
 	authRepo = new AuthRepository();
 
-	async getUsers() {
+	static async getUsers() {
 		return await User.findAll();
 	}
 
-	async getUser(id: number) {
+	static async getUser(id: number) {
 		return await User.findByPk(id);
 	}
 
@@ -51,6 +51,12 @@ class UserController {
 			console.log(error);
 			return errorResponse();
 		}
+	}
+
+	static async checkEmail(email: string) {
+		const user = await User.findOne({ where: { email } });
+
+		return { isExist: !!user };
 	}
 }
 

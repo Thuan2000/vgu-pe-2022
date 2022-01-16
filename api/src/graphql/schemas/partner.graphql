@@ -1,0 +1,25 @@
+type Partner {
+	id: Int!
+	title: String!
+	description: String
+	logoUrl: String!
+	websiteUrl: String!
+}
+
+input PartnerInput {
+	title: String!
+	description: String
+	logoUrl: String!
+	websiteUrl: String!
+}
+
+extend type Mutation {
+	createPartner(input: [PartnerInput!]): Response!
+	deletePartner(id: Int!): Response!
+	updatePartner(id: Int!, input: PartnerInput!): Response!
+}
+
+extend type Query {
+	partners: [Partner!]
+	partner(id: Int!): Partner!
+}

@@ -14,10 +14,12 @@ const languageFlag = {
 
 interface ILanguageSelectorProps extends React.HTMLAttributes<HTMLDivElement> {
   showText?: boolean;
+  textColor?: string;
 }
 
 const LanguageSelector: React.FC<ILanguageSelectorProps> = ({
   showText = true,
+  textColor,
   ...props
 }) => {
   const { t } = useTranslation("common");
@@ -44,7 +46,9 @@ const LanguageSelector: React.FC<ILanguageSelectorProps> = ({
     <div ref={outsideClickRef} {...props}>
       <div className="flex items-center">
         {showText && (
-          <span className="text-sm text-gray-200 mr-3">{t("language")}</span>
+          <span className={`text-sm text-${textColor || "gray-200"} mr-3`}>
+            {t("language")}
+          </span>
         )}
         <button
           onClick={() => setShowMenu((old) => !old)}

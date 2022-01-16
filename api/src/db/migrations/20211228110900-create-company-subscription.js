@@ -29,10 +29,10 @@ module.exports = {
 				},
 				onDelete: "CASCADE"
 			},
-			monthAmount: {
-				type: Sequelize.INTEGER
-			},
 			startAt: {
+				type: Sequelize.BIGINT
+			},
+			endAt: {
 				type: Sequelize.BIGINT
 			},
 			totalPrice: {

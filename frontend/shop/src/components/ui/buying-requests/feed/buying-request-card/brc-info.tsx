@@ -81,10 +81,11 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
             textColor="black"
           />
         </div>
+
         {/* Company */}
         <div className="flex items-center space-x-3">
           <div className={`flex items-center space-x-2`}>
-            <Typography variant="smallTitle" text={company?.name} />
+            <Typography variant="smallTitle" text={company?.name!} />
             <VerifiedIcon />
           </div>
 

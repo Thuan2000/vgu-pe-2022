@@ -1,6 +1,7 @@
 type Product {
 	id: Int!
 	name: String!
+	slug: String!
 	company: Company!
 	industryId: Int!
 	categoryId: Int!
