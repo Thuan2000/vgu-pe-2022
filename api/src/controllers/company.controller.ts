@@ -25,6 +25,7 @@ import {
 } from "@graphql/types";
 import CompanyRepository from "@repositories/company.repository";
 import CompanySubscription from "../models/CompanySubscription";
+import ChatService from "@services/chat.service";
 
 type IRegisterResp = {
 	success: boolean;
@@ -97,7 +98,7 @@ class CompanyController {
 		try {
 			// const company = Company.findByPk(id);
 			const resp = await Company.update(
-				{ approved: 0, approverId },
+				{ approved: 1, approverId },
 				{ where: { id } }
 			);
 
@@ -105,9 +106,10 @@ class CompanyController {
 				include: [{ model: User, as: "owner" }]
 			});
 
-			if (!data) return;
+			if (!data) return errorResponse("");
+			const company = data.toJSON();
 
-			Company.updateEsCompany(id, data.toJSON());
+			Company.updateEsCompany(id, company);
 
 			// Setting company subscription
 			await CompanySubscription.create({
@@ -117,11 +119,22 @@ class CompanyController {
 				endAt: expDate
 			});
 
+			const owner = (company as any).owner;
+
+			ChatService.createAccount({
+				firstName: owner.firstName,
+				lastName: owner.lastName,
+				userName: owner.userName,
+				email: owner.email,
+				phoneNumber: owner.phoneNumber,
+				password: owner.password
+			});
+
 			const email = new EmailService();
-			email.sendEmail((data.toJSON() as any).owner.email, {
+			email.sendEmail((company as any).owner.email, {
 				message: EMAIL_MESSAGES.VERIFIED,
 				subject: EMAIL_SUBJECTS.VERIFIED,
-				name: (data.toJSON() as any).owner.name,
+				name: (company as any).owner.name,
 				template: EEMailTemplates.VERIFICATION
 			});
 
@@ -139,11 +152,11 @@ class CompanyController {
 				where: { id }
 			});
 
-			const data = await Company.findByPk(id);
+			const company = (await Company.findByPk(id)).toJSON();
 
-			Company.updateEsCompany(id, data.toJSON());
+			Company.updateEsCompany(id, company);
 
-			return successResponseWithPayload(data);
+			return successResponseWithPayload(company);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();
@@ -181,6 +194,7 @@ class CompanyController {
 		ownerId,
 		licenseFiles,
 		licenseNumber,
+		isSubscribeEmail,
 		companyName
 	}): Promise<IRegisterResp> {
 		try {
@@ -207,6 +221,7 @@ class CompanyController {
 				ownerId,
 				licenseNumber,
 				licenseFiles,
+				isSubscribeEmail,
 				name: companyName
 			});
 

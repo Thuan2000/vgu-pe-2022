@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import utf8 from "utf8";
+import base64 from "base-64";
 import { SLUG_UNIQUE_SEPARATOR } from ".";
 
 export function generateDate(): string {
@@ -54,7 +56,6 @@ export function getUserFromToken(token) {
 	return user;
 }
 
-// @TODO: Check this since it's from stackoverflow
 export function generateUUID() {
 	let d = new Date().getTime(); //Timestamp
 	let d2 =
@@ -89,4 +90,25 @@ export function isEmptyObject(obj) {
 	if (!Object.keys(obj).length) return true;
 
 	return undefinedPropertiesObj(obj);
+}
+
+export function encodeString(text: string) {
+	const utfEncoded = utf8.encode(text);
+	const b64Encoded = base64.encode(utfEncoded);
+
+	return b64Encoded;
+}
+
+export function decodeString(text: string) {
+	const utfDecoded = utf8.decode(text);
+	const b64Decoded = base64.decode(utfDecoded);
+
+	return b64Decoded;
+}
+
+export function generateUsername(email: string) {
+	const splitted = email.split("@");
+	const userName = `${splitted?.[0]}`;
+
+	return userName;
 }

@@ -12,31 +12,15 @@ export default class User extends Model {}
 User.init(
 	{
 		// Model attributes are defined here
-		firstName: {
-			type: DataTypes.STRING,
-			allowNull: false
-		},
-		lastName: {
-			type: DataTypes.STRING
-		},
-		companyId: {
-			type: DataTypes.INTEGER
-		},
-		email: {
-			type: DataTypes.STRING,
-			allowNull: false
-		},
-		password: {
-			type: DataTypes.STRING,
-			allowNull: false
-		},
-		phoneNumber: {
-			type: DataTypes.STRING
-		},
-		// @foreign key of roles name
-		role: {
-			type: DataTypes.STRING
-		}
+		firstName: DataTypes.STRING,
+		lastName: DataTypes.STRING,
+		userName: DataTypes.STRING,
+		chatId: DataTypes.STRING,
+		companyId: DataTypes.INTEGER,
+		email: DataTypes.STRING,
+		password: DataTypes.STRING,
+		phoneNumber: DataTypes.STRING,
+		role: DataTypes.STRING
 	},
 	{
 		tableName: "users",

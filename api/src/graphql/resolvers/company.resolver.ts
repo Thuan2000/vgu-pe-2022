@@ -37,7 +37,15 @@ export const Mutation = {
 	 */
 	companySignup: async (
 		_,
-		{ input: { licenseFiles, licenseNumber, companyName, ...owner } }
+		{
+			input: {
+				licenseFiles,
+				licenseNumber,
+				companyName,
+				isSubscribeEmail,
+				...owner
+			}
+		}
 	) => {
 		// @NOTES URGENT : This is wrong flow need to refactor
 		const email = new EmailService();
@@ -67,6 +75,7 @@ export const Mutation = {
 			ownerId,
 			licenseFiles,
 			licenseNumber,
+			isSubscribeEmail,
 			companyName
 		});
 

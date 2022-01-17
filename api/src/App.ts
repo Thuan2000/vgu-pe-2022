@@ -12,6 +12,7 @@ import { mergeTypeDefs, mergeResolvers } from "@graphql-tools/merge";
 import Database from "@services/database.service";
 import { getUserFromToken } from "@utils/functions";
 import AWSService from "@services/aws.services";
+import ChatService from "@services/chat.service";
 
 class App {
 	private apolloServer;
@@ -20,7 +21,12 @@ class App {
 	constructor() {
 		this.initAWS();
 		this.initDB();
+		this.initChat();
 		// this.initializeMiddlewares();
+	}
+
+	private initChat() {
+		ChatService.connect();
 	}
 
 	private initDB() {
