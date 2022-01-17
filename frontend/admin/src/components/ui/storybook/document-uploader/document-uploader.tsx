@@ -94,13 +94,12 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
       ) as any,
       {
         onClose: () => setNeedToEditedFiles([]),
-        closeOnClickOutside: false,
+        closeOnClickOutside: true,
       }
     );
   }, [needToEditedFiles]);
 
   function handleFinishCropping(croppedImgs: CroppedImage[]) {
-    console.log(croppedImgs);
     setNeedToEditedFiles([]);
     closeModal();
     const croppedFiles = croppedImgs.map(({ croppedUrl }) => {
@@ -110,7 +109,9 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
         fileType: "image/png",
         location: generateUUID(),
       };
+      console.log(file.url);
       return file;
+      
     });
     
     if (onChange) onChange([...files, ...croppedFiles]);
