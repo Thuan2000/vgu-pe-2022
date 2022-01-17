@@ -9,6 +9,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import HomepageContent from "@components/homepage/homepage-content";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import useIsPhone from "src/hooks/isPhone.hook";
+import ChatwootWidget from "@components/chatwoot-widget";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -37,6 +38,7 @@ const Homepage = () => {
       </Head>
       <main>
         <HomepageContent />
+        <ChatwootWidget />
       </main>
     </>
   );
