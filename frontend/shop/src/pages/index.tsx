@@ -38,7 +38,6 @@ const Homepage = () => {
       </Head>
       <main>
         <HomepageContent />
-        <ChatwootWidget />
       </main>
     </>
   );
