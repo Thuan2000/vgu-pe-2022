@@ -18,6 +18,7 @@ import { ROUTES } from "@utils/routes";
 import { isLogin, setRedirectLinkAfterLogin } from "@utils/auth-utils";
 import { getLoggedInUser } from "@utils/functions";
 import { GetServerSideProps } from "next";
+import ChatwootWidget from "@components/chatwoot-widget";
 
 const NoLayout: React.FC<any> = ({ children }) => <>{children}</>;
 
@@ -46,6 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Layout>
         <ToastContainer autoClose={2000} theme="colored" />
+        <ChatwootWidget />
       </ModalProvider>
     </ApolloProvider>
   );
