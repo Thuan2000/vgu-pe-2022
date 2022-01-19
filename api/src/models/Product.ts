@@ -63,9 +63,9 @@ class Product extends Model {
 		}
 	}
 
-	static insertToIndex(data: any) {
+	static async insertToIndex(data: any) {
 		try {
-			OpenSearch.insertBulk(Product.indexName, [data]);
+			return await OpenSearch.insertBulk(Product.indexName, [data]);
 		} catch (e) {
 			console.log(e);
 		}
@@ -96,9 +96,11 @@ class Product extends Model {
 
 	static async deleteEsProduct(ids: number[]) {
 		try {
-			ids.forEach(id => {
-				OpenSearch.deleteDoc(Product.indexName, id);
-			});
+			const data = await Promise.all(
+				ids.map(id => OpenSearch.deleteDoc(Product.indexName, id))
+			);
+
+			return data;
 		} catch (e) {
 			console.log(e);
 			return errorResponse();
@@ -107,7 +109,7 @@ class Product extends Model {
 
 	static async updateEsProduct(id: number, newData) {
 		try {
-			OpenSearch.updateDoc(Product.indexName, id, newData);
+			return await OpenSearch.updateDoc(Product.indexName, id, newData);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();

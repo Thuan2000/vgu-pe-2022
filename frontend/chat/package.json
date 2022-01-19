@@ -1,0 +1,96 @@
+{
+  "name": "tinode-webapp",
+  "description": "Tinode messenger for the web",
+  "version": "0.17.10",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinode/example-react-js.git"
+  },
+  "scripts": {
+    "build": "npm run vers && npm run build:css && npm run extract && npm run build:i18n && npm run build:prod && npm run build:dev",
+    "build:css": "postcss src/styles/base.css > css/base.min.css",
+    "build:dev": "webpack --mode development",
+    "build:prod": "webpack --mode production",
+    "build:i18n": "node scripts/pack-messages.js",
+    "vers": "node scripts/gen-version.js",
+    "extract": "formatjs extract src/**/*.jsx --out-file src/i18n/ex/base-en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
+    "compile": "formatjs compile",
+    "nodemon-css": "nodemon --watch src -e css --exec npm run build:css",
+    "nodemon-jsx": "nodemon --watch src -e jsx --exec npm run build:dev",
+    "dev": "nodemon --watch src -e js,jsx,css --exec npm-run-all build:dev build:css"
+  },
+  "browserslist": "> 0.5%, not IE 11, not op_mini all, not and_uc >0",
+  "files": [
+    "umd/index.prod.js",
+    "umd/index.prod.js.map",
+    "umd/index.dev.js",
+    "umd/index.dev.js.map",
+    "umd/tinode.prod.js",
+    "umd/tinode.dev.js",
+    "audio/msg.mp3",
+    "css/base.css",
+    "css/base.min.css",
+    "img/*.png",
+    "img/*.svg",
+    "img/*.jpeg",
+    "index-dev.html",
+    "index.html",
+    "manifest.json",
+    "service-worker.js",
+    "firebase-init.js",
+    "version.js"
+  ],
+  "keywords": [
+    "chat",
+    "instant-messenger",
+    "message",
+    "messenger",
+    "react",
+    "web"
+  ],
+  "locales": [
+    "de",
+    "en",
+    "es",
+    "ko",
+    "ro",
+    "ru",
+    "zh",
+    "zh-TW"
+  ],
+  "main": "umd/index.prod.js",
+  "bugs": {
+    "url": "https://github.com/tinode/example-react-js/issues"
+  },
+  "homepage": "https://github.com/tinode/chat",
+  "email": "info@tinode.co",
+  "author": "Tinode Authors <info@tinode.co>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "firebase": "^8.9.1",
+    "js-cookie": "^3.0.1",
+    "npm-run-all": "^4.1.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-intl": "^5.20.2",
+    "tinode-sdk": "^0.17.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
+    "@formatjs/cli": "^4.2.20",
+    "babel-loader": "^8.2.2",
+    "nodemon": "^2.0.15",
+    "babel-plugin-formatjs": "^10.2.19",
+    "browserslist": "^4.16.5",
+    "copy-webpack-plugin": "^9.0.0",
+    "cssnano": "^5.0.6",
+    "glob": "^7.1.7",
+    "mkdirp": "^1.0.4",
+    "postcss": "^8.3.2",
+    "postcss-cli": "^8.3.1",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
+  }
+}

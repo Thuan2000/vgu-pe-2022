@@ -1,7 +1,10 @@
 "use strict";
+
+const tableName = "tags";
+
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable("tags", {
+		await queryInterface.createTable(tableName, {
 			name: {
 				primaryKey: true,
 				allowNull: false,
@@ -21,6 +24,6 @@ module.exports = {
 		});
 	},
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.dropTable("tags");
+		await queryInterface.dropTable(tableName);
 	}
 };

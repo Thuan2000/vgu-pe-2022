@@ -4,6 +4,7 @@ import { successResponse, errorResponse } from "@utils/responses";
 import { Model, DataTypes } from "sequelize";
 import Company from "./Company";
 import Tag from "./Tag";
+import User from "./User";
 
 class Service extends Model {
 	private static indexName = "services";
@@ -40,7 +41,14 @@ class Service extends Model {
 	static async firstBulkElasticSearch() {
 		try {
 			const services = await Service.findAll({
-				include: [Company, Tag]
+				include: [
+					{
+						model: Company,
+						include: [{ model: User, as: "owner" }],
+						attributes: ["id", "name"]
+					},
+					Tag
+				]
 			});
 
 			const srvcs = services.map(s => s.toJSON());
@@ -55,9 +63,9 @@ class Service extends Model {
 		}
 	}
 
-	static insertToIndex(data: any) {
+	static async insertToIndex(data: any) {
 		try {
-			OpenSearch.insertBulk(Service.indexName, [data]);
+			return await OpenSearch.insertBulk(Service.indexName, [data]);
 		} catch (e) {
 			console.log(e);
 		}
@@ -93,9 +101,11 @@ class Service extends Model {
 
 	static async deleteEsServices(ids: number[]) {
 		try {
-			ids.forEach(id => {
-				OpenSearch.deleteDoc(Service.indexName, id);
-			});
+			const data = await Promise.all(
+				ids.map(id => OpenSearch.deleteDoc(Service.indexName, id))
+			);
+
+			return data;
 		} catch (e) {
 			console.log(e);
 			return errorResponse();
@@ -104,7 +114,7 @@ class Service extends Model {
 
 	static async updateEsService(id: number, newData) {
 		try {
-			OpenSearch.updateDoc(Service.indexName, id, newData);
+			return await OpenSearch.updateDoc(Service.indexName, id, newData);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();

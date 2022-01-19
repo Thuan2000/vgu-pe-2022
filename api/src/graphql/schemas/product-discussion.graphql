@@ -1,0 +1,53 @@
+enum ProductDSort {
+	DATE
+}
+
+type ProductDiscussionAnswer {
+	user: User!
+	companyName: String!
+	answer: String
+}
+
+type ProductDiscussionQuestion {
+	user: User!
+	companyName: String!
+	question: String!
+	answers: [ProductDiscussionAnswer!]
+	createdAt: Date!
+}
+
+input ProductDiscussionsInput {
+	productId: Int!
+	sort: ProductDSort!
+	offset: Int!
+	limit: Int!
+}
+
+input CreateProductDiscussionQuestionInput {
+	productId: Int!
+	userId: Int!
+	companyName: String!
+	question: String!
+}
+
+input CreateProductDiscussionAnswerInput {
+	productDiscussionQuestionId: Int!
+	userId: Int!
+	companyName: String!
+	answer: String!
+}
+
+extend type Query {
+	productDiscussionQuestions(
+		input: ProductDiscussionsInput
+	): [ProductDiscussionQuestion!]!
+}
+
+extend type Mutation {
+	createProductDiscussionQuestion(
+		input: CreateProductDiscussionQuestionInput!
+	): CreateResponse
+	createProductDiscussionAnswer(
+		input: CreateProductDiscussionAnswerInput!
+	): CreateResponse
+}

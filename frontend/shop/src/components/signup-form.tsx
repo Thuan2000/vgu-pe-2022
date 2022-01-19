@@ -16,6 +16,7 @@ import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "@utils/routes";
 import Swal from "sweetalert2";
 import { COLORS } from "@utils/colors";
+import { useCheckEmailMutation } from "@graphql/user.graphql";
 
 type FormValues = {
   firstName: string;
@@ -24,7 +25,7 @@ type FormValues = {
   licenseNumber: string;
   password: string;
   confirmPassword: string;
-  emailSubscription: boolean;
+  isSubscribeEmail: boolean;
   agreement: boolean;
   phoneNumber: string;
   companyName: string;
@@ -59,14 +60,12 @@ const signupSchema: any = yup.object({
 const SignupForm = () => {
   const { t } = useTranslation("form");
   const router = useRouter();
+
+  const [checkEmail, { loading: checking }] = useCheckEmailMutation();
   const [signup, { loading }] = useCompanySignupMutation({
     onCompleted: async ({ companySignup: { success, message } }) => {
       if (!success) fireErrorModal(message);
       else fireSuccessModal();
-
-      // setAuthCredentials(token as string, role as string);
-      // const { data } = await meInfo();
-      // setMeData(data?.meInfo as IMeInfoResponse);
     },
   });
 
@@ -74,7 +73,10 @@ const SignupForm = () => {
     register,
     control,
     handleSubmit,
+    getValues,
     setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: yupResolver(signupSchema),
@@ -121,10 +123,14 @@ const SignupForm = () => {
     companyLicenses,
     confirmPassword,
     agreement,
+    isSubscribeEmail = false,
     ...values
   }: FormValues) {
+    if (await checkEmailExist()) return;
+
     const input = {
       licenseFiles: companyLicenses,
+      isSubscribeEmail,
       ...values,
     };
 
@@ -133,71 +139,83 @@ const SignupForm = () => {
     });
   }
 
+  async function checkEmailExist() {
+    const email = getValues("email");
+    const { data } = await checkEmail({ variables: { email } });
+    const isExist = data?.checkEmail?.isExist;
+
+    if (isExist) setError("email", { message: "email-exist-error" });
+    else clearErrors("email");
+
+    return isExist;
+  }
+
   return (
     <Form className="mt-3" onSubmit={handleSubmit(onSubmit)}>
-      <div className="md:flex md:my-3">
+      <div className="grid grid-cols-2 gap-y-3">
         <Input
-          className="my-3 md:my-0 md:w-96 md:mr-16"
+          className="my-3 md:my-0 md:mr-16"
           {...register("firstName")}
           label={t("firstName-label")}
           placeholder={t("firstName-placeholder")}
           error={t(errors?.firstName?.message || "")}
         />
+
         <Input
-          className="my-3 md:my-0 md:w-96"
+          className="my-3 md:my-0"
           {...register("lastName")}
           label={t("lastName-label")}
           placeholder={t("lastName-placeholder")}
           error={t(errors?.lastName?.message || "")}
         />
-      </div>
-      <div className="md:flex md:my-3">
+
         <PhoneNumberInput
           control={control}
-          className="my-3 md:my-0 md:w-96 md:mr-16"
+          className="my-3 md:my-0 md:mr-16"
           {...register("phoneNumber")}
           label={t("phoneNumber-label")}
           variant="outline"
           placeholder={t("phoneNumber-placeholder")}
           error={t(errors?.phoneNumber?.message || "")}
         />
-        {/* @TODO: OnBlur check if the email is exist */}
+
         <Input
-          className="my-3 md:my-0 md:w-96"
+          className="my-3 md:my-0"
           {...register("email")}
+          onBlur={checkEmailExist}
           label={t("email-label")}
           placeholder={t("email-placeholder")}
           error={t(errors?.email?.message || "")}
         />
-      </div>
-      <div className="md:flex md:my-3">
+
         <Input
-          className="my-3 md:my-0 md:w-96 md:mr-16"
+          className="my-3 md:my-0 md:mr-16"
           {...register("password")}
           label={t("password-label")}
           type="password"
           placeholder={t("password-placeholder")}
           error={t(errors?.password?.message || "")}
         />
+
         <Input
-          className="my-3 md:my-0 md:w-96"
+          className="my-3 md:my-0"
           {...register("confirmPassword")}
           label={t("confirmPassword-label")}
           type="password"
           placeholder={t("confirmPassword-label")}
           error={t(errors?.confirmPassword?.message || "")}
         />
-      </div>
-      <div className="md:flex md:my-3">
+
         <Input
-          className="my-3 md:my-0 md:w-96 md:mr-16"
+          className="my-3 md:my-0 md:mr-16"
           {...register("companyName")}
           label={t("companyName-label")}
           placeholder={t("companyName-placeholder")}
           error={t(errors?.companyName?.message || "")}
         />
+
         <Input
-          className="my-3 md:my-0 md:w-96"
+          className="my-3 md:my-0"
           {...register("licenseNumber")}
           label={t("licenseNumber-label")}
           placeholder={t("licenseNumber-placeholder")}
@@ -219,7 +237,7 @@ const SignupForm = () => {
       </div>
       <div className="my-3 md:items-center">
         <Checkbox
-          {...register("emailSubscription")}
+          {...register("isSubscribeEmail")}
           label={t("want-to-receive-email")}
           className="mt-5 mb-2 text-dark-blue text-sm"
         />

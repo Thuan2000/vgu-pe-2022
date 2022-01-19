@@ -1,3 +1,5 @@
+import { IVariation, IVariationOption } from "@graphql/types.graphql";
+import { findIndex, groupBy, isEqual } from "lodash";
 import { TFunction } from "next-i18next";
 import { getMeData } from "./auth-utils";
 import {
@@ -230,9 +232,37 @@ export function getCompanyExperience(date: string) {
   };
 }
 
-
 export function getYear(stringDate: string) {
   if (!stringDate) return "";
   const year = new Date(stringDate).getFullYear();
   return year;
+}
+
+export function getProductVariationGroup(variations?: IVariation[]) {
+  if (!variations?.length) return;
+
+  const groups: IVariationOption[] = [];
+
+  // Get options
+  variations.forEach((v) => {
+    const opts: IVariationOption[] = v?.options || [];
+    opts.forEach((o) => {
+      const idx = findIndex(groups, (opt) => opt.value === o.value);
+      if (idx === -1) groups.push(o);
+    });
+  });
+
+  return groupBy(groups, "name");
+}
+
+export function getSelectedVariation(
+  variations: IVariation[],
+  selectedOption: { [name: string]: string }
+): IVariation {
+  return variations?.find((o: any) =>
+    isEqual(
+      o.options.map((v: any) => v.value).sort(),
+      Object.values(selectedOption).sort()
+    )
+  ) as any;
 }

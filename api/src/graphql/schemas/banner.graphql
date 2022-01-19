@@ -1,0 +1,23 @@
+type Banner {
+	id: Int!
+	title: String
+	description: String
+	imgUrl: String!
+}
+
+input BannerInput {
+	title: String
+	description: String
+	imgUrl: String!
+}
+
+extend type Mutation {
+	createBanner(input: [BannerInput!]): Response!
+	deleteBanner(id: Int!): Response!
+	updateBanner(id: Int!, input: BannerInput!): Response!
+}
+
+extend type Query {
+	banners: [Banner!]
+	banner(id: Int!): Banner!
+}

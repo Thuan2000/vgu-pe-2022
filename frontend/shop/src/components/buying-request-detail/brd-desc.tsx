@@ -1,10 +1,12 @@
 import MessageIcon from "@assets/icons/message-icon";
+import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
 import Typography from "@components/ui/storybook/typography";
 import { getCategory } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
 import { IProject } from "@graphql/types.graphql";
 import { trimText, getCompanyId } from "@utils/functions";
+import { getChatUrl, ROUTES } from "@utils/routes";
 import { useTranslation } from "next-i18next";
 import React from "react";
 
@@ -14,6 +16,7 @@ interface IBRDDescriptionProps {
   categoryId: number;
   description: string;
   companyId: number;
+  chatId: string;
 }
 
 const BRDDescription: React.FC<IBRDDescriptionProps> = ({
@@ -22,9 +25,9 @@ const BRDDescription: React.FC<IBRDDescriptionProps> = ({
   categoryId,
   description,
   companyId,
+  chatId,
 }) => {
   const { t } = useTranslation("common");
-
   return (
     <div className="mt-3 space-y-2">
       <div className="flex space-x-2">
@@ -82,14 +85,16 @@ const BRDDescription: React.FC<IBRDDescriptionProps> = ({
         />
       </div>
       {companyId !== getCompanyId() && (
-        <Button
-          variant="custom"
-          size="small"
-          className="border py-3 px-8 text-gray border-gray !h-"
-        >
-          <MessageIcon className="mr-3" />
-          {t("chatNow-button-label")}
-        </Button>
+        <Link href={getChatUrl(chatId)} target="_blank">
+          <Button
+            variant="custom"
+            size="small"
+            className="border py-3 px-8 text-gray border-gray !h-"
+          >
+            <MessageIcon className="mr-3" />
+            {t("chatNow-button-label")}
+          </Button>
+        </Link>
       )}
     </div>
   );

@@ -31,8 +31,8 @@
 		"copyemailtemplates": "cp ./src/html-templates/* ./dist/services/html-templates/",
 		"copyuncopied": "npm-run-all copyschemas copyemailtemplates",
 		"tsc": "tsc",
-		"shop:pre-commit": "npm --prefix ../frontend/shop run pre-commit",
-		"admin:pre-commit": "npm --prefix ../frontend/admin run pre-commit",
+		"shop:pre-commit": "npm --prefix ../frontend/shop run type-check",
+		"admin:pre-commit": "npm --prefix ../frontend/admin run type-check",
 		"precommit": "npm-run-all shop:pre-commit admin:pre-commit tsc"
 	},
 	"husky": {
@@ -51,6 +51,7 @@
 		"@types/sharp": "^0.29.3",
 		"apollo-server-express": "^3.3.0",
 		"aws-sdk": "^2.992.0",
+		"base-64": "^1.0.0",
 		"bcrypt": "^5.0.1",
 		"cross-env": "^7.0.3",
 		"dotenv": "^8.1.0",
@@ -68,7 +69,9 @@
 		"sequelize": "^6.6.5",
 		"sequelize-hierarchy": "^2.0.4",
 		"sharp": "^0.29.2",
-		"tmp": "^0.2.1"
+		"tmp": "^0.2.1",
+		"utf8": "^3.0.0",
+		"websocket": "^1.0.34"
 	},
 	"devDependencies": {
 		"@graphql-codegen/cli": "2.2.0",
@@ -78,6 +81,7 @@
 		"@graphql-codegen/typescript-resolvers": "2.2.1",
 		"@swc/cli": "^0.1.51",
 		"@swc/core": "^1.2.105",
+		"@types/base-64": "^1.0.0",
 		"@types/bcrypt": "^3.0.0",
 		"@types/dotenv": "^6.1.0",
 		"@types/express": "^4.16.1",
@@ -88,6 +92,7 @@
 		"@types/nodemailer": "^6.4.4",
 		"@types/redis": "^2.8.32",
 		"@types/tmp": "^0.2.2",
+		"@types/utf8": "^3.0.1",
 		"@types/validator": "^13.6.3",
 		"@typescript-eslint/eslint-plugin": "^2.3.3",
 		"@typescript-eslint/parser": "^2.3.3",

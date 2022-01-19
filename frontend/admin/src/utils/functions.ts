@@ -199,7 +199,7 @@ export function removeTypenameFromArray(withTypename: any[] = []) {
   return withoutTypename;
 }
 
-export function addIdAndRemoveTypename(arr: any[] = []) {
+export function addIdAndRemoveTypenameFromArray(arr: any[] = []) {
   return arr.map(({ __typename, ...a }: any) => ({ id: generateUUID(), ...a }));
 }
 

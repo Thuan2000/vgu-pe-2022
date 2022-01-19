@@ -76,7 +76,6 @@ const DocumentUploader = ({
   if (!accept) throw "PLEASE_SET_THE_ACCEPT_CORRECTLY";
 
   const { t } = useTranslation("form");
-
   const [loadingThumbs, setLoadingThumbs] = useState<string[]>([]);
   const { getRootProps, getInputProps } = useDropzone({
     accept,

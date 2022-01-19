@@ -77,7 +77,6 @@ const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
       />
 
       <DocumentInput
-        required
         inputFileType="video"
         control={control}
         numberQueue={5}
@@ -90,7 +89,6 @@ const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
       />
 
       <DocumentInput
-        required
         control={control}
         inputFileType="application"
         multiple

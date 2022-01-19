@@ -11,20 +11,24 @@ function getFilePath(fileName) {
 
 const sqls = [
 	{
-		name: "Industry",
-		path: getFilePath("industries.sql")
-	},
-	{
 		name: "Role",
 		path: getFilePath("roles.sql")
+	},
+	{
+		name: "User",
+		path: getFilePath("users.sql")
 	},
 	{
 		name: "Companies",
 		path: getFilePath("companies.sql")
 	},
 	{
-		name: "User",
-		path: getFilePath("users.sql")
+		name: "User Sdconnect Companies",
+		path: getFilePath("user_sdconnect_companies.sql")
+	},
+	{
+		name: "User Test Companies",
+		path: getFilePath("user_test_companies.sql")
 	},
 	{
 		name: "Buying Request",
@@ -33,14 +37,6 @@ const sqls = [
 	{
 		name: "Project",
 		path: getFilePath("project.sql")
-	},
-	{
-		name: "Product Names",
-		path: getFilePath("product_names.sql")
-	},
-	{
-		name: "Category",
-		path: getFilePath("categories.sql")
 	},
 	{
 		name: "BR Project",
@@ -53,6 +49,14 @@ const sqls = [
 	{
 		name: "Company Subscription",
 		path: getFilePath("company_subscriptions.sql")
+	},
+	{
+		name: "Product",
+		path: getFilePath("products.sql")
+	},
+	{
+		name: "Service",
+		path: getFilePath("services.sql")
 	}
 ];
 

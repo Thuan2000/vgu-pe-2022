@@ -1,5 +1,6 @@
 "use strict";
 
+const targetTableName = require("./20211117235522-create-service").tableName;
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 		/**
@@ -9,7 +10,7 @@ module.exports = {
 		 * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
 		 */
 		return Promise.all([
-			queryInterface.addColumn("services", "companyId", {
+			queryInterface.addColumn(targetTableName, "companyId", {
 				type: Sequelize.INTEGER,
 				references: {
 					model: "companies",
@@ -17,7 +18,7 @@ module.exports = {
 				},
 				onDelete: "CASCADE"
 			}),
-			queryInterface.addColumn("services", "createdById", {
+			queryInterface.addColumn(targetTableName, "createdById", {
 				type: Sequelize.INTEGER,
 				references: {
 					model: "users",
@@ -25,7 +26,7 @@ module.exports = {
 				},
 				onDelete: "CASCADE"
 			}),
-			queryInterface.addColumn("services", "updatedById", {
+			queryInterface.addColumn(targetTableName, "updatedById", {
 				type: Sequelize.INTEGER,
 				references: {
 					model: "users",

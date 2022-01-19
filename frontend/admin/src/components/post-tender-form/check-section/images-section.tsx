@@ -8,7 +8,7 @@ import ImagePreview from "@components/ui/image-preview";
 
 interface ImagesSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   images: any[];
-  changeSection: (id: number) => void;
+  changeSection?: (id: number) => void;
   imgWidth?: number;
   imgHeight?: number;
   imageWrapperClass?: string;
@@ -125,12 +125,14 @@ const ImagesSection: React.FC<ImagesSectionProps> = ({
               })}
           className="p-3"
         />
-        <p
-          className="absolute w-full bottom-0 text-white bg-primary opacity-80 hover:opacity-100 all-transition flex-center py-3 cursor-pointer"
-          onClick={changeSection as any}
-        >
-          {t("change-photo-label")}
-        </p>
+        {!!changeSection && (
+          <p
+            className="absolute w-full bottom-0 text-white bg-primary opacity-80 hover:opacity-100 all-transition flex-center py-3 cursor-pointer"
+            onClick={changeSection as any}
+          >
+            {t("change-photo-label")}
+          </p>
+        )}
       </div>
       <div
         className={`flex mt-3 justify-start ${

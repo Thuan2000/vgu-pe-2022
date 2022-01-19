@@ -10,7 +10,7 @@ import { IProduct } from "@graphql/types.graphql";
 import { postProductNavs } from "@components/ui/post-product-service/pps-contstants";
 import PPSProductForm from "@components/ui/post-product-service/pps-product/pps-product-form";
 
-interface IEditServiceProps {
+interface IEditProductProps {
   product: IProduct;
 }
 
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-const EditService: React.FC<IEditServiceProps> = ({ product }) => {
+const EditProduct: React.FC<IEditProductProps> = ({ product }) => {
   return (
     <div>
       <PostPageWrapper navs={postProductNavs}>
@@ -52,7 +52,7 @@ const EditService: React.FC<IEditServiceProps> = ({ product }) => {
   );
 };
 
-(EditService as any).Layout = PageLayout;
-(EditService as any).PageName = PAGE_NAME.POSTED_PRODUCT;
+(EditProduct as any).Layout = PageLayout;
+(EditProduct as any).PageName = PAGE_NAME.POSTED_PRODUCT;
 
-export default EditService;
+export default EditProduct;

@@ -23,19 +23,6 @@ function getFilter(f) {
 }
 
 class ServiceRepository {
-	static async insertCreateToElasticSearch(service, companyId, companyName) {
-		try {
-			const company = {
-				id: companyId,
-				name: companyName
-			};
-
-			Service.insertToIndex({ company, ...service });
-		} catch (e) {
-			console.log(e);
-		}
-	}
-
 	static getSearchQuery = (inputName: string, filter: any) => {
 		const query = {
 			bool: {

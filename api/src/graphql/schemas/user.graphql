@@ -19,6 +19,15 @@ type User {
 	lastName: String!
 	role: ROLE!
 	email: String!
+	chatId: String
 	company: UserCompany!
 	phoneNumber: String!
+}
+
+type CheckEmailResponse {
+	isExist: Boolean!
+}
+
+extend type Mutation {
+	checkEmail(email: String!): CheckEmailResponse!
 }

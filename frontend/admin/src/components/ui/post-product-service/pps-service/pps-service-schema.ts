@@ -1,5 +1,7 @@
 import * as yup from "yup";
 
+export const SERVICE_MINIMUM_PRICE = 1000;
+
 const categorySchema = yup.object({
   name: yup.string().required("error-serviceName-required"),
   industry: yup.object().required("industry-required-error"),
@@ -13,6 +15,35 @@ const generalSchema = yup.object({
   //   .required("error-serviceImages-required-error"),
 });
 
+const pricingSchema = yup.object({
+  isSinglePrice: yup.boolean(),
+  price: yup.mixed().when("isSinglePrice", {
+    is: (isSinglePrice: boolean) => isSinglePrice,
+    then: yup
+      .number()
+      .moreThan(SERVICE_MINIMUM_PRICE, "service-price-invalid-error")
+      .required("service-price-required-error"),
+  }),
+  packages: yup.mixed().when("isSinglePrice", {
+    is: (isSinglePrice: boolean) => !isSinglePrice,
+    then: yup
+      .object()
+      .shape({
+        packages: yup
+          .array()
+          .of(
+            yup.object().shape({
+              id: yup.string().required("package-no-benefit-error"),
+              price: yup.number().required("package-price-required"),
+            })
+          )
+          .min(1, "package-no-benefit-error")
+          .required("package-no-benefit-error"),
+      })
+      .required("packages-required-error")
+      .nullable(),
+  }),
+});
 const detailsSchema = yup.object({
   description: yup
     .string()
@@ -28,5 +59,6 @@ const detailsSchema = yup.object({
 export const ppsServiceSchema = yup.object({
   category: categorySchema,
   general: generalSchema,
+  pricing: pricingSchema,
   details: detailsSchema,
 });

@@ -22,20 +22,6 @@ function getFilter(f) {
 }
 
 class BuyingRequestRepository {
-	static async insertCreateToElasticSearch(
-		br,
-		companyId: number,
-		companyName
-	) {
-		const company = {
-			id: companyId,
-			name: companyName
-		};
-		const newBr = { company, ...br };
-
-		BuyingRequest.insertIndex(newBr);
-	}
-
 	static getSearchQuery = (inputName: string, filter: any) => {
 		const query = {
 			bool: {

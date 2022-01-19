@@ -3,6 +3,7 @@
 const tableName = "br_project";
 
 module.exports = {
+	tableName,
 	up: async (queryInterface, Sequelize) => {
 		/**
 		 * Add altering commands here.

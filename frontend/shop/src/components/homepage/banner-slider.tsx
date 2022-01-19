@@ -8,51 +8,9 @@ import Image from "next/image";
 import { COLORS } from "@utils/colors";
 
 import "swiper/css/bundle";
-
-// dummy data
-const data = [
-  {
-    id: 1,
-    title: "banner:promotion-slide-one",
-    bannerUrl: "/promotion/banner-1.png",
-  },
-  {
-    id: 2,
-    title: "banner:promotion-slide-two",
-    bannerUrl: "/promotion/banner-2.png",
-  },
-  {
-    id: 3,
-    title: "banner:promotion-slide-three",
-    bannerUrl: "/promotion/banner-3.png",
-  },
-  {
-    id: 4,
-    title: "banner:promotion-slide-four",
-    bannerUrl: "/promotion/banner-4.png",
-  },
-];
+import { data, offerSliderBreakpoints } from "./bs-constants";
 
 interface IBannerSliderProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const offerSliderBreakpoints = {
-  320: {
-    slidesPerView: 1,
-    spaceBetween: 0,
-  },
-  580: {
-    slidesPerView: 1,
-    spaceBetween: 0,
-  },
-  1024: {
-    slidesPerView: 1,
-    spaceBetween: 0,
-  },
-  1920: {
-    slidesPerView: 1,
-    spaceBetween: 0,
-  },
-};
 
 const BannerSlider: React.FC<IBannerSliderProps> = ({}) => {
   const { t } = useTranslation();
@@ -74,6 +32,8 @@ const BannerSlider: React.FC<IBannerSliderProps> = ({}) => {
     );
   }
 
+  const banners = data;
+
   const arrowSize = 22;
 
   return (
@@ -90,14 +50,14 @@ const BannerSlider: React.FC<IBannerSliderProps> = ({}) => {
             prevEl: ".prev",
           }}
         >
-          {data?.map((d) => (
+          {banners?.map((d) => (
             <SwiperSlide key={d.id}>
               <div
                 className={`w-full h-80 rounded-md overflow-hidden relative`}
               >
                 <Image
                   className="w-full h-auto"
-                  src={d.bannerUrl}
+                  src={d.imgUrl}
                   alt={t(d.title)}
                   layout="fill"
                 />

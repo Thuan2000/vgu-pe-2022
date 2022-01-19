@@ -29,10 +29,13 @@ class BuyingRequestController {
 			const buyingRequest = await BuyingRequest.findOne({
 				where: { slug },
 				include: [
-					Category,
-					Industry,
 					{ model: User, as: "createdBy" },
-					Company,
+					{
+						model: Company,
+						include: [
+							{ model: User, attributes: ["chatId"], as: "owner" }
+						]
+					},
 					{
 						model: BRDiscussionQuestion,
 						as: "discussionQuestions",
@@ -125,7 +128,7 @@ class BuyingRequestController {
 
 	async deleteBuyingRequest(id: number) {
 		try {
-			BuyingRequest.deleteEsBrs([id]);
+			const r = await BuyingRequest.deleteEsBrs([id]);
 			await BuyingRequest.destroy({ where: { id } });
 
 			return successResponse();
@@ -137,7 +140,7 @@ class BuyingRequestController {
 
 	async deleteBuyingRequests(ids: number[]) {
 		try {
-			BuyingRequest.deleteEsBrs(ids);
+			const r = await BuyingRequest.deleteEsBrs(ids);
 			await BuyingRequest.destroy({ where: { id: ids } });
 			return successResponse();
 		} catch (e) {
@@ -168,11 +171,15 @@ class BuyingRequestController {
 				generateSlug(name, newBuyingRequest.getDataValue("id"))
 			);
 
-			BuyingRequestRepository.insertCreateToElasticSearch(
-				newBuyingRequest.toJSON(),
-				companyId,
-				companyName
-			);
+			const company = {
+				id: companyId,
+				name: companyName
+			};
+
+			const r = await BuyingRequest.insertToIndex({
+				company,
+				...newBuyingRequest.toJSON()
+			});
 
 			return newBuyingRequest.save().then(() => successResponse());
 		} catch (error) {
@@ -182,16 +189,16 @@ class BuyingRequestController {
 	}
 
 	async updateBuyingRequest(id, newValue: IUpdateBuyingRequestInput) {
-		// @ TODO Make this work
-		// await BuyingRequest.updateESIndex(newValue, { where: id });
-
 		const curBr = await BuyingRequest.findByPk(id, {
 			include: [Company]
 		});
 
 		curBr.update(newValue);
 
-		BuyingRequest.updateEsBr(id, { ...curBr.toJSON(), ...newValue });
+		const r = await BuyingRequest.updateEsBr(id, {
+			...curBr.toJSON(),
+			...newValue
+		});
 
 		await curBr.save();
 

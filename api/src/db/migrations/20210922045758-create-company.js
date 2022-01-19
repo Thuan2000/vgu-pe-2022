@@ -1,8 +1,11 @@
 "use strict";
 
+const tableName = "companies";
+
 module.exports = {
+	tableName,
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable("companies", {
+		await queryInterface.createTable(tableName, {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -11,7 +14,8 @@ module.exports = {
 			},
 			name: {
 				type: Sequelize.STRING,
-				allowNull: false
+				allowNull: false,
+				unique: true
 			},
 			slug: {
 				type: Sequelize.STRING
@@ -19,6 +23,9 @@ module.exports = {
 			licenseNumber: {
 				type: Sequelize.STRING,
 				allowNull: false
+			},
+			isSubscribeEmail: {
+				type: Sequelize.BOOLEAN
 			},
 			membership: {
 				type: Sequelize.INTEGER
@@ -30,21 +37,11 @@ module.exports = {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false
 			},
-			companySubscriptionId: {
-				type: Sequelize.INTEGER
-			},
-			approverId: {
-				type: Sequelize.INTEGER
-			},
 			licenseFiles: {
 				type: Sequelize.JSON
 			},
 			certificates: {
 				type: Sequelize.JSON
-			},
-			ownerId: {
-				type: Sequelize.INTEGER,
-				allowNull: false
 			},
 			isFullInfo: {
 				type: Sequelize.BOOLEAN,
@@ -78,6 +75,6 @@ module.exports = {
 		});
 	},
 	down: async queryInterface => {
-		await queryInterface.dropTable("companies");
+		await queryInterface.dropTable(tableName);
 	}
 };

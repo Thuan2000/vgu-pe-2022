@@ -3,8 +3,6 @@
  * Good codes make the world a better place!
  */
 
-// TODO: handle the company registration (mutation companySignup). (See codes below from: https://www.apollographql.com/docs/apollo-server/data/file-uploads/)
-
 import UserController from "@controllers/user.controller";
 import {
 	EEMailTemplates,
@@ -27,8 +25,8 @@ export const Mutation = {
 	getCompanyNameSuggestion: (_, { name, limit }) =>
 		CompanyController.getNameSuggestion(name, limit),
 	// @NOTES URGENT : Follow this
-	approveCompany: (_, { id, approverId }) =>
-		CompanyController.approveCompany(id, approverId),
+	approveCompany: (_, { id, approverId, expDate }) =>
+		CompanyController.approveCompany(id, approverId, expDate),
 	updateCompany: (_, { id, input }) =>
 		CompanyController.updateCompany(id, input),
 	/**
@@ -39,7 +37,15 @@ export const Mutation = {
 	 */
 	companySignup: async (
 		_,
-		{ input: { licenseFiles, licenseNumber, companyName, ...owner } }
+		{
+			input: {
+				licenseFiles,
+				licenseNumber,
+				companyName,
+				isSubscribeEmail,
+				...owner
+			}
+		}
 	) => {
 		// @NOTES URGENT : This is wrong flow need to refactor
 		const email = new EmailService();
@@ -69,6 +75,7 @@ export const Mutation = {
 			ownerId,
 			licenseFiles,
 			licenseNumber,
+			isSubscribeEmail,
 			companyName
 		});
 

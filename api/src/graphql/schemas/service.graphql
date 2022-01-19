@@ -25,6 +25,7 @@ type Faq {
 # To use only accepted types for service package
 input PackageInput {
 	id: String!
+	price: Date!
 	packageRows: [PackageRowsInput!]!
 }
 
@@ -67,6 +68,7 @@ type ServicePackageRow {
 
 type ServicePackage {
 	id: String!
+	price: Date!
 	packageRows: [ServicePackageRow!]!
 }
 

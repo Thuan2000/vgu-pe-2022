@@ -4,88 +4,15 @@
  * Good codes make the world a better place!
  */
 
-//  static async getCompanies({
-// 	limit,
-// 	offset,
-// 	establishmentDate,
-// 	...input
-// }: IFetchCompanyInput) {
-// 	try {
-// 		const {
-// 			count: dataCount,
-// 			rows: companies
-// 		} = await Company.findAndCountAll({
-// 			limit,
-// 			offset,
-// 			where: {
-// 				approved: 1,
-// 				...(establishmentDate
-// 					? {
-// 							establishmentDate: {
-// 								[Op.gte]: establishmentDate
-// 							}
-// 						}
-// 					: {}),
-// 				...input
-// 			},
-// 			nest: true,
-// 			raw: true,
-// 			attributes: [
-// 				"id",
-// 				"name",
-// 				"slug",
-// 				CompanyFunction.sequelizeFnGetCoverImage() as any,
-// 				CompanyFunction.sequelizeFnGetBranchAmount() as any,
-// 				CompanyFunction.sequelizeFnGetMainProducts() as any,
-// 				"location",
-// 				"industryId",
-// 				"businessTypeIds",
-// 				"establishmentDate",
-// 				"createdAt",
-// 				"updatedAt"
-// 			],
-// 			include: [
-// 				{
-// 					model: CompanySubscription,
-// 					as: "subscription",
-// 					attributes: ["startAt", "monthAmount"],
-// 					include: [
-// 						{
-// 							model: Subscription,
-// 							as: "subscriptionDetail"
-// 						}
-// 					]
-// 				},
-// 				{
-// 					model: User,
-// 					as: "approver"
-// 				}
-// 			]
-// 		});
-
-// 		const hasMore =
-// 			offset + companies.length < dataCount &&
-// 			companies.length === limit;
-
-// 		return {
-// 			companies,
-// 			pagination: {
-// 				dataCount,
-// 				hasMore
-// 			}
-// 		};
-// 	} catch (e) {
-// 		console.error(e);
-// 		return errorResponse();
-// 	}
-// }
-
 import {
 	generateSlug,
 	errorResponse,
 	successResponse,
 	successResponseWithPayload,
-	DEFAULT_SUBSCRIPTION_ID
+	DEFAULT_SUBSCRIPTION_ID,
+	EEMailTemplates,
+	EMAIL_MESSAGES,
+	EMAIL_SUBJECTS
 } from "@utils";
 import Company from "@models/Company";
 import S3 from "@services/s3.service";
@@ -98,6 +25,7 @@ import {
 } from "@graphql/types";
 import CompanyRepository from "@repositories/company.repository";
 import CompanySubscription from "../models/CompanySubscription";
+import ChatService from "@services/chat.service";
 
 type IRegisterResp = {
 	success: boolean;
@@ -107,7 +35,6 @@ type IRegisterResp = {
 
 class CompanyController {
 	s3 = new S3();
-	email = new EmailService();
 
 	static async getCompanies({ offset, limit, searchValue, ...input }) {
 		console.log(searchValue);
@@ -163,7 +90,11 @@ class CompanyController {
 		return companies;
 	}
 
-	static async approveCompany(id: number, approverId: number) {
+	static async approveCompany(
+		id: number,
+		approverId: number,
+		expDate: number
+	) {
 		try {
 			// const company = Company.findByPk(id);
 			const resp = await Company.update(
@@ -171,15 +102,39 @@ class CompanyController {
 				{ where: { id } }
 			);
 
-			const data = await Company.findByPk(id);
-			Company.updateEsCompany(id, data.toJSON());
+			const data = await Company.findByPk(id, {
+				include: [{ model: User, as: "owner" }]
+			});
+
+			if (!data) return errorResponse("");
+			const company = data.toJSON();
+
+			Company.updateEsCompany(id, company);
 
 			// Setting company subscription
 			await CompanySubscription.create({
 				companyId: id,
 				subscriptionId: DEFAULT_SUBSCRIPTION_ID,
-				monthAmount: 3,
-				startAt: new Date().getTime()
+				startAt: new Date().getTime(),
+				endAt: expDate
+			});
+
+			const owner = (company as any).owner;
+
+			ChatService.createAccount({
+				firstName: owner.firstName,
+				lastName: owner.lastName,
+				email: owner.email,
+				phoneNumber: owner.phoneNumber,
+				password: owner.email
+			});
+
+			const email = new EmailService();
+			email.sendEmail((company as any).owner.email, {
+				message: EMAIL_MESSAGES.VERIFIED,
+				subject: EMAIL_SUBJECTS.VERIFIED,
+				name: (company as any).owner.name,
+				template: EEMailTemplates.VERIFICATION
 			});
 
 			return successResponse();
@@ -196,11 +151,11 @@ class CompanyController {
 				where: { id }
 			});
 
-			const data = await Company.findByPk(id);
+			const company = (await Company.findByPk(id)).toJSON();
 
-			Company.updateEsCompany(id, data.toJSON());
+			Company.updateEsCompany(id, company);
 
-			return successResponseWithPayload(data);
+			return successResponseWithPayload(company);
 		} catch (e) {
 			console.log(e);
 			return errorResponse();
@@ -238,6 +193,7 @@ class CompanyController {
 		ownerId,
 		licenseFiles,
 		licenseNumber,
+		isSubscribeEmail,
 		companyName
 	}): Promise<IRegisterResp> {
 		try {
@@ -264,6 +220,7 @@ class CompanyController {
 				ownerId,
 				licenseNumber,
 				licenseFiles,
+				isSubscribeEmail,
 				name: companyName
 			});
 

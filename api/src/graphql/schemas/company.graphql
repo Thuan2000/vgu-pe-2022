@@ -104,6 +104,7 @@ type Company {
 	subscription: CompanySubscription
 	createdAt: Date
 	updatedAt: Date
+	chatId: String
 }
 
 type CompanySubscription {
@@ -127,7 +128,7 @@ input CompanyRegisterInput {
 	companyName: String!
 	licenseNumber: String!
 	licenseFiles: [FileInput!]!
-	emailSubscription: Boolean
+	isSubscribeEmail: Boolean!
 }
 
 input UpdateCompanyDetailsInput {
@@ -163,7 +164,7 @@ type UnapprovedCompany {
 extend type Mutation {
 	getCompanyNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	companySignup(input: CompanyRegisterInput!): AuthResponse!
-	approveCompany(id: Int!, approverId: Int!): Response!
+	approveCompany(id: Int!, approverId: Int!, expDate: Date!): Response!
 	updateCompany(
 		id: Int!
 		input: UpdateCompanyDetailsInput!

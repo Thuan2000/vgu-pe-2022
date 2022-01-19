@@ -4,10 +4,13 @@ import PostedProducts from "@components/posted-product-service/posted-products";
 import PostedServices from "@components/posted-product-service/posted-services";
 import UnderDevelopment from "@components/under-development";
 import { PAGE_NAME } from "@utils/pagePath";
+import { generateHeadTitle } from "@utils/seo-utils";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/dist/client/router";
+import Head from "next/head";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const productLabel = "posted-products-page-title";
 const serviceLabel = "posted-services-page-title";
@@ -17,6 +20,7 @@ const serviceTarget = "service";
 interface IPostedProductServicesProps {}
 
 const PostedProductServices: React.FC<IPostedProductServicesProps> = ({}) => {
+  const { t } = useTranslation();
   const { query, ...router } = useRouter();
   const target = query.target;
   function getIsActiveProductNav(label: string) {
@@ -57,6 +61,13 @@ const PostedProductServices: React.FC<IPostedProductServicesProps> = ({}) => {
 
   return (
     <div>
+      <Head>
+        <title>{generateHeadTitle(t("productAndService"))}</title>
+        <meta
+          name="description"
+          content="DSConnect.VN | Sàn thương mại điện tử B2B đa ngành, uy tín hàng đầu Việt Nam"
+        />
+      </Head>
       <PostPageWrapper noXPadding navs={postedPSNavs}>
         {target === serviceTarget ? <PostedServices /> : <PostedProducts />}
       </PostPageWrapper>

@@ -1,7 +1,11 @@
 "use strict";
+
+const tableName = "company_subscriptions";
+
 module.exports = {
+	tableName,
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable("company_subscriptions", {
+		await queryInterface.createTable(tableName, {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -9,15 +13,26 @@ module.exports = {
 				type: Sequelize.INTEGER
 			},
 			companyId: {
-				type: Sequelize.INTEGER
+				type: Sequelize.INTEGER,
+				references: {
+					model: require("./20210922045758-create-company").tableName,
+					key: "id"
+				},
+				onDelete: "CASCADE"
 			},
 			subscriptionId: {
-				type: Sequelize.INTEGER
-			},
-			monthAmount: {
-				type: Sequelize.INTEGER
+				type: Sequelize.INTEGER,
+				references: {
+					model: require("./20211228110527-create-subscription")
+						.tableName,
+					key: "id"
+				},
+				onDelete: "CASCADE"
 			},
 			startAt: {
+				type: Sequelize.BIGINT
+			},
+			endAt: {
 				type: Sequelize.BIGINT
 			},
 			totalPrice: {
@@ -32,6 +47,6 @@ module.exports = {
 		});
 	},
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.dropTable("company_subscriptions");
+		await queryInterface.dropTable(tableName);
 	}
 };

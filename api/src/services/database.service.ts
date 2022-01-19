@@ -28,7 +28,7 @@ class Database {
 	static async connect() {
 		try {
 			await this.stcSequelize.authenticate();
-			console.log("Connection OK");
+			console.log("Database Connection OK");
 		} catch (error) {
 			console.log(error);
 		}

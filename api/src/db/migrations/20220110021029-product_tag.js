@@ -20,7 +20,7 @@ module.exports = {
 			productId: {
 				type: Sequelize.INTEGER,
 				references: {
-					model: "products",
+					model: require("./20220110021027-create-product").tableName,
 					key: "id"
 				},
 				onDelete: "CASCADE",
@@ -55,5 +55,6 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.dropTable('users');
 		 */
+		await queryInterface.dropTable(tableName);
 	}
 };

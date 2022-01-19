@@ -1,14 +1,15 @@
 "use strict";
+
+const tableName = "products";
+
 module.exports = {
+	tableName,
 	up: async (queryInterface, Sequelize) => {
-		await queryInterface.createTable("products", {
+		await queryInterface.createTable(tableName, {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
-				type: Sequelize.INTEGER
-			},
-			companyId: {
 				type: Sequelize.INTEGER
 			},
 			name: {
@@ -19,6 +20,14 @@ module.exports = {
 			},
 			description: {
 				type: Sequelize.TEXT
+			},
+			companyId: {
+				type: Sequelize.INTEGER,
+				references: {
+					model: require("./20210922045758-create-company").tableName,
+					key: "id"
+				},
+				onDelete: "CASCADE"
 			},
 			minOrder: {
 				type: Sequelize.INTEGER
@@ -85,6 +94,6 @@ module.exports = {
 		});
 	},
 	down: async (queryInterface, Sequelize) => {
-		await queryInterface.dropTable("products");
+		await queryInterface.dropTable(tableName);
 	}
 };

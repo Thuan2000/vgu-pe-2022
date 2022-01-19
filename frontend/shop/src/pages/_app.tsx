@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import { isLogin, setRedirectLinkAfterLogin } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/router";
+import ChatwootWidget from "@components/chatwoot-widget";
 
 const NoLayout: React.FC = ({ children }) => <>{children}</>;
 
@@ -42,6 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Layout>
         <ToastContainer autoClose={2000} theme="colored" />
+        <ChatwootWidget />
       </ModalProvider>
     </ApolloProvider>
   );
