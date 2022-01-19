@@ -83,6 +83,12 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     onCompleted: () => setLoadingThumbs([]),
   });
 
+  async function getBlob(url: string) {
+    const d = await fetch(url);
+    const blob = await d.blob();
+    return blob;
+  }
+
   useEffect(() => {
     if (!needToEditedFiles.length) return;
 
@@ -106,20 +112,37 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     );
   }, [needToEditedFiles]);
 
-  function handleFinishCropping(croppedImgs: CroppedImageUrls) {
+  async function handleFinishCropping(croppedImgs: CroppedImageUrls) {
     setNeedToEditedFiles([]);
     closeModal();
-    const croppedFiles = Object.keys(croppedImgs).map((k) => {
-      const file: IFile = {
-        url: croppedImgs[k],
-        fileName: generateUUID(),
-        fileType: "image/png",
-        location: generateUUID(),
-      };
-      return file;
+    // Refactor this codes later
+    setLoadingThumbs(new Array(croppedImgs.length).fill(""));
+    const croppedFiles = await Promise.all(
+      Object.keys(croppedImgs).map(async (k) => {
+        const blob = await getBlob(croppedImgs[k]);
+        return blob;
+      })
+    );
+    const { data } = await uploadFiles({
+      variables: {
+        input: {
+          companyName: getCompanyName() as string,
+          files: croppedFiles,
+          uploadsFileInputType: inputFileType as any,
+          fileAccessControl: accessControl as any,
+        },
+      },
     });
 
-    if (onChange) onChange([...files, ...croppedFiles]);
+    const uploadedFiles = data?.uploadFiles;
+    const accFiles = uploadedFiles?.map(
+      ({ __typename, ...file }: IFileWithTypename) => file
+    );
+    if (!onChange) return;
+
+    if (!!files?.length && multiple) onChange([...files, ...accFiles!]);
+    else onChange(accFiles!);
+    // if (onChange) onChange([...files, ...croppedFiles]);
   }
 
   async function handleOnDrop(acceptedFiles: File[]) {
