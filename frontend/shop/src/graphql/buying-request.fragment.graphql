@@ -32,11 +32,4 @@ fragment BuyingRequestParts on BuyingRequest {
   description
   minSupplierExperience
   minSupplierSells
-  bids {
-    id
-    createdAt
-    company {
-      id
-    }
-  }
 }

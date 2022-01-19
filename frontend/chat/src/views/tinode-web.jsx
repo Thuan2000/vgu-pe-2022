@@ -30,7 +30,7 @@ import {
   isLocalHost,
   isSecureConnection,
 } from "../lib/host-name.js";
-import LocalStorageUtil from "../lib/local-storage.js";
+import LocalStorageUtil, { AUTH_TOKEN_NAME } from "../lib/local-storage.js";
 import HashNavigation from "../lib/navigation.js";
 import { secondsToTime } from "../lib/strformat.js";
 import { updateFavicon } from "../lib/utils.js";
@@ -298,13 +298,11 @@ class TinodeWeb extends React.Component {
 
       // Read contacts from cache.
       this.resetContactList();
-
       const token = this.state.persist
-        ? LocalStorageUtil.getObject("auth-token")
+        ? LocalStorageUtil.getObject(AUTH_TOKEN_NAME)
         : undefined;
       if (token) {
         this.setState({ autoLogin: true });
-
         // When reading from storage, date is returned as string.
         token.expires = new Date(token.expires);
         this.tinode.setAuthToken(token);
@@ -708,7 +706,7 @@ class TinodeWeb extends React.Component {
             autoLogin: false,
           });
           this.handleError(err.message, "err");
-          localStorage.removeItem("auth-token");
+          localStorage.removeItem(AUTH_TOKEN_NAME);
           HashNavigation.navigateTo("");
         });
     } else {
@@ -732,9 +730,9 @@ class TinodeWeb extends React.Component {
     this.handleError();
 
     // Refresh authentication token.
-    if (LocalStorageUtil.getObject("keep-logged-in")) {
-      LocalStorageUtil.setObject("auth-token", this.tinode.getAuthToken());
-    }
+    // if (LocalStorageUtil.getObject("keep-logged-in")) {
+    LocalStorageUtil.setObject(AUTH_TOKEN_NAME, this.tinode.getAuthToken());
+    // }
 
     const goToTopic = this.state.requestedTopic;
     // Logged in fine, subscribe to 'me' attaching callbacks from the contacts view.
@@ -762,7 +760,7 @@ class TinodeWeb extends React.Component {
     )
       .catch((err) => {
         this.tinode.disconnect();
-        localStorage.removeItem("auth-token");
+        localStorage.removeItem(AUTH_TOKEN_NAME);
         this.handleError(err.message, "err");
         HashNavigation.navigateTo("");
       })
@@ -1455,7 +1453,7 @@ class TinodeWeb extends React.Component {
     updateFavicon(0);
 
     // Remove stored data.
-    localStorage.removeItem("auth-token");
+    localStorage.removeItem(AUTH_TOKEN_NAME);
     localStorage.removeItem("firebase-token");
     localStorage.removeItem("settings");
     if (this.state.firebaseToken) {

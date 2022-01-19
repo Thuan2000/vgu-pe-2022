@@ -19,7 +19,6 @@ import Industry from "../models/Industry";
 import Company from "@models/Company";
 import Project from "@models/Project";
 import BuyingRequestRepository from "@repositories/buying-request.repository";
-import Bid from "@models/Bid";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
 import OpenSearch from "@services/open-search.service";
 
@@ -105,16 +104,7 @@ class BuyingRequestController {
 			limit,
 			distinct: true,
 			where: { companyId },
-			include: [
-				Company,
-				Project,
-				{
-					model: Bid,
-					as: "bids",
-					attributes: ["id", "createdAt"]
-				},
-				{ model: User, as: "createdBy" }
-			]
+			include: [Company, Project, { model: User, as: "createdBy" }]
 		});
 
 		return {
