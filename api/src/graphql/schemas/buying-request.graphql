@@ -28,7 +28,6 @@ type BuyingRequest {
 	minSupplierSells: Int
 	company: Company
 	createdBy: User
-	bids: [Bid!]
 	lastOpened: Date!
 	discussionQuestions: [BRDiscussionQuestion!]
 }
