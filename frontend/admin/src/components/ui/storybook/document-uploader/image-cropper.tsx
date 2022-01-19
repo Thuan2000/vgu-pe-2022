@@ -6,9 +6,9 @@ import Button from "../button";
 import Image from "next/image";
 
 interface IImageCropperProps {
-  src_id: any;
-  files: File[];
-  onFinish: (croppedImageUrl: CroppedImage[]) => void;
+  src_id: string[];
+  // files: File[];
+  onFinish: (croppedImageUrl: CroppedImageUrls) => void;
 }
 
 export interface CroppedImage {
@@ -16,42 +16,35 @@ export interface CroppedImage {
   croppedUrl: string;
 }
 
-const ImageCropper: React.FC<IImageCropperProps> = ({ files, onFinish, src_id }) => {
+export interface CroppedImageUrls {
+  [k: string]: string;
+}
+
+const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
   const [activeUrlIdx, setActiveIdx] = useState(0);
   const croppedImageUrls = useRef<CroppedImage[]>([]);
-  const croppedCroppers = useRef([]);
+  const croppedImageUrlsInObject = useRef<CroppedImageUrls>({});
   const cropperRef = useRef<HTMLImageElement>(null);
-  
+
+  function getActiveIdx() {
+    return activeUrlIdx;
+  }
 
   function onCrop() {
     const imageElement: any = cropperRef?.current;
     const cropper: any = imageElement?.cropper;
     const originalUrl = cropper.crossOriginUrl;
     const croppedUrl = cropper.getCroppedCanvas().toDataURL();
-    const idx = croppedImageUrls.current.findIndex(
-      ({ originalUrl: origin }) => originalUrl === origin
-    );
-    
-    croppedImageUrls.current[idx] = {
-      croppedUrl: croppedUrl,
-      originalUrl: originalUrl
-    }
 
-    if(idx !== -1) return;
-    croppedImageUrls.current = [
-      ...croppedImageUrls.current,
-      { croppedUrl, originalUrl },
-    ];
+    // console.log(getActiveIdx());
+    croppedImageUrlsInObject.current[src_id[activeUrlIdx]] = croppedUrl;
   }
 
   function handleConfirmClick() {
-    console.log(croppedImageUrls.current);
-    onFinish(croppedImageUrls.current);
+    onFinish(croppedImageUrlsInObject.current);
   }
-  const srcs = files.map((file) => {
-    const url = URL.createObjectURL(file);
-    return url;
-  });
+
+  console.log(activeUrlIdx);
 
   return (
     <div className={`relative w-full h-full`}>
@@ -74,13 +67,16 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ files, onFinish, src_id })
       <div
         className={`flex items-center space-x-2 absolute top-full translate-y-10`}
       >
-        {srcs.map((imageSrc, idx) => {
+        {src_id.map((imageSrc, idx) => {
           return (
             <div
-              onClick={() => setActiveIdx(idx)}
-              className={`relative w-20 h-20`}
+              onClick={() => {
+                console.log(idx);
+                setActiveIdx(idx);
+              }}
+              className={`relative w-20 h-20 bg-red`}
             >
-              <Image src={imageSrc} layout="fill" className="rounded-lg"/>
+              <Image src={imageSrc} layout="fill" className="rounded-lg" />
             </div>
           );
         })}

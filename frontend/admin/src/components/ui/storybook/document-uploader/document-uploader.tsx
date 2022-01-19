@@ -15,7 +15,7 @@ import DUThumb from "./du-thumb";
 import Image from "next/image";
 import Loader from "../loader/loader";
 import { useModal } from "src/contexts/modal.context";
-import ImageCropper, { CroppedImage } from "./image-cropper";
+import ImageCropper, { CroppedImage, CroppedImageUrls } from "./image-cropper";
 import { create } from "yup/lib/number";
 
 export interface IFileWithTypename extends IFile {
@@ -90,12 +90,12 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
       const url = URL.createObjectURL(file);
       return url;
     });
-  
+
     openModal(
       (
         <ImageCropper
           onFinish={handleFinishCropping}
-          files={needToEditedFiles}
+          // files={needToEditedFiles}
           src_id={srcs}
         />
       ) as any,
@@ -106,20 +106,19 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     );
   }, [needToEditedFiles]);
 
-  function handleFinishCropping(croppedImgs: CroppedImage[]) {
+  function handleFinishCropping(croppedImgs: CroppedImageUrls) {
     setNeedToEditedFiles([]);
     closeModal();
-    const croppedFiles = croppedImgs.map(({ croppedUrl }) => {
+    const croppedFiles = Object.keys(croppedImgs).map((k) => {
       const file: IFile = {
-        url: croppedUrl,
+        url: croppedImgs[k],
         fileName: generateUUID(),
         fileType: "image/png",
         location: generateUUID(),
       };
       return file;
-      
     });
-    
+
     if (onChange) onChange([...files, ...croppedFiles]);
   }
 
@@ -131,8 +130,7 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     if (inputFileType === "image") {
       setNeedToEditedFiles(acceptedFiles);
       return;
-    }
-    else {
+    } else {
       setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
       const { data } = await uploadFiles({
         variables: {
