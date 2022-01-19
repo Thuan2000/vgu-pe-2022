@@ -3,15 +3,17 @@
 
 import Cookies from "js-cookie";
 
+export const AUTH_TOKEN_NAME = "auth-token";
+
 export default class LocalStorageUtil {
   // Replace old object with the new one.
   static setObject(key, value) {
-    Cookies.set(key, JSON.stringify(value), { domain: ".sdconnect.vn" });
+    Cookies.set(key, JSON.stringify(value));
   }
 
   // Get stored object.
   static getObject(key) {
-    const value = Cookies.get(key, { domain: ".sdconnect.vn" });
+    const value = Cookies.get(key);
     if (!value) return false;
     return value && JSON.parse(value);
   }

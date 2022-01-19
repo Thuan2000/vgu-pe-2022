@@ -2,8 +2,6 @@ import React from "react";
 
 import LetterTile from "./letter-tile.jsx";
 import ButtonBack from "./button-back.jsx";
-import MenuContacts from "./menu-contacts.jsx";
-import MenuStart from "./menu-start.jsx";
 
 export default class SideNavbar extends React.PureComponent {
   render() {
@@ -24,7 +22,7 @@ export default class SideNavbar extends React.PureComponent {
         <div id="sidepanel-title" className="panel-title">
           {this.props.title}
         </div>
-        {this.props.state === "login" ? (
+        {/* {this.props.state === "login" ? (
           <MenuStart
             onSignUp={this.props.onSignUp}
             onSettings={this.props.onSettings}
@@ -34,7 +32,7 @@ export default class SideNavbar extends React.PureComponent {
             onNewTopic={this.props.onNewTopic}
             onSettings={this.props.onSettings}
           />
-        ) : null}
+        ) : null} */}
       </div>
     );
   }
