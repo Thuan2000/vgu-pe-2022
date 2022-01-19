@@ -22,29 +22,22 @@ export interface CroppedImageUrls {
 
 const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
   const [activeUrlIdx, setActiveIdx] = useState(0);
-  const croppedImageUrls = useRef<CroppedImage[]>([]);
+  const refIdx = useRef(0);
   const croppedImageUrlsInObject = useRef<CroppedImageUrls>({});
   const cropperRef = useRef<HTMLImageElement>(null);
-
-  function getActiveIdx() {
-    return activeUrlIdx;
-  }
 
   function onCrop() {
     const imageElement: any = cropperRef?.current;
     const cropper: any = imageElement?.cropper;
-    const originalUrl = cropper.crossOriginUrl;
+    const originalUrl = src_id[refIdx.current];
     const croppedUrl = cropper.getCroppedCanvas().toDataURL();
 
-    // console.log(getActiveIdx());
-    croppedImageUrlsInObject.current[src_id[activeUrlIdx]] = croppedUrl;
+    croppedImageUrlsInObject.current[originalUrl] = croppedUrl;
   }
 
   function handleConfirmClick() {
     onFinish(croppedImageUrlsInObject.current);
   }
-
-  console.log(activeUrlIdx);
 
   return (
     <div className={`relative w-full h-full`}>
@@ -71,7 +64,7 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
           return (
             <div
               onClick={() => {
-                console.log(idx);
+                refIdx.current = idx;
                 setActiveIdx(idx);
               }}
               className={`relative w-20 h-20 bg-red`}
