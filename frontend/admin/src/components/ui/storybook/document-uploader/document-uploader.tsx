@@ -85,11 +85,18 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
 
   useEffect(() => {
     if (!needToEditedFiles.length) return;
+
+    const srcs = needToEditedFiles.map((file) => {
+      const url = URL.createObjectURL(file);
+      return url;
+    });
+  
     openModal(
       (
         <ImageCropper
           onFinish={handleFinishCropping}
           files={needToEditedFiles}
+          src_id={srcs}
         />
       ) as any,
       {
@@ -109,7 +116,6 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
         fileType: "image/png",
         location: generateUUID(),
       };
-      console.log(file.url);
       return file;
       
     });

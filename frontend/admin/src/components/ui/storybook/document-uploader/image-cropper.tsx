@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import XIcon from "@assets/icons/x-icon";
@@ -6,6 +6,7 @@ import Button from "../button";
 import Image from "next/image";
 
 interface IImageCropperProps {
+  src_id: any;
   files: File[];
   onFinish: (croppedImageUrl: CroppedImage[]) => void;
 }
@@ -15,45 +16,42 @@ export interface CroppedImage {
   croppedUrl: string;
 }
 
-const ImageCropper: React.FC<IImageCropperProps> = ({ files, onFinish }) => {
+const ImageCropper: React.FC<IImageCropperProps> = ({ files, onFinish, src_id }) => {
   const [activeUrlIdx, setActiveIdx] = useState(0);
   const croppedImageUrls = useRef<CroppedImage[]>([]);
   const croppedCroppers = useRef([]);
-  var check: boolean = false;
-
-  const srcs = files.map((file) => {
-    const url = URL.createObjectURL(file);
-    console.log(url);
-    return url;
-  });
-
   const cropperRef = useRef<HTMLImageElement>(null);
+  
 
   function onCrop() {
     const imageElement: any = cropperRef?.current;
     const cropper: any = imageElement?.cropper;
-    console.log(cropper);
-    const originalUrl = cropper.crossOriginUrl; // not unique
-    //const originalUrl = cropper.originalUrl
-    //the cropper.originalUrl is the same for all images
+    const originalUrl = cropper.crossOriginUrl;
     const croppedUrl = cropper.getCroppedCanvas().toDataURL();
-
     const idx = croppedImageUrls.current.findIndex(
       ({ originalUrl: origin }) => originalUrl === origin
     );
-    console.log(idx); // different originalUrl cause to new id created.
-    if (idx !== -1) return;
+    
+    croppedImageUrls.current[idx] = {
+      croppedUrl: croppedUrl,
+      originalUrl: originalUrl
+    }
 
+    if(idx !== -1) return;
     croppedImageUrls.current = [
       ...croppedImageUrls.current,
       { croppedUrl, originalUrl },
     ];
-
   }
 
   function handleConfirmClick() {
+    console.log(croppedImageUrls.current);
     onFinish(croppedImageUrls.current);
   }
+  const srcs = files.map((file) => {
+    const url = URL.createObjectURL(file);
+    return url;
+  });
 
   return (
     <div className={`relative w-full h-full`}>
@@ -64,7 +62,7 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ files, onFinish }) => {
       </div>
       <div className={`relative -mt-10 w-full h-full`}>
         <Cropper
-          src={srcs[activeUrlIdx]}
+          src={src_id[activeUrlIdx]}
           aspectRatio={1}
           guides={false}
           max="1080px"
@@ -80,9 +78,9 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ files, onFinish }) => {
           return (
             <div
               onClick={() => setActiveIdx(idx)}
-              className={`relative w-20 h-20 `}
+              className={`relative w-20 h-20`}
             >
-              <Image src={imageSrc} layout="fill" className="rounded-lg" />
+              <Image src={imageSrc} layout="fill" className="rounded-lg"/>
             </div>
           );
         })}
