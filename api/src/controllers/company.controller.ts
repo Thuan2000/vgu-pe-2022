@@ -124,10 +124,9 @@ class CompanyController {
 			ChatService.createAccount({
 				firstName: owner.firstName,
 				lastName: owner.lastName,
-				userName: owner.userName,
 				email: owner.email,
 				phoneNumber: owner.phoneNumber,
-				password: owner.password
+				password: owner.email
 			});
 
 			const email = new EmailService();
