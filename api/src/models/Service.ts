@@ -4,6 +4,7 @@ import { successResponse, errorResponse } from "@utils/responses";
 import { Model, DataTypes } from "sequelize";
 import Company from "./Company";
 import Tag from "./Tag";
+import User from "./User";
 
 class Service extends Model {
 	private static indexName = "services";
@@ -40,7 +41,14 @@ class Service extends Model {
 	static async firstBulkElasticSearch() {
 		try {
 			const services = await Service.findAll({
-				include: [Company, Tag]
+				include: [
+					{
+						model: Company,
+						include: [{ model: User, as: "owner" }],
+						attributes: ["id", "name"]
+					},
+					Tag
+				]
 			});
 
 			const srvcs = services.map(s => s.toJSON());

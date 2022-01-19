@@ -25,7 +25,7 @@ type FormValues = {
   licenseNumber: string;
   password: string;
   confirmPassword: string;
-  emailSubscription: boolean;
+  isSubscribeEmail: boolean;
   agreement: boolean;
   phoneNumber: string;
   companyName: string;
@@ -76,6 +76,7 @@ const SignupForm = () => {
     getValues,
     setValue,
     setError,
+    clearErrors,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: yupResolver(signupSchema),
@@ -122,10 +123,14 @@ const SignupForm = () => {
     companyLicenses,
     confirmPassword,
     agreement,
+    isSubscribeEmail = false,
     ...values
   }: FormValues) {
+    if (await checkEmailExist()) return;
+
     const input = {
       licenseFiles: companyLicenses,
+      isSubscribeEmail,
       ...values,
     };
 
@@ -136,11 +141,13 @@ const SignupForm = () => {
 
   async function checkEmailExist() {
     const email = getValues("email");
-    const {
-      data: { checkEmail: isExist },
-    } = (await checkEmail({ variables: { email } })) as any;
+    const { data } = await checkEmail({ variables: { email } });
+    const isExist = data?.checkEmail?.isExist;
 
     if (isExist) setError("email", { message: "email-exist-error" });
+    else clearErrors("email");
+
+    return isExist;
   }
 
   return (
@@ -230,7 +237,7 @@ const SignupForm = () => {
       </div>
       <div className="my-3 md:items-center">
         <Checkbox
-          {...register("emailSubscription")}
+          {...register("isSubscribeEmail")}
           label={t("want-to-receive-email")}
           className="mt-5 mb-2 text-dark-blue text-sm"
         />

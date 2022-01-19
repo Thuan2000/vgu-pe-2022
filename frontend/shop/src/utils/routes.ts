@@ -1,3 +1,7 @@
+export function getChatUrl(chatId: string) {
+  return `${ROUTES.CHAT_URL}/#/${chatId}`;
+}
+
 export const ROUTES = {
   TO_LOGIN: (locale: string) => `${locale}/login`,
   LOGIN: `/login`,
@@ -15,5 +19,6 @@ export const ROUTES = {
   SUPPORT: "/ho-tro",
   COMPANIES: "/nha-cung-cap",
   COMPANY_DETAIL: "/company-details",
+  CHAT_URL: process.env.NEXT_PUBLIC_CHAT_URL,
   ADMIN_LINK: `${process.env.NEXT_PUBLIC_ADMIN_URL}`,
 };

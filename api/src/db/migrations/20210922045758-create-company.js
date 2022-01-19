@@ -24,6 +24,9 @@ module.exports = {
 				type: Sequelize.STRING,
 				allowNull: false
 			},
+			isSubscribeEmail: {
+				type: Sequelize.BOOLEAN
+			},
 			membership: {
 				type: Sequelize.INTEGER
 			},

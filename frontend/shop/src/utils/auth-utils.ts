@@ -102,3 +102,7 @@ export function getMeData(): IMeInfoResponse | { company: null; user: null } {
 export function removeMeData() {
   Cookie.remove(LOGGED_IN_USER, !isDevelopment ? { ...cookieDomain } : {});
 }
+
+export function setChatAuthToken(token: string) {
+  localStorage.setItem("auth-token", token);
+}

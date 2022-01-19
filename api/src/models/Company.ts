@@ -107,6 +107,7 @@ Company.init(
 		establishmentDate: DataTypes.DATE,
 		location: DataTypes.STRING,
 		membership: DataTypes.INTEGER,
+		isSubscribeEmail: DataTypes.BOOLEAN,
 		settings: DataTypes.JSON,
 		slug: DataTypes.STRING,
 		licenseNumber: DataTypes.STRING,

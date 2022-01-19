@@ -74,8 +74,6 @@ class EmailService {
 				subject,
 				html: htmlWithVariables
 			});
-
-			console.log(info);
 		} catch (err) {
 			console.log(err);
 		}

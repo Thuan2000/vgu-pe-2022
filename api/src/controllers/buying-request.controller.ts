@@ -30,7 +30,12 @@ class BuyingRequestController {
 				where: { slug },
 				include: [
 					{ model: User, as: "createdBy" },
-					Company,
+					{
+						model: Company,
+						include: [
+							{ model: User, attributes: ["chatId"], as: "owner" }
+						]
+					},
 					{
 						model: BRDiscussionQuestion,
 						as: "discussionQuestions",

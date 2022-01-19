@@ -20,6 +20,7 @@ import {
   getRedirectLinkAfterLogin,
   removeRedirectLinkAfterLogin,
   setAuthCredentials,
+  setChatAuthToken,
   setMeData,
 } from "../utils/auth-utils";
 import { useRouter } from "next/dist/client/router";
@@ -66,6 +67,9 @@ const LoginForm = () => {
     const { success, message, token, user } = login;
     if (success && !!user) {
       setAuthCredentials(token!);
+      setChatAuthToken(
+        "WKrXivexPGJIVfdhFAABAAEAgI18lvtJq3nmQtHcpJR6/s5jaiS4TbL/H42ZpEte72I="
+      );
       setMeData({ user });
       toast.success(t(`form:welcomeBack-message ${user?.firstName}`));
       router.replace(getRedirectLinkAfterLogin() || ROUTES.HOMEPAGE);

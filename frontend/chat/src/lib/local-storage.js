@@ -1,15 +1,18 @@
 // Helper functions for storing values in localStorage.
 // By default localStorage can store only strings, not objects or other types.
 
+import Cookies from "js-cookie";
+
 export default class LocalStorageUtil {
   // Replace old object with the new one.
   static setObject(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
+    Cookies.set(key, JSON.stringify(value), { domain: ".sdconnect.vn" });
   }
 
   // Get stored object.
   static getObject(key) {
-    const value = localStorage.getItem(key);
+    const value = Cookies.get(key, { domain: ".sdconnect.vn" });
+    if (!value) return false;
     return value && JSON.parse(value);
   }
 
@@ -21,6 +24,6 @@ export default class LocalStorageUtil {
 
   // Just a wrapper.
   static removeItem(key) {
-    localStorage.removeItem(key);
+    Cookies.remove(key);
   }
 }
