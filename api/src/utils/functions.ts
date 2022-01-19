@@ -106,6 +106,12 @@ export function decodeString(text: string) {
 	return b64Decoded;
 }
 
+export function generateChatPassword(password: string) {
+	const splitted = password.split("@");
+	const userName = `${splitted?.[0]}`;
+
+	return userName;
+}
 export function generateUsername(email: string) {
 	const splitted = email.split("@");
 	const userName = `${splitted?.[0]}`;

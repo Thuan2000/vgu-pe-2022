@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
-import { encodeString, generateUsername, generateUUID } from "@utils/functions";
+import {
+	encodeString,
+	generateChatPassword,
+	generateUsername,
+	generateUUID
+} from "@utils/functions";
 
 export interface IAccProps {
 	firstName: string;
 	lastName: string;
-	userName: string;
 	email: string;
 	phoneNumber: string;
 	password: string;
@@ -22,11 +26,12 @@ class ChatFunction {
 		firstName,
 		lastName,
 		email,
-		userName,
 		phoneNumber,
 		password
 	}: IAccProps) => {
-		const secret = encodeString(`${generateUsername(email)}:${password}`);
+		const secret = encodeString(
+			`${generateUsername(email)}:${generateChatPassword(password)}123`
+		);
 
 		return {
 			acc: {
