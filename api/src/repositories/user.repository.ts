@@ -12,6 +12,10 @@ import { Model } from "sequelize";
 import User from "@models/User";
 import AuthRepository from "./auth.repository";
 
+interface IUserFirstTime extends IUser {
+	
+}
+
 class UserRepository {
 	static emailer = new EmailService();
 	static authRepo = new AuthRepository();

@@ -1,6 +1,6 @@
 export const EMAIL_SUBJECTS = {
-	REGISTERED: "Tài khoản đã đăng ký",
-	VERIFIED: "Tài khoản đã xác minh"
+	REGISTERED: "[Thông báo]: Đã nhận hồ sơ đăng ký",
+	VERIFIED: "Chúc mừng! Tài khoản công ty đã được duyệt"
 };
 
 export const EMAIL_MESSAGES = {
@@ -9,7 +9,7 @@ export const EMAIL_MESSAGES = {
 							 đó, bạn có thể trở về trang chủ và dạo vòng quanh xem SDConnect có gì
 							 nhé.`,
 	VERIFIED: `Xin chúc mừng, doanh nghiệp của bạn đã được xác thực thành công. 
-						 Bạn có thể đăng nhập vào cửa hàng thông qua https://shop.sdconnect.vn 
+						 Bạn có thể đăng nhập vào cửa hàng thông qua https://tmdt.sdconnect.vn 
 						 và trải nghiệm 15 ngày dùng thử miễn phí các dịch vụ của chúng tôi.
 						`
 };

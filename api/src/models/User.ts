@@ -12,6 +12,7 @@ export default class User extends Model {}
 User.init(
 	{
 		// Model attributes are defined here
+		firstLogin: DataTypes.BOOLEAN,
 		firstName: DataTypes.STRING,
 		lastName: DataTypes.STRING,
 		userName: DataTypes.STRING,

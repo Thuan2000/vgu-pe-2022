@@ -54,7 +54,13 @@ export const Mutation = {
 		const userController = new UserController();
 		const role = EUserRole.COMPANY_OWNER;
 
-		// @TODO check if the user and company exist first before create the user and company
+		/* 
+			owner.firstName
+			owner.lastName
+			owner.email
+			owner.password
+		*/
+		// TODO: check if the user and company exist first before create the user and company
 
 		// Creating the owner
 		const { id: ownerId, success, message } = await userController.register(
@@ -79,6 +85,7 @@ export const Mutation = {
 			companyName
 		});
 
+		// TODO: create the password mechanism here:
 		// Send email to new user
 		email.sendEmail(owner?.email, {
 			message: EMAIL_MESSAGES.REGISTERED,
