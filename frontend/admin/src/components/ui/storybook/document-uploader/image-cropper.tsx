@@ -67,11 +67,9 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
       check[0] = true;
     } 
   }
-
   return (
     <div>
       <div className={`py-80 sm:w-screen sm:h-screen relative overflow-hidden`}>
-
         <div className={`relative -mt-10 w-screen h-96 flex justify-center`}>
           <Cropper
             src={src_id[activeUrlIdx]}
@@ -83,7 +81,6 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
             ref={cropperRef}
           />
         </div>
-
         <div className={`flex space-x-2 mt-10 place-items-center justify-center`}>
           {src_id.map((imageSrc, idx) => {
             return (
@@ -103,7 +100,6 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
                   
                 </div>
               </div>
-              
             );
           })}
           <div className={``}>
