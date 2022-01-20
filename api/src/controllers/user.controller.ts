@@ -1,4 +1,4 @@
-import { errorResponse, generateUsername, successResponse } from "@utils";
+import { errorResponse, generateFirstTimePassword, generateUsername, successResponse } from "@utils";
 import User from "@models/User";
 import EmailService from "@services/email.service";
 import AuthRepository from "@repositories/auth.repository";
@@ -40,7 +40,9 @@ class UserController {
 			const newUser = await User.create({
 				...user,
 				userName,
-				password: UserRepository.encodePassword(user.password)
+				firstLogin: true,
+				// password: UserRepository.encodePassword(user.password)
+				password: generateFirstTimePassword()
 			});
 			newUser.save();
 

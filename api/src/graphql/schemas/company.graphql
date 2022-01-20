@@ -124,7 +124,7 @@ input CompanyRegisterInput {
 	lastName: String!
 	email: String!
 	phoneNumber: String!
-	password: String!
+	# password: String!
 	companyName: String!
 	licenseNumber: String!
 	licenseFiles: [FileInput!]!

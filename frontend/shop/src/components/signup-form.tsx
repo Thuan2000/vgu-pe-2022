@@ -23,8 +23,6 @@ type FormValues = {
   lastName: string;
   email: string;
   licenseNumber: string;
-  password: string;
-  confirmPassword: string;
   isSubscribeEmail: boolean;
   agreement: boolean;
   phoneNumber: string;
@@ -42,11 +40,6 @@ const signupSchema: any = yup.object({
     .string()
     .required("form:email-required-error")
     .email("form:email-invalid-error"),
-  password: yup.string().required("form:password-required-error"),
-  confirmPassword: yup
-    .string()
-    .required("form:password-required-error")
-    .oneOf([yup.ref("password"), null], "form:password-not-match-error"),
   companyLicenses: yup
     .array()
     .min(1, "form:companyLicenses-is-required-error")
@@ -100,8 +93,8 @@ const SignupForm = () => {
 
   function resetErrorValue() {
     setValue("email", "");
-    setValue("password", "");
-    setValue("confirmPassword", "");
+    // setValue("password", "");
+    // setValue("confirmPassword", "");
   }
 
   async function fireSuccessModal() {
@@ -121,7 +114,7 @@ const SignupForm = () => {
 
   async function onSubmit({
     companyLicenses,
-    confirmPassword,
+    // confirmPassword,
     agreement,
     isSubscribeEmail = false,
     ...values
@@ -188,7 +181,7 @@ const SignupForm = () => {
           error={t(errors?.email?.message || "")}
         />
 
-        <Input
+        {/* <Input
           className="my-3 md:my-0 md:mr-16"
           {...register("password")}
           label={t("password-label")}
@@ -204,7 +197,7 @@ const SignupForm = () => {
           type="password"
           placeholder={t("confirmPassword-label")}
           error={t(errors?.confirmPassword?.message || "")}
-        />
+        /> */}
 
         <Input
           className="my-3 md:my-0 md:mr-16"

@@ -3,9 +3,9 @@ import bcrypt from "bcrypt";
 import { errorResponse, successResponse } from "@utils/responses";
 import User from "@models/User";
 import AuthRepository from "@repositories/auth.repository";
-import { ICompany, ILoginInput, IUser } from "@graphql/types";
+import { ILoginInput } from "@graphql/types";
 import Company from "@models/Company";
-import { Model, Sequelize } from "sequelize";
+import { Sequelize } from "sequelize";
 
 class AuthController {
 	authRepo = new AuthRepository();
@@ -39,16 +39,20 @@ class AuthController {
 				]
 			});
 			if (!user) return errorResponse("USER_NOT_FOUND");
-
-			const company = user.getDataValue("company");
-
-			if (!company || !company.approved)
-				return errorResponse("COMPANY_NOT_APPROVED");
-
-			const isPasswordMatch = bcrypt.compareSync(
-				password,
-				user.getDataValue("password")
+			let isPasswordMatch = false;
+			// If it's the first time user logs in, do not use bcrypt.
+			const firstLogin = !!JSON.parse(
+				String(user.getDataValue("firstLogin")).toLowerCase()
 			);
+
+			if (firstLogin) {
+				isPasswordMatch = password === user.getDataValue("password");
+			} else {
+				isPasswordMatch = bcrypt.compareSync(
+					password,
+					user.getDataValue("password")
+				);
+			}
 
 			if (!isPasswordMatch) return errorResponse("WRONG_PASSWORD");
 
