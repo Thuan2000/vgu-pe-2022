@@ -93,15 +93,13 @@ export function isEmptyObject(obj) {
 }
 
 export function encodeString(text: string) {
-	const utfEncoded = utf8.encode(text);
-	const b64Encoded = base64.encode(utfEncoded);
+	const b64Encoded = base64.encode(text);
 
 	return b64Encoded;
 }
 
 export function decodeString(text: string) {
-	const utfDecoded = utf8.decode(text);
-	const b64Decoded = base64.decode(utfDecoded);
+	const b64Decoded = base64.decode(text);
 
 	return b64Decoded;
 }

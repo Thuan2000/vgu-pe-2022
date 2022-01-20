@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import Form from "./form";
+import useWebSocket, { ReadyState } from "react-use-websocket";
 
 // React-hook-form
 import { useForm } from "react-hook-form";
@@ -22,13 +23,17 @@ import {
   setAuthCredentials,
   setChatAuthToken,
   setMeData,
+  getChatLogin,
+  getHiMessage,
 } from "../utils/auth-utils";
 import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "../utils/routes";
 import PasswordInput from "./ui/password-input";
 import EmailOutlineIcon from "@assets/icons/email-outline-icon";
-import { AUTH_ERRORS } from "@utils/constants";
+import { AUTH_ERRORS, CHAT_URL } from "@utils/constants";
 import { COLORS } from "@utils/colors";
+import { useWSChat } from "src/contexts/websocket.context";
+import { generateChatPassword, generateUsername } from "@utils/functions";
 
 type FormValues = {
   email: string;
@@ -47,6 +52,9 @@ const loginSchema = yup.object().shape({
 const LoginForm = () => {
   const router = useRouter();
   const { query } = router;
+  const wsClient = useWSChat();
+
+  const { sendMessage, lastJsonMessage } = useWebSocket(CHAT_URL);
   const {
     register,
     handleSubmit,
@@ -67,9 +75,6 @@ const LoginForm = () => {
     const { success, message, token, user } = login;
     if (success && !!user) {
       setAuthCredentials(token!);
-      setChatAuthToken(
-        "WKrXivexPGJIVfdhFAABAAEAgI18lvtJq3nmQtHcpJR6/s5jaiS4TbL/H42ZpEte72I="
-      );
       setMeData({ user });
       toast.success(t(`form:welcomeBack-message ${user?.firstName}`));
       router.replace(getRedirectLinkAfterLogin() || ROUTES.HOMEPAGE);
@@ -91,6 +96,16 @@ const LoginForm = () => {
   }
 
   async function onSubmit({ email, password }: FormValues) {
+    wsClient.send(JSON.stringify(getHiMessage()));
+    wsClient.send(
+      JSON.stringify(
+        getChatLogin(
+          generateUsername(email),
+          `${generateChatPassword(email)}123`
+        )
+      )
+    );
+
     login({
       variables: {
         input: {

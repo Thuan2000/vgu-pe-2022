@@ -10,6 +10,7 @@ const Logout = () => {
 
   useEffect(() => {
     removeAuthCredentials();
+    removeAuthCredentials();
     removeMeData();
     replace(ROUTES.TO_LOGIN(locale!));
     // eslint-disable-next-line react-hooks/exhaustive-deps
