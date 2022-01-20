@@ -5,9 +5,7 @@ export const EMAIL_SUBJECTS = {
 
 export const EMAIL_MESSAGES = {
 	REGISTERED: `Tài khoản của bạn đã được tạo thành công. SDConnect đang xác thực
-							 thông tin và sẽ liên hệ lại bạn trong thời gian sớm nhất. Trong khi
-							 đó, bạn có thể trở về trang chủ và dạo vòng quanh xem SDConnect có gì
-							 nhé.`,
+							 thông tin và sẽ liên hệ lại bạn trong thời gian sớm nhất.`,
 	VERIFIED: `Xin chúc mừng, doanh nghiệp của bạn đã được xác thực thành công. 
 						 Bạn có thể đăng nhập vào cửa hàng thông qua https://tmdt.sdconnect.vn 
 						 và trải nghiệm 15 ngày dùng thử miễn phí các dịch vụ của chúng tôi.
