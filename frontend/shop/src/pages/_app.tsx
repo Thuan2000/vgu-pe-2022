@@ -14,6 +14,7 @@ import { isLogin, setRedirectLinkAfterLogin } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/router";
 import ChatwootWidget from "@components/chatwoot-widget";
+import { WSChatProvider } from "src/contexts/websocket.context";
 
 const NoLayout: React.FC = ({ children }) => <>{children}</>;
 
@@ -37,14 +38,16 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <ModalProvider>
-        <ModalContainer />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        <ToastContainer autoClose={2000} theme="colored" />
-        <ChatwootWidget />
-      </ModalProvider>
+      <WSChatProvider>
+        <ModalProvider>
+          <ModalContainer />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          <ToastContainer autoClose={2000} theme="colored" />
+          <ChatwootWidget />
+        </ModalProvider>
+      </WSChatProvider>
     </ApolloProvider>
   );
 }
