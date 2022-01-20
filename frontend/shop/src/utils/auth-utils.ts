@@ -3,6 +3,7 @@ import SSRCookie from "cookie";
 import {
   AUTH_CRED,
   CHAT_AUTH_COOKIE_NAME,
+  CHAT_KEEP_LOGIN_COOKIE_NAME,
   LOGGED_IN_USER,
   REDIRECT_AFTER_LOGIN,
 } from "./constants";
@@ -113,7 +114,7 @@ export function setChatAuthToken(token: string, expires: string) {
     getDomain()
   );
 
-  Cookie.set(CHAT_AUTH_COOKIE_NAME, "true", getDomain());
+  Cookie.set(CHAT_KEEP_LOGIN_COOKIE_NAME, "true", getDomain());
 }
 
 export function getChatLogin(username: string, password: string) {
