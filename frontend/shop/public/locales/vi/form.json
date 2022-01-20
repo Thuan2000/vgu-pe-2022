@@ -52,6 +52,10 @@
 	"askQuestion-input-placeholder": "Viết lời nhắn",
 	"ask-question-button-label": "Đặt câu hỏi",
 	"agreement-is-shouldBeChecked-error": "Bạn phải đồng ý với các điều khoản",
-	"question-submitted-success-message": "Câu hỏi đã được ghi nhận"
-	
+	"question-submitted-success-message": "Câu hỏi đã được ghi nhận",
+  "accountCreated-title": "Đã gửi hồ sơ đăng ký!",
+  "accountCreated-message": "Tài khoản của bạn đang được kiểm duyệt, xin vui lòng đợi trong 24h.",
+  "accountCreated-button": "Quay về trang đăng nhập",
+  "accountCreated-toast-title": "Hồ sơ đăng ký nộp thành công",
+	"companyLicenses-is-required-error": "Vui lòng đính kèm giấy phép kinh doanh"
 }

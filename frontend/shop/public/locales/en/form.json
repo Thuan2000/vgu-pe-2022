@@ -61,6 +61,7 @@
   "askQuestion-input-placeholder": "Write message",
   "ask-question-button-label": "Ask Question",
   "agreement-is-shouldBeChecked-error": "You have to agree with agreement",
+  "companyLicenses-is-required-error": "You must upload your business registration",
   "accountCreated-title": "Congratulation",
   "accountCreated-message": "Your account is created successfully, we will approve it soon",
   "accountCreated-button": "To Login Page",

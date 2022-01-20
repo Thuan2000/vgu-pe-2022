@@ -18,6 +18,10 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
+			firstLogin: {
+				type: Sequelize.BOOLEAN,
+				allowNull: false
+			},
 			firstName: {
 				type: Sequelize.STRING,
 				allowNull: false
