@@ -385,5 +385,10 @@
   "height-text-label": "Height",
   "length-text-label": "Length",
   "yes-it-is-text": "Yes",
-  "no-it-is-not-text": "No"
+  "no-it-is-not-text": "No",
+
+  "confirm-button": "Upload",
+  "crop-undone": "Please crop all images",
+  "ok-button": "Confirm"  
+
 }
