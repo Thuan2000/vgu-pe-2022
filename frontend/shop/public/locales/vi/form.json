@@ -57,5 +57,9 @@
   "accountCreated-message": "Tài khoản của bạn đang được kiểm duyệt, xin vui lòng đợi trong 24h.",
   "accountCreated-button": "Quay về trang đăng nhập",
   "accountCreated-toast-title": "Hồ sơ đăng ký nộp thành công",
-	"companyLicenses-is-required-error": "Vui lòng đính kèm giấy phép kinh doanh"
+	"companyLicenses-is-required-error": "Vui lòng đính kèm giấy phép kinh doanh",
+  "welcomeBack-message": "Xin chào",
+	"error-WRONG_PASSWORD-title": "Email/Mật khẩu không đúng",
+  "error-WRONG_PASSWORD-message": "Thông tin bạn nhập không đúng. Vui lòng kiểm tra lại.",
+  "error-WRONG_PASSWORD-button": "OK"
 }

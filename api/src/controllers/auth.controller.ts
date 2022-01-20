@@ -42,13 +42,23 @@ class AuthController {
 
 			const company = user.getDataValue("company");
 
-			if (!company || !company.approved)
-				return errorResponse("COMPANY_NOT_APPROVED");
+			// if (!company || !company.approved)
+			// 	return errorResponse("COMPANY_NOT_APPROVED");
 
-			const isPasswordMatch = bcrypt.compareSync(
-				password,
-				user.getDataValue("password")
+			let isPasswordMatch = false;
+			// If it's the first time user logs in, do not use bcrypt.
+			const firstLogin = !!JSON.parse(
+				String(user.getDataValue("firstLogin")).toLowerCase()
 			);
+
+			if (firstLogin) {
+				isPasswordMatch = password === user.getDataValue("password");
+			} else {
+				isPasswordMatch = bcrypt.compareSync(
+					password,
+					user.getDataValue("password")
+				);
+			}
 
 			if (!isPasswordMatch) return errorResponse("WRONG_PASSWORD");
 
