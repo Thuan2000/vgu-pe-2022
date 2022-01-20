@@ -276,5 +276,9 @@
 
   "post-product-button-label": "Đăng",
 
-  "recentlySelected-label": "Đang chọn"
+  "recentlySelected-label": "Đang chọn",
+  
+  "confirm-button": "Tải lên",
+  "crop-undone": "Vui lòng cắt toàn bộ ảnh",
+  "ok-button": "Đồng ý"  
 }

@@ -6,7 +6,6 @@ import Project from "./Project";
 import User from "./User";
 import OpenSearch from "@services/open-search.service";
 import { errorResponse, successResponse } from "@utils/responses";
-import Bid from "./Bid";
 import BRDiscussionQuestion from "./BRDiscussionQuestion";
 
 class BuyingRequest extends Model {
@@ -56,12 +55,6 @@ class BuyingRequest extends Model {
 						]
 					},
 					Project,
-					{
-						model: Bid,
-						as: "bids",
-						attributes: ["id", "createdAt"],
-						include: [{ model: Company, attributes: ["id"] }]
-					},
 					{ model: User, as: "createdBy" }
 				]
 			});

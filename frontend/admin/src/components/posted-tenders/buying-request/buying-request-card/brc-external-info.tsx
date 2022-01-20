@@ -5,13 +5,11 @@ import React from "react";
 
 interface IBRCExternalInfoProps extends React.HTMLAttributes<HTMLDivElement> {
   commentsCount: number;
-  bidsCount: number;
   projectsCount: number;
 }
 
 const BRCExternalInfo: React.FC<IBRCExternalInfoProps> = ({
   commentsCount,
-  bidsCount,
   projectsCount,
   ...props
 }) => {
@@ -21,10 +19,6 @@ const BRCExternalInfo: React.FC<IBRCExternalInfoProps> = ({
         <div className="flex items-center mr-5">
           <MessageIcon />
           <h5 className="text-gray-200 ml-2 md:text-md">{commentsCount}</h5>
-        </div>
-        <div className="flex items-center mr-5">
-          <BriefcaseIcon />
-          <h5 className="text-gray-200 ml-2 md:text-md">{bidsCount}</h5>
         </div>
         <div className="flex items-center">
           <FolderIcon />

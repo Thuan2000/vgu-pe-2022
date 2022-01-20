@@ -24,12 +24,12 @@ tt {
 }
 
 a {
-  color: #2196f3;
+  color: #00d796;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #0a6ebd;
+  color: #02bf86;
   text-decoration: underline;
 }
 
@@ -171,7 +171,7 @@ button.primary:active {
 
 button.secondary {
   background-color: #fff;
-  color: #2196f3; /* blue 500 */
+  color: #00d796; /* blue 500 */
 }
 button.secondary:focus,
 button.secondary:hover,
@@ -181,7 +181,7 @@ button.secondary:active {
 
 button.outline {
   background-color: transparent;
-  color: #2196f3; /* blue 500 */
+  color: #00d796; /* blue 500 */
   border: 1px solid silver;
   box-shadow: none;
 }
@@ -226,7 +226,7 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="search"]:focus {
-  border-bottom: 1px solid #2196f3;
+  border-bottom: 1px solid #00d796;
   box-shadow: 0 1px 0 rgba(33, 150, 243, 0.25);
 }
 
@@ -367,7 +367,7 @@ div.alert {
   max-width: 24rem;
 }
 div.alert .title {
-  color: #2196f3;
+  color: #00d796;
   font-size: 1.2rem;
   font-weight: 500;
   width: 100%;
@@ -380,7 +380,7 @@ div.alert .content {
 
 /* Generic text colors */
 .blue {
-  color: #2196f3; /* blue 500 */
+  color: #00d796; /* blue 500 */
 }
 
 .green {
@@ -464,7 +464,7 @@ div.alert .content {
   padding: 1rem;
   font-size: 120%;
   font-weight: bolder;
-  background-color: #2196f3; /* blue 500 */
+  background-color: #00d796; /* blue 500 */
   color: #bbdefb; /* light-blue 100 */
 }
 
@@ -694,7 +694,7 @@ table.permission-editor td.checkbox {
   display: inline-block;
   margin: 0.15rem;
   background-color: #eef;
-  color: #2196f3; /* blue 500 */
+  color: #00d796; /* blue 500 */
   font-size: inherit;
   text-transform: none;
   height: 2rem;
@@ -711,7 +711,7 @@ table.permission-editor td.checkbox {
 }
 
 #side-caption-panel {
-  background-color: #2196f3; /* blue 500 */
+  background-color: #00d796; /* blue 500 */
   color: #bbdefb; /* light-blue 100 */
 }
 
@@ -1301,7 +1301,7 @@ i.search {
 }
 
 #send-message-panel .material-icons.secondary:hover {
-  color: #2196f3 !important;
+  color: #00d796 !important;
 }
 
 /* New chat invitation panel */
@@ -1718,7 +1718,7 @@ ul.tabbar li.active:after {
   bottom: 0;
   left: 0;
   position: absolute;
-  background: #2196f3;
+  background: #00d796;
   animation: tabbar-border-expand 0.2s cubic-bezier(0.4, 0, 0.4, 1) 0s alternate
     forwards;
 }
@@ -1749,7 +1749,7 @@ ul.tabbar > li > a {
 }
 
 ul.tabbar li.active > a {
-  color: #2196f3;
+  color: #00d796;
 }
 
 /* END Tabs */
@@ -2003,7 +2003,7 @@ ul.tabbar li.active > a {
 }
 
 .chip-input.focused {
-  border-bottom: 1px solid #2196f3;
+  border-bottom: 1px solid #00d796;
   box-shadow: 0 1px 0 rgba(33, 150, 243, 0.25);
 }
 

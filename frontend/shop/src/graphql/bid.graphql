@@ -1,7 +1,0 @@
-mutation CreateBid($input: CreateBidInput!) {
-  createBid(input: $input) {
-    id
-    message
-    success
-  }
-}
