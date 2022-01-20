@@ -101,13 +101,12 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
       (
         <ImageCropper
           onFinish={handleFinishCropping}
-          // files={needToEditedFiles}
           src_id={srcs}
         />
       ) as any,
       {
         onClose: () => setNeedToEditedFiles([]),
-        closeOnClickOutside: true,
+        closeOnClickOutside: false,
       }
     );
   }, [needToEditedFiles]);
