@@ -6,6 +6,7 @@ import Button from "../button";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { useTranslation } from "next-i18next";
+import VerifiedIcon from "@assets/icons/verified-icon";
 
 interface IImageCropperProps {
   src_id: string[];
@@ -22,6 +23,8 @@ export interface CroppedImageUrls {
 }
 
 let check: any[] = [];
+check[0] = true;
+let check2nd: boolean = false;
 
 const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
   const { t } = useTranslation("form");
@@ -30,10 +33,14 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
   const croppedImageUrlsInObject = useRef<CroppedImageUrls>({});
   const cropperRef = useRef<HTMLImageElement>(null);
 
-  useEffect(() => {
-    check[activeUrlIdx] = true;
-  }, [activeUrlIdx]);
+  var i: number;
+  var count = 0;
+  for(i = 0; i < src_id.length; i++) {
+    if (check[i] === true) count++;
+  }
+  if (count === src_id.length) check2nd = true;
 
+  console.log(check2nd);
 
   function onCrop() {
     const imageElement: any = cropperRef?.current;
@@ -44,7 +51,7 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
 
   }
   function handleConfirmClick() {
-    if (check.length !== src_id.length) {
+    if (check2nd === false) {
       Swal.fire({
         icon: 'error',
         iconColor: "00D796",
@@ -56,45 +63,53 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
     else {
       onFinish(croppedImageUrlsInObject.current);
       check = [];
+      check2nd = false;
+      check[0] = true;
     } 
   }
-
   return (
-    <div className={`relative w-full h-full`}>
-      <div className={`w-full`}>
-        <Button variant="custom" className={`absolute right-0 top-0 bg-red`}>
-          <XIcon />
-        </Button>
-      </div>
-      <div className={`relative -mt-10 w-full h-full`}>
-        <Cropper
-          src={src_id[activeUrlIdx]}
-          aspectRatio={1}
-          guides={false}
-          max="1080px"
-          autoCrop
-          crop={onCrop}
-          ref={cropperRef}
-        />
-      </div>
-      <div
-        className={`flex items-center space-x-2 absolute top-full translate-y-10`}
-      >
-        {src_id.map((imageSrc, idx) => {
-          return (
-            <div
-              onClick={() => {
-                refIdx.current = idx;
-                setActiveIdx(idx);
-              }}
-              className={`relative w-20 h-20`}
-            >
-              <Image src={imageSrc} layout="fill" className="rounded-lg" />
-            </div>
-          );
-        })}
-        <div className={``}>
-          <Button onClick={handleConfirmClick}>{t("confirm-button")}</Button>
+    <div>
+      <div className={`py-80 sm:w-screen sm:h-screen relative overflow-hidden`}>
+        <div className={`relative -mt-10 w-screen h-96 flex justify-center`}>
+          <Cropper
+            src={src_id[activeUrlIdx]}
+            aspectRatio={1}
+            guides={false}
+            max="1080px"
+            autoCrop
+            crop={onCrop}
+            ref={cropperRef}
+          />
+        </div>
+        <div className={`flex space-x-2 mt-10 place-items-center justify-center`}>
+          {src_id.map((imageSrc, idx) => {
+            return (
+              <div
+                onClick={() => {
+                  refIdx.current = idx;
+                  setActiveIdx(idx);
+                  check[idx] = true;
+                }}
+                className={`sm:w-20 sm:h-20 relative`}
+              >
+                <div className="grid grid-cols-2">
+                  <Image src={imageSrc} layout="fill" className="rounded-lg col-start-1" />
+                  {check[idx] === true && (
+                    <VerifiedIcon className="col-start-1 mt-24" />
+                  )}
+                  
+                </div>
+              </div>
+            );
+          })}
+          <div className={``}>
+            {check2nd === true && (
+              <Button onClick={handleConfirmClick}>{t("confirm-button")}</Button>
+            )}
+            {check2nd === false && (
+              <Button onClick={handleConfirmClick} color="error">{t("confirm-button")}</Button>
+            )}
+          </div>
         </div>
       </div>
     </div>
