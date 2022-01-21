@@ -47,11 +47,13 @@ class EmailService {
 			name,
 			message,
 			subject,
+			password,
 			template
 		}: {
 			name: string;
 			message: string;
 			subject: string;
+			password?: string;
 			template: EEMailTemplates;
 		}
 	) {
@@ -60,6 +62,7 @@ class EmailService {
 				title: subject,
 				name,
 				message,
+				password: (password) ? password : '',
 				email: typeof targets === "string" ? targets : targets[0]
 			};
 

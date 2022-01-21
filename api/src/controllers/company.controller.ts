@@ -133,7 +133,10 @@ class CompanyController {
 			email.sendEmail((company as any).owner.email, {
 				message: EMAIL_MESSAGES.VERIFIED,
 				subject: EMAIL_SUBJECTS.VERIFIED,
-				name: (company as any).owner.name,
+				name: `${(company as any).owner.firstName} ${
+					(company as any).owner.lastName
+				}`,
+				password: owner.password,
 				template: EEMailTemplates.VERIFICATION
 			});
 
