@@ -1,3 +1,7 @@
+#
+#  Copyright Emolyze Tech ©2021
+#  Good codes make the world a better place!
+#
 type AuthResponse {
 	success: Boolean!
 	message: String!
@@ -15,6 +19,16 @@ input LoginInput {
 	password: String!
 }
 
+input FirstTimePasswordResetInput {
+	email: String!
+	newPassword: String!
+}
+
+type FirstTimePasswordResetResponse {
+	success: Boolean!
+	message: String!
+}
+
 type MeInfoResponse {
 	user: User!
 	company: Company!
@@ -22,4 +36,5 @@ type MeInfoResponse {
 
 extend type Mutation {
 	login(input: LoginInput!): LoginResponse!
+	firstTimePasswordReset(input: FirstTimePasswordResetInput!): FirstTimePasswordResetResponse!
 }

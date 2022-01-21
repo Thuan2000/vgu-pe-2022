@@ -106,38 +106,30 @@
   "greeting": "Xin Chào",
   "searchFor-text": "Tìm kiếm",
   "budget-sign": "đ",
-
   "will-available-soon-text": "Tính năng sẽ hoạt động trong thời gian tới, vui lòng trở lại sau!",
-
   "SERVICES_NAV_LABEL": "Dịch vụ",
   "PRODUCT_NAV_LABEL": "Sản phẩm",
   "yourCompanyRequest-button-label": "NCTM của bạn",
-
   "to-homepage": "Về Trang chủ",
-
   "post-PRODUCT_PAGE_SEARCH_LABEL-link-button-label": "Đăng Sản phẩm",
   "PRODUCT_PAGE_SEARCH_LABEL": "Sản phẩm",
   "post-SERVICE_PAGE_SEARCH_LABEL-link-button-label": "Đăng Dịch vụ",
   "SERVICE_PAGE_SEARCH_LABEL": "Dịch vụ",
-
   "budgetRange-filter-label": "Khoảng ngân sách ",
   "min": "Min",
   "max": "Max",
   "budgetTo-label": "Đến",
   "budgetFrom-label": "Từ",
   "requestNamePrefix-value": "Cần mua",
-
   "min-establishmentDate-filter-label": "Ngày thành lập tối thiểu",
   "establishmentDate-filter-placeholder": "12/12/2021",
   "danh-ba-cong-ty": "Nhà cung cấp",
   "nhu-cau-thu-mua": "Nhu cầu thu mua",
-
   "phone-view-not-ready-text": "Giao diện cho điện thoại chưa được hỗ trợ",
   "please-open-on-laptop-text": "Vui lòng truy cập bằng máy tính",
-
   "yourCompany-button-label": "Doanh nghiệp của bạn",
   "no-information": "Chưa có thông tin",
-
   "no-services-yet-message": "Chưa có dịch vụ được đăng tải",
-  "no-products-yet-message": "Chưa có sản phẩm được đăng tải"
+  "no-products-yet-message": "Chưa có sản phẩm được đăng tải",
+  "buying-request-page-title": "Nhu cầu thu mua"
 }

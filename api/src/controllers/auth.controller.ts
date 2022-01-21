@@ -1,14 +1,33 @@
-import bcrypt from "bcrypt";
+/**
+ * Copyright Emolyze Tech ©2021
+ * Good codes make the world a better place!
+ */
 
+import bcrypt from "bcrypt";
 import { errorResponse, successResponse } from "@utils/responses";
 import User from "@models/User";
 import AuthRepository from "@repositories/auth.repository";
-import { ILoginInput } from "@graphql/types";
+import { ILoginInput, IFirstTimePasswordResetInput } from "@graphql/types";
 import Company from "@models/Company";
 import { Sequelize } from "sequelize";
+import UserRepository from "@repositories/user.repository";
 
 class AuthController {
 	authRepo = new AuthRepository();
+
+	async firstTimePasswordReset({
+		email,
+		newPassword
+	}: IFirstTimePasswordResetInput) {
+		try {
+			const user = await User.findOne({ where: { email } });
+			if (!user) return errorResponse("USER_NOT_FOUND");
+			user.setDataValue("password", UserRepository.encodePassword(newPassword));
+			user.setDataValue("firstLogin", false);
+		} catch (err) {
+			console.error(err);
+		}
+	}
 
 	async login({ email, password }: ILoginInput) {
 		try {

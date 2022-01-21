@@ -71,12 +71,20 @@ const LoginForm = () => {
     onCompleted: onLoginComplete,
   });
 
+  // TODO: if firstLogin is true then force the user to see the modal.
+  // user.firstLogin
   async function onLoginComplete({ login }: LoginMutation) {
     const { success, message, token, user } = login;
     if (success && !!user) {
       setAuthCredentials(token!);
       setMeData({ user });
-      toast.success(t(`form:welcomeBack-message ${user?.firstName}`));
+
+      // Put the compuslory modal here.
+      if (user.firstLogin) {
+        
+      }
+
+      toast.success(`${t("form:welcomeBack-message")} ${user?.firstName}`);
       router.replace(getRedirectLinkAfterLogin() || ROUTES.HOMEPAGE);
       removeRedirectLinkAfterLogin();
     } else {

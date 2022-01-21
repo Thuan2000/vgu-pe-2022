@@ -45,6 +45,7 @@ class App {
 			this.apolloServer = new ApolloServer({
 				typeDefs,
 				resolvers,
+				// TODO: If it's on production environment, must set it to false.
 				introspection: true,
 				context: ({ req }) => {
 					const token = req.headers.authorization;
