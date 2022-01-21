@@ -41,7 +41,6 @@ class UserController {
 				...user,
 				userName,
 				firstLogin: true,
-				// password: UserRepository.encodePassword(user.password)
 				password: generateFirstTimePassword()
 			});
 			newUser.save();
