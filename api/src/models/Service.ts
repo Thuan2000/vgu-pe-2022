@@ -44,8 +44,7 @@ class Service extends Model {
 				include: [
 					{
 						model: Company,
-						include: [{ model: User, as: "owner" }],
-						attributes: ["id", "name"]
+						attributes: ["id", "name", "chatId"]
 					},
 					Tag
 				]

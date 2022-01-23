@@ -1,4 +1,9 @@
-import { errorResponse, generateFirstTimePassword, generateUsername, successResponse } from "@utils";
+import {
+	errorResponse,
+	generateFirstTimePassword,
+	generateUsername,
+	successResponse
+} from "@utils";
 import User from "@models/User";
 import EmailService from "@services/email.service";
 import AuthRepository from "@repositories/auth.repository";
@@ -13,13 +18,6 @@ interface RegisterResp extends IResponse {
 class UserController {
 	emailer = new EmailService();
 	authRepo = new AuthRepository();
-
-	static async addChatId(approvedEmail: string, chatId: string) {
-		const user = await User.findOne({ where: { email: approvedEmail } });
-
-		user.setDataValue("chatId", chatId);
-		user.save();
-	}
 
 	static async getUsers() {
 		return await User.findAll();

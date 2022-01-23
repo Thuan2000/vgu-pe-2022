@@ -49,7 +49,13 @@ class Product extends Model {
 	static async firstBulkElasticSearch() {
 		try {
 			const data = await Product.findAll({
-				include: [Company, Tag]
+				include: [
+					{
+						model: Company,
+						attributes: ["id", "name", "chatId"]
+					},
+					Tag
+				]
 			});
 
 			const products = data.map(s => s.toJSON());

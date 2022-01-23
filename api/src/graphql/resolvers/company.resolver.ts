@@ -74,10 +74,7 @@ export const Mutation = {
 		if (!success) return errorResponse(message);
 
 		// Creating company
-		const {
-			userNewToken,
-			...newCompanyResp
-		} = await companyController.register({
+		const newCompanyResp = await companyController.register({
 			ownerId,
 			licenseFiles,
 			licenseNumber,
@@ -95,8 +92,6 @@ export const Mutation = {
 		});
 
 		return {
-			token: userNewToken,
-			role,
 			...newCompanyResp
 		};
 	}

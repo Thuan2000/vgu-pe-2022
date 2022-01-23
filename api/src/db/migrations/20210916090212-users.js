@@ -32,9 +32,6 @@ module.exports = {
 			userName: {
 				type: Sequelize.STRING
 			},
-			chatId: {
-				type: Sequelize.STRING
-			},
 			email: {
 				type: Sequelize.STRING,
 				allowNull: false

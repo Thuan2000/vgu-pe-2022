@@ -7,8 +7,8 @@ import {
 } from "@utils/functions";
 
 export interface IAccProps {
-	firstName: string;
-	lastName: string;
+	compId: number;
+	compName: string;
 	email: string;
 	phoneNumber: string;
 	password: string;
@@ -23,8 +23,7 @@ class ChatFunction {
 	});
 
 	static generateAccMessage = ({
-		firstName,
-		lastName,
+		compName,
 		email,
 		phoneNumber,
 		password
@@ -40,7 +39,7 @@ class ChatFunction {
 				scheme: "basic",
 				secret,
 				login: false,
-				desc: { public: { fn: `${firstName} ${lastName}` } },
+				desc: { public: { fn: compName } },
 				cred: [
 					{ meth: "email", val: email },
 					{ meth: "tel", val: phoneNumber }

@@ -99,7 +99,6 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
   }
 
   const isMyBr = br.company?.id === getCompanyId();
-
   return (
     <>
       <Head>
@@ -144,7 +143,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
                 categoryId={br.categoryId}
                 description={br.description || ""}
                 companyId={br.company?.id!}
-                chatId={br.company?.owner?.chatId!}
+                chatId={br.company?.chatId!}
               />
             </div>
           </div>

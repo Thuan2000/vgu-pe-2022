@@ -20,6 +20,9 @@ module.exports = {
 			slug: {
 				type: Sequelize.STRING
 			},
+			chatId: {
+				type: Sequelize.STRING
+			},
 			licenseNumber: {
 				type: Sequelize.STRING,
 				allowNull: false

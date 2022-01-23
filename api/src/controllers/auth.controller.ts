@@ -22,7 +22,10 @@ class AuthController {
 		try {
 			const user = await User.findOne({ where: { email } });
 			if (!user) return errorResponse("USER_NOT_FOUND");
-			user.setDataValue("password", UserRepository.encodePassword(newPassword));
+			user.setDataValue(
+				"password",
+				UserRepository.encodePassword(newPassword)
+			);
 			user.setDataValue("firstLogin", false);
 		} catch (err) {
 			console.error(err);
@@ -44,15 +47,15 @@ class AuthController {
 							"industryId",
 							"businessTypeIds",
 							"approved",
-							"establishmentDate",
-							[
-								Sequelize.fn(
-									"JSON_VALUE",
-									Sequelize.col("settings"),
-									Sequelize.literal(`"$.contactNumber"`)
-								),
-								"contactNumber"
-							]
+							"establishmentDate"
+							// [
+							// 	Sequelize.fn(
+							// 		"JSON_VALUE",
+							// 		Sequelize.col("settings"),
+							// 		Sequelize.literal(`"$.contactNumber"`)
+							// 	),
+							// 	"contactNumber"
+							// ]
 						]
 					}
 				]

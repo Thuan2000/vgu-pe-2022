@@ -16,7 +16,6 @@ User.init(
 		firstName: DataTypes.STRING,
 		lastName: DataTypes.STRING,
 		userName: DataTypes.STRING,
-		chatId: DataTypes.STRING,
 		companyId: DataTypes.INTEGER,
 		email: DataTypes.STRING,
 		password: DataTypes.STRING,
