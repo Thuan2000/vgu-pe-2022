@@ -2,11 +2,7 @@ import { IBrDiscussionsInput } from "@graphql/types";
 import BRDiscussionAnswer from "@models/BRDiscussionAnswer";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
 import User from "@models/User";
-import {
-	createSuccessResponse,
-	errorResponse,
-	successResponse
-} from "@utils/responses";
+import { createSuccessResponse, errorResponse } from "@utils/responses";
 
 class BRDiscussionQuestionController {
 	static async getDiscussions({

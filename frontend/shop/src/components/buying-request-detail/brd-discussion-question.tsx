@@ -1,16 +1,11 @@
 import Button from "@components/ui/storybook/button";
 import TextArea from "@components/ui/storybook/inputs/text-area";
-import Typography from "@components/ui/storybook/typography";
 import {
   CreateBrDiscussionAnswerMutation,
   useCreateBrDiscussionAnswerMutation,
 } from "@graphql/br-discussion.graphql";
 import { IBrDiscussionQuestion, IUser } from "@graphql/types.graphql";
-import {
-  formatDateWithHour,
-  getCompanyName,
-  getLoggedInUser,
-} from "@utils/functions";
+import { getCompanyName, getLoggedInUser } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React, { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
@@ -67,6 +62,10 @@ const BRDDiscussionQuestion: React.FC<IBRDDiscussionQuestionProps> = ({
     setIsReplying(true);
   }
 
+  function handleCancelReplyClick() {
+    setIsReplying(false);
+    setAnswerError("");
+  }
   function handleSendReplyClick() {
     setIsReplying(false);
     onAnswered();
@@ -117,30 +116,35 @@ const BRDDiscussionQuestion: React.FC<IBRDDiscussionQuestionProps> = ({
           );
         })}
 
-        {isMyBr && (
-          <div className={`mt-1`}>
-            {isReplying ? (
-              <div className={`flex flex-col`}>
-                <TextArea
-                  onChange={handleAnswerChange}
-                  placeholder={t("question-answer-input-placeholder")}
-                  error={answerError}
-                />
-                <Button onClick={handleSendReplyClick} className={`self-end`}>
+        {/* {isMyBr && ( */}
+        <div className={`mt-1`}>
+          {isReplying ? (
+            <div className={`flex flex-col`}>
+              <TextArea
+                onChange={handleAnswerChange}
+                placeholder={t("question-answer-input-placeholder")}
+                error={answerError}
+              />
+              <div className={`fic space-x-2 justify-end`}>
+                <Button onClick={handleCancelReplyClick} variant="cancel">
+                  {t("cancel-text")}
+                </Button>
+                <Button onClick={handleSendReplyClick}>
                   {t("reply-text")}
                 </Button>
               </div>
-            ) : (
-              <Button
-                onClick={handleReplyClick}
-                className="text-primary border border-black"
-                variant="custom"
-              >
-                {t("reply-text")}
-              </Button>
-            )}
-          </div>
-        )}
+            </div>
+          ) : (
+            <Button
+              onClick={handleReplyClick}
+              className="text-primary border border-black"
+              variant="custom"
+            >
+              {t("reply-text")}
+            </Button>
+          )}
+        </div>
+        {/* )} */}
       </div>
     </div>
   );
