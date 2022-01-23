@@ -11,6 +11,7 @@ import SideFilter from "@components/ui/common-filter/side-filter";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import useIsPhone from "src/hooks/isPhone.hook";
 import ServicesList from "@components/services/services-list";
+import AppliedFilter from "@components/ui/navbar/applied-filter";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -49,8 +50,10 @@ const ProductAndService: React.FC<IProductAndServiceProps> = () => {
         <div className="sticky top-40 h-fit-content">
           <SideFilter noStatusFilter />
         </div>
-
-        <ServicesList />
+        <div className={`w-full bg-white space-y-3`}>
+          <AppliedFilter />
+          <ServicesList />
+        </div>
       </main>
     </>
   );

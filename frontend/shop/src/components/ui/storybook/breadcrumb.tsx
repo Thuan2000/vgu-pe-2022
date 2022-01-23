@@ -38,7 +38,6 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
   function Item({
     label,
     isLast,
-    isChevron,
   }: {
     label: string;
     isLast?: boolean;
@@ -46,7 +45,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
   }) {
     return (
       <Typography
-        className={`text-gray-300 whitespace-nowrap text-md flex-shrink-0 
+        className={`text-gray-300 whitespace-nowrap text-sm flex-shrink-0 
           ${isLast && "!text-primary px-2 border-2 border-primary rounded-sm"}
           ${!isLast && "h-[22px]"}
         `}
