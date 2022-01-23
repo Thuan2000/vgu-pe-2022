@@ -5,12 +5,6 @@ input CreateBRDiscussionAnswerInput {
 	answer: String!
 }
 
-type DiscussionAnswers {
-	user: User!
-	companyName: String!
-	answer: String!
-}
-
 extend type Mutation {
 	createBRDiscussionAnswer(input: CreateBRDiscussionAnswerInput!): Response!
 }

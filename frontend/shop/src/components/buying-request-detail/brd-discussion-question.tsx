@@ -4,7 +4,11 @@ import {
   CreateBrDiscussionAnswerMutation,
   useCreateBrDiscussionAnswerMutation,
 } from "@graphql/br-discussion.graphql";
-import { IBrDiscussionQuestion, IUser } from "@graphql/types.graphql";
+import {
+  IBrDiscussionQuestion,
+  IDiscussionAnswer,
+  IUser,
+} from "@graphql/types.graphql";
 import { getCompanyName, getLoggedInUser } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React, { ChangeEvent, useState } from "react";
@@ -19,8 +23,6 @@ interface IBRDDiscussionQuestionProps {
 
 const BRDDiscussionQuestion: React.FC<IBRDDiscussionQuestionProps> = ({
   discussionQuestion,
-  isMyBr,
-  onAnswered,
 }) => {
   const { t } = useTranslation();
 
@@ -37,7 +39,9 @@ const BRDDiscussionQuestion: React.FC<IBRDDiscussionQuestionProps> = ({
     answers: discAnswers,
   } = discussionQuestion;
 
-  const [answers, setAnswers] = useState(discAnswers);
+  const [answers, setAnswers] = useState([
+    ...(discussionQuestion.answers || []),
+  ]);
 
   const [replyQuestion] = useCreateBrDiscussionAnswerMutation({
     onCompleted: handleReplied,
@@ -66,9 +70,22 @@ const BRDDiscussionQuestion: React.FC<IBRDDiscussionQuestionProps> = ({
     setIsReplying(false);
     setAnswerError("");
   }
+
+  function generateAnswerForUI() {
+    const newAnswer: IDiscussionAnswer = {
+      answer,
+      companyName: getCompanyName()!,
+      createdAt: new Date(),
+      user: getLoggedInUser()!,
+    };
+
+    answers?.push(newAnswer);
+    setAnswers([...answers]);
+  }
+
   function handleSendReplyClick() {
     setIsReplying(false);
-    onAnswered();
+    generateAnswerForUI();
     if (!answer) {
       setAnswerError(t("answer-empty-error"));
       return;
@@ -121,6 +138,7 @@ const BRDDiscussionQuestion: React.FC<IBRDDiscussionQuestionProps> = ({
           {isReplying ? (
             <div className={`flex flex-col`}>
               <TextArea
+                autoFocus
                 onChange={handleAnswerChange}
                 placeholder={t("question-answer-input-placeholder")}
                 error={answerError}

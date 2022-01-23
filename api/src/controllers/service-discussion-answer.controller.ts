@@ -1,11 +1,11 @@
 import { ICreateBrDiscussionAnswerInput } from "@graphql/types";
-import BRDiscussionAnswer from "@models/BRDiscussionAnswer";
+import ServiceDiscussionAnswer from "@models/ServiceDiscussionAnswer";
 import { createSuccessResponse, errorResponse } from "@utils/responses";
 
-class BRDiscussionAnswerController {
+class ServiceDiscussionAnswerController {
 	static async createAnswer(input: ICreateBrDiscussionAnswerInput) {
 		try {
-			const answer = await BRDiscussionAnswer.create(input);
+			const answer = await ServiceDiscussionAnswer.create(input);
 			return createSuccessResponse(answer.getDataValue("id"));
 		} catch (e) {
 			console.log(e);
@@ -14,4 +14,4 @@ class BRDiscussionAnswerController {
 	}
 }
 
-export default BRDiscussionAnswerController;
+export default ServiceDiscussionAnswerController;

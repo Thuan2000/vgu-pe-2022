@@ -102,6 +102,7 @@ export function removeMeData() {
 
 export function removeChatAuthToken() {
   Cookie.remove(CHAT_AUTH_COOKIE_NAME, getDomain());
+  Cookie.remove(CHAT_KEEP_LOGIN_COOKIE_NAME, getDomain());
 }
 
 export function setChatAuthToken(token: string, expires: string) {

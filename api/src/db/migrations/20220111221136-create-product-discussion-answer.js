@@ -27,7 +27,7 @@ module.exports = {
 					key: "id"
 				}
 			},
-			question: {
+			answer: {
 				type: Sequelize.TEXT
 			},
 			companyName: {
