@@ -9,8 +9,8 @@ import User from "@models/User";
 import AuthRepository from "@repositories/auth.repository";
 import { ILoginInput, IFirstTimePasswordResetInput } from "@graphql/types";
 import Company from "@models/Company";
-import { Sequelize } from "sequelize";
 import UserRepository from "@repositories/user.repository";
+import { Sequelize } from "sequelize";
 
 class AuthController {
 	authRepo = new AuthRepository();
@@ -27,8 +27,12 @@ class AuthController {
 				UserRepository.encodePassword(newPassword)
 			);
 			user.setDataValue("firstLogin", false);
+			await user.save();
+			console.log(user.toJSON());
+			return successResponse();
 		} catch (err) {
 			console.error(err);
+			return errorResponse();
 		}
 	}
 
@@ -47,15 +51,15 @@ class AuthController {
 							"industryId",
 							"businessTypeIds",
 							"approved",
-							"establishmentDate"
-							// [
-							// 	Sequelize.fn(
-							// 		"JSON_VALUE",
-							// 		Sequelize.col("settings"),
-							// 		Sequelize.literal(`"$.contactNumber"`)
-							// 	),
-							// 	"contactNumber"
-							// ]
+							"establishmentDate",
+							[
+								Sequelize.fn(
+									"JSON_VALUE",
+									Sequelize.col("settings"),
+									Sequelize.literal(`"$.contactNumber"`)
+								),
+								"contactNumber"
+							]
 						]
 					}
 				]

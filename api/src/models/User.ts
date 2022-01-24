@@ -15,7 +15,6 @@ User.init(
 		firstLogin: DataTypes.BOOLEAN,
 		firstName: DataTypes.STRING,
 		lastName: DataTypes.STRING,
-		userName: DataTypes.STRING,
 		companyId: DataTypes.INTEGER,
 		email: DataTypes.STRING,
 		password: DataTypes.STRING,

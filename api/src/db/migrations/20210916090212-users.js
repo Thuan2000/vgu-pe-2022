@@ -20,6 +20,7 @@ module.exports = {
 			},
 			firstLogin: {
 				type: Sequelize.BOOLEAN,
+				defaultValue: true,
 				allowNull: false
 			},
 			firstName: {
@@ -27,9 +28,6 @@ module.exports = {
 				allowNull: false
 			},
 			lastName: {
-				type: Sequelize.STRING
-			},
-			userName: {
 				type: Sequelize.STRING
 			},
 			email: {

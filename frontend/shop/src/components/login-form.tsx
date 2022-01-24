@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
@@ -21,7 +21,6 @@ import {
   getRedirectLinkAfterLogin,
   removeRedirectLinkAfterLogin,
   setAuthCredentials,
-  setChatAuthToken,
   setMeData,
   getChatLogin,
   getHiMessage,
@@ -34,6 +33,9 @@ import { AUTH_ERRORS, CHAT_URL } from "@utils/constants";
 import { COLORS } from "@utils/colors";
 import { useWSChat } from "src/contexts/websocket.context";
 import { generateChatPassword, generateUsername } from "@utils/functions";
+import { useModal } from "src/contexts/modal.context";
+import PasswordReset from "./ui/password-reset";
+import { IUser } from "@graphql/types.graphql";
 
 type FormValues = {
   email: string;
@@ -53,8 +55,11 @@ const LoginForm = () => {
   const router = useRouter();
   const { query } = router;
   const wsClient = useWSChat();
+  const [isAbleToPass, setIsAbleToPass] = useState(false);
+  const [user, setUser] = useState<IUser>();
+  const [token, setToken] = useState<string>();
+  const { openModal, closeModal } = useModal();
 
-  const { sendMessage, lastJsonMessage } = useWebSocket(CHAT_URL);
   const {
     register,
     handleSubmit,
@@ -71,22 +76,54 @@ const LoginForm = () => {
     onCompleted: onLoginComplete,
   });
 
-  // TODO: if firstLogin is true then force the user to see the modal.
-  // user.firstLogin
+  useEffect(() => {
+    if (isAbleToPass) postLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAbleToPass]);
+
+  function handlePasswordFirstResetAbort() {
+    closeModal();
+    Swal.fire({
+      icon: "error",
+      titleText: t(`form:error-password-not-resetted-title`),
+      text: t(`form:error-password-not-resetted-message`),
+      confirmButtonText: t(`form:error-password-not-resetted-button`),
+      confirmButtonColor: COLORS.GREEN,
+    });
+  }
+
+  async function handlePasswordResetted() {
+    closeModal();
+    const data = await Swal.fire({
+      icon: "success",
+      titleText: t(`form:password-resetted-success-title`),
+      text: t(`form:password-resetted-success-message`),
+      confirmButtonText: t(`form:password-resetted-success-button`),
+      confirmButtonColor: COLORS.GREEN,
+    });
+
+    if (data.isDismissed || data.isConfirmed) setIsAbleToPass(true);
+  }
+
   async function onLoginComplete({ login }: LoginMutation) {
     const { success, message, token, user } = login;
-    if (success && !!user) {
-      setAuthCredentials(token!);
-      setMeData({ user });
+    if (success && !!user && !!token) {
+      setToken(token);
+      setUser(user);
 
       // Put the compuslory modal here.
-      if (user.firstLogin) {
-        
-      }
-
-      toast.success(`${t("form:welcomeBack-message")} ${user?.firstName}`);
-      router.replace(getRedirectLinkAfterLogin() || ROUTES.HOMEPAGE);
-      removeRedirectLinkAfterLogin();
+      if (user.firstLogin)
+        openModal(
+          (
+            <PasswordReset
+              onAbort={handlePasswordFirstResetAbort}
+              user={user}
+              onSuccess={handlePasswordResetted}
+            />
+          ) as any,
+          { closeOnClickOutside: false }
+        );
+      else setIsAbleToPass(true);
     } else {
       const { isConfirmed } = await Swal.fire({
         icon: "info",
@@ -97,10 +134,17 @@ const LoginForm = () => {
         confirmButtonColor: COLORS.GREEN,
       });
 
-      if (isConfirmed && message === AUTH_ERRORS.USER_NOT_FOUND) {
+      if (isConfirmed && message === AUTH_ERRORS.USER_NOT_FOUND)
         router.push(ROUTES.SIGNUP);
-      }
     }
+  }
+
+  async function postLogin() {
+    setAuthCredentials(token!);
+    setMeData(user!);
+    toast.success(`${t("form:welcomeBack-message")} ${user?.firstName}`);
+    router.replace(getRedirectLinkAfterLogin() || ROUTES.HOMEPAGE);
+    removeRedirectLinkAfterLogin();
   }
 
   async function onSubmit({ email, password }: FormValues) {

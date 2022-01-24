@@ -12,3 +12,10 @@ mutation Login($input: LoginInput!) {
     }
   }
 }
+
+mutation FirstTimePasswordReset($input: FirstTimePasswordResetInput!) {
+  firstTimePasswordReset(input: $input) {
+    success
+    message
+  }
+}

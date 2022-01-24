@@ -4,16 +4,19 @@ interface IModalProps extends React.HTMLAttributes<HTMLDivElement> {
   onClose: () => void;
   isOpen: boolean;
   isPhoneFullScreenContent: boolean;
+  closeOnClickOutside?: boolean;
 }
 
 const Modal: React.FC<IModalProps> = ({
   isOpen,
   children,
   className,
+  closeOnClickOutside = true,
   onClose,
   isPhoneFullScreenContent,
   ...props
 }) => {
+  console.log(closeOnClickOutside);
   useEffect(() => {
     function hideBodyOverflow() {
       document.body.style.overflowY = "hidden";
@@ -32,7 +35,7 @@ const Modal: React.FC<IModalProps> = ({
   return (
     <div
       className={`fixed left-0 right-0 top-0 bottom-0 overflow-x-hidden overflow-y-auto bg-black z-[100] bg-opacity-50 grid place-items-center ${className}`}
-      onClick={onClose}
+      onClick={closeOnClickOutside ? onClose : () => null}
       {...props}
     >
       <div

@@ -79,7 +79,7 @@ export function getRedirectLinkAfterLogin() {
   return redirectLink;
 }
 
-export function setMeData({ user }: { user: IUser }) {
+export function setMeData(user: IUser) {
   Cookie.set(LOGGED_IN_USER, JSON.stringify(user), getDomain());
 }
 

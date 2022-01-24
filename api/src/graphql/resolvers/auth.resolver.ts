@@ -9,5 +9,6 @@ const authController = new AuthController();
 
 export const Mutation = {
 	login: (_, { input }) => authController.login(input),
-	firstTimePasswordReset: (_, {input}) => authController.firstTimePasswordReset(input)
+	firstTimePasswordReset: (_, { input }) =>
+		authController.firstTimePasswordReset(input)
 };

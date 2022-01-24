@@ -8,7 +8,7 @@ export const ROUTES = {
   SETTINGS: "/settings",
   HOMEPAGE: "/",
   SIGNUP: "/signup",
-  FORGET_PASSWORD: "#",
+  FORGET_PASSWORD: "/forget-password",
   LOGOUT: "/logout",
   NOTIFICATIONS: "#",
   POST_TENDER: "/post-tender",

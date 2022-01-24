@@ -75,5 +75,6 @@
   "error-WRONG_PASSWORD-message": "Your input is incorrect. Please try again.",
   "error-WRONG_PASSWORD-button": "OK",
   "welcomeBack-message": "Welcome back",
-  "email-exist-error": "Email is already exist"
+  "email-exist-error": "Email is already exist",
+  "please-change-your-password-title": "Please Change Your Password Before Your First Login"
 }

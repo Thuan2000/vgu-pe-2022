@@ -1,14 +1,13 @@
 import {
+	createSuccessResponse,
 	errorResponse,
-	generateFirstTimePassword,
-	generateUsername,
-	successResponse
+	generateFirstTimePassword
 } from "@utils";
 import User from "@models/User";
 import EmailService from "@services/email.service";
 import AuthRepository from "@repositories/auth.repository";
 
-import { IResponse, IUser } from "@graphql/types";
+import { IResponse } from "@graphql/types";
 import UserRepository from "@repositories/user.repository";
 
 interface RegisterResp extends IResponse {
@@ -30,25 +29,19 @@ class UserController {
 	/**
 	 *
 	 * @param user UserInput
-	 * @returns {...Response, token: string, id: number}
+	 * @returns {...CreateResponse}
 	 */
 	async register(user): Promise<RegisterResp> {
 		try {
-			const userName = generateUsername(user.email);
+			// First login is set to true as default value on migration
 			const newUser = await User.create({
 				...user,
-				userName,
-				firstLogin: true,
 				password: generateFirstTimePassword()
 			});
-			newUser.save();
 
 			UserRepository.sendRegistrationEmail(newUser);
 
-			return {
-				id: newUser.getDataValue("id"),
-				...successResponse()
-			};
+			return createSuccessResponse(newUser.getDataValue("id"));
 		} catch (error) {
 			console.log(error);
 			return errorResponse();
