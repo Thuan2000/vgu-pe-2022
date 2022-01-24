@@ -36,5 +36,8 @@ type MeInfoResponse {
 
 extend type Mutation {
 	login(input: LoginInput!): LoginResponse!
-	firstTimePasswordReset(input: FirstTimePasswordResetInput!): FirstTimePasswordResetResponse!
+	firstTimePasswordReset(
+		input: FirstTimePasswordResetInput!
+	): FirstTimePasswordResetResponse!
+	forgetPasswordSendEmail(email: String!): Response!
 }

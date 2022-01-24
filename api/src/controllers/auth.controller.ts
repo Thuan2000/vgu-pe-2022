@@ -11,6 +11,12 @@ import { ILoginInput, IFirstTimePasswordResetInput } from "@graphql/types";
 import Company from "@models/Company";
 import UserRepository from "@repositories/user.repository";
 import { Sequelize } from "sequelize";
+import EmailService from "@services/email.service";
+import {
+	EEMailTemplates,
+	EMAIL_MESSAGES,
+	EMAIL_SUBJECTS
+} from "@utils/email_constants";
 
 class AuthController {
 	authRepo = new AuthRepository();
@@ -93,6 +99,31 @@ class AuthController {
 			};
 		} catch (err) {
 			console.log(err);
+		}
+	}
+
+	async forgetPasswordSendEmail(email: string) {
+		try {
+			const emailService = new EmailService();
+
+			const user: any = await User.findOne({
+				where: { email },
+				attributes: ["firstName", "lastName"]
+			});
+
+			// TODO: Get reset token
+			const resetPasswordToken = "asdfsad";
+
+			emailService.sendEmail(email, {
+				name: `${user.toJSON().firstName} ${user.toJSON().lastName}`,
+				template: EEMailTemplates.FORGOT_PASSWORD,
+				subject: EMAIL_SUBJECTS.FORGOT_PASSWORD,
+				message: `${EMAIL_MESSAGES.FORGOT_PASSWORD} `
+			});
+			return successResponse();
+		} catch (e) {
+			console.error(e);
+			return errorResponse();
 		}
 	}
 }
