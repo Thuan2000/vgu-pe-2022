@@ -46,9 +46,6 @@ class UserRepository {
 
 		user.set("companyId", companyId);
 		user.save();
-
-		// Restoring it
-		return this.authRepo.getToken(user);
 	}
 }
 

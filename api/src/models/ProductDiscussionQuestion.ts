@@ -30,7 +30,8 @@ ProductDiscussionQuestion.init(
 
 ProductDiscussionQuestion.belongsTo(User);
 ProductDiscussionQuestion.hasMany(ProductDiscussionAnswer, {
-	foreignKey: "productDiscussionQuestionId"
+	foreignKey: "productDiscussionQuestionId",
+	as: "answers"
 });
 
 export default ProductDiscussionQuestion;

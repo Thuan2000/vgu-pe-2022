@@ -8,6 +8,7 @@ type StateType = {
 
 type ModalProps = {
   onClose: () => void;
+  closeOnClickOutside?: boolean;
 };
 
 type ModalContextType = {

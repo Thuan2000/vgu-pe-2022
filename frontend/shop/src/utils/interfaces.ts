@@ -29,7 +29,7 @@ export interface IFAQ {
 }
 
 export type FontSize = "xl" | "lg" | "md" | "sm" | "xs";
-export type Background = "primary" | "secondary-1";
+export type Background = "primary" | "secondary-1" | "error";
 
 export interface ITagWithNewRecord extends ITagInput {
   isNewRecord?: boolean;

@@ -14,7 +14,9 @@ import { IFile, IFileAccessControl, IFileType } from "@graphql/types.graphql";
 import DUThumb from "./du-thumb";
 import Image from "next/image";
 import Loader from "../loader/loader";
-import { isEmpty } from "lodash";
+import { useModal } from "src/contexts/modal.context";
+import ImageCropper, { CroppedImage, CroppedImageUrls } from "./image-cropper";
+import { create } from "yup/lib/number";
 
 export interface IFileWithTypename extends IFile {
   __typename?: string;
@@ -42,41 +44,34 @@ export interface IDocumentUploaderProps {
   inputClassName?: string;
 }
 
-function getRemovedTypename(values: IFileWithTypename[]) {
-  if (!values || !isEmpty(values)) return [];
-  const files = values.flatMap((file) => {
-    if (!file) return [];
-
-    const { __typename, ...rest } = file;
-    return rest;
-  });
-  return files as any;
-}
-
-const DocumentUploader = ({
-  label,
-  note,
-  dropZoneText,
-  multiple,
-  hideUploadButton,
-  accept,
-  required,
-  inputStyle,
-  thumbOnInput,
-  error,
-  dropZonePlaceholder: DropZonePlaceholder,
-  numberQueue,
-  inputFileType,
-  onChange,
-  value: files = [],
-  maxFiles = 10,
-  accessControl = "PUBLIC_READ",
-  inputClassName,
-}: IDocumentUploaderProps) => {
+const DocumentUploader = (props: IDocumentUploaderProps) => {
+  const {
+    label,
+    note,
+    dropZoneText,
+    multiple,
+    hideUploadButton,
+    accept,
+    required,
+    inputStyle,
+    thumbOnInput,
+    error,
+    dropZonePlaceholder: DropZonePlaceholder,
+    numberQueue,
+    inputFileType,
+    onChange,
+    value: files = [],
+    maxFiles = 10,
+    accessControl = "PUBLIC_READ",
+    inputClassName,
+  } = props;
   if (!accept) throw "PLEASE_SET_THE_ACCEPT_CORRECTLY";
 
   const { t } = useTranslation("form");
   const [loadingThumbs, setLoadingThumbs] = useState<string[]>([]);
+  const [needToEditedFiles, setNeedToEditedFiles] = useState<File[]>([]);
+
+  const { openModal, closeModal } = useModal();
   const { getRootProps, getInputProps } = useDropzone({
     accept,
     multiple,
@@ -84,28 +79,60 @@ const DocumentUploader = ({
     onDropRejected: onDropRejected,
     onDrop: handleOnDrop,
   });
-
   const [uploadFiles, { loading }] = useUploadFilesMutation({
     onCompleted: () => setLoadingThumbs([]),
   });
 
-  async function handleOnDrop(acceptedFiles: File[]) {
-    if (!!maxFiles && files?.length + acceptedFiles?.length > maxFiles) {
-      fireErrorModal("too-many-files");
-      return;
-    }
+  async function getBlob(url: string) {
+    const d = await fetch(url);
+    const blob = await d.blob();
+    return blob;
+  }
 
-    setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
+  useEffect(() => {
+    if (!needToEditedFiles.length) return;
+
+    const srcs = needToEditedFiles.map((file) => {
+      const url = URL.createObjectURL(file);
+      return url;
+    });
+
+    openModal(
+      (
+        <ImageCropper
+          onFinish={handleFinishCropping}
+          src_id={srcs}
+        />
+      ) as any,
+      {
+        onClose: () => setNeedToEditedFiles([]),
+        closeOnClickOutside: false,
+      }
+    );
+  }, [needToEditedFiles]);
+
+  async function handleFinishCropping(croppedImgs: CroppedImageUrls) {
+    setNeedToEditedFiles([]);
+    closeModal();
+    // Refactor this codes later
+    setLoadingThumbs(new Array(croppedImgs.length).fill(""));
+    const croppedFiles = await Promise.all(
+      Object.keys(croppedImgs).map(async (k) => {
+        const blob = await getBlob(croppedImgs[k]);
+        return blob;
+      })
+    );
     const { data } = await uploadFiles({
       variables: {
         input: {
           companyName: getCompanyName() as string,
-          files: acceptedFiles,
+          files: croppedFiles,
           uploadsFileInputType: inputFileType as any,
           fileAccessControl: accessControl as any,
         },
       },
     });
+
     const uploadedFiles = data?.uploadFiles;
     const accFiles = uploadedFiles?.map(
       ({ __typename, ...file }: IFileWithTypename) => file
@@ -114,6 +141,38 @@ const DocumentUploader = ({
 
     if (!!files?.length && multiple) onChange([...files, ...accFiles!]);
     else onChange(accFiles!);
+    // if (onChange) onChange([...files, ...croppedFiles]);
+  }
+
+  async function handleOnDrop(acceptedFiles: File[]) {
+    if (!!maxFiles && files?.length + acceptedFiles?.length > maxFiles) {
+      fireErrorModal("too-many-files");
+      return;
+    }
+    if (inputFileType === "image") {
+      setNeedToEditedFiles(acceptedFiles);
+      return;
+    } else {
+      setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
+      const { data } = await uploadFiles({
+        variables: {
+          input: {
+            companyName: getCompanyName() as string,
+            files: acceptedFiles,
+            uploadsFileInputType: inputFileType as any,
+            fileAccessControl: accessControl as any,
+          },
+        },
+      });
+      const uploadedFiles = data?.uploadFiles;
+      const accFiles = uploadedFiles?.map(
+        ({ __typename, ...file }: IFileWithTypename) => file
+      );
+      if (!onChange) return;
+
+      if (!!files?.length && multiple) onChange([...files, ...accFiles!]);
+      else onChange(accFiles!);
+    }
   }
 
   function handleDelete(index: number) {

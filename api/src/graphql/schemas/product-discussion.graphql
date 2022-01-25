@@ -2,17 +2,12 @@ enum ProductDSort {
 	DATE
 }
 
-type ProductDiscussionAnswer {
-	user: User!
-	companyName: String!
-	answer: String
-}
-
 type ProductDiscussionQuestion {
+	id: Int!
 	user: User!
 	companyName: String!
 	question: String!
-	answers: [ProductDiscussionAnswer!]
+	answers: [DiscussionAnswer!]
 	createdAt: Date!
 }
 
@@ -46,8 +41,5 @@ extend type Query {
 extend type Mutation {
 	createProductDiscussionQuestion(
 		input: CreateProductDiscussionQuestionInput!
-	): CreateResponse
-	createProductDiscussionAnswer(
-		input: CreateProductDiscussionAnswerInput!
 	): CreateResponse
 }

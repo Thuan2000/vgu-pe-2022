@@ -28,13 +28,8 @@ class BuyingRequestController {
 			const buyingRequest = await BuyingRequest.findOne({
 				where: { slug },
 				include: [
+					Company,
 					{ model: User, as: "createdBy" },
-					{
-						model: Company,
-						include: [
-							{ model: User, attributes: ["chatId"], as: "owner" }
-						]
-					},
 					{
 						model: BRDiscussionQuestion,
 						as: "discussionQuestions",
@@ -42,6 +37,7 @@ class BuyingRequestController {
 					}
 				]
 			});
+			console.log(buyingRequest.toJSON());
 
 			return buyingRequest;
 		} catch (error) {

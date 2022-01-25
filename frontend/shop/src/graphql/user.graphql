@@ -3,3 +3,7 @@ mutation CheckEmail($email: String!) {
     isExist
   }
 }
+
+mutation IsVerifiedUser($email: String!) {
+  isVerifiedUser(email: $email)
+}

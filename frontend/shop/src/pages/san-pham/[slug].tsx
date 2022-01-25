@@ -67,13 +67,13 @@ const ProductDetail: React.FC<IServiceDetailProps> = ({ product }) => {
             {/* Left Section */}
             <div>
               <DetailImages coverImage={coverImage!} images={gallery || []} />
-              <div className="fic space-x-4">
+              {/* <div className="fic space-x-4">
                 <Typography
                   text={`${t("brd-share-label")}:`}
                   variant="smallTitle"
                 />
                 <RecordSocialShareList />
-              </div>
+              </div> */}
             </div>
             {/* Right Section */}
             <div className="w-full">

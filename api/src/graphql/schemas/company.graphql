@@ -109,7 +109,7 @@ type Company {
 
 type CompanySubscription {
 	startAt: Date!
-	monthAmount: Int!
+	endAt: Date!
 	subscriptionDetail: Subscription!
 }
 
@@ -124,7 +124,6 @@ input CompanyRegisterInput {
 	lastName: String!
 	email: String!
 	phoneNumber: String!
-	password: String!
 	companyName: String!
 	licenseNumber: String!
 	licenseFiles: [FileInput!]!

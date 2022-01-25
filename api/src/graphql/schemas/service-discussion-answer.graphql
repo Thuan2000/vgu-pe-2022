@@ -1,0 +1,19 @@
+input CreateServiceDiscussionAnswerInput {
+	serviceDiscussionQuestionId: Int!
+	userId: Int!
+	companyName: String!
+	answer: String!
+}
+
+type DiscussionAnswer {
+	user: User!
+	companyName: String!
+	answer: String!
+	createdAt: Date!
+}
+
+extend type Mutation {
+	createServiceDiscussionAnswer(
+		input: CreateServiceDiscussionAnswerInput!
+	): CreateResponse!
+}

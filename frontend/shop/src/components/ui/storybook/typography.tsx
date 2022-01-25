@@ -1,7 +1,13 @@
 import React from "react";
 import cn from "classnames";
 
-type TextColor = "primary" | "gray" | "gray-400" | "black" | "secondary-1";
+type TextColor =
+  | "primary"
+  | "gray"
+  | "gray-400"
+  | "black"
+  | "secondary-1"
+  | "white";
 
 type TFontWeight = "bold" | "semibold" | "light";
 

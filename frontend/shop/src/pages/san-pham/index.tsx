@@ -9,9 +9,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { IServiceListItem } from "@graphql/types.graphql";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import useIsPhone from "src/hooks/isPhone.hook";
-import UnderDevelopment from "@components/under-development";
 import SideFilter from "@components/ui/common-filter/side-filter";
 import ProductsList from "@components/products/products-list";
+import AppliedFilter from "@components/ui/navbar/applied-filter";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -51,8 +51,11 @@ const ProductAndService: React.FC<IProductAndServiceProps> = () => {
         <div className="sticky top-40 h-fit-content">
           <SideFilter noStatusFilter />
         </div>
+        <div className={`w-full bg-white space-y-3`}>
+          <AppliedFilter />
 
-        <ProductsList />
+          <ProductsList />
+        </div>
       </main>
     </>
   );

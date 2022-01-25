@@ -2,6 +2,7 @@ import PageLayout from "@components/layouts/page-layout";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import BuyingRequestsList from "@components/ui/buying-requests/feed/buying-requests-list";
 import SideFilter from "@components/ui/common-filter/side-filter";
+import AppliedFilter from "@components/ui/navbar/applied-filter";
 import { generateHeadTitle } from "@utils/seo-utils";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -40,11 +41,12 @@ const BuyingRequests: React.FC = () => {
           content="DSConnect.VN | The best B2B Ecommerce in Vietnam provide a fast supply demain chain to fit your need"
         />
       </Head>
-      <main className="flex relative space-x-6 mb-8">
-        <div className="sticky top-40 h-fit-content">
+      <main className="flex relative space-x-6">
+        <div className="sticky top-36 h-fit-content">
           <SideFilter />
         </div>
-        <div className={`w-full`}>
+        <div className={`w-full bg-white space-y-3`}>
+          <AppliedFilter />
           <BuyingRequestsList />
         </div>
       </main>

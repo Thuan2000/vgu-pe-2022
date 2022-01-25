@@ -1,23 +1,31 @@
 import Cookie from "js-cookie";
 import SSRCookie from "cookie";
-import { AUTH_CRED, LOGGED_IN_USER, REDIRECT_AFTER_LOGIN } from "./constants";
+import {
+  AUTH_CRED,
+  CHAT_AUTH_COOKIE_NAME,
+  CHAT_KEEP_LOGIN_COOKIE_NAME,
+  LOGGED_IN_USER,
+  REDIRECT_AFTER_LOGIN,
+} from "./constants";
 import { IMeInfoResponse, IUser } from "@graphql/types.graphql";
+import { encodeString, generateUUID } from "./functions";
+import { m } from "framer-motion";
 
 const cookieDomain = { domain: `.${process.env.NEXT_PUBLIC_DOMAIN}` };
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
+function getDomain() {
+  return !isDevelopment ? { ...cookieDomain } : {};
+}
+
 export function setAuthCredentials(token: string) {
   const authCred = { token };
-  Cookie.set(
-    AUTH_CRED,
-    JSON.stringify({ ...authCred }),
-    !isDevelopment ? { ...cookieDomain } : {}
-  );
+  Cookie.set(AUTH_CRED, JSON.stringify({ ...authCred }), getDomain());
 }
 
 export function removeAuthCredentials() {
-  Cookie.remove(AUTH_CRED, !isDevelopment ? { ...cookieDomain } : {});
+  Cookie.remove(AUTH_CRED, getDomain());
 }
 
 export function getAuthCredentials(context?: any): {
@@ -59,18 +67,11 @@ export function isAuthenticated(_cookies: { token: string }) {
 }
 
 export function removeRedirectLinkAfterLogin() {
-  Cookie.remove(
-    REDIRECT_AFTER_LOGIN,
-    !isDevelopment ? { ...cookieDomain } : {}
-  );
+  Cookie.remove(REDIRECT_AFTER_LOGIN, getDomain());
 }
 
 export function setRedirectLinkAfterLogin(url: string) {
-  Cookie.set(
-    REDIRECT_AFTER_LOGIN,
-    url,
-    !isDevelopment ? { ...cookieDomain } : {}
-  );
+  Cookie.set(REDIRECT_AFTER_LOGIN, url, getDomain());
 }
 
 export function getRedirectLinkAfterLogin() {
@@ -78,12 +79,8 @@ export function getRedirectLinkAfterLogin() {
   return redirectLink;
 }
 
-export function setMeData({ user }: { user: IUser }) {
-  Cookie.set(
-    LOGGED_IN_USER,
-    JSON.stringify(user),
-    !isDevelopment ? { ...cookieDomain } : {}
-  );
+export function setMeData(user: IUser) {
+  Cookie.set(LOGGED_IN_USER, JSON.stringify(user), getDomain());
 }
 
 export function isLogin() {
@@ -100,9 +97,42 @@ export function getMeData(): IMeInfoResponse | { company: null; user: null } {
 }
 
 export function removeMeData() {
-  Cookie.remove(LOGGED_IN_USER, !isDevelopment ? { ...cookieDomain } : {});
+  Cookie.remove(LOGGED_IN_USER, getDomain());
 }
 
-export function setChatAuthToken(token: string) {
-  localStorage.setItem("auth-token", token);
+export function removeChatAuthToken() {
+  Cookie.remove(CHAT_AUTH_COOKIE_NAME, getDomain());
+  Cookie.remove(CHAT_KEEP_LOGIN_COOKIE_NAME, getDomain());
+}
+
+export function setChatAuthToken(token: string, expires: string) {
+  Cookie.set(
+    CHAT_AUTH_COOKIE_NAME,
+    JSON.stringify({
+      token,
+      expires,
+    }),
+    getDomain()
+  );
+
+  Cookie.set(CHAT_KEEP_LOGIN_COOKIE_NAME, "true", getDomain());
+}
+
+export function getChatLogin(username: string, password: string) {
+  return {
+    login: {
+      id: generateUUID(),
+      scheme: "basic",
+      secret: encodeString(`${username}:${password}`),
+    },
+  };
+}
+
+export function getHiMessage() {
+  return {
+    hi: {
+      id: generateUUID(),
+      ver: "0.17.10",
+    },
+  };
 }

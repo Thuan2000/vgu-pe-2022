@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useModal } from "src/contexts/modal.context";
 import Modal from "./ui/modal";
 
@@ -10,15 +10,17 @@ const ModalContainer: React.FC<IModalContainerProps> = () => {
     closeModal,
   } = useModal();
 
+  const { onClose, closeOnClickOutside } = modalProps || {};
+
   function handleCloseModal() {
-    if (modalProps?.onClose) modalProps.onClose();
+    if (onClose) onClose();
     closeModal();
   }
-
   if (!Component) return <></>;
 
   return (
     <Modal
+      closeOnClickOutside={closeOnClickOutside}
       isPhoneFullScreenContent={true}
       onClose={handleCloseModal}
       isOpen={isOpen}

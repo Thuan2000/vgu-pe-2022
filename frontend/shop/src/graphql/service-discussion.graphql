@@ -20,6 +20,7 @@ mutation CreateServiceDiscussionAnswer(
 
 query ServiceDiscussionQuestions($input: ServiceDiscussionsInput!) {
   serviceDiscussionQuestions(input: $input) {
+    id
     user {
       firstName
       lastName
@@ -34,6 +35,7 @@ query ServiceDiscussionQuestions($input: ServiceDiscussionsInput!) {
       }
       companyName
       answer
+      createdAt
     }
   }
 }

@@ -2,19 +2,12 @@ enum BRDSort {
 	DATE
 }
 
-type BRDiscussionAnswer {
-	user: User!
-	companyName: String!
-	answer: String!
-	createdAt: Date!
-}
-
 type BRDiscussionQuestion {
 	id: Int!
 	user: User!
 	companyName: String!
 	question: String!
-	answers: [BRDiscussionAnswer!]
+	answers: [DiscussionAnswer!]
 	createdAt: Date!
 }
 

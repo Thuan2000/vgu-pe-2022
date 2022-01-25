@@ -76,10 +76,10 @@ const PDDAskQuestion: React.FC<ISDDAskQuestionProps> = ({
       />
 
       <p className="text-right">
-        <div className="mb-3 fic justify-end space-x-1">
+        {/* <div className="mb-3 fic justify-end space-x-1">
           <AttachmentIcon className={iconClass} />
           <ImageIcon className={iconClass} />
-        </div>
+        </div> */}
         <Button disabled={!question} onClick={submit} size="small">
           {t("ask-question-button-label")}
         </Button>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/interface-name-prefix */
 import Nodemailer, { Transporter } from "nodemailer";
 import fs from "fs";
 import handlebars from "handlebars";
@@ -6,6 +7,15 @@ import path from "path";
 import { EEMailTemplates } from "@utils/email_constants";
 import AWS from "aws-sdk";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
+
+interface IEmailVariable {
+	name: string;
+	message: string;
+	subject: string;
+	template: EEMailTemplates;
+	password?: string;
+	forgotPasswordTokenLink?: string;
+}
 
 class EmailService {
 	private transporter: Transporter;
@@ -47,19 +57,19 @@ class EmailService {
 			name,
 			message,
 			subject,
-			template
-		}: {
-			name: string;
-			message: string;
-			subject: string;
-			template: EEMailTemplates;
-		}
+			password,
+			template,
+			forgotPasswordTokenLink
+		}: IEmailVariable
 	) {
 		try {
 			const templateVariables = {
 				title: subject,
 				name,
 				message,
+				password: password ? password : "",
+				shopUrl: process.env.SHOP_URL,
+				forgotPasswordTokenLink,
 				email: typeof targets === "string" ? targets : targets[0]
 			};
 
@@ -68,7 +78,7 @@ class EmailService {
 
 			const htmlWithVariables = htmlTemplate(templateVariables);
 
-			const info = await this.transporter.sendMail({
+			await this.transporter.sendMail({
 				from: process.env.SMTP_FROM,
 				to: targets,
 				subject,

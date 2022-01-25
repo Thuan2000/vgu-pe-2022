@@ -12,27 +12,6 @@ class BRDiscussionAnswerController {
 			return errorResponse();
 		}
 	}
-
-	// static async getDiscussions({
-	// 	brId,
-	// 	limit,
-	// 	offset,
-	// 	sort
-	// }: IBrDiscussionsInput) {
-	// 	try {
-	// 		const questions = await BRDiscussionQuestion.findAll({
-	// 			where: { brId },
-	// 			limit,
-	// 			offset,
-	// 			include: [User, BRDiscussionAnswer]
-	// 		});
-
-	// 		return questions;
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		return errorResponse();
-	// 	}
-	// }
 }
 
 export default BRDiscussionAnswerController;

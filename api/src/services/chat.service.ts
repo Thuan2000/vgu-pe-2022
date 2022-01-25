@@ -1,8 +1,8 @@
 import ChatFunction, { IAccProps } from "@/functions/chat.function";
-import UserController from "@controllers/user.controller";
+import CompanyController from "@controllers/company.controller";
 import { client as WebSocketClient, connection } from "websocket";
 
-export let approvedEmail = "";
+export let approvedCompanyId = null;
 
 class ChatService {
 	private static client = new WebSocketClient();
@@ -11,24 +11,24 @@ class ChatService {
 	private static connection: connection = null;
 
 	private static initChat() {
-		this.client.on("connectFailed", connection => {
-			console.error(connection.message);
-		});
+		this.client.on("connectFailed", connection =>
+			console.error(connection.message)
+		);
 
 		this.client.on("connect", connection => {
 			this.connection = connection;
 			console.log("Chat connected");
 
-			connection.on("message", message => {
+			connection.on("message", async message => {
 				if (message.type === "utf8") {
 					const data = JSON.parse(message.utf8Data).ctrl;
 					if (data?.params?.authlvl === "auth") {
-						UserController.addChatId(
-							approvedEmail,
+						const { success } = await CompanyController.addChatId(
+							approvedCompanyId,
 							data?.params?.user
 						);
 
-						approvedEmail = "";
+						approvedCompanyId = null;
 					}
 					console.log(data);
 				}
@@ -49,10 +49,13 @@ class ChatService {
 	}
 
 	static createAccount(props: IAccProps) {
-		approvedEmail = props.email;
-		this.connection.send(
-			JSON.stringify(ChatFunction.generateAccMessage(props))
-		);
+		approvedCompanyId = props.compId;
+
+		setTimeout(() => {
+			this.connection.send(
+				JSON.stringify(ChatFunction.generateAccMessage(props))
+			);
+		}, 10);
 	}
 }
 

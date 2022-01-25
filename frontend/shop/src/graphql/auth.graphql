@@ -12,3 +12,28 @@ mutation Login($input: LoginInput!) {
     }
   }
 }
+
+mutation FirstTimePasswordReset($input: FirstTimePasswordResetInput!) {
+  firstTimePasswordReset(input: $input) {
+    success
+    message
+  }
+}
+
+mutation ForgetPasswordSendEmail($email: String!) {
+  forgetPasswordSendEmail(email: $email) {
+    message
+    success
+  }
+}
+
+query GetEmailFromCryptoToken($token: String!) {
+  getEmailFromCryptoToken(token: $token)
+}
+
+mutation ForgetResetPassword($input: ForgetResetPasswordInput) {
+  forgetResetPassword(input: $input) {
+    message
+    success
+  }
+}

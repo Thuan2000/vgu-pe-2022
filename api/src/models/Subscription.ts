@@ -18,6 +18,7 @@ Subscription.init(
 	{
 		nameEn: DataTypes.STRING,
 		nameVn: DataTypes.STRING,
+		description: DataTypes.TEXT,
 		monthlyPrice: DataTypes.INTEGER
 	},
 	{
