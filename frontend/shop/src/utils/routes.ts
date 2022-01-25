@@ -21,4 +21,5 @@ export const ROUTES = {
   COMPANY_DETAIL: "/company-details",
   CHAT_URL: process.env.NEXT_PUBLIC_CHAT_URL,
   ADMIN_LINK: `${process.env.NEXT_PUBLIC_ADMIN_URL}`,
+  EMAIL_LINK: `https://gmail.com`,
 };

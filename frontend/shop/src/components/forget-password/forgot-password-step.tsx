@@ -24,13 +24,13 @@ const ForgotPasswordStepItem: React.FC<IForgotPasswordStepProps> = ({
 
   return (
     <div
-      className={`flex align-top space-x-1 pb-10 border-l-2
+      className={`flex align-top space-x-1 pb-10 border-l-2 transition-all duration-200
         ${!isFilled && "border-dashed"}
         ${isLast ? "border-primary" : "border-white"}
       `}
     >
       <div
-        className={`rounded-full border-2 w-7 h-7 flex-center border-white ${
+        className={`rounded-full flex-shrink-0 border-2 w-7 h-7 flex-center border-white ${
           isActive || isFilled ? "bg-white" : "bg-primary"
         }`}
         style={{ transform: "translateX(-15px)" }}
@@ -44,8 +44,8 @@ const ForgotPasswordStepItem: React.FC<IForgotPasswordStepProps> = ({
         )}
       </div>
       <div>
-        <Typography weight="semibold" color="white" size="xl" text={title} />
-        <Typography color="white" size="md" text={subtitle} />
+        <Typography weight="semibold" color="white" size="lg" text={title} />
+        <Typography color="white" size="sm" text={subtitle} />
       </div>
     </div>
   );

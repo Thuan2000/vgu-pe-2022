@@ -31,4 +31,5 @@ type CheckEmailResponse {
 
 extend type Mutation {
 	checkEmail(email: String!): CheckEmailResponse!
+	isVerifiedUser(email: String!): Boolean!
 }

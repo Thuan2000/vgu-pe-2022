@@ -88,13 +88,11 @@ const SignupForm = () => {
     });
 
     if (isConfirmed) resetErrorValue();
-    if (isDenied) router.replace(ROUTES.HOMEPAGE);
+    if (isDenied) router.replace(ROUTES.LOGIN);
   }
 
   function resetErrorValue() {
     setValue("email", "");
-    // setValue("password", "");
-    // setValue("confirmPassword", "");
   }
 
   async function fireSuccessModal() {

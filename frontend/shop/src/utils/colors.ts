@@ -2,6 +2,7 @@ export const COLORS = {
   PRIMARY: {
     DEFAULT: "#00D796",
   },
+  SECONDARY: "#349EFF",
   WHITE: "#FFFFFF",
   GREEN: "#00D796",
   BOLDER: "#15114E",

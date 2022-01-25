@@ -26,3 +26,14 @@ mutation ForgetPasswordSendEmail($email: String!) {
     success
   }
 }
+
+query GetEmailFromCryptoToken($token: String!) {
+  getEmailFromCryptoToken(token: $token)
+}
+
+mutation ForgetResetPassword($input: ForgetResetPasswordInput) {
+  forgetResetPassword(input: $input) {
+    message
+    success
+  }
+}

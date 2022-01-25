@@ -1,3 +1,4 @@
+import { getDefaultStep } from "@pages/forget-password";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import React from "react";
@@ -8,7 +9,8 @@ interface IForgetPasswordStepsProps {}
 const ForgetPasswordSteps: React.FC<IForgetPasswordStepsProps> = ({}) => {
   const { t } = useTranslation();
   const { query } = useRouter();
-  const step = parseInt((query.step as string) || "1");
+  const token = query.token as string;
+  const step = parseInt((query.step as string) || getDefaultStep(token));
 
   return (
     <div>

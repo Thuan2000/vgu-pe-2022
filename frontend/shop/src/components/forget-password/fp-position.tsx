@@ -1,3 +1,4 @@
+import { getDefaultStep } from "@pages/forget-password";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -5,13 +6,14 @@ interface IFPPositionProps {}
 
 const FPPosition: React.FC<IFPPositionProps> = ({}) => {
   const { query } = useRouter();
-  const step = parseInt((query.step as string) || "1");
+  const token = query.token as string;
+  const step = parseInt((query.step as string) || getDefaultStep(token));
 
   return (
     <div className={`fic space-x-4 justify-center !mt-10`}>
       <FPPositionItem isActive={step === 1} />
       <FPPositionItem isActive={step === 2} />
-      <FPPositionItem isActive={step === 3} />
+      <FPPositionItem isActive={!!token} />
     </div>
   );
 };

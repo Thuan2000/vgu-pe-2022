@@ -7,7 +7,11 @@ import bcrypt from "bcrypt";
 import { errorResponse, successResponse } from "@utils/responses";
 import User from "@models/User";
 import AuthRepository from "@repositories/auth.repository";
-import { ILoginInput, IFirstTimePasswordResetInput } from "@graphql/types";
+import {
+	ILoginInput,
+	IFirstTimePasswordResetInput,
+	IForgetResetPasswordInput
+} from "@graphql/types";
 import Company from "@models/Company";
 import UserRepository from "@repositories/user.repository";
 import { Sequelize } from "sequelize";
@@ -17,6 +21,7 @@ import {
 	EMAIL_MESSAGES,
 	EMAIL_SUBJECTS
 } from "@utils/email_constants";
+import { JsonWebTokenError } from "jsonwebtoken";
 
 class AuthController {
 	authRepo = new AuthRepository();
@@ -57,15 +62,15 @@ class AuthController {
 							"industryId",
 							"businessTypeIds",
 							"approved",
-							"establishmentDate",
-							[
-								Sequelize.fn(
-									"JSON_VALUE",
-									Sequelize.col("settings"),
-									Sequelize.literal(`"$.contactNumber"`)
-								),
-								"contactNumber"
-							]
+							"establishmentDate"
+							// [
+							// 	Sequelize.fn(
+							// 		"JSON_VALUE",
+							// 		Sequelize.col("settings"),
+							// 		Sequelize.literal(`"$.contactNumber"`)
+							// 	),
+							// 	"contactNumber"
+							// ]
 						]
 					}
 				]
@@ -89,7 +94,7 @@ class AuthController {
 			if (!isPasswordMatch) return errorResponse("WRONG_PASSWORD");
 
 			// Save token to redis
-			const token = this.authRepo.getToken(user);
+			const token = AuthRepository.generateJwtToken(user);
 
 			// Return payload to frontend
 			return {
@@ -111,18 +116,55 @@ class AuthController {
 				attributes: ["firstName", "lastName"]
 			});
 
-			// TODO: Get reset token
-			const resetPasswordToken = "asdfsad";
+			if (!user) return errorResponse("USER_NOT_FOUND");
+
+			const resetPasswordToken = await AuthRepository.generateCryptoToken();
+			const forgotPasswordTokenLink = `${process.env.SHOP_URL}/forget-password?token=${resetPasswordToken}`;
+
+			await AuthRepository.saveCryptoTokenInRedis(
+				resetPasswordToken,
+				email
+			);
 
 			emailService.sendEmail(email, {
-				name: `${user.toJSON().firstName} ${user.toJSON().lastName}`,
+				name: `${user?.toJSON().firstName} ${user?.toJSON().lastName}`,
 				template: EEMailTemplates.FORGOT_PASSWORD,
 				subject: EMAIL_SUBJECTS.FORGOT_PASSWORD,
-				message: `${EMAIL_MESSAGES.FORGOT_PASSWORD} `
+				message: `${EMAIL_MESSAGES.FORGOT_PASSWORD}`,
+				forgotPasswordTokenLink
 			});
 			return successResponse();
 		} catch (e) {
 			console.error(e);
+			return errorResponse();
+		}
+	}
+
+	async getEmailFromCryptoToken(token: string) {
+		const email = await AuthRepository.getEmailFromCryptoToken(token);
+
+		return email;
+	}
+
+	async forgetResetPassword({
+		email,
+		token,
+		newPassword
+	}: IForgetResetPasswordInput) {
+		try {
+			// Validate token
+			const isValid = await AuthRepository.validateToken(token);
+			if (!isValid) return errorResponse("TOKEN_INVALID");
+
+			const encodedPassword = UserRepository.encodePassword(newPassword);
+			const user = await User.findOne({ where: { email } });
+			user.setDataValue("password", encodedPassword);
+			await user.save();
+			await AuthRepository.removeTokenFromDb(token);
+
+			return successResponse();
+		} catch (error) {
+			console.error(error);
 			return errorResponse();
 		}
 	}

@@ -9,6 +9,7 @@ import AuthRepository from "@repositories/auth.repository";
 
 import { IResponse } from "@graphql/types";
 import UserRepository from "@repositories/user.repository";
+import Company from "@models/Company";
 
 interface RegisterResp extends IResponse {
 	id?: number;
@@ -48,8 +49,28 @@ class UserController {
 		}
 	}
 
+	static async isVerifiedUser(email: string) {
+		try {
+			const user: any = await User.findOne({
+				where: { email },
+				attributes: [],
+				include: [
+					{ model: Company, as: "company", attributes: ["approved"] }
+				]
+			});
+
+			return !!user?.company?.approved;
+		} catch (error) {
+			console.error(error);
+			return false;
+		}
+	}
+
 	static async checkEmail(email: string) {
-		const user = await User.findOne({ where: { email } });
+		const user = await User.findOne({
+			where: { email },
+			attributes: ["id"]
+		});
 
 		return { isExist: !!user };
 	}

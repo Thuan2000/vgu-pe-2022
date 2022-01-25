@@ -20,19 +20,20 @@ interface IPasswordResetProps {
   user: IUser;
 }
 
-type TPasswordResetFormValues = {
+export type TPasswordResetFormValues = {
   password: string;
   confirmPassword: string;
 };
 
-const resolver = yup.object({
+export const passwordResetResolver = yup.object({
   password: yup
     .string()
     .required("passwordRequired-error")
     .matches(/^(?=.{8,})/, "passwordTooShort-error")
     .matches(/[A-Z]/, "passwordNotHaveUppercase-error")
     .matches(/[a-z]/, "passwordNotHaveLowercase-error")
-    .matches(/[0-9]/, "passwordNotHaveNumber-error"),
+    .matches(/[0-9]/, "passwordNotHaveNumber-error")
+    .matches(/^\S*$/, "passwordHaveSpace-error"),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password"), null], "passwordNotMatch-error")
@@ -53,7 +54,7 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({
     trigger,
     formState: { errors },
   } = useForm<TPasswordResetFormValues>({
-    resolver: yupResolver(resolver),
+    resolver: yupResolver(passwordResetResolver),
     reValidateMode: "onChange",
   });
 
@@ -61,7 +62,7 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({
 
   function onSubmit(value: TPasswordResetFormValues) {
     resetPassword({
-      variables: { input: { email, newPassword: value.password } },
+      variables: { input: { email: email!, newPassword: value.password } },
     });
 
     onSuccess();

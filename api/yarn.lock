@@ -1638,6 +1638,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/async-redis@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@types/async-redis/-/async-redis-1.1.3.tgz#ba68c2f83a886cb426de379437a78b4a15d5a742"
+  integrity sha512-3jMi8dvD2NWutuGi6XzUwvMl4qm8WGdZy+kYEc5Jgc77o/3VhMaP44XDKoz+5nKggDEkyoIiDIas1rp/QschaQ==
+  dependencies:
+    "@types/redis" "^2.8.0"
+
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.0", "@types/babel__core@^7.1.14":
   version "7.1.16"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.16.tgz#bc12c74b7d65e82d29876b5d0baf5c625ac58702"
@@ -1862,7 +1869,7 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
-"@types/redis@^2.8.32":
+"@types/redis@^2.8.0", "@types/redis@^2.8.32":
   version "2.8.32"
   resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.32.tgz#1d3430219afbee10f8cfa389dad2571a05ecfb11"
   integrity sha512-7jkMKxcGq9p242exlbsVzuJb57KqHRhNl4dHoQu2Y5v9bCAbtIXXH0R3HleSQW4CTOqpHIYUW3t6tpUj4BVQ+w==
@@ -2444,6 +2451,13 @@ async-limiter@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
+
+async-redis@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/async-redis/-/async-redis-2.0.0.tgz#478704e48e2ae7a84a7cfd55ab946f463fba9cab"
+  integrity sha512-cGv40n9h3gpAGMGnX1v5ncgHJ2C3TsRmK6Ekt282jVftiky3v0X13PSfnLoRix9uva7ctb2j9lwA3d2qc4KKTA==
+  dependencies:
+    redis "3.1.2"
 
 async-retry@^1.2.1:
   version "1.3.3"
@@ -8166,7 +8180,7 @@ redis-parser@^3.0.0:
   dependencies:
     redis-errors "^1.0.0"
 
-redis@^3.1.2:
+redis@3.1.2, redis@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/redis/-/redis-3.1.2.tgz#766851117e80653d23e0ed536254677ab647638c"
   integrity sha512-grn5KoZLr/qrRQVwoSkmzdbw6pwF+/rwODtrOr6vuBRiR/f3rjSTGupbF90Zpqm2oenix8Do6RV7pYEkGwlKkw==

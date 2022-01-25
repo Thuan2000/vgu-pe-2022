@@ -1,5 +1,6 @@
 export const SLUG_UNIQUE_SEPARATOR = "_";
 export const DEFAULT_SUBSCRIPTION_ID = 1;
+export const HOUR_IN_SECONDS = 3600;
 
 export enum ENODE_ENV {
 	DEVELOPMENT = "development",
