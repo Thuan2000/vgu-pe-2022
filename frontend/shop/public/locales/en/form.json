@@ -61,7 +61,6 @@
   "askQuestion-input-placeholder": "Write message",
   "ask-question-button-label": "Ask Question",
   "agreement-is-shouldBeChecked-error": "You have to agree with agreement",
-  "companyLicenses-is-required-error": "You must upload your business registration",
   "accountCreated-title": "Congratulation",
   "accountCreated-message": "Your account is created successfully, we will approve it soon",
   "accountCreated-button": "To Login Page",
@@ -71,10 +70,5 @@
   "error-COMPANY_NOT_APPROVED-title": "Account Not Approved",
   "error-COMPANY_NOT_APPROVED-message": "Please wait until we approve your account, we will approve it soon",
   "error-COMPANY_NOT_APPROVED-button": "Close Modal",
-  "error-WRONG_PASSWORD-title": "Email/Password is incorrect",
-  "error-WRONG_PASSWORD-message": "Your input is incorrect. Please try again.",
-  "error-WRONG_PASSWORD-button": "OK",
-  "welcomeBack-message": "Welcome back",
-  "email-exist-error": "Email is already exist",
-  "please-change-your-password-title": "Please Change Your Password Before Your First Login"
+  "welcomeBack-message": "Welcome back"
 }

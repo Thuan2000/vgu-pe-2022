@@ -55,7 +55,6 @@
   "brd-details-title": "Details",
   "brd-budget-title": "Budget",
   "brd-location-title": "Delivery Location",
-  "location-title": "Delivery Location",
   "brd-endDate-title": "End Date",
   "brd-minOrder-title": "Minimum Order",
   "brd-sourceType-title": "Type",
@@ -81,9 +80,8 @@
   "will-available-soon-text": "It will be available soon. Please come back again later",
   "sorry-title": "Sorry",
   "this-page-is-under-development-message": "This page is under development",
-  "phone-view-not-ready-text": "View not yet supported on mobile",
-
-  "please-open-on-laptop-text": "Please view on desktop",
+  "phone-view-not-ready-text": "Phone view not developed yet",
+  "please-open-on-laptop-text": "Please use laptop to open this page",
   "HOMEPAGE_NAV_LABEL": "Homepage",
   "COMPANY_NAV_LABEL": "Companies",
   "TENDER_NAV_LABEL": "Tenders",
@@ -136,46 +134,5 @@
   "years-text": "Years",
   "yourCompany-button-label": "Your Company",
   "min-establishmentDate-filter-label": "Min Establishment Date",
-  "establishmentDate-filter-placeholder": "12/12/2021",
-  "admin-panel-menu-label": "Admin Panel",
-  "reply-text": "Reply",
-  "question-answer-input-placeholder": "Type your answer",
-
-  "companyTotalEmployee-text": "Total Employees",
-  "share-label": "Share to",
-  "companyInformation-title": "Information",
-  "companyDetails-title": "Details",
-  "location-text": "Location",
-  "yearOfEstablished-text": "Year Established",
-  "contactNumber-text": "Contact Number",
-  "address-text": "Address",
-  "industry-text": "Industry",
-  "businessType-text": "Business Type",
-  "mainProducts-text": "Main Products",
-
-  "companySocialMedia-title": "Social Media",
-
-  "singularCompanyfactory-title": "Factory",
-  "pluralCompanyfactory-title": "factories",
-  "singularCompanybranch-title": "Branches",
-  "pluralCompanybranch-title": "branches",
-  "singularCompanyproducts-title": "Company Products",
-  "pluralCompanyproducts-title": "products",
-  "singularCompanyservices-title": "Company Services",
-  "pluralCompanyservices-title": "services",
-  "companyCertificates-title": "Certificates",
-
-  "TotalPD-text": "Number of product",
-  "RpTime-text": "Response time",
-  "chat-button": "Chat",
-
-  "noFactory-message": "This company has no factory yet",
-  "noBranch-message": "This company has no branch yet",
-  "noProduct-message": "This company has no product yet",
-  "noService-message": "This company has no service yet",
-
-  "not-setup": "Not setup yet",
-
-  "no-services-yet-message": "There is no service yet",
-  "no-products-yet-message": "Thers is no product yet"
+  "establishmentDate-filter-placeholder": "12/12/2021"
 }
