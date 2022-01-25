@@ -31,7 +31,7 @@ const InputLabel: React.FC<IInputLabelProps> = ({
       style={{ color: "red", fontWeight: "normal" }}
       className={`text-${labelFontSize}`}
     >
-      &nbsp;(*)
+      &nbsp;*
     </span>
   ) : (
     <div />

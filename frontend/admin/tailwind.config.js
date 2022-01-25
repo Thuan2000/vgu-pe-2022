@@ -17,6 +17,7 @@ module.exports = {
         80: "345px",
         "1/2.5": "47%",
         "49p": "49%",
+        "75%": "75%",
         "fit-content": "fit-content",
       },
       fontFamily: {

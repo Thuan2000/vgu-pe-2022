@@ -1,3 +1,8 @@
+/**
+ * Copyright Emolyze Tech ©2021
+ * Good codes make the world a better place!
+ */
+
 import jwt from "jsonwebtoken";
 import utf8 from "utf8";
 import base64 from "base-64";
@@ -42,17 +47,13 @@ export function checkTableName(tableName: string) {
 
 export function getUserName(user) {
 	const name = `${user.firstName} ${user.lastName}`;
-
 	return name;
 }
 
 export function getUserFromToken(token) {
 	if (!token) return null;
-
 	const authToken = token.split(" ")[1];
-
 	const user = jwt.verify(authToken, process.env.JWT_SECRET);
-
 	return user;
 }
 
@@ -78,7 +79,7 @@ export function generateUUID() {
 	});
 }
 
-function undefinedPropertiesObj(obj) {
+function __undefinedPropertiesObj(obj) {
 	let isAllUndefined = true;
 	Object.keys(obj).forEach(k => {
 		if (!!obj[k]) isAllUndefined = false;
@@ -89,19 +90,17 @@ function undefinedPropertiesObj(obj) {
 export function isEmptyObject(obj) {
 	if (!Object.keys(obj).length) return true;
 
-	return undefinedPropertiesObj(obj);
+	return __undefinedPropertiesObj(obj);
 }
 
 export function encodeString(text: string) {
-	const utfEncoded = utf8.encode(text);
-	const b64Encoded = base64.encode(utfEncoded);
+	const b64Encoded = base64.encode(text);
 
 	return b64Encoded;
 }
 
 export function decodeString(text: string) {
-	const utfDecoded = utf8.decode(text);
-	const b64Decoded = base64.decode(utfDecoded);
+	const b64Decoded = base64.decode(text);
 
 	return b64Decoded;
 }
@@ -117,4 +116,20 @@ export function generateUsername(email: string) {
 	const userName = `${splitted?.[0]}`;
 
 	return userName;
+}
+
+/**
+ * Generates the 8-character first-time login password.
+ * @param length: number - 8 by default.
+ */
+export function generateFirstTimePassword(length: number = 8) {
+	let result = '';
+	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	const totalLength = characters.length;
+
+	for (let i = 0; i < length; i++ ) {
+		result += characters.charAt(Math.floor(Math.random() * totalLength));
+	}
+
+	return result;
 }

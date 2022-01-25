@@ -55,7 +55,7 @@ const LanguageSelector: React.FC<ILanguageSelectorProps> = ({
           className="relative flex cursor-pointer items-center"
         >
           <Flag className="w-7 h-7" />
-          <ArrowDownIcon className="ml-2" />
+          <ArrowDownIcon fill={textColor} className="ml-2" />
           {showMenu && (
             <div
               className="absolute top-full right-0 bg-white p-5 pr-10 shadow-lg z-50"

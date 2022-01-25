@@ -60,7 +60,6 @@
   "brd-details-title": "Chi tiết",
   "brd-budget-title": "Kinh phí",
   "brd-location-title": "Địa điểm giao hàng",
-  "location-title": "Địa điểm giao hàng",
   "brd-endDate-title": "Ngày kết thúc",
   "brd-minOrder-title": "Số lượng tối thiểu",
   "brd-sourceType-title": "Loại",
@@ -130,14 +129,5 @@
   "min-establishmentDate-filter-label": "Ngày thành lập tối thiểu",
   "establishmentDate-filter-placeholder": "12/12/2021",
   "danh-ba-cong-ty": "Nhà cung cấp",
-  "nhu-cau-thu-mua": "Nhu cầu thu mua",
-
-  "phone-view-not-ready-text": "Giao diện cho điện thoại chưa được hỗ trợ",
-  "please-open-on-laptop-text": "Vui lòng truy cập bằng máy tính",
-
-  "yourCompany-button-label": "Doanh nghiệp của bạn",
-  "no-information": "Chưa có thông tin",
-
-  "no-services-yet-message": "Chưa có dịch vụ được đăng tải",
-  "no-products-yet-message": "Chưa có sản phẩm được đăng tải"
+  "nhu-cau-thu-mua": "Nhu cầu thu mua"
 }

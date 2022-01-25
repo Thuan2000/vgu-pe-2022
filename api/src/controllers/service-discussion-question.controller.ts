@@ -1,12 +1,7 @@
-import { IBrDiscussionsInput } from "@graphql/types";
 import ServiceDiscussionAnswer from "@models/ServiceDiscussionAnswer";
 import ServiceDiscussionQuestion from "@models/ServiceDiscussionQuestion";
 import User from "@models/User";
-import {
-	createSuccessResponse,
-	errorResponse,
-	successResponse
-} from "@utils/responses";
+import { createSuccessResponse, errorResponse } from "@utils/responses";
 
 class ServiceDiscussionQuestionController {
 	static async getDiscussions({ serviceId, limit, offset, sort }: any) {
@@ -15,7 +10,20 @@ class ServiceDiscussionQuestionController {
 				where: { serviceId },
 				limit,
 				offset,
-				include: [User, ServiceDiscussionAnswer]
+				include: [
+					User,
+					{
+						model: ServiceDiscussionAnswer,
+						as: "answers",
+						include: [
+							{
+								model: User,
+								attributes: ["firstName", "lastName", "id"]
+							}
+						],
+						attributes: ["answer", "companyName", "createdAt"]
+					}
+				]
 			});
 
 			return questions;

@@ -15,6 +15,7 @@ type UserCompany {
 
 type User {
 	id: Int!
+	firstLogin: Boolean!
 	firstName: String!
 	lastName: String!
 	role: ROLE!
@@ -30,4 +31,5 @@ type CheckEmailResponse {
 
 extend type Mutation {
 	checkEmail(email: String!): CheckEmailResponse!
+	isVerifiedUser(email: String!): Boolean!
 }

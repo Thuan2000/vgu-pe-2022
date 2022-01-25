@@ -26,6 +26,7 @@ import {
 import CompanyRepository from "@repositories/company.repository";
 import CompanySubscription from "../models/CompanySubscription";
 import ChatService from "@services/chat.service";
+import Subscription from "@models/Subscription";
 
 type IRegisterResp = {
 	success: boolean;
@@ -34,11 +35,7 @@ type IRegisterResp = {
 };
 
 class CompanyController {
-	s3 = new S3();
-
 	static async getCompanies({ offset, limit, searchValue, ...input }) {
-		console.log(searchValue);
-
 		const queryBody = {
 			query: CompanyRepository.getSearchQuery(searchValue, input)
 		};
@@ -62,7 +59,21 @@ class CompanyController {
 	static async getCompany(slug: string) {
 		try {
 			const company = await Company.findOne({
-				where: { slug }
+				where: { slug },
+				include: [
+					{
+						model: CompanySubscription,
+						as: "subscription",
+						attributes: ["startAt", "endAt"],
+						include: [
+							{
+								model: Subscription,
+								as: "subscriptionDetail",
+								attributes: ["nameEn", "nameVn", "monthlyPrice"]
+							}
+						]
+					}
+				]
 			});
 
 			return company;
@@ -107,7 +118,7 @@ class CompanyController {
 			});
 
 			if (!data) return errorResponse("");
-			const company = data.toJSON();
+			const company: any = data.toJSON();
 
 			Company.updateEsCompany(id, company);
 
@@ -119,21 +130,22 @@ class CompanyController {
 				endAt: expDate
 			});
 
-			const owner = (company as any).owner;
+			const owner = company.owner;
 
 			ChatService.createAccount({
-				firstName: owner.firstName,
-				lastName: owner.lastName,
+				compId: company.id,
+				compName: company.name,
 				email: owner.email,
 				phoneNumber: owner.phoneNumber,
 				password: owner.email
 			});
 
 			const email = new EmailService();
-			email.sendEmail((company as any).owner.email, {
+			email.sendEmail(company.owner.email, {
 				message: EMAIL_MESSAGES.VERIFIED,
 				subject: EMAIL_SUBJECTS.VERIFIED,
-				name: (company as any).owner.name,
+				name: `${company.owner.firstName} ${company.owner.lastName}`,
+				password: owner.password,
 				template: EEMailTemplates.VERIFICATION
 			});
 
@@ -215,36 +227,44 @@ class CompanyController {
 				return errorResponse("COMPANY_EXIST");
 			}
 
-			// This will return [Promise]
-			const newCompany = await Company.create({
+			const newComp = await Company.create({
 				ownerId,
 				licenseNumber,
 				licenseFiles,
 				isSubscribeEmail,
 				name: companyName
 			});
-
-			newCompany.setDataValue(
+			newComp.setDataValue(
 				"slug",
-				generateSlug(companyName, newCompany.getDataValue("id"))
+				generateSlug(companyName, newComp.getDataValue("id"))
 			);
+			await newComp.save();
 
-			await newCompany.save();
-
-			Company.insertIndex(newCompany.toJSON());
+			Company.insertIndex(newComp.toJSON());
 
 			// Setting user company id
-			const userNewToken = await UserRepository.setCompanyId(
+			await UserRepository.setCompanyId(
 				ownerId,
-				newCompany.getDataValue("id")
+				newComp.getDataValue("id")
 			);
 
-			return {
-				userNewToken,
-				...successResponse()
-			};
+			return successResponse();
 		} catch (error) {
-			console.log(error);
+			console.error(error);
+			return errorResponse();
+		}
+	}
+
+	static async addChatId(approvedCompId: number, chatId: string) {
+		try {
+			const company = await Company.findByPk(approvedCompId);
+
+			company.set("chatId", chatId);
+			await company.save();
+
+			return successResponse();
+		} catch (e) {
+			console.error(e);
 			return errorResponse();
 		}
 	}

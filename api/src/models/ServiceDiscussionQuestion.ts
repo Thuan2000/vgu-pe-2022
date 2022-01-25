@@ -36,7 +36,8 @@ ServiceDiscussionQuestion.init(
 
 ServiceDiscussionQuestion.belongsTo(User);
 ServiceDiscussionQuestion.hasMany(ServiceDiscussionAnswer, {
-	foreignKey: "serviceDiscussionQuestionId"
+	foreignKey: "serviceDiscussionQuestionId",
+	as: "answers"
 });
 
 export default ServiceDiscussionQuestion;

@@ -10,9 +10,21 @@ class ProductDiscussionQuestionController {
 				where: { productId },
 				limit,
 				offset,
-				include: [User, ProductDiscussionAnswer]
+				include: [
+					User,
+					{
+						model: ProductDiscussionAnswer,
+						as: "answers",
+						include: [
+							{
+								model: User,
+								attributes: ["firstName", "lastName", "id"]
+							}
+						],
+						attributes: ["answer", "companyName", "createdAt"]
+					}
+				]
 			});
-
 			return questions;
 		} catch (error) {
 			console.log(error);

@@ -2,17 +2,12 @@ enum ServiceDSort {
 	DATE
 }
 
-type ServiceDiscussionAnswer {
-	user: User!
-	companyName: String!
-	answer: String
-}
-
 type ServiceDiscussionQuestion {
+	id: Int!
 	user: User!
 	companyName: String!
 	question: String!
-	answers: [ServiceDiscussionAnswer!]
+	answers: [DiscussionAnswer!]
 	createdAt: Date!
 }
 
@@ -46,8 +41,5 @@ extend type Query {
 extend type Mutation {
 	createServiceDiscussionQuestion(
 		input: CreateServiceDiscussionQuestionInput!
-	): CreateResponse
-	createServiceDiscussionAnswer(
-		input: CreateServiceDiscussionAnswerInput!
-	): CreateResponse
+	): CreateResponse!
 }

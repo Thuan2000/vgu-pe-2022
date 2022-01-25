@@ -8,9 +8,7 @@ query BuyingRequest($slug: String!) {
     ...BuyingRequestParts
     company {
       ...CompanyFragment
-      owner {
-        chatId
-      }
+      chatId
     }
     discussionQuestions {
       user {

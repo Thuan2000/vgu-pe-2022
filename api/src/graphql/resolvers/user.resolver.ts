@@ -6,7 +6,8 @@
 import UserController from "@controllers/user.controller";
 
 export const Mutation = {
-	checkEmail: (_, { email }) => UserController.checkEmail(email)
+	checkEmail: (_, { email }) => UserController.checkEmail(email),
+	isVerifiedUser: (_, { email }) => UserController.isVerifiedUser(email)
 };
 
 export const Query = {

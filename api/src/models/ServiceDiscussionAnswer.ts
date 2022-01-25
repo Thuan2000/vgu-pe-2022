@@ -1,5 +1,6 @@
 import Database from "@services/database.service";
 import { Model, DataTypes } from "sequelize";
+import User from "./User";
 
 class ServiceDiscussionAnswer extends Model {
 	/**
@@ -24,5 +25,7 @@ ServiceDiscussionAnswer.init(
 		tableName: "service_discussion_answers"
 	}
 );
+
+ServiceDiscussionAnswer.belongsTo(User);
 
 export default ServiceDiscussionAnswer;

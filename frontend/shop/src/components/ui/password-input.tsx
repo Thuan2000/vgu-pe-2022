@@ -3,6 +3,7 @@ import EyeOffIcon from "@assets/icons/eye-off-icon";
 import cn from "classnames";
 import React, { InputHTMLAttributes, useState } from "react";
 import Link from "./link";
+import InputLabel from "./storybook/inputs/input-label";
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -40,6 +41,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
       type = "text",
       transparentPrefix,
       forgotPageLink = "",
+      required,
       ...rest
     },
     ref
@@ -60,21 +62,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
     return (
       <div className={className}>
         <div className="flex items-center justify-between mb-3">
-          <label
-            htmlFor={name}
-            className="text-body-dark font-semibold text-sm leading-none"
-          >
-            {label}
-          </label>
-
-          {forgotPageLink && forgotPassHelpText && (
-            <Link
-              href={forgotPageLink}
-              className="text-xs text-green transition-colors duration-200 focus:outline-none focus:text-green-700 focus:font-semibold hover:text-green-hover"
-            >
-              {forgotPassHelpText}
-            </Link>
-          )}
+          {!!label && <InputLabel required={required} label={label} />}
         </div>
         <div className="relative">
           <input

@@ -70,6 +70,5 @@
   "error-COMPANY_NOT_APPROVED-title": "Account Not Approved",
   "error-COMPANY_NOT_APPROVED-message": "Please wait until we approve your account, we will approve it soon",
   "error-COMPANY_NOT_APPROVED-button": "Close Modal",
-  "welcomeBack-message": "Welcome back",
-  "email-exist-error": "Email is already exist"
+  "welcomeBack-message": "Welcome back"
 }

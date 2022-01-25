@@ -99,7 +99,6 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
   }
 
   const isMyBr = br.company?.id === getCompanyId();
-
   return (
     <>
       <Head>
@@ -115,13 +114,13 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
                 coverImage={br?.coverImage!}
                 images={br.gallery || []}
               />
-              <div className="fic space-x-4">
+              {/* <div className="fic space-x-4">
                 <Typography
                   text={`${t("brd-share-label")}:`}
                   variant="smallTitle"
                 />
                 <RecordSocialShareList />
-              </div>
+              </div> */}
             </div>
             {/* Right section */}
             <div className="w-full">
@@ -144,7 +143,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
                 categoryId={br.categoryId}
                 description={br.description || ""}
                 companyId={br.company?.id!}
-                chatId={br.company?.owner?.chatId!}
+                chatId={br.company?.chatId!}
               />
             </div>
           </div>
@@ -156,12 +155,12 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
               reload={reload}
               brId={parseInt(br.id)}
             />
-            {!isMyBr && (
-              <BRDAskQuestion
-                refetchDiscussions={refetchDiscussions}
-                brId={parseInt(br.id)}
-              />
-            )}
+            {/* {!isMyBr && ( */}
+            <BRDAskQuestion
+              refetchDiscussions={refetchDiscussions}
+              brId={parseInt(br.id)}
+            />
+            {/* )} */}
           </div>
         </div>
         <BRDAlsoNeeded brReference={br} />

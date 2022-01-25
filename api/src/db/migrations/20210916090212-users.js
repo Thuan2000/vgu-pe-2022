@@ -18,17 +18,16 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
+			firstLogin: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: true,
+				allowNull: false
+			},
 			firstName: {
 				type: Sequelize.STRING,
 				allowNull: false
 			},
 			lastName: {
-				type: Sequelize.STRING
-			},
-			userName: {
-				type: Sequelize.STRING
-			},
-			chatId: {
 				type: Sequelize.STRING
 			},
 			email: {

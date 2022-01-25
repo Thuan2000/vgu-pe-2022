@@ -110,6 +110,7 @@ Company.init(
 		isSubscribeEmail: DataTypes.BOOLEAN,
 		settings: DataTypes.JSON,
 		slug: DataTypes.STRING,
+		chatId: DataTypes.STRING,
 		licenseNumber: DataTypes.STRING,
 		licenseFiles: DataTypes.JSON,
 		certificates: DataTypes.JSON,

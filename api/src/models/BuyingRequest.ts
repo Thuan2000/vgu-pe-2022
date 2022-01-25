@@ -48,13 +48,11 @@ class BuyingRequest extends Model {
 		try {
 			const buyingRequests = await BuyingRequest.findAll({
 				include: [
+					Project,
 					{
 						model: Company,
-						include: [
-							{ model: User, as: "owner", attributes: ["chatId"] }
-						]
+						attributes: ["id", "name", "chatId"]
 					},
-					Project,
 					{ model: User, as: "createdBy" }
 				]
 			});

@@ -1,10 +1,15 @@
-import { errorResponse, generateUsername, successResponse } from "@utils";
+import {
+	createSuccessResponse,
+	errorResponse,
+	generateFirstTimePassword
+} from "@utils";
 import User from "@models/User";
 import EmailService from "@services/email.service";
 import AuthRepository from "@repositories/auth.repository";
 
-import { IResponse, IUser } from "@graphql/types";
+import { IResponse } from "@graphql/types";
 import UserRepository from "@repositories/user.repository";
+import Company from "@models/Company";
 
 interface RegisterResp extends IResponse {
 	id?: number;
@@ -13,13 +18,6 @@ interface RegisterResp extends IResponse {
 class UserController {
 	emailer = new EmailService();
 	authRepo = new AuthRepository();
-
-	static async addChatId(approvedEmail: string, chatId: string) {
-		const user = await User.findOne({ where: { email: approvedEmail } });
-
-		user.setDataValue("chatId", chatId);
-		user.save();
-	}
 
 	static async getUsers() {
 		return await User.findAll();
@@ -32,32 +30,47 @@ class UserController {
 	/**
 	 *
 	 * @param user UserInput
-	 * @returns {...Response, token: string, id: number}
+	 * @returns {...CreateResponse}
 	 */
 	async register(user): Promise<RegisterResp> {
 		try {
-			const userName = generateUsername(user.email);
+			// First login is set to true as default value on migration
 			const newUser = await User.create({
 				...user,
-				userName,
-				password: UserRepository.encodePassword(user.password)
+				password: generateFirstTimePassword()
 			});
-			newUser.save();
 
 			UserRepository.sendRegistrationEmail(newUser);
 
-			return {
-				id: newUser.getDataValue("id"),
-				...successResponse()
-			};
+			return createSuccessResponse(newUser.getDataValue("id"));
 		} catch (error) {
 			console.log(error);
 			return errorResponse();
 		}
 	}
 
+	static async isVerifiedUser(email: string) {
+		try {
+			const user: any = await User.findOne({
+				where: { email },
+				attributes: [],
+				include: [
+					{ model: Company, as: "company", attributes: ["approved"] }
+				]
+			});
+
+			return !!user?.company?.approved;
+		} catch (error) {
+			console.error(error);
+			return false;
+		}
+	}
+
 	static async checkEmail(email: string) {
-		const user = await User.findOne({ where: { email } });
+		const user = await User.findOne({
+			where: { email },
+			attributes: ["id"]
+		});
 
 		return { isExist: !!user };
 	}
