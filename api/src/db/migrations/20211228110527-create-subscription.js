@@ -21,6 +21,9 @@ module.exports = {
 			monthlyPrice: {
 				type: Sequelize.INTEGER
 			},
+			description: {
+				type: Sequelize.TEXT
+			},
 			createdAt: {
 				type: Sequelize.DATE
 			},

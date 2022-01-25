@@ -26,6 +26,7 @@ import {
 import CompanyRepository from "@repositories/company.repository";
 import CompanySubscription from "../models/CompanySubscription";
 import ChatService from "@services/chat.service";
+import Subscription from "@models/Subscription";
 
 type IRegisterResp = {
 	success: boolean;
@@ -58,7 +59,21 @@ class CompanyController {
 	static async getCompany(slug: string) {
 		try {
 			const company = await Company.findOne({
-				where: { slug }
+				where: { slug },
+				include: [
+					{
+						model: CompanySubscription,
+						as: "subscription",
+						attributes: ["startAt", "endAt"],
+						include: [
+							{
+								model: Subscription,
+								as: "subscriptionDetail",
+								attributes: ["nameEn", "nameVn", "monthlyPrice"]
+							}
+						]
+					}
+				]
 			});
 
 			return company;
