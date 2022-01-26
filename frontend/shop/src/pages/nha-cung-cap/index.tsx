@@ -12,6 +12,8 @@ import { ROUTES } from "@utils/routes";
 import CompanyList from "@components/companies/company-list";
 import SideFilter from "@components/ui/common-filter/side-filter";
 import CompanySideFilter from "@components/companies/company-side-filter/company-side-filter";
+import PageWithFilterWrapper from "@components/layouts/page-with-filter-wrapper";
+import AppliedFilter from "@components/ui/navbar/applied-filter";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -35,14 +37,15 @@ const CompanyDirectory = () => {
           content="DSConnect.VN | Sàn thương mại điện tử B2B đa ngành, uy tín hàng đầu Việt Nam"
         />
       </Head>
-      <main className="flex relative space-x-6 mb-8 min-h-[600px]">
+      <PageWithFilterWrapper>
         <div className={`flex-shrink-0`}>
           <CompanySideFilter />
         </div>
-        <div className={`w-full`}>
+        <div className={`w-full bg-white`}>
+          <AppliedFilter />
           <CompanyList />
         </div>
-      </main>
+      </PageWithFilterWrapper>
     </>
   );
 };

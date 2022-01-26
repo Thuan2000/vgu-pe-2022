@@ -1,0 +1,7 @@
+query Banners {
+  banners {
+    title
+    description
+    imgUrl
+  }
+}

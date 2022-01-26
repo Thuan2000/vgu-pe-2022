@@ -42,7 +42,7 @@ const LocationSearch: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         name="locationFilter"
         isClearable
         getInitialValue={(opt) => opt.name === locationFilter}
-        value={getVietnamCityByName(locationFilter)}
+        value={getVietnamCityByName(locationFilter) || null}
         onChange={handleChange}
         placeholder={`v.d: ${t("locationFilter-placeholder")}`}
         isSearchable={true}

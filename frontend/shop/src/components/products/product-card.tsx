@@ -40,7 +40,7 @@ const ProductCard: React.FC<IProductCardProps> = ({ product }) => {
   }
 
   return (
-    <div className={`shadow-top rounded-lg relative h-fit-content`}>
+    <div className={`border overflow-hidden rounded-lg relative`}>
       <div className="relative w-full h-40">
         <Image
           src={coverImage?.url || siteSettings.logo.url}
@@ -52,19 +52,18 @@ const ProductCard: React.FC<IProductCardProps> = ({ product }) => {
 
       <div className={`p-4 font-semibold space-y-[2px]`}>
         <div>
-          <div className="flex items-center justify-between">
-            <Link
-              href={`${ROUTES.PRODUCTS}/${slug}`}
-              target={"_blank"}
-              className="border-b border-transparent hover:border-black new-tab-link"
-              rel="noreferrer"
-            >
-              <Typography text={trimText(name, 25)} element="h3" size="md" />
-            </Link>
-          </div>
+          <Link
+            href={`${ROUTES.PRODUCTS}/${slug}`}
+            target={"_blank"}
+            rel="noreferrer"
+            className="border-b border-transparent hover:border-black new-tab-link flex"
+          >
+            <Typography className={`truncate`} text={name} size="md" />
+          </Link>
           <Typography
-            text={trimText(company?.name, 25)}
+            text={company?.name}
             color="primary"
+            className={`truncate`}
             size="md"
           />
         </div>

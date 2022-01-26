@@ -1,3 +1,4 @@
+import { TPageName } from "@components/ui/search";
 import { IVariation, IVariationOption } from "@graphql/types.graphql";
 import base64 from "base-64";
 import { findIndex, groupBy, isEqual } from "lodash";

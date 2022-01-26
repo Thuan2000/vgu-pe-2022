@@ -1,4 +1,5 @@
 import { NetworkStatus } from "@apollo/client";
+import PSListWrapper from "@components/layouts/ps-list-wrapper";
 import Typography from "@components/ui/storybook/typography";
 import { getCategoryByLabel } from "@datas/categories";
 import { getIndustryByLabel } from "@datas/industries";
@@ -102,7 +103,7 @@ const ServicesList: React.FC<IServicesListProps> = ({}) => {
     );
 
   return (
-    <div className={`grid grid-cols-4 gap-x-10 gap-y-5 w-full`}>
+    <PSListWrapper>
       {services.map((s) => {
         return <ServiceCard service={s as any} key={s?.id + "service-card"} />;
       })}
@@ -112,7 +113,7 @@ const ServicesList: React.FC<IServicesListProps> = ({}) => {
           <Loader spinnerOnly className="mt-4" />
         </div>
       )}
-    </div>
+    </PSListWrapper>
   );
 };
 export default ServicesList;

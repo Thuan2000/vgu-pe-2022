@@ -5,7 +5,7 @@ import { errorResponse, successResponse } from "../utils";
 class BannerController {
 	static async createBanner(input: IBannerInput) {
 		try {
-			const newBanner = Banner.create({ ...input });
+			await Banner.create({ ...input });
 			return successResponse();
 		} catch (e) {
 			console.error(e);

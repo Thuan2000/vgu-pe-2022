@@ -12,6 +12,7 @@ import useIsPhone from "src/hooks/isPhone.hook";
 import SideFilter from "@components/ui/common-filter/side-filter";
 import ProductsList from "@components/products/products-list";
 import AppliedFilter from "@components/ui/navbar/applied-filter";
+import PageWithFilterWrapper from "@components/layouts/page-with-filter-wrapper";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -47,16 +48,15 @@ const ProductAndService: React.FC<IProductAndServiceProps> = () => {
           content="DSConnect.VN | Sàn thương mại điện tử B2B đa ngành, uy tín hàng đầu Việt Nam"
         />
       </Head>
-      <main className={`flex space-x-6 mb-10`}>
+      <PageWithFilterWrapper>
         <div className="sticky top-40 h-fit-content">
           <SideFilter noStatusFilter />
         </div>
-        <div className={`w-full bg-white space-y-3`}>
+        <div className={`w-full bg-white`}>
           <AppliedFilter />
-
           <ProductsList />
         </div>
-      </main>
+      </PageWithFilterWrapper>
     </>
   );
 };

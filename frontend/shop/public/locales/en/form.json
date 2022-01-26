@@ -97,5 +97,8 @@
   "email-not-valid-error": "Please enter an valid email",
   "email-sent-title": "Email Is Sent",
   "email-sent-message": "Please check your email and click the link that given to you",
-  "toEmail-button-label": "Check Email"
+  "toEmail-button-label": "Check Email",
+  "search-nhu-cau-thu-mua-input-placeholder": "Buying Request 1",
+  "search-san-pham-input-placeholder": "Nike Jordan",
+  "search-dich-vu-input-placeholder": "Web development"
 }

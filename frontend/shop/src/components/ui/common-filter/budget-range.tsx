@@ -24,6 +24,11 @@ const BudgetRange: React.FC = ({ ...props }) => {
   const [maxBudget, setMaxBudget] = useState<number | "">(initMaxBudget ?? "");
   const [focusingInput, setFocusingInput] = useState<EInputFocus>();
 
+  useEffect(() => {
+    if (!initMinBudget) setMinBudget("");
+    if (!initMaxBudget) setMaxBudget("");
+  }, [initMinBudget, initMaxBudget]);
+
   function handleSubmit() {
     if (minBudget === initMinBudget && maxBudget === initMaxBudget) return;
     if (!minBudget && !maxBudget && !initMinBudget && !initMaxBudget) return;

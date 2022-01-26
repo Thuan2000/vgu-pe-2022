@@ -114,7 +114,7 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
   ]);
 
   return (
-    <div className="mt-5 w-full space-y-4">
+    <div className="w-full space-y-2">
       {brs &&
         brs.map((br) => {
           return (
