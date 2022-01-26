@@ -3,6 +3,7 @@ import LocationIcon from "@assets/icons/location-icon";
 import MessageIcon from "@assets/icons/message-icon";
 import SaveIcon from "@assets/icons/save-icon";
 import VerifiedIcon from "@assets/icons/verified-icon";
+import ChatNowButton from "@components/ui/chat-now-button";
 import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
 import Chip from "@components/ui/storybook/chip";
@@ -11,7 +12,7 @@ import { getCategory, getCategoryByLabel } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import { viDateFormat, trimText, getCompanyId } from "@utils/functions";
-import { ROUTES } from "@utils/routes";
+import { getChatUrl, ROUTES } from "@utils/routes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -34,7 +35,7 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
   } = br;
 
   return (
-    <div className={`w-full px-5 space-y-2 py-2 ${className}`} {...props}>
+    <div className={`w-full px-5 space-y-1 py-2 ${className}`} {...props}>
       {/* NAME */}
       <div className="space-y-1">
         <div className="flex items-center justify-between">
@@ -47,7 +48,7 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
             <Typography
               text={`${t("requestNamePrefix-value")} - ${name}`}
               element="h3"
-              size="md"
+              size="sm"
             />
           </Link>
           <div className="flex items-center space-x-2">
@@ -56,11 +57,13 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
                 text={`${t("due-date-text")}:`}
                 variant="question"
                 className="font-semibold"
+                size="xs"
               />
               <Typography
                 text={viDateFormat(endDate)}
                 variant="smallTitle"
                 className="text-secondary-1"
+                size="xs"
               />
             </div>
             {/* <SaveIcon /> */}
@@ -68,12 +71,19 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
         </div>
         {/* CHIPS */}
         <div className="fic space-x-2">
-          <Chip icon={LocationIcon} text={location} background="secondary-1" />
           <Chip
+            size="xs"
+            icon={LocationIcon}
+            text={location}
+            background="secondary-1"
+          />
+          <Chip
+            size="xs"
             text={t(status + "_STATUS")}
             background={status === "OPEN" ? "primary" : "error"}
           />
           <Chip
+            size="xs"
             text={`${t("industry:" + getIndustry(industryId)?.label)} › ${t(
               "category:" + getCategory(categoryId)?.label
             )}`}
@@ -85,36 +95,34 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
         {/* Company */}
         <div className="flex items-center space-x-3">
           <div className={`flex items-center space-x-2`}>
-            <Typography variant="smallTitle" text={company?.name!} />
+            <Typography size="xs" variant="smallTitle" text={company?.name!} />
             <VerifiedIcon />
           </div>
 
           <div className="flex items-center space-x-2">
-            <Typography variant="question" text={`${t("posted-date-text")}:`} />
-            <Typography variant="question" text={viDateFormat(createdAt)} />
+            <Typography
+              size="xs"
+              variant="question"
+              text={`${t("posted-date-text")}:`}
+            />
+            <Typography
+              size="xs"
+              variant="question"
+              text={viDateFormat(createdAt)}
+            />
           </div>
         </div>
       </div>
+
       {/* Desc */}
       <div className="flex items-center justify-between space-x-2 sm:min-w-[520px]">
         <Typography
+          size="xs"
           variant="description"
           text={trimText(br.description || "", 140) || t("NO_DESCRIPTION")}
         />
-        {br?.company?.id !== getCompanyId() ? (
-          <Button
-            variant="custom"
-            size="small"
-            className="border text-gray-300 border-gray-300 "
-          >
-            <MessageIcon className="mr-3" />
-            {t("chatNow-button-label")}
-          </Button>
-        ) : (
-          <Button disabled size="small">
-            {t("yourCompanyRequest-button-label")}
-          </Button>
-        )}
+
+        <ChatNowButton company={company!} />
       </div>
       {/* Buy Info */}
       {/* <div className="flex items-center space-x-2">

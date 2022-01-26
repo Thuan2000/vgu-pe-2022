@@ -30,6 +30,7 @@ import {
   IUpdateBuyingRequestInput,
 } from "@graphql/types.graphql";
 import {
+  getCompanyChatId,
   getCompanyId,
   getCompanyName,
   getLoggedInUser,
@@ -176,6 +177,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
             ...values,
             companyId: getCompanyId()!,
             companyName: getCompanyName()!,
+            chatId: getCompanyChatId()!,
           },
         },
       });

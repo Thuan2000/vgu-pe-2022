@@ -14,5 +14,6 @@ fragment UserFragment on User {
     establishmentDate
     slug
     location
+    chatId
   }
 }

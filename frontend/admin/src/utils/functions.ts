@@ -100,17 +100,21 @@ export function getActivePath(pathname: string) {
 
 export function getCompanyId() {
   const { company } = getMeData();
-
   return company?.id as number;
 }
+
+export function getCompanyChatId() {
+  const { company } = getMeData();
+  return company?.chatId;
+}
+
 export function getCompanyName() {
   const { company } = getMeData();
-
   return company?.name;
 }
+
 export function getLoggedInUser() {
   const { user } = getMeData();
-
   return user;
 }
 

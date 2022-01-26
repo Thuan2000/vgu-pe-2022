@@ -1,8 +1,7 @@
-import PencilIcon from "@assets/icons/pencil-icon";
 import { ICompany } from "@graphql/types.graphql";
 import { siteSettings } from "@settings/site.settings";
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
+
 import React from "react";
 import Button from "../storybook/button";
 import Typography from "../storybook/typography";
@@ -11,8 +10,9 @@ import MessageIcon from "@assets/icons/message-icon";
 import FacebookIcon from "@assets/icons/socials/facebook-icon";
 import MessangerIcon from "@assets/icons/socials/messanger-icon";
 import TelegramIcon from "@assets/icons/socials/telegram-icon";
-import ZaloIcon from "@assets/icons/socials/zalo-icon";
 import LinkIcon from "@assets/icons/socials/link-icon";
+import { getChatUrl } from "@utils/routes";
+import Link from "../link";
 
 interface ICDUpperRowProps {
   company: ICompany;
@@ -68,18 +68,24 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
           size="sm"
           className="mr-5 mt-2"
         />
-        <Button
-          className={`mr-5 mt-0.5 w-1/5`}
-          size="small"
-          variant = "cancel"
+        <Link
+          className={`mr-5`}
+          href={getChatUrl(company.chatId!)}
+          target="_blank"
         >
-          <MessageIcon className="mr-3" />
-          {t("chat-button")}
-        </Button>
+          <Button size="small" variant="cancel">
+            <MessageIcon className="mr-3" />
+            {t("chatNow-button-label")}
+          </Button>
+        </Link>
       </div>
       <div className={`pt-10 px-12 grid grid-cols-3`}>
         <div>
-          <Typography text={company?.name as string} variant="BRTitle" className="mb-1"/>
+          <Typography
+            text={company?.name as string}
+            variant="BRTitle"
+            className="mb-1"
+          />
           <Typography
             text={`${t("companyTotalEmployee-text")}: ${
               company?.settings?.employeeAmount || t("not-setup")
@@ -89,13 +95,17 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
             className="mb-3"
           />
           <div className="flex">
-            <Typography text={t("share-label")} variant="BRTitle" size="md" className="mt-0.5"/>
-            <FacebookIcon className="ml-2"/>
-            <MessangerIcon className="ml-2"/>
-            <TelegramIcon className="ml-2"/>
-            <LinkIcon className="ml-2"/>
+            <Typography
+              text={t("share-label")}
+              variant="BRTitle"
+              size="md"
+              className="mt-0.5"
+            />
+            <FacebookIcon className="ml-2" />
+            <MessangerIcon className="ml-2" />
+            <TelegramIcon className="ml-2" />
+            <LinkIcon className="ml-2" />
           </div>
-          
         </div>
 
         {settings?.gallery && settings?.gallery?.length > 0 && (

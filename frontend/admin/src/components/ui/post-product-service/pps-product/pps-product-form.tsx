@@ -42,8 +42,10 @@ import {
 } from "@graphql/product.graphql";
 import {
   generateUUID,
+  getCompanyChatId,
   getCompanyId,
   getCompanyName,
+  getLoggedInUser,
   isEmptyObject,
   removeTypename,
   removeTypenameFromArray,
@@ -334,7 +336,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       isPreorder,
       packagedDimension,
       status,
-
       gallery: images,
     };
 
@@ -352,9 +353,11 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       createProduct({
         variables: {
           input: {
+            ...inputValues,
             companyId: getCompanyId(),
             companyName: getCompanyName(),
-            ...inputValues,
+            chatId: getCompanyChatId()!,
+            createdById: getLoggedInUser()?.id!,
           },
         },
       });

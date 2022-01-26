@@ -16,6 +16,8 @@ query Services($input: FetchServicesInput) {
       maxPrice
       company {
         name
+        id
+        chatId
       }
       rating
     }

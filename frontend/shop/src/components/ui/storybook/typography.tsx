@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import { TSize } from "@utils/interfaces";
 
 type TextColor =
   | "primary"
@@ -27,7 +28,7 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
     | "pageTitle";
   element?: "h6" | "h4" | "h3" | "h2" | "h1" | "p";
   weight?: TFontWeight;
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
+  size?: TSize;
   text: string;
   isHaveReadMore?: boolean;
   color?: TextColor;

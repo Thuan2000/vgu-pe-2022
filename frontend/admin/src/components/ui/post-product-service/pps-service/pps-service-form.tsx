@@ -31,6 +31,7 @@ import { IService } from "@graphql/types.graphql";
 import {
   addIdAndRemoveTypenameFromArray,
   generateUUID,
+  getCompanyChatId,
   getCompanyId,
   getCompanyName,
   getLoggedInUser,
@@ -332,9 +333,10 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
         variables: {
           input: {
             ...value,
-            companyId: getCompanyId(),
-            companyName: getCompanyName() as string,
-            createdById: getLoggedInUser()?.id as any,
+            companyId: getCompanyId()!,
+            companyName: getCompanyName()!,
+            chatId: getCompanyChatId()!,
+            createdById: getLoggedInUser()?.id!,
           },
         },
       });

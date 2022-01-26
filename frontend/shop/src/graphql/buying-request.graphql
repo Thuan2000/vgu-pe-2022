@@ -29,6 +29,7 @@ query DiscoveryBuyingRequests($input: FetchBRInput!) {
       company {
         id
         name
+        chatId
       }
     }
     pagination {

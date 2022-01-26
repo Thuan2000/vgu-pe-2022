@@ -20,7 +20,10 @@ class ServiceController {
 	static async getService(slug) {
 		const service = await Service.findOne({
 			where: { slug },
-			include: [{ model: Company, attributes: ["id", "name"] }, Tag]
+			include: [
+				{ model: Company, attributes: ["id", "name", "chatId"] },
+				Tag
+			]
 		});
 
 		return service;

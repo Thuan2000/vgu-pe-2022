@@ -114,13 +114,6 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
                 coverImage={br?.coverImage!}
                 images={br.gallery || []}
               />
-              {/* <div className="fic space-x-4">
-                <Typography
-                  text={`${t("brd-share-label")}:`}
-                  variant="smallTitle"
-                />
-                <RecordSocialShareList />
-              </div> */}
             </div>
             {/* Right section */}
             <div className="w-full">

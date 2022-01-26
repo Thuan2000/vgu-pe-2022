@@ -75,7 +75,10 @@ class ProductController {
 	static async getProduct(slug: string) {
 		const product = await Product.findOne({
 			where: { slug },
-			include: [{ model: Company, attributes: ["id", "name"] }, Tag]
+			include: [
+				{ model: Company, attributes: ["id", "name", "chatId"] },
+				Tag
+			]
 		});
 
 		return product;

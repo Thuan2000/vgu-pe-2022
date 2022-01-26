@@ -61,7 +61,8 @@ class AuthController {
 							"industryId",
 							"businessTypeIds",
 							"approved",
-							"establishmentDate"
+							"establishmentDate",
+							"chatId"
 							// [
 							// 	Sequelize.fn(
 							// 		"JSON_VALUE",

@@ -7,6 +7,7 @@ import { useTranslation } from "next-i18next";
 import { formatMoneyAmount, getMoneySuffix, trimText } from "@utils/functions";
 import { ROUTES } from "@utils/routes";
 import Link from "../ui/link";
+import ChatNowButton from "@components/ui/chat-now-button";
 
 interface IServiceCardProps {
   service: IServiceListItem;
@@ -23,10 +24,8 @@ const ServiceCard: React.FC<IServiceCardProps> = ({ service }) => {
     maxPrice,
     minPrice,
     price,
-    rating,
     company,
   } = service;
-
   function getPrice() {
     if (!maxPrice && !minPrice)
       return `${formatMoneyAmount(price)}${t(getMoneySuffix(price))} ${t(
@@ -55,19 +54,20 @@ const ServiceCard: React.FC<IServiceCardProps> = ({ service }) => {
           <Link
             href={`${ROUTES.SERVICES}/${slug}`}
             target={"_blank"}
-            className="border-b border-transparent hover:border-black new-tab-link flex"
+            className="border-b border-transparent hover:border-black new-tab-link flex w-fit-content pr-2"
             rel="noreferrer"
           >
-            <Typography className={`truncate`} text={name} size="md" />
+            <Typography className={`truncate`} text={name} size="sm" />
           </Link>
-          <Typography text={location} color="gray" size="md" />
+          <Typography text={location} color="gray" size="xs" />
         </div>
         <Typography
           text={trimText(company.name, 25)}
           color="primary"
-          size="md"
+          size="xs"
         />
-        <Typography text={`${getPrice()}`} color="secondary-1" />
+        <Typography text={`${getPrice()}`} color="secondary-1" size="xs" />
+        <ChatNowButton company={company} className={`w-full !h-7 mt-1 `} />
       </div>
     </div>
   );

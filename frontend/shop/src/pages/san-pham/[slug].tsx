@@ -94,6 +94,7 @@ const ProductDetail: React.FC<IServiceDetailProps> = ({ product }) => {
                 categoryId={categoryId}
                 description={description || ""}
                 companyId={company?.id!}
+                chatId={company?.chatId!}
               />
             </div>
           </div>
