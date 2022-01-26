@@ -53,16 +53,23 @@ class UserController {
 		try {
 			const user: any = await User.findOne({
 				where: { email },
-				attributes: [],
+				attributes: ["firstLogin"],
 				include: [
 					{ model: Company, as: "company", attributes: ["approved"] }
 				]
 			});
 
-			return !!user?.company?.approved;
+			return {
+				isExist: !!user,
+				isApproved: !!user?.company?.approved,
+				isFirstLogin: !!user?.firstLogin
+			};
 		} catch (error) {
 			console.error(error);
-			return false;
+			return {
+				isApproved: false,
+				isFirstLogin: false
+			};
 		}
 	}
 

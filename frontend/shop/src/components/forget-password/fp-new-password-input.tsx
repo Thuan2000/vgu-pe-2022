@@ -24,7 +24,7 @@ import Swal from "sweetalert2";
 interface IFPNewPasswordInputProps {}
 
 const FPNewPasswordInput: React.FC<IFPNewPasswordInputProps> = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("form");
   const { query, ...router } = useRouter();
   const token = query.token as string;
 

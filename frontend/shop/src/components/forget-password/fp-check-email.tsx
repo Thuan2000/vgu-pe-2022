@@ -16,7 +16,7 @@ const FPCheckEmail: React.FC<IFPCheckEmailProps> = ({}) => {
       <div className="fic flex-col">
         {<SuccessAnimationIcon className={`w-24 h-24`} />}
         <Typography text={t("email-sent-title")} size="xl" weight="bold" />
-        <Typography text={t("email-sent-title")} size="md" />
+        <Typography text={t("email-sent-message")} size="md" />
       </div>
 
       <p className={`text-center`}>

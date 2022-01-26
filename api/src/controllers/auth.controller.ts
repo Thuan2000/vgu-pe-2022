@@ -39,7 +39,6 @@ class AuthController {
 			);
 			user.setDataValue("firstLogin", false);
 			await user.save();
-			console.log(user.toJSON());
 			return successResponse();
 		} catch (err) {
 			console.error(err);

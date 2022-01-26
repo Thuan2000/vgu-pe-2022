@@ -21,14 +21,14 @@ const ForgetPasswordSteps: React.FC<IForgetPasswordStepsProps> = ({}) => {
         isActive={step === 1}
       />
       <ForgotPasswordStepItem
-        title={t("forgotPassword-password-input-step-title")}
-        subtitle={t("forgotPassword-password-input-step-subtitle")}
+        title={t("forgotPassword-checkEmail-input-step-title")}
+        subtitle={t("forgotPassword-checkEmail-input-step-subtitle")}
         isFilled={step > 2}
         isActive={step === 2}
       />
       <ForgotPasswordStepItem
-        title={t("forgotPassword-email-input-step-title")}
-        subtitle={t("forgotPassword-email-input-step-subtitle")}
+        title={t("forgotPassword-password-input-step-title")}
+        subtitle={t("forgotPassword-password-input-step-subtitle")}
         isFilled={step > 3}
         isActive={step === 3}
         isLast

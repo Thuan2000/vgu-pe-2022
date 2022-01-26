@@ -16,6 +16,25 @@ interface IFPEmailInputProps {
   toNextStep: () => void;
 }
 
+type ErrorType = "isNotExist" | "isFirstLogin" | "userNotVerified";
+
+function getSwalErrorMessage(
+  t: any,
+  error: ErrorType,
+  withDeny: boolean = false
+) {
+  return {
+    icon: "info" as any,
+    titleText: t(`form:passwordChange-${error}-title`),
+    text: t(`form:passwordChange-${error}-message`),
+    confirmButtonText: t(`form:passwordChange-${error}-confirm-button-title`),
+    confirmButtonColor: COLORS.PRIMARY.DEFAULT,
+    denyButtonText: t(`form:passwordChange-${error}-deny-button-title`),
+    denyButtonColor: COLORS.WARNING,
+    showDenyButton: withDeny,
+  };
+}
+
 const FPEmailInput: React.FC<IFPEmailInputProps> = ({ toNextStep }) => {
   const { t } = useTranslation("form");
   const firstRun = useRef(true);
@@ -38,25 +57,24 @@ const FPEmailInput: React.FC<IFPEmailInputProps> = ({ toNextStep }) => {
     else setEmailError("");
   }, [email]);
 
-  async function fireNotVerifiedUserSwal() {
-    const { isConfirmed, isDenied, isDismissed } = await Swal.fire({
-      icon: "error",
-      titleText: t(`form:passwordChange-userNotVerified-title`),
-      text: t(`form:passwordChange-userNotVerified-message`),
-      confirmButtonText: t(
-        `form:passwordChange-userNotVerified-toLogin-button-title`
-      ),
-      confirmButtonColor: COLORS.SECONDARY,
-      denyButtonText: t(
-        `form:passwordChange-userNotVerified-stay-button-title`
-      ),
-      denyButtonColor: COLORS.WARNING,
-      showDenyButton: true,
-    });
-
-    if (isConfirmed) {
+  async function fireNotExistSwal() {
+    const { isConfirmed } = await Swal.fire(
+      getSwalErrorMessage(t, "isNotExist", true)
+    );
+    if (isConfirmed) router.replace(ROUTES.SIGNUP);
+  }
+  async function fireIsFirstLoginSwal() {
+    const { isConfirmed } = await Swal.fire(
+      getSwalErrorMessage(t, "isFirstLogin")
+    );
+    if ({ isConfirmed }) {
       router.replace(ROUTES.LOGIN);
+      window.open(ROUTES.EMAIL_LINK, "_blank");
     }
+  }
+  async function fireNotApprovedUserSwal() {
+    const data = await Swal.fire(getSwalErrorMessage(t, "userNotVerified"));
+    if (data) router.replace(ROUTES.LOGIN);
   }
 
   async function sendEmailToken() {
@@ -65,13 +83,15 @@ const FPEmailInput: React.FC<IFPEmailInputProps> = ({ toNextStep }) => {
     const { data } = await getIsVerified({
       variables: { email },
     });
-    const isVerifiedUser = data?.isVerifiedUser;
-    if (!isVerifiedUser) {
-      fireNotVerifiedUserSwal();
-      return;
+    const { isExist, isApproved, isFirstLogin } = data?.isVerifiedUser as any;
+
+    if (!isExist) fireNotExistSwal();
+    else if (!isApproved) fireNotApprovedUserSwal();
+    else if (isFirstLogin) fireIsFirstLoginSwal();
+    else {
+      toNextStep();
+      sendToken({ variables: { email } });
     }
-    toNextStep();
-    sendToken({ variables: { email } });
   }
 
   function handleEmailChange(e: ChangeEvent<HTMLInputElement>) {

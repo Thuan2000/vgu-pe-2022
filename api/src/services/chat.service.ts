@@ -40,7 +40,7 @@ class ChatService {
 
 	private static hi() {
 		if (!connection) return;
-		this.connection.send(JSON.stringify(ChatFunction.getHiMessage()));
+		this.connection?.send(JSON.stringify(ChatFunction.getHiMessage()));
 	}
 
 	static connect() {
@@ -52,7 +52,7 @@ class ChatService {
 		approvedCompanyId = props.compId;
 
 		setTimeout(() => {
-			this.connection.send(
+			this.connection?.send(
 				JSON.stringify(ChatFunction.generateAccMessage(props))
 			);
 		}, 10);
