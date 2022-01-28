@@ -13,7 +13,6 @@ import User from "@models/User";
 import AuthRepository from "./auth.repository";
 
 class UserRepository {
-	static emailer = new EmailService();
 	static authRepo = new AuthRepository();
 
 	/**
@@ -21,7 +20,7 @@ class UserRepository {
 	 * @param user IUser
 	 */
 	public static sendRegistrationEmail(user: Model<IUser>) {
-		this.emailer.sendEmail(user.getDataValue("email"), {
+		EmailService.sendEmail(user.getDataValue("email"), {
 			name: getUserName(user),
 			message: EMAIL_MESSAGES.REGISTERED,
 			subject: EMAIL_SUBJECTS.REGISTERED,

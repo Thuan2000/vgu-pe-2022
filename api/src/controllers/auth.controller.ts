@@ -109,8 +109,6 @@ class AuthController {
 
 	async forgetPasswordSendEmail(email: string) {
 		try {
-			const emailService = new EmailService();
-
 			const user: any = await User.findOne({
 				where: { email },
 				attributes: ["firstName", "lastName"]
@@ -126,7 +124,7 @@ class AuthController {
 				email
 			);
 
-			emailService.sendEmail(email, {
+			EmailService.sendEmail(email, {
 				name: `${user?.toJSON().firstName} ${user?.toJSON().lastName}`,
 				template: EEMailTemplates.FORGOT_PASSWORD,
 				subject: EMAIL_SUBJECTS.FORGOT_PASSWORD,
