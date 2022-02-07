@@ -170,7 +170,7 @@ export const categoriesData = [
   { id: 121, label: "COMPUTER COMPONENT", industryId: 11 },
   { id: 122, label: "MOBILE-PHONE COMPONENT", industryId: 11 },
   { id: 123, label: "HOUSEWARE E-COMPONENT", industryId: 11 },
-  { id: 124, label: "AUTOMATICAL E-COMPONENT", industryId: 11 },
+  { id: 124, label: "AUTOMATIC E-COMPONENT", industryId: 11 },
   { id: 125, label: "SOLDERING COMPONENT", industryId: 11 },
   { id: 126, label: "PCB COMPONENT", industryId: 11 },
   { id: 127, label: "ADAPTOR", industryId: 11 },
@@ -196,7 +196,7 @@ export const categoriesData = [
   { id: 143, label: "PLATIC BEADS & ADDITIVES", industryId: 13 },
   { id: 144, label: "INDUSTRIAL PLASTIC", industryId: 13 },
   { id: 145, label: "PLASTIC PRODUCT", industryId: 13 },
-  { id: 146, label: "PLASTIC RUBBER EQUIQMENT", industryId: 13 },
+  { id: 146, label: "PLASTIC RUBBER EQUIPMENT", industryId: 13 },
   { id: 147, label: "PLASTIC TARPAULIN", industryId: 13 },
   { id: 148, label: "PE", industryId: 13 },
   { id: 149, label: "FIBERGLASS FABRIC", industryId: 13 },
@@ -216,7 +216,7 @@ export const categoriesData = [
 
   //15
   { id: 161, label: "HAND TOOL", industryId: 15 },
-  { id: 162, label: "TOOL", industryId: 15 },
+  { id: 162, label: "MECHANICAL TOOL", industryId: 15 },
   { id: 163, label: "SOLDERING DEVICE", industryId: 15 },
   { id: 164, label: "CUT TOOL", industryId: 15 },
   { id: 165, label: "PLASTIC TANK", industryId: 15 },
@@ -235,9 +235,9 @@ export const categoriesData = [
   
   //16th
   { id: 176, label: "STATIONERY", industryId: 16 },
-  { id: 177, label: "OFFICE EQUIMENT", industryId: 16 },
-  { id: 178, label: "RENTAL OFFICE EQUIMENT", industryId: 16 },
-  { id: 179, label: "CLEAN ROOM EQUIMENT", industryId: 16 },
+  { id: 177, label: "OFFICE EQUIPMENT", industryId: 16 },
+  { id: 178, label: "RENTAL OFFICE EQUIPMENT", industryId: 16 },
+  { id: 179, label: "CLEAN ROOM EQUIPMENT", industryId: 16 },
   { id: 180, label: "PROCHURE", industryId: 16 },
   { id: 181, label: "SAFETY GEAR", industryId: 16 },
   { id: 182, label: "CONTRUCTION STUFFS", industryId: 16 },
@@ -250,7 +250,6 @@ export const categoriesData = [
   { id: 187, label: "CURTAIN", industryId: 17 },
   { id: 189, label: "TREE DECORATION", industryId: 17 },
   { id: 190, label: "OFFICE DECORATION", industryId: 17 },
-  { id: 191, label: "OFFICE FURNITURE", industryId: 17 },
 
   //18th
   { id: 192, label: "LIGHTING SYSTEM", industryId: 18 },
