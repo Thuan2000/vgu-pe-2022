@@ -21,8 +21,6 @@ import {
   removeRedirectLinkAfterLogin,
   setAuthCredentials,
   setMeData,
-  getChatLogin,
-  getHiMessage,
 } from "../utils/auth-utils";
 import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "../utils/routes";
@@ -30,11 +28,12 @@ import PasswordInput from "./ui/password-input";
 import EmailOutlineIcon from "@assets/icons/email-outline-icon";
 import { AUTH_ERRORS, CHAT_URL } from "@utils/constants";
 import { COLORS } from "@utils/colors";
-import { useWSChat } from "src/contexts/websocket.context";
+import { useWSChat } from "src/contexts/ws-chat.context";
 import { generateChatPassword, generateUsername } from "@utils/functions";
 import { useModal } from "src/contexts/modal.context";
 import PasswordReset from "./ui/password-reset";
 import { IUser } from "@graphql/types.graphql";
+import { chatGetLoginMessage } from "@utils/chat-utils";
 
 type FormValues = {
   email: string;
@@ -53,7 +52,7 @@ const loginSchema = yup.object().shape({
 const LoginForm = () => {
   const router = useRouter();
   const { query } = router;
-  const wsClient = useWSChat();
+  const { wsChatInstance, isReady, setCompanyChatId } = useWSChat() || {};
   const [isAbleToPass, setIsAbleToPass] = useState(false);
   const [user, setUser] = useState<IUser>();
   const [token, setToken] = useState<string>();
@@ -71,7 +70,7 @@ const LoginForm = () => {
   });
   const { t } = useTranslation("form");
   const [login, { loading }] = useLoginMutation({
-    onError: (err) => console.log(err),
+    onError: (err) => console.error(err),
     onCompleted: onLoginComplete,
   });
 
@@ -109,7 +108,7 @@ const LoginForm = () => {
     if (success && !!user && !!token) {
       setToken(token);
       setUser(user);
-
+      setCompanyChatId(user?.company?.chatId!);
       // Put the compuslory modal here.
       if (user.firstLogin)
         openModal(
@@ -141,21 +140,27 @@ const LoginForm = () => {
   async function postLogin() {
     setAuthCredentials(token!);
     setMeData(user!);
+
     toast.success(`${t("form:welcomeBack-message")} ${user?.firstName}`);
     router.replace(getRedirectLinkAfterLogin() || ROUTES.HOMEPAGE);
     removeRedirectLinkAfterLogin();
   }
 
-  async function onSubmit({ email, password }: FormValues) {
-    wsClient.send(JSON.stringify(getHiMessage()));
-    wsClient.send(
-      JSON.stringify(
-        getChatLogin(
-          generateUsername(email),
-          `${generateChatPassword(email)}123`
-        )
+  function chatLogin(email: string) {
+    if (!isReady) {
+      setTimeout(() => chatLogin(email), 1000);
+      return;
+    }
+    wsChatInstance?.send(
+      chatGetLoginMessage(
+        generateUsername(email),
+        `${generateChatPassword(email)}123`
       )
     );
+  }
+
+  async function onSubmit({ email, password }: FormValues) {
+    chatLogin(email);
 
     login({
       variables: {

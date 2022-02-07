@@ -95,7 +95,9 @@ const FPNewPasswordInput: React.FC<IFPNewPasswordInputProps> = () => {
 
   function onSubmit(value: TPasswordResetFormValues) {
     resetPassword({
-      variables: { input: { email, token, newPassword: value.password } },
+      variables: {
+        input: { email: email!, token, newPassword: value.password },
+      },
     });
   }
 

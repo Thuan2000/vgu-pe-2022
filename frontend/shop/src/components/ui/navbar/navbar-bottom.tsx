@@ -6,6 +6,7 @@ import UserProfile from "../user-profile";
 import { useRouter } from "next/dist/client/router";
 import { getActivePageFromPath } from "@utils/functions";
 import { PageName } from "@utils/interfaces";
+import NewChat from "./new-chat";
 
 const UNSEARCHABLES = ["ho-tro", ""];
 

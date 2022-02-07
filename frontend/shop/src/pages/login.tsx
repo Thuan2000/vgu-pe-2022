@@ -36,12 +36,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Login = () => {
-  const [data] = useSession();
-
-  useEffect(() => {
-    if (data) console.log(data);
-  });
-
   const { t } = useTranslation("common");
 
   return (

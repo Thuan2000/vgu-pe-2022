@@ -14,7 +14,14 @@ import { isLogin, setRedirectLinkAfterLogin } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/router";
 import ChatwootWidget from "@components/chatwoot-widget";
-import { WSChatProvider } from "src/contexts/websocket.context";
+import { WSChatProvider } from "src/contexts/ws-chat.context";
+import TimeAgo from "javascript-time-ago";
+
+import en from "javascript-time-ago/locale/en.json";
+import vi from "javascript-time-ago/locale/vi.json";
+
+TimeAgo.addDefaultLocale(vi);
+TimeAgo.addLocale(en);
 
 const NoLayout: React.FC = ({ children }) => <>{children}</>;
 

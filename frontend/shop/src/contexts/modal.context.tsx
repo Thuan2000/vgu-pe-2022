@@ -52,7 +52,6 @@ export const ModalProvider: React.FC<any> = ({ children }) => {
     component: React.FC<any> | Element,
     modalProps?: ModalProps
   ) {
-    console.log(modalProps);
     dispatch({ type: "CLOSE_MODAL" });
     dispatch({ type: "OPEN_MODAL", component, modalProps });
   }
