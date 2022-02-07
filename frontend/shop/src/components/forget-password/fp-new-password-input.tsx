@@ -44,7 +44,7 @@ const FPNewPasswordInput: React.FC<IFPNewPasswordInputProps> = () => {
   const { data, loading } = useGetEmailFromCryptoTokenQuery({
     variables: { token },
   });
-  const email = data?.getEmailFromCryptoToken;
+  const email = data?.getEmailFromCryptoToken!;
 
   useEffect(() => {
     if (!email && !loading) fireInvalidTokenSwal();

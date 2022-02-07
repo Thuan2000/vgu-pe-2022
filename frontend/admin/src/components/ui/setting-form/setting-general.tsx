@@ -32,17 +32,6 @@ const SettingGeneralForm: React.FC<ISettingGeneralFormProps> = () => {
             <p className="text-lg text-gray-300 col-start-1 mt-10">{t("setting-this-plan-was-bought-on")} </p>
             <div className="mt-10 flex justify-end">
                 <Link
-                    href={ROUTES.LOGOUT}
-                >
-                    <Button
-                        variant="cancel"
-                        size="small"
-                        className="md:w-1/1"
-                        >
-                        {t("cancel-sub-button")}
-                    </Button>
-                </Link>
-                <Link
                     href={ROUTES.SETTINGS}
                 >
                     <Button

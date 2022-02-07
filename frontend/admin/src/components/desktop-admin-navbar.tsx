@@ -34,6 +34,7 @@ const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
   userImg = "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/avatar-icon.svg",
   ...props
 }) => {
+  const { t } = useTranslation("form");
   return (
     <div {...props}>
       <div className={`flex items-center justify-between my-5 px-3 md:px-0`}>
@@ -51,12 +52,14 @@ const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
           </div>
         </div>
         <div className="user-info flex items-center space-x-5">
-          <HelpIcon fill={COLORS.BOLDER} />
+          {/* TODO: Re-enable when the help content is ready */}
+          {/* <HelpIcon fill={COLORS.BOLDER} /> */}
+          {/* TODO: Replace this to chat notifications */}
           <NotificationIcon fill={COLORS.BOLDER} />
           <div className="flex items-center">
             <div className="mr-4 text-right hidden md:block">
               <p className="font-semibold text-semibold">{userName}</p>
-              <p className="text-sm text-gray-400">{userRole}</p>
+              <p className="text-sm text-gray-400">{t(userRole)}</p>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

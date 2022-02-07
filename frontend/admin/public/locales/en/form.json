@@ -389,6 +389,7 @@
 
   "confirm-button": "Upload",
   "crop-undone": "Please crop all images",
-  "ok-button": "Confirm"  
+  "ok-button": "Confirm",
+  "COMPANY_OWNER": "Company Owner"
 
 }
