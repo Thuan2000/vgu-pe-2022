@@ -23,9 +23,9 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
 
   const ref = useOutsideClickRef(hideMessages);
   const [isShowMessages, setIsShowMessages] = useState(false);
-  const messages = Object.keys(unreadedMessages).filter(
-    (m) => !unreadedMessages[m].isReaded || !unreadedMessages[m].lastMessage
-  );
+  const messages = Object.keys(unreadedMessages).filter((m) => {
+    return !unreadedMessages[m].isReaded && !!unreadedMessages[m].lastMessage;
+  });
 
   useEffect(() => {
     function getNews() {
@@ -89,6 +89,7 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
               <ChatMessageItem
                 key={m.from}
                 message={m}
+                onClick={hideMessages}
                 isLast={idx === messages.length - 1}
               />
             );

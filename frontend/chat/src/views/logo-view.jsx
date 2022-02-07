@@ -9,7 +9,7 @@ import { APP_NAME } from "../config.js";
 
 export default class LogoView extends React.PureComponent {
   render() {
-    const version = APP_NAME + " (" + Tinode.getLibrary() + ")";
+    // const version = `${APP_NAME}`;
     return (
       <div id="dummy-view">
         <div>
@@ -17,22 +17,22 @@ export default class LogoView extends React.PureComponent {
             <img id="logo" alt="logo" src="img/logo.svg" />
             <h2>Sdconnect</h2>
           </a>
-          <p>
+          <p style={{ marginTop: 5 }}>
             <FormattedMessage
-              id="label_client"
+              id="logo-view-desc"
               defaultMessage="Client:"
               description="Label for a client version"
-            />{" "}
-            {version}
+            />
+            {/* {version} */}
           </p>
-          <p>
+          {/* <p>
             <FormattedMessage
               id="label_server"
               defaultMessage="Server:"
               description="Label for a server version"
             />{" "}
             {this.props.serverVersion} ({this.props.serverAddress})
-          </p>
+          </p> */}
         </div>
       </div>
     );

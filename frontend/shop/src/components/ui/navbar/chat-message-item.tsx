@@ -11,17 +11,23 @@ import { IChatSubPublic } from "@utils/interfaces";
 interface IChatMessageItemProps {
   message: IChatSubPublic;
   isLast: boolean;
+  onClick: () => void;
 }
 
 const ChatMessageItem: React.FC<IChatMessageItemProps> = ({
   message,
   isLast,
+  onClick,
 }) => {
   const { from, lastMessage, fn, ts } = message;
   const { locale } = useRouter();
 
   return (
-    <Link href={`${ROUTES.CHAT_URL}/#/${from}`} target="_blank">
+    <Link
+      onClick={onClick}
+      href={`${ROUTES.CHAT_URL}/#/${from}`}
+      target="_blank"
+    >
       <div
         className={`fic !px-3 !py-3 relative space-x-3 border-b 
         ${isLast && "border-b-0"}
