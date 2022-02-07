@@ -69,7 +69,7 @@ export const categoriesData = [
   { id: 34, label: "CONTENT", industryId: 3 },
   { id: 35, label: "BILLBOARDS", industryId: 3 },
 
-  // Forth
+  // Fourth
   { id: 36, label: "BUY SELL HIRE FACTORIES", industryId: 4 },
   { id: 37, label: "REAL-ESTATE VALUATION", industryId: 4 },
   { id: 38, label: "FACTORY ASSETS MANAGEMENT", industryId: 4 },
@@ -83,19 +83,19 @@ export const categoriesData = [
 
   //Fifth
   { id: 46, label: "CONSTRUCTION DESIGN", industryId: 5 },
-  { id: 47, label: "WAREHOST CONSTRUCTION TENDER", industryId: 5 },
+  { id: 47, label: "FACTORY CONSTRUCTION", industryId: 5 },
   { id: 48, label: "ELECTRONIC CABLE SUPPLIER", industryId: 5 },
-  { id: 49, label: "ELECTRONIC & WATER COMPANY", industryId: 5 },
+  { id: 49, label: "ELECTRONIC & WATER CONSTRUCTION", industryId: 5 },
   { id: 50, label: "INTERIOR DESIGNER", industryId: 5 },
   { id: 51, label: "M&E COMPANY", industryId: 5 },
   { id: 52, label: "TEMP HOUSE", industryId: 5 },
   { id: 53, label: "REFRIGERATION SYSTEM", industryId: 5 },
   { id: 54, label: "LIGHTING SYSTEM", industryId: 5 },
   { id: 55, label: "INFRASTRUCTURE - ROAD", industryId: 5 },
-  { id: 56, label: "PCCC", industryId: 5 },
+  { id: 56, label: "FIRE SAFETY", industryId: 5 },
 
   //6th
-  { id: 58, label: "PCCC", industryId: 6 },
+  { id: 58, label: "FIRE SAFETY", industryId: 6 },
   { id: 59, label: "CAMERA", industryId: 6 },
   { id: 60, label: "SECURITY SERVICE", industryId: 6 },
   { id: 61, label: "BODYGUARD SERVICE", industryId: 6 },
