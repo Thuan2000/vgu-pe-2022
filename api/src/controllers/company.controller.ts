@@ -12,7 +12,8 @@ import {
 	DEFAULT_SUBSCRIPTION_ID,
 	EEMailTemplates,
 	EMAIL_MESSAGES,
-	EMAIL_SUBJECTS
+	EMAIL_SUBJECTS,
+	ADMIN_EMAIL_ADDRESS
 } from "@utils";
 import Company from "@models/Company";
 import S3 from "@services/s3.service";
@@ -140,8 +141,7 @@ class CompanyController {
 				password: owner.email
 			});
 
-			const email = new EmailService();
-			email.sendEmail(company.owner.email, {
+			EmailService.sendEmail(company.owner.email, {
 				message: EMAIL_MESSAGES.VERIFIED,
 				subject: EMAIL_SUBJECTS.VERIFIED,
 				name: `${company.owner.firstName} ${company.owner.lastName}`,
@@ -226,7 +226,6 @@ class CompanyController {
 				});
 				return errorResponse("COMPANY_EXIST");
 			}
-
 			const newComp = await Company.create({
 				ownerId,
 				licenseNumber,
@@ -238,6 +237,7 @@ class CompanyController {
 				"slug",
 				generateSlug(companyName, newComp.getDataValue("id"))
 			);
+
 			await newComp.save();
 
 			Company.insertIndex(newComp.toJSON());
@@ -247,6 +247,14 @@ class CompanyController {
 				ownerId,
 				newComp.getDataValue("id")
 			);
+
+			const message = `(${companyName}) has been registered to our platform`;
+			EmailService.sendEmail(ADMIN_EMAIL_ADDRESS, {
+				message,
+				template: EEMailTemplates.NEW_COMPANY_REGISTERED,
+				subject: "New Company",
+				name: "SDConnect"
+			});
 
 			return successResponse();
 		} catch (error) {

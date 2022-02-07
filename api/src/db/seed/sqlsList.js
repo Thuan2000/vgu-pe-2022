@@ -15,20 +15,12 @@ const sqls = [
 		path: getFilePath("roles.sql")
 	},
 	{
-		name: "User",
-		path: getFilePath("users.sql")
-	},
-	{
 		name: "Companies",
 		path: getFilePath("companies.sql")
 	},
 	{
-		name: "User Sdconnect Companies",
-		path: getFilePath("user_sdconnect_companies.sql")
-	},
-	{
-		name: "User Test Companies",
-		path: getFilePath("user_test_companies.sql")
+		name: "User",
+		path: getFilePath("users.sql")
 	},
 	{
 		name: "Buying Request",

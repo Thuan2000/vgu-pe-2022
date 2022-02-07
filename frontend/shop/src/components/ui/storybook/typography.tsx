@@ -10,7 +10,7 @@ type TextColor =
   | "secondary-1"
   | "white";
 
-type TFontWeight = "bold" | "semibold" | "light";
+type TFontWeight = "bold" | "semibold" | "light" | "normal";
 
 interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
   variant?:
@@ -34,6 +34,7 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
   color?: TextColor;
   align?: "left" | "center" | "right";
   readMoreText?: string;
+  truncate?: boolean;
   onReadMore?: () => void;
 }
 
@@ -55,12 +56,13 @@ const Typography: React.FC<ITypographyProps> = ({
   className: inputClassname,
   text,
   variant,
-  weight,
+  weight = "",
   color,
   size = "sm",
   element: Element = "p",
   readMoreText = "View more",
   onReadMore,
+  truncate,
   isHaveReadMore,
   ...props
 }) => {
@@ -69,6 +71,7 @@ const Typography: React.FC<ITypographyProps> = ({
     `text-${size}`,
     `text-${color}`,
     `font-${weight}`,
+    !!truncate && "truncate",
     inputClassname
   );
 

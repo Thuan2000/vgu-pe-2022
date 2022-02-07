@@ -119,23 +119,21 @@ export function getLoginCompanySlug() {
   return company?.slug as string;
 }
 
+export function getCompanyChatId() {
+  const { company } = getMeData();
+  return company?.chatId || null;
+}
 export function getCompanyId() {
   const { company } = getMeData();
-
   return company?.id as number;
 }
 export function getCompanyName() {
   const { company } = getMeData();
-
   return company?.name;
 }
 export function getLoggedInUser() {
   const { user } = getMeData();
-
   return user;
-}
-export function loggedInUser() {
-  const { user } = getMeData();
 }
 
 export function isString(value: any) {

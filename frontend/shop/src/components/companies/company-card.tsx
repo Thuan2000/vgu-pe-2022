@@ -29,10 +29,6 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
     establishmentDate,
     settings,
     location,
-    productAmount,
-    responseTime,
-    industryId,
-    categoryId,
   } = company;
 
   const { t } = useTranslation();

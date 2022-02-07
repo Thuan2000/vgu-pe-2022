@@ -76,9 +76,7 @@ const BRDDescription: React.FC<IBRDDescriptionProps> = ({
           variant="description"
           isHaveReadMore={description?.length! > 220}
           readMoreText={t("brd-readMore-text")}
-          onReadMore={() => {
-            console.log("Scrolling");
-          }}
+          onReadMore={() => null}
           text={
             trimText(description as string, 220) || t("brd-noDescription-text")
           }

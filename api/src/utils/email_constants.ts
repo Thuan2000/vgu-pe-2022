@@ -1,3 +1,5 @@
+export const ADMIN_EMAIL_ADDRESS = process.env.ADMIN_EMAIL;
+
 export const EMAIL_SUBJECTS = {
 	FORGOT_PASSWORD: "Password Reset Link",
 	REGISTERED: "[Thông báo]: Đã nhận hồ sơ đăng ký",
@@ -21,5 +23,6 @@ export const EMAIL_TITLES = {
 export enum EEMailTemplates {
 	REGISTRATION = "register.html",
 	VERIFICATION = "verified.html",
-	FORGOT_PASSWORD = "forgot-password.html"
+	FORGOT_PASSWORD = "forgot-password.html",
+	NEW_COMPANY_REGISTERED = "verified.html"
 }

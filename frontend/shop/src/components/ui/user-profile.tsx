@@ -6,6 +6,7 @@ import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Link from "./link";
+import NewChat from "./navbar/new-chat";
 
 import ProfileAvatar from "./profile-avatar";
 import Button from "./storybook/button";
@@ -26,6 +27,9 @@ const UserProfile = () => {
   const adminLink = process.env.NEXT_PUBLIC_ADMIN_URL;
   return (
     <div className="flex-center">
+      <div className={`mr-8`}>
+        <NewChat />
+      </div>
       {!["ho-tro", "", "nha-cung-cap"].includes(activePage) ? (
         <div>
           <Link target="_blank" href={`${adminLink}${POST_ROUTES[activePage]}`}>

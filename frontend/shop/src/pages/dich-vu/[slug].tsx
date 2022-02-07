@@ -1,10 +1,8 @@
 import DetailImages from "@components/ui/detail-image-section";
-import RecordSocialShareList from "@components/record-detail/record-social-share-list";
 import PageLayout from "@components/layouts/page-layout";
 import RecordDescription from "@components/record-detail/record-desc";
 import RecordName from "@components/record-detail/record-name";
 import RecordPrice from "@components/record-detail/record-price";
-import Typography from "@components/ui/storybook/typography";
 import { ServiceDocument } from "@graphql/service.graphql";
 import { IService } from "@graphql/types.graphql";
 import { initApollo } from "@utils/apollo";

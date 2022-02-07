@@ -117,22 +117,3 @@ export function setChatAuthToken(token: string, expires: string) {
 
   Cookie.set(CHAT_KEEP_LOGIN_COOKIE_NAME, "true", getDomain());
 }
-
-export function getChatLogin(username: string, password: string) {
-  return {
-    login: {
-      id: generateUUID(),
-      scheme: "basic",
-      secret: encodeString(`${username}:${password}`),
-    },
-  };
-}
-
-export function getHiMessage() {
-  return {
-    hi: {
-      id: generateUUID(),
-      ver: "0.17.10",
-    },
-  };
-}
