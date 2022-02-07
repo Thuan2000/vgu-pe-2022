@@ -108,7 +108,7 @@ export const categoriesData = [
   
   //7th
   { id: 69, label: "PETROL", industryId: 7 },
-  { id: 70, label: "LO HOI", industryId: 7 },
+  { id: 70, label: "BOILER", industryId: 7 },
   { id: 71, label: "LIQUEFIED PETROLEUM GAS", industryId: 7 },
   { id: 72, label: "LUB OIL", industryId: 7 },
   { id: 73, label: "SOLAR ENERGY", industryId: 7 },
@@ -135,7 +135,7 @@ export const categoriesData = [
   { id: 92, label: "FODDER MATERIAL", industryId: 8 },
 
   //9th
-  { id: 93, label: "FARBIC", industryId: 9 },
+  { id: 93, label: "FABRIC", industryId: 9 },
   { id: 94, label: "YARN", industryId: 9 },
   { id: 95, label: "FIBER", industryId: 9 },
   { id: 96, label: "BUTTON", industryId: 9 },
@@ -143,13 +143,13 @@ export const categoriesData = [
   { id: 98, label: "ZIP", industryId: 9 },
   { id: 99, label: "ELASTIC WAIST", industryId: 9 },
   { id: 100, label: "SMOCKING SEWING THREAD", industryId: 9 },
-  { id: 101, label: "NEEDLE & NON-WOVEN FARBIC", industryId: 9 },
+  { id: 101, label: "NEEDLE & NON-WOVEN FABRIC", industryId: 9 },
   { id: 102, label: "COTTON THREAD GLUE", industryId: 9 },
   { id: 103, label: "SHOULDER PADS & CHEST CUP", industryId: 9 },
   { id: 104, label: "MEX - MEX", industryId: 9 },
 
   //10th
-  { id: 105, label: "LEATHERETTE FARBIC", industryId: 10 },
+  { id: 105, label: "LEATHERETTE FABRIC", industryId: 10 },
   { id: 106, label: "LEATHER", industryId: 10 },
   { id: 107, label: "SOLE", industryId: 10 },
   { id: 108, label: "BOOTS SEWING THREAD", industryId: 10 },
@@ -158,9 +158,9 @@ export const categoriesData = [
   { id: 111, label: "PLASTIC BEAD", industryId: 10 },
   { id: 112, label: "PU", industryId: 10 },
   { id: 113, label: "PRESSED LEATHER HEEL", industryId: 10 },
-  { id: 114, label: "MAT GOT", industryId: 10 },
+  { id: 114, label: "BOOTS HEEL", industryId: 10 },
   { id: 115, label: "INSOLE", industryId: 10 },
-  { id: 116, label: "PHO MUI", industryId: 10 },
+  { id: 116, label: "BOOTS NOSE", industryId: 10 },
 
   //11th
   { id: 117, label: "BATTERY", industryId: 11 },
@@ -199,7 +199,7 @@ export const categoriesData = [
   { id: 146, label: "PLASTIC RUBBER EQUIQMENT", industryId: 13 },
   { id: 147, label: "PLASTIC TARPAULIN", industryId: 13 },
   { id: 148, label: "PE", industryId: 13 },
-  { id: 149, label: "FIBERGLASS FARBIC", industryId: 13 },
+  { id: 149, label: "FIBERGLASS FABRIC", industryId: 13 },
   { id: 150, label: "CHEMICAL-RESISTANT PLASTIC MATERIAL", industryId: 13 },
   { id: 151, label: "PLASTIC CANS", industryId: 13 },
 

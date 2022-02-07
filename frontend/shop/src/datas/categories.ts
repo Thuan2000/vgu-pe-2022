@@ -141,7 +141,7 @@ export const categoriesData = [
   { id: 92, label: "FODDER MATERIAL", industryId: 8 },
 
   //9th
-  { id: 93, label: "FARBIC", industryId: 9 },
+  { id: 93, label: "FABRIC", industryId: 9 },
   { id: 94, label: "YARN", industryId: 9 },
   { id: 95, label: "FIBER", industryId: 9 },
   { id: 96, label: "BUTTON", industryId: 9 },
@@ -149,13 +149,13 @@ export const categoriesData = [
   { id: 98, label: "ZIP", industryId: 9 },
   { id: 99, label: "ELASTIC WAIST", industryId: 9 },
   { id: 100, label: "SMOCKING SEWING THREAD", industryId: 9 },
-  { id: 101, label: "NEEDLE & NON-WOVEN FARBIC", industryId: 9 },
+  { id: 101, label: "NEEDLE & NON-WOVEN FABRIC", industryId: 9 },
   { id: 102, label: "COTTON THREAD GLUE", industryId: 9 },
   { id: 103, label: "SHOULDER PADS & CHEST CUP", industryId: 9 },
   { id: 104, label: "MEX - MEX", industryId: 9 },
 
   //10th
-  { id: 105, label: "LEATHERETTE FARBIC", industryId: 10 },
+  { id: 105, label: "LEATHERETTE FABRIC", industryId: 10 },
   { id: 106, label: "LEATHER", industryId: 10 },
   { id: 107, label: "SOLE", industryId: 10 },
   { id: 108, label: "BOOTS SEWING THREAD", industryId: 10 },
@@ -204,7 +204,7 @@ export const categoriesData = [
   { id: 146, label: "PLASTIC RUBBER EQUIQMENT", industryId: 13 },
   { id: 147, label: "PLASTIC TARPAULIN", industryId: 13 },
   { id: 148, label: "PE", industryId: 13 },
-  { id: 149, label: "FIBERGLASS FARBIC", industryId: 13 },
+  { id: 149, label: "FIBERGLASS FABRIC", industryId: 13 },
   { id: 150, label: "CHEMICAL-RESISTANT PLASTIC MATERIAL", industryId: 13 },
   { id: 151, label: "PLASTIC CANS", industryId: 13 },
 
