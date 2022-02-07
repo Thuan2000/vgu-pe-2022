@@ -24,7 +24,7 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
   const ref = useOutsideClickRef(hideMessages);
   const [isShowMessages, setIsShowMessages] = useState(false);
   const messages = Object.keys(unreadedMessages).filter(
-    (m) => !unreadedMessages[m].isReaded
+    (m) => !unreadedMessages[m].isReaded || !unreadedMessages[m].lastMessage
   );
 
   useEffect(() => {

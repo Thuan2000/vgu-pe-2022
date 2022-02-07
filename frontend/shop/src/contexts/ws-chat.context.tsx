@@ -114,6 +114,15 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
     setUnreadedMessages(Object.assign({}, unreadedMessages));
   }
 
+  function handlePres(pres: {
+    src: string;
+    from: string;
+    what: string;
+    topic: string;
+  }) {
+    wsChatInstance?.send(chatGetTopicWithDescMessages(pres.src));
+  }
+
   function handleInfo(info: {
     src: string;
     from: string;
@@ -145,7 +154,6 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
     desc: { public: IChatSubPublic };
   }) {
     const { sub = [], topic, desc } = meta;
-
     if (!!topic && topic !== "me") {
       unreadedMessages[topic] = {
         ...desc?.public,
@@ -166,9 +174,11 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
 
   function handleWsChatMessage(e: MessageEvent<any>) {
     const data = JSON.parse(e.data);
+    console.log(data);
     if (!!data.meta) handleMeta(data.meta);
     if (!!data.data) handleData(data.data);
     if (!!data.info) handleInfo(data.info);
+    if (!!data.pres) handlePres(data.pres);
     const params = data?.ctrl?.params;
     if (params?.authlvl === "auth")
       setChatAuthToken(params?.token, params.expires);
