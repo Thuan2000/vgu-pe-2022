@@ -19,24 +19,42 @@ import Company from "@models/Company";
 import Project from "@models/Project";
 import BuyingRequestRepository from "@repositories/buying-request.repository";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
+import { IRefreshBrStatusResponse } from "@graphql/types";
 
 class BuyingRequestController {
-	static async updateStatus() {
-		console.log("Updating BR Status");
+	static async refreshStatus(): Promise<IRefreshBrStatusResponse> {
+		try {
+			console.log("Updating BR Status");
 
-		const currentTime = new Date().getTime();
-		const wrongStatusBrs = await BuyingRequest.findAll({
-			where: {
-				status: "OPEN" as IBrStatus,
-				endDate: { [Op.lte]: currentTime }
-			},
-			attributes: [""]
-		});
+			const currentTime = new Date().getTime();
+			const wrongStatusBrs = await BuyingRequest.findAll({
+				where: {
+					status: "OPEN" as IBrStatus,
+					endDate: { [Op.lte]: currentTime }
+				},
+				include: [
+					{
+						model: Company,
+						attributes: ["id", "name", "chatId"]
+					}
+				]
+			});
 
-		wrongStatusBrs.forEach(br => {
-			br.setDataValue("status", "CLOSE" as IBrStatus);
-			br.save();
-		});
+			wrongStatusBrs.forEach(br => {
+				br.setDataValue("status", "CLOSE" as IBrStatus);
+				br.save();
+
+				BuyingRequest.updateEsBr(br.getDataValue("id"), br.toJSON());
+			});
+
+			return {
+				updatedAmount: wrongStatusBrs.length,
+				...successResponse()
+			};
+		} catch (e) {
+			console.error(e);
+			return errorResponse(e.toString());
+		}
 	}
 
 	async getBuyingRequestBySlug(slug: string) {

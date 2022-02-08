@@ -77,6 +77,12 @@ type BuyingRequestsResponse {
 	pagination: Pagination!
 }
 
+type RefreshBrStatusResponse {
+	updatedAmount: Int
+	success: Boolean!
+	message: String!
+}
+
 input FetchBRInput {
 	companyId: Int
 	offset: Int!
@@ -103,6 +109,7 @@ extend type Query {
 		companyId: Int!
 		input: FetchBRInput!
 	): BuyingRequestsResponse!
+	refreshBrStatus: RefreshBrStatusResponse!
 	buyingRequest(id: Int!): BuyingRequest!
 	discoveryBuyingRequests(input: FetchBRInput!): BuyingRequestsResponse!
 	buyingRequestBySlug(slug: String!): BuyingRequest!

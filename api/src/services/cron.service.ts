@@ -6,7 +6,7 @@ class CronService {
 		try {
 			NodeCron.schedule(
 				"0 0 12 * * *",
-				BuyingRequestController.updateStatus
+				BuyingRequestController.refreshStatus
 			);
 		} catch (e) {
 			console.error(e);

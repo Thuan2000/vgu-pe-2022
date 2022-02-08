@@ -1,9 +1,9 @@
 import BuyingRequestController from "@controllers/buying-request.controller";
-import BuyingRequest from "@models/BuyingRequest";
 
 const buyingRequestController = new BuyingRequestController();
 
 export const Query = {
+	refreshBrStatus: BuyingRequestController.refreshStatus,
 	buyingRequestBySlug: (_, { slug }) =>
 		buyingRequestController.getBuyingRequestBySlug(slug),
 	buyingRequest: (_, { id }) => buyingRequestController.getBuyingRequest(id),
