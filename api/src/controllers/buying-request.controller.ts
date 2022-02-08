@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import {
+	IBrStatus,
 	ICreateBuyingRequestInput,
 	IFetchBrInput,
 	IUpdateBuyingRequestInput
@@ -14,15 +15,30 @@ import {
 	RESPONSE_MESSAGE,
 	successResponse
 } from "@utils";
-import Category from "../models/Category";
-import Industry from "../models/Industry";
 import Company from "@models/Company";
 import Project from "@models/Project";
 import BuyingRequestRepository from "@repositories/buying-request.repository";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
-import OpenSearch from "@services/open-search.service";
 
 class BuyingRequestController {
+	static async updateStatus() {
+		console.log("Updating BR Status");
+
+		const currentTime = new Date().getTime();
+		const wrongStatusBrs = await BuyingRequest.findAll({
+			where: {
+				status: "OPEN" as IBrStatus,
+				endDate: { [Op.lte]: currentTime }
+			},
+			attributes: [""]
+		});
+
+		wrongStatusBrs.forEach(br => {
+			br.setDataValue("status", "CLOSE" as IBrStatus);
+			br.save();
+		});
+	}
+
 	async getBuyingRequestBySlug(slug: string) {
 		try {
 			const buyingRequest = await BuyingRequest.findOne({
