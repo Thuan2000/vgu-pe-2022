@@ -130,5 +130,10 @@
   "establishmentDate-filter-placeholder": "12/12/2021",
   "danh-ba-cong-ty": "Nhà cung cấp",
   "nhu-cau-thu-mua": "Nhu cầu thu mua",
-  "admin-panel-menu-label": "Quản lý Admin"
+  "admin-panel-menu-label": "Quản lý Admin",
+  "yourCompany-button-label": "CTY của bạn",
+  "no-information": "Chưa thông tin",
+  "messages-label": "Hộp thư",
+  "no-new-message-text": "0 tin nhắn mới",
+  "open-chat-text": "Mở chat"
 }

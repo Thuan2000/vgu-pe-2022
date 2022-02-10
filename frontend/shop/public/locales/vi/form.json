@@ -72,5 +72,9 @@
 	"error-COMPANY_NOT_APPROVED-title": "Tài khoản chưa xác thực",
 	"error-COMPANY_NOT_APPROVED-message": "Chúng tôi sẽ xác thực trong thời gian sớm nhất",
 	"error-COMPANY_NOT_APPROVED-button": "Close Modal",
-	"welcomeBack-message": "Chào mừng trở lại"
+	"welcomeBack-message": "Chào mừng trở lại",
+	"search-nhu-cau-thu-mua-input-placeholder": "v.d: mua giấy nhựa, v.v...",
+  "search-san-pham-input-placeholder": "v.d: thép chống gỉ, v.v...",
+  "search-dich-vu-input-placeholder": "v.d: thiết kế web, sự kiện, v.v...",
+  "search-nha-cung-cap-input-placeholder": "v.d: Công ty ABC, v.v..."
 }
