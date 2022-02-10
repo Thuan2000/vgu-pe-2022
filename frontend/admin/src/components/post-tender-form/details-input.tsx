@@ -60,6 +60,9 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         name="details.endDate"
         locale={locale}
         required
+        onChange={() => {
+          trigger("details.endDate");
+        }}
         minDate={new Date()}
         placeholder={t("post-request-endDate-placeholder")}
         error={t(errors?.details?.endDate?.message || "")}

@@ -42,6 +42,7 @@ export interface IDocumentUploaderProps {
   inputStyle?: React.CSSProperties;
   thumbOnInput?: boolean;
   inputClassName?: string;
+  aspectRatio?: number;
 }
 
 const DocumentUploader = (props: IDocumentUploaderProps) => {
@@ -64,6 +65,7 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     maxFiles = 10,
     accessControl = "PUBLIC_READ",
     inputClassName,
+    aspectRatio,
   } = props;
   if (!accept) throw "PLEASE_SET_THE_ACCEPT_CORRECTLY";
 
@@ -100,8 +102,10 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     openModal(
       (
         <ImageCropper
+          aspectRatio={aspectRatio}
           onFinish={handleFinishCropping}
           src_id={srcs}
+          onClose={closeModal}
         />
       ) as any,
       {

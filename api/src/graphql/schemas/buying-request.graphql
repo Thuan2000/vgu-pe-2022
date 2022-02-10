@@ -37,6 +37,7 @@ input CreateBuyingRequestInput {
 	endDate: Date!
 	location: String!
 	description: String
+	chatId: String!
 	minBudget: Date!
 	maxBudget: Date!
 	minOrder: Int!

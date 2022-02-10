@@ -35,6 +35,7 @@ input CreateProductInput {
 	companyName: String!
 	# Product name in string
 	name: String!
+	chatId: String!
 	# Industry Id of the product
 	industryId: Int!
 	# Category Id of the product

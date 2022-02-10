@@ -171,7 +171,7 @@ class BuyingRequestController {
 
 	async createBuyingRequest(buyingRequestInput: ICreateBuyingRequestInput) {
 		try {
-			const { name, companyId, companyName } = buyingRequestInput;
+			const { name, companyId, companyName, chatId } = buyingRequestInput;
 
 			// Check duplicate
 			const duplicateBr = await BuyingRequest.findOne({
@@ -193,7 +193,8 @@ class BuyingRequestController {
 
 			const company = {
 				id: companyId,
-				name: companyName
+				name: companyName,
+				chatId
 			};
 
 			const r = await BuyingRequest.insertToIndex({
@@ -203,7 +204,7 @@ class BuyingRequestController {
 
 			return newBuyingRequest.save().then(() => successResponse());
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			return errorResponse(error);
 		}
 	}

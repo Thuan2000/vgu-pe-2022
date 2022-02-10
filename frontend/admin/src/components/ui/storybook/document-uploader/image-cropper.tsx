@@ -7,10 +7,13 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { useTranslation } from "next-i18next";
 import VerifiedIcon from "@assets/icons/verified-icon";
+import { COLORS } from "@utils/colors";
 
 interface IImageCropperProps {
   src_id: string[];
   onFinish: (croppedImageUrl: CroppedImageUrls) => void;
+  aspectRatio?: number;
+  onClose: () => void;
 }
 
 export interface CroppedImage {
@@ -26,21 +29,23 @@ let check: any[] = [];
 check[0] = true;
 let check2nd: boolean = false;
 
-const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
+const ImageCropper: React.FC<IImageCropperProps> = ({
+  onFinish,
+  src_id,
+  aspectRatio = 1,
+  onClose,
+}) => {
   const { t } = useTranslation("form");
   const [activeUrlIdx, setActiveIdx] = useState(0);
   const refIdx = useRef(0);
   const croppedImageUrlsInObject = useRef<CroppedImageUrls>({});
   const cropperRef = useRef<HTMLImageElement>(null);
-
   var i: number;
   var count = 0;
-  for(i = 0; i < src_id.length; i++) {
+  for (i = 0; i < src_id.length; i++) {
     if (check[i] === true) count++;
   }
   if (count === src_id.length) check2nd = true;
-
-  console.log(check2nd);
 
   function onCrop() {
     const imageElement: any = cropperRef?.current;
@@ -48,32 +53,38 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
     const originalUrl = src_id[refIdx.current];
     const croppedUrl = cropper.getCroppedCanvas().toDataURL();
     croppedImageUrlsInObject.current[originalUrl] = croppedUrl;
-
   }
   function handleConfirmClick() {
     if (check2nd === false) {
       Swal.fire({
-        icon: 'error',
+        icon: "error",
         iconColor: "00D796",
         title: t("crop-undone"),
         confirmButtonColor: "#00D796",
         confirmButtonText: t("ok-button"),
       });
-    }
-    else {
+    } else {
       onFinish(croppedImageUrlsInObject.current);
       check = [];
       check2nd = false;
       check[0] = true;
-    } 
+    }
   }
   return (
     <div>
-      <div className={`py-80 sm:w-screen sm:h-screen relative overflow-hidden`}>
+      <div
+        className={`py-80 sm:w-screen sm:h-screen relative overflow-hidden flex-center flex-col`}
+      >
+        <div
+          className="absolute top-10 right-10 hover:scale-125 transition-all duration-150 cursor-pointer"
+          onClick={onClose}
+        >
+          <XIcon fill={COLORS.WHITE} />
+        </div>
         <div className={`relative -mt-10 w-screen h-96 flex justify-center`}>
           <Cropper
             src={src_id[activeUrlIdx]}
-            aspectRatio={1}
+            aspectRatio={aspectRatio}
             guides={false}
             max="1080px"
             autoCrop
@@ -81,7 +92,9 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
             ref={cropperRef}
           />
         </div>
-        <div className={`flex space-x-2 mt-10 place-items-center justify-center`}>
+        <div
+          className={`flex space-x-2 mt-10 place-items-center justify-center`}
+        >
           {src_id.map((imageSrc, idx) => {
             return (
               <div
@@ -93,21 +106,28 @@ const ImageCropper: React.FC<IImageCropperProps> = ({ onFinish, src_id }) => {
                 className={`sm:w-20 sm:h-20 relative`}
               >
                 <div className="grid grid-cols-2">
-                  <Image src={imageSrc} layout="fill" className="rounded-lg col-start-1" />
+                  <Image
+                    src={imageSrc}
+                    layout="fill"
+                    className="rounded-lg col-start-1"
+                  />
                   {check[idx] === true && (
                     <VerifiedIcon className="col-start-1 mt-24" />
                   )}
-                  
                 </div>
               </div>
             );
           })}
           <div className={``}>
             {check2nd === true && (
-              <Button onClick={handleConfirmClick}>{t("confirm-button")}</Button>
+              <Button onClick={handleConfirmClick}>
+                {t("confirm-button")}
+              </Button>
             )}
             {check2nd === false && (
-              <Button onClick={handleConfirmClick} color="error">{t("confirm-button")}</Button>
+              <Button onClick={handleConfirmClick} color="error">
+                {t("confirm-button")}
+              </Button>
             )}
           </div>
         </div>

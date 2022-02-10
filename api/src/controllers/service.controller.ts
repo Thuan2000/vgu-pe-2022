@@ -70,19 +70,21 @@ class ServiceController {
 	}
 
 	static async createService(input: ICreateServiceInput) {
+		const {
+			tags,
+			newTags,
+			companyId,
+			createdById,
+			companyName,
+			chatId,
+			...rest
+		} = input;
+
 		try {
-			const {
-				tags,
-				newTags,
-				companyId,
-				createdById,
-				companyName,
-				...serviceInput
-			} = input;
 			const isExist = await Service.findOne({
 				where: {
 					companyId,
-					name: serviceInput.name
+					name: rest.name
 				}
 			});
 
@@ -91,7 +93,7 @@ class ServiceController {
 			const newService = await Service.create({
 				companyId,
 				createdById,
-				...serviceInput
+				...rest
 			});
 			newService.setDataValue(
 				"slug",

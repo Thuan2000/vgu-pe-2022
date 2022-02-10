@@ -50,6 +50,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           name="general.coverImage"
           dropZonePlaceholder={(<CirclePlusIcon />) as any}
           hideUploadButton
+          aspectRatio={4 / 1}
           thumbOnInput
         />
         <ECProfileImageInput
