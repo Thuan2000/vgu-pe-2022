@@ -143,5 +143,15 @@
   "open-chat-text": "Open Chat",
   "yourCompany-message-label": "Your Company",
   "yourProduct-message-label": "Your Product",
-  "yourService-message-label": "Your Service"
+  "yourService-message-label": "Your Service",
+  "companyTotalEmployee-text": "Total employee(s)",
+  "not-setup": "no information",
+  "companyInformation-title": "Company Information",
+  "noFactory-message": "No factories",
+  "noBranch-message": "No branches",
+  "singularCompanyfactory-title": "Factories",
+  "pluralCompanyfactory-title": "factories",
+  "singularCompanybranch-title": "Branches",
+  "pluralCompanywarehouse-title": "branches",
+  "companyCertificates-title": "Certificate(s)"
 }

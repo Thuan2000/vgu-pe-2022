@@ -51,13 +51,6 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
       </div>
 
       <div>
-        <Typography
-          variant="smallTitle"
-          element="h3"
-          size="md"
-          text={t("companyDetails-title")}
-          className="mb-2"
-        />
         <div className="grid grid-cols-3">
           <div className="col-start-1">
             <CDDetailQuestion
@@ -101,19 +94,9 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
           </div>
         </div>
       </div>
-
-      <div>
-        <Typography
-          variant="smallTitle"
-          element="h3"
-          size="md"
-          text={t("companySocialMedia-title")}
-          className="mt-5 mb-2"
-        />
-      </div>
       {/*SOCIAL MEDIA HERE*/}
 
-      <Typography
+      {/* <Typography
         text={t("share-label")}
         variant="BRTitle"
         size="md"
@@ -124,7 +107,7 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
         <MessangerIcon className="ml-3" />
         <TelegramIcon className="ml-3" />
         <LinkIcon className="ml-3" />
-      </div>
+      </div> */}
     </div>
   );
 };

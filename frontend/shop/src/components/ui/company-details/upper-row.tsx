@@ -43,7 +43,7 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
         </div>
       </div>
       <div className="flex flex-row justify-end mt-4">
-        <Typography
+        {/* <Typography
           text={`${t("TotalPD-text")}: `}
           variant="title"
           color="gray-400"
@@ -68,7 +68,7 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
           variant="BRTitle"
           size="sm"
           className="mr-5 mt-2"
-        />
+        /> */}
         <div className="mr-3">
           <ChatNowButton company={company as any} />
         </div>
@@ -88,7 +88,7 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
             color="gray-400"
             className="mb-3"
           />
-          <div className="flex">
+          {/* <div className="flex">
             <Typography
               text={t("share-label")}
               variant="BRTitle"
@@ -99,7 +99,7 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
             <MessangerIcon className="ml-2" />
             <TelegramIcon className="ml-2" />
             <LinkIcon className="ml-2" />
-          </div>
+          </div> */}
         </div>
 
         {settings?.gallery && settings?.gallery?.length > 0 && (
