@@ -291,6 +291,10 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
     return isSelected;
   }
 
+  function handleReload() {
+    refetch();
+  }
+
   return (
     <>
       <BuyingRequestHeader
@@ -300,11 +304,12 @@ const BuyingRequests: React.FC<IBuyingRequestsProps> = () => {
         setSelecteds={setSelectedBrs}
         brs={brs}
       />
-      <div className="mt-4 mx-4 md:flex flex-wrap justify-between">
+      <div className="mt-4 mx-4 space-y-2">
         {brs?.map((br: IBuyingRequest) => {
           if (!br) return;
           return (
             <BuyingRequestCard
+              onReload={handleReload}
               extraMenus={brCardExtraMenus}
               onSelectChange={(e) => handleSelectChange(e, br)}
               br={br}

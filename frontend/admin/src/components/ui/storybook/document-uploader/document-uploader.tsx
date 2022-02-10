@@ -255,8 +255,8 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
         <div
           style={{ ...inputStyle }}
           {...getRootProps({
-            className: `${inputClassName} h-24 flex-center rounded relative overflow-hidden
-            ${!files.length && thumbOnInput ? "border-dashed border-2" : ""}
+            className: `${inputClassName} h-24 border-dashed border-2 flex-center rounded relative overflow-hidden
+            ${files.length > 0 && thumbOnInput ? "border-0" : ""}
             ${
               loading || (!!maxFiles && files?.length >= maxFiles)
                 ? "cursor-not-allowed"
@@ -277,7 +277,7 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
           {thumbOnInput && files.length <= 0 && loading && (
             <Loader simple className="w-10 h-10" />
           )}
-          {thumbOnInput && files.length <= 0 && !loading && (
+          {(!thumbOnInput || files.length <= 0) && !loading && (
             <p className="text-xs text-center">
               <span
                 className={`font-semibold ${

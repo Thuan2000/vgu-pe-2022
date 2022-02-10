@@ -16,6 +16,9 @@ export const Query = {
 };
 
 export const Mutation = {
+	closeBuyingRequest: (_, { id }) => BuyingRequestController.closeBr(id),
+	openBuyingRequest: (_, { id, endDate }) =>
+		BuyingRequestController.openBr(id, endDate),
 	getBrsNameSuggestion: (_, { name, limit }) =>
 		buyingRequestController.getSuggestion(name, limit),
 	createBuyingRequest: (_, { input }) =>

@@ -22,6 +22,35 @@ import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
 import { IRefreshBrStatusResponse } from "@graphql/types";
 
 class BuyingRequestController {
+	static async closeBr(id: number) {
+		try {
+			const br = await BuyingRequest.findByPk(id);
+
+			br.setDataValue("status", "CLOSE" as IBrStatus);
+			br.save();
+
+			return successResponse();
+		} catch (e) {
+			console.error(e);
+			return errorResponse(e.toString());
+		}
+	}
+
+	static async openBr(id: number, endDate: Date) {
+		try {
+			const br = await BuyingRequest.findByPk(id);
+
+			br.setDataValue("status", "OPEN" as IBrStatus);
+			br.setDataValue("endDate", endDate);
+			br.save();
+
+			return successResponse();
+		} catch (e) {
+			console.error(e);
+			return errorResponse(e.toString());
+		}
+	}
+
 	static async refreshStatus(): Promise<IRefreshBrStatusResponse> {
 		try {
 			console.log("Updating BR Status");

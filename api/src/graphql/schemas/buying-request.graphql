@@ -103,6 +103,8 @@ extend type Mutation {
 	updateBuyingRequest(id: Int!, newValue: UpdateBuyingRequestInput): Response!
 	deleteBuyingRequest(id: Int!): Response!
 	deleteBuyingRequests(ids: [Int!]!): Response!
+	closeBuyingRequest(id: Int!): Response!
+	openBuyingRequest(id: Int!, endDate: Date!): Response!
 }
 
 extend type Query {

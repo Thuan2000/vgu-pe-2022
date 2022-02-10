@@ -135,6 +135,7 @@
   "what-can-we-help-you": "What can we help you with?",
   "lets-chat-text": "Chat with Us",
   "companyPage-nav-label": "Company",
-  "create-project-title": "Create Project"
+  "create-project-title": "Create Project",
+  "invert-CLOSE-request": "Open Request",
+  "invert-OPEN-request": "Close Request"
 }
-

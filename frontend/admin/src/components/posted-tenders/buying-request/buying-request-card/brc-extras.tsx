@@ -26,14 +26,14 @@ const BrcExtras: React.FC<IBrcExtrasProps> = ({
 
   return (
     <div {...props}>
-      <div className="flex items-center w-full pr-6">
+      <div className="space-x-5 flex items-center w-full pr-6">
         <div className="flex items-center">
           <h5 className="text-gray mr-1 md:text-sm">{postedTextLabel}:</h5>
           <h5 className="text-secondary-1 md:text-sm">
             {viDateFormat(updatedAt)}
           </h5>
         </div>
-        <div className="ml-auto relative">
+        <div className="relative">
           {extraMenus.length > 0 && (
             <button
               className="p-1 pb-0"
