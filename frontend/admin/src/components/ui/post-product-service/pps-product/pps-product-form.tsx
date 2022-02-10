@@ -252,13 +252,13 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     if (success) {
       Swal.fire({
         icon: "success",
-        title: t("serviceCreated-title"),
-        text: t("serviceCreated-text"),
-        confirmButtonText: t("serviceCreated-button-label"),
+        title: t("productCreated-title"),
+        text: t("productCreated-text"),
+        confirmButtonText: t("productCreated-button-label"),
       });
 
       router.replace(`${ROUTES.POSTED_PRODUCT_SERVICE}?target=product`);
-    } else if (!success) alert(t(`CREATE-SERVICES-${message}-ERROR`));
+    } else if (!success) alert(t(`CREATE-PRODUCT-${message}-ERROR`));
   }
 
   function getMinMaxPrice(variations: IVariationInput[] = []) {

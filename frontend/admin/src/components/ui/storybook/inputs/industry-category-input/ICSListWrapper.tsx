@@ -1,10 +1,17 @@
 import React from "react";
 
-interface IICSListWrapperProps {}
+interface IICSListWrapperProps {
+  className?: string;
+}
 
-const ICIListWrapper: React.FC<IICSListWrapperProps> = ({ children }) => {
+const ICIListWrapper: React.FC<IICSListWrapperProps> = ({
+  children,
+  className,
+}) => {
   return (
-    <ul className="p-2 w-1/2 h-80 overflow-auto scrollbar-thin">{children}</ul>
+    <ul className={`${className} p-2 w-1/2 h-80 overflow-auto scrollbar-thin`}>
+      {children}
+    </ul>
   );
 };
 export default ICIListWrapper;

@@ -1,4 +1,3 @@
-import SearchInput from "@components/search-input";
 import { getIndustryCategories, ICategory } from "src/datas/categories";
 import { IIndustry, industriesData } from "@datas/industries";
 import React, { useState } from "react";
@@ -41,7 +40,6 @@ const IndustryCategorySelect: React.FC<IIndustryCategorySelectProps> = ({
 }) => {
   const { t } = useTranslation("form");
 
-  const [searchValue, setSearchValue] = useState<string>();
   const [selectedIndustry, setSelectedIndustry] = useState<IIndustry>();
   const [selectedCategory, setSelectedCategory] = useState<ICategory>();
   const categories = getIndustryCategories(selectedIndustry?.id || -1);
@@ -73,13 +71,8 @@ const IndustryCategorySelect: React.FC<IIndustryCategorySelectProps> = ({
       )}
       <div className={`${!!numberQueue && "ml-8"}`}>
         <div className="border p-4">
-          <SearchInput
-            className="sm:w-80"
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
           <ICSList
             control={control}
-            searchValue={searchValue}
             optionTextSize={optionTextSize}
             industryControllerName={industryControllerName}
             categoryControllerName={categoryControllerName}

@@ -44,6 +44,7 @@ const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
         }}
         numberQueue={1}
         label={t("postProduct-description-input-label")}
+        placeholder={t("postProduct-description-input-placeholder")}
         error={
           !!descriptionError
             ? `${t(descriptionError)}: ${MINIMUM_PRODUCT_DESC}`
@@ -59,6 +60,7 @@ const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
           trigger("general.minOrder");
         }}
         required
+        placeholder={t("minOrder-input-label")}
         name="general.minOrder"
         error={t(errors.general?.minOrder?.message || "")}
       />

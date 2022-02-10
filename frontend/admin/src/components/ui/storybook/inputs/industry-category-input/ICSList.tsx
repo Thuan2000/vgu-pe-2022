@@ -1,17 +1,18 @@
+import SearchInput from "@components/search-input";
 import { IIndustry } from "@datas/industries";
 import { ICategory } from "src/datas/categories";
-import React from "react";
+import React, { useState } from "react";
 import ICSListComponent from "./ICSListComponent";
 import ICSListWrapper from "./ICSListWrapper";
 import { Control, Controller } from "react-hook-form";
 import { FontSize } from "@utils/interfaces";
 import { useTranslation } from "next-i18next";
+import { normalizeString } from "@utils/functions";
 
 export interface IICSListProps {
   industryControllerName: string;
   categoryControllerName: string;
   control: Control<any>;
-  searchValue?: string;
   selectedIndustry?: IIndustry;
   selectedCategory?: ICategory;
   onIndustryClick: (industry: IIndustry) => void;
@@ -29,7 +30,6 @@ const ICSList: React.FC<IICSListProps> = ({
   industryControllerName,
   categoryControllerName,
   control,
-  searchValue = "",
   selectedIndustry,
   selectedCategory,
   industries,
@@ -43,16 +43,17 @@ const ICSList: React.FC<IICSListProps> = ({
   getIndustryLabel,
 }) => {
   const { t } = useTranslation();
+  const [searchValue, setSearchValue] = useState<string>("");
 
   function isMatchIndustry(ind: IIndustry) {
-    return t("industry:" + ind.label)
-      .toLowerCase()
-      .includes(searchValue?.toLowerCase());
+    return normalizeString(t("industry:" + ind.label).toLowerCase()).includes(
+      normalizeString(searchValue?.toLowerCase())
+    );
   }
 
   function filteredIndustries() {
     return industries.filter((ind) => {
-      return isMatchIndustry(ind) || ind === selectedIndustry;
+      return isMatchIndustry(ind);
     });
   }
 
@@ -63,7 +64,12 @@ const ICSList: React.FC<IICSListProps> = ({
         name={industryControllerName}
         render={({ field: { onChange, value, ...field } }) => {
           return (
-            <ICSListWrapper>
+            <ICSListWrapper className={`!p-0 border-r`}>
+              <SearchInput
+                withSearchIcon={false}
+                className="sm:w-full rounded-none border-r-0 border-l-0 border-t-0"
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
               {filteredIndustries().map((industry) => {
                 if (value === industry && !selectedIndustry)
                   onIndustryClick(value);

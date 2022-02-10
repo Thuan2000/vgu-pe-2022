@@ -6,11 +6,13 @@ import Input from "./ui/storybook/inputs/input";
 
 interface ISearchInputProps extends React.HTMLAttributes<HTMLDivElement> {
   onChange?: (e: any) => void;
+  withSearchIcon?: boolean;
 }
 
 const SearchInput: React.FC<ISearchInputProps> = ({
   onChange,
   className,
+  withSearchIcon = true,
   ...props
 }) => {
   const { t } = useTranslation("form");
@@ -21,16 +23,18 @@ const SearchInput: React.FC<ISearchInputProps> = ({
     >
       <Input
         noBorder
-        className="h-10 w-full focus:none"
+        className="w-full focus:none"
         onChange={onChange}
         placeholder={t("search-Placeholder")}
       />
-      <button
-        type="button"
-        className="border-gray-200 p-3 flex-center border-l"
-      >
-        <SearchIcon fill={COLORS.GRAY[200]} />
-      </button>
+      {withSearchIcon && (
+        <button
+          type="button"
+          className="border-gray-200 p-3 flex-center border-l"
+        >
+          <SearchIcon fill={COLORS.GRAY[200]} />
+        </button>
+      )}
     </div>
   );
 };

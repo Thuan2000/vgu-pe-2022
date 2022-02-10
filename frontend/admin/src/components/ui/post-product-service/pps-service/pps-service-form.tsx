@@ -291,6 +291,8 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       answer: rf.answer,
     }));
     const location = locationRaw.name;
+
+    console.log(location);
     const newTags: ITagInput[] = [];
     const tags: string[] = rawTags.map(({ isNewRecord, id, ...tag }: any) => {
       if (isNewRecord) newTags.push(tag);
@@ -312,7 +314,6 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       description,
       industryId,
       categoryId,
-      location,
       tags,
       faqs,
       newTags,
@@ -324,6 +325,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       minPrice: minPrice || null,
       maxPrice: maxPrice || null,
       price: price || null,
+      location,
     };
 
     if (!!initValue) {

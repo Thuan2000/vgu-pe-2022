@@ -89,6 +89,7 @@ class ServiceController {
 			});
 
 			if (!!isExist) return errorResponse("SERVICE_EXIST");
+			console.log(rest.location);
 
 			const newService = await Service.create({
 				companyId,
