@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import { isLogin, setRedirectLinkAfterLogin } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/router";
+import Head from 'next/head';
 import ChatwootWidget from "@components/chatwoot-widget";
 import { WSChatProvider } from "src/contexts/ws-chat.context";
 import TimeAgo from "javascript-time-ago";
@@ -47,6 +48,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={apolloClient}>
       <WSChatProvider>
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9,user-scalable=0" />
+        </Head>
         <ModalProvider>
           <ModalContainer />
           <Layout>

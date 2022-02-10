@@ -98,7 +98,8 @@
   "email-sent-title": "Email Is Sent",
   "email-sent-message": "Please check your email and click the link that given to you",
   "toEmail-button-label": "Check Email",
-  "search-nhu-cau-thu-mua-input-placeholder": "Buying Request 1",
-  "search-san-pham-input-placeholder": "Nike Jordan",
-  "search-dich-vu-input-placeholder": "Web development"
+  "search-nhu-cau-thu-mua-input-placeholder": "e.g: procure steel",
+  "search-san-pham-input-placeholder": "e.g: printers",
+  "search-dich-vu-input-placeholder": "e.g: household design",
+  "search-nha-cung-cap-input-placeholder": "e.g: company A"
 }
