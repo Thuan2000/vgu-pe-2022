@@ -20,7 +20,6 @@ import NumberInput from "../storybook/inputs/number-input";
 import TextArea from "../storybook/inputs/text-area";
 import SelectInput from "../storybook/select-input";
 import ECMainProductInput from "./ec-main-product-input";
-import ECProfileImageInput from "./ec-profile-image-input";
 import { ECFormValues } from "./ec-schema";
 
 interface IECGeneralInputProps {
@@ -53,13 +52,18 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           aspectRatio={4 / 1}
           thumbOnInput
         />
-        <div className={`rounded-full overflow-hidden bg-blue w-2 h-2`}>
+
+        <div className={`absolute left-8 bottom-3`}>
           <DocumentInput
             control={control}
+            hideUploadButton
             name="general.profileImage"
-            className="absolute bottom-0 left-8"
+            dropZonePlaceholder={(<CirclePlusIcon />) as any}
             thumbOnInput
+            className="!w-24 !h-24"
             accept={"image/*"}
+            multiple={false}
+            inputClassName="!rounded-full border-gray bg-white"
             inputFileType={"image"}
           />
         </div>
@@ -120,6 +124,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
             onChange={() => {
               trigger("general.establishmentDate");
             }}
+            minDate={new Date()}
             label={t("establishmentDate-input-label")}
             placeholder={t("establishmentDate-input-placeholder")}
             error={t(errors?.general?.establishmentDate?.message || "")}

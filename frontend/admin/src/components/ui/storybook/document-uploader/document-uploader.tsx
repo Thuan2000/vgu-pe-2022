@@ -68,7 +68,6 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     aspectRatio,
   } = props;
   if (!accept) throw "PLEASE_SET_THE_ACCEPT_CORRECTLY";
-
   const { t } = useTranslation("form");
   const [loadingThumbs, setLoadingThumbs] = useState<string[]>([]);
   const [needToEditedFiles, setNeedToEditedFiles] = useState<File[]>([]);
@@ -220,7 +219,11 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
         />
       )}
 
-      <div className={`select-none space-y-2 ${!!numberQueue && "ml-8"}`}>
+      <div
+        className={`select-none space-y-2 h-fit-content ${
+          !!numberQueue && "ml-8"
+        }`}
+      >
         {(!!files?.length || !!loadingThumbs.length) && (
           <div className="flex items-center flex-wrap mb-2">
             {!thumbOnInput &&
@@ -252,7 +255,8 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
         <div
           style={{ ...inputStyle }}
           {...getRootProps({
-            className: `${inputClassName} border-dashed border-2 h-24 flex-center rounded relative
+            className: `${inputClassName} h-24 flex-center rounded relative overflow-hidden
+            ${!files.length && thumbOnInput ? "border-dashed border-2" : ""}
             ${
               loading || (!!maxFiles && files?.length >= maxFiles)
                 ? "cursor-not-allowed"
@@ -266,11 +270,14 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
             })}
           />
           {thumbOnInput && files?.length > 0 && (
-            <div>{!loading && <Image src={files[0]?.url} layout="fill" />}</div>
+            <div className={`w-full h-full overflow-hidden relative`}>
+              {!loading && <Image src={files[0]?.url} layout="fill" />}
+            </div>
           )}
-          {thumbOnInput && loading ? (
+          {thumbOnInput && files.length <= 0 && loading && (
             <Loader simple className="w-10 h-10" />
-          ) : (
+          )}
+          {thumbOnInput && files.length <= 0 && !loading && (
             <p className="text-xs text-center">
               <span
                 className={`font-semibold ${

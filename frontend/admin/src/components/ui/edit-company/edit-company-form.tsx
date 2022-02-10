@@ -14,7 +14,6 @@ import {
   removeTypename,
   removeTypenameOfChildrens,
 } from "@utils/functions";
-import { ROUTES } from "@utils/routes";
 import { getLocationByName } from "@utils/vietnam-cities";
 import { isEmpty } from "lodash";
 import { useRouter } from "next/dist/client/router";
@@ -51,6 +50,7 @@ function generateMainProducts(mainProducts: string[]) {
 // @URGENT Check this again
 function getDefaultValue(initValue: ICompany) {
   const { settings } = initValue || {};
+
   const data: ECFormValues = {
     general: {
       ...returnObjectIfExist(!!initValue.name, "name", initValue?.name),
@@ -72,11 +72,9 @@ function getDefaultValue(initValue: ICompany) {
       ...returnObjectIfExist(!!settings?.coverImage, "coverImage", [
         removeTypename(settings?.coverImage),
       ]),
-      ...returnObjectIfExist(
-        !!settings?.profileImage,
-        "profileImage",
-        removeTypename(settings?.profileImage)
-      ),
+      ...returnObjectIfExist(!!settings?.profileImage, "profileImage", [
+        removeTypename(settings?.profileImage),
+      ]),
       ...returnObjectIfExist(
         !!settings?.contactNumber,
         "contactNumber",
@@ -251,7 +249,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
       settings: {
         certificates: additional.certificates,
         address: general.address,
-        profileImage: general.profileImage,
+        profileImage: (general?.profileImage as any)?.[0] as any,
         employeeAmount: general.employeeAmount,
         gallery: additional.gallery,
         contactNumber: general.contactNumber,

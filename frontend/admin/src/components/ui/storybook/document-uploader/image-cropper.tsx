@@ -120,12 +120,16 @@ const ImageCropper: React.FC<IImageCropperProps> = ({
           })}
           <div className={``}>
             {check2nd === true && (
-              <Button onClick={handleConfirmClick}>
+              <Button className={`autofocus`} onClick={handleConfirmClick}>
                 {t("confirm-button")}
               </Button>
             )}
             {check2nd === false && (
-              <Button onClick={handleConfirmClick} color="error">
+              <Button
+                className={`autofocus`}
+                onClick={handleConfirmClick}
+                color="error"
+              >
                 {t("confirm-button")}
               </Button>
             )}

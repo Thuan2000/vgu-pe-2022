@@ -11,7 +11,7 @@ const BuyingRequestCard: React.FC<IBuyingRequestCardProps> = ({ br }) => {
   if (!br) return <></>;
 
   return (
-    <div className="flex items-start border rounded-md pb-1">
+    <div className="flex items-start border rounded-md overflow-hidden h-[150px]">
       <BrcImage gallery={br?.gallery as any} />
       <BrcInfo br={br} />
     </div>
