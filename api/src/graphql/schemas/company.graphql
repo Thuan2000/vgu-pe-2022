@@ -67,6 +67,7 @@ type CompaniesItem {
 	subscription: CompanySubscription
 	createdAt: Date
 	updatedAt: Date
+	chatId: String
 }
 
 input FetchCompanyInput {

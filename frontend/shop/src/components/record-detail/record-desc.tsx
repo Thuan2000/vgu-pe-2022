@@ -1,11 +1,9 @@
-import MessageIcon from "@assets/icons/message-icon";
-import Link from "@components/ui/link";
-import Button from "@components/ui/storybook/button";
+import ChatNowButton from "@components/ui/chat-now-button";
 import Typography from "@components/ui/storybook/typography";
 import { getCategory } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
-import { trimText, getCompanyId } from "@utils/functions";
-import { getChatUrl } from "@utils/routes";
+import { ICompany } from "@graphql/types.graphql";
+import { trimText } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
@@ -14,18 +12,18 @@ interface ISDDescriptionProps {
   industryId: number;
   categoryId: number;
   description: string;
-  companyId: number;
   location: string;
-  chatId: string;
+  company: ICompany;
+  type: "SERVICE" | "PRODUCT";
 }
 
 const RecordDescription: React.FC<ISDDescriptionProps> = ({
   industryId,
   categoryId,
   description,
-  companyId,
   location,
-  chatId,
+  company,
+  type,
 }) => {
   const { t } = useTranslation("common");
 
@@ -69,18 +67,15 @@ const RecordDescription: React.FC<ISDDescriptionProps> = ({
           }
         />
       </div>
-      {companyId !== getCompanyId() && (
-        <Link href={getChatUrl(chatId)} target="_blank">
-          <Button
-            variant="custom"
-            size="small"
-            className="border py-3 px-8 text-gray border-gray !h-"
-          >
-            <MessageIcon className="mr-3" />
-            {t("chatNow-button-label")}
-          </Button>
-        </Link>
-      )}
+      <ChatNowButton
+        ownStuffMessage={t(
+          type === "PRODUCT"
+            ? "yourProduct-message-label"
+            : "yourService-message-label"
+        )}
+        company={company}
+        className={`!h-7 mt-1 `}
+      />
     </div>
   );
 };

@@ -53,11 +53,16 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           aspectRatio={4 / 1}
           thumbOnInput
         />
-        <ECProfileImageInput
-          control={control}
-          name="general.profileImage"
-          className="absolute bottom-0 left-8"
-        />
+        <div className={`rounded-full overflow-hidden bg-blue w-2 h-2`}>
+          <DocumentInput
+            control={control}
+            name="general.profileImage"
+            className="absolute bottom-0 left-8"
+            thumbOnInput
+            accept={"image/*"}
+            inputFileType={"image"}
+          />
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-x-10 gap-y-5">
         <Input

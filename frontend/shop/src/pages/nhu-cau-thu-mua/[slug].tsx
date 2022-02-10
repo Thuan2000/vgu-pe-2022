@@ -135,8 +135,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
                 industryId={br.industryId}
                 categoryId={br.categoryId}
                 description={br.description || ""}
-                companyId={br.company?.id!}
-                chatId={br.company?.chatId!}
+                company={br.company!}
               />
             </div>
           </div>

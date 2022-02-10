@@ -90,11 +90,11 @@ const ProductDetail: React.FC<IServiceDetailProps> = ({ product }) => {
               <ProductVariationPrice variations={variations!} />
               <RecordDescription
                 location={warehouseLocation}
+                company={company}
                 industryId={industryId}
                 categoryId={categoryId}
                 description={description || ""}
-                companyId={company?.id!}
-                chatId={company?.chatId!}
+                type="PRODUCT"
               />
             </div>
           </div>

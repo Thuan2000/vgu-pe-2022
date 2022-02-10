@@ -13,6 +13,7 @@ import TelegramIcon from "@assets/icons/socials/telegram-icon";
 import LinkIcon from "@assets/icons/socials/link-icon";
 import { getChatUrl } from "@utils/routes";
 import Link from "../link";
+import ChatNowButton from "../chat-now-button";
 
 interface ICDUpperRowProps {
   company: ICompany;
@@ -68,16 +69,9 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
           size="sm"
           className="mr-5 mt-2"
         />
-        <Link
-          className={`mr-5`}
-          href={getChatUrl(company.chatId!)}
-          target="_blank"
-        >
-          <Button size="small" variant="cancel">
-            <MessageIcon className="mr-3" />
-            {t("chatNow-button-label")}
-          </Button>
-        </Link>
+        <div className="mr-3">
+          <ChatNowButton company={company as any} />
+        </div>
       </div>
       <div className={`pt-10 px-12 grid grid-cols-3`}>
         <div>

@@ -10,11 +10,13 @@ import Button from "./storybook/button";
 interface IChatNowButtonProps {
   company: ICompany;
   className?: string;
+  ownStuffMessage?: string;
 }
 
 const ChatNowButton: React.FC<IChatNowButtonProps> = ({
   company,
   className,
+  ownStuffMessage,
 }) => {
   const { t } = useTranslation();
   return (
@@ -32,13 +34,13 @@ const ChatNowButton: React.FC<IChatNowButtonProps> = ({
             color="primary"
             className={`${className} border text-gray-300 border-gray-300 active:text-primary !text-xs`}
           >
-            <MessageIcon className="mr-3 w-3 h-3" />
+            <MessageIcon className="mr-3 w-4 h-4" />
             {t("chatNow-button-label")}
           </Button>
         </Link>
       ) : (
         <Button disabled size="small" className={`${className} !text-xs`}>
-          {t("yourCompanyRequest-button-label")}
+          {ownStuffMessage || t("yourCompanyRequest-button-label")}
         </Button>
       )}
     </>

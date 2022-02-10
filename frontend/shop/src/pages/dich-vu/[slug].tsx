@@ -79,8 +79,8 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
                 industryId={industryId}
                 categoryId={categoryId}
                 description={description || ""}
-                companyId={company?.id!}
-                chatId={company?.chatId!}
+                company={company}
+                type="SERVICE"
               />
             </div>
           </div>

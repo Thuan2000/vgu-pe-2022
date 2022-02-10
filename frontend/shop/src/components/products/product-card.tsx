@@ -77,7 +77,11 @@ const ProductCard: React.FC<IProductCardProps> = ({ product }) => {
         </div>
         <Typography text={warehouseLocation!} color="gray" size="xs" />
         <Typography text={`${getPrice()}`} color="secondary-1" size="xs" />
-        <ChatNowButton company={company} className={`w-full !h-7 mt-1 `} />
+        <ChatNowButton
+          ownStuffMessage={t("yourProduct-message-label")}
+          company={company}
+          className={`w-full !h-7 mt-1 `}
+        />
       </div>
     </div>
   );

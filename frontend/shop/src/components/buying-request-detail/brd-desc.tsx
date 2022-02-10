@@ -1,10 +1,11 @@
 import MessageIcon from "@assets/icons/message-icon";
+import ChatNowButton from "@components/ui/chat-now-button";
 import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
 import Typography from "@components/ui/storybook/typography";
 import { getCategory } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
-import { IProject } from "@graphql/types.graphql";
+import { ICompany, IProject } from "@graphql/types.graphql";
 import { trimText, getCompanyId } from "@utils/functions";
 import { getChatUrl, ROUTES } from "@utils/routes";
 import { useTranslation } from "next-i18next";
@@ -15,8 +16,7 @@ interface IBRDDescriptionProps {
   industryId: number;
   categoryId: number;
   description: string;
-  companyId: number;
-  chatId: string;
+  company: ICompany;
 }
 
 const BRDDescription: React.FC<IBRDDescriptionProps> = ({
@@ -24,8 +24,7 @@ const BRDDescription: React.FC<IBRDDescriptionProps> = ({
   industryId,
   categoryId,
   description,
-  companyId,
-  chatId,
+  company,
 }) => {
   const { t } = useTranslation("common");
   return (
@@ -82,18 +81,11 @@ const BRDDescription: React.FC<IBRDDescriptionProps> = ({
           }
         />
       </div>
-      {companyId !== getCompanyId() && (
-        <Link href={getChatUrl(chatId)} target="_blank">
-          <Button
-            variant="custom"
-            size="small"
-            className="border py-3 px-8 text-gray border-gray !h-"
-          >
-            <MessageIcon className="mr-3" />
-            {t("chatNow-button-label")}
-          </Button>
-        </Link>
-      )}
+      <ChatNowButton
+        ownStuffMessage={t("yourRequest-message-label")}
+        company={company}
+        className={`!h-7 mt-1 `}
+      />
     </div>
   );
 };
