@@ -125,7 +125,13 @@
   "budgetTo-label": "Đến",
   "budgetFrom-label": "Từ",
   "requestNamePrefix-value": "Cần mua",
-
+  "noFactory-message": "Không có nhà máy",
+  "noBranch-message": "Không có chi nhánh",
+  "singularCompanyfactory-title": "Xưởng sản xuất",
+  "pluralCompanyfactory-title": "xưởng sản xuất",
+  "singularCompanybranch-title": "Kho hàng",
+  "pluralCompanywarehouse-title": "kho hàng",
+  "companyCertificates-title": "Các chứng chỉ",
   "min-establishmentDate-filter-label": "Ngày thành lập tối thiểu",
   "establishmentDate-filter-placeholder": "12/12/2021",
   "danh-ba-cong-ty": "Nhà cung cấp",
@@ -135,5 +141,11 @@
   "no-information": "Chưa thông tin",
   "messages-label": "Hộp thư",
   "no-new-message-text": "0 tin nhắn mới",
-  "open-chat-text": "Mở chat"
+  "open-chat-text": "Mở chat",
+  "buying-request-page-title": "Nhu cầu thu mua",
+  "yourCompany-message-label": "CTY của bạn",
+  "unread-singular-label": "chưa đọc",
+  "companyTotalEmployee-text": "SL nhân viên",
+  "not-setup": "chưa thông tin",
+  "companyInformation-title": "Thông tin chung"
 }

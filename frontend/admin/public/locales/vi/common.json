@@ -68,9 +68,9 @@
   "singularCompanyfactory-title": "Xưởng sản xuất",
   "pluralCompanyfactory-title": "Xưởng sản xuất",
   "singularCompanywarehouse-title": "Kho hàng",
-  "pluralCompanywarehouse-title": "Kho hàng",
+  "pluralCompanywarehouse-title": "kho hàng",
 
-  "noFactory-message": "Chưa có sản xuất",
+  "noFactory-message": "Chưa có nhà máy",
   "noBranch-message": "Chưa có nhánh",
   "noWarehouse-message": "Chưa có kho hàng",
   "edit-button-label": "Chỉnh sửa",
