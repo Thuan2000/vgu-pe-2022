@@ -12,7 +12,7 @@ input BannerInput {
 }
 
 extend type Mutation {
-	createBanner(input: [BannerInput!]): Response!
+	createBanner(input: BannerInput!): Response!
 	deleteBanner(id: Int!): Response!
 	updateBanner(id: Int!, input: BannerInput!): Response!
 }
