@@ -19,7 +19,7 @@ const Navbar: React.FC<INavbarProps> = ({ className }) => {
       <div className={`px-10 md:px-48 bg-white`}>
         <NavbarBottom />
         <div className="fic">
-          <Breadcrumb className="ml-1 " homeHref={ROUTES.HOMEPAGE} />
+          <Breadcrumb className="ml-1 mb-1" homeHref={ROUTES.HOMEPAGE} />
         </div>
       </div>
     </div>

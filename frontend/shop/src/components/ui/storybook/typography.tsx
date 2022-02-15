@@ -4,6 +4,7 @@ import { TSize } from "@utils/interfaces";
 
 type TextColor =
   | "primary"
+  | "dark-blue"
   | "gray"
   | "gray-400"
   | "black"
@@ -25,6 +26,7 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
     | "special-heading"
     | "title"
     | "bigTitle"
+    | "homepageSectionTitle"
     | "pageTitle";
   element?: "h6" | "h4" | "h3" | "h2" | "h1" | "p";
   weight?: TFontWeight;
@@ -44,6 +46,7 @@ const classesNames = {
   title: "font-semibold text-xl",
   date: "font-semibold text-secondary-1",
   description: "text-sm text-gray-400",
+  homepageSectionTitle: "text-[24pt] font-bold text-center text-dark-blue",
   BRTitle: "text-lg font-semibold text-black",
   relatedCompanyName: "font-semibold text-gray",
   bigTitle: "text-xl font-semibold text-dark-blue",
@@ -68,6 +71,7 @@ const Typography: React.FC<ITypographyProps> = ({
 }) => {
   const classNames = cn(
     !!variant && classesNames[variant],
+    `${(weight === "bold" || weight === "semibold") && "text-dark-blue"}`,
     `text-${size}`,
     `text-${color}`,
     `font-${weight}`,
