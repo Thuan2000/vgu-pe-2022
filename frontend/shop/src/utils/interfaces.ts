@@ -4,20 +4,20 @@ import { Control } from "react-hook-form";
 export type TSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 export type PageName =
-  | "nha-cung-cap"
-  | "dich-vu"
-  | "nhu-cau-thu-mua"
-  | "san-pham";
+  | "/nha-cung-cap"
+  | "/dich-vu"
+  | "/nhu-cau-thu-mua"
+  | "/san-pham";
 
 export type PageNameLabel = {
   [key in PageName]: any;
 };
 
 export const pageNames: PageName[] = [
-  "nha-cung-cap",
-  "dich-vu",
-  "nhu-cau-thu-mua",
-  "san-pham",
+  "/nha-cung-cap",
+  "/dich-vu",
+  "/nhu-cau-thu-mua",
+  "/san-pham",
 ];
 
 export interface IController {

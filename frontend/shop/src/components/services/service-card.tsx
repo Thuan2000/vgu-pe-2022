@@ -49,7 +49,7 @@ const ServiceCard: React.FC<IServiceCardProps> = ({ service }) => {
         />
       </div>
 
-      <div className={`p-4 font-semibold space-y-[2px]`}>
+      <div className={`p-4 font-semibold`}>
         <div>
           <Link
             href={`${ROUTES.SERVICES}/${slug}`}

@@ -1,7 +1,8 @@
+import { isLogin } from "@utils/auth-utils";
 import { PAGE_NAME_INTO_LABEL } from "@utils/constants";
 import { getActivePageFromPath, getUserFullName } from "@utils/functions";
 import { PageName } from "@utils/interfaces";
-import { ROUTES } from "@utils/routes";
+import { NO_POST_ROUTES, ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -13,24 +14,44 @@ import Button from "./storybook/button";
 import Typography from "./storybook/typography";
 
 const POST_ROUTES: any = {
-  ["san-pham"]: `${ROUTES.POST_PRODUCT_SERVICE}?target=product`,
-  ["dich-vu"]: `${ROUTES.POST_PRODUCT_SERVICE}?target=service`,
-  ["nhu-cau-thu-mua"]: `${ROUTES.POST_TENDER}`,
-  ["ho-tro"]: `${ROUTES.POST_TENDER}`,
+  [ROUTES.PRODUCTS]: `${ROUTES.POST_PRODUCT_SERVICE}?target=product`,
+  [ROUTES.SERVICES]: `${ROUTES.POST_PRODUCT_SERVICE}?target=service`,
+  [ROUTES.TENDERS]: `${ROUTES.POST_TENDER}`,
+  ["/ho-tro"]: `${ROUTES.POST_TENDER}`,
 };
 
 const UserProfile = () => {
   const { t } = useTranslation("common");
   const { pathname } = useRouter();
-  const activePage: PageName = getActivePageFromPath(pathname) as PageName;
-
+  const activePage: PageName = `/${getActivePageFromPath(
+    pathname
+  )}` as PageName;
   const adminLink = process.env.NEXT_PUBLIC_ADMIN_URL;
+
+  if (!isLogin()) {
+    return (
+      <div className={`flex-center`}>
+        <Link target="_blank" href={`${ROUTES.LOGIN}`}>
+          <Button
+            className={`px-3 h-9`}
+            size="extraSmall"
+            style={{ fontSize: 12 }}
+          >
+            {t(`login-button-label`)}
+          </Button>
+        </Link>
+
+        <ProfileAvatar />
+      </div>
+    );
+  }
+
   return (
     <div className="flex-center">
       <div className={`mr-8`}>
         <NewChat />
       </div>
-      {!["ho-tro", "", "nha-cung-cap"].includes(activePage) ? (
+      {!NO_POST_ROUTES.includes(activePage) ? (
         <div>
           <Link target="_blank" href={`${adminLink}${POST_ROUTES[activePage]}`}>
             <Button

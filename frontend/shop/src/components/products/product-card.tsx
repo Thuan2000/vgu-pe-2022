@@ -58,7 +58,7 @@ const ProductCard: React.FC<IProductCardProps> = ({ product }) => {
         />
       </div>
 
-      <div className={`p-4 font-semibold space-y-[2px]`}>
+      <div className={`p-4 font-semibold`}>
         <div>
           <Link
             href={`${ROUTES.PRODUCTS}/${slug}`}
@@ -80,7 +80,7 @@ const ProductCard: React.FC<IProductCardProps> = ({ product }) => {
         <ChatNowButton
           ownStuffMessage={t("yourProduct-message-label")}
           company={company}
-          className={`w-full !h-7 mt-1 `}
+          className={`w-full !h-7 !mt-1`}
         />
       </div>
     </div>

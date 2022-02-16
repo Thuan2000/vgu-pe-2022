@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import { useTranslation } from "next-i18next";
 import { motion } from "framer-motion";
 
@@ -8,8 +8,9 @@ import Link from "../link";
 import LogoutIcon from "@assets/icons/navigations/logout-icon";
 import SettingIcon from "@assets/icons/navigations/settings-icon";
 import styles from "./profile-menu.module.css";
-import { getMeData } from "@utils/auth-utils";
+import { getMeData, isLogin } from "@utils/auth-utils";
 import { getLoginCompanySlug } from "@utils/functions";
+import Button from "../storybook/button";
 
 const variants = {
   hidden: { opacity: 1, maxHeight: 0 },
@@ -20,13 +21,17 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   const { t } = useTranslation("common");
   const { user, company } = getMeData();
 
+  if (!isLogin())
+    return (
+      <Wrapper>
+        <div className="bg-gray-10 p-3 flex-center">
+          <Button>{t("login-button-label")}</Button>
+        </div>
+      </Wrapper>
+    );
+
   return (
-    <motion.div
-      className={`${styles["profile-menu"]} pt-3 w-64 z-50 overflow-hidden bg-white duration-200 shadow-sm ${className}`}
-      initial="hidden"
-      animate="visible"
-      variants={variants}
-    >
+    <Wrapper>
       <div className="bg-gray-10 p-3 flex items-center">
         <AvatarIcon className="mr-3" />
         <p className="font-semibold text-heading">
@@ -71,6 +76,19 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
           </div>
         </Link>
       </div>
+    </Wrapper>
+  );
+};
+
+const Wrapper: React.FC<{ className?: string }> = ({ children, className }) => {
+  return (
+    <motion.div
+      className={`${styles["profile-menu"]} absolute right-0 pt-3 w-64 z-50 overflow-hidden bg-white duration-200 shadow-sm ${className}`}
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+    >
+      {children}
     </motion.div>
   );
 };

@@ -300,3 +300,13 @@ export function getIsValidEmail(email: string) {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 }
+
+/**
+ * Removed Forward Slash
+ * return removed forward slash of a string
+ */
+export function rfw(v: string) {
+  if (v.substring(0, 1) !== "/") return v;
+
+  return v.substring(1);
+}
