@@ -302,7 +302,22 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       return tag.name;
     });
 
-    const { images, certificates, videos } = attachment;
+    const {
+      images: mixedImages,
+      certificates: mixedCertificates,
+      videos: mixedVideos,
+    } = attachment;
+
+    const oldImages = mixedImages.filter((img) => !img.isNew) || [];
+    const images = mixedImages.flatMap((img) => (img.isNew ? img : [])) || [];
+
+    const oldVideos = mixedVideos?.filter((vid) => !vid.isNew) || [];
+    const videos = mixedVideos?.flatMap((vid) => (vid.isNew ? vid : [])) || [];
+
+    const oldCertificates =
+      mixedCertificates?.filter((cer) => !cer.isNew) || [];
+    const certificates =
+      mixedCertificates?.flatMap((cer) => (cer.isNew ? cer : [])) || [];
 
     const blobImages = await generateBlobs(images);
     const blobCertificates = await generateBlobs(certificates);
@@ -315,7 +330,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
     );
     const uploadedVideos = await getUploadedFiles(uploadFiles, blobVideos);
 
-    const coverImage = uploadedImages?.[0];
+    const coverImage = oldImages?.[0] || uploadedImages?.[0];
 
     const { price, packages: rawPackages } = pricing;
     const packages = rawPackages?.packages;
@@ -334,9 +349,9 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       newTags,
       packageRows: rows || null,
       coverImage,
-      images: uploadedImages,
-      certificates: uploadedCertificates,
-      videos: uploadedVideos,
+      images: [oldImages, ...uploadedImages],
+      certificates: [oldCertificates, ...uploadedCertificates],
+      videos: [oldVideos, ...uploadedVideos],
       packages: formatedPackages || null,
       minPrice: minPrice || null,
       maxPrice: maxPrice || null,

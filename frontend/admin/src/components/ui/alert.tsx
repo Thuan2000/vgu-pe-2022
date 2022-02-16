@@ -75,6 +75,7 @@ const Alert: React.FC<IAlertProps> = ({
         <Button
           loading={isLoadingPositif}
           className="border-gray-200 border p-3 w-[48%]"
+          autoFocus
           style={{ backgroundColor: positifButtonColor, ...positifButtonStyle }}
           onClick={handlePositif}
         >

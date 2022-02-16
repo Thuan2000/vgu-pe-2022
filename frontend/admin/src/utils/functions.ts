@@ -1,3 +1,4 @@
+import { IDUFile } from "@components/ui/storybook/document-uploader/document-uploader";
 import { IFile } from "@graphql/types.graphql";
 import { isEmpty } from "lodash";
 import Swal from "sweetalert2";
@@ -232,7 +233,7 @@ export async function getBlob(file: IFile) {
   return blob;
 }
 
-export async function generateBlobs(files?: IFile[]) {
+export async function generateBlobs(files?: IDUFile[]) {
   if (!files || isEmpty(files)) return [];
 
   const blobs = await Promise.all(

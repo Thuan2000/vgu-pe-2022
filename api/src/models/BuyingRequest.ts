@@ -146,7 +146,8 @@ BuyingRequest.init(
 		createdById: DataTypes.INTEGER,
 		updatedById: DataTypes.INTEGER,
 		lastOpened: DataTypes.DATE,
-		sourceTypeId: DataTypes.INTEGER
+		sourceTypeId: DataTypes.INTEGER,
+		isDeleted: DataTypes.BOOLEAN
 	},
 	{
 		tableName: "buying_requests",

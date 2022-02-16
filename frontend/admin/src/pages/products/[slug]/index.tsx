@@ -14,6 +14,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import PageLayout from "@components/layouts/page-layout";
 
 interface IProductDetailProps {
   product: IProduct;
@@ -90,6 +91,8 @@ const ProductDetail: React.FC<IProductDetailProps> = ({ product }) => {
     </div>
   );
 };
+
+(ProductDetail as any).Layout = PageLayout;
 export default ProductDetail;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

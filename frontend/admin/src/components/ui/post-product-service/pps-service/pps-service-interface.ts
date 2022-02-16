@@ -6,6 +6,7 @@ import { IVietnamCity } from "@utils/vietnam-cities";
 import { IPPIValue } from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
 import { ITagInput } from "@graphql/types.graphql";
 import { ITagWithNewRecord } from "@utils/interfaces";
+import { IDUFile } from "@components/ui/storybook/document-uploader/document-uploader";
 
 export interface IPPSFCategorySection {
   name: string;
@@ -14,9 +15,9 @@ export interface IPPSFCategorySection {
 }
 
 export interface IPPSFAttachmentSection {
-  images: IFile[];
-  videos: IFile[];
-  certificates: IFile[];
+  images: IDUFile[];
+  videos?: IDUFile[];
+  certificates?: IDUFile[];
 }
 
 export interface IPPSFPricingSection {

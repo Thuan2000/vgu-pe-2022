@@ -57,6 +57,10 @@ module.exports = {
 			industryId: {
 				type: Sequelize.INTEGER
 			},
+			isDeleted: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: false
+			},
 			categoryId: {
 				type: Sequelize.INTEGER
 			},

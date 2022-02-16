@@ -8,7 +8,10 @@ import Swal from "sweetalert2";
 import { COLORS } from "@utils/colors";
 import InputLabel from "../inputs/input-label";
 import ValidationError from "../validation-error";
-import { useUploadFilesMutation } from "@graphql/upload.graphql";
+import {
+  useDeleteFileMutation,
+  useUploadFilesMutation,
+} from "@graphql/upload.graphql";
 import { generateUUID } from "@utils/functions";
 import { IFile, IFileAccessControl, IFileType } from "@graphql/types.graphql";
 import DUThumb from "./du-thumb";
@@ -19,6 +22,10 @@ import ImageCropper, { CroppedImageUrls } from "./image-cropper";
 
 export interface IFileWithTypename extends IFile {
   __typename?: string;
+}
+
+export interface IDUFile extends IFile {
+  isNew: boolean;
 }
 
 export interface IDocumentUploaderProps {
@@ -70,7 +77,7 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
   const { t } = useTranslation("form");
   const [loadingThumbs, setLoadingThumbs] = useState<string[]>([]);
   const [needToEditedFiles, setNeedToEditedFiles] = useState<File[]>([]);
-
+  const [deleteFile, isDeletingFile] = useDeleteFileMutation();
   const { openModal, closeModal } = useModal();
   const { getRootProps, getInputProps } = useDropzone({
     accept,
@@ -86,13 +93,14 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
   useEffect(() => {
     if (!needToEditedFiles.length) return;
 
-    const srcs: IFile[] = needToEditedFiles.map((file) => {
+    const srcs: IDUFile[] = needToEditedFiles.map((file) => {
       const url = URL.createObjectURL(file);
       return {
         fileName: file.name,
         fileType: file.type,
         url,
         location: url,
+        isNew: true,
       };
     });
 
@@ -134,13 +142,14 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
 
     setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
 
-    const localFiles: IFile[] = acceptedFiles.map((af) => {
-      const url = URL.createObjectURL(af);
-      const file: IFile = {
-        fileName: af.name,
-        fileType: af.type,
+    const localFiles: IFile[] = acceptedFiles.map((f) => {
+      const url = URL.createObjectURL(f);
+      const file: IDUFile = {
+        fileName: f.name,
+        fileType: f.type,
         url,
         location: url,
+        isNew: true,
       };
 
       return file;
@@ -153,10 +162,15 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
   }
 
   function handleDelete(index: number) {
-    // @ts-ignore
-    files?.splice(index, 1);
-
     if (!onChange) return;
+    // const location = files[index].location;
+    // if (!location.includes("blob")) {
+    //   deleteFile({
+    //     variables: { location },
+    //   });
+    // }
+
+    files?.splice(index, 1);
     onChange([...files]);
   }
 

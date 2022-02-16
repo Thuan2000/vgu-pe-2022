@@ -284,7 +284,13 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     const { category: categoryForm, general, details, pricing } = values;
 
     const { name, industry, category } = categoryForm;
-    const { images, certificates, minOrder, description, videos } = general;
+    const {
+      images: mixedImages,
+      certificates: mixedCertificates,
+      minOrder,
+      description,
+      videos: mixedVideos,
+    } = general;
     const { price, variations: rawVariations } = pricing;
     const {
       tags: rawTags,
@@ -304,6 +310,17 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       ({ id, ...rest }) => rest
     );
 
+    const oldImages = mixedImages.filter((img) => !img.isNew) || [];
+    const images = mixedImages.filter((img) => img.isNew) || [];
+
+    const oldVideos = mixedVideos?.filter((vid) => !vid.isNew) || [];
+    const videos = mixedVideos?.flatMap((vid) => (vid.isNew ? vid : [])) || [];
+
+    const oldCertificates =
+      mixedCertificates?.filter((cer) => !cer.isNew) || [];
+    const certificates =
+      mixedCertificates?.flatMap((cer) => (cer.isNew ? cer : [])) || [];
+
     const blobImages = await generateBlobs(images);
     const blobCertificates = await generateBlobs(certificates);
     const blobVideos = await generateBlobs(videos);
@@ -315,7 +332,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     );
     const uploadedVideos = await getUploadedFiles(uploadFiles, blobVideos);
 
-    const coverImage = images?.[0];
+    const coverImage = oldImages?.[0] || uploadedImages?.[0];
 
     const newTags: ITagInput[] = [];
     const tags: string[] = rawTags?.map(({ isNewRecord, id, ...tag }: any) => {
@@ -333,10 +350,10 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
 
       // From General tab
       coverImage,
-      certificates: uploadedCertificates,
+      certificates: [...oldCertificates, ...uploadedCertificates],
       minOrder,
       description,
-      videos: uploadedVideos,
+      videos: [...oldVideos, ...uploadedVideos],
       warehouseLocation: location?.name,
 
       // From Pricing tab
@@ -352,7 +369,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       isPreorder,
       packagedDimension,
       status,
-      gallery: uploadedImages,
+      gallery: [...oldImages, ...uploadedImages],
     };
 
     if (initValues) {

@@ -34,6 +34,7 @@ export const productChildren = [
   {
     label: "postedProduct/Service-nav-label",
     href: ROUTES.POSTED_PRODUCT_SERVICE,
+    managedLinks: [ROUTES.PRODUCTS, ROUTES.SERVICES],
   },
 ];
 

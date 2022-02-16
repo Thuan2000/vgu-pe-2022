@@ -3,6 +3,7 @@ import {
 	IBrStatus,
 	ICreateBuyingRequestInput,
 	IFetchBrInput,
+	IFile,
 	IUpdateBuyingRequestInput
 } from "@graphql/types";
 import { Op, Sequelize } from "sequelize";
@@ -20,6 +21,7 @@ import Project from "@models/Project";
 import BuyingRequestRepository from "@repositories/buying-request.repository";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
 import { IRefreshBrStatusResponse } from "@graphql/types";
+import S3 from "@services/s3.service";
 
 class BuyingRequestController {
 	static async closeBr(id: number) {
@@ -28,6 +30,8 @@ class BuyingRequestController {
 
 			br.setDataValue("status", "CLOSE" as IBrStatus);
 			br.save();
+
+			BuyingRequest.updateEsBr(br.getDataValue("id"), br.toJSON());
 
 			return successResponse();
 		} catch (e) {
@@ -44,6 +48,8 @@ class BuyingRequestController {
 			br.setDataValue("endDate", endDate);
 			br.save();
 
+			BuyingRequest.updateEsBr(br.getDataValue("id"), br.toJSON());
+
 			return successResponse();
 		} catch (e) {
 			console.error(e);
@@ -53,13 +59,12 @@ class BuyingRequestController {
 
 	static async refreshStatus(): Promise<IRefreshBrStatusResponse> {
 		try {
-			console.log("Updating BR Status");
-
 			const currentTime = new Date().getTime();
 			const wrongStatusBrs = await BuyingRequest.findAll({
 				where: {
 					status: "OPEN" as IBrStatus,
-					endDate: { [Op.lte]: currentTime }
+					endDate: { [Op.lte]: currentTime },
+					isDeleted: false
 				},
 				include: [
 					{
@@ -100,7 +105,6 @@ class BuyingRequestController {
 					}
 				]
 			});
-			console.log(buyingRequest.toJSON());
 
 			return buyingRequest;
 		} catch (error) {
@@ -116,7 +120,7 @@ class BuyingRequestController {
 
 	async getBuyingRequestsByIds(ids: number[]) {
 		const allBuyingRequests = await BuyingRequest.findAll({
-			where: { id: ids }
+			where: { id: ids, isDeleted: false }
 		});
 
 		return allBuyingRequests;
@@ -162,7 +166,7 @@ class BuyingRequestController {
 			offset,
 			limit,
 			distinct: true,
-			where: { companyId },
+			where: { companyId, isDeleted: false },
 			include: [Company, Project, { model: User, as: "createdBy" }]
 		});
 
@@ -175,10 +179,24 @@ class BuyingRequestController {
 		};
 	}
 
+	private async removeGallery(gallery: IFile[]) {
+		gallery.map(img => {
+			S3.deleteFile(img.location);
+		});
+	}
+
 	async deleteBuyingRequest(id: number) {
 		try {
+			const br = await BuyingRequest.findByPk(id, {
+				attributes: ["gallery", "id"]
+			});
+
+			this.removeGallery((br.toJSON() as any).gallery);
+
+			br.setDataValue("isDeleted", true);
+			br.save();
+
 			const r = await BuyingRequest.deleteEsBrs([id]);
-			await BuyingRequest.destroy({ where: { id } });
 
 			return successResponse();
 		} catch (e) {
@@ -190,7 +208,17 @@ class BuyingRequestController {
 	async deleteBuyingRequests(ids: number[]) {
 		try {
 			const r = await BuyingRequest.deleteEsBrs(ids);
-			await BuyingRequest.destroy({ where: { id: ids } });
+			const brs = await BuyingRequest.findAll({
+				where: { id: ids, isDeleted: false },
+				attributes: ["gallery", "id"]
+			});
+
+			brs.map(br => {
+				this.removeGallery((br.toJSON() as any).gallery);
+				br.setDataValue("isDeleted", true);
+				br.save();
+			});
+
 			return successResponse();
 		} catch (e) {
 			console.log(e);
@@ -207,7 +235,8 @@ class BuyingRequestController {
 				where: {
 					name,
 					companyId
-				}
+				},
+				attributes: ["id"]
 			});
 			if (duplicateBr) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
 

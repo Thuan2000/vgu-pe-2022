@@ -160,7 +160,12 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     const { general, details } = inputValues;
 
     // All of this variable need tobe processed
-    const { industry, category, gallery, ...generalRest } = general;
+    const {
+      industry,
+      category,
+      gallery: mixedGallery,
+      ...generalRest
+    } = general;
     // @NOTE :: This should be changed later when programmer has nothing to do :V
     const { allowedCompany, endDate, sourceType, location, ...detailsRest } =
       details;
@@ -169,11 +174,14 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     const industryId = parseInt(industry.id + "");
     const categoryId = parseInt(category.id + "");
 
+    const oldGallery = mixedGallery.filter((img) => !img.isNew) || [];
+    const gallery = mixedGallery.flatMap((img) => (img.isNew ? img : [])) ?? [];
+
     // Br Images
     const blobGallery = await generateBlobs(gallery);
     const uploadedImages = await getUploadedFiles(blobGallery);
 
-    const coverImage = uploadedImages?.[0];
+    const coverImage = oldGallery?.[0] || uploadedImages?.[0];
 
     const userId = getLoggedInUser()?.id;
     const values: any = {
@@ -183,7 +191,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
       categoryId,
       sourceTypeId: sourceType?.id,
       coverImage,
-      gallery: uploadedImages,
+      gallery: [...oldGallery, ...uploadedImages],
       ...(!!initValue ? { updatedById: userId! } : { createdById: userId! }),
       ...allowedCompany,
       ...generalRest,

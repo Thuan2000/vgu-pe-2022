@@ -9,6 +9,7 @@ module.exports = {
     domains: [
       "sdconnect-dev.s3.ap-southeast-1.amazonaws.com",
       "sdconnect-assets.s3.ap-southeast-1.amazonaws.com",
+      "testing-sdconnect.s3.ap-southeast-1.amazonaws.com",
     ],
   },
   webpack(config, options) {
