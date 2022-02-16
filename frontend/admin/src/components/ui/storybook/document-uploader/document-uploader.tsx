@@ -1,4 +1,4 @@
-import React, { ReactSVGElement, useEffect, useRef, useState } from "react";
+import React, { ReactSVGElement, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDropzone, FileRejection } from "react-dropzone";
 
@@ -9,14 +9,13 @@ import { COLORS } from "@utils/colors";
 import InputLabel from "../inputs/input-label";
 import ValidationError from "../validation-error";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
-import { generateUUID, getCompanyName } from "@utils/functions";
+import { generateUUID } from "@utils/functions";
 import { IFile, IFileAccessControl, IFileType } from "@graphql/types.graphql";
 import DUThumb from "./du-thumb";
 import Image from "next/image";
 import Loader from "../loader/loader";
 import { useModal } from "src/contexts/modal.context";
-import ImageCropper, { CroppedImage, CroppedImageUrls } from "./image-cropper";
-import { create } from "yup/lib/number";
+import ImageCropper, { CroppedImageUrls } from "./image-cropper";
 
 export interface IFileWithTypename extends IFile {
   __typename?: string;
@@ -84,18 +83,17 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     onCompleted: () => setLoadingThumbs([]),
   });
 
-  async function getBlob(url: string) {
-    const d = await fetch(url);
-    const blob = await d.blob();
-    return blob;
-  }
-
   useEffect(() => {
     if (!needToEditedFiles.length) return;
 
-    const srcs = needToEditedFiles.map((file) => {
+    const srcs: IFile[] = needToEditedFiles.map((file) => {
       const url = URL.createObjectURL(file);
-      return url;
+      return {
+        fileName: file.name,
+        fileType: file.type,
+        url,
+        location: url,
+      };
     });
 
     openModal(
@@ -103,7 +101,7 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
         <ImageCropper
           aspectRatio={aspectRatio}
           onFinish={handleFinishCropping}
-          src_id={srcs}
+          fileSources={srcs}
           onClose={closeModal}
         />
       ) as any,
@@ -117,34 +115,11 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
   async function handleFinishCropping(croppedImgs: CroppedImageUrls) {
     setNeedToEditedFiles([]);
     closeModal();
-    // Refactor this codes later
-    setLoadingThumbs(new Array(croppedImgs.length).fill(""));
-    const croppedFiles = await Promise.all(
-      Object.keys(croppedImgs).map(async (k) => {
-        const blob = await getBlob(croppedImgs[k]);
-        return blob;
-      })
-    );
-    const { data } = await uploadFiles({
-      variables: {
-        input: {
-          companyName: getCompanyName() as string,
-          files: croppedFiles,
-          uploadsFileInputType: inputFileType as any,
-          fileAccessControl: accessControl as any,
-        },
-      },
-    });
-
-    const uploadedFiles = data?.uploadFiles;
-    const accFiles = uploadedFiles?.map(
-      ({ __typename, ...file }: IFileWithTypename) => file
-    );
     if (!onChange) return;
 
+    const accFiles = Object.keys(croppedImgs).map((k) => croppedImgs[k]);
     if (!!files?.length && multiple) onChange([...files, ...accFiles!]);
     else onChange(accFiles!);
-    // if (onChange) onChange([...files, ...croppedFiles]);
   }
 
   async function handleOnDrop(acceptedFiles: File[]) {
@@ -155,27 +130,26 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     if (inputFileType === "image") {
       setNeedToEditedFiles(acceptedFiles);
       return;
-    } else {
-      setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
-      const { data } = await uploadFiles({
-        variables: {
-          input: {
-            companyName: getCompanyName() as string,
-            files: acceptedFiles,
-            uploadsFileInputType: inputFileType as any,
-            fileAccessControl: accessControl as any,
-          },
-        },
-      });
-      const uploadedFiles = data?.uploadFiles;
-      const accFiles = uploadedFiles?.map(
-        ({ __typename, ...file }: IFileWithTypename) => file
-      );
-      if (!onChange) return;
-
-      if (!!files?.length && multiple) onChange([...files, ...accFiles!]);
-      else onChange(accFiles!);
     }
+
+    setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
+
+    const localFiles: IFile[] = acceptedFiles.map((af) => {
+      const url = URL.createObjectURL(af);
+      const file: IFile = {
+        fileName: af.name,
+        fileType: af.type,
+        url,
+        location: url,
+      };
+
+      return file;
+    });
+
+    if (!onChange) return;
+
+    if (!!files?.length && multiple) onChange([...files, ...localFiles!]);
+    else onChange(localFiles!);
   }
 
   function handleDelete(index: number) {

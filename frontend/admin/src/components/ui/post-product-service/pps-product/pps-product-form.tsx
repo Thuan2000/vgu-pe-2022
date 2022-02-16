@@ -41,11 +41,13 @@ import {
   useUpdateProductMutation,
 } from "@graphql/product.graphql";
 import {
+  generateBlobs,
   generateUUID,
   getCompanyChatId,
   getCompanyId,
   getCompanyName,
   getLoggedInUser,
+  getUploadedFiles,
   isEmptyObject,
   removeTypename,
   removeTypenameFromArray,
@@ -55,6 +57,7 @@ import { getIndustry } from "@datas/industries";
 import { getLocationByName, vietnamProvinces } from "@utils/vietnam-cities";
 import { groupBy } from "lodash";
 import { IGroupFormValues } from "./product-group-form";
+import { useUploadFilesMutation } from "@graphql/upload.graphql";
 
 interface IPPSProductFormProps {
   initValues?: IProduct;
@@ -170,6 +173,8 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     handleSubmit,
   } = methods;
 
+  const [uploadFiles, { loading: uploadingFiles }] = useUploadFilesMutation();
+
   const [updateProduct, { loading: updating }] = useUpdateProductMutation({
     onCompleted: handleCompleteUpdated,
   });
@@ -275,7 +280,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     return pricing;
   }
 
-  function onSubmit(values: IPostProductFormValues) {
+  async function onSubmit(values: IPostProductFormValues) {
     const { category: categoryForm, general, details, pricing } = values;
 
     const { name, industry, category } = categoryForm;
@@ -299,6 +304,17 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       ({ id, ...rest }) => rest
     );
 
+    const blobImages = await generateBlobs(images);
+    const blobCertificates = await generateBlobs(certificates);
+    const blobVideos = await generateBlobs(videos);
+
+    const uploadedImages = await getUploadedFiles(uploadFiles, blobImages);
+    const uploadedCertificates = await getUploadedFiles(
+      uploadFiles,
+      blobCertificates
+    );
+    const uploadedVideos = await getUploadedFiles(uploadFiles, blobVideos);
+
     const coverImage = images?.[0];
 
     const newTags: ITagInput[] = [];
@@ -317,10 +333,10 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
 
       // From General tab
       coverImage,
-      certificates,
+      certificates: uploadedCertificates,
       minOrder,
       description,
-      videos,
+      videos: uploadedVideos,
       warehouseLocation: location?.name,
 
       // From Pricing tab
@@ -336,7 +352,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       isPreorder,
       packagedDimension,
       status,
-      gallery: images,
+      gallery: uploadedImages,
     };
 
     if (initValues) {
@@ -400,7 +416,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
           )}
         </div>
         <PPSProductFooterButton
-          loading={creating}
+          loading={creating || uploadingFiles || updating}
           onNextClick={handleNextClick}
           onBackClick={handleBackClick}
           formPosition={formPosition}

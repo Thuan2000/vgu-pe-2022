@@ -3,6 +3,7 @@ import { ICategory } from "src/datas/categories";
 import { IVietnamCity } from "@utils/vietnam-cities";
 import * as yup from "yup";
 import { ISourceType } from "src/datas/source-type";
+import { IFile } from "@graphql/types.graphql";
 
 export const PostRequestSchema = yup.object({
   // General Form
@@ -46,7 +47,7 @@ export type GeneralFormValue = {
   name: string;
   industry: IIndustry;
   category: ICategory;
-  gallery: any;
+  gallery: IFile[];
   description?: string;
 };
 

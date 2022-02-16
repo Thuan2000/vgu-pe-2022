@@ -136,6 +136,6 @@
   "lets-chat-text": "Chat with Us",
   "companyPage-nav-label": "Company",
   "create-project-title": "Create Project",
-  "invert-CLOSE-request": "Open Request",
-  "invert-OPEN-request": "Close Request"
+  "invert-CLOSE-request": "Open This Request",
+  "invert-OPEN-request": "Close This Request"
 }

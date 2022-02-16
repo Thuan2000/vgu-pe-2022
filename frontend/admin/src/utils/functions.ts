@@ -1,3 +1,4 @@
+import { IFile } from "@graphql/types.graphql";
 import { isEmpty } from "lodash";
 import Swal from "sweetalert2";
 import { getMeData } from "./auth-utils";
@@ -221,4 +222,44 @@ export function isEmptyObject(obj: any) {
 export function normalizeString(str: string) {
   if (!str) return "";
   return str.normalize("NFD")?.replace(/[\u0300-\u036f]/g, "");
+}
+
+export async function getBlob(file: IFile) {
+  const d = await fetch(file.url);
+  const blob = await d.blob();
+  (blob as any).name = file.fileName;
+
+  return blob;
+}
+
+export async function generateBlobs(files?: IFile[]) {
+  if (!files || isEmpty(files)) return [];
+
+  const blobs = await Promise.all(
+    files.map(async (f) => {
+      const blob = await getBlob(f);
+      return blob;
+    })
+  );
+
+  return blobs;
+}
+
+export async function getUploadedFiles(uploadFiles: any, blobs: Blob[]) {
+  if (!uploadFiles || !blobs || isEmpty(blobs)) return [];
+
+  const { data } = await uploadFiles({
+    variables: {
+      input: {
+        files: blobs,
+        uploadsFileInputType: "image" as any, // IFileType,
+        companyName: getCompanyName()!,
+        fileAccessControl: "PUBLIC_READ" as any, // IFileAccessControl ,
+      },
+    },
+  });
+
+  const uploadedImages = removeTypenameFromArray(data?.uploadFiles);
+
+  return uploadedImages;
 }

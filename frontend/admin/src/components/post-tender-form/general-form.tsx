@@ -71,6 +71,10 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         placeholder={t("post-request-description-placeholder")}
         error={t(errors?.general?.description?.message || "")}
         {...register("general.description")}
+        onChange={(e) => {
+          register("general.description").onChange(e);
+          trigger("general.description");
+        }}
       />
 
       <DocumentInput
@@ -82,7 +86,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         multiple
         numberQueue={3}
         label={t("post-request-gallery-label")}
-        error={errors?.general?.gallery?.message}
+        error={(errors?.general?.gallery as any)?.message}
       />
 
       <IndustryCategorySelect
