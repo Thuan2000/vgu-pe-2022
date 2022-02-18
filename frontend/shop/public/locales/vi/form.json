@@ -82,5 +82,6 @@
 	"setPassword-button-label": "Đổi mật khẩu",
 	"password-resetted-success-title": "Đổi mật khẩu thành công",
 	"password-resetted-success-message": "Hãy đăng nhập bằng mật khẩu mới",
-	"password-resetted-success-button": "OK"
+	"password-resetted-success-button": "OK",
+  "backToLogin-label": "Quay về trang Đăng Nhập/Đăng Ký"
 }
