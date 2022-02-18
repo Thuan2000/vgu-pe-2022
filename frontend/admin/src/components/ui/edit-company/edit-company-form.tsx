@@ -6,11 +6,14 @@ import {
   useUpdateCompanyDetailMutation,
 } from "@graphql/company.graphql";
 import { ICompany, IUpdateCompanyDetailsInput } from "@graphql/types.graphql";
+import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { getMeData, setMeData } from "@utils/auth-utils";
 import {
+  generateBlobs,
   generateUUID,
   getCompanyId,
+  getUploadedFiles,
   removeTypename,
   removeTypenameOfChildrens,
 } from "@utils/functions";
@@ -151,6 +154,8 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   const { query, ...router } = useRouter();
   const [updateCompany, { loading: updatingCompany }] =
     useUpdateCompanyDetailMutation({ onCompleted: handleCompanyUpdated });
+  const [uploadFiles, { loading: uploadingFiles }] = useUploadFilesMutation();
+
   const formPosition = parseInt(query.formPosition as string) || 1;
 
   useEffect(() => {
@@ -218,27 +223,39 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     };
   }
 
-  function onSubmit(value: ECFormValues) {
+  async function onSubmit(value: ECFormValues) {
     const { general, details, additional } = value;
-    const coverImage =
-      general &&
-      general.coverImage &&
-      general?.coverImage?.length > 0 &&
-      (general?.coverImage as any)[0];
+
+    const {
+      branches: rawBranches,
+      factories: rawFactories,
+      warehouses: rawWarehouses,
+    } = details;
+
+    const blobCover = await generateBlobs(general.coverImage);
+    const uploadedCoverImg = await getUploadedFiles(uploadFiles, blobCover);
+
+    const blobProfile = await generateBlobs(general.coverImage);
+    const uploadedProfileImg = await getUploadedFiles(uploadFiles, blobProfile);
+
+    const { certificates, gallery } = additional;
+
+    const blobCertificates = await generateBlobs(certificates);
+    const blobGallery = await generateBlobs(gallery);
+
+    const uploadedCertificates = await getUploadedFiles(
+      uploadFiles,
+      blobCertificates
+    );
+    const uploadedGallery = await getUploadedFiles(uploadFiles, blobGallery);
 
     const mainProducts = general?.mainProducts?.map((mp: any) => mp.label);
-    const branches = details?.branches?.map((b: any) =>
-      turnLocationToString(b)
-    );
-    const factories = details?.factories?.map((f: any) =>
-      turnLocationToString(f)
-    );
-    const warehouses = details?.warehouses?.map((w: any) =>
-      turnLocationToString(w)
-    );
+
+    let branches = rawBranches?.map((b: any) => turnLocationToString(b));
+    let factories = rawFactories?.map((f: any) => turnLocationToString(f));
+    let warehouses = rawWarehouses?.map((w: any) => turnLocationToString(w));
 
     const businessTypeIds = general.businessTypes.map((bt) => bt.id);
-
     const input: IUpdateCompanyDetailsInput | any = {
       establishmentDate: general.establishmentDate,
       name: general.name,
@@ -247,13 +264,13 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
       location: general.location.name,
       businessTypeIds,
       settings: {
-        certificates: additional.certificates,
+        certificates: uploadedCertificates,
+        gallery: uploadedGallery,
         address: general.address,
-        profileImage: (general?.profileImage as any)?.[0] as any,
+        coverImage: uploadedCoverImg?.[0],
+        profileImage: uploadedProfileImg?.[0],
         employeeAmount: general.employeeAmount,
-        gallery: additional.gallery,
         contactNumber: general.contactNumber,
-        coverImage: coverImage as any,
         mainProducts: mainProducts as any,
         branches: branches as any,
         factories: factories as any,
@@ -318,7 +335,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
             onClick={handleNextClick}
             size="small"
             className="md:w-1/2.5"
-            loading={updatingCompany}
+            loading={updatingCompany || uploadingFiles}
             autoFocus={formPosition === EC_ADDITIONAL_FORM_INDEX}
           >
             {t(

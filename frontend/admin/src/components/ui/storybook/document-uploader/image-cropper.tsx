@@ -107,6 +107,7 @@ const ImageCropper: React.FC<IImageCropperProps> = ({
                   setActiveIdx(idx);
                   check[idx] = true;
                 }}
+                key={file.url}
                 className={`sm:w-20 sm:h-20 relative`}
               >
                 <div className="grid grid-cols-2">
@@ -124,7 +125,7 @@ const ImageCropper: React.FC<IImageCropperProps> = ({
           })}
           <div className={``}>
             {check2nd === true && (
-              <Button className={`autofocus`} onClick={handleConfirmClick}>
+              <Button autoFocus onClick={handleConfirmClick}>
                 {t("confirm-button")}
               </Button>
             )}
@@ -133,6 +134,7 @@ const ImageCropper: React.FC<IImageCropperProps> = ({
                 className={`autofocus`}
                 onClick={handleConfirmClick}
                 color="error"
+                autoFocus
               >
                 {t("confirm-button")}
               </Button>
