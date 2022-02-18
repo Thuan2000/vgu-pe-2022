@@ -20,7 +20,7 @@ const BenefitItem: React.FC<IBenefitItemProps> = ({ count, title, imgUrl }) => {
       <Typography
         text={title}
         weight="bold"
-        size="xl"
+        size="md"
         className={`w-52 ml-6 mr-20`}
       />
 
