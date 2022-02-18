@@ -9,18 +9,22 @@ export const partners = [
   {
     imgUrl:
       "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/partner-1.png",
+    redirectLink: "https://vietphatgroup.com/",
   },
   {
     imgUrl:
       "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/partner-2.png",
+    redirectLink: "https://emolyze.tech/",
   },
   {
     imgUrl:
       "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/partner-3.png",
+    redirectLink: "http://biic.vn/",
   },
   {
     imgUrl:
       "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/partner-4.png",
+    redirectLink: "https://iec.itp.vn/",
   },
 ];
 

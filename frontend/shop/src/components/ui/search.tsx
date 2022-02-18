@@ -186,6 +186,8 @@ const Search = ({
     if (inputValue) showSuggestion();
   }
 
+  const searchInputPlaceholder = `search-${activePage}-input-placeholder`;
+
   return (
     <div ref={outsideClickRef} className={`relative`} {...props}>
       <Form onSubmit={handleSearch}>
@@ -200,7 +202,7 @@ const Search = ({
                 onFocus={handleInputFocus}
                 onChange={handleInputChange}
                 inputClassName="border-none sm:w-[350px]"
-                placeholder={t(`search-${activePage}-input-placeholder`)}
+                placeholder={t(searchInputPlaceholder)}
               />
 
               {inputValue && (

@@ -101,5 +101,8 @@
   "search-nhu-cau-thu-mua-input-placeholder": "e.g: procure steel",
   "search-san-pham-input-placeholder": "e.g: printers",
   "search-dich-vu-input-placeholder": "e.g: household design",
-  "search-nha-cung-cap-input-placeholder": "e.g: company A"
+  "search-nha-cung-cap-input-placeholder": "e.g: company A",
+  "password-resetted-success-title": "Reset password successfully",
+	"password-resetted-success-message": "Please login using newly-created password",
+	"password-resetted-success-button": "OK"
 }

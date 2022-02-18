@@ -26,18 +26,19 @@ export type TPasswordResetFormValues = {
 };
 
 export const passwordResetResolver = yup.object({
+  // TODO: Add proper translations here. Since Vietnamese is the priority, putting Vietnamese here first.
   password: yup
     .string()
-    .required("passwordRequired-error")
-    .matches(/^(?=.{8,})/, "passwordTooShort-error")
-    .matches(/[A-Z]/, "passwordNotHaveUppercase-error")
-    .matches(/[a-z]/, "passwordNotHaveLowercase-error")
-    .matches(/[0-9]/, "passwordNotHaveNumber-error")
-    .matches(/^\S*$/, "passwordHaveSpace-error"),
+    .required("Vui lòng đặt mật khẩu")
+    .matches(/^(?=.{8,})/, "Mật khẩu quá ngắn")
+    .matches(/[A-Z]/, "Mật khẩu chưa có ký tự viết hoa")
+    .matches(/[a-z]/, "Mật khẩu chưa có ký tự thường")
+    .matches(/[0-9]/, "Mật khẩu chưa có số")
+    .matches(/^\S*$/, "Mật khẩu không được chứa khoảng trống"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "passwordNotMatch-error")
-    .required("passwordNotMatch-error"),
+    .oneOf([yup.ref("password"), null], "Mật khẩu không khớp")
+    .required("Mật khẩu không khớp"),
 });
 
 const PasswordReset: React.FC<IPasswordResetProps> = ({

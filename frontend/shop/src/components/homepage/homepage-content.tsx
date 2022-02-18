@@ -137,8 +137,10 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
         <div className={`grid grid-cols-4 gap-x-10 px-24 gap-y-5 mt-8`}>
           {partners.map((e) => {
             return (
-              <div key={e.imgUrl} className={`relative w-52 h-52`}>
-                <Image src={e.imgUrl} alt={e.imgUrl} layout="fill" />
+              <div onClick={() => {
+                window.open(e.redirectLink)
+              }}key={e.imgUrl} className={`relative w-52 h-52 cursor-pointer hover:shadow-md`}>
+                <Image src={e.imgUrl} alt={e.imgUrl} layout="fill" objectFit='contain' />
               </div>
             );
           })}
