@@ -53,6 +53,10 @@ const sqls = [
 	{
 		name: "Banner",
 		path: getFilePath("banners.sql")
+	},
+	{
+		name: "Partner",
+		path: getFilePath("partners.sql")
 	}
 ];
 

@@ -6,7 +6,8 @@ import React from "react";
 import BannerSlider from "./banner-slider";
 import BenefitItem from "./benefit-item";
 import HCSearchBy from "./hc-search-by";
-import { benefitMembers, partners, teamMembers } from "./homepage-contents";
+import { benefitMembers, teamMembers } from "./homepage-contents";
+import PartnerList from "./partner-list";
 import TeamMember from "./TeamMember";
 
 interface IHomepageContentProps {}
@@ -17,7 +18,6 @@ function ContentWrapper({ className, children }: any) {
 
 const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
   const { t } = useTranslation();
-
   return (
     <div className={`space-y-5`}>
       <ContentWrapper>
@@ -134,17 +134,7 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
       <ContentWrapper className={`min-h-[400px] pb-20 `}>
         <Typography variant="homepageSectionTitle" text={t("partner-title")} />
 
-        <div className={`grid grid-cols-4 gap-x-10 px-24 gap-y-5 mt-8`}>
-          {partners.map((e) => {
-            return (
-              <div onClick={() => {
-                window.open(e.redirectLink)
-              }}key={e.imgUrl} className={`relative w-52 h-52 cursor-pointer hover:shadow-md`}>
-                <Image src={e.imgUrl} alt={e.imgUrl} layout="fill" objectFit='contain' />
-              </div>
-            );
-          })}
-        </div>
+        <PartnerList />
       </ContentWrapper>
     </div>
   );

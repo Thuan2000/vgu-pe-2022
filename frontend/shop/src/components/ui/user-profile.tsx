@@ -48,7 +48,7 @@ const UserProfile = () => {
 
   return (
     <div className="flex-center">
-      <div className={`mr-8`}>
+      <div style={{ marginRight: "1rem" }}>
         <NewChat />
       </div>
       {!NO_POST_ROUTES.includes(activePage) ? (

@@ -35,8 +35,8 @@ class PartnerController {
 
 	static async getPartners() {
 		try {
-			const banners = await Partner.findAll();
-			return banners;
+			const partners = await Partner.findAll();
+			return partners;
 		} catch (e) {
 			console.error(e);
 			return [];
@@ -45,8 +45,8 @@ class PartnerController {
 
 	static async getPartner(id: number) {
 		try {
-			const banner = await Partner.findByPk(id);
-			return banner;
+			const partner = await Partner.findByPk(id);
+			return partner;
 		} catch (e) {
 			console.error(e);
 			return {};

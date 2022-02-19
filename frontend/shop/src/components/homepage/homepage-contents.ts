@@ -7,24 +7,24 @@ export interface ITeamMember {
 
 export const partners = [
   {
-    imgUrl:
+    logoUrl:
       "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/partner-1.png",
-    redirectLink: "https://vietphatgroup.com/",
+    websiteUrl: "https://vietphatgroup.com/",
   },
   {
-    imgUrl:
+    logoUrl:
       "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/partner-2.png",
-    redirectLink: "https://emolyze.tech/",
+    websiteUrl: "https://emolyze.tech/",
   },
   {
-    imgUrl:
+    logoUrl:
       "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/partner-3.png",
-    redirectLink: "http://biic.vn/",
+    websiteUrl: "http://biic.vn/",
   },
   {
-    imgUrl:
+    logoUrl:
       "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/partner-4.png",
-    redirectLink: "https://iec.itp.vn/",
+    websiteUrl: "https://iec.itp.vn/",
   },
 ];
 
