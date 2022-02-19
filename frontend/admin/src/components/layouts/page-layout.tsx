@@ -26,7 +26,7 @@ const PageLayout: React.FC = ({ children }) => {
   }
 
   return (
-    <div className="flex bg-light-300">
+    <div className="flex bg-light-300 min-h-full">
       {<BottomNavigation />}
       {!isPhone && <Sidebar />}
       <main className="md:mx-8 w-full mb-16 sm:mb-0">

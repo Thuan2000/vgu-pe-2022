@@ -18,10 +18,10 @@ import {
   removeTypenameOfChildrens,
 } from "@utils/functions";
 import { getLocationByName } from "@utils/vietnam-cities";
-import { isEmpty } from "lodash";
+import { isEmpty, method } from "lodash";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
 import Button from "../storybook/button";
@@ -139,6 +139,10 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   initValue,
 }) => {
   const { t } = useTranslation("form");
+  const methods = useForm<ECFormValues>({
+    resolver: yupResolver(ECFormResolver),
+    ...(!!initValue ? { defaultValues: getDefaultValue(initValue) } : {}),
+  });
   const {
     register,
     control,
@@ -147,10 +151,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     handleSubmit,
     setValue,
     formState: { errors, dirtyFields },
-  } = useForm<ECFormValues>({
-    resolver: yupResolver(ECFormResolver),
-    ...(!!initValue ? { defaultValues: getDefaultValue(initValue) } : {}),
-  });
+  } = methods;
   const { query, ...router } = useRouter();
   const [updateCompany, { loading: updatingCompany }] =
     useUpdateCompanyDetailMutation({ onCompleted: handleCompanyUpdated });
@@ -281,72 +282,70 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      {formPosition === EC_GENERAL_FORM_INDEX && (
-        <ECGeneralInput
-          register={register}
-          control={control}
-          errors={errors}
-          initValue={initValue}
-          trigger={trigger}
-        />
-      )}
-
-      {formPosition === EC_DETAILS_FORM_INDEX && (
-        <ECDetailsInput
-          setValue={setValue}
-          register={register}
-          control={control}
-          errors={errors}
-          trigger={trigger}
-          getValues={getValues}
-        />
-      )}
-
-      {formPosition === EC_ADDITIONAL_FORM_INDEX && (
-        <ECAdditionalInput
-          register={register}
-          control={control}
-          errors={errors}
-          trigger={trigger}
-          getValues={getValues}
-        />
-      )}
-
-      <div className="fic justify-between">
-        <Button variant="cancel">{t("previewCompany-button-label")}</Button>
-        <div className="flex flex-col md:flex-row justify-between md:w-1/3">
-          <Button
-            type="button"
-            variant="outline"
-            size="small"
-            onClick={handleBackClick}
-            className={`${
-              formPosition <= 1 && "invisible hidden md:block"
-            } md:w-1/2.5 my-2 md:my-0 text-primary`}
-          >
-            {t("back-button-label")}
-          </Button>
-
-          <Button
-            type={
-              formPosition === EC_ADDITIONAL_FORM_INDEX ? "submit" : "button"
-            }
-            onClick={handleNextClick}
-            size="small"
-            className="md:w-1/2.5"
-            loading={updatingCompany || uploadingFiles}
-            autoFocus={formPosition === EC_ADDITIONAL_FORM_INDEX}
-          >
-            {t(
-              formPosition === EC_ADDITIONAL_FORM_INDEX
-                ? "update-company-button-label"
-                : "next-section-button-label"
-            )}
-          </Button>
+    <FormProvider {...methods}>
+      <Form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        {formPosition === EC_GENERAL_FORM_INDEX && (
+          <ECGeneralInput
+            register={register}
+            control={control}
+            errors={errors}
+            initValue={initValue}
+            trigger={trigger}
+          />
+        )}
+        {formPosition === EC_DETAILS_FORM_INDEX && (
+          <ECDetailsInput
+            setValue={setValue}
+            register={register}
+            control={control}
+            errors={errors}
+            trigger={trigger}
+            getValues={getValues}
+          />
+        )}
+        {formPosition === EC_ADDITIONAL_FORM_INDEX && (
+          <ECAdditionalInput
+            register={register}
+            control={control}
+            errors={errors}
+            trigger={trigger}
+            getValues={getValues}
+          />
+        )}
+        <div className="fic justify-between">
+          <Button variant="cancel">{t("previewCompany-button-label")}</Button>
+          <div className="flex flex-col md:flex-row justify-between md:w-1/3">
+            <Button
+              type="button"
+              variant="outline"
+              size="small"
+              onClick={handleBackClick}
+              className={`${
+                formPosition <= 1 && "invisible hidden md:block"
+              } md:w-1/2.5 my-2 md:my-0 text-primary`}
+            >
+              {t("back-button-label")}
+            </Button>
+            <Button
+              type={
+                formPosition === EC_ADDITIONAL_FORM_INDEX ? "submit" : "button"
+              }
+              onClick={handleNextClick}
+              size="small"
+              className="md:w-1/2.5"
+              loading={updatingCompany || uploadingFiles}
+              autoFocus={formPosition === EC_ADDITIONAL_FORM_INDEX}
+            >
+              {t(
+                formPosition === EC_ADDITIONAL_FORM_INDEX
+                  ? "update-company-button-label"
+                  : "next-section-button-label"
+              )}
+            </Button>
+          </div>
         </div>
-      </div>
-    </Form>
+      </Form>
+    </FormProvider>
   );
 };
 export default CompanyDetailsForm;
