@@ -15,11 +15,13 @@ Partner.init(
 	{
 		title: DataTypes.STRING,
 		description: DataTypes.TEXT,
-		logoUrl: DataTypes.STRING
+		logoUrl: DataTypes.STRING,
+		websiteUrl: DataTypes.STRING
 	},
 	{
 		sequelize: Database.sequelize,
-		modelName: "Partner"
+		modelName: "Partner",
+		tableName: "partners"
 	}
 );
 
