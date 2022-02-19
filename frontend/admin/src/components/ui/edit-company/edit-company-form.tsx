@@ -25,6 +25,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
 import Button from "../storybook/button";
+import { IDUFile } from "../storybook/document-uploader/document-uploader";
 import { IRawBFW } from "./ec-add-branch/bfw-constants";
 import ECAdditionalInput from "./ec-additional-input";
 import {
@@ -214,18 +215,47 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     changeSection(formPosition - 1);
   }
 
-  function turnLocationToString({ location, ...bfw }: IRawBFW) {
+  async function turnLocationToString(
+    uploadFiles: any,
+    { location, gallery, ...bfw }: IRawBFW
+  ) {
+    const oldGallery = gallery.filter((img) => !img.isNew);
+    const newGallery: any = gallery.flatMap(({ isNew, ...img }) =>
+      isNew ? img : []
+    );
+    const galleryBlobs = await generateBlobs(newGallery);
+    const uploadedNewGallery = await getUploadedFiles(
+      uploadFiles,
+      galleryBlobs
+    );
+
     return {
       ...bfw,
-      location: location.name || location,
-      ...(bfw.gallery.length > 0
-        ? { gallery: removeTypenameOfChildrens(bfw.gallery || []) }
+      location: location?.name || location,
+      ...(gallery.length > 0
+        ? {
+            gallery: [
+              ...removeTypenameOfChildrens(oldGallery || []),
+              ...uploadedNewGallery,
+            ],
+          }
         : {}),
     };
   }
 
+  async function getBfws(bfws?: IRawBFW[]) {
+    if (!bfws || isEmpty(bfws)) return [];
+    return await Promise.all(
+      bfws?.map(
+        async (bfw: any) => await turnLocationToString(uploadFiles, bfw)
+      )
+    );
+  }
+
   async function onSubmit(value: ECFormValues) {
     const { general, details, additional } = value;
+    let uploadedCoverImg = general.coverImage;
+    let uploadedProfileImg: any = general.profileImage;
 
     const {
       branches: rawBranches,
@@ -233,16 +263,30 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
       warehouses: rawWarehouses,
     } = details;
 
-    const blobCover = await generateBlobs(general.coverImage);
-    const uploadedCoverImg = await getUploadedFiles(uploadFiles, blobCover);
+    if (uploadedCoverImg?.[0].isNew) {
+      const blobCover = await generateBlobs(general.coverImage);
+      uploadedCoverImg = await getUploadedFiles(uploadFiles, blobCover);
+    }
 
-    const blobProfile = await generateBlobs(general.coverImage);
-    const uploadedProfileImg = await getUploadedFiles(uploadFiles, blobProfile);
+    if (uploadedProfileImg?.[0].isNew) {
+      const blobProfile = await generateBlobs(general.coverImage);
+      uploadedProfileImg = await getUploadedFiles(uploadFiles, blobProfile);
+    }
 
     const { certificates, gallery } = additional;
 
-    const blobCertificates = await generateBlobs(certificates);
-    const blobGallery = await generateBlobs(gallery);
+    const oldCertificates = certificates.filter((c) => !c.isNew);
+    const oldGallery = gallery.filter((img) => !img.isNew);
+
+    const newCertificates = certificates.flatMap(({ isNew, ...c }) =>
+      isNew ? c : []
+    );
+    const newGallery = gallery.flatMap(({ isNew, ...img }) =>
+      isNew ? img : []
+    );
+
+    const blobCertificates = await generateBlobs(newCertificates as any);
+    const blobGallery = await generateBlobs(newGallery as any);
 
     const uploadedCertificates = await getUploadedFiles(
       uploadFiles,
@@ -252,9 +296,9 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
 
     const mainProducts = general?.mainProducts?.map((mp: any) => mp.label);
 
-    let branches = rawBranches?.map((b: any) => turnLocationToString(b));
-    let factories = rawFactories?.map((f: any) => turnLocationToString(f));
-    let warehouses = rawWarehouses?.map((w: any) => turnLocationToString(w));
+    let branches = await getBfws(rawBranches);
+    let factories = await getBfws(rawFactories);
+    let warehouses = await getBfws(rawWarehouses);
 
     const businessTypeIds = general.businessTypes.map((bt) => bt.id);
     const input: IUpdateCompanyDetailsInput | any = {
@@ -265,8 +309,8 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
       location: general.location.name,
       businessTypeIds,
       settings: {
-        certificates: uploadedCertificates,
-        gallery: uploadedGallery,
+        certificates: [...oldCertificates, ...uploadedCertificates],
+        gallery: [...oldGallery, ...uploadedGallery],
         address: general.address,
         coverImage: uploadedCoverImg?.[0],
         profileImage: uploadedProfileImg?.[0],
