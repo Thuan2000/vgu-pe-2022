@@ -137,5 +137,10 @@
   "companyPage-nav-label": "Company",
   "create-project-title": "Create Project",
   "invert-CLOSE-request": "Open This Request",
-  "invert-OPEN-request": "Close This Request"
+  "invert-OPEN-request": "Close This Request",
+  "no-new-message-text": "No New Message Found",
+  "messages-label": "Messages",
+  "unread-singular-label": "Unread",
+  "unread-plural-label": "Unreads",
+  "open-chat-text": "Open Chat"
 }

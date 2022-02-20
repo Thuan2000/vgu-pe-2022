@@ -1,7 +1,7 @@
+import base64 from "base-64";
 import { IDUFile } from "@components/ui/storybook/document-uploader/document-uploader";
 import { IFile } from "@graphql/types.graphql";
 import { isEmpty } from "lodash";
-import Swal from "sweetalert2";
 import { getMeData } from "./auth-utils";
 import {
   BILLION,
@@ -263,4 +263,24 @@ export async function getUploadedFiles(uploadFiles: any, blobs: Blob[]) {
   const uploadedImages = removeTypenameFromArray(data?.uploadFiles);
 
   return uploadedImages;
+}
+
+export function encodeString(text: string) {
+  const b64Encoded = base64.encode(text);
+
+  return b64Encoded;
+}
+
+export function generateChatPassword(password: string) {
+  const splitted = password.split("@");
+  const userName = `${splitted?.[0]}`;
+
+  return userName;
+}
+
+export function generateUsername(email: string) {
+  const splitted = email.split("@");
+  const userName = `${splitted?.[0]}`;
+
+  return userName;
 }

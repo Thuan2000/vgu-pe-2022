@@ -32,3 +32,10 @@ export const LOGGED_IN_COMPANY = "LOGGED_IN_COMPANY";
 
 // Settings
 export const MOBILE_SIZE = { min: 300, max: 480 };
+
+// Chat
+export const CHAT_AUTH_COOKIE_NAME = "auth-token";
+export const CHAT_KEEP_LOGIN_COOKIE_NAME = "keep-logged-in";
+const CHAT_ENDPOINT = process.env.NEXT_PUBLIC_CHAT_SERVER_URL;
+const CHAT_API_KEY = process.env.NEXT_PUBLIC_CHAT_SERVER_API_KEY;
+export const CHAT_URL = `${CHAT_ENDPOINT}?apikey=${CHAT_API_KEY}`;

@@ -1,6 +1,12 @@
 import Cookie from "js-cookie";
 import SSRCookie from "cookie";
-import { AUTH_CRED, LOGGED_IN_USER, REDIRECT_AFTER_LOGIN } from "./constants";
+import {
+  AUTH_CRED,
+  CHAT_AUTH_COOKIE_NAME,
+  CHAT_KEEP_LOGIN_COOKIE_NAME,
+  LOGGED_IN_USER,
+  REDIRECT_AFTER_LOGIN,
+} from "./constants";
 import { ICompany, IMeInfoResponse, IUser } from "@graphql/types.graphql";
 
 const cookieDomain = { domain: `.${process.env.NEXT_PUBLIC_DOMAIN}` };
@@ -96,4 +102,26 @@ export function getMeDataFromCookie(cookie: any): {
 } {
   if (!cookie?.LOGGED_IN_USER) return {} as any;
   return JSON.parse(cookie?.LOGGED_IN_USER || "");
+}
+
+function getDomain() {
+  return !isDevelopment ? { ...cookieDomain } : {};
+}
+
+export function removeChatAuthToken() {
+  Cookie.remove(CHAT_AUTH_COOKIE_NAME, getDomain());
+  Cookie.remove(CHAT_KEEP_LOGIN_COOKIE_NAME, getDomain());
+}
+
+export function setChatAuthToken(token: string, expires: string) {
+  Cookie.set(
+    CHAT_AUTH_COOKIE_NAME,
+    JSON.stringify({
+      token,
+      expires,
+    }),
+    getDomain()
+  );
+
+  Cookie.set(CHAT_KEEP_LOGIN_COOKIE_NAME, "true", getDomain());
 }
