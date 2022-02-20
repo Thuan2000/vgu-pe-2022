@@ -7,11 +7,13 @@ import Input from "./ui/storybook/inputs/input";
 interface ISearchInputProps extends React.HTMLAttributes<HTMLDivElement> {
   onChange?: (e: any) => void;
   withSearchIcon?: boolean;
+  disabled?: boolean;
 }
 
 const SearchInput: React.FC<ISearchInputProps> = ({
   onChange,
   className,
+  disabled,
   withSearchIcon = true,
   ...props
 }) => {
@@ -25,6 +27,7 @@ const SearchInput: React.FC<ISearchInputProps> = ({
         noBorder
         className="w-full focus:none"
         onChange={onChange}
+        disabled={disabled}
         placeholder={t("search-Placeholder")}
       />
       {withSearchIcon && (

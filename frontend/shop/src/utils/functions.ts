@@ -127,6 +127,10 @@ export function getCompanyId() {
   const { company } = getMeData();
   return company?.id as number;
 }
+export function getIsCompanyFullInfo() {
+  const { company } = getMeData();
+  return company?.isFullInfo;
+}
 export function getCompanyName() {
   const { company } = getMeData();
   return company?.name;

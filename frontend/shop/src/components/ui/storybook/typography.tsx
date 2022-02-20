@@ -37,6 +37,7 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
   align?: "left" | "center" | "right";
   readMoreText?: string;
   truncate?: boolean;
+  underline?: boolean;
   onReadMore?: () => void;
 }
 
@@ -67,6 +68,7 @@ const Typography: React.FC<ITypographyProps> = ({
   onReadMore,
   truncate,
   isHaveReadMore,
+  underline,
   ...props
 }) => {
   const classNames = cn(
@@ -75,6 +77,7 @@ const Typography: React.FC<ITypographyProps> = ({
     `text-${size}`,
     `text-${color}`,
     `font-${weight}`,
+    !!underline && "underline",
     !!truncate && "truncate",
     inputClassname
   );

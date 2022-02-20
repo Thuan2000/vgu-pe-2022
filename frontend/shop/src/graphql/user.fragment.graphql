@@ -15,5 +15,6 @@ fragment UserFragment on User {
     slug
     location
     chatId
+    isFullInfo
   }
 }

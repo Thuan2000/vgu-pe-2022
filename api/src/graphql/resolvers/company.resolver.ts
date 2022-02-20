@@ -22,6 +22,7 @@ export const Query = {
 };
 
 export const Mutation = {
+	isCompanyFullInfo: (_, { id }) => CompanyController.checkIsFullInfo(id),
 	getCompanyNameSuggestion: (_, { name, limit }) =>
 		CompanyController.getNameSuggestion(name, limit),
 	// @NOTES URGENT : Follow this

@@ -4,18 +4,23 @@ import LanguageSelector from "../language-selector";
 import NavbarBottom from "./navbar-bottom";
 import { ROUTES } from "@utils/routes";
 import Breadcrumb from "../storybook/breadcrumb";
+import { getIsCompanyFullInfo } from "@utils/functions";
+import EditCompanyReminder from "./edit-company-reminder";
 
 interface INavbarProps {
   className: string;
 }
 
 const Navbar: React.FC<INavbarProps> = ({ className }) => {
+  const isFullInfo = getIsCompanyFullInfo();
+
   return (
     <div className={`z-50 ${className}`}>
       <div className="flex justify-between items-center py-3 bg-gray-10 px-10 md:px-48">
         <NavbarNavigations />
         <LanguageSelector />
       </div>
+      {!isFullInfo && <EditCompanyReminder />}
       <div className={`px-10 md:px-48 bg-white`}>
         <NavbarBottom />
         <div className="fic">

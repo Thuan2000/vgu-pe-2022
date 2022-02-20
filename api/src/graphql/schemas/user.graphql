@@ -12,6 +12,7 @@ type UserCompany {
 	industryId: Int
 	businessTypeIds: [Int!]
 	establishmentDate: Date
+	isFullInfo: Boolean!
 }
 
 type User {

@@ -62,6 +62,7 @@ class AuthController {
 							"businessTypeIds",
 							"approved",
 							"establishmentDate",
+							"isFullInfo",
 							"chatId"
 							// [
 							// 	Sequelize.fn(

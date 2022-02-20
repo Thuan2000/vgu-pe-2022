@@ -105,6 +105,16 @@ export function getCompanyId() {
   return company?.id as number;
 }
 
+export function getIsCompanyFullInfo() {
+  const { company } = getMeData();
+  return company?.isFullInfo;
+}
+
+export function getCompanySlug() {
+  const { company } = getMeData();
+  return company?.slug as string;
+}
+
 export function getCompanyChatId() {
   const { company } = getMeData();
   return company?.chatId;

@@ -11,6 +11,7 @@ import styles from "./profile-menu.module.css";
 import { getMeData, isLogin } from "@utils/auth-utils";
 import { getLoginCompanySlug } from "@utils/functions";
 import Button from "../storybook/button";
+import { useRouter } from "next/router";
 
 const variants = {
   hidden: { opacity: 1, maxHeight: 0 },
@@ -20,6 +21,7 @@ const variants = {
 const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   const { t } = useTranslation("common");
   const { user, company } = getMeData();
+  const { locale } = useRouter();
 
   if (!isLogin())
     return (
@@ -42,7 +44,7 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
         <Link
           target="_blank"
           rel="noreferrer"
-          href={`${ROUTES.ADMIN_LINK}/${getLoginCompanySlug()}`}
+          href={`${ROUTES.ADMIN_LINK}/${locale}/${getLoginCompanySlug()}`}
         >
           <p className="text-heading font-semibold">{company?.name}</p>
         </Link>
@@ -51,7 +53,7 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
         <Link
           target="_blank"
           rel="noreferrer"
-          href={`${ROUTES.ADMIN_LINK}/${getLoginCompanySlug()}`}
+          href={`${ROUTES.ADMIN_LINK}/${locale}/${getLoginCompanySlug()}`}
         >
           <div className="px-3 py-2 flex items-center ">
             <AvatarIcon fill="#82868C" className="mr-4 h-6 w-4" />

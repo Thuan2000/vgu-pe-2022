@@ -57,6 +57,19 @@ class CompanyController {
 		};
 	}
 
+	static async checkIsFullInfo(id: number) {
+		try {
+			const comp = await Company.findByPk(id, {
+				attributes: ["isFullInfo"]
+			});
+
+			return comp.getDataValue("isFullInfo");
+		} catch (e) {
+			console.error(e);
+			return false;
+		}
+	}
+
 	static async getCompany(slug: string) {
 		try {
 			const company = await Company.findOne({

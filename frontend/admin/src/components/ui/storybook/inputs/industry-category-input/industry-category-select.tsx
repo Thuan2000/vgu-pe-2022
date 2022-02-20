@@ -15,6 +15,7 @@ interface IIndustryCategorySelectProps extends IInputLabelProps {
   categoryControllerName: string;
   error?: string;
   optionTextSize?: FontSize;
+  disabled?: boolean;
   getCategoryLabel: (e: ICategory) => string;
   getIndustryLabel: (e: IIndustry) => string;
   onIndustryChange?: (e: IIndustry) => void;
@@ -33,6 +34,7 @@ const IndustryCategorySelect: React.FC<IIndustryCategorySelectProps> = ({
   optionTextSize = "xs",
   error,
   getCategoryLabel,
+  disabled,
   getIndustryLabel,
   control,
   industryControllerName,
@@ -85,6 +87,7 @@ const IndustryCategorySelect: React.FC<IIndustryCategorySelectProps> = ({
             onIndustryClick={handleIndustryChange}
             getCategoryLabel={getCategoryLabel}
             getIndustryLabel={getIndustryLabel}
+            disabled={disabled}
             onCategoryClick={handleCategoryChange}
           />
           {selectedIndustry && (

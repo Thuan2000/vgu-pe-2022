@@ -20,6 +20,7 @@ export interface IICSListProps {
   industries: IIndustry[];
   categories: ICategory[];
   optionTextSize: FontSize;
+  disabled?: boolean;
   getCategoryLabel: (e: ICategory) => string;
   getIndustryLabel: (e: IIndustry) => string;
   onIndustryChange?: (e: IIndustry) => void;
@@ -30,6 +31,7 @@ const ICSList: React.FC<IICSListProps> = ({
   industryControllerName,
   categoryControllerName,
   control,
+  disabled,
   selectedIndustry,
   selectedCategory,
   industries,
@@ -67,6 +69,7 @@ const ICSList: React.FC<IICSListProps> = ({
             <ICSListWrapper className={`!p-0 border-r`}>
               <SearchInput
                 withSearchIcon={false}
+                disabled={disabled}
                 className="sm:w-full rounded-none border-r-0 border-l-0 border-t-0"
                 onChange={(e) => setSearchValue(e.target.value)}
               />
@@ -82,6 +85,7 @@ const ICSList: React.FC<IICSListProps> = ({
                     hasChildren
                     label={getIndustryLabel(industry)}
                     onClick={() => {
+                      if (disabled) return;
                       onChange(industry);
                       if (onIndustryChange) onIndustryChange(industry);
                       onIndustryClick(industry);
@@ -116,6 +120,7 @@ const ICSList: React.FC<IICSListProps> = ({
                     isActive={isActive}
                     label={getCategoryLabel(category)}
                     onClick={() => {
+                      if (disabled) return;
                       onChange(category);
                       if (onCategoryChange) onCategoryChange(category);
                       onCategoryClick(category);

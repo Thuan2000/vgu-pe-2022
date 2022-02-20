@@ -47,6 +47,7 @@ export interface IDocumentUploaderProps {
   dropZonePlaceholder?: ReactSVGElement;
   inputStyle?: React.CSSProperties;
   thumbOnInput?: boolean;
+  disabled?: boolean;
   inputClassName?: string;
   aspectRatio?: number;
 }
@@ -66,6 +67,7 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     dropZonePlaceholder: DropZonePlaceholder,
     numberQueue,
     inputFileType,
+    disabled,
     onChange,
     value: files = [],
     maxFiles = 10,
@@ -196,6 +198,9 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     fireErrorModal(code);
   }
 
+  const isDisabled =
+    disabled || loading || (!!maxFiles && files?.length >= maxFiles);
+
   return (
     <>
       {label && (
@@ -254,7 +259,7 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
         >
           <input
             {...getInputProps({
-              disabled: loading || (!!maxFiles && files?.length >= maxFiles),
+              disabled: isDisabled,
             })}
           />
           {thumbOnInput && files?.length > 0 && (
@@ -286,7 +291,7 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
             className="mt-3 text-xs px-6"
             type="button"
             color="secondary-1"
-            disabled={loading || (!!maxFiles && files?.length >= maxFiles)}
+            disabled={isDisabled}
             {...getRootProps()}
           >
             <UploadIcon className="mr-5" /> {t("upload-file")}

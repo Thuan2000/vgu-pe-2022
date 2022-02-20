@@ -308,6 +308,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
       industryId: (general.industry as any).id,
       location: general.location.name,
       businessTypeIds,
+      isFullInfo: true,
       settings: {
         certificates: [...oldCertificates, ...uploadedCertificates],
         gallery: [...oldGallery, ...uploadedGallery],

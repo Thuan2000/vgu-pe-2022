@@ -142,5 +142,10 @@
   "messages-label": "Messages",
   "unread-singular-label": "Unread",
   "unread-plural-label": "Unreads",
-  "open-chat-text": "Open Chat"
+  "open-chat-text": "Open Chat",
+  "please-edit-company-to-access-title": "Please Edit Company To Access",
+  "please-edit-company-to-access-text": "You need to fill in company detail to post any type of record",
+  "to-edit-company-page-title": "Redirect To Edit Company",
+  "to-edit-company-page-text": "Are you sure want to redirect to edit company page?",
+  "to-edit-company-page-button-label": "Redirect"
 }

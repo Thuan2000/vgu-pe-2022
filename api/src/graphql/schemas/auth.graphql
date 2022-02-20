@@ -51,4 +51,5 @@ extend type Mutation {
 	): FirstTimePasswordResetResponse!
 	forgetPasswordSendEmail(email: String!): Response!
 	forgetResetPassword(input: ForgetResetPasswordInput): Response!
+	isCompanyFullInfo(id: Int!): Boolean!
 }

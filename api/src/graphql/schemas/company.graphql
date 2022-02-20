@@ -98,6 +98,7 @@ type Company {
 	owner: User
 	approver: User
 	description: String
+	isFullInfo: Boolean
 	licenseFiles: [File!]
 	settings: CompanySettings
 	industryId: Int
@@ -138,6 +139,7 @@ input UpdateCompanyDetailsInput {
 	industryId: Int!
 	businessTypeIds: [Int]!
 	establishmentDate: Date!
+	isFullInfo: Boolean!
 	settings: CompanySettingsInput
 }
 
