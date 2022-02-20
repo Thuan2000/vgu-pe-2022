@@ -75,7 +75,7 @@
   "please-change-your-password-message": "Please change your password to login in the first time, make sure to have a strong password",
   "cancel-button-label": "Cancel",
   "setPassword-button-label": "Set Password",
-  "passwordChange-isNotExist-title": "User Is Not Exist",
+  "passwordChange-isNotExist-title": "User Does Not Exist",
   "passwordChange-isNotExist-message": "Please check your email or please sign up first and wait for approval",
   "passwordChange-isNotExist-confirm-button-title": "To Signup Page",
   "passwordChange-isNotExist-deny-button-title": "Change Email",

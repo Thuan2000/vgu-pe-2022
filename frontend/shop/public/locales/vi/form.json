@@ -86,5 +86,8 @@
   "backToLogin-label": "Quay về trang Đăng Nhập/Đăng Ký",
   "enter-email-title": "Nhập Email",
   "enter-email-message": "Vui lòng nhập email của tài khoản bạn muốn đặt lại mật khẩu",
-  "forgetPasswordEmail-button-label": "Gửi link khôi phục"
+  "forgetPasswordEmail-button-label": "Gửi link khôi phục",
+  "passwordChange-isNotExist-title": "Tài khoản không tồn tại",
+  "passwordChange-isNotExist-message": "Vui lòng kiểm tra email hoặc đăng ký tài khoản và chờ được kiểm duyệt",
+  "email-not-valid-error": "Email chưa hợp lệ"
 }
