@@ -175,5 +175,11 @@
   "industry-title": "Industry",
   "no-discussion-for-product": "No Discussion",
   "product-discussion-title": "Product Discussions",
-  "product-question-text": "Questions"
+  "product-question-text": "Questions",
+  "forgotPassword-email-input-step-title": "Input Email",
+  "forgotPassword-email-input-step-subtitle": "Input your user email to get the token to reset your forgotten password",
+  "forgotPassword-checkEmail-input-step-title": "Check Email",
+  "forgotPassword-checkEmail-input-step-subtitle": "Check your email for the link to reset your password",
+  "forgotPassword-password-input-step-title": "Input New Password",
+  "forgotPassword-password-input-step-subtitle": "Input your new strong password and login with it"
 }

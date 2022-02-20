@@ -83,5 +83,8 @@
 	"password-resetted-success-title": "Đổi mật khẩu thành công",
 	"password-resetted-success-message": "Hãy đăng nhập bằng mật khẩu mới",
 	"password-resetted-success-button": "OK",
-  "backToLogin-label": "Quay về trang Đăng Nhập/Đăng Ký"
+  "backToLogin-label": "Quay về trang Đăng Nhập/Đăng Ký",
+  "enter-email-title": "Nhập Email",
+  "enter-email-message": "Vui lòng nhập email của tài khoản bạn muốn đặt lại mật khẩu",
+  "forgetPasswordEmail-button-label": "Gửi link khôi phục"
 }

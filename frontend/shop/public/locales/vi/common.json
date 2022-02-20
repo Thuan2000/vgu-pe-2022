@@ -162,5 +162,11 @@
   "login-button-label": "Đăng nhập",
   "homepage-title": "Nền tảng kết nối kinh doanh hàng đầu Việt Nam",
   "homepage-subtitle": "Chúng tôi giúp bạn kết nối nguồn cung và cầu để xúc tiến thương mại. Hãy tham gia cùng 10.000+ doanh nghiệp hôm nay!",
-  "homepage-title-button": "Đăng Ký"
+  "homepage-title-button": "Đăng Ký",
+  "forgotPassword-email-input-step-title": "Nhập email tài khoản",
+  "forgotPassword-email-input-step-subtitle": "Vui lòng nhập email của tài khoản bạn muốn khôi phục mật khẩu",
+  "forgotPassword-checkEmail-input-step-title": "Kiểm tra mail",
+  "forgotPassword-checkEmail-input-step-subtitle": "Nhấn vào link được gửi vào mail để bắt đầu khôi phục mật khẩu",
+  "forgotPassword-password-input-step-title": "Nhập mật khẩu mới",
+  "forgotPassword-password-input-step-subtitle": "Đặt lại mật khẩu mới."
 }
