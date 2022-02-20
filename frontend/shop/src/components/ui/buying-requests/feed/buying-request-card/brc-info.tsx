@@ -5,12 +5,14 @@ import SaveIcon from "@assets/icons/save-icon";
 import VerifiedIcon from "@assets/icons/verified-icon";
 import ChatNowButton from "@components/ui/chat-now-button";
 import Link from "@components/ui/link";
+import RecordCardName from "@components/ui/record-card-name";
 import Button from "@components/ui/storybook/button";
 import Chip from "@components/ui/storybook/chip";
 import Typography from "@components/ui/storybook/typography";
 import { getCategory, getCategoryByLabel } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
 import { IBuyingRequest } from "@graphql/types.graphql";
+import { isLogin } from "@utils/auth-utils";
 import { viDateFormat, trimText, getCompanyId } from "@utils/functions";
 import { getChatUrl, ROUTES } from "@utils/routes";
 import React from "react";
@@ -39,18 +41,11 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
       {/* NAME */}
       <div className="space-y-1">
         <div className="flex items-center justify-between">
-          <Link
-            className="border-b border-transparent hover:border-black new-tab-link"
-            target="_blank"
+          <RecordCardName
             href={`${ROUTES.TENDERS}/${br.slug}`}
-            rel="noreferrer"
-          >
-            <Typography
-              text={`${t("requestNamePrefix-value")} - ${name}`}
-              element="h3"
-              size="sm"
-            />
-          </Link>
+            title={`${t("requestNamePrefix-value")} - ${name}`}
+            isShouldLogin
+          />
           <div className="flex items-center space-x-2">
             <div className="flex items-center space-x-1">
               <Typography
@@ -74,7 +69,7 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
           <Chip
             size="xs"
             icon={LocationIcon}
-            text={location}
+            text={!isLogin() ? "Please Login" : location}
             background="secondary-1"
           />
           <Chip
@@ -95,7 +90,11 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
         {/* Company */}
         <div className="flex items-center space-x-3">
           <div className={`flex items-center space-x-2`}>
-            <Typography size="xs" variant="smallTitle" text={company?.name!} />
+            <Typography
+              size="xs"
+              variant="smallTitle"
+              text={!isLogin() ? "Please Login" : company?.name!}
+            />
             <VerifiedIcon />
           </div>
 
@@ -122,7 +121,7 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
           text={trimText(br.description || "", 140) || t("NO_DESCRIPTION")}
         />
 
-        <ChatNowButton company={company!} />
+        <ChatNowButton company={company!} isOnTender />
       </div>
       {/* Buy Info */}
       {/* <div className="flex items-center space-x-2">

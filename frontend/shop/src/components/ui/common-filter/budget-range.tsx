@@ -7,6 +7,7 @@ import Form from "@components/form";
 import Button from "@components/ui/storybook/button";
 import Typography from "@components/ui/storybook/typography";
 import XIcon from "@assets/icons/x-icon";
+import { isLogin } from "@utils/auth-utils";
 
 enum EInputFocus {
   MIN,
@@ -98,6 +99,7 @@ const BudgetRange: React.FC = ({ ...props }) => {
               placeholder={t("min")}
               suffix={` ${t("budget-sign")}`}
               value={minBudget || ""}
+              disabled={!isLogin()}
               allowNegative={false}
               onChange={setMinBudget}
               onFocus={() => setFocusingInput(EInputFocus.MIN)}
@@ -122,6 +124,7 @@ const BudgetRange: React.FC = ({ ...props }) => {
             value={maxBudget || ""}
             onChange={setMaxBudget}
             placeholder={t("max")}
+            disabled={!isLogin()}
             allowNegative={false}
             suffix={` ${t("budget-sign")}`}
             onFocus={() => setFocusingInput(EInputFocus.MAX)}
@@ -129,6 +132,7 @@ const BudgetRange: React.FC = ({ ...props }) => {
         </div>
         <Button
           onClick={handleSubmit}
+          disabled={!isLogin()}
           size="small"
           type="submit"
           className="w-full !bg-secondary-1 mt-1"

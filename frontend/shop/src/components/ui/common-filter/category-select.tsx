@@ -11,6 +11,7 @@ import {
   ICategory,
 } from "@datas/categories";
 import { getIndustryByLabel } from "@datas/industries";
+import { isLogin } from "@utils/auth-utils";
 
 interface ICategorySelectProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -54,7 +55,7 @@ const CategorySelect: React.FC<ICategorySelectProps> = ({
         options={getIndustryCategories(industryId as number) || []}
         name="categoryFilter"
         isClearable
-        isDisabled={!industry}
+        isDisabled={!industry || !isLogin}
         value={!industry ? null : getCategoryByLabel(categoryFilter) || null}
         getInitialValue={(opt: ICategory) => opt.label === categoryFilter}
         placeholder={t("categoryFilter-placeholder")}

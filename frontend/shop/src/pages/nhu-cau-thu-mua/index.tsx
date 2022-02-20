@@ -1,5 +1,6 @@
 import PageLayout from "@components/layouts/page-layout";
 import PageWithFilterWrapper from "@components/layouts/page-with-filter-wrapper";
+import NeedToLoginWrapper from "@components/need-to-login-wrapper";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import BuyingRequestsList from "@components/ui/buying-requests/feed/buying-requests-list";
 import SideFilter from "@components/ui/common-filter/side-filter";
@@ -42,15 +43,17 @@ const BuyingRequests: React.FC = () => {
           content="DSConnect.VN | The best B2B Ecommerce in Vietnam provide a fast supply demain chain to fit your need"
         />
       </Head>
-      <PageWithFilterWrapper>
-        <div className="sticky top-36 h-fit-content">
-          <SideFilter />
-        </div>
-        <div className={`w-full bg-white`}>
-          <AppliedFilter />
-          <BuyingRequestsList />
-        </div>
-      </PageWithFilterWrapper>
+      <NeedToLoginWrapper>
+        <PageWithFilterWrapper>
+          <div className="sticky top-36 h-fit-content">
+            <SideFilter />
+          </div>
+          <div className={`w-full bg-white`}>
+            <AppliedFilter />
+            <BuyingRequestsList />
+          </div>
+        </PageWithFilterWrapper>
+      </NeedToLoginWrapper>
     </>
   );
 };

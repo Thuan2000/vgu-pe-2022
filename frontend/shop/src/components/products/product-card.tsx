@@ -15,6 +15,7 @@ import Link from "../ui/link";
 import MessageIcon from "@assets/icons/message-icon";
 import Button from "@components/ui/storybook/button";
 import ChatNowButton from "@components/ui/chat-now-button";
+import RecordCardName from "@components/ui/record-card-name";
 
 interface IProductCardProps {
   product: IProductListItem;
@@ -60,14 +61,7 @@ const ProductCard: React.FC<IProductCardProps> = ({ product }) => {
 
       <div className={`p-4 font-semibold`}>
         <div>
-          <Link
-            href={`${ROUTES.PRODUCTS}/${slug}`}
-            target={"_blank"}
-            rel="noreferrer"
-            className="border-b border-transparent hover:border-black new-tab-link flex w-fit-content pr-2"
-          >
-            <Typography className={`truncate`} text={name} size="sm" />
-          </Link>
+          <RecordCardName href={`${ROUTES.PRODUCTS}/${slug}`} title={name} />
           <Typography
             text={company?.name}
             color="primary"

@@ -28,14 +28,13 @@ import vi from "javascript-time-ago/locale/vi.json";
 import { useEffect, useRef } from "react";
 import { rfw } from "@utils/functions";
 
-TimeAgo.addDefaultLocale(vi);
+TimeAgo.addLocale(vi);
 TimeAgo.addLocale(en);
 
 const NoLayout: React.FC = ({ children }) => <>{children}</>;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { t } = useTranslation();
-  const isFiredToast = useRef(false);
   const apolloClient = useApollo(pageProps);
   const Layout = (Component as any).Layout ?? NoLayout;
 

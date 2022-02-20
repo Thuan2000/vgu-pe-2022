@@ -8,6 +8,7 @@ import {
 import Select from "@components/ui/storybook/inputs/select";
 import FilterLabel from "./filter-label";
 import { useRouter } from "next/dist/client/router";
+import { isLogin } from "@utils/auth-utils";
 
 const LocationSearch: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...props
@@ -41,6 +42,7 @@ const LocationSearch: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         options={vietnamProvinces}
         name="locationFilter"
         isClearable
+        isDisabled={!isLogin()}
         getInitialValue={(opt) => opt.name === locationFilter}
         value={getVietnamCityByName(locationFilter) || null}
         onChange={handleChange}

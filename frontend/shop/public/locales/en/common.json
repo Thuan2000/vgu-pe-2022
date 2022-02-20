@@ -168,5 +168,12 @@
   "benefit-title": "Benefits",
   "benefit-subtitle": "With the criterion of all for businesses, SDconnect team has been dedicated to creating a B2B e-commerce platform with practical value with the motto of spending 1 dong capital, enjoying 4 dong.",
   "partner-title": "Partners",
-  "login-button-label": "Login"
+  "login-button-label": "Login",
+  "please-select-variant-correctly": "Choose Variant",
+  "estimated-price": "Price Estimation",
+  "location-title": "Location",
+  "industry-title": "Industry",
+  "no-discussion-for-product": "No Discussion",
+  "product-discussion-title": "Product Discussions",
+  "product-question-text": "Questions"
 }

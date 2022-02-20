@@ -44,4 +44,4 @@ export const NO_POST_ROUTES = [
   ROUTES.SUPPORT,
 ];
 
-export const MUST_AUTHENTICATED_ROUTES = [ROUTES.TENDERS];
+export const MUST_AUTHENTICATED_ROUTES = [];

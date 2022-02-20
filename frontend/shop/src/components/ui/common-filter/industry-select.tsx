@@ -9,6 +9,7 @@ import {
   IIndustry,
   industriesData,
 } from "@datas/industries";
+import { isLogin } from "@utils/auth-utils";
 
 interface IIndustrySelectProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -45,6 +46,7 @@ const IndustrySelect: React.FC<IIndustrySelectProps> = ({
         options={industriesData || []}
         name="industryFilter"
         isClearable
+        isDisabled={!isLogin()}
         value={getIndustryByLabel(industryFilter) || null}
         getInitialValue={(opt: IIndustry) => opt.label === industryFilter}
         placeholder={t("industryFilter-placeholder")}
