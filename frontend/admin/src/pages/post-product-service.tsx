@@ -48,13 +48,13 @@ const PostProduct: React.FC<IPostProductProps> = () => {
         <title>{generateHeadTitle(t(PAGE_TITLE.POST_PRODUCT))}</title>
         <meta name="description" content={PAGE_DESCRIPTION.POST_PRODUCT} />
       </Head>
-      <HaveToFullInfoWrapper>
-        <PostPageWrapper
-          navs={target === "product" ? postProductNavs : postServiceNavs}
-        >
-          <PostProductServiceForm />
-        </PostPageWrapper>
-      </HaveToFullInfoWrapper>
+      {/* <HaveToFullInfoWrapper> */}
+      <PostPageWrapper
+        navs={target === "product" ? postProductNavs : postServiceNavs}
+      >
+        <PostProductServiceForm />
+      </PostPageWrapper>
+      {/* </HaveToFullInfoWrapper> */}
     </div>
   );
 };

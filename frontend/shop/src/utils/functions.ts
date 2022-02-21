@@ -4,7 +4,9 @@ import base64 from "base-64";
 import Cookies from "js-cookie";
 import { findIndex, groupBy, isEqual } from "lodash";
 import { TFunction } from "next-i18next";
+import { SweetAlertOptions, SweetAlertResult } from "sweetalert2";
 import { getMeData } from "./auth-utils";
+import { COLORS } from "./colors";
 import {
   BILLION,
   BILLION_COUNT,
@@ -318,4 +320,30 @@ export function rfw(v: string) {
   if (v.substring(0, 1) !== "/") return v;
 
   return v.substring(1);
+}
+
+// The cancel button and confirm button is swapped
+export async function firePleaseLoginSwal(
+  t: TFunction,
+  Swal: any,
+  texts?: {
+    confirmButton?: string;
+    denyButton?: string;
+  }
+): Promise<SweetAlertResult> {
+  const data = await Swal.fire({
+    icon: "info",
+    title: t("common:you-need-to-login-to-access-title"),
+    text: t("common:you-need-to-login-to-access-text"),
+    denyButtonText: texts?.denyButton || t("common:to-login-page-button-label"),
+    denyButtonColor: COLORS.PRIMARY.DEFAULT,
+    showDenyButton: true,
+    focusDeny: true,
+    confirmButtonText:
+      texts?.confirmButton || t("common:to-home-page-button-label"),
+    confirmButtonColor: COLORS.GRAY[100],
+    allowOutsideClick: false,
+  } as SweetAlertOptions);
+
+  return data;
 }

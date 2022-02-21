@@ -5,13 +5,18 @@ import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import BuyingRequestsList from "@components/ui/buying-requests/feed/buying-requests-list";
 import SideFilter from "@components/ui/common-filter/side-filter";
 import AppliedFilter from "@components/ui/navbar/applied-filter";
+import { isLogin } from "@utils/auth-utils";
+import { firePleaseLoginSwal } from "@utils/functions";
+import { ROUTES } from "@utils/routes";
 import { generateHeadTitle } from "@utils/seo-utils";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import useIsPhone from "src/hooks/isPhone.hook";
+import Swal from "sweetalert2";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -31,6 +36,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const BuyingRequests: React.FC = () => {
   const isPhone = useIsPhone();
   const { t } = useTranslation();
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fireSwal() {
+      const isLoggedIn = isLogin();
+      if (isLoggedIn) return;
+
+      // The cancel button and confirm button is swapped
+      const { isDenied } = await firePleaseLoginSwal(t, Swal);
+      if (isDenied) router.replace(ROUTES.LOGIN);
+      else router.replace(ROUTES.HOMEPAGE);
+    }
+
+    fireSwal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isPhone) return <PleaseOpenOnLaptop />;
 
@@ -43,17 +64,17 @@ const BuyingRequests: React.FC = () => {
           content="DSConnect.VN | The best B2B Ecommerce in Vietnam provide a fast supply demain chain to fit your need"
         />
       </Head>
-      <NeedToLoginWrapper>
-        <PageWithFilterWrapper>
-          <div className="sticky top-36 h-fit-content">
-            <SideFilter />
-          </div>
-          <div className={`w-full bg-white`}>
-            <AppliedFilter />
-            <BuyingRequestsList />
-          </div>
-        </PageWithFilterWrapper>
-      </NeedToLoginWrapper>
+      {/* <NeedToLoginWrapper> */}
+      <PageWithFilterWrapper>
+        <div className="sticky top-36 h-fit-content">
+          <SideFilter />
+        </div>
+        <div className={`w-full bg-white`}>
+          <AppliedFilter />
+          <BuyingRequestsList />
+        </div>
+      </PageWithFilterWrapper>
+      {/* </NeedToLoginWrapper> */}
     </>
   );
 };

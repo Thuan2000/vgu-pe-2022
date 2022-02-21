@@ -7,7 +7,7 @@ import {
 import { IBuyingRequest, ICompany } from "@graphql/types.graphql";
 import { APOLLO_STATE_NAME, initApollo } from "@utils/apollo";
 import { GetStaticPaths, GetStaticProps } from "next";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
@@ -17,6 +17,10 @@ import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import NeedToLoginWrapper from "@components/need-to-login-wrapper";
 import { isLogin } from "@utils/auth-utils";
 import TenderDetail from "@components/ui/buying-requests/tender-detail";
+import { firePleaseLoginSwal } from "@utils/functions";
+import { ROUTES } from "@utils/routes";
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 interface IBuyingRequestDetailProps {
   br: IBuyingRequest;
@@ -82,6 +86,24 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
   const { t } = useTranslation("common");
 
   const isPhone = useIsPhone();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const isLoggedIn = isLogin();
+    async function fireSwal() {
+      if (isLoggedIn) return;
+
+      // The cancel button and confirm button is swapped
+      const { isDenied } = await firePleaseLoginSwal(t, Swal);
+      if (isDenied) router.replace(ROUTES.LOGIN);
+      else router.replace(ROUTES.HOMEPAGE);
+    }
+
+    fireSwal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (isPhone) return <PleaseOpenOnLaptop />;
 
   return (
