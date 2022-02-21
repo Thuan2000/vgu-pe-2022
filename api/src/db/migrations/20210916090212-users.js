@@ -18,6 +18,9 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
+			isSeedData: {
+				type: Sequelize.BOOLEAN
+			},
 			firstLogin: {
 				type: Sequelize.BOOLEAN,
 				defaultValue: true,
