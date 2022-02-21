@@ -12,6 +12,9 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
+			isSeedData: {
+				type: Sequelize.BOOLEAN
+			},
 			name: {
 				type: Sequelize.STRING,
 				allowNull: false,
