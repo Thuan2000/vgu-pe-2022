@@ -183,5 +183,7 @@
   "you-need-to-login-to-access-text": "Vui lòng đăng nhập vào tài khoản doanh nghiệp của bạn để xem trang",
   "stay-button-label": "Không, cảm ơn",
   "yourRequest-message-label": "NCTM của bạn",
-  "year-establishment-label": "năm kinh nghiệm"
+  "year-establishment-label": "năm kinh nghiệm",
+  "month-establishment-label": "tháng",
+  "no-certificates": "Chưa đăng chứng chỉ"
 }
