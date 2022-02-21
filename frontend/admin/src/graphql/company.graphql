@@ -13,3 +13,7 @@ query Company($slug: String!) {
     ...CompanyFragment
   }
 }
+
+mutation IsCompanyFullInfo($id: Int!) {
+  isCompanyFullInfo(id: $id)
+}

@@ -1,12 +1,14 @@
 import { TPageName } from "@components/ui/search";
 import { IVariation, IVariationOption } from "@graphql/types.graphql";
 import base64 from "base-64";
+import Cookies from "js-cookie";
 import { findIndex, groupBy, isEqual } from "lodash";
 import { TFunction } from "next-i18next";
 import { getMeData } from "./auth-utils";
 import {
   BILLION,
   BILLION_COUNT,
+  IS_FULL_INFO_COMP,
   MILLION,
   MILLION_COUNT,
   MOBILE_SIZE,
@@ -129,7 +131,10 @@ export function getCompanyId() {
 }
 export function getIsCompanyFullInfo() {
   const { company } = getMeData();
-  return company?.isFullInfo;
+  const isFullInfoCookie = JSON.parse(
+    Cookies.get(IS_FULL_INFO_COMP) || "false"
+  );
+  return company?.isFullInfo || isFullInfoCookie;
 }
 export function getCompanyName() {
   const { company } = getMeData();

@@ -48,6 +48,7 @@ export const PERMISSIONS = "permissions";
 export const AUTH_CRED = "AUTH_CRED";
 export const REDIRECT_AFTER_LOGIN = "REDIRECT_AFTER_LOGIN";
 export const LOGGED_IN_USER = "LOGGED_IN_USER";
+export const IS_FULL_INFO_COMP = "IS_FULL_INFO_COMP";
 
 // Settings
 export const MOBILE_SIZE = { min: 300, max: 480 };

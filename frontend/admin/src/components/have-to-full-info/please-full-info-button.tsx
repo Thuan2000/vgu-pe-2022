@@ -41,7 +41,7 @@ const PleaseEditCompanyButton: React.FC<IPleaseEditCompanyButtonProps> = ({
         color="primary"
         disabled={disabled}
       >
-        {!!text ? text : t("please-edit-company-button-text")}
+        {!!text ? text : t("please-edit-company-button-label")}
       </Button>
     </>
   );

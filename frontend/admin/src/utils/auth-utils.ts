@@ -4,10 +4,12 @@ import {
   AUTH_CRED,
   CHAT_AUTH_COOKIE_NAME,
   CHAT_KEEP_LOGIN_COOKIE_NAME,
+  IS_FULL_INFO_COMP,
   LOGGED_IN_USER,
   REDIRECT_AFTER_LOGIN,
 } from "./constants";
 import { ICompany, IMeInfoResponse, IUser } from "@graphql/types.graphql";
+import Cookies from "js-cookie";
 
 const cookieDomain = { domain: `.${process.env.NEXT_PUBLIC_DOMAIN}` };
 
@@ -104,7 +106,11 @@ export function getMeDataFromCookie(cookie: any): {
   return JSON.parse(cookie?.LOGGED_IN_USER || "");
 }
 
-function getDomain() {
+export function setIsCompanyFullInfoCookie(value: boolean) {
+  Cookies.set(IS_FULL_INFO_COMP, JSON.stringify(`${value}`), getDomain());
+}
+
+export function getDomain() {
   return !isDevelopment ? { ...cookieDomain } : {};
 }
 

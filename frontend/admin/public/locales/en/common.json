@@ -147,5 +147,6 @@
   "please-edit-company-to-access-text": "You need to fill in company detail to post any type of record",
   "to-edit-company-page-title": "Redirect To Edit Company",
   "to-edit-company-page-text": "Are you sure want to redirect to edit company page?",
-  "to-edit-company-page-button-label": "Redirect"
+  "to-edit-company-page-button-label": "Redirect",
+  "please-edit-company-button-label": "Edit Company Detail"
 }

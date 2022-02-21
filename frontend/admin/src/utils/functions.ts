@@ -6,10 +6,12 @@ import { getMeData } from "./auth-utils";
 import {
   BILLION,
   BILLION_COUNT,
+  IS_FULL_INFO_COMP,
   MILLION,
   MILLION_COUNT,
   MOBILE_SIZE,
 } from "./constants";
+import Cookies from "js-cookie";
 
 export function checkIsMobile(width: number) {
   return width >= MOBILE_SIZE.min && width <= MOBILE_SIZE.max;
@@ -107,7 +109,10 @@ export function getCompanyId() {
 
 export function getIsCompanyFullInfo() {
   const { company } = getMeData();
-  return company?.isFullInfo;
+  const isFullInfoCookie = JSON.parse(
+    Cookies.get(IS_FULL_INFO_COMP) || "false"
+  );
+  return company?.isFullInfo || isFullInfoCookie;
 }
 
 export function getCompanySlug() {
