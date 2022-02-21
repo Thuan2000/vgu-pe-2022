@@ -155,7 +155,7 @@
   "approve-company-message": "Bạn có chắc sẽ xác thực doanh nghiệp này?",
   "companyApproved-success-message": "Xác thực thành công",
   "no-unapproved-companies": "Không có doanh nghiệp chưa được xác thực",
-
+  "invert-OPEN-request": "Đóng NCTM",
   "no-products-yet-text-info": "Chưa có sản phẩm",
   "create-product-button-label": "Thêm sản phẩm",
   "deleteProject-button-label": "Xóa dự án",
@@ -163,5 +163,7 @@
   "products-label": "sản phẩm",
   "messages-label": "Hộp thư",
   "no-new-message-text": "0 tin nhắn mới",
-  "open-chat-text": "Mở chat"
+  "open-chat-text": "Mở chat",
+  "no-projects-yet-text-info": "Chưa tạo dự án",
+  "posted-button-label": "Đến NCTM"
 }

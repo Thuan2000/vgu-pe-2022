@@ -148,5 +148,7 @@
   "to-edit-company-page-title": "Redirect To Edit Company",
   "to-edit-company-page-text": "Are you sure want to redirect to edit company page?",
   "to-edit-company-page-button-label": "Redirect",
-  "please-edit-company-button-label": "Edit Company Detail"
+  "please-edit-company-button-label": "Edit Company Detail",
+  "no-projects-yet-text-info": "No Projects",
+  "posted-button-label": "To posted requests"
 }
