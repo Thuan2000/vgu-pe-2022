@@ -25,6 +25,7 @@ const PleaseLoginButton: React.FC<IPleaseLoginButtonProps> = ({
       title: t("to-login-page-title"),
       text: "to-login-page-text",
       confirmButtonText: "to-login-page-button-label",
+      showCloseButton: true,
     });
 
     if (isConfirmed) {

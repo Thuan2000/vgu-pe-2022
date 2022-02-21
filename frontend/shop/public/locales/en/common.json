@@ -184,5 +184,10 @@
   "forgotPassword-password-input-step-subtitle": "Input your new strong password and login with it",
   "please-title": "Please",
   "please-edit-your-company-title": "To use all functions of SDConnect Platform please edit your company profile first",
-  "edit-company-button-label": "Edit My Company Info"
+  "edit-company-button-label": "Edit My Company Info",
+  "to-login-page-button-label": "To Login Page",
+  "to-home-page-button-label": "To Homepage",
+  "you-need-to-login-to-access-title": "Please Login To Access Feature",
+  "you-need-to-login-to-access-text": "You need to login to access this feature",
+  "stay-button-label": "Keep Discover"
 }
