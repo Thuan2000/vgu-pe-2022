@@ -1,9 +1,9 @@
 import BuyingRequestController from "@controllers/buying-request.controller";
-import BuyingRequest from "@models/BuyingRequest";
 
 const buyingRequestController = new BuyingRequestController();
 
 export const Query = {
+	refreshBrStatus: BuyingRequestController.refreshStatus,
 	buyingRequestBySlug: (_, { slug }) =>
 		buyingRequestController.getBuyingRequestBySlug(slug),
 	buyingRequest: (_, { id }) => buyingRequestController.getBuyingRequest(id),
@@ -16,6 +16,9 @@ export const Query = {
 };
 
 export const Mutation = {
+	closeBuyingRequest: (_, { id }) => BuyingRequestController.closeBr(id),
+	openBuyingRequest: (_, { id, endDate }) =>
+		BuyingRequestController.openBr(id, endDate),
 	getBrsNameSuggestion: (_, { name, limit }) =>
 		buyingRequestController.getSuggestion(name, limit),
 	createBuyingRequest: (_, { input }) =>

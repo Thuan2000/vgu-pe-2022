@@ -7,10 +7,12 @@ type UserCompany {
 	id: Int!
 	name: String!
 	slug: String!
+	chatId: String
 	location: String
 	industryId: Int
 	businessTypeIds: [Int!]
 	establishmentDate: Date
+	isFullInfo: Boolean!
 }
 
 type User {
@@ -29,7 +31,13 @@ type CheckEmailResponse {
 	isExist: Boolean!
 }
 
+type IsVerifiedResponse {
+	isExist: Boolean!
+	isApproved: Boolean!
+	isFirstLogin: Boolean!
+}
+
 extend type Mutation {
 	checkEmail(email: String!): CheckEmailResponse!
-	isVerifiedUser(email: String!): Boolean!
+	isVerifiedUser(email: String!): IsVerifiedResponse!
 }

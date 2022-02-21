@@ -1,4 +1,9 @@
-import { ApolloClient, from, InMemoryCache, NormalizedCacheObject } from "@apollo/client";
+import {
+  ApolloClient,
+  from,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
 import { onError } from "@apollo/client/link/error";
@@ -26,7 +31,7 @@ function createApolloClient() {
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach((error) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     }
   });
@@ -67,7 +72,6 @@ function createApolloClient() {
             companies: {
               keyArgs: false,
               merge(existing, incoming) {
-                console.log(existing?.companies);
                 return existing
                   ? {
                       ...incoming,

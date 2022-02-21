@@ -14,7 +14,7 @@ input PartnerInput {
 }
 
 extend type Mutation {
-	createPartner(input: [PartnerInput!]): Response!
+	createPartner(input: PartnerInput!): Response!
 	deletePartner(id: Int!): Response!
 	updatePartner(id: Int!, input: PartnerInput!): Response!
 }

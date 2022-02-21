@@ -1,13 +1,17 @@
+import base64 from "base-64";
+import { IDUFile } from "@components/ui/storybook/document-uploader/document-uploader";
+import { IFile } from "@graphql/types.graphql";
 import { isEmpty } from "lodash";
-import Swal from "sweetalert2";
 import { getMeData } from "./auth-utils";
 import {
   BILLION,
   BILLION_COUNT,
+  IS_FULL_INFO_COMP,
   MILLION,
   MILLION_COUNT,
   MOBILE_SIZE,
 } from "./constants";
+import Cookies from "js-cookie";
 
 export function checkIsMobile(width: number) {
   return width >= MOBILE_SIZE.min && width <= MOBILE_SIZE.max;
@@ -100,17 +104,34 @@ export function getActivePath(pathname: string) {
 
 export function getCompanyId() {
   const { company } = getMeData();
-
   return company?.id as number;
 }
+
+export function getIsCompanyFullInfo() {
+  const { company } = getMeData();
+  const isFullInfoCookie = JSON.parse(
+    Cookies.get(IS_FULL_INFO_COMP) || "false"
+  );
+  return company?.isFullInfo || isFullInfoCookie;
+}
+
+export function getCompanySlug() {
+  const { company } = getMeData();
+  return company?.slug as string;
+}
+
+export function getCompanyChatId() {
+  const { company } = getMeData();
+  return company?.chatId;
+}
+
 export function getCompanyName() {
   const { company } = getMeData();
-
   return company?.name;
 }
+
 export function getLoggedInUser() {
   const { user } = getMeData();
-
   return user;
 }
 
@@ -212,4 +233,69 @@ export function isEmptyObject(obj: any) {
   });
 
   return empty;
+}
+
+export function normalizeString(str: string) {
+  if (!str) return "";
+  return str.normalize("NFD")?.replace(/[\u0300-\u036f]/g, "");
+}
+
+export async function getBlob(file: IFile) {
+  const d = await fetch(file.url);
+  const blob = await d.blob();
+  (blob as any).name = file.fileName;
+
+  return blob;
+}
+
+export async function generateBlobs(files?: IDUFile[]) {
+  if (!files || isEmpty(files)) return [];
+
+  const blobs = await Promise.all(
+    files.map(async (f) => {
+      const blob = await getBlob(f);
+      return blob;
+    })
+  );
+
+  return blobs;
+}
+
+export async function getUploadedFiles(uploadFiles: any, blobs: Blob[]) {
+  if (!uploadFiles || !blobs || isEmpty(blobs)) return [];
+
+  const { data } = await uploadFiles({
+    variables: {
+      input: {
+        files: blobs,
+        uploadsFileInputType: "image" as any, // IFileType,
+        companyName: getCompanyName()!,
+        fileAccessControl: "PUBLIC_READ" as any, // IFileAccessControl ,
+      },
+    },
+  });
+
+  const uploadedImages = removeTypenameFromArray(data?.uploadFiles);
+
+  return uploadedImages;
+}
+
+export function encodeString(text: string) {
+  const b64Encoded = base64.encode(text);
+
+  return b64Encoded;
+}
+
+export function generateChatPassword(password: string) {
+  const splitted = password.split("@");
+  const userName = `${splitted?.[0]}`;
+
+  return userName;
+}
+
+export function generateUsername(email: string) {
+  const splitted = email.split("@");
+  const userName = `${splitted?.[0]}`;
+
+  return userName;
 }

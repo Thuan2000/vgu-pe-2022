@@ -16,7 +16,7 @@ const ProfileAvatar = () => {
       <button className="border h-9 w-9 center-child rounded-md ml-4">
         <AvatarIcon />
       </button>
-      {showMenu && <ProfileMenu className="absolute right-0" />}
+      {showMenu && <ProfileMenu />}
     </div>
   );
 };

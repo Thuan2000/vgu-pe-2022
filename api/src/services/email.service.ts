@@ -18,40 +18,29 @@ interface IEmailVariable {
 }
 
 class EmailService {
-	private transporter: Transporter;
-	private templatesDir: string = path.join(__dirname, "html-templates");
+	private static transporter: Transporter = Nodemailer.createTransport({
+		SES: {
+			ses: new AWS.SES({
+				apiVersion: "2010-12-01",
+				region: "ap-southeast-1",
+				secretAccessKey: process.env.AWS_SECRET_KEY,
+				accessKeyId: process.env.AWS_ACCESS_KEY
+			}),
+			aws: AWS
+		}
+	});
 
-	constructor() {
-		this.initNodemailer();
-	}
-
-	private async initNodemailer() {
-		const tranportOptions: SMTPTransport.Options = {
-			host: process.env.SMTP_HOST,
-			port: parseInt(process.env.SMTP_PORT),
-			secure: !!process.env.SMTP_SECURE, // true for 465, false for other port as strings
-			auth: {
-				user: process.env.SMTP_USERNAME,
-				pass: process.env.SMTP_PASSWORD
-			}
-		};
-
-		const ses = new AWS.SES({
-			apiVersion: "2010-12-01",
-			region: "ap-southeast-1"
-		});
-
-		this.transporter = Nodemailer.createTransport({
-			SES: { ses, aws: AWS }
-		});
-	}
+	private static templatesDir: string = path.join(
+		__dirname,
+		"html-templates"
+	);
 
 	/**
 	 *
 	 * @param targets string | string[]
 	 * @param param1
 	 */
-	public async sendEmail(
+	public static async sendEmail(
 		targets: string[] | string,
 		{
 			name,
@@ -78,21 +67,22 @@ class EmailService {
 
 			const htmlWithVariables = htmlTemplate(templateVariables);
 
-			await this.transporter.sendMail({
+			const info = await this.transporter.sendMail({
 				from: process.env.SMTP_FROM,
 				to: targets,
 				subject,
 				html: htmlWithVariables
 			});
+			console.log(info);
 		} catch (err) {
-			console.log(err);
+			console.error("Email Error : ", err);
 		}
 	}
 
 	/**
 	 * This is used to read email template and return it
 	 */
-	private readEmailTemplate(templateName: string) {
+	private static readEmailTemplate(templateName: string) {
 		const htmlFile = fs.readFileSync(
 			path.join(this.templatesDir, templateName),
 			"utf-8"

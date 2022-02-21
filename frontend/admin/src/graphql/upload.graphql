@@ -6,3 +6,10 @@ mutation UploadFiles($input: UploadFilesInput!) {
     fileType
   }
 }
+
+mutation DeleteFile($location: String!) {
+  deleteFile(location: $location) {
+    message
+    success
+  }
+}

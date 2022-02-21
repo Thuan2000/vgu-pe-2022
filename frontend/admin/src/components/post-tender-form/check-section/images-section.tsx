@@ -55,7 +55,9 @@ const ImageThumb: React.FC<ImageThumbProps> = ({
       `}
     >
       {withCover && <CoverImage text={`+${imagesLength - 3}`} />}
-      <Image src={imgSrc} width={50} height={75} alt={t("image-preview-alt")} />
+      <div className="relative h-[60px] w-[60px]">
+        <Image src={imgSrc} layout="fill" alt={t("image-preview-alt")} />
+      </div>
     </div>
   );
 };

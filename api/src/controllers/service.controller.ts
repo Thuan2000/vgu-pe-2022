@@ -20,7 +20,10 @@ class ServiceController {
 	static async getService(slug) {
 		const service = await Service.findOne({
 			where: { slug },
-			include: [{ model: Company, attributes: ["id", "name"] }, Tag]
+			include: [
+				{ model: Company, attributes: ["id", "name", "chatId"] },
+				Tag
+			]
 		});
 
 		return service;
@@ -67,28 +70,31 @@ class ServiceController {
 	}
 
 	static async createService(input: ICreateServiceInput) {
+		const {
+			tags,
+			newTags,
+			companyId,
+			createdById,
+			companyName,
+			chatId,
+			...rest
+		} = input;
+
 		try {
-			const {
-				tags,
-				newTags,
-				companyId,
-				createdById,
-				companyName,
-				...serviceInput
-			} = input;
 			const isExist = await Service.findOne({
 				where: {
 					companyId,
-					name: serviceInput.name
+					name: rest.name
 				}
 			});
 
 			if (!!isExist) return errorResponse("SERVICE_EXIST");
+			console.log(rest.location);
 
 			const newService = await Service.create({
 				companyId,
 				createdById,
-				...serviceInput
+				...rest
 			});
 			newService.setDataValue(
 				"slug",

@@ -39,7 +39,6 @@ class AuthController {
 			);
 			user.setDataValue("firstLogin", false);
 			await user.save();
-			console.log(user.toJSON());
 			return successResponse();
 		} catch (err) {
 			console.error(err);
@@ -62,7 +61,9 @@ class AuthController {
 							"industryId",
 							"businessTypeIds",
 							"approved",
-							"establishmentDate"
+							"establishmentDate",
+							"isFullInfo",
+							"chatId"
 							// [
 							// 	Sequelize.fn(
 							// 		"JSON_VALUE",
@@ -109,8 +110,6 @@ class AuthController {
 
 	async forgetPasswordSendEmail(email: string) {
 		try {
-			const emailService = new EmailService();
-
 			const user: any = await User.findOne({
 				where: { email },
 				attributes: ["firstName", "lastName"]
@@ -126,7 +125,7 @@ class AuthController {
 				email
 			);
 
-			emailService.sendEmail(email, {
+			EmailService.sendEmail(email, {
 				name: `${user?.toJSON().firstName} ${user?.toJSON().lastName}`,
 				template: EEMailTemplates.FORGOT_PASSWORD,
 				subject: EMAIL_SUBJECTS.FORGOT_PASSWORD,

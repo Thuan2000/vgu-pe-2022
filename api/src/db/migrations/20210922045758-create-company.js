@@ -23,6 +23,12 @@ module.exports = {
 			chatId: {
 				type: Sequelize.STRING
 			},
+			ownerId: {
+				type: Sequelize.INTEGER
+			},
+			approverId: {
+				type: Sequelize.INTEGER
+			},
 			licenseNumber: {
 				type: Sequelize.STRING,
 				allowNull: false

@@ -1,7 +1,7 @@
+import HaveToFullInfoWrapper from "@components/have-to-full-info/have-to-full-info-wrapper";
 import PageLayout from "@components/layouts/page-layout";
 import PostPageWrapper from "@components/post-page-wrapper";
 import PostTenderForm from "@components/post-tender-form";
-import PostNavigation from "@components/ui/post-navigation";
 import { generateHeadTitle, generatePageDescription } from "@utils/seo-utils";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -52,13 +52,11 @@ const PostRequest = () => {
       </Head>
       {/* Navbar here */}
 
+      {/* <HaveToFullInfoWrapper> */}
       <PostPageWrapper navs={postRequestNavs}>
-        {/* <p className="text-sm md:text-md text-gray-400 mb-7 pt-4">
-          {t("post-request-paragraph")}
-        </p> */}
-
         <PostTenderForm />
       </PostPageWrapper>
+      {/* </HaveToFullInfoWrapper> */}
     </>
   );
 };

@@ -53,7 +53,8 @@
 	"ask-question-button-label": "Đặt câu hỏi",
 	"agreement-is-shouldBeChecked-error": "Bạn phải đồng ý với các điều khoản",
 	"question-submitted-success-message": "Câu hỏi đã được ghi nhận",
- 
+  "please-change-your-password-title":"Thay đổi mật khẩu",
+	"please-change-your-password-message": "Vui lòng thay đổi mật khẩu khi bạn đăng nhập lần đầu, hãy chọn mật khẩu mạnh",
 	"biddingTitle": "Bid To Buying Request",
 	"bidDeliveryDate-label": "Ngày giao hàng",
 	"bidDeliveryDate-placeholder": "11-11-2021",
@@ -72,5 +73,21 @@
 	"error-COMPANY_NOT_APPROVED-title": "Tài khoản chưa xác thực",
 	"error-COMPANY_NOT_APPROVED-message": "Chúng tôi sẽ xác thực trong thời gian sớm nhất",
 	"error-COMPANY_NOT_APPROVED-button": "Close Modal",
-	"welcomeBack-message": "Chào mừng trở lại"
+	"welcomeBack-message": "Chào mừng trở lại",
+	"search-nhu-cau-thu-mua-input-placeholder": "v.d: mua giấy nhựa, v.v...",
+  "search-san-pham-input-placeholder": "v.d: thép chống gỉ, v.v...",
+  "search-dich-vu-input-placeholder": "v.d: thiết kế web, sự kiện, v.v...",
+  "search-nha-cung-cap-input-placeholder": "v.d: Công ty ABC, v.v...",
+  "cancel-button-label": "Huỷ",
+	"setPassword-button-label": "Đổi mật khẩu",
+	"password-resetted-success-title": "Đổi mật khẩu thành công",
+	"password-resetted-success-message": "Hãy đăng nhập bằng mật khẩu mới",
+	"password-resetted-success-button": "OK",
+  "backToLogin-label": "Quay về trang Đăng Nhập/Đăng Ký",
+  "enter-email-title": "Nhập Email",
+  "enter-email-message": "Vui lòng nhập email của tài khoản bạn muốn đặt lại mật khẩu",
+  "forgetPasswordEmail-button-label": "Gửi link khôi phục",
+  "passwordChange-isNotExist-title": "Tài khoản không tồn tại",
+  "passwordChange-isNotExist-message": "Vui lòng kiểm tra email hoặc đăng ký tài khoản và chờ được kiểm duyệt",
+  "email-not-valid-error": "Email chưa hợp lệ"
 }

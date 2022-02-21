@@ -17,7 +17,7 @@ const BrcImage: React.FC<IBrcImageProps> = ({
 
   return (
     <div
-      className={`relative w-[210px] h-[140px] flex-shrink-0 ${className}`}
+      className={`relative w-[180px] h-[150px] flex-shrink-0 overflow-hidden ${className}`}
       {...props}
     >
       <Image

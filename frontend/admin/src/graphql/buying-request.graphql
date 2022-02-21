@@ -58,3 +58,17 @@ mutation DeleteBuyingRequests($ids: [Int!]!) {
     message
   }
 }
+
+mutation CloseBuyingRequest($id: Int!) {
+  closeBuyingRequest(id: $id) {
+    success
+    message
+  }
+}
+
+mutation OpenBuyingRequest($id: Int!, $endDate: Date!) {
+  openBuyingRequest(id: $id, endDate: $endDate) {
+    success
+    message
+  }
+}

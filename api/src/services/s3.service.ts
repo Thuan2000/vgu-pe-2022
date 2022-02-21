@@ -12,14 +12,14 @@ interface S3UploadParams {
 }
 
 class S3 {
-	private s3: AWS.S3 = new AWS.S3({ apiVersion: "2006-03-01" });
-	private bucket: string = process.env.S3_BUCKET_NAME;
+	private static s3: AWS.S3 = new AWS.S3({ apiVersion: "2006-03-01" });
+	private static bucket: string = process.env.S3_BUCKET_NAME;
 
-	private processAccessControl(ac: IFileAccessControl) {
+	private static processAccessControl(ac: IFileAccessControl) {
 		return ac.replace(/\_/g, "-").toLowerCase();
 	}
 
-	public uploadFile({
+	public static async uploadFile({
 		companyName,
 		type,
 		fileName,
@@ -35,14 +35,14 @@ class S3 {
 				ContentType: contentType,
 				ACL: this.processAccessControl(fileAccessControl)
 			};
-
-			return this.s3.upload(uploadParams).promise();
+			const resp = await this.s3.upload(uploadParams).promise();
+			return resp;
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
-	public uploadDocuments({
+	public static async uploadDocuments({
 		companyName,
 		fileName,
 		type,
@@ -58,23 +58,38 @@ class S3 {
 				ContentType: contentType,
 				ACL: this.processAccessControl(fileAccessControl)
 			};
+			const resp = await this.s3.upload(uploadParams).promise();
 
-			return this.s3.upload(uploadParams).promise();
+			return resp;
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
-	public getFile(fileName: string) {
+	public static async getFile(fileName: string) {
 		try {
 			const getObjectParams = {
 				Bucket: this.bucket,
 				Key: fileName
 			};
+			const resp = await this.s3.getObject(getObjectParams).promise();
 
-			return this.s3.getObject(getObjectParams).promise();
+			return resp;
 		} catch (error) {
 			console.log(error);
+		}
+	}
+
+	public static async deleteFile(location: string) {
+		try {
+			return await this.s3
+				.deleteObject({
+					Bucket: this.bucket,
+					Key: location
+				})
+				.promise();
+		} catch (error) {
+			console.error(error);
 		}
 	}
 }

@@ -31,6 +31,7 @@
   "drop-zone": "Drop files here to upload",
   "license-label": "License",
   "upload-file": "Upload File",
+  "companyEdited-success-message": "Info Updated Succesfully",
   "license-subLabel": "Please attach business registration legality, so we can verify your account",
   "signup": "Sign Up",
   "already-have-account": "Already have an account?",
@@ -389,6 +390,8 @@
 
   "confirm-button": "Upload",
   "crop-undone": "Please crop all images",
-  "ok-button": "Confirm"  
+  "ok-button": "Confirm",
+  "COMPANY_OWNER": "Company Owner",
 
+  "location-text": "Location"
 }

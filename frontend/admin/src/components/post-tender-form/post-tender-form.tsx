@@ -26,15 +26,22 @@ import { ROUTES } from "@utils/routes";
 import {
   IBuyingRequest,
   ICreateBuyingRequestInput,
+  IFileAccessControl,
+  IFileType,
   IResponse,
   IUpdateBuyingRequestInput,
 } from "@graphql/types.graphql";
 import {
+  generateBlobs,
+  getBlob,
+  getCompanyChatId,
   getCompanyId,
   getCompanyName,
   getLoggedInUser,
+  removeTypenameFromArray,
 } from "@utils/functions";
 import { getDefaultValue } from "./ptf-utils";
+import { useUploadFilesMutation } from "@graphql/upload.graphql";
 
 interface IPostTenderFormParams {
   initValue?: IBuyingRequest;
@@ -62,6 +69,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
       onCompleted: ({ createBuyingRequest }) =>
         handleCreateUpdateMutationComplete(createBuyingRequest),
     });
+  const [uploadFiles, { loading: uploadingFiles }] = useUploadFilesMutation();
 
   const [updateBr, { loading: updating }] = useUpdateBuyingRequestMutation({
     onCompleted: ({ updateBuyingRequest }) =>
@@ -131,11 +139,33 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
+  async function getUploadedFiles(blobs: Blob[]) {
+    const { data } = await uploadFiles({
+      variables: {
+        input: {
+          files: blobs,
+          uploadsFileInputType: "image" as any, // IFileType,
+          companyName: getCompanyName()!,
+          fileAccessControl: "PUBLIC_READ" as any, // IFileAccessControl ,
+        },
+      },
+    });
+
+    const uploadedImages = removeTypenameFromArray(data?.uploadFiles);
+
+    return uploadedImages;
+  }
+
   async function onSubmit(inputValues: PostRequestFormValue) {
     const { general, details } = inputValues;
 
     // All of this variable need tobe processed
-    const { industry, category, ...generalRest } = general;
+    const {
+      industry,
+      category,
+      gallery: mixedGallery,
+      ...generalRest
+    } = general;
     // @NOTE :: This should be changed later when programmer has nothing to do :V
     const { allowedCompany, endDate, sourceType, location, ...detailsRest } =
       details;
@@ -144,7 +174,14 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     const industryId = parseInt(industry.id + "");
     const categoryId = parseInt(category.id + "");
 
-    const coverImage = generalRest?.gallery?.[0];
+    const oldGallery = mixedGallery.filter((img) => !img.isNew) || [];
+    const gallery = mixedGallery.flatMap((img) => (img.isNew ? img : [])) ?? [];
+
+    // Br Images
+    const blobGallery = await generateBlobs(gallery);
+    const uploadedImages = await getUploadedFiles(blobGallery);
+
+    const coverImage = oldGallery?.[0] || uploadedImages?.[0];
 
     const userId = getLoggedInUser()?.id;
     const values: any = {
@@ -154,6 +191,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
       categoryId,
       sourceTypeId: sourceType?.id,
       coverImage,
+      gallery: [...oldGallery, ...uploadedImages],
       ...(!!initValue ? { updatedById: userId! } : { createdById: userId! }),
       ...allowedCompany,
       ...generalRest,
@@ -176,6 +214,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
             ...values,
             companyId: getCompanyId()!,
             companyName: getCompanyName()!,
+            chatId: getCompanyChatId()!,
           },
         },
       });
@@ -258,7 +297,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
             onClick={handleNextClick}
             size="small"
             className="md:w-1/2.5"
-            loading={creating || updating}
+            loading={creating || updating || uploadingFiles}
             autoFocus={formPosition === 3}
           >
             {t(

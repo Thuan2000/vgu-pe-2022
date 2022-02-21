@@ -18,6 +18,7 @@ import { IBuyingRequest } from "@graphql/types.graphql";
 import Input from "@components/ui/storybook/inputs/input";
 import DocumentInput from "@components/ui/storybook/document-input";
 import IndustryCategorySelect from "@components/ui/storybook/inputs/industry-category-input/industry-category-select";
+import { getIsCompanyFullInfo } from "@utils/functions";
 registerLocale("vi", vi);
 setDefaultLocale("vi");
 
@@ -38,9 +39,11 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
   errors,
 }) => {
   const { t } = useTranslation("form");
+  const isCompanyFullInfo = getIsCompanyFullInfo();
   return (
     <div className="md:w-2/3 space-y-3 sm:mb-5">
       <Input
+        // disabled={!isCompanyFullInfo}
         numberQueue={1}
         value={getValues("general.name")}
         prefix={`${t("requestNamePrefix-value")} - `}
@@ -64,6 +67,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
       />
 
       <TextArea
+        // disabled={!isCompanyFullInfo}
         label={t("post-request-description-label")}
         // className="w-full"
         numberQueue={2}
@@ -71,10 +75,15 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         placeholder={t("post-request-description-placeholder")}
         error={t(errors?.general?.description?.message || "")}
         {...register("general.description")}
+        onChange={(e) => {
+          register("general.description").onChange(e);
+          trigger("general.description");
+        }}
       />
 
       <DocumentInput
         inputFileType="image"
+        // disabled={!isCompanyFullInfo}
         accept="image/*"
         note={t("post-request-gallery-note")}
         control={control}
@@ -82,10 +91,11 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         multiple
         numberQueue={3}
         label={t("post-request-gallery-label")}
-        error={errors?.general?.gallery?.message}
+        error={(errors?.general?.gallery as any)?.message}
       />
 
       <IndustryCategorySelect
+        // disabled={!isCompanyFullInfo}
         optionTextSize="xs"
         control={control}
         categoryControllerName="general.category"

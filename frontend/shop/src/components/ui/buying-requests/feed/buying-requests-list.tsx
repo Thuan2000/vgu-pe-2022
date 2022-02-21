@@ -17,9 +17,7 @@ function getOffset(page: number) {
   return page * BRS_LIMIT;
 }
 
-const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
-  ...props
-}) => {
+const BuyingRequestsList: React.FC = () => {
   const { query } = useRouter();
 
   const searchValue = query.name as string;
@@ -114,7 +112,7 @@ const BuyingRequestsList: React.FC<React.HTMLAttributes<HTMLInputElement>> = ({
   ]);
 
   return (
-    <div className="mt-5 w-full space-y-4">
+    <div className="w-full space-y-2">
       {brs &&
         brs.map((br) => {
           return (

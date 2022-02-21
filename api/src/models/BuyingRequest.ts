@@ -48,12 +48,10 @@ class BuyingRequest extends Model {
 		try {
 			const buyingRequests = await BuyingRequest.findAll({
 				include: [
-					Project,
 					{
 						model: Company,
 						attributes: ["id", "name", "chatId"]
-					},
-					{ model: User, as: "createdBy" }
+					}
 				]
 			});
 
@@ -148,7 +146,8 @@ BuyingRequest.init(
 		createdById: DataTypes.INTEGER,
 		updatedById: DataTypes.INTEGER,
 		lastOpened: DataTypes.DATE,
-		sourceTypeId: DataTypes.INTEGER
+		sourceTypeId: DataTypes.INTEGER,
+		isDeleted: DataTypes.BOOLEAN
 	},
 	{
 		tableName: "buying_requests",

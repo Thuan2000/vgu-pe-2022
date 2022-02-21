@@ -17,7 +17,7 @@
     "compile": "formatjs compile",
     "nodemon-css": "nodemon --watch src -e css --exec npm run build:css",
     "nodemon-jsx": "nodemon --watch src -e jsx --exec npm run build:dev",
-    "dev": "nodemon --watch src -e js,jsx,css --exec npm-run-all build:prod build:css"
+    "dev": "nodemon --watch src -e js,jsx,css --exec npm-run-all build:dev build:css"
   },
   "browserslist": "> 0.5%, not IE 11, not op_mini all, not and_uc >0",
   "files": [

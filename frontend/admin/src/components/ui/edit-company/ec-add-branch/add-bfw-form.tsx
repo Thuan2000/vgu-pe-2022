@@ -94,7 +94,7 @@ const AddBFWForm: React.FC<IAddBFWFormProps> = ({
 
   return (
     <div className="bg-white my-8 p-4 space-y-5 rounded-md sm:w-[550px]">
-      <Typography text={formTitle} variant="title" align="center" />
+      <Typography text={formTitle} size="sm" variant="title" align="center" />
 
       <div className="space-y-1">
         <Input
@@ -105,6 +105,7 @@ const AddBFWForm: React.FC<IAddBFWFormProps> = ({
             trigger("name");
           }}
           label={t("addBFW-name-input-label")}
+          labelFontSize="sm"
           placeholder={t("addBFW-name-input-placeholder")}
           error={errors.name?.message}
           {...(!!initValue ? { value: initValue.name } : {})}
@@ -131,6 +132,7 @@ const AddBFWForm: React.FC<IAddBFWFormProps> = ({
         /> */}
       <SelectInput
         required
+        labelFontSize="sm"
         label={t("addBFW-location-input-label")}
         placeholder={t("addBFW-location-input-placeholder")}
         options={vietnamProvinces}
@@ -148,6 +150,7 @@ const AddBFWForm: React.FC<IAddBFWFormProps> = ({
 
       <Input
         required
+        labelFontSize="sm"
         {...register("address")}
         onChange={(e) => {
           register("address").onChange(e);

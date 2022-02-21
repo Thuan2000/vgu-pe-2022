@@ -1,19 +1,17 @@
 import React from "react";
 
 import { ICompaniesItem } from "@graphql/types.graphql";
-import VerifiedIcon from "@assets/icons/verified-icon";
 import Chip from "@components/ui/storybook/chip";
 import Typography from "@components/ui/storybook/typography";
 import { ROUTES } from "@utils/routes";
 import { useTranslation } from "next-i18next";
 import Link from "@components/ui/link";
-import MessageIcon from "@assets/icons/message-icon";
-import Button from "@components/ui/storybook/button";
 import { trimText, getCompanyId, getCompanyExperience } from "@utils/functions";
 import { siteSettings } from "@settings/site.settings";
 import Image from "next/image";
 import { getBusinessType } from "@datas/businessTypes";
 import LocationIcon from "@assets/icons/location-icon";
+import ChatNowButton from "@components/ui/chat-now-button";
 
 interface ICompanyCardProps {
   company: ICompaniesItem;
@@ -29,10 +27,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
     establishmentDate,
     settings,
     location,
-    productAmount,
-    responseTime,
-    industryId,
-    categoryId,
+    chatId,
   } = company;
 
   const { t } = useTranslation();
@@ -130,20 +125,10 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
             </div>
           </div>
 
-          {company.id !== getCompanyId() ? (
-            <Button
-              variant="custom"
-              size="small"
-              className="border text-gray-300 border-gray-300 "
-            >
-              <MessageIcon className="mr-3" />
-              {t("chatNow-button-label")}
-            </Button>
-          ) : (
-            <Button disabled size="small">
-              {t("yourCompany-button-label")}
-            </Button>
-          )}
+          <ChatNowButton
+            ownStuffMessage={t("yourCompany-message-label")}
+            company={company as any}
+          />
         </div>
       </div>
     </div>

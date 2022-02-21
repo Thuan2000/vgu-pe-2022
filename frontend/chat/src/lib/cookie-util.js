@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 export const AUTH_TOKEN_NAME = "auth-token";
 
-export default class LocalStorageUtil {
+export default class CookieUtil {
   // Replace old object with the new one.
   static setObject(key, value) {
     Cookies.set(key, JSON.stringify(value));

@@ -15,6 +15,7 @@ import {
   postServiceNavs,
 } from "@components/ui/post-product-service/pps-contstants";
 import { useRouter } from "next/dist/client/router";
+import HaveToFullInfoWrapper from "@components/have-to-full-info/have-to-full-info-wrapper";
 
 interface IPostProductProps {}
 // interface IPostProductProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -47,11 +48,13 @@ const PostProduct: React.FC<IPostProductProps> = () => {
         <title>{generateHeadTitle(t(PAGE_TITLE.POST_PRODUCT))}</title>
         <meta name="description" content={PAGE_DESCRIPTION.POST_PRODUCT} />
       </Head>
+      {/* <HaveToFullInfoWrapper> */}
       <PostPageWrapper
         navs={target === "product" ? postProductNavs : postServiceNavs}
       >
         <PostProductServiceForm />
       </PostPageWrapper>
+      {/* </HaveToFullInfoWrapper> */}
     </div>
   );
 };

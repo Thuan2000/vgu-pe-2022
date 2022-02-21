@@ -75,6 +75,7 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
         }}
         numberQueue={1}
         label={t("postService-description-input-label")}
+        placeholder={t("postService-description-input-placeholder")}
         error={t(errors.details?.description?.message || "")}
       />
 

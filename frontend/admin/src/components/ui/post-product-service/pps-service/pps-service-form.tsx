@@ -27,13 +27,15 @@ import {
   CreateServiceMutation,
   UpdateServiceMutation,
 } from "@graphql/service.graphql";
-import { IService } from "@graphql/types.graphql";
+import { ICreateServiceInput, IService } from "@graphql/types.graphql";
 import {
   addIdAndRemoveTypenameFromArray,
-  generateUUID,
+  generateBlobs,
+  getCompanyChatId,
   getCompanyId,
   getCompanyName,
   getLoggedInUser,
+  getUploadedFiles,
   removeTypenameFromArray,
 } from "@utils/functions";
 import { useTranslation } from "react-i18next";
@@ -48,6 +50,7 @@ import {
 import { getCategory } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
 import { getLocationByName } from "@utils/vietnam-cities";
+import { useUploadFilesMutation } from "@graphql/upload.graphql";
 
 interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {
   initValue?: IService;
@@ -130,6 +133,8 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
   const [createService, { loading }] = useCreateServiceMutation({
     onCompleted: handleCreatedService,
   });
+
+  const [uploadFiles, { loading: uploadingFiles }] = useUploadFilesMutation();
 
   const [updateService, { loading: updating }] = useUpdateServiceMutation({
     onCompleted: handleUpdatedService,
@@ -273,7 +278,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
     return { formatedPackages, minPrice, maxPrice };
   }
 
-  function onSubmit(values: IPostServiceFormValues) {
+  async function onSubmit(values: IPostServiceFormValues) {
     const { attachment, category: categorySection, details, pricing } = values;
 
     const { industry, category, name } = categorySection;
@@ -290,39 +295,68 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       answer: rf.answer,
     }));
     const location = locationRaw.name;
+
     const newTags: ITagInput[] = [];
     const tags: string[] = rawTags.map(({ isNewRecord, id, ...tag }: any) => {
       if (isNewRecord) newTags.push(tag);
       return tag.name;
     });
 
-    const { images, ...attachmentRest } = attachment;
+    const {
+      images: mixedImages,
+      certificates: mixedCertificates,
+      videos: mixedVideos,
+    } = attachment;
 
-    const coverImage =
-      images && !!images.length ? attachment?.images[0] : undefined;
+    const oldImages = mixedImages.filter((img) => !img.isNew) || [];
+    const images = mixedImages.flatMap((img) => (img.isNew ? img : [])) || [];
+
+    const oldVideos = mixedVideos?.filter((vid) => !vid.isNew) || [];
+    const videos = mixedVideos?.flatMap((vid) => (vid.isNew ? vid : [])) || [];
+
+    const oldCertificates =
+      mixedCertificates?.filter((cer) => !cer.isNew) || [];
+    const certificates =
+      mixedCertificates?.flatMap((cer) => (cer.isNew ? cer : [])) || [];
+
+    const blobImages = await generateBlobs(images);
+    const blobCertificates = await generateBlobs(certificates);
+    const blobVideos = await generateBlobs(videos);
+
+    const uploadedImages = await getUploadedFiles(uploadFiles, blobImages);
+    const uploadedCertificates = await getUploadedFiles(
+      uploadFiles,
+      blobCertificates
+    );
+    const uploadedVideos = await getUploadedFiles(uploadFiles, blobVideos);
+    console.log(uploadedVideos);
+    const coverImage = oldImages?.[0] || uploadedImages?.[0];
+
     const { price, packages: rawPackages } = pricing;
     const packages = rawPackages?.packages;
     const rows = rawPackages?.rows;
 
     const { formatedPackages, minPrice, maxPrice } =
       processRawPackages(packages, rows) || {};
+
     const value: any = {
       name,
       description,
       industryId,
       categoryId,
-      location,
       tags,
       faqs,
       newTags,
-      images,
       packageRows: rows || null,
       coverImage,
-      ...attachmentRest,
+      images: [...oldImages, ...uploadedImages],
+      certificates: [...oldCertificates, ...uploadedCertificates],
+      videos: [...oldVideos, ...uploadedVideos],
       packages: formatedPackages || null,
       minPrice: minPrice || null,
       maxPrice: maxPrice || null,
       price: price || null,
+      location,
     };
 
     if (!!initValue) {
@@ -332,9 +366,10 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
         variables: {
           input: {
             ...value,
-            companyId: getCompanyId(),
-            companyName: getCompanyName() as string,
-            createdById: getLoggedInUser()?.id as any,
+            companyId: getCompanyId()!,
+            companyName: getCompanyName()!,
+            chatId: getCompanyChatId()!,
+            createdById: getLoggedInUser()?.id!,
           },
         },
       });
@@ -388,7 +423,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
           )}
         </div>
         <PPSServiceFooterButton
-          loading={loading || updating}
+          loading={loading || updating || uploadingFiles}
           onNextClick={handleNextClick}
           onBackClick={handleBackClick}
           formPosition={formPosition}

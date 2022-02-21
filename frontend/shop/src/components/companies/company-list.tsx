@@ -72,8 +72,6 @@ const CompanyList: React.FC<ICompanyListProps> = ({}) => {
   }
 
   useEffect(() => {
-    console.log(getServiceFetchInput());
-
     function reFetch() {
       refetch(getServiceFetchInput());
     }

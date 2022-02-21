@@ -1,11 +1,16 @@
+import { TPageName } from "@components/ui/search";
 import { IVariation, IVariationOption } from "@graphql/types.graphql";
 import base64 from "base-64";
+import Cookies from "js-cookie";
 import { findIndex, groupBy, isEqual } from "lodash";
 import { TFunction } from "next-i18next";
+import { SweetAlertOptions, SweetAlertResult } from "sweetalert2";
 import { getMeData } from "./auth-utils";
+import { COLORS } from "./colors";
 import {
   BILLION,
   BILLION_COUNT,
+  IS_FULL_INFO_COMP,
   MILLION,
   MILLION_COUNT,
   MOBILE_SIZE,
@@ -118,23 +123,28 @@ export function getLoginCompanySlug() {
   return company?.slug as string;
 }
 
+export function getCompanyChatId() {
+  const { company } = getMeData();
+  return company?.chatId || null;
+}
 export function getCompanyId() {
   const { company } = getMeData();
-
   return company?.id as number;
+}
+export function getIsCompanyFullInfo() {
+  const { company } = getMeData();
+  const isFullInfoCookie = JSON.parse(
+    Cookies.get(IS_FULL_INFO_COMP) || "false"
+  );
+  return company?.isFullInfo || isFullInfoCookie;
 }
 export function getCompanyName() {
   const { company } = getMeData();
-
   return company?.name;
 }
 export function getLoggedInUser() {
   const { user } = getMeData();
-
   return user;
-}
-export function loggedInUser() {
-  const { user } = getMeData();
 }
 
 export function isString(value: any) {
@@ -300,4 +310,40 @@ export function getIsValidEmail(email: string) {
     .match(
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
+}
+
+/**
+ * Removed Forward Slash
+ * return removed forward slash of a string
+ */
+export function rfw(v: string) {
+  if (v.substring(0, 1) !== "/") return v;
+
+  return v.substring(1);
+}
+
+// The cancel button and confirm button is swapped
+export async function firePleaseLoginSwal(
+  t: TFunction,
+  Swal: any,
+  texts?: {
+    confirmButton?: string;
+    denyButton?: string;
+  }
+): Promise<SweetAlertResult> {
+  const data = await Swal.fire({
+    icon: "info",
+    title: t("common:you-need-to-login-to-access-title"),
+    text: t("common:you-need-to-login-to-access-text"),
+    denyButtonText: texts?.denyButton || t("common:to-login-page-button-label"),
+    denyButtonColor: COLORS.PRIMARY.DEFAULT,
+    showDenyButton: true,
+    focusDeny: true,
+    confirmButtonText:
+      texts?.confirmButton || t("common:to-home-page-button-label"),
+    confirmButtonColor: COLORS.GRAY[100],
+    allowOutsideClick: false,
+  } as SweetAlertOptions);
+
+  return data;
 }

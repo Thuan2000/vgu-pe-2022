@@ -1,4 +1,4 @@
-import React, { ReactSVGElement, useEffect, useRef, useState } from "react";
+import React, { ReactSVGElement, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDropzone, FileRejection } from "react-dropzone";
 
@@ -8,18 +8,24 @@ import Swal from "sweetalert2";
 import { COLORS } from "@utils/colors";
 import InputLabel from "../inputs/input-label";
 import ValidationError from "../validation-error";
-import { useUploadFilesMutation } from "@graphql/upload.graphql";
-import { generateUUID, getCompanyName } from "@utils/functions";
+import {
+  useDeleteFileMutation,
+  useUploadFilesMutation,
+} from "@graphql/upload.graphql";
+import { generateUUID } from "@utils/functions";
 import { IFile, IFileAccessControl, IFileType } from "@graphql/types.graphql";
 import DUThumb from "./du-thumb";
 import Image from "next/image";
 import Loader from "../loader/loader";
 import { useModal } from "src/contexts/modal.context";
-import ImageCropper, { CroppedImage, CroppedImageUrls } from "./image-cropper";
-import { create } from "yup/lib/number";
+import ImageCropper, { CroppedImageUrls } from "./image-cropper";
 
 export interface IFileWithTypename extends IFile {
   __typename?: string;
+}
+
+export interface IDUFile extends IFile {
+  isNew: boolean;
 }
 
 export interface IDocumentUploaderProps {
@@ -41,7 +47,9 @@ export interface IDocumentUploaderProps {
   dropZonePlaceholder?: ReactSVGElement;
   inputStyle?: React.CSSProperties;
   thumbOnInput?: boolean;
+  disabled?: boolean;
   inputClassName?: string;
+  aspectRatio?: number;
 }
 
 const DocumentUploader = (props: IDocumentUploaderProps) => {
@@ -59,18 +67,19 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     dropZonePlaceholder: DropZonePlaceholder,
     numberQueue,
     inputFileType,
+    disabled,
     onChange,
     value: files = [],
     maxFiles = 10,
     accessControl = "PUBLIC_READ",
     inputClassName,
+    aspectRatio,
   } = props;
   if (!accept) throw "PLEASE_SET_THE_ACCEPT_CORRECTLY";
-
   const { t } = useTranslation("form");
   const [loadingThumbs, setLoadingThumbs] = useState<string[]>([]);
   const [needToEditedFiles, setNeedToEditedFiles] = useState<File[]>([]);
-
+  const [deleteFile, isDeletingFile] = useDeleteFileMutation();
   const { openModal, closeModal } = useModal();
   const { getRootProps, getInputProps } = useDropzone({
     accept,
@@ -83,25 +92,27 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     onCompleted: () => setLoadingThumbs([]),
   });
 
-  async function getBlob(url: string) {
-    const d = await fetch(url);
-    const blob = await d.blob();
-    return blob;
-  }
-
   useEffect(() => {
     if (!needToEditedFiles.length) return;
 
-    const srcs = needToEditedFiles.map((file) => {
+    const srcs: IDUFile[] = needToEditedFiles.map((file) => {
       const url = URL.createObjectURL(file);
-      return url;
+      return {
+        fileName: file.name,
+        fileType: file.type,
+        url,
+        location: url,
+        isNew: true,
+      };
     });
 
     openModal(
       (
         <ImageCropper
+          aspectRatio={aspectRatio}
           onFinish={handleFinishCropping}
-          src_id={srcs}
+          fileSources={srcs}
+          onClose={closeModal}
         />
       ) as any,
       {
@@ -114,34 +125,11 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
   async function handleFinishCropping(croppedImgs: CroppedImageUrls) {
     setNeedToEditedFiles([]);
     closeModal();
-    // Refactor this codes later
-    setLoadingThumbs(new Array(croppedImgs.length).fill(""));
-    const croppedFiles = await Promise.all(
-      Object.keys(croppedImgs).map(async (k) => {
-        const blob = await getBlob(croppedImgs[k]);
-        return blob;
-      })
-    );
-    const { data } = await uploadFiles({
-      variables: {
-        input: {
-          companyName: getCompanyName() as string,
-          files: croppedFiles,
-          uploadsFileInputType: inputFileType as any,
-          fileAccessControl: accessControl as any,
-        },
-      },
-    });
-
-    const uploadedFiles = data?.uploadFiles;
-    const accFiles = uploadedFiles?.map(
-      ({ __typename, ...file }: IFileWithTypename) => file
-    );
     if (!onChange) return;
 
+    const accFiles = Object.keys(croppedImgs).map((k) => croppedImgs[k]);
     if (!!files?.length && multiple) onChange([...files, ...accFiles!]);
     else onChange(accFiles!);
-    // if (onChange) onChange([...files, ...croppedFiles]);
   }
 
   async function handleOnDrop(acceptedFiles: File[]) {
@@ -152,34 +140,39 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     if (inputFileType === "image") {
       setNeedToEditedFiles(acceptedFiles);
       return;
-    } else {
-      setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
-      const { data } = await uploadFiles({
-        variables: {
-          input: {
-            companyName: getCompanyName() as string,
-            files: acceptedFiles,
-            uploadsFileInputType: inputFileType as any,
-            fileAccessControl: accessControl as any,
-          },
-        },
-      });
-      const uploadedFiles = data?.uploadFiles;
-      const accFiles = uploadedFiles?.map(
-        ({ __typename, ...file }: IFileWithTypename) => file
-      );
-      if (!onChange) return;
-
-      if (!!files?.length && multiple) onChange([...files, ...accFiles!]);
-      else onChange(accFiles!);
     }
+
+    setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
+
+    const localFiles: IFile[] = acceptedFiles.map((f) => {
+      const url = URL.createObjectURL(f);
+      const file: IDUFile = {
+        fileName: f.name,
+        fileType: f.type,
+        url,
+        location: url,
+        isNew: true,
+      };
+
+      return file;
+    });
+
+    if (!onChange) return;
+
+    if (!!files?.length && multiple) onChange([...files, ...localFiles!]);
+    else onChange(localFiles!);
   }
 
   function handleDelete(index: number) {
-    // @ts-ignore
-    files?.splice(index, 1);
-
     if (!onChange) return;
+    // const location = files[index].location;
+    // if (!location.includes("blob")) {
+    //   deleteFile({
+    //     variables: { location },
+    //   });
+    // }
+
+    files?.splice(index, 1);
     onChange([...files]);
   }
 
@@ -205,6 +198,9 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
     fireErrorModal(code);
   }
 
+  const isDisabled =
+    disabled || loading || (!!maxFiles && files?.length >= maxFiles);
+
   return (
     <>
       {label && (
@@ -216,7 +212,11 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
         />
       )}
 
-      <div className={`select-none space-y-2 ${!!numberQueue && "ml-8"}`}>
+      <div
+        className={`select-none space-y-2 h-fit-content ${
+          !!numberQueue && "ml-8"
+        }`}
+      >
         {(!!files?.length || !!loadingThumbs.length) && (
           <div className="flex items-center flex-wrap mb-2">
             {!thumbOnInput &&
@@ -248,7 +248,8 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
         <div
           style={{ ...inputStyle }}
           {...getRootProps({
-            className: `${inputClassName} border-dashed border-2 h-24 flex-center rounded relative
+            className: `${inputClassName} h-24 border-dashed border-2 flex-center rounded relative overflow-hidden
+            ${files.length > 0 && thumbOnInput ? "border-0" : ""}
             ${
               loading || (!!maxFiles && files?.length >= maxFiles)
                 ? "cursor-not-allowed"
@@ -258,15 +259,18 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
         >
           <input
             {...getInputProps({
-              disabled: loading || (!!maxFiles && files?.length >= maxFiles),
+              disabled: isDisabled,
             })}
           />
           {thumbOnInput && files?.length > 0 && (
-            <div>{!loading && <Image src={files[0]?.url} layout="fill" />}</div>
+            <div className={`w-full h-full overflow-hidden relative`}>
+              {!loading && <Image src={files[0]?.url} layout="fill" />}
+            </div>
           )}
-          {thumbOnInput && loading ? (
+          {thumbOnInput && files.length <= 0 && loading && (
             <Loader simple className="w-10 h-10" />
-          ) : (
+          )}
+          {(!thumbOnInput || files.length <= 0) && !loading && (
             <p className="text-xs text-center">
               <span
                 className={`font-semibold ${
@@ -287,7 +291,7 @@ const DocumentUploader = (props: IDocumentUploaderProps) => {
             className="mt-3 text-xs px-6"
             type="button"
             color="secondary-1"
-            disabled={loading || (!!maxFiles && files?.length >= maxFiles)}
+            disabled={isDisabled}
             {...getRootProps()}
           >
             <UploadIcon className="mr-5" /> {t("upload-file")}

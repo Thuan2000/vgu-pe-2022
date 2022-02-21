@@ -37,4 +37,5 @@ input UploadFilesInput {
 
 extend type Mutation {
 	uploadFiles(input: UploadFilesInput!): [File!]!
+	deleteFile(location: String!): Response!
 }

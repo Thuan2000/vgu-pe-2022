@@ -6,6 +6,7 @@ fragment ProductFragment on Product {
   company {
     id
     name
+    chatId
   }
   coverImage {
     ...FileFragment

@@ -27,6 +27,7 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
   (
     {
       label,
+      labelFontSize,
       className,
       numberQueue,
       error,
@@ -83,6 +84,7 @@ export const Select = React.forwardRef<Ref, ISelectProps>(
           <InputLabel
             queueBackground={queueBackground}
             label={label}
+            labelFontSize={labelFontSize}
             numberQueue={numberQueue}
             note={note}
             required={required}

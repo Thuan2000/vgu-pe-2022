@@ -68,9 +68,9 @@
   "singularCompanyfactory-title": "Xưởng sản xuất",
   "pluralCompanyfactory-title": "Xưởng sản xuất",
   "singularCompanywarehouse-title": "Kho hàng",
-  "pluralCompanywarehouse-title": "Kho hàng",
+  "pluralCompanywarehouse-title": "kho hàng",
 
-  "noFactory-message": "Chưa có sản xuất",
+  "noFactory-message": "Chưa có nhà máy",
   "noBranch-message": "Chưa có nhánh",
   "noWarehouse-message": "Chưa có kho hàng",
   "edit-button-label": "Chỉnh sửa",
@@ -94,7 +94,6 @@
   "lets-start-text": "Bắt đầu",
   "company-subcription-label": "Gói đăng kí",
   "next-payment-date-label": "Ngày thanh toán tiếp theo",
-  "cancel-sub": "Hủy đăng kí",
   "what-can-we-help-you": "Chúng tôi có thể giúp gì cho bạn?",
   "lets-chat-text": "Nhắn tin ngay",
   "companyPage-nav-label": "Công ty",
@@ -138,7 +137,7 @@
   "editRequest-page-name": "Chỉnh sửa yêu cầu",
   "additional-nav-label": "Bổ sung",
   "will-available-soon-text": "Tính năng sẽ được cập nhật sớm nhất, vui lòng trở lại sau",
-  "companyEdited-success-message": "Thông tin doanh nghiệp đã được cập nhật thành công",
+  "companyEdited-success-message": "Thông tin đã cập nhật thành công",
   "companyEdited-error-message": "Thông tin doanh nghiệp chưa được cập nhật",
   "no-services-yet-text-info": "Doanh nghiệp của bạn chưa có dịch vụ",
   "confirm-button-label": "Xác nhận",
@@ -160,5 +159,6 @@
   "no-products-yet-text-info": "Chưa có sản phẩm",
   "create-product-button-label": "Thêm sản phẩm",
   "deleteProject-button-label": "Xóa dự án",
-  "create-project-title": "Tạo dự án"
+  "create-project-title": "Tạo dự án",
+  "products-label": "sản phẩm"
 }

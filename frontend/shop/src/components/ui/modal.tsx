@@ -16,7 +16,6 @@ const Modal: React.FC<IModalProps> = ({
   isPhoneFullScreenContent,
   ...props
 }) => {
-  console.log(closeOnClickOutside);
   useEffect(() => {
     function hideBodyOverflow() {
       document.body.style.overflowY = "hidden";

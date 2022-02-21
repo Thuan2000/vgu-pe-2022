@@ -22,6 +22,7 @@ export const Query = {
 };
 
 export const Mutation = {
+	isCompanyFullInfo: (_, { id }) => CompanyController.checkIsFullInfo(id),
 	getCompanyNameSuggestion: (_, { name, limit }) =>
 		CompanyController.getNameSuggestion(name, limit),
 	// @NOTES URGENT : Follow this
@@ -48,8 +49,6 @@ export const Mutation = {
 		}
 	) => {
 		// @NOTES URGENT : This is wrong flow need to refactor
-		const email = new EmailService();
-
 		const companyController = new CompanyController();
 		const userController = new UserController();
 		const role = EUserRole.COMPANY_OWNER;
@@ -84,7 +83,7 @@ export const Mutation = {
 
 		// TODO: create the password mechanism here:
 		// Send email to new user
-		email.sendEmail(owner?.email, {
+		EmailService.sendEmail(owner?.email, {
 			message: EMAIL_MESSAGES.REGISTERED,
 			subject: EMAIL_SUBJECTS.REGISTERED,
 			name: owner?.name,

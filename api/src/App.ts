@@ -13,6 +13,7 @@ import Database from "@services/database.service";
 import { getUserFromToken } from "@utils/functions";
 import AWSService from "@services/aws.services";
 import ChatService from "@services/chat.service";
+// import CronService from "@services/cron.service";
 
 class App {
 	private apolloServer;
@@ -22,8 +23,13 @@ class App {
 		this.initAWS();
 		this.initDB();
 		this.initChat();
+		// this.initCronScheduler();
 		// this.initializeMiddlewares();
 	}
+
+	// private initCronScheduler() {
+	// 	CronService.scheduleBrStatusCheck();
+	// }
 
 	private initChat() {
 		ChatService.connect();

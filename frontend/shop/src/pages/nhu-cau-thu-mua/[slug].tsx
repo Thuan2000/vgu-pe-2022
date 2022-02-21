@@ -7,25 +7,20 @@ import {
 import { IBuyingRequest, ICompany } from "@graphql/types.graphql";
 import { APOLLO_STATE_NAME, initApollo } from "@utils/apollo";
 import { GetStaticPaths, GetStaticProps } from "next";
-import React, { useState } from "react";
-import DetailImages from "@components/ui/detail-image-section";
-import Typography from "@components/ui/storybook/typography";
-import { getCompanyId, viDateFormat } from "@utils/functions";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import RecordSocialShareList from "@components/record-detail/record-social-share-list";
-import BRDName from "@components/buying-request-detail/brd-name";
-import BRDPrice from "@components/buying-request-detail/brd-price";
-import BRDDescription from "@components/buying-request-detail/brd-desc";
-import BRDDetail from "@components/buying-request-detail/brd-detail";
-import RecordCompanySummary from "@components/record-detail/record-company-summary";
-import BRDDiscussion from "@components/buying-request-detail/brd-discussion";
-import BRDAskQuestion from "@components/buying-request-detail/brd-ask-question";
 import Head from "next/head";
 import { generateHeadTitle } from "@utils/seo-utils";
-import BRDAlsoNeeded from "@components/buying-request-detail/brd-also-needed";
 import useIsPhone from "src/hooks/isPhone.hook";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
+import NeedToLoginWrapper from "@components/need-to-login-wrapper";
+import { isLogin } from "@utils/auth-utils";
+import TenderDetail from "@components/ui/buying-requests/tender-detail";
+import { firePleaseLoginSwal } from "@utils/functions";
+import { ROUTES } from "@utils/routes";
+import { useRouter } from "next/router";
+import Swal from "sweetalert2";
 
 interface IBuyingRequestDetailProps {
   br: IBuyingRequest;
@@ -89,82 +84,42 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
 const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
   const { t } = useTranslation("common");
-  const [reload, setReload] = useState(false);
 
   const isPhone = useIsPhone();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const isLoggedIn = isLogin();
+    async function fireSwal() {
+      if (isLoggedIn) return;
+
+      // The cancel button and confirm button is swapped
+      const { isDenied } = await firePleaseLoginSwal(t, Swal);
+      if (isDenied) router.replace(ROUTES.LOGIN);
+      else router.replace(ROUTES.HOMEPAGE);
+    }
+
+    fireSwal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (isPhone) return <PleaseOpenOnLaptop />;
 
-  function refetchDiscussions() {
-    setReload(!reload);
-  }
-
-  const isMyBr = br.company?.id === getCompanyId();
   return (
     <>
       <Head>
         <title>{generateHeadTitle(br.name)}</title>
         <meta name="description" content={br.description || ""} />
       </Head>
-      <div className="flex space-x-7 justify-between">
-        <div className="pb-10 w-full">
-          <div className="flex space-x-4">
-            {/* Left Section */}
-            <div>
-              <DetailImages
-                coverImage={br?.coverImage!}
-                images={br.gallery || []}
-              />
-              {/* <div className="fic space-x-4">
-                <Typography
-                  text={`${t("brd-share-label")}:`}
-                  variant="smallTitle"
-                />
-                <RecordSocialShareList />
-              </div> */}
-            </div>
-            {/* Right section */}
-            <div className="w-full">
-              <BRDName
-                name={`${t("requestNamePrefix-value")} - ${br.name}`}
-                companyName={br.company?.name!}
-                createdAt={viDateFormat(br.createdAt)}
-                status={br.status}
-              />
-              <BRDPrice
-                minBudget={br.minBudget}
-                maxBudget={br.maxBudget}
-                minOrder={br.minOrder}
-                unit={br.unit}
-                endDate={br.endDate}
-              />
-              <BRDDescription
-                projects={br.projects || []}
-                industryId={br.industryId}
-                categoryId={br.categoryId}
-                description={br.description || ""}
-                companyId={br.company?.id!}
-                chatId={br.company?.chatId!}
-              />
-            </div>
-          </div>
-          <div className="space-y-3 mt-4">
-            <BRDDetail br={br} />
-            <RecordCompanySummary company={br.company!} />
-            <BRDDiscussion
-              isMyBr={isMyBr}
-              reload={reload}
-              brId={parseInt(br.id)}
-            />
-            {/* {!isMyBr && ( */}
-            <BRDAskQuestion
-              refetchDiscussions={refetchDiscussions}
-              brId={parseInt(br.id)}
-            />
-            {/* )} */}
-          </div>
-        </div>
-        <BRDAlsoNeeded brReference={br} />
-      </div>
+
+      {/* {!isLogin() ? (
+        <NeedToLoginWrapper> */}
+      <TenderDetail br={br} />
+      {/* </NeedToLoginWrapper> */}
+      {/* ) : (
+        <TenderDetail br={br} />
+      )} */}
     </>
   );
 };

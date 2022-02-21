@@ -6,6 +6,7 @@ fragment CompanyFragment on Company {
   name
   slug
   licenseNumber
+  chatId
   description
   approved
   industryId

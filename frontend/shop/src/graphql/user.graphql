@@ -5,5 +5,9 @@ mutation CheckEmail($email: String!) {
 }
 
 mutation IsVerifiedUser($email: String!) {
-  isVerifiedUser(email: $email)
+  isVerifiedUser(email: $email) {
+    isExist
+    isApproved
+    isFirstLogin
+  }
 }

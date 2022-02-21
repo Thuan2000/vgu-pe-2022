@@ -7,6 +7,7 @@ import Form from "@components/form";
 import Button from "@components/ui/storybook/button";
 import Typography from "@components/ui/storybook/typography";
 import XIcon from "@assets/icons/x-icon";
+import { isLogin } from "@utils/auth-utils";
 
 enum EInputFocus {
   MIN,
@@ -23,6 +24,11 @@ const BudgetRange: React.FC = ({ ...props }) => {
   const [minBudget, setMinBudget] = useState<number | "">(initMinBudget ?? "");
   const [maxBudget, setMaxBudget] = useState<number | "">(initMaxBudget ?? "");
   const [focusingInput, setFocusingInput] = useState<EInputFocus>();
+
+  useEffect(() => {
+    if (!initMinBudget) setMinBudget("");
+    if (!initMaxBudget) setMaxBudget("");
+  }, [initMinBudget, initMaxBudget]);
 
   function handleSubmit() {
     if (minBudget === initMinBudget && maxBudget === initMaxBudget) return;

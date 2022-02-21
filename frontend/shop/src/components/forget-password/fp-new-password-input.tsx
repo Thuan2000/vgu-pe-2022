@@ -24,7 +24,7 @@ import Swal from "sweetalert2";
 interface IFPNewPasswordInputProps {}
 
 const FPNewPasswordInput: React.FC<IFPNewPasswordInputProps> = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("form");
   const { query, ...router } = useRouter();
   const token = query.token as string;
 
@@ -44,7 +44,7 @@ const FPNewPasswordInput: React.FC<IFPNewPasswordInputProps> = () => {
   const { data, loading } = useGetEmailFromCryptoTokenQuery({
     variables: { token },
   });
-  const email = data?.getEmailFromCryptoToken;
+  const email = data?.getEmailFromCryptoToken!;
 
   useEffect(() => {
     if (!email && !loading) fireInvalidTokenSwal();
@@ -95,7 +95,9 @@ const FPNewPasswordInput: React.FC<IFPNewPasswordInputProps> = () => {
 
   function onSubmit(value: TPasswordResetFormValues) {
     resetPassword({
-      variables: { input: { email, token, newPassword: value.password } },
+      variables: {
+        input: { email: email!, token, newPassword: value.password },
+      },
     });
   }
 

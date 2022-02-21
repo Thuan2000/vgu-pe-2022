@@ -30,7 +30,7 @@ import {
   isLocalHost,
   isSecureConnection,
 } from "../lib/host-name.js";
-import LocalStorageUtil, { AUTH_TOKEN_NAME } from "../lib/local-storage.js";
+import CookieUtil, { AUTH_TOKEN_NAME } from "../lib/cookie-util.js";
 import HashNavigation from "../lib/navigation.js";
 import { secondsToTime } from "../lib/strformat.js";
 import { updateFavicon } from "../lib/utils.js";
@@ -160,8 +160,8 @@ class TinodeWeb extends React.Component {
   }
 
   getBlankState() {
-    const settings = LocalStorageUtil.getObject("settings") || {};
-    const persist = !!LocalStorageUtil.getObject("keep-logged-in");
+    const settings = CookieUtil.getObject("settings") || {};
+    const persist = !!CookieUtil.getObject("keep-logged-in");
 
     return {
       connected: false,
@@ -181,9 +181,7 @@ class TinodeWeb extends React.Component {
         typeof firebase != "undefined" &&
         typeof navigator != "undefined" &&
         typeof FIREBASE_INIT != "undefined",
-      firebaseToken: persist
-        ? LocalStorageUtil.getObject("firebase-token")
-        : null,
+      firebaseToken: persist ? CookieUtil.getObject("firebase-token") : null,
 
       applicationVisible: !document.hidden,
 
@@ -299,7 +297,7 @@ class TinodeWeb extends React.Component {
       // Read contacts from cache.
       this.resetContactList();
       const token = this.state.persist
-        ? LocalStorageUtil.getObject(AUTH_TOKEN_NAME)
+        ? CookieUtil.getObject(AUTH_TOKEN_NAME)
         : undefined;
       if (token) {
         this.setState({ autoLogin: true });
@@ -577,12 +575,12 @@ class TinodeWeb extends React.Component {
   handlePersistenceChange(persist) {
     if (persist) {
       this.tinode.initStorage().then(() => {
-        LocalStorageUtil.setObject("keep-logged-in", true);
+        CookieUtil.setObject("keep-logged-in", true);
         this.setState({ persist: true });
       });
     } else {
       this.tinode.clearStorage().then(() => {
-        LocalStorageUtil.setObject("keep-logged-in", false);
+        CookieUtil.setObject("keep-logged-in", false);
         this.setState({ persist: false });
       });
     }
@@ -731,7 +729,7 @@ class TinodeWeb extends React.Component {
 
     // Refresh authentication token.
     // if (LocalStorageUtil.getObject("keep-logged-in")) {
-    LocalStorageUtil.setObject(AUTH_TOKEN_NAME, this.tinode.getAuthToken());
+    CookieUtil.setObject(AUTH_TOKEN_NAME, this.tinode.getAuthToken());
     // }
 
     const goToTopic = this.state.requestedTopic;
@@ -1207,7 +1205,7 @@ class TinodeWeb extends React.Component {
       serverAddress,
       transport,
       this.props.intl.locale,
-      LocalStorageUtil.getObject("keep-logged-in")
+      CookieUtil.getObject("keep-logged-in")
     );
     this.tinode.onConnect = this.handleConnected;
     this.tinode.onDisconnect = this.handleDisconnect;
@@ -1217,7 +1215,7 @@ class TinodeWeb extends React.Component {
       serverAddress: serverAddress,
       transport: transport,
     });
-    LocalStorageUtil.setObject("settings", {
+    CookieUtil.setObject("settings", {
       serverAddress: serverAddress,
       transport: transport,
     });
@@ -1262,12 +1260,12 @@ class TinodeWeb extends React.Component {
             console.warn("Failed to get notification permission.", err);
             this.handleError(err.message, "err");
             this.setState({ desktopAlerts: false, firebaseToken: null });
-            LocalStorageUtil.updateObject("settings", { desktopAlerts: false });
+            CookieUtil.updateObject("settings", { desktopAlerts: false });
           });
       } else {
         this.setState({ desktopAlerts: true });
-        if (LocalStorageUtil.getObject("keep-logged-in")) {
-          LocalStorageUtil.updateObject("settings", { desktopAlerts: true });
+        if (CookieUtil.getObject("keep-logged-in")) {
+          CookieUtil.updateObject("settings", { desktopAlerts: true });
         }
       }
     } else if (this.state.firebaseToken && this.fbPush) {
@@ -1277,7 +1275,7 @@ class TinodeWeb extends React.Component {
           console.warn("Unable to delete token.", err);
         })
         .finally(() => {
-          LocalStorageUtil.updateObject("settings", { desktopAlerts: false });
+          CookieUtil.updateObject("settings", { desktopAlerts: false });
           localStorage.removeItem("firebase-token");
           this.setState({ desktopAlerts: false, firebaseToken: null });
           // Inform the server that the token was deleted.
@@ -1285,7 +1283,7 @@ class TinodeWeb extends React.Component {
         });
     } else {
       this.setState({ desktopAlerts: false, firebaseToken: null });
-      LocalStorageUtil.updateObject("settings", { desktopAlerts: false });
+      CookieUtil.updateObject("settings", { desktopAlerts: false });
     }
   }
 
@@ -1293,16 +1291,16 @@ class TinodeWeb extends React.Component {
     this.fbPush
       .getToken()
       .then((refreshedToken) => {
-        const persist = LocalStorageUtil.getObject("keep-logged-in");
+        const persist = CookieUtil.getObject("keep-logged-in");
         if (refreshedToken != this.state.firebaseToken) {
           this.tinode.setDeviceToken(refreshedToken);
           if (persist) {
-            LocalStorageUtil.setObject("firebase-token", refreshedToken);
+            CookieUtil.setObject("firebase-token", refreshedToken);
           }
         }
         this.setState({ firebaseToken: refreshedToken, desktopAlerts: true });
         if (persist) {
-          LocalStorageUtil.updateObject("settings", { desktopAlerts: true });
+          CookieUtil.updateObject("settings", { desktopAlerts: true });
         }
       })
       .catch((err) => {
@@ -1313,7 +1311,7 @@ class TinodeWeb extends React.Component {
 
   handleToggleMessageSounds(enabled) {
     this.setState({ messageSounds: enabled });
-    LocalStorageUtil.updateObject("settings", {
+    CookieUtil.updateObject("settings", {
       messageSoundsOff: !enabled,
     });
   }
@@ -1473,7 +1471,7 @@ class TinodeWeb extends React.Component {
       this.state.serverAddress,
       this.state.transport,
       this.props.intl.locale,
-      LocalStorageUtil.getObject("keep-logged-in")
+      CookieUtil.getObject("keep-logged-in")
     );
     this.tinode.onConnect = this.handleConnected;
     this.tinode.onDisconnect = this.handleDisconnect;

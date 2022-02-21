@@ -1,0 +1,10 @@
+.profile-menu:after {
+  content: "";
+  position: absolute;
+  right: 11px;
+  top: 2px;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid var(--color-white);
+  transform: rotate(deg);
+}

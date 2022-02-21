@@ -1,12 +1,10 @@
-import { IFaq } from "@components/ui/storybook/inputs/faq-input/faq-list-creator";
-import { IFile, ITag } from "@graphql/types.graphql";
 import { ICategory } from "src/datas/categories";
 import { IIndustry } from "@datas/industries";
 import { IVietnamCity } from "@utils/vietnam-cities";
-import { IPPIValue } from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
 import { ITagWithNewRecord } from "@utils/interfaces";
 import { IGroupFormValues } from "./product-group-form";
 import { IProductVariation } from "./ppsp-variation-price/pppspvp-manager";
+import { IDUFile } from "@components/ui/storybook/document-uploader/document-uploader";
 
 export interface IPPSFCategorySection {
   name: string;
@@ -25,9 +23,9 @@ export interface IPPSFPricingSection {
 export interface IPPSFGeneralSection {
   description: string;
   minOrder: number;
-  images: IFile[];
-  videos?: IFile[];
-  certificates?: IFile[];
+  images: IDUFile[];
+  videos?: IDUFile[];
+  certificates?: IDUFile[];
 }
 
 export interface IProductDimension {

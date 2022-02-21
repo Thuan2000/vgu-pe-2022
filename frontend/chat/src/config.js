@@ -2,7 +2,7 @@ import { SERVER_URL } from "../.env";
 import { PACKAGE_VERSION } from "./version.js";
 
 // Name of this application, used in the User-Agent.
-export const APP_NAME = "TinodeWeb/" + (PACKAGE_VERSION || "0.17");
+export const APP_NAME = `SDConnect Chat (v${PACKAGE_VERSION})`;
 
 // API key. Use https://github.com/tinode/chat/tree/master/keygen to generate your own
 export const API_KEY = "AQEAAAABAAD_rAp4DJh05a1HAwFT3A6K";
@@ -84,10 +84,10 @@ export const MAX_TITLE_LENGTH = 60;
 export const MESSAGE_PREVIEW_LENGTH = 80;
 
 // Link for "Contact Us".
-export const LINK_CONTACT_US = "email:support@tinode.co";
+export const LINK_CONTACT_US = "email:hello@sdconnect.vn";
 
 // Link to Privacy Policy.
-export const LINK_PRIVACY_POLICY = "https://tinode.co/privacy.html";
+export const LINK_PRIVACY_POLICY = "https://sdconnect.vn/privacy";
 
 // Link to Terms of Service.
-export const LINK_TERMS_OF_SERVICE = "https://tinode.co/terms.html";
+export const LINK_TERMS_OF_SERVICE = "https://sdconnect.vn/terms";

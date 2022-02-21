@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import {
+	IBrStatus,
 	ICreateBuyingRequestInput,
 	IFetchBrInput,
+	IFile,
 	IUpdateBuyingRequestInput
 } from "@graphql/types";
 import { Op, Sequelize } from "sequelize";
@@ -14,15 +16,81 @@ import {
 	RESPONSE_MESSAGE,
 	successResponse
 } from "@utils";
-import Category from "../models/Category";
-import Industry from "../models/Industry";
 import Company from "@models/Company";
 import Project from "@models/Project";
 import BuyingRequestRepository from "@repositories/buying-request.repository";
 import BRDiscussionQuestion from "@models/BRDiscussionQuestion";
-import OpenSearch from "@services/open-search.service";
+import { IRefreshBrStatusResponse } from "@graphql/types";
+import S3 from "@services/s3.service";
 
 class BuyingRequestController {
+	static async closeBr(id: number) {
+		try {
+			const br = await BuyingRequest.findByPk(id);
+
+			br.setDataValue("status", "CLOSE" as IBrStatus);
+			br.save();
+
+			BuyingRequest.updateEsBr(br.getDataValue("id"), br.toJSON());
+
+			return successResponse();
+		} catch (e) {
+			console.error(e);
+			return errorResponse(e.toString());
+		}
+	}
+
+	static async openBr(id: number, endDate: Date) {
+		try {
+			const br = await BuyingRequest.findByPk(id);
+
+			br.setDataValue("status", "OPEN" as IBrStatus);
+			br.setDataValue("endDate", endDate);
+			br.save();
+
+			BuyingRequest.updateEsBr(br.getDataValue("id"), br.toJSON());
+
+			return successResponse();
+		} catch (e) {
+			console.error(e);
+			return errorResponse(e.toString());
+		}
+	}
+
+	static async refreshStatus(): Promise<IRefreshBrStatusResponse> {
+		try {
+			const currentTime = new Date().getTime();
+			const wrongStatusBrs = await BuyingRequest.findAll({
+				where: {
+					status: "OPEN" as IBrStatus,
+					endDate: { [Op.lte]: currentTime },
+					isDeleted: false
+				},
+				include: [
+					{
+						model: Company,
+						attributes: ["id", "name", "chatId"]
+					}
+				]
+			});
+
+			wrongStatusBrs.forEach(br => {
+				br.setDataValue("status", "CLOSE" as IBrStatus);
+				br.save();
+
+				BuyingRequest.updateEsBr(br.getDataValue("id"), br.toJSON());
+			});
+
+			return {
+				updatedAmount: wrongStatusBrs.length,
+				...successResponse()
+			};
+		} catch (e) {
+			console.error(e);
+			return errorResponse(e.toString());
+		}
+	}
+
 	async getBuyingRequestBySlug(slug: string) {
 		try {
 			const buyingRequest = await BuyingRequest.findOne({
@@ -37,7 +105,6 @@ class BuyingRequestController {
 					}
 				]
 			});
-			console.log(buyingRequest.toJSON());
 
 			return buyingRequest;
 		} catch (error) {
@@ -53,7 +120,7 @@ class BuyingRequestController {
 
 	async getBuyingRequestsByIds(ids: number[]) {
 		const allBuyingRequests = await BuyingRequest.findAll({
-			where: { id: ids }
+			where: { id: ids, isDeleted: false }
 		});
 
 		return allBuyingRequests;
@@ -99,7 +166,7 @@ class BuyingRequestController {
 			offset,
 			limit,
 			distinct: true,
-			where: { companyId },
+			where: { companyId, isDeleted: false },
 			include: [Company, Project, { model: User, as: "createdBy" }]
 		});
 
@@ -112,10 +179,24 @@ class BuyingRequestController {
 		};
 	}
 
+	private async removeGallery(gallery: IFile[]) {
+		gallery.map(img => {
+			S3.deleteFile(img.location);
+		});
+	}
+
 	async deleteBuyingRequest(id: number) {
 		try {
+			const br = await BuyingRequest.findByPk(id, {
+				attributes: ["gallery", "id"]
+			});
+
+			this.removeGallery((br.toJSON() as any).gallery);
+
+			br.setDataValue("isDeleted", true);
+			br.save();
+
 			const r = await BuyingRequest.deleteEsBrs([id]);
-			await BuyingRequest.destroy({ where: { id } });
 
 			return successResponse();
 		} catch (e) {
@@ -127,7 +208,17 @@ class BuyingRequestController {
 	async deleteBuyingRequests(ids: number[]) {
 		try {
 			const r = await BuyingRequest.deleteEsBrs(ids);
-			await BuyingRequest.destroy({ where: { id: ids } });
+			const brs = await BuyingRequest.findAll({
+				where: { id: ids, isDeleted: false },
+				attributes: ["gallery", "id"]
+			});
+
+			brs.map(br => {
+				this.removeGallery((br.toJSON() as any).gallery);
+				br.setDataValue("isDeleted", true);
+				br.save();
+			});
+
 			return successResponse();
 		} catch (e) {
 			console.log(e);
@@ -137,14 +228,15 @@ class BuyingRequestController {
 
 	async createBuyingRequest(buyingRequestInput: ICreateBuyingRequestInput) {
 		try {
-			const { name, companyId, companyName } = buyingRequestInput;
+			const { name, companyId, companyName, chatId } = buyingRequestInput;
 
 			// Check duplicate
 			const duplicateBr = await BuyingRequest.findOne({
 				where: {
 					name,
 					companyId
-				}
+				},
+				attributes: ["id"]
 			});
 			if (duplicateBr) return errorResponse(RESPONSE_MESSAGE.DUPLICATE);
 
@@ -159,7 +251,8 @@ class BuyingRequestController {
 
 			const company = {
 				id: companyId,
-				name: companyName
+				name: companyName,
+				chatId
 			};
 
 			const r = await BuyingRequest.insertToIndex({
@@ -169,7 +262,7 @@ class BuyingRequestController {
 
 			return newBuyingRequest.save().then(() => successResponse());
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			return errorResponse(error);
 		}
 	}

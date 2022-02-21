@@ -1,10 +1,8 @@
 import DetailImages from "@components/ui/detail-image-section";
-import RecordSocialShareList from "@components/record-detail/record-social-share-list";
 import PageLayout from "@components/layouts/page-layout";
 import RecordDescription from "@components/record-detail/record-desc";
 import RecordName from "@components/record-detail/record-name";
 import RecordPrice from "@components/record-detail/record-price";
-import Typography from "@components/ui/storybook/typography";
 import { ServiceDocument } from "@graphql/service.graphql";
 import { IService } from "@graphql/types.graphql";
 import { initApollo } from "@utils/apollo";
@@ -63,13 +61,6 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
             {/* Left Section */}
             <div>
               <DetailImages coverImage={coverImage!} images={images || []} />
-              {/* <div className="fic space-x-4">
-                <Typography
-                  text={`${t("brd-share-label")}:`}
-                  variant="smallTitle"
-                />
-                <RecordSocialShareList />
-              </div> */}
             </div>
             {/* Right Section */}
             <div className="w-full">
@@ -88,7 +79,8 @@ const ServiceDetail: React.FC<IServiceDetailProps> = ({ service }) => {
                 industryId={industryId}
                 categoryId={categoryId}
                 description={description || ""}
-                companyId={company?.id!}
+                company={company}
+                type="SERVICE"
               />
             </div>
           </div>

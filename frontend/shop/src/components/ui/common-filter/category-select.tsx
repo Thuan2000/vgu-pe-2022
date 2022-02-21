@@ -11,6 +11,7 @@ import {
   ICategory,
 } from "@datas/categories";
 import { getIndustryByLabel } from "@datas/industries";
+import { isLogin } from "@utils/auth-utils";
 
 interface ICategorySelectProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -25,7 +26,6 @@ const CategorySelect: React.FC<ICategorySelectProps> = ({
 
   const industryId = getIndustryByLabel(industry)?.id;
   const categoryFilter = query.category as string;
-
   useEffect(() => {
     if (!industry) setQuery("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,7 +56,7 @@ const CategorySelect: React.FC<ICategorySelectProps> = ({
         name="categoryFilter"
         isClearable
         isDisabled={!industry}
-        value={!industry ? null : getCategoryByLabel(categoryFilter)}
+        value={!industry ? null : getCategoryByLabel(categoryFilter) || null}
         getInitialValue={(opt: ICategory) => opt.label === categoryFilter}
         placeholder={t("categoryFilter-placeholder")}
         onChange={handleChange}

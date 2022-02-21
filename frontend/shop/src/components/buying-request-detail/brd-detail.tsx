@@ -2,6 +2,7 @@ import Button from "@components/ui/storybook/button";
 import Typography from "@components/ui/storybook/typography";
 import { getSourceType } from "@datas/source-types";
 import { IBuyingRequest } from "@graphql/types.graphql";
+import { isLogin as checkIsLogin } from "@utils/auth-utils";
 import {
   formatMoneyAmount,
   getMoneySuffix,
@@ -20,6 +21,8 @@ interface IBRDDetailProps extends React.HTMLAttributes<HTMLDivElement> {
 const BRDDetail: React.FC<IBRDDetailProps> = ({ br }) => {
   const { t } = useTranslation("common");
   const [isShowMore, setIsShowMore] = useState(false);
+  const isLogin = checkIsLogin();
+
   function getDesc() {
     if (!br.description) return t("noDescription-text");
     return isShowMore
@@ -57,7 +60,7 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ br }) => {
         />
         <BRDDetailQA
           question={`${t("brd-location-title")}:`}
-          answer={`${br.location}`}
+          answer={`${!isLogin ? "Please Login" : br.location}`}
         />
 
         {br?.sourceTypeId && (

@@ -15,7 +15,6 @@ const DateFilter: React.FC<IDateFilterProps> = ({}) => {
   const dateFilter = query.establishment as any;
 
   function setQuery(establishment?: string) {
-    console.log(establishment);
     if (!establishment && query.establishment) delete query?.establishment;
 
     const { pathname } = router;

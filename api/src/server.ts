@@ -4,7 +4,7 @@
  */
 
 import App from "./App";
-import { validateEnv } from "./utils";
+import { ADMIN_EMAIL_ADDRESS, validateEnv } from "./utils";
 
 validateEnv();
 

@@ -3,6 +3,7 @@ import { PAGE_NAME_INTO_LABEL } from "@utils/constants";
 
 import { getActivePageFromPath } from "@utils/functions";
 import { PageName } from "@utils/interfaces";
+import { ROUTES } from "@utils/routes";
 
 import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
@@ -11,10 +12,10 @@ import { useOutsideClickRef } from "src/hooks/useOutsideClickRef";
 import Button from "./storybook/button";
 
 const types: PageName[] = [
-  "nhu-cau-thu-mua",
-  "nha-cung-cap",
-  "san-pham",
-  "dich-vu",
+  ROUTES.TENDERS as PageName,
+  ROUTES.COMPANIES as PageName,
+  ROUTES.PRODUCTS as PageName,
+  ROUTES.SERVICES as PageName,
   // "ho-tro",
 ];
 
@@ -23,7 +24,7 @@ interface ISearchTypeSelectorProps {}
 const SearchTypeSelector: React.FC<ISearchTypeSelectorProps> = ({}) => {
   const { t } = useTranslation("common");
   const { pathname, ...router } = useRouter();
-  const activePage = getActivePageFromPath(pathname);
+  const activePage = `/${getActivePageFromPath(pathname)}`;
 
   const [isSelectingType, setIsSelectingType] = useState(false);
 

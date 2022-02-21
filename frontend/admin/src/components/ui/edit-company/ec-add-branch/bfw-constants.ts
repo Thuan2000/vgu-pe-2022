@@ -1,4 +1,4 @@
-import { IFile } from "@graphql/types.graphql";
+import { IDUFile } from "@components/ui/storybook/document-uploader/document-uploader";
 import { IVietnamCity } from "@utils/vietnam-cities";
 
 export interface IRawBFW {
@@ -6,7 +6,7 @@ export interface IRawBFW {
   name: string;
   location: IVietnamCity;
   address: string;
-  gallery: IFile[];
+  gallery: IDUFile[];
 }
 
 export interface IBFWInput extends IRawBFW {

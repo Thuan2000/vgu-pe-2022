@@ -361,7 +361,9 @@
     "update_available": "Update available.",
     "upload_finishing": "finishing...",
     "user_not_found": "Not found",
-    "validate_credential_action": "confirm"
+    "validate_credential_action": "confirm",
+    "logo-view-desc": "This is chat platform for sdconnect the best b2b eccomerce in the world",
+    "loading-title": "Loading..."
   },
   "es": {
     "validate_credential_action": "confirmar",

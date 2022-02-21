@@ -4,6 +4,8 @@
 
 -   yarn
 -   nodejs (V >12.0)
+-   mysql-server
+-   redis-server
 
 ### Packages
 
@@ -22,6 +24,10 @@
 -   /Repositories, is bunch of reusable functions for certain things
 -   /Resolver, to call controller
 -   /Controller, to handle function and do logic
+
+### Before Installation
+
+Please make sure to have all the packages installed, and have all the environment set up, like mysql, redis, elasticsearch, aws, etc.
 
 ### Installation
 

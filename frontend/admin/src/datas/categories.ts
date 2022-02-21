@@ -69,7 +69,7 @@ export const categoriesData = [
   { id: 34, label: "CONTENT", industryId: 3 },
   { id: 35, label: "BILLBOARDS", industryId: 3 },
 
-  // Forth
+  // Fourth
   { id: 36, label: "BUY SELL HIRE FACTORIES", industryId: 4 },
   { id: 37, label: "REAL-ESTATE VALUATION", industryId: 4 },
   { id: 38, label: "FACTORY ASSETS MANAGEMENT", industryId: 4 },
@@ -83,19 +83,19 @@ export const categoriesData = [
 
   //Fifth
   { id: 46, label: "CONSTRUCTION DESIGN", industryId: 5 },
-  { id: 47, label: "WAREHOST CONSTRUCTION TENDER", industryId: 5 },
+  { id: 47, label: "FACTORY CONSTRUCTION", industryId: 5 },
   { id: 48, label: "ELECTRONIC CABLE SUPPLIER", industryId: 5 },
-  { id: 49, label: "ELECTRONIC & WATER COMPANY", industryId: 5 },
+  { id: 49, label: "ELECTRONIC & WATER CONSTRUCTION", industryId: 5 },
   { id: 50, label: "INTERIOR DESIGNER", industryId: 5 },
   { id: 51, label: "M&E COMPANY", industryId: 5 },
   { id: 52, label: "TEMP HOUSE", industryId: 5 },
   { id: 53, label: "REFRIGERATION SYSTEM", industryId: 5 },
   { id: 54, label: "LIGHTING SYSTEM", industryId: 5 },
   { id: 55, label: "INFRASTRUCTURE - ROAD", industryId: 5 },
-  { id: 56, label: "PCCC", industryId: 5 },
+  { id: 56, label: "FIRE SAFETY", industryId: 5 },
 
   //6th
-  { id: 58, label: "PCCC", industryId: 6 },
+  { id: 58, label: "FIRE SAFETY", industryId: 6 },
   { id: 59, label: "CAMERA", industryId: 6 },
   { id: 60, label: "SECURITY SERVICE", industryId: 6 },
   { id: 61, label: "BODYGUARD SERVICE", industryId: 6 },
@@ -108,7 +108,7 @@ export const categoriesData = [
   
   //7th
   { id: 69, label: "PETROL", industryId: 7 },
-  { id: 70, label: "LO HOI", industryId: 7 },
+  { id: 70, label: "BOILER", industryId: 7 },
   { id: 71, label: "LIQUEFIED PETROLEUM GAS", industryId: 7 },
   { id: 72, label: "LUB OIL", industryId: 7 },
   { id: 73, label: "SOLAR ENERGY", industryId: 7 },
@@ -135,7 +135,7 @@ export const categoriesData = [
   { id: 92, label: "FODDER MATERIAL", industryId: 8 },
 
   //9th
-  { id: 93, label: "FARBIC", industryId: 9 },
+  { id: 93, label: "FABRIC", industryId: 9 },
   { id: 94, label: "YARN", industryId: 9 },
   { id: 95, label: "FIBER", industryId: 9 },
   { id: 96, label: "BUTTON", industryId: 9 },
@@ -143,13 +143,13 @@ export const categoriesData = [
   { id: 98, label: "ZIP", industryId: 9 },
   { id: 99, label: "ELASTIC WAIST", industryId: 9 },
   { id: 100, label: "SMOCKING SEWING THREAD", industryId: 9 },
-  { id: 101, label: "NEEDLE & NON-WOVEN FARBIC", industryId: 9 },
+  { id: 101, label: "NEEDLE & NON-WOVEN FABRIC", industryId: 9 },
   { id: 102, label: "COTTON THREAD GLUE", industryId: 9 },
   { id: 103, label: "SHOULDER PADS & CHEST CUP", industryId: 9 },
   { id: 104, label: "MEX - MEX", industryId: 9 },
 
   //10th
-  { id: 105, label: "LEATHERETTE FARBIC", industryId: 10 },
+  { id: 105, label: "LEATHERETTE FABRIC", industryId: 10 },
   { id: 106, label: "LEATHER", industryId: 10 },
   { id: 107, label: "SOLE", industryId: 10 },
   { id: 108, label: "BOOTS SEWING THREAD", industryId: 10 },
@@ -158,9 +158,9 @@ export const categoriesData = [
   { id: 111, label: "PLASTIC BEAD", industryId: 10 },
   { id: 112, label: "PU", industryId: 10 },
   { id: 113, label: "PRESSED LEATHER HEEL", industryId: 10 },
-  { id: 114, label: "MAT GOT", industryId: 10 },
+  { id: 114, label: "BOOTS HEEL", industryId: 10 },
   { id: 115, label: "INSOLE", industryId: 10 },
-  { id: 116, label: "PHO MUI", industryId: 10 },
+  { id: 116, label: "BOOTS NOSE", industryId: 10 },
 
   //11th
   { id: 117, label: "BATTERY", industryId: 11 },
@@ -170,7 +170,7 @@ export const categoriesData = [
   { id: 121, label: "COMPUTER COMPONENT", industryId: 11 },
   { id: 122, label: "MOBILE-PHONE COMPONENT", industryId: 11 },
   { id: 123, label: "HOUSEWARE E-COMPONENT", industryId: 11 },
-  { id: 124, label: "AUTOMATICAL E-COMPONENT", industryId: 11 },
+  { id: 124, label: "AUTOMATIC E-COMPONENT", industryId: 11 },
   { id: 125, label: "SOLDERING COMPONENT", industryId: 11 },
   { id: 126, label: "PCB COMPONENT", industryId: 11 },
   { id: 127, label: "ADAPTOR", industryId: 11 },
@@ -196,10 +196,10 @@ export const categoriesData = [
   { id: 143, label: "PLATIC BEADS & ADDITIVES", industryId: 13 },
   { id: 144, label: "INDUSTRIAL PLASTIC", industryId: 13 },
   { id: 145, label: "PLASTIC PRODUCT", industryId: 13 },
-  { id: 146, label: "PLASTIC RUBBER EQUIQMENT", industryId: 13 },
+  { id: 146, label: "PLASTIC RUBBER EQUIPMENT", industryId: 13 },
   { id: 147, label: "PLASTIC TARPAULIN", industryId: 13 },
   { id: 148, label: "PE", industryId: 13 },
-  { id: 149, label: "FIBERGLASS FARBIC", industryId: 13 },
+  { id: 149, label: "FIBERGLASS FABRIC", industryId: 13 },
   { id: 150, label: "CHEMICAL-RESISTANT PLASTIC MATERIAL", industryId: 13 },
   { id: 151, label: "PLASTIC CANS", industryId: 13 },
 
@@ -216,7 +216,7 @@ export const categoriesData = [
 
   //15
   { id: 161, label: "HAND TOOL", industryId: 15 },
-  { id: 162, label: "TOOL", industryId: 15 },
+  { id: 162, label: "MECHANICAL TOOL", industryId: 15 },
   { id: 163, label: "SOLDERING DEVICE", industryId: 15 },
   { id: 164, label: "CUT TOOL", industryId: 15 },
   { id: 165, label: "PLASTIC TANK", industryId: 15 },
@@ -235,9 +235,9 @@ export const categoriesData = [
   
   //16th
   { id: 176, label: "STATIONERY", industryId: 16 },
-  { id: 177, label: "OFFICE EQUIMENT", industryId: 16 },
-  { id: 178, label: "RENTAL OFFICE EQUIMENT", industryId: 16 },
-  { id: 179, label: "CLEAN ROOM EQUIMENT", industryId: 16 },
+  { id: 177, label: "OFFICE EQUIPMENT", industryId: 16 },
+  { id: 178, label: "RENTAL OFFICE EQUIPMENT", industryId: 16 },
+  { id: 179, label: "CLEAN ROOM EQUIPMENT", industryId: 16 },
   { id: 180, label: "PROCHURE", industryId: 16 },
   { id: 181, label: "SAFETY GEAR", industryId: 16 },
   { id: 182, label: "CONTRUCTION STUFFS", industryId: 16 },
@@ -250,7 +250,6 @@ export const categoriesData = [
   { id: 187, label: "CURTAIN", industryId: 17 },
   { id: 189, label: "TREE DECORATION", industryId: 17 },
   { id: 190, label: "OFFICE DECORATION", industryId: 17 },
-  { id: 191, label: "OFFICE FURNITURE", industryId: 17 },
 
   //18th
   { id: 192, label: "LIGHTING SYSTEM", industryId: 18 },

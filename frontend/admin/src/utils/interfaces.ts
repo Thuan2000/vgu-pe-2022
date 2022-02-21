@@ -1,6 +1,8 @@
 import { ITagInput } from "@graphql/types.graphql";
 import { Control } from "react-hook-form";
 
+export type TSize = "xs" | "sm" | "md" | "lg" | "xl";
+
 export interface IController {
   control: Control<any>;
   name: string;
@@ -16,4 +18,35 @@ export type Background = "primary" | "secondary-1" | "error";
 
 export interface ITagWithNewRecord extends ITagInput {
   isNewRecord?: boolean;
+}
+
+interface IChatPhoto {
+  data: string;
+  type: string;
+}
+
+export interface IChatSubPublic {
+  // Name
+  fn: string;
+  photo: IChatPhoto;
+  lastMessage: string;
+  from: string;
+  ts: Date;
+  isReaded?: boolean;
+}
+export interface IChatSub {
+  topic: string;
+  public: IChatSubPublic;
+  online?: boolean;
+  read?: number;
+  seq?: number;
+  recv?: number;
+}
+
+export interface IChatTopic {
+  content: string;
+  topic: string;
+  from: string;
+  seq: number;
+  ts: Date;
 }

@@ -1,4 +1,5 @@
 export const COLORS = {
+  DARK_BLUE: "#15114E",
   PRIMARY: {
     DEFAULT: "#00D796",
   },

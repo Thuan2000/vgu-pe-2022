@@ -23,6 +23,7 @@ query Companies($input: FetchCompanyInput!) {
       establishmentDate
       location
       responseTime
+      chatId
       settings {
         profileImage {
           url

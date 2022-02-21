@@ -2,6 +2,7 @@ import { IBusinessType } from "@datas/businessTypes";
 import { IIndustry } from "@datas/industries";
 import { IFile } from "@graphql/types.graphql";
 import { IVietnamCity } from "@utils/vietnam-cities";
+import { IDUFile } from "../storybook/document-uploader/document-uploader";
 import { IRawBFW } from "./ec-add-branch/bfw-constants";
 
 export type ECGeneralFormValues = {
@@ -14,8 +15,8 @@ export type ECGeneralFormValues = {
   businessTypes: IBusinessType[];
   location: IVietnamCity;
   address: string;
-  profileImage?: IFile;
-  coverImage?: IFile[];
+  profileImage?: IDUFile;
+  coverImage?: IDUFile[];
   mainProducts?: string[];
 };
 
@@ -26,8 +27,8 @@ export interface ECDetailsFormValues {
 }
 
 export interface ECAdditionalFormValues {
-  gallery: IFile[];
-  certificates: IFile[];
+  gallery: IDUFile[];
+  certificates: IDUFile[];
 }
 
 export type ECFormValues = {

@@ -16,7 +16,7 @@ const NavbarBottom = () => {
 
   return (
     <div className="flex-center justify-between pt-2">
-      <div className="flex-center space-x-10">
+      <div className="flex-center space-x-7">
         <div style={{ width: 250 }}>
           <Logo size="medium" />
         </div>

@@ -21,9 +21,9 @@ import ValidationView from "./validation-view.jsx";
 // Panel titles for translation.
 const messages = defineMessages({
   login: {
-    id: "sidepanel_title_login",
-    description: "Sidepanel title for LoginView.",
-    defaultMessage: "Sign In",
+    id: "loading-title",
+    description: "Loading title",
+    defaultMessage: "Loading...",
   },
   register: {
     id: "sidepanel_title_register",

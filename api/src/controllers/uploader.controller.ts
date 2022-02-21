@@ -1,5 +1,7 @@
 import UploaderRepository from "@repositories/uploads.repository";
 import { IUploadFilesInput } from "@graphql/types";
+import S3 from "@services/s3.service";
+import { successResponse } from "@utils/responses";
 
 class UploaderController {
 	static async uploadFiles({
@@ -30,6 +32,12 @@ class UploaderController {
 			);
 
 		return data;
+	}
+
+	static async deleteFile(location: string) {
+		await S3.deleteFile(location);
+
+		return successResponse();
 	}
 }
 

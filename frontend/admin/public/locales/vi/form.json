@@ -281,7 +281,7 @@
   "confirm-button": "Tải lên",
   "crop-undone": "Vui lòng cắt toàn bộ ảnh",
   "ok-button": "Đồng ý",
-
+  "companyEdited-success-message": "Thông tin đã cập nhật thành công",
  
   "create-project-title": "Tạo dự án",
   "project-name-input-label": "Tên dự án",
@@ -402,6 +402,7 @@
   "length-text-label": "Chiều dài",
   "yes-it-is-text": "Có",
   "no-it-is-not-text": "Không",
+  "COMPANY_OWNER": "Chủ sở hữu",
 
   "no-products-yet-text-info": "Chưa có sản phẩm"
 }

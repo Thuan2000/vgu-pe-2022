@@ -10,6 +10,7 @@ import HomepageContent from "@components/homepage/homepage-content";
 import PleaseOpenOnLaptop from "@components/please-open-on-laptop";
 import useIsPhone from "src/hooks/isPhone.hook";
 import ChatwootWidget from "@components/chatwoot-widget";
+import HomepageLayout from "@components/layouts/homepage-layout";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -43,6 +44,6 @@ const Homepage = () => {
   );
 };
 
-Homepage.Layout = PageLayout;
+Homepage.Layout = HomepageLayout;
 
 export default Homepage;

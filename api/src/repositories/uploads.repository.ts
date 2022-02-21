@@ -13,8 +13,6 @@
 import S3 from "@services/s3.service";
 import { resizeImage } from "./image-resizer.repository";
 
-const s3 = new S3();
-
 class UploaderRepository {
 	/**
 	 * This function handling uploadCompanyLicenses
@@ -40,7 +38,7 @@ class UploaderRepository {
 
 					const fileStream = createReadStream();
 
-					const res = await s3.uploadDocuments({
+					const res = await S3.uploadDocuments({
 						companyName,
 						fileName,
 						fileStream,
@@ -55,7 +53,7 @@ class UploaderRepository {
 			);
 			return data;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 
@@ -71,7 +69,7 @@ class UploaderRepository {
 
 			const { thumbRes } = await resizeImage(fileStream);
 
-			const res = await s3.uploadFile({
+			const res = await S3.uploadFile({
 				companyName,
 				fileName,
 				fileStream: thumbRes,
@@ -84,7 +82,7 @@ class UploaderRepository {
 
 			return { location, url, fileName, fileType: contentType };
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 
@@ -100,13 +98,13 @@ class UploaderRepository {
 
 					const fileStream = createReadStream();
 
-					const { thumbRes } = await resizeImage(fileStream);
+					// const { thumbRes } = await resizeImage(fileStream);
 
 					// return;
-					const res = await s3.uploadFile({
+					const res = await S3.uploadFile({
 						companyName,
 						fileName,
-						fileStream: thumbRes,
+						fileStream,
 						type: "images",
 						contentType: fileType,
 						fileAccessControl
@@ -120,7 +118,7 @@ class UploaderRepository {
 
 			return data;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 
@@ -139,7 +137,7 @@ class UploaderRepository {
 					const { thumbRes } = await resizeImage(fileStream);
 
 					// return;
-					const res = await s3.uploadFile({
+					const res = await S3.uploadFile({
 						companyName,
 						fileName,
 						fileStream: thumbRes,
@@ -156,7 +154,7 @@ class UploaderRepository {
 
 			return data;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	}
 }

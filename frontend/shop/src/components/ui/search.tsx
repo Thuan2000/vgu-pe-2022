@@ -21,11 +21,17 @@ const MAX_SUGGESTIONS = 5;
 
 let timeout: NodeJS.Timeout;
 
+export type TPageName =
+  | "nha-cung-cap"
+  | "dich-vu"
+  | "nhu-cau-thu-mua"
+  | "san-pham";
+
 const Search = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("form");
 
   const [getBrsSuggestion] = useGetBrNameSuggestionMutation();
   const [getCompaniesSuggestion] = useGetCompanyNameSuggestionMutation();
@@ -43,7 +49,7 @@ const Search = ({
   const [focusedSuggestion, setFocusedSuggestion] = useState(-1);
   const outsideClickRef = useOutsideClickRef(hideSuggestion);
   const { pathname, query, ...router } = useRouter();
-  const activePage = getActivePageFromPath(pathname);
+  const activePage: TPageName = getActivePageFromPath(pathname) as any;
 
   const [inputValue, setInputValue] = useState<string>(
     (query?.name as string) || ""
@@ -180,6 +186,8 @@ const Search = ({
     if (inputValue) showSuggestion();
   }
 
+  const searchInputPlaceholder = `search-${activePage}-input-placeholder`;
+
   return (
     <div ref={outsideClickRef} className={`relative`} {...props}>
       <Form onSubmit={handleSearch}>
@@ -194,6 +202,7 @@ const Search = ({
                 onFocus={handleInputFocus}
                 onChange={handleInputChange}
                 inputClassName="border-none sm:w-[350px]"
+                placeholder={t(searchInputPlaceholder)}
               />
 
               {inputValue && (

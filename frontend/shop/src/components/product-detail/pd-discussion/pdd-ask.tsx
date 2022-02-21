@@ -1,11 +1,13 @@
 import AttachmentIcon from "@assets/icons/attachment-icon";
 import ImageIcon from "@assets/icons/image-icon";
+import PleaseLoginButton from "@components/ui/please-login-button";
 import Button from "@components/ui/storybook/button";
 import TextArea from "@components/ui/storybook/inputs/text-area";
 import {
   CreateProductDiscussionQuestionMutation,
   useCreateProductDiscussionQuestionMutation,
 } from "@graphql/product-discussion.graphql";
+import { isLogin as checkIsLogin } from "@utils/auth-utils";
 import { getCompanyName, getLoggedInUser } from "@utils/functions";
 
 import { useTranslation } from "next-i18next";
@@ -23,6 +25,7 @@ const PDDAskQuestion: React.FC<ISDDAskQuestionProps> = ({
 }) => {
   const ICON_SIZE = 5;
   const iconClass = `w-${ICON_SIZE} h-${ICON_SIZE}`;
+  const isLogin = checkIsLogin();
 
   const { t } = useTranslation("form");
   const [createQuestion] = useCreateProductDiscussionQuestionMutation({
@@ -67,23 +70,31 @@ const PDDAskQuestion: React.FC<ISDDAskQuestionProps> = ({
   }
 
   return (
-    <div>
-      <TextArea
-        label={t("askQuestion-input-label")}
-        placeholder={t("askQuestion-input-placeholder")}
-        onChange={handleChange}
-        value={question}
-      />
+    <div className={`relative ${!isLogin && "border rounded-sm p-4"}`}>
+      {!isLogin && (
+        <div className={`absolute flex-center abs-fullsize z-50`}>
+          <PleaseLoginButton text={t("please-login-to-comment")} />
+        </div>
+      )}
 
-      <p className="text-right">
-        {/* <div className="mb-3 fic justify-end space-x-1">
-          <AttachmentIcon className={iconClass} />
-          <ImageIcon className={iconClass} />
-        </div> */}
-        <Button disabled={!question} onClick={submit} size="small">
-          {t("ask-question-button-label")}
-        </Button>
-      </p>
+      <div className={`${!isLogin && "blur-sm select-none"}`}>
+        <TextArea
+          label={t("askQuestion-input-label")}
+          placeholder={t("askQuestion-input-placeholder")}
+          onChange={handleChange}
+          disabled={!isLogin}
+          value={question}
+        />
+        <p className="text-right">
+          {/* <div className="mb-3 fic justify-end space-x-1">
+            <AttachmentIcon className={iconClass} />
+            <ImageIcon className={iconClass} />
+          </div> */}
+          <Button disabled={!question} onClick={submit} size="small">
+            {t("ask-question-button-label")}
+          </Button>
+        </p>
+      </div>
     </div>
   );
 };

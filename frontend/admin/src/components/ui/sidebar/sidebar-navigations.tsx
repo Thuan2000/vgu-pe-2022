@@ -13,8 +13,6 @@ import { getMeData } from "@utils/auth-utils";
 const SidebarNavigations = () => {
   const { pathname } = useRouter();
 
-  const role = getLoggedInUser()?.role;
-
   function checkIsActive(href: string[]) {
     return href.includes(getActivePath(pathname));
   }
@@ -77,14 +75,6 @@ const SidebarNavigations = () => {
       </div>
 
       <div className={`mt-auto -translate-y-10`}>
-        {/* <SidebarNavItem
-          key={`${settingSidebar.label}-setting-bottom-navigation`}
-          isActive={getActivePath(pathname) === "/[company-slug]"}
-          href={getMeData().company?.slug || ""}
-          label={settingSidebar.label}
-          Icon={settingSidebar.icon}
-        /> */}
-
         {bottomNavigations.map(({ href, icon, managedLinks, label }) => {
           const isActive = checkIsActive([href, ...managedLinks]);
           return (

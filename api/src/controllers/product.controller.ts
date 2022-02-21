@@ -4,7 +4,6 @@ import Company from "@models/Company";
 import Tag from "@models/Tag";
 import TagRepository from "@repositories/tag.repository";
 import Product from "../models/Product";
-import ProductName from "../models/ProductName";
 import ProductRepository from "../repositories/product.repository";
 import {
 	createSuccessResponse,
@@ -14,14 +13,16 @@ import {
 } from "../utils";
 
 class ProductController {
-	static async createProduct({
-		companyId,
-		companyName,
-		name,
-		newTags,
-		tags,
-		...rest
-	}: ICreateProductInput) {
+	static async createProduct(input: ICreateProductInput) {
+		const {
+			companyId,
+			companyName,
+			chatId,
+			name,
+			newTags,
+			tags,
+			...rest
+		} = input;
 		const existProduct = await Product.findOne({
 			where: {
 				companyId,
@@ -38,7 +39,8 @@ class ProductController {
 
 		const company = {
 			name: companyName,
-			id: companyId
+			id: companyId,
+			chatId
 		};
 
 		const esProduct = Object.assign(newProduct.toJSON(), {
@@ -75,7 +77,10 @@ class ProductController {
 	static async getProduct(slug: string) {
 		const product = await Product.findOne({
 			where: { slug },
-			include: [{ model: Company, attributes: ["id", "name"] }, Tag]
+			include: [
+				{ model: Company, attributes: ["id", "name", "chatId"] },
+				Tag
+			]
 		});
 
 		return product;

@@ -66,3 +66,7 @@
   background-color: var(--color-primary) !important;
   color: white !important;
 }
+
+.react-datepicker-popper {
+  z-index: 999999999999 !important;
+}

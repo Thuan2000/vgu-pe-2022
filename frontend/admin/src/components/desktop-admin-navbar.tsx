@@ -1,16 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import HelpIcon from "@assets/icons/navigations/help-icon";
 import NotificationIcon from "@assets/icons/notification-icon";
-import ArrowLeftIcon from "@assets/icons/arrow-left-icon";
 import { useTranslation } from "react-i18next";
 import { COLORS } from "@utils/colors";
-import { useRouter } from "next/dist/client/router";
-import { getMeData } from "@utils/auth-utils";
-import { IUser } from "@graphql/types.graphql";
-import LanguageSelector from "./language-selector";
 import Breadcrumb from "./breadcrumb";
 import { ROUTES } from "@utils/routes";
+import NewChat from "./ui/chat-button/new-chat";
+import UserProfile from "./user-profile";
 
 interface IAdminNavbarProps extends React.HTMLAttributes<HTMLDivElement> {
   ppHeight?: number;
@@ -34,6 +30,7 @@ const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
   userImg = "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/avatar-icon.svg",
   ...props
 }) => {
+  const { t } = useTranslation("form");
   return (
     <div {...props}>
       <div className={`flex items-center justify-between my-5 px-3 md:px-0`}>
@@ -51,21 +48,16 @@ const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
           </div>
         </div>
         <div className="user-info flex items-center space-x-5">
-          <HelpIcon fill={COLORS.BOLDER} />
-          <NotificationIcon fill={COLORS.BOLDER} />
+          {/* TODO: Re-enable when the help content is ready */}
+          {/* <HelpIcon fill={COLORS.BOLDER} /> */}
+          <NewChat />
           <div className="flex items-center">
             <div className="mr-4 text-right hidden md:block">
               <p className="font-semibold text-semibold">{userName}</p>
-              <p className="text-sm text-gray-400">{userRole}</p>
+              <p className="text-sm text-gray-400">{t(userRole)}</p>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className="rounded-full"
-              src={userImg}
-              width={ppWidth}
-              height={ppHeight}
-              alt={`${userName}-profile`}
-            />
+            <UserProfile userImg={userImg} userName={userName} />
           </div>
         </div>
       </div>

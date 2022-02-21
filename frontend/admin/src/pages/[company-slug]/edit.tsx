@@ -52,7 +52,9 @@ const EditCompany: React.FC<IEditCompanyProps> = ({ company }) => {
       </Head>
       <div>
         <PostPageWrapper navs={editCompanyNavs}>
-          <CompanyDetailsForm initValue={company!} />
+          <div>
+            <CompanyDetailsForm initValue={company!} />
+          </div>
         </PostPageWrapper>
       </div>
     </>

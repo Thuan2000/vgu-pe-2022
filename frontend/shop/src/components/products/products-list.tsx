@@ -1,4 +1,5 @@
 import { NetworkStatus } from "@apollo/client";
+import PSListWrapper from "@components/layouts/ps-list-wrapper";
 import Typography from "@components/ui/storybook/typography";
 import { getCategoryByLabel } from "@datas/categories";
 import { getIndustryByLabel } from "@datas/industries";
@@ -13,9 +14,7 @@ import ProductCard from "./product-card";
 
 const SERVICES_LIMIT = 30;
 
-interface IProductListProps {}
-
-const ProductsList: React.FC<IProductListProps> = ({}) => {
+const ProductsList: React.FC = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState<number>(0);
 
@@ -103,17 +102,21 @@ const ProductsList: React.FC<IProductListProps> = ({}) => {
     );
 
   return (
-    <div className={`grid grid-cols-4 gap-x-10 gap-y-5 w-full`}>
-      {products.map((s) => {
-        return <ProductCard product={s as any} key={s?.id + "service-card"} />;
-      })}
+    <PSListWrapper>
+      <div className={`grid grid-cols-4 gap-x-3 gap-y-5`}>
+        {products.map((s) => {
+          return (
+            <ProductCard product={s as any} key={s?.id + "service-card"} />
+          );
+        })}
+      </div>
 
       {(fetching || hasMore) && (
         <div ref={sentryRef} className="pt-2">
           <Loader spinnerOnly className="mt-4" />
         </div>
       )}
-    </div>
+    </PSListWrapper>
   );
 };
 export default ProductsList;

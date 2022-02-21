@@ -37,6 +37,7 @@ input CreateBuyingRequestInput {
 	endDate: Date!
 	location: String!
 	description: String
+	chatId: String!
 	minBudget: Date!
 	maxBudget: Date!
 	minOrder: Int!
@@ -77,6 +78,12 @@ type BuyingRequestsResponse {
 	pagination: Pagination!
 }
 
+type RefreshBrStatusResponse {
+	updatedAmount: Int
+	success: Boolean!
+	message: String!
+}
+
 input FetchBRInput {
 	companyId: Int
 	offset: Int!
@@ -96,6 +103,8 @@ extend type Mutation {
 	updateBuyingRequest(id: Int!, newValue: UpdateBuyingRequestInput): Response!
 	deleteBuyingRequest(id: Int!): Response!
 	deleteBuyingRequests(ids: [Int!]!): Response!
+	closeBuyingRequest(id: Int!): Response!
+	openBuyingRequest(id: Int!, endDate: Date!): Response!
 }
 
 extend type Query {
@@ -103,6 +112,7 @@ extend type Query {
 		companyId: Int!
 		input: FetchBRInput!
 	): BuyingRequestsResponse!
+	refreshBrStatus: RefreshBrStatusResponse!
 	buyingRequest(id: Int!): BuyingRequest!
 	discoveryBuyingRequests(input: FetchBRInput!): BuyingRequestsResponse!
 	buyingRequestBySlug(slug: String!): BuyingRequest!

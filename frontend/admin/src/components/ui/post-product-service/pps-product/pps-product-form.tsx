@@ -41,9 +41,13 @@ import {
   useUpdateProductMutation,
 } from "@graphql/product.graphql";
 import {
+  generateBlobs,
   generateUUID,
+  getCompanyChatId,
   getCompanyId,
   getCompanyName,
+  getLoggedInUser,
+  getUploadedFiles,
   isEmptyObject,
   removeTypename,
   removeTypenameFromArray,
@@ -53,6 +57,7 @@ import { getIndustry } from "@datas/industries";
 import { getLocationByName, vietnamProvinces } from "@utils/vietnam-cities";
 import { groupBy } from "lodash";
 import { IGroupFormValues } from "./product-group-form";
+import { useUploadFilesMutation } from "@graphql/upload.graphql";
 
 interface IPPSProductFormProps {
   initValues?: IProduct;
@@ -168,6 +173,8 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     handleSubmit,
   } = methods;
 
+  const [uploadFiles, { loading: uploadingFiles }] = useUploadFilesMutation();
+
   const [updateProduct, { loading: updating }] = useUpdateProductMutation({
     onCompleted: handleCompleteUpdated,
   });
@@ -250,13 +257,13 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     if (success) {
       Swal.fire({
         icon: "success",
-        title: t("serviceCreated-title"),
-        text: t("serviceCreated-text"),
-        confirmButtonText: t("serviceCreated-button-label"),
+        title: t("productCreated-title"),
+        text: t("productCreated-text"),
+        confirmButtonText: t("productCreated-button-label"),
       });
 
       router.replace(`${ROUTES.POSTED_PRODUCT_SERVICE}?target=product`);
-    } else if (!success) alert(t(`CREATE-SERVICES-${message}-ERROR`));
+    } else if (!success) alert(t(`CREATE-PRODUCT-${message}-ERROR`));
   }
 
   function getMinMaxPrice(variations: IVariationInput[] = []) {
@@ -273,11 +280,17 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     return pricing;
   }
 
-  function onSubmit(values: IPostProductFormValues) {
+  async function onSubmit(values: IPostProductFormValues) {
     const { category: categoryForm, general, details, pricing } = values;
 
     const { name, industry, category } = categoryForm;
-    const { images, certificates, minOrder, description, videos } = general;
+    const {
+      images: mixedImages,
+      certificates: mixedCertificates,
+      minOrder,
+      description,
+      videos: mixedVideos,
+    } = general;
     const { price, variations: rawVariations } = pricing;
     const {
       tags: rawTags,
@@ -297,7 +310,29 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       ({ id, ...rest }) => rest
     );
 
-    const coverImage = images?.[0];
+    const oldImages = mixedImages.filter((img) => !img.isNew) || [];
+    const images = mixedImages.filter((img) => img.isNew) || [];
+
+    const oldVideos = mixedVideos?.filter((vid) => !vid.isNew) || [];
+    const videos = mixedVideos?.flatMap((vid) => (vid.isNew ? vid : [])) || [];
+
+    const oldCertificates =
+      mixedCertificates?.filter((cer) => !cer.isNew) || [];
+    const certificates =
+      mixedCertificates?.flatMap((cer) => (cer.isNew ? cer : [])) || [];
+
+    const blobImages = await generateBlobs(images);
+    const blobCertificates = await generateBlobs(certificates);
+    const blobVideos = await generateBlobs(videos);
+
+    const uploadedImages = await getUploadedFiles(uploadFiles, blobImages);
+    const uploadedCertificates = await getUploadedFiles(
+      uploadFiles,
+      blobCertificates
+    );
+    const uploadedVideos = await getUploadedFiles(uploadFiles, blobVideos);
+
+    const coverImage = oldImages?.[0] || uploadedImages?.[0];
 
     const newTags: ITagInput[] = [];
     const tags: string[] = rawTags?.map(({ isNewRecord, id, ...tag }: any) => {
@@ -315,10 +350,10 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
 
       // From General tab
       coverImage,
-      certificates,
+      certificates: [...oldCertificates, ...uploadedCertificates],
       minOrder,
       description,
-      videos,
+      videos: [...oldVideos, ...uploadedVideos],
       warehouseLocation: location?.name,
 
       // From Pricing tab
@@ -334,8 +369,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       isPreorder,
       packagedDimension,
       status,
-
-      gallery: images,
+      gallery: [...oldImages, ...uploadedImages],
     };
 
     if (initValues) {
@@ -352,9 +386,11 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       createProduct({
         variables: {
           input: {
+            ...inputValues,
             companyId: getCompanyId(),
             companyName: getCompanyName(),
-            ...inputValues,
+            chatId: getCompanyChatId()!,
+            createdById: getLoggedInUser()?.id!,
           },
         },
       });
@@ -397,7 +433,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
           )}
         </div>
         <PPSProductFooterButton
-          loading={creating}
+          loading={creating || uploadingFiles || updating}
           onNextClick={handleNextClick}
           onBackClick={handleBackClick}
           formPosition={formPosition}

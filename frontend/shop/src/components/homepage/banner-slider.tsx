@@ -8,12 +8,15 @@ import Image from "next/image";
 import { COLORS } from "@utils/colors";
 
 import "swiper/css/bundle";
-import { data, offerSliderBreakpoints } from "./bs-constants";
+import { offerSliderBreakpoints } from "./bs-constants";
+import { useBannersQuery } from "@graphql/banner.graphql";
 
 interface IBannerSliderProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const BannerSlider: React.FC<IBannerSliderProps> = ({}) => {
   const { t } = useTranslation();
+
+  const { data } = useBannersQuery();
 
   function SlideArrow({
     className,
@@ -32,7 +35,7 @@ const BannerSlider: React.FC<IBannerSliderProps> = ({}) => {
     );
   }
 
-  const banners = data;
+  const banners = data?.banners;
 
   const arrowSize = 22;
 
@@ -51,14 +54,14 @@ const BannerSlider: React.FC<IBannerSliderProps> = ({}) => {
           }}
         >
           {banners?.map((d) => (
-            <SwiperSlide key={d.id}>
+            <SwiperSlide key={d.imgUrl}>
               <div
                 className={`w-full h-80 rounded-md overflow-hidden relative`}
               >
                 <Image
                   className="w-full h-auto"
                   src={d.imgUrl}
-                  alt={t(d.title)}
+                  alt={t(d.imgUrl)}
                   layout="fill"
                 />
               </div>

@@ -26,18 +26,19 @@ export type TPasswordResetFormValues = {
 };
 
 export const passwordResetResolver = yup.object({
+  // TODO: Add proper translations here. Since Vietnamese is the priority, putting Vietnamese here first.
   password: yup
     .string()
-    .required("passwordRequired-error")
-    .matches(/^(?=.{8,})/, "passwordTooShort-error")
-    .matches(/[A-Z]/, "passwordNotHaveUppercase-error")
-    .matches(/[a-z]/, "passwordNotHaveLowercase-error")
-    .matches(/[0-9]/, "passwordNotHaveNumber-error")
-    .matches(/^\S*$/, "passwordHaveSpace-error"),
+    .required("Vui lòng đặt mật khẩu")
+    .matches(/^(?=.{8,})/, "Mật khẩu quá ngắn")
+    .matches(/[A-Z]/, "Mật khẩu chưa có ký tự viết hoa")
+    .matches(/[a-z]/, "Mật khẩu chưa có ký tự thường")
+    .matches(/[0-9]/, "Mật khẩu chưa có số")
+    .matches(/^\S*$/, "Mật khẩu không được chứa khoảng trống"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "passwordNotMatch-error")
-    .required("passwordNotMatch-error"),
+    .oneOf([yup.ref("password"), null], "Mật khẩu không khớp")
+    .required("Mật khẩu không khớp"),
 });
 
 const PasswordReset: React.FC<IPasswordResetProps> = ({
@@ -77,7 +78,12 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({
         size="xl"
         weight="bold"
       />
-      <div className="mt-10 space-y-4">
+      <Typography
+        className={`mt-2 indent-3 w-80`}
+        text={t("please-change-your-password-message")}
+        size="md"
+      />
+      <div className="mt-5 space-y-4">
         <div className={`fic space-x-2`}>
           <Typography size="md" text={`${t("email-label")}: `} />
           <Typography size="md" weight="bold" text={email!} />
@@ -85,6 +91,7 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({
         <div className="space-y-5">
           <PasswordInput
             inputClassName="-mt-2"
+            placeholder={t("password-placeholder")}
             required
             {...register("password")}
             onChange={(e) => {
@@ -98,6 +105,7 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({
           <PasswordInput
             required
             inputClassName="-mt-2"
+            placeholder={t("password-placeholder")}
             {...register("confirmPassword")}
             onChange={(e) => {
               register("confirmPassword").onChange(e);
@@ -107,11 +115,15 @@ const PasswordReset: React.FC<IPasswordResetProps> = ({
             error={t(errors.confirmPassword?.message || "")}
           />
         </div>
-        <div className="fic !mt-10 justify-evenly">
-          <Button onClick={onAbort} className={`!w-48`} color="error">
+        <div className="fic !mt-10 justify-evenly space-x-5">
+          <Button
+            onClick={onAbort}
+            className={`!min-w-[200px] w-1/2`}
+            color="error"
+          >
             {t("cancel-button-label")}
           </Button>
-          <Button className={`!w-48`} type="submit">
+          <Button className={`!min-w-[200px] w-1/2`} type="submit">
             {t("setPassword-button-label")}
           </Button>
         </div>

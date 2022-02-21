@@ -1,0 +1,8 @@
+query Partners {
+  partners {
+    title
+    description
+    logoUrl
+    websiteUrl
+  }
+}

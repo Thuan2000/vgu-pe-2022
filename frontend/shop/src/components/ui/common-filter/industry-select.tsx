@@ -9,6 +9,7 @@ import {
   IIndustry,
   industriesData,
 } from "@datas/industries";
+import { isLogin } from "@utils/auth-utils";
 
 interface IIndustrySelectProps extends React.HTMLAttributes<HTMLDivElement> {}
 
