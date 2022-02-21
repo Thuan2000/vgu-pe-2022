@@ -26,7 +26,7 @@ const Chip: React.FC<IChipProps> = ({
   text,
   className: inputClass,
   icon: Icon,
-  size = "sm",
+  size = "xs",
   ...props
 }) => {
   const className = cn(
@@ -47,6 +47,7 @@ const Chip: React.FC<IChipProps> = ({
       <Typography
         className={`!text-${size} fic text-${textColor}`}
         text={text}
+        weight="normal"
       />
     </div>
   );

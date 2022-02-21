@@ -238,8 +238,8 @@ export function getCompanyExperience(date: string) {
   const nowYear = new Date().getFullYear();
 
   return {
-    amount: companyYear - nowYear,
-    timeUnit: "YEAR",
+    amount: nowYear - companyYear,
+    timeUnit: "năm kinh nghiệm",
   };
 }
 
