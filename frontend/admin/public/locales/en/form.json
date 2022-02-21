@@ -393,5 +393,6 @@
   "ok-button": "Confirm",
   "COMPANY_OWNER": "Company Owner",
 
-  "location-text": "Location"
+  "location-text": "Location",
+  "post-request-endDate-label": "Deadline"
 }

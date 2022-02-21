@@ -201,5 +201,6 @@
   "yourRequest-message-label": "Your Tender",
   "year-establishment-label": "Years",
   "month-establishment-label": "Months",
-  "no-certificates": "No Certificates"
+  "no-certificates": "No Certificates",
+  "no-services-yet-message": "No services found"
 }
