@@ -43,7 +43,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
   return (
     <div className="md:w-2/3 space-y-3 sm:mb-5">
       <Input
-        disabled={!isCompanyFullInfo}
+        // disabled={!isCompanyFullInfo}
         numberQueue={1}
         value={getValues("general.name")}
         prefix={`${t("requestNamePrefix-value")} - `}
@@ -67,7 +67,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
       />
 
       <TextArea
-        disabled={!isCompanyFullInfo}
+        // disabled={!isCompanyFullInfo}
         label={t("post-request-description-label")}
         // className="w-full"
         numberQueue={2}
@@ -83,7 +83,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
 
       <DocumentInput
         inputFileType="image"
-        disabled={!isCompanyFullInfo}
+        // disabled={!isCompanyFullInfo}
         accept="image/*"
         note={t("post-request-gallery-note")}
         control={control}
@@ -95,7 +95,7 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
       />
 
       <IndustryCategorySelect
-        disabled={!isCompanyFullInfo}
+        // disabled={!isCompanyFullInfo}
         optionTextSize="xs"
         control={control}
         categoryControllerName="general.category"

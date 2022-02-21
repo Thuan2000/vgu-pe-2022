@@ -52,11 +52,11 @@ const PostRequest = () => {
       </Head>
       {/* Navbar here */}
 
-      <HaveToFullInfoWrapper>
-        <PostPageWrapper navs={postRequestNavs}>
-          <PostTenderForm />
-        </PostPageWrapper>
-      </HaveToFullInfoWrapper>
+      {/* <HaveToFullInfoWrapper> */}
+      <PostPageWrapper navs={postRequestNavs}>
+        <PostTenderForm />
+      </PostPageWrapper>
+      {/* </HaveToFullInfoWrapper> */}
     </>
   );
 };

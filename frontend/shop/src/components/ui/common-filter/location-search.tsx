@@ -42,7 +42,6 @@ const LocationSearch: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         options={vietnamProvinces}
         name="locationFilter"
         isClearable
-        isDisabled={!isLogin()}
         getInitialValue={(opt) => opt.name === locationFilter}
         value={getVietnamCityByName(locationFilter) || null}
         onChange={handleChange}

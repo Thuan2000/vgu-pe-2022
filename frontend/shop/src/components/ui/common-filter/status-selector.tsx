@@ -95,10 +95,7 @@ const StatusCheckbox: React.FC<IStatusProps> = ({ ...props }) => {
               variant="custom"
               size="extraSmall"
               onClick={() => filterStatus(s.status)}
-              className={`w-1/3 ${SAME_CLASS} ${roundClass} ${extraClass} ${
-                !isLogin() && "cursor-not-allowed"
-              }`}
-              disabled={!isLogin()}
+              className={`w-1/3 ${SAME_CLASS} ${roundClass} ${extraClass}`}
             >
               {t(s.label)}
             </Button>
