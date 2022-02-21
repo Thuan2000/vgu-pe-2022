@@ -146,7 +146,8 @@ Product.init(
 		isPreorder: DataTypes.BOOLEAN,
 		baseDimension: DataTypes.JSON,
 		packagedDimension: DataTypes.JSON,
-		warranty: DataTypes.JSON
+		warranty: DataTypes.JSON,
+		isSeedData: DataTypes.BOOLEAN
 	},
 	{
 		sequelize: Database.sequelize,

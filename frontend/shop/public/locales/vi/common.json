@@ -168,5 +168,13 @@
   "forgotPassword-checkEmail-input-step-title": "Kiểm tra mail",
   "forgotPassword-checkEmail-input-step-subtitle": "Nhấn vào link được gửi vào mail để bắt đầu khôi phục mật khẩu",
   "forgotPassword-password-input-step-title": "Nhập mật khẩu mới",
-  "forgotPassword-password-input-step-subtitle": "Đặt lại mật khẩu mới."
+  "forgotPassword-password-input-step-subtitle": "Đặt lại mật khẩu mới.",
+  "location-text": "Tỉnh/thành",
+  "yearOfEstablished-text": "Năm thành lập",
+  "contactNumber-text": "SĐT liên hệ",
+  "address-text": "Địa chỉ",
+  "industry-text": "Lĩnh vực",
+  "businessType-text": "Loại hình doanh nghiệp",
+  "mainProducts-text": "Sản phẩm chính",
+  "pluralCompanybranch-title": "Chi nhánh kho hàng"
 }
