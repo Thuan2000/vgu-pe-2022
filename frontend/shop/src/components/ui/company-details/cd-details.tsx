@@ -37,14 +37,14 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
       <div className="mb-5 mt-2">
         <Typography
           variant="description"
-          element="p"
+          element="h3"
           size="md"
           text={t("companyInformation-title")}
           className="mb-2"
         />
         <Typography
           variant="description"
-          element="h3"
+          element="p"
           size="md"
           text={company?.description || " "}
         />

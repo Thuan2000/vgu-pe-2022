@@ -117,7 +117,8 @@ Company.init(
 		approved: DataTypes.BOOLEAN,
 		approverId: DataTypes.INTEGER,
 		ownerId: DataTypes.INTEGER,
-		isFullInfo: DataTypes.BOOLEAN
+		isFullInfo: DataTypes.BOOLEAN,
+		isSeedData: DataTypes.BOOLEAN
 	},
 	{
 		tableName: "companies",

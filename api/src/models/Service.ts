@@ -141,7 +141,8 @@ Service.init(
 		companyId: DataTypes.INTEGER,
 		coverImage: DataTypes.JSON,
 		createdById: DataTypes.INTEGER,
-		updatedById: DataTypes.INTEGER
+		updatedById: DataTypes.INTEGER,
+		isSeedData: DataTypes.BOOLEAN
 	},
 	{
 		sequelize: Database.sequelize,
