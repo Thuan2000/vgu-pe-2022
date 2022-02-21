@@ -269,7 +269,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     }
 
     if (uploadedProfileImg?.[0].isNew) {
-      const blobProfile = await generateBlobs(general.coverImage);
+      const blobProfile = await generateBlobs(general.profileImage);
       uploadedProfileImg = await getUploadedFiles(uploadFiles, blobProfile);
     }
 

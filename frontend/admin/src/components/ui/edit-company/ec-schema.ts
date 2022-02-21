@@ -15,7 +15,7 @@ export type ECGeneralFormValues = {
   businessTypes: IBusinessType[];
   location: IVietnamCity;
   address: string;
-  profileImage?: IDUFile;
+  profileImage?: IDUFile[];
   coverImage?: IDUFile[];
   mainProducts?: string[];
 };

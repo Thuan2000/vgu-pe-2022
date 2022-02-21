@@ -124,6 +124,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
             onChange={() => {
               trigger("general.establishmentDate");
             }}
+            maxDate={new Date()}
             label={t("establishmentDate-input-label")}
             placeholder={t("establishmentDate-input-placeholder")}
             error={t(errors?.general?.establishmentDate?.message || "")}
