@@ -13,7 +13,7 @@ interface ICDBfwProps {
 const CDBfw: React.FC<ICDBfwProps> = ({ bfws, noBfwMessage, bfwFor }) => {
   const { t } = useTranslation();
   return (
-    <div className={`space-y-1 relative`}>
+    <div className={`space-y-1 relative border-1 rounded-sm p-3`}>
       <div className="fic space-x-2">
         <Typography
           variant="smallTitle"

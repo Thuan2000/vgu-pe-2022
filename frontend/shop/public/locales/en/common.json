@@ -198,5 +198,8 @@
   "you-need-to-login-to-access-title": "Please Login To Access Page",
   "you-need-to-login-to-access-text": "You need to login to access this feature",
   "stay-button-label": "Keep Discover",
-  "yourRequest-message-label": "Your Tender"
+  "yourRequest-message-label": "Your Tender",
+  "year-establishment-label": "Years",
+  "month-establishment-label": "Months",
+  "no-certificates": "No Certificates"
 }

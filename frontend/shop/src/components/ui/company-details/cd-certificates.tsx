@@ -12,7 +12,7 @@ interface ICDCertificatesProps {
 const CDCertificates: React.FC<ICDCertificatesProps> = ({ certificates }) => {
   const { t } = useTranslation();
   return (
-    <div className={` space-y-1`}>
+    <div className={`space-y-1 relative border-1 rounded-sm p-3`}>
       <Typography
         variant="smallTitle"
         element="h3"
@@ -31,8 +31,8 @@ const CDCertificates: React.FC<ICDCertificatesProps> = ({ certificates }) => {
             );
           })
         ) : (
-          <div className={`flex-center h-full w-full`}>
-            <Typography text={t("not-setup")} />
+          <div className={`flex-center h-full w-full py-10 col-span-3`}>
+            <Typography text={t("no-certificates")} size="md" />
           </div>
         )}
       </div>

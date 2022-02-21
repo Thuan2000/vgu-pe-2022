@@ -6,14 +6,10 @@ import {
   getBusinessTypes,
 } from "@datas/businessTypes";
 import { ICompany } from "@graphql/types.graphql";
-import { getYear } from "@utils/functions";
+import { getYear, viDateFormat } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import CDDetailQuestion from "@components/ui/company-details/cd-detail-question-answer-item";
 import Typography from "../storybook/typography";
-import FacebookIcon from "@assets/icons/socials/facebook-icon";
-import MessangerIcon from "@assets/icons/socials/messanger-icon";
-import TelegramIcon from "@assets/icons/socials/telegram-icon";
-import LinkIcon from "@assets/icons/socials/link-icon";
 import { getIndustry } from "@datas/industries";
 
 interface ICDDetailsProps {
@@ -23,6 +19,15 @@ interface ICDDetailsProps {
 const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
   const { t } = useTranslation();
   const { settings } = company || {};
+
+  function getIndustryText() {
+    if (!company.industryId) return "";
+    return t(`industry:${getIndustry(company.industryId).label}`);
+  }
+
+  function getNotSetupText() {
+    return t("common:not-setup");
+  }
 
   function getBusinessTypesText() {
     const bts = getBusinessTypes(company?.businessTypeIds as number[]);
@@ -59,7 +64,7 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
             />
             <CDDetailQuestion
               question={t("yearOfEstablished-text")}
-              answer={getYear(company?.establishmentDate) + ""}
+              answer={viDateFormat(company?.establishmentDate) + ""}
             />
             <CDDetailQuestion
               question={t("companyTotalEmployee-text")}
@@ -77,14 +82,14 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
             />
             <CDDetailQuestion
               question={t("industry-text")}
-              answer={getIndustry(company?.industryId as any) + ""}
+              answer={getIndustryText() || getNotSetupText()}
             />
             <CDDetailQuestion
               question={t("businessType-text")}
               answer={
                 !!company?.businessTypeIds
                   ? getBusinessTypesText()
-                  : (t("common:not-setup") as string)
+                  : getNotSetupText()
               }
             />
             <CDDetailQuestion
