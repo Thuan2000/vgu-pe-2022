@@ -237,9 +237,25 @@ export function getCompanyExperience(date: string) {
   const companyYear = new Date(date).getFullYear();
   const nowYear = new Date().getFullYear();
 
+  const companyMonth = new Date(date).getMonth();
+  const nowMonth = new Date().getMonth();
+
+  const yearAmount = Math.max(companyYear - nowYear, 0);
+
+  const deltaMonth = nowMonth - companyMonth;
+  const monthAmount =
+    deltaMonth < 0 ? 12 - companyMonth + 1 + nowMonth : deltaMonth;
+
+  if (yearAmount === 0) {
+    return {
+      amount: monthAmount,
+      timeUnit: "month-establishment-label",
+    };
+  }
+
   return {
-    amount: nowYear - companyYear,
-    timeUnit: "năm kinh nghiệm",
+    amount: yearAmount,
+    timeUnit: "year-establishment-label",
   };
 }
 
