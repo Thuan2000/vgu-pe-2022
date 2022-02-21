@@ -176,5 +176,10 @@
   "industry-text": "Lĩnh vực",
   "businessType-text": "Loại hình doanh nghiệp",
   "mainProducts-text": "Sản phẩm chính",
-  "pluralCompanybranch-title": "Chi nhánh kho hàng"
+  "pluralCompanybranch-title": "Chi nhánh kho hàng",
+  "to-login-page-button-label": "Đăng nhập",
+  "to-home-page-button-label": "Về trang chủ",
+  "you-need-to-login-to-access-title": "Cần đăng nhập/đăng ký",
+  "you-need-to-login-to-access-text": "Vui lòng đăng nhập vào tài khoản doanh nghiệp của bạn để xem trang",
+  "stay-button-label": "Không, cảm ơn"
 }

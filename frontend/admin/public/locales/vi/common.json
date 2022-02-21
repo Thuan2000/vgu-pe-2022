@@ -160,5 +160,8 @@
   "create-product-button-label": "Thêm sản phẩm",
   "deleteProject-button-label": "Xóa dự án",
   "create-project-title": "Tạo dự án",
-  "products-label": "sản phẩm"
+  "products-label": "sản phẩm",
+  "messages-label": "Hộp thư",
+  "no-new-message-text": "0 tin nhắn mới",
+  "open-chat-text": "Mở chat"
 }
