@@ -13,15 +13,13 @@ interface INavbarProps {
 }
 
 const Navbar: React.FC<INavbarProps> = ({ className }) => {
-  const isFullInfoComp = useIsFullInfoCompChecker();
-
   return (
     <div className={`z-50 ${className}`}>
       <div className="flex justify-between items-center py-3 bg-gray-10 px-10 md:px-48">
         <NavbarNavigations />
         <LanguageSelector />
       </div>
-      {isLogin() && !isFullInfoComp && <EditCompanyReminder />}
+      {<EditCompanyReminder />}
       <div className={`px-10 md:px-48 bg-white`}>
         <NavbarBottom />
         <div className="fic">
