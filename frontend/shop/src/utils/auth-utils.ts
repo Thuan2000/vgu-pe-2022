@@ -30,7 +30,7 @@ export function setIsFullInfoTrue() {
 }
 
 export function removeIsFullInfoTrue() {
-  Cookie.remove(IS_FULL_INFO_COMP);
+  Cookie.remove(IS_FULL_INFO_COMP, getDomain());
 }
 
 export function removeAuthCredentials() {
