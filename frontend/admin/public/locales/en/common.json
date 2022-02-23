@@ -152,5 +152,6 @@
   "to-edit-company-page-button-label": "To Edit Company",
   "you-need-to-fill-company-detail-to-access-title": "Please Fill Company Detail",
   "you-need-to-fill-company-detail-to-access-text": "You need to fill in all company details to create a record",
-  "please-edit-company-button-label": "Edit Company Detail"
+  "please-edit-company-button-label": "Edit Company Detail",
+  "change-will-discarded-title": "Discard all unsaved change?"
 }

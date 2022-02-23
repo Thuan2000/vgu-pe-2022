@@ -1,35 +1,17 @@
-import { COLORS } from "@utils/colors";
-import { getFormattedPathnameRoute } from "@utils/functions";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import Swal, { SweetAlertOptions } from "sweetalert2";
 
 const useIsEditedFormHandler = (isEdited: boolean) => {
   const { t } = useTranslation();
   const router = useRouter();
-  async function preventRouteChange(nextRoute: string) {
-    // TODO: Prevent route change using next router
-    return false;
-    const fNextRoute = getFormattedPathnameRoute(nextRoute);
-    const fBaseRoute = getFormattedPathnameRoute(router.asPath);
-    if (fNextRoute === fBaseRoute) return;
 
-    const { isDenied } = await Swal.fire({
-      icon: "info",
-      title: t("change-will-discarded-title"),
-      text: t("change-will-discarded-text"),
-      denyButtonText: t("discard-change-button-label"),
-      denyButtonColor: COLORS.PRIMARY.DEFAULT,
-      showDenyButton: true,
-      focusDeny: true,
-      confirmButtonText: t("cancel-button-label"),
-      confirmButtonColor: COLORS.GRAY[100],
-      allowOutsideClick: false,
-    });
-
-    return isDenied;
-  }
+  const preventRouteChange = (url: string) => {
+    if (router.pathname !== url && !confirm(t("change-will-discarded-title"))) {
+      router.events.emit("routeChangeError");
+      throw `Route change to "${url}" was aborted (this error can be safely ignored). See https://github.com/zeit/next.js/issues/2476.`;
+    }
+  };
 
   function preventReload() {
     return confirm(t("change-will-discarded-title"));

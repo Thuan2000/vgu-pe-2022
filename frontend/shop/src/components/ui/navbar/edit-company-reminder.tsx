@@ -21,7 +21,11 @@ const EditCompanyReminder: React.FC<IEditCompanyReminderProps> = ({}) => {
   if (isFullInfoComp) return <></>;
 
   return (
-    <div className={`bg-blue-300 px-10 md:px-48 py-3 flex justify-between`}>
+    <div
+      className={`bg-blue-300 px-10 md:px-48 py-3 flex justify-between ${
+        isFullInfoComp && "hidden"
+      }`}
+    >
       <div className={`fic space-x-2`}>
         <div className={`w-5 h-5 relative`}>
           <Image
