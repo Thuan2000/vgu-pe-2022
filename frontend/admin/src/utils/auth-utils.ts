@@ -98,16 +98,20 @@ export function removeMeData() {
   Cookie.remove(LOGGED_IN_USER, !isDevelopment ? { ...cookieDomain } : {});
 }
 
+export function setIsFullInfoTrue() {
+  Cookie.set(IS_FULL_INFO_COMP, JSON.stringify(true), getDomain());
+}
+
+export function removeIsFullInfoTrue() {
+  Cookie.remove(IS_FULL_INFO_COMP);
+}
+
 export function getMeDataFromCookie(cookie: any): {
   user: IUser;
   company: ICompany;
 } {
   if (!cookie?.LOGGED_IN_USER) return {} as any;
   return JSON.parse(cookie?.LOGGED_IN_USER || "");
-}
-
-export function setIsCompanyFullInfoCookie(value: boolean) {
-  Cookies.set(IS_FULL_INFO_COMP, JSON.stringify(`${value}`), getDomain());
 }
 
 export function getDomain() {

@@ -8,7 +8,7 @@ import {
 import { ICompany, IUpdateCompanyDetailsInput } from "@graphql/types.graphql";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
-import { getMeData, setMeData } from "@utils/auth-utils";
+import { getMeData, setIsFullInfoTrue, setMeData } from "@utils/auth-utils";
 import {
   generateBlobs,
   generateUUID,
@@ -178,8 +178,8 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   }: UpdateCompanyDetailMutation) {
     const { payload, success } = updateCompany ?? {};
     if (success && !!payload) {
+      setIsFullInfoTrue();
       const { company: oldCompany } = getMeData();
-
       Swal.fire({
         icon: "success",
         title: t("companyEdited-success-message"),

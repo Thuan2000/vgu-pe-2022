@@ -4,20 +4,16 @@ import LanguageSelector from "../language-selector";
 import NavbarBottom from "./navbar-bottom";
 import { ROUTES } from "@utils/routes";
 import Breadcrumb from "../storybook/breadcrumb";
-import { getIsCompanyFullInfo } from "@utils/functions";
 import EditCompanyReminder from "./edit-company-reminder";
 import { isLogin } from "@utils/auth-utils";
+import useIsFullInfoCompChecker from "src/hooks/useIsFullInfoCompChecker";
 
 interface INavbarProps {
   className: string;
 }
 
 const Navbar: React.FC<INavbarProps> = ({ className }) => {
-  const [isFullInfo, setIsFullInfo] = useState(getIsCompanyFullInfo());
-
-  useEffect(() => {
-    setIsFullInfo(getIsCompanyFullInfo());
-  }, []);
+  const isFullInfoComp = useIsFullInfoCompChecker();
 
   return (
     <div className={`z-50 ${className}`}>
@@ -25,7 +21,7 @@ const Navbar: React.FC<INavbarProps> = ({ className }) => {
         <NavbarNavigations />
         <LanguageSelector />
       </div>
-      {/* {isLogin() && isFullInfo ? <></> : <EditCompanyReminder />} */}
+      {isLogin() && !isFullInfoComp && <EditCompanyReminder />}
       <div className={`px-10 md:px-48 bg-white`}>
         <NavbarBottom />
         <div className="fic">

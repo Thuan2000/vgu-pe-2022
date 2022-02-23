@@ -12,6 +12,9 @@ import {
   MOBILE_SIZE,
 } from "./constants";
 import Cookies from "js-cookie";
+import { TFunction } from "next-i18next";
+import { SweetAlertResult, SweetAlertOptions } from "sweetalert2";
+import { COLORS } from "./colors";
 
 export function checkIsMobile(width: number) {
   return width >= MOBILE_SIZE.min && width <= MOBILE_SIZE.max;
@@ -298,4 +301,30 @@ export function generateUsername(email: string) {
   const userName = `${splitted?.[0]}`;
 
   return userName;
+}
+
+// The cancel button and confirm button is swapped
+export async function firePleaseLoginSwal(
+  t: TFunction,
+  Swal: any,
+  texts?: {
+    confirmButton?: string;
+    denyButton?: string;
+  }
+): Promise<SweetAlertResult> {
+  const data = await Swal.fire({
+    icon: "info",
+    title: t("common:you-need-to-fill-company-detail-to-access-title"),
+    text: t("common:you-need-to-fill-company-detail-to-access-text"),
+    // denyButtonText: texts?.denyButton || t("common:to-login-page-button-label"),
+    // denyButtonColor: COLORS.PRIMARY.DEFAULT,
+    // showDenyButton: true,
+    // focusDeny: true,
+    confirmButtonColor: COLORS.PRIMARY.DEFAULT,
+    confirmButtonText:
+      texts?.confirmButton || t("common:to-edit-company-page-button-label"),
+    allowOutsideClick: false,
+  } as SweetAlertOptions);
+
+  return data;
 }

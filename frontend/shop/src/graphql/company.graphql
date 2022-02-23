@@ -49,3 +49,7 @@ mutation GetCompanyNameSuggestion($name: String!, $limit: Int!) {
     highlightedName
   }
 }
+
+mutation IsCompanyFullInfo($id: Int!) {
+  isCompanyFullInfo(id: $id)
+}

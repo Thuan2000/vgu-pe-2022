@@ -168,7 +168,6 @@ export function setCharAt(str: string, index: number, chr: string) {
   return str.substring(0, index) + chr + str.substring(index + 1);
 }
 
-// @TODO: Check this since it's from stackoverflow
 export function generateUUID() {
   let d = new Date().getTime(); //Timestamp
   let d2 =

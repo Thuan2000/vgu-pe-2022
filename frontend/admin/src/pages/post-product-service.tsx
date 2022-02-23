@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import PageLayout from "@components/layouts/page-layout";
 import Head from "next/head";
@@ -15,7 +15,7 @@ import {
   postServiceNavs,
 } from "@components/ui/post-product-service/pps-contstants";
 import { useRouter } from "next/dist/client/router";
-import HaveToFullInfoWrapper from "@components/have-to-full-info/have-to-full-info-wrapper";
+import useCompanyDetailCheck from "src/hooks/useCompanyDetailCheck";
 
 interface IPostProductProps {}
 // interface IPostProductProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -39,8 +39,13 @@ const PostProduct: React.FC<IPostProductProps> = () => {
   const { t } = useTranslation("form");
 
   const { query } = useRouter();
-
   const target = query.target;
+
+  const checkCompanyFullInfo = useCompanyDetailCheck();
+
+  useEffect(() => {
+    checkCompanyFullInfo();
+  }, []);
 
   return (
     <div>
@@ -48,13 +53,11 @@ const PostProduct: React.FC<IPostProductProps> = () => {
         <title>{generateHeadTitle(t(PAGE_TITLE.POST_PRODUCT))}</title>
         <meta name="description" content={PAGE_DESCRIPTION.POST_PRODUCT} />
       </Head>
-      {/* <HaveToFullInfoWrapper> */}
       <PostPageWrapper
         navs={target === "product" ? postProductNavs : postServiceNavs}
       >
         <PostProductServiceForm />
       </PostPageWrapper>
-      {/* </HaveToFullInfoWrapper> */}
     </div>
   );
 };
