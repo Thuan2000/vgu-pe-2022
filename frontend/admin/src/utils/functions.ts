@@ -328,3 +328,17 @@ export async function firePleaseLoginSwal(
 
   return data;
 }
+
+export function removeLocaleFromRoute(route: string) {
+  const locales = ["en", "vi"];
+  locales.forEach((l) => (route = route.replace(`/${l}`, "")));
+  return route;
+}
+
+export function getPathnameOnly(route: string) {
+  return route.split("?")?.[0];
+}
+
+export function getFormattedPathnameRoute(route: string) {
+  return getPathnameOnly(removeLocaleFromRoute(route));
+}

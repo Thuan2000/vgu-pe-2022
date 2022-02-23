@@ -58,6 +58,7 @@ import { getLocationByName, vietnamProvinces } from "@utils/vietnam-cities";
 import { groupBy } from "lodash";
 import { IGroupFormValues } from "./product-group-form";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
+import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
 
 interface IPPSProductFormProps {
   initValues?: IProduct;
@@ -172,6 +173,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     trigger,
     handleSubmit,
   } = methods;
+  useIsEditedFormHandler(!!dirtyFields.category);
 
   const [uploadFiles, { loading: uploadingFiles }] = useUploadFilesMutation();
 

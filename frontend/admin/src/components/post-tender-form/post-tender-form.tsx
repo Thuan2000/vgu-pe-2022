@@ -42,6 +42,7 @@ import {
 } from "@utils/functions";
 import { getDefaultValue } from "./ptf-utils";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
+import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
 
 interface IPostTenderFormParams {
   initValue?: IBuyingRequest;
@@ -51,15 +52,16 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
   const {
     register,
     control,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     getValues,
     handleSubmit,
     trigger,
   } = useForm<PostRequestFormValue>({
     resolver: yupResolver(PostRequestSchema),
-    // @TODO Find out what happened
     defaultValues: getDefaultValue(initValue) as any,
   });
+
+  useIsEditedFormHandler(!!dirtyFields.general);
 
   const { query, ...router } = useRouter();
   const formPosition = parseInt(query.formPosition as string) || 1;
@@ -70,7 +72,6 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
         handleCreateUpdateMutationComplete(createBuyingRequest),
     });
   const [uploadFiles, { loading: uploadingFiles }] = useUploadFilesMutation();
-
   const [updateBr, { loading: updating }] = useUpdateBuyingRequestMutation({
     onCompleted: ({ updateBuyingRequest }) =>
       handleCreateUpdateMutationComplete(updateBuyingRequest),

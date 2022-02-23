@@ -51,6 +51,7 @@ import { getCategory } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
 import { getLocationByName } from "@utils/vietnam-cities";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
+import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
 
 interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {
   initValue?: IService;
@@ -163,6 +164,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
     getValues,
     handleSubmit,
   } = methods;
+  useIsEditedFormHandler(!!dirtyFields.category);
 
   // Changing section if there's an error and user submitting
   useEffect(() => {

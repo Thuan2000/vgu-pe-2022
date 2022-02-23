@@ -23,6 +23,7 @@ import { useRouter } from "next/dist/client/router";
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
 import Swal from "sweetalert2";
 import Button from "../storybook/button";
 import { IDUFile } from "../storybook/document-uploader/document-uploader";
@@ -153,6 +154,8 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     setValue,
     formState: { errors, dirtyFields },
   } = methods;
+  useIsEditedFormHandler(!!dirtyFields.general);
+
   const { query, ...router } = useRouter();
   const [updateCompany, { loading: updatingCompany }] =
     useUpdateCompanyDetailMutation({ onCompleted: handleCompanyUpdated });
