@@ -66,6 +66,7 @@ class App {
 			// Express Server
 			this.app = express();
 			this.app.use(graphqlUploadExpress());
+			this.app.get("/", (req, res) => res.send("Success"));
 			const expressApp = this.app;
 
 			this.apolloServer.applyMiddleware({ app: this.app });

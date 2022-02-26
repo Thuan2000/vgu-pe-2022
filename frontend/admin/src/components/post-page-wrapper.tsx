@@ -12,7 +12,7 @@ const PostPageWrapper: React.FC<IPostPageWrapperProps> = ({
   noXPadding,
 }) => {
   return (
-    <div className={`h-full`}>
+    <>
       <div className={"px-5"}>
         <PostNavigation navs={navs} />
       </div>
@@ -23,7 +23,7 @@ const PostPageWrapper: React.FC<IPostPageWrapperProps> = ({
       >
         {children}
       </div>
-    </div>
+    </>
   );
 };
 export default PostPageWrapper;
