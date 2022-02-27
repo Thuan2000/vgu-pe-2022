@@ -187,5 +187,7 @@
   "month-establishment-label": "tháng kinh nghiệm",
   "no-certificates": "Chưa đăng chứng chỉ",
   "no-services-yet-message": "Không tìm thấy dịch vụ",
-  "please-title": "Chú ý!"
+  "please-title": "Chú ý!",
+  "please-edit-your-company-title": "Để truy cập đầy đủ tính năng của sàn, vui lòng điền đầy đủ thông tin doanh nghiệp.",
+  "edit-company-button-label": "Bổ sung thông tin"
 }
