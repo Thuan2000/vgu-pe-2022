@@ -191,7 +191,7 @@
   "mainProducts-input-label": "Sản Phẩm Chính",
   "mainProducts-input-placeholder": "Sản phẩm chính",
   "employeeAmount-input-label": "Lượng Nhân Viên",
-  "employeeAmount-input-placeholder": "Lượng Nhân Viên",
+  "employeeAmount-input-placeholder": "Số lượng nhân viên đang làm việc trong công ty",
   "establishmentDate-input-label": "Ngày Thành Lập",
   "establishmentDate-input-placeholder": "01/01/2021",
   "businessType-input-label": "Loại Hình Doanh Nghiệp",
@@ -202,7 +202,7 @@
   "ec-form-industry-required-error": "Vui lòng chọn ngành",
   "ec-form-mainProducts-required-error": "Vui lòng chọn sản phẩm chính",
   "ec-form-contactNumber-required-error": "Vui lòng thêm số điện thoại",
-  "ec-form-employeeAmount-required-error": "Vui lòng thêm lượng nhân viên",
+  "ec-form-employeeAmount-required-error": "Vui lòng nhập lượng nhân viên",
   "ec-form-establishmentDate-required-error": "Vui lòng thêm ngày thành lập doanh ngiệp",
   "ec-form-businessType-required-error": "Vui lòng chọn loại hình doanh nghiệp",
   "ec-addBranch-label": "Chi Nhánh",
@@ -232,17 +232,17 @@
   "update-company-button-label": "Cập nhật",
   "pps-service-singlePrice-label": "Giá bán lẻ",
   "pps-review-note": "Kiểm tra kỹ thông tin sản phẩm của bạn trước khi đăng",
-
+  "companyAddress-input-placeholder": "Đ/c văn phòng trụ sở của bạn",
   "check-industry-label": "Danh mục",
   "minSupplyQuantity-filter-label": "Số lượng đơn hàng tối thiểu",
   "check-sourceType-label": "Loại nguồn cung ứng",
   "minSupplierSuffix_label": "đơn vị",
-
+  "description-input-placeholder": "Mô tả ....",
   "posted-services-page-title": "Dịch vụ",
   "posted-products-page-title": "Sản phẩm",
   "companyAddress-input-label": "Địa chỉ công ty",
   "error-address-required": "Vui lòng thêm địa chỉ công ty",
-
+  "companyName-input-placeholder": "Tên đầy đủ của doanh nghiệp",
   "search-Placeholder": "Tìm kiếm",
 
   "productName-input-label": "Tên sản phẩm",
@@ -345,9 +345,9 @@
   "okay-button-label": "Okay",
   "million-suffix": "tr",
   "billion-suffix": "tỷ",
-
-  "group-price-groupClassification-input-label": "Phân loại theo",
-
+  "productCreated-title": "Tạo sản phẩm thành công",
+  "group-price-groupClassification-input-label": "Vui lòng đợi 5 - 10 phút để sản phẩm xuất hiện trên tìm kiếm",
+  "productCreated-button-label": "OK",
   "single-price-input-label": "Giá",
   "variation-price-input-label": "Variation Price",
   "product-price-input-label": "Giá sản phẩm",

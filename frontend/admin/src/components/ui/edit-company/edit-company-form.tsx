@@ -360,8 +360,9 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
             getValues={getValues}
           />
         )}
-        <div className="fic justify-between">
-          <Button variant="cancel">{t("previewCompany-button-label")}</Button>
+        <div className="fic justify-end">
+          {/* TODO: Re-enable this after it has a functioning Preview feature */}
+          {/* <Button variant="cancel">{t("previewCompany-button-label")}</Button> */}
           <div className="flex flex-col md:flex-row justify-between md:w-1/3">
             <Button
               type="button"

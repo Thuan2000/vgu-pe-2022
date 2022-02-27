@@ -50,7 +50,7 @@ const NumberInput: React.FC<INumberInputProps> = ({
                 name={name}
               />
             )}
-            <div className={`${!!label && "ml-8"}`}>
+            <div className={`${!!label}`}>
               <NumInput
                 onChange={(e) => {
                   onChange(e);

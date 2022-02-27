@@ -134,6 +134,7 @@ Service.init(
 		certificates: DataTypes.JSON,
 		videos: DataTypes.JSON,
 		price: DataTypes.BIGINT,
+		// TODO: minPrice and maxPrice here does not make sense.
 		minPrice: DataTypes.BIGINT,
 		maxPrice: DataTypes.BIGINT,
 		packages: DataTypes.JSON,

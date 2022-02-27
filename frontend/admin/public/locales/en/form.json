@@ -297,13 +297,13 @@
   "million-suffix": "m",
   "billion-suffix": "b",
   "companyAddress-input-label": "Company Address",
-
+  "companyAddress-input-placeholder": "The address of your head office",
   "search-Placeholder": "Search",
-
+  "description-input-placeholder": "description ....",
   "productName-input-label": "Product Name",
   "productName-input-placeholder": "Product Name",
   "error-productName-required": "Please input product name",
-
+  "companyName-input-placeholder": "The business' full name",
   "productIndustryCategory-label": "Product Industry & Category",
 
   "postProduct-description-input-label": "Product Description",
@@ -332,7 +332,9 @@
 
   "post-product-button-label": "Post",
   "group-price-groupClassification-input-label": "Classifications",
-
+  "productCreated-title": "Product is created",
+  "group-price-groupClassification-input-label": "Please wait 5 - 10 minutes for your product to appear on search",
+  "productCreated-button-label": "OK",
   "single-price-input-label": "Price",
   "variation-price-input-label": "Variation Price",
   "product-price-input-label": "Product Price",

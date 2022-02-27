@@ -73,7 +73,6 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           {...register("general.name")}
           error={t(errors?.general?.name?.message || "")}
           required
-          disabled
           onChange={(e) => {
             register("general.name").onChange(e);
             trigger("general.name");

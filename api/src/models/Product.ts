@@ -137,6 +137,7 @@ Product.init(
 		gallery: DataTypes.JSON,
 		videos: DataTypes.JSON,
 		variations: DataTypes.JSON,
+		// TODO: minPrice and maxPrice here does not make sense.
 		minPrice: DataTypes.BIGINT,
 		maxPrice: DataTypes.BIGINT,
 		price: DataTypes.BIGINT,
