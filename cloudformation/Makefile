@@ -2,14 +2,42 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
+# --------- PROD COMMANDS ---------
+
+# --------- API STACK COMMANDS ---------
+create-prod-stack:
+	aws s3 cp ./services/prod/api/ecs.yml s3://sdconnect-assets/cloudformation/prod/ecs-api.yml
+	aws s3 cp ./services/prod/api/elb.yml s3://sdconnect-assets/cloudformation/prod/elb-api.yml
+	aws cloudformation create-stack \
+	--stack-name prod-sdconnect-stack \
+	--template-body file://./deploy-prod-stacks.yml  \
+	--capabilities CAPABILITY_NAMED_IAM \
+  --parameters file://./env-prod.json
+
+prod-build-and-deploy-api-image:
+	docker build -t $(PROD_DOCKER_IMAGE_NAME) ../api
+	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(AWS_ID).dkr.ecr.${AWS_REGION}.amazonaws.com
+	docker tag $(PROD_DOCKER_IMAGE_NAME) $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(PROD_AWS_ECR_REPOSITORY):latest
+	docker push $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(PROD_AWS_ECR_REPOSITORY):latest
+
 # --------- DEV COMMANDS ---------
 
+# --------- API STACK COMMANDS ---------
 # Run this command if you've deleted the stack (for whatever reason) and want to create anew.
-# aws s3 cp ./databases/dev/rds.yml s3://sdconnect/cloudformation/dev/rds.yml
 create-dev-stack:
 	aws s3 cp ./services/dev/ecs-api.yml s3://sdconnect-assets/cloudformation/dev/ecs-api.yml
 	aws s3 cp ./services/dev/elb-api.yml s3://sdconnect-assets/cloudformation/dev/elb-api.yml
 	aws cloudformation create-stack \
+	--stack-name dev-sdconnect-stack \
+	--template-body file://./deploy-dev-stacks.yml  \
+	--capabilities CAPABILITY_NAMED_IAM \
+  --parameters file://./env-dev.json
+
+# Run this command if want to update stack.
+update-stack-dev:
+	aws s3 cp ./services/dev/ecs-api.yml s3://sdconnect-assets/cloudformation/dev/ecs-api.yml
+	aws s3 cp ./services/dev/elb-api.yml s3://sdconnect-assets/cloudformation/dev/elb-api.yml
+	aws cloudformation update-stack \
 	--stack-name dev-sdconnect-stack \
 	--template-body file://./deploy-dev-stacks.yml  \
 	--capabilities CAPABILITY_NAMED_IAM \

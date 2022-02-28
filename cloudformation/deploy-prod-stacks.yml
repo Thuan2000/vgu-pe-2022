@@ -1,0 +1,147 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  Refresher:
+    Type: String
+  Vpc:
+    Type: String
+  Certificate:
+    Type: String
+  SubnetID:
+    Type: String
+  SubnetID2:
+    Type: String
+  SubnetID3:
+    Type: String
+  DockerImageURI:
+    Type: String
+  PORT:
+    Type: Number
+    
+  # SDConnect API Env
+  NodeEnv:
+    Type: String
+  JwtSecret:
+    Type: String
+  ShopUrl:
+    Type: String
+  DBDialect:
+    Type: String
+  DBHost:
+    Type: String
+  DBDatabase:
+    Type: String
+  DBPort:
+    Type: String
+  DBUsername:
+    Type: String
+  DBPassword:
+    Type: String
+  AwsRegion:
+    Type: String
+  AWSAccessKey:
+    Type: String
+  AWSSecretKey:
+    Type: String
+  S3BucketName:
+    Type: String
+  SmtpHost:
+    Type: String
+  SmtpPort:
+    Type: String
+  SmtpSecure:
+    Type: String
+  SmtpUsername:
+    Type: String
+  SmtpPassword:
+    Type: String
+  SmtpFrom:
+    Type: String
+  ESEndpoint:
+    Type: String
+  ESUsername:
+    Type: String
+  ESPassword:
+    Type: String
+  RedisUrl:
+    Type: String
+  RedisDatabase:
+    Type: String
+  RedisPort:
+    Type: Number
+  RedisDialTimeout:
+    Type: Number
+  RedisReadTimeout:
+    Type: Number
+  RedisWriteTimeout:
+    Type: Number
+  RedisUsername:
+    Type: String
+  RedisPassword:
+    Type: String
+  QueueUrl:
+    Type: String
+  ChatApiUrl:
+    Type: String
+  ChatApiKey:
+    Type: String
+  AdminEmail:
+    Type: String
+Resources:
+  ProdSdconnectEcs:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/prod/ecs-api.yml
+      Parameters:
+        TargetGroupArn: !GetAtt ProdSdconnectElb.Outputs.TargetGroup
+        LoadBalancerName: !GetAtt ProdSdconnectElb.Outputs.LoadBalancer
+        Refresher: !Ref Refresher
+        SubnetID: !Ref SubnetID
+        SubnetID2: !Ref SubnetID2
+        SubnetID3: !Ref SubnetID3
+        PORT: !Ref PORT
+        DockerImageURI: !Ref DockerImageURI
+        NodeEnv: !Ref NodeEnv
+        JwtSecret: !Ref JwtSecret
+        ShopUrl: !Ref ShopUrl
+        DBDialect: !Ref DBDialect
+        DBHost: !Ref DBHost
+        DBDatabase: !Ref DBDatabase
+        DBPort: !Ref DBPort
+        DBUsername: !Ref DBUsername
+        DBPassword: !Ref DBPassword
+        AwsRegion: !Ref AwsRegion
+        AWSAccessKey: !Ref AWSAccessKey
+        AWSSecretKey: !Ref AWSSecretKey
+        S3BucketName: !Ref S3BucketName
+        SmtpHost: !Ref SmtpHost
+        SmtpPort: !Ref SmtpPort
+        SmtpSecure: !Ref SmtpSecure
+        SmtpUsername: !Ref SmtpUsername
+        SmtpPassword: !Ref SmtpPassword
+        SmtpFrom: !Ref SmtpFrom
+        ESEndpoint: !Ref ESEndpoint
+        ESUsername: !Ref ESUsername
+        ESPassword: !Ref ESPassword
+        RedisUrl: !Ref RedisUrl
+        RedisDatabase: !Ref RedisDatabase
+        RedisPort: !Ref RedisPort
+        RedisDialTimeout: !Ref RedisDialTimeout
+        RedisReadTimeout: !Ref RedisReadTimeout
+        RedisWriteTimeout: !Ref RedisWriteTimeout
+        RedisUsername: !Ref RedisUsername
+        RedisPassword: !Ref RedisPassword
+        QueueUrl: !Ref QueueUrl
+        ChatApiUrl: !Ref ChatApiUrl
+        ChatApiKey: !Ref ChatApiKey
+        AdminEmail: !Ref AdminEmail
+  ProdSdconnectElb:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/prod/elb-api.yml
+      Parameters:
+        Vpc: !Ref Vpc
+        Certificate: !Ref Certificate
+        PORT: !Ref PORT
+        SubnetID: !Ref SubnetID
+        SubnetID2: !Ref SubnetID2
+        SubnetID3: !Ref SubnetID3

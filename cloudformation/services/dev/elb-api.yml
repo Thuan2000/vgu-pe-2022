@@ -34,9 +34,7 @@ Resources:
       Name: dev-sdconnect-tg
       Port: 80
       Protocol: HTTP
-      # ProtocolVersion: HTTP1
       TargetType: ip
-      # UnhealthyThresholdCount: 2
       VpcId: !Ref Vpc
   ELB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer

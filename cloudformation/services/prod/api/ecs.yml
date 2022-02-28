@@ -89,15 +89,15 @@ Resources:
   Cluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: sdconnect-cluster
+      ClusterName: prod-sdconnect-cluster
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: sdconnect-logs
+      LogGroupName: prod-sdconnect-logs
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: sdconnect-cf-role
+      RoleName: prod-sdconnect-cf-role
       AssumeRolePolicyDocument:
         Statement:
           - Effect: Allow
@@ -109,7 +109,7 @@ Resources:
   ContainerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: ContainerSecurityGroup
+      GroupName: ProdContainerSecurityGroup
       GroupDescription: Security group for NGINX container
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -123,13 +123,13 @@ Resources:
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: dev-sdconnect-api-task
+      Family: prod-sdconnect-api-task
       Cpu: 256
       Memory: 512
       NetworkMode: awsvpc
       ExecutionRoleArn: !Ref ExecutionRole
       ContainerDefinitions:
-        - Name: dev-sdconnect-api-task
+        - Name: prod-sdconnect-api-task
           Image: !Ref DockerImageURI
           PortMappings:
             - ContainerPort: !Ref PORT
@@ -214,18 +214,17 @@ Resources:
               awslogs-stream-prefix: ecs
       RequiresCompatibilities:
         - FARGATE
-  
   Service:
     Type: AWS::ECS::Service
     Properties:
-      ServiceName: dev-sdconnect-api-service
+      ServiceName: prod-sdconnect-api-service
       Cluster: !Ref Cluster
       TaskDefinition: !Ref TaskDefinition
       DesiredCount: 1
       LaunchType: FARGATE
       LoadBalancers:
         - TargetGroupArn: !Ref TargetGroupArn
-          ContainerName: dev-sdconnect-api-task
+          ContainerName: prod-sdconnect-api-task
           ContainerPort: !Ref PORT
       NetworkConfiguration:
         AwsvpcConfiguration:
