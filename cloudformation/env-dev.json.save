@@ -17,7 +17,7 @@
   },
   {
     "ParameterKey": "DockerImageURI",
-    "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect:latest"
+    "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect-ecr:latest"
   },
   {
     "ParameterKey": "NodeEnv",
@@ -25,7 +25,7 @@
   },
   {
     "ParameterKey": "JwtSecret",
-    "ParameterValue": "e9f5a189eaf62edd5562a43f967811e89535c515c774733b6ae93d882cacc3b"
+    "ParameterValue": "e9f5a189eaf62edd5562a43f967811e89535c515c774733b6a5v4ae93d882cacc3b"
   },
   {
     "ParameterKey": "DevDBDialect",
@@ -68,43 +68,35 @@
     "ParameterValue": "sdconnect-dev"
   },
   {
-    "ParameterKey": "TargetGroupArn",
-    "ParameterValue": "arn:aws:elasticloadbalancing:ap-southeast-1:981317724248:targetgroup/sdconnect-api-dev-elb-tg/905503ff4c5fec32"
-  },
-  {
-    "ParameterKey": "SmtpHost",
+    "ParameterKey": "SmtpHOST",
     "ParameterValue": "smtp.gmail.com"
   },
   {
-    "ParameterKey": "SmtpPort",
+    "ParameterKey": "SmtpPORT",
     "ParameterValue": "465"
   },
   {
-    "ParameterKey": "SmtpSecure",
+    "ParameterKey": "SmtpSECURE",
     "ParameterValue": "true"
   },
   {
-    "ParameterKey": "SmtpUsername",
-    "ParameterValue": "email@gmail.com"
+    "ParameterKey": "SmtpUSERNAME",
+    "ParameterValue": "fatwaanugerah01@gmail.com"
   },
   {
-    "ParameterKey": "SmtpPassword",
-    "ParameterValue": "password-123"
+    "ParameterKey": "SmtpPASSWORD",
+    "ParameterValue": "fatwaanugrah123"
   },
   {
-    "ParameterKey": "SmtpFrom",
-    "ParameterValue": "admin@sdconnect.vn"
+    "ParameterKey": "SmtpFROM",
+    "ParameterValue": "<no-reply>@sdconnect.dev"
   },
   {
-    "ParameterKey": "EsEndpoint",
-    "ParameterValue": "https://search-es-sdconnectdev-ci4ohii2ymclhtjl64x467slsq.ap-southeast-1.es.amazonaws.com"
+    "ParameterKey": "Vpc",
+    "ParameterValue": "vpc-b86894de"
   },
   {
-    "ParameterKey": "EsUsername",
-    "ParameterValue": "admin"
-  },
-  {
-    "ParameterKey": "EsPassword",
-    "ParameterValue": "EmolyzeTech200!"
+    "ParameterKey": "Certificate",
+    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/2e90b17d-e730-410d-861b-170b31a2627d"
   }
 ]

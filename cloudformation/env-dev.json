@@ -1,7 +1,19 @@
 [
   {
+    "ParameterKey": "Refresher",
+    "ParameterValue": "refresher-value-23"
+  },
+  {
+    "ParameterKey": "Vpc",
+    "ParameterValue": "vpc-b86894de"
+  },
+  {
+    "ParameterKey": "Certificate",
+    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/2e90b17d-e730-410d-861b-170b31a2627d"
+  },
+  {
     "ParameterKey": "SubnetID",
-    "ParameterValue": "subnet-9920bcc0"
+    "ParameterValue": "subnet-0b517a74dea417994"
   },
   {
     "ParameterKey": "SubnetID2",
@@ -12,12 +24,12 @@
     "ParameterValue": "subnet-a86fbee0"
   },
   {
-    "ParameterKey": "PORT",
-    "ParameterValue": "8080"
+    "ParameterKey": "DockerImageURI",
+    "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect-ecr:latest"
   },
   {
-    "ParameterKey": "DockerImageURI",
-    "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect:latest"
+    "ParameterKey": "PORT",
+    "ParameterValue": "8080"
   },
   {
     "ParameterKey": "NodeEnv",
@@ -25,30 +37,34 @@
   },
   {
     "ParameterKey": "JwtSecret",
-    "ParameterValue": "e9f5a189eaf62edd5562a43f967811e89535c515c774733b6a5v4ae93d882cacc3b"
+    "ParameterValue": "e9f5a189eaf62edd5562a43f967811e89535c515c771723b6a5v4ae93d882cacc3b"
   },
   {
-    "ParameterKey": "DevDBDialect",
+    "ParameterKey": "ShopUrl",
+    "ParameterValue": "https://dev.sdconnect.vn"
+  },
+  {
+    "ParameterKey": "DBDialect",
     "ParameterValue": "mysql"
   },
   {
-    "ParameterKey": "DevDBHost",
+    "ParameterKey": "DBHost",
     "ParameterValue": "dsconnect-db.ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com"
   },
   {
-    "ParameterKey": "DevDBDatabase",
+    "ParameterKey": "DBDatabase",
     "ParameterValue": "devsdconnect"
   },
   {
-    "ParameterKey": "DevDBPort",
+    "ParameterKey": "DBPort",
     "ParameterValue": "3306"
   },
   {
-    "ParameterKey": "DevDBUsername",
+    "ParameterKey": "DBUsername",
     "ParameterValue": "admin"
   },
   {
-    "ParameterKey": "DevDBPassword",
+    "ParameterKey": "DBPassword",
     "ParameterValue": "DatabasePassword-123"
   },
   {
@@ -56,47 +72,99 @@
     "ParameterValue": "ap-southeast-1"
   },
   {
-    "ParameterKey": "DevAWSAccessKey",
+    "ParameterKey": "AWSAccessKey",
     "ParameterValue": "AKIA6I6YYFBME2EML5M5"
   },
   {
-    "ParameterKey": "DevAWSSecretKey",
+    "ParameterKey": "AWSSecretKey",
     "ParameterValue": "rxAWTP4BsZdCIreeOEjPQV26iVzTDZqoouwVjj4I"
   },
   {
-    "ParameterKey": "DevS3BucketName",
-    "ParameterValue": "sdconnect-dev"
+    "ParameterKey": "S3BucketName",
+    "ParameterValue": "dev-sdconnect-s3"
   },
   {
-    "ParameterKey": "SmtpHOST",
+    "ParameterKey": "SmtpHost",
     "ParameterValue": "smtp.gmail.com"
   },
   {
-    "ParameterKey": "SmtpPORT",
+    "ParameterKey": "SmtpPort",
     "ParameterValue": "465"
   },
   {
-    "ParameterKey": "SmtpSECURE",
+    "ParameterKey": "SmtpSecure",
     "ParameterValue": "true"
   },
   {
-    "ParameterKey": "SmtpUSERNAME",
+    "ParameterKey": "SmtpUsername",
     "ParameterValue": "fatwaanugerah01@gmail.com"
   },
   {
-    "ParameterKey": "SmtpPASSWORD",
+    "ParameterKey": "SmtpPassword",
     "ParameterValue": "fatwaanugrah123"
   },
   {
-    "ParameterKey": "SmtpFROM",
+    "ParameterKey": "SmtpFrom",
     "ParameterValue": "<no-reply>@sdconnect.dev"
   },
   {
-    "ParameterKey": "Vpc",
-    "ParameterValue": "vpc-b86894de"
+    "ParameterKey": "ESEndpoint",
+    "ParameterValue": "https://search-es-sdconnectdev-ci4ohii2ymclhtjl64x467slsq.ap-southeast-1.es.amazonaws.com/"
   },
   {
-    "ParameterKey": "Certificate",
-    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/2e90b17d-e730-410d-861b-170b31a2627d"
+    "ParameterKey": "ESUsername",
+    "ParameterValue": "admin"
+  },
+  {
+    "ParameterKey": "ESPassword",
+    "ParameterValue": "PasswordIsPassword-123"
+  },
+  {
+    "ParameterKey": "RedisUrl",
+    "ParameterValue": "//dev-sdconnect-redis.4vkjrg.ng.0001.apse1.cache.amazonaws.com"
+  },
+  {
+    "ParameterKey": "RedisDatabase",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "RedisPort",
+    "ParameterValue": "6379"
+  },
+  {
+    "ParameterKey": "RedisDialTimeout",
+    "ParameterValue": "0"
+  },
+  {
+    "ParameterKey": "RedisReadTimeout",
+    "ParameterValue": "0"
+  },
+  {
+    "ParameterKey": "RedisWriteTimeout",
+    "ParameterValue": "0"
+  },
+  {
+    "ParameterKey": "RedisUsername",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "RedisPassword",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "QueueUrl",
+    "ParameterValue": "https://sqs.ap-southeast-1.amazonaws.com/981317724248/sdconnect-sqs-dev.fifo"
+  },
+  {
+    "ParameterKey": "ChatApiUrl",
+    "ParameterValue": "wss://chat.dev.sdconnect.vn/v0/channels"
+  },
+  {
+    "ParameterKey": "ChatApiKey",
+    "ParameterValue": "AQEAAAABAAD_rAp4DJh05a1HAwFT3A6K"
+  },
+  {
+    "ParameterKey": "AdminEmail",
+    "ParameterValue": "hello@sdconnect.vn"
   }
 ]
