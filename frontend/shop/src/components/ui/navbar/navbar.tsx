@@ -19,7 +19,7 @@ const Navbar: React.FC<INavbarProps> = ({ className }) => {
         <NavbarNavigations />
         <LanguageSelector />
       </div>
-      {<EditCompanyReminder />}
+      {/* {<EditCompanyReminder />} */}
       <div className={`px-10 md:px-48 bg-white`}>
         <NavbarBottom />
         <div className="fic">
