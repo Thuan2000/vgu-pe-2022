@@ -90,5 +90,7 @@
   "passwordChange-isNotExist-title": "Tài khoản không tồn tại",
   "passwordChange-isNotExist-message": "Vui lòng kiểm tra email hoặc đăng ký tài khoản và chờ được kiểm duyệt",
   "email-not-valid-error": "Email chưa hợp lệ",
-	"error-WRONG_PASSWORD-title": ""
+	"error-WRONG_PASSWORD-title": "Mật khẩu sai",
+	"error-WRONG_PASSWORD-message": "Vui lòng nhập đúng mật khẩu",
+	"error-WRONG_PASSWORD-button": "OK"
 }

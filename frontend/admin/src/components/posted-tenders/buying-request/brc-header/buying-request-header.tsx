@@ -62,9 +62,10 @@ const BuyingRequestHeader: React.FC<IBuyingRequestSearchProps> = ({
 
   return (
     <div className="flex items-center mx-4">
-      <div className="hidden sm:block">
+      {/* TODO: Search input is not necessary here */}
+      {/* <div className="hidden sm:block">
         <SearchInput />
-      </div>
+      </div> */}
       <div className="md:ml-auto flex items-center justify-between w-full md:w-fit-content">
         {!isPhone && !!selecteds.length && (
           <button onClick={onDeleteBrClick}>
