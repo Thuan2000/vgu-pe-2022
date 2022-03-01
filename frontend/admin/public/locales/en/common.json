@@ -153,5 +153,10 @@
   "you-need-to-fill-company-detail-to-access-title": "Please Fill Company Detail",
   "you-need-to-fill-company-detail-to-access-text": "You need to fill in all company details to create a record",
   "please-edit-company-button-label": "Edit Company Detail",
-  "change-will-discarded-title": "Discard all unsaved change?"
+  "change-will-discarded-title": "Discard all unsaved change?",
+  "settings-page-name": "Settings",
+  "settings-general-page-title": "General",
+  "settings-security-page-title": "Security",
+  "setting-subcription-plan-label": "Pricing plan",
+  "seller-account": "Gói \"PRO\""
 }
