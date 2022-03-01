@@ -305,7 +305,7 @@
   "error-productName-required": "Please input product name",
   "companyName-input-placeholder": "The business' full name",
   "productIndustryCategory-label": "Product Industry & Category",
-
+  "variationItemPrice-input-placeholder": "Unit price (đ)",
   "postProduct-description-input-label": "Product Description",
   "error-productDescription-too-short": "Description should be more than 200 letters",
   "post-product-location-input-label": "Product Location",
@@ -329,11 +329,10 @@
   "pps-productFaqs-review-label": "FAQs",
   "pps-product-singlePrice-label": "Single Price",
   "pps-review-note": "Check all the information carefully before posting",
-
+  "productCreated-text": "Please wait 5 - 10 minutes for it to appear on search",
   "post-product-button-label": "Post",
   "group-price-groupClassification-input-label": "Classifications",
   "productCreated-title": "Product is created",
-  "group-price-groupClassification-input-label": "Please wait 5 - 10 minutes for your product to appear on search",
   "productCreated-button-label": "OK",
   "single-price-input-label": "Price",
   "variation-price-input-label": "Variation Price",

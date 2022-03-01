@@ -69,7 +69,7 @@
   "brd-noDescription-text": "Chưa mô tả nhu cầu thu mua",
   "brd-readMore-text": "Xem thêm",
   "brd-notBelongToProject-text": "Chưa nằm trong dự án nào",
-  "brd-industry-category-title": "Doanh nghiệp và Danh mục",
+  "brd-industry-category-title": "Lĩnh vực và Ngành nhề",
   "alsoNeededByCompany-title": "Doanh nghiệp cũng cần thêm",
   "brd-discussion-title": "Thảo luận",
   "brd-questions-text": "Câu hỏi",
@@ -189,5 +189,12 @@
   "no-services-yet-message": "Không tìm thấy dịch vụ",
   "please-title": "Chú ý!",
   "please-edit-your-company-title": "Để truy cập đầy đủ tính năng của sàn, vui lòng điền đầy đủ thông tin doanh nghiệp.",
-  "edit-company-button-label": "Bổ sung thông tin"
+  "edit-company-button-label": "Bổ sung thông tin",
+  "please-select-variant-correctly": "Vui lòng chọn mẫu/mã (ở trên)",
+  "service-discussion-title": "Bình luận",
+  "service-questions-text": "bình luận",
+  "service-sortBy-title": "Sắp xếp theo",
+  "no-discussion-for-service": "chưa có bình luận",
+  "service-updateKey-sort-button-label": "câu hỏi của bạn trước",
+  "service-date-sort-button-label": "mới nhất trước"
 }

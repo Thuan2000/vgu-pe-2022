@@ -91,7 +91,7 @@ export const categoriesData = [
   { id: 46, label: "CONSTRUCTION DESIGN", industryId: 5 },
   { id: 47, label: "WAREHOST CONSTRUCTION TENDER", industryId: 5 },
   { id: 48, label: "ELECTRONIC CABLE SUPPLIER", industryId: 5 },
-  { id: 49, label: "ELECTRONIC & WATER COMPANY", industryId: 5 },
+  { id: 49, label: "ELECTRONIC & WATER CONSTRUCTION", industryId: 5 },
   { id: 50, label: "INTERIOR DESIGNER", industryId: 5 },
   { id: 51, label: "M&E COMPANY", industryId: 5 },
   { id: 52, label: "TEMP HOUSE", industryId: 5 },

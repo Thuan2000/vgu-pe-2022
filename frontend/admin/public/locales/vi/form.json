@@ -244,11 +244,11 @@
   "error-address-required": "Vui lòng thêm địa chỉ công ty",
   "companyName-input-placeholder": "Tên đầy đủ của doanh nghiệp",
   "search-Placeholder": "Tìm kiếm",
-
+  "variationItemPrice-input-placeholder": "Nhập giá đơn vị (đ)",
   "productName-input-label": "Tên sản phẩm",
   "productName-input-placeholder": "Tên sản phẩm",
   "error-productName-required": "Vui lòng nhập sản phẩm",
-
+  "productCreated-text": "Vui lòng đợi 5 - 10 phút để hiển thị trên tìm kiếm",
   "productIndustryCategory-label": "Loại ngành sản phẩm",
 
   "postProduct-description-input-label": "Mô tả sản phẩm",

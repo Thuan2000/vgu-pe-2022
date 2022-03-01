@@ -92,5 +92,8 @@
   "email-not-valid-error": "Email chưa hợp lệ",
 	"error-WRONG_PASSWORD-title": "Mật khẩu sai",
 	"error-WRONG_PASSWORD-message": "Vui lòng nhập đúng mật khẩu",
-	"error-WRONG_PASSWORD-button": "OK"
+	"error-WRONG_PASSWORD-button": "OK",
+  "estimated-price": "Giá ước tính",
+	"location-title": "Tỉnh/thành",
+  "industry-title": "Lĩnh vực, ngành nghề"
 }
