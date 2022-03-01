@@ -87,6 +87,15 @@ Parameters:
   AdminEmail:
     Type: String
 Resources:
+  DevSdconnectRds:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/rds-api.yml
+      Parameters:
+        DBUsername: !Ref DBUsername
+        DBPassword: !Ref DBPassword
+        DBName: !Ref DBDatabase
+        VpcId: !Ref Vpc
   DevSdconnectEcs:
     Type: "AWS::CloudFormation::Stack"
     Properties:
@@ -104,7 +113,7 @@ Resources:
         JwtSecret: !Ref JwtSecret
         ShopUrl: !Ref ShopUrl
         DBDialect: !Ref DBDialect
-        DBHost: !Ref DBHost
+        DBHost: !GetAtt DevSdconnectRds.Outputs.InstanceId
         DBDatabase: !Ref DBDatabase
         DBPort: !Ref DBPort
         DBUsername: !Ref DBUsername
