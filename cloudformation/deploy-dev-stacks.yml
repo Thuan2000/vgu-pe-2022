@@ -131,7 +131,7 @@ Resources:
         ESEndpoint: !Ref ESEndpoint
         ESUsername: !Ref ESUsername
         ESPassword: !Ref ESPassword
-        RedisUrl: !Ref RedisUrl
+        RedisUrl: !Join ['', ['//', !GetAtt DevSdconnectRedis.Outputs.Address]]
         RedisDatabase: !Ref RedisDatabase
         RedisPort: !Ref RedisPort
         RedisDialTimeout: !Ref RedisDialTimeout
@@ -154,3 +154,7 @@ Resources:
         SubnetID: !Ref SubnetID
         SubnetID2: !Ref SubnetID2
         SubnetID3: !Ref SubnetID3
+  DevSdconnectRedis:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/redis-api.yml

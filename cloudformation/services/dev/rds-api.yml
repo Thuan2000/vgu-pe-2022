@@ -37,5 +37,5 @@ Resources:
         - !GetAtt RDSSecurityGroup.GroupId
 Outputs:
   InstanceId:
-    Description: InstanceId of the newly created RDS Instance
     Value: !Join ['.', [!Ref DevDbInstance, 'ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com']]
+    Description: InstanceId of the newly created RDS Instance

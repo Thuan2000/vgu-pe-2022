@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  ElasticacheSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Elasticache Security Group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 6379
+          ToPort: 6379
+  DevSdconnectRedis:
+    Type: 'AWS::ElastiCache::CacheCluster'
+    Properties:
+      Engine: redis
+      CacheNodeType: cache.t2.micro
+      NumCacheNodes: '1'
+      VpcSecurityGroupIds:
+        - !GetAtt ElasticacheSecurityGroup.GroupId
+Outputs:
+  InstanceId:
+    Description: Instance of the newly created redis
+    Value: !Ref DevSdconnectRedis
+  Address:
+    Description: ElastiCache endpoint address
+    Value: !GetAtt DevSdconnectRedis.RedisEndpoint.Address
+    Export:
+      Name: !Sub ${AWS::StackName}-Address
