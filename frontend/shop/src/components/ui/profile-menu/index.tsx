@@ -26,9 +26,11 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   if (!isLogin())
     return (
       <Wrapper>
-        <div className="bg-gray-10 p-3 flex-center">
-          <Button>{t("login-button-label")}</Button>
-        </div>
+        <Link href={ROUTES.LOGIN}>
+          <div className="bg-gray-10 p-3 flex-center">
+            <Button>{t("login-button-label")}</Button>
+          </div>
+        </Link>
       </Wrapper>
     );
 
@@ -44,7 +46,7 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
         <Link
           target="_blank"
           rel="noreferrer"
-          href={`${ROUTES.ADMIN_LINK}/${locale}/${getLoginCompanySlug()}`}
+          href={`${ROUTES.ADMIN_LINK}/${locale}/${ROUTES.ADMIN_COMPANY_DETAIL}`}
         >
           <p className="text-heading font-semibold">{company?.name}</p>
         </Link>
@@ -53,7 +55,7 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
         <Link
           target="_blank"
           rel="noreferrer"
-          href={`${ROUTES.ADMIN_LINK}/${locale}/${getLoginCompanySlug()}`}
+          href={`${ROUTES.ADMIN_LINK}/${locale}/${ROUTES.ADMIN_COMPANY_DETAIL}`}
         >
           <div className="px-3 py-2 flex items-center ">
             <AvatarIcon fill="#82868C" className="mr-4 h-6 w-4" />

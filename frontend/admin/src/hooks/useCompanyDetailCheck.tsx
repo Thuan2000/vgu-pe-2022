@@ -2,7 +2,7 @@ import { useIsCompanyFullInfoMutation } from "@graphql/company.graphql";
 import { setIsFullInfoTrue } from "@utils/auth-utils";
 import {
   getIsCompanyFullInfo,
-  firePleaseLoginSwal,
+  firePleaseFillCompanySwal,
   getCompanyId,
   getCompanySlug,
 } from "@utils/functions";
@@ -27,8 +27,8 @@ const useCompanyDetailCheck = () => {
       return;
     }
 
-    const res = await firePleaseLoginSwal(t, Swal);
-    if (res) replace(`/${getCompanySlug()}/edit`);
+    const { isDenied } = await firePleaseFillCompanySwal(t, Swal);
+    if (isDenied) replace(`/${getCompanySlug()}/edit`);
   }
 
   return check;

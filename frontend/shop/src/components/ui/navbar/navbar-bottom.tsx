@@ -12,6 +12,9 @@ const UNSEARCHABLES = ["ho-tro", ""];
 const NavbarBottom = () => {
   const { pathname } = useRouter();
 
+  const { query } = useRouter();
+  const isDetailedPage = !!query.slug;
+
   const activePage = getActivePageFromPath(pathname) as PageName;
 
   return (
@@ -21,7 +24,7 @@ const NavbarBottom = () => {
           <Logo size="medium" />
         </div>
         <div className="fic">
-          {!UNSEARCHABLES.includes(activePage) && <Search />}
+          {!isDetailedPage && !UNSEARCHABLES.includes(activePage) && <Search />}
         </div>
       </div>
 
