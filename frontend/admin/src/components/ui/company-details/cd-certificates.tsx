@@ -24,7 +24,7 @@ const CDCertificates: React.FC<ICDCertificatesProps> = ({ certificates }) => {
           certificates?.slice(0, 2).map((c) => {
             return (
               // <div key={c.url} className={`relative w-24 h-24`}>
-              <Link href={c.url} target={"_blank"} rel="noreferrer">
+              <Link key={c.url} href={c.url} target={"_blank"} rel="noreferrer">
                 {getDocumentPreview(c, { width: 200, height: 120 })}
               </Link>
               // </div>

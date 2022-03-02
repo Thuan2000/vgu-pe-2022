@@ -73,7 +73,7 @@ const PPSPricingReview: React.FC<IPPSPricingReviewProps> = ({
             {variants?.map(({ id, title, price }, idx) => {
               const isLast = idx === variants.length - 1;
               return (
-                <div className={`fic`}>
+                <div key={title + price} className={`fic`}>
                   <VariationPriceInputItemWrapper isFooter={isLast} isLeftSide>
                     <Typography text={title} />
                   </VariationPriceInputItemWrapper>
