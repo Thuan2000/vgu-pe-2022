@@ -17,6 +17,7 @@ query Products($input: FetchProductsInput!) {
         url
       }
       company {
+        id
         name
         chatId
       }

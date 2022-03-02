@@ -7,12 +7,14 @@ import { useTranslation } from "next-i18next";
 import { siteSettings } from "@settings/site.settings";
 import VerifiedIcon from "@assets/icons/verified-icon";
 import DetailQA from "../ui/detail-qa";
-import { getYear } from "@utils/functions";
+import { getYear, viDateFormat } from "@utils/functions";
 import {
   getBusinessType,
   getBusinessTypes,
   IBusinessType,
 } from "@datas/businessTypes";
+import Link from "@components/ui/link";
+import { ROUTES } from "@utils/routes";
 
 interface IRecordCompanySummaryProps {
   company: ICompany;
@@ -22,7 +24,6 @@ const RecordCompanySummary: React.FC<IRecordCompanySummaryProps> = ({
   company,
 }) => {
   const { t } = useTranslation("common");
-
   return (
     <div className={`general p-4 border space-y-4 relative rounded-md`}>
       <Typography
@@ -32,18 +33,33 @@ const RecordCompanySummary: React.FC<IRecordCompanySummaryProps> = ({
       />
 
       <div className="fic space-x-2">
-        <div className="w-12 h-12 relative">
-          <Image
-            // src={company.image.url}
-            src={siteSettings.imagePlaceholder}
-            layout="fill"
-            alt={company.name + "image-preview"}
-          />
-        </div>
-
+        <Link
+          target="_blank"
+          rel="noreferrer"
+          href={`${ROUTES.COMPANIES}/${company.slug}`}
+        >
+          <div className="w-12 h-12 relative rounded-full overflow-hidden">
+            <Image
+              // src={company.image.url}
+              src={
+                company.settings?.profileImage?.url ||
+                siteSettings.imagePlaceholder
+              }
+              layout="fill"
+              alt={company.name + "image-preview"}
+            />
+          </div>
+        </Link>
         <div className="space-y-1">
           <div className="fic space-x-1">
-            <Typography variant="smallTitle" text={company.name} />
+            <Link
+              target="_blank"
+              rel="noreferrer"
+              className={`border-b border-transparent hover:border-black pb-0.5 pr-1`}
+              href={`${ROUTES.COMPANIES}/${company.slug}`}
+            >
+              <Typography variant="smallTitle" text={company.name} />
+            </Link>
             <VerifiedIcon className="w-5 h-5" />
           </div>
         </div>
@@ -53,7 +69,7 @@ const RecordCompanySummary: React.FC<IRecordCompanySummaryProps> = ({
         <DetailQA
           question={`${t("brd-companyExperience-title")}:`}
           answer={
-            getYear(company.establishmentDate) + "" || t("no-information")
+            viDateFormat(company.establishmentDate) + "" || t("no-information")
           }
         />
         <DetailQA
