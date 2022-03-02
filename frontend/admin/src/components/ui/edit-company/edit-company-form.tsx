@@ -17,6 +17,7 @@ import {
   removeTypename,
   removeTypenameOfChildrens,
 } from "@utils/functions";
+import { ROUTES } from "@utils/routes";
 import { getLocationByName } from "@utils/vietnam-cities";
 import { isEmpty, method } from "lodash";
 import { useRouter } from "next/dist/client/router";
@@ -154,7 +155,12 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     setValue,
     formState: { errors, dirtyFields },
   } = methods;
-  useIsEditedFormHandler(!!dirtyFields.general);
+
+  const { startListen, stopListen } = useIsEditedFormHandler();
+  useEffect(() => {
+    startListen(!!dirtyFields.general);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!dirtyFields.general]);
 
   const { query, ...router } = useRouter();
   const [updateCompany, { loading: updatingCompany }] =
@@ -166,6 +172,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   useEffect(() => {
     if (formPosition > EC_GENERAL_FORM_INDEX && isEmpty(dirtyFields.general))
       changeSection(EC_GENERAL_FORM_INDEX);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function changeSection(newPosition: number) {
@@ -182,12 +189,11 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     const { payload, success } = updateCompany ?? {};
     if (success && !!payload) {
       setIsFullInfoTrue();
-      const { company: oldCompany } = getMeData();
       Swal.fire({
         icon: "success",
         title: t("companyEdited-success-message"),
       });
-      router.replace(`/${oldCompany?.slug}` as string);
+      router.replace(`/${ROUTES.COMPANY_DETAIL}`);
     } else {
       Swal.fire({
         icon: "error",
@@ -304,6 +310,8 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     let warehouses = await getBfws(rawWarehouses);
 
     const businessTypeIds = general.businessTypes.map((bt) => bt.id);
+    stopListen();
+
     const input: IUpdateCompanyDetailsInput | any = {
       establishmentDate: general.establishmentDate,
       name: general.name,

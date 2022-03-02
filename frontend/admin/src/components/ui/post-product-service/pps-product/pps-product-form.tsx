@@ -173,7 +173,12 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     trigger,
     handleSubmit,
   } = methods;
-  useIsEditedFormHandler(!!dirtyFields.category);
+
+  const { startListen, stopListen } = useIsEditedFormHandler();
+  useEffect(() => {
+    startListen(!!dirtyFields.category);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!dirtyFields.category]);
 
   const [uploadFiles, { loading: uploadingFiles }] = useUploadFilesMutation();
 
@@ -219,6 +224,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   useEffect(() => {
     if (formPosition > PPS_PRODUCT_CATEGORY_FORM_INDEX && !dirtyFields.category)
       changeSection(PPS_PRODUCT_CATEGORY_FORM_INDEX);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleCompleteCreated({
@@ -373,7 +379,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       status,
       gallery: [...oldImages, ...uploadedImages],
     };
-
+    stopListen();
     if (initValues) {
       updateProduct({
         variables: {

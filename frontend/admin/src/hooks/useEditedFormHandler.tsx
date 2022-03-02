@@ -1,14 +1,22 @@
 import { getFormattedPathnameRoute } from "@utils/functions";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const useIsEditedFormHandler = (isEdited: boolean) => {
+const useIsEditedFormHandler = () => {
   const { t } = useTranslation();
-  const router = useRouter();
+  const { query, ...router } = useRouter();
+  const isEdited = useRef(false);
+  const isStopped = useRef(false);
+  const slug = query.slug as string;
 
   const preventRouteChange = (newUrl: string) => {
-    if (getFormattedPathnameRoute(newUrl) === router.pathname) return;
+    if (
+      getFormattedPathnameRoute(newUrl) ===
+        router.pathname.replace("[slug]", slug) ||
+      isStopped.current
+    )
+      return;
 
     if (confirm(t("change-will-discarded-title"))) return;
 
@@ -17,26 +25,35 @@ const useIsEditedFormHandler = (isEdited: boolean) => {
   };
 
   function preventReload() {
+    if (isStopped.current) return;
     return confirm(t("change-will-discarded-title"));
   }
 
   function addListener() {
-    if (!isEdited) return;
     router.events.on("routeChangeStart", preventRouteChange);
     window.onbeforeunload = preventReload;
-    // router.events.on("beforeHistoryChange", preventRouteChange);
   }
 
   function removeListener() {
-    if (!isEdited) return;
+    if (!isEdited.current) return;
     router.events.off("routeChangeStart", preventRouteChange);
-    router.events.off("beforeHistoryChange", preventRouteChange);
     window.onbeforeunload = null;
   }
 
   useEffect(() => {
-    addListener();
+    if (!isStopped.current && isEdited.current) addListener();
     return removeListener;
-  }, [isEdited]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEdited.current]);
+
+  function startListen(newIsEdited: boolean) {
+    isEdited.current = newIsEdited;
+  }
+
+  function stopListen() {
+    isStopped.current = true;
+  }
+
+  return { startListen, stopListen };
 };
 export default useIsEditedFormHandler;

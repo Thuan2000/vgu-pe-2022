@@ -61,7 +61,11 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     defaultValues: getDefaultValue(initValue) as any,
   });
 
-  useIsEditedFormHandler(!!dirtyFields.general);
+  const { startListen, stopListen } = useIsEditedFormHandler();
+  useEffect(() => {
+    startListen(!!dirtyFields.general);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!dirtyFields.general]);
 
   const { query, ...router } = useRouter();
   const formPosition = parseInt(query.formPosition as string) || 1;
@@ -167,7 +171,6 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
       gallery: mixedGallery,
       ...generalRest
     } = general;
-    // @NOTE :: This should be changed later when programmer has nothing to do :V
     const { allowedCompany, endDate, sourceType, location, ...detailsRest } =
       details;
 
@@ -175,8 +178,9 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
     const industryId = parseInt(industry.id + "");
     const categoryId = parseInt(category.id + "");
 
-    const oldGallery = mixedGallery.filter((img) => !img.isNew) || [];
-    const gallery = mixedGallery.flatMap((img) => (img.isNew ? img : [])) ?? [];
+    const oldGallery = mixedGallery?.filter((img) => !img.isNew) || [];
+    const gallery =
+      mixedGallery?.flatMap((img) => (img.isNew ? img : [])) ?? [];
 
     // Br Images
     const blobGallery = await generateBlobs(gallery);
@@ -199,6 +203,7 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
       ...detailsRest,
       endDate: new Date(endDate).getTime(),
     };
+    stopListen();
 
     if (!!initValue) {
       // Old gallery is the posted gallery files

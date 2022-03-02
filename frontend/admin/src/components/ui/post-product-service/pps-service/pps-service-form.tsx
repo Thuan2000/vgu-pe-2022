@@ -164,7 +164,12 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
     getValues,
     handleSubmit,
   } = methods;
-  useIsEditedFormHandler(!!dirtyFields.category);
+
+  const { startListen, stopListen } = useIsEditedFormHandler();
+  useEffect(() => {
+    startListen(!!dirtyFields.category);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!dirtyFields.category]);
 
   // Changing section if there's an error and user submitting
   useEffect(() => {
@@ -191,6 +196,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
   useEffect(() => {
     if (formPosition > PPS_CATEGORY_FORM_INDEX && !isDirtyCategory())
       changeSection(PPS_CATEGORY_FORM_INDEX);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleNextClick() {
@@ -360,7 +366,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       price: price || null,
       location,
     };
-
+    stopListen();
     if (!!initValue) {
       updateService({ variables: { input: { id: initValue.id, ...value } } });
     } else {
