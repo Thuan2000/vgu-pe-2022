@@ -47,7 +47,7 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
       />
       <div className={`relative`} onClick={(e) => e.preventDefault()}>
         <div
-          className={`relative bg-black bg-opacity-70 h-[600px] w-[1000px] aspect-square -translate-y-24`}
+          className={`relative bg-black bg-opacity-70 h-[400px] w-[400px] aspect-square -translate-y-24`}
         >
           <Image
             src={activeImageUrl}

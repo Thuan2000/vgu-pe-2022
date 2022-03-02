@@ -1,16 +1,20 @@
-import AttachmentIcon from "@assets/icons/attachment-icon";
-import ImageIcon from "@assets/icons/image-icon";
 import Button from "@components/ui/storybook/button";
 import TextArea from "@components/ui/storybook/inputs/text-area";
 import {
   CreateBrDiscussionQuestionMutation,
   useCreateBrDiscussionQuestionMutation,
 } from "@graphql/br-discussion.graphql";
-import { getCompanyName, getLoggedInUser } from "@utils/functions";
-import { TextareaHTMLAttributes } from "hoist-non-react-statics/node_modules/@types/react";
+import { isLogin as checkIsLogin } from "@utils/auth-utils";
+import {
+  firePleaseLoginSwal,
+  getCompanyName,
+  getLoggedInUser,
+} from "@utils/functions";
+import { ROUTES } from "@utils/routes";
 
 import { useTranslation } from "next-i18next";
-import React, { useState, ChangeEvent } from "react";
+import { useRouter } from "next/router";
+import React, { useState, ChangeEvent, useRef } from "react";
 import Swal from "sweetalert2";
 
 interface IBRDAskQuestionProps {
@@ -25,6 +29,10 @@ const BRDAskQuestion: React.FC<IBRDAskQuestionProps> = ({
   const ICON_SIZE = 5;
   const iconClass = `w-${ICON_SIZE} h-${ICON_SIZE}`;
 
+  const router = useRouter();
+  const isLogin = checkIsLogin();
+  const textAreaRef = useRef<any>();
+
   const { t } = useTranslation("form");
   const [createQuestion] = useCreateBrDiscussionQuestionMutation({
     onCompleted: handleQuestionCreated,
@@ -32,6 +40,7 @@ const BRDAskQuestion: React.FC<IBRDAskQuestionProps> = ({
   const [question, setQuestion] = useState("");
 
   function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
+    if (!isLogin) return;
     setQuestion(e.target.value);
   }
 
@@ -54,6 +63,17 @@ const BRDAskQuestion: React.FC<IBRDAskQuestionProps> = ({
     }
   }
 
+  async function handleFocus() {
+    if (!isLogin) {
+      textAreaRef.current.blur();
+      // Reverted deny === right, confirm === left
+      const { isDenied, ...rest } = await firePleaseLoginSwal(t, Swal, {
+        confirmButton: t("stay-button-label"),
+      });
+      if (isDenied) router.push(ROUTES.LOGIN);
+    }
+  }
+
   function submit() {
     const input = {
       userId: getLoggedInUser()?.id,
@@ -70,9 +90,11 @@ const BRDAskQuestion: React.FC<IBRDAskQuestionProps> = ({
   return (
     <div>
       <TextArea
+        ref={textAreaRef}
         label={t("askQuestion-input-label")}
         placeholder={t("askQuestion-input-placeholder")}
         onChange={handleChange}
+        onClick={handleFocus}
         value={question}
       />
 
