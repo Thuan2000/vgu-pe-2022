@@ -121,7 +121,7 @@
   "PACKAGE_PRICE_LABEL": "Package Price",
   "PACKAGE_PRICE_DESCRIPTION": "Price of each package",
   "package-text": "Package",
-  "service-sortBy-title": "Sort",
+  "service-sortBy-title": "Sort By",
   "service-updateKey-sort-button-label": "Your Question",
   "service-date-sort-button-label": "Newest",
   "service-questions-text": "Questions",
@@ -202,5 +202,6 @@
   "year-establishment-label": "Years",
   "month-establishment-label": "Months",
   "no-certificates": "No Certificates",
-  "no-services-yet-message": "No services found"
+  "no-services-yet-message": "No services found",
+  "no-discussion-for-service": "no discussions yet"
 }

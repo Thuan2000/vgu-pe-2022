@@ -136,8 +136,8 @@
   "lets-chat-text": "Chat with Us",
   "companyPage-nav-label": "Company",
   "create-project-title": "Create Project",
-  "invert-CLOSE-request": "Open This Request",
-  "invert-OPEN-request": "Close This Request",
+  "invert-CLOSE-request": "Re-open",
+  "invert-OPEN-request": "Close",
   "no-new-message-text": "No New Message Found",
   "messages-label": "Messages",
   "unread-singular-label": "Unread",
@@ -153,5 +153,10 @@
   "you-need-to-fill-company-detail-to-access-title": "Please Fill Company Detail",
   "you-need-to-fill-company-detail-to-access-text": "You need to fill in all company details to create a record",
   "please-edit-company-button-label": "Edit Company Detail",
-  "change-will-discarded-title": "Discard all unsaved change?"
+  "change-will-discarded-title": "Discard all unsaved change?",
+  "settings-page-name": "Settings",
+  "settings-general-page-title": "General",
+  "settings-security-page-title": "Security",
+  "setting-subcription-plan-label": "Pricing plan",
+  "seller-account": "Gói \"PRO\""
 }
