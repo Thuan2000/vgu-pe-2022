@@ -20,10 +20,7 @@ class ServiceController {
 	static async getService(slug) {
 		const service = await Service.findOne({
 			where: { slug },
-			include: [
-				{ model: Company, attributes: ["id", "name", "chatId"] },
-				Tag
-			]
+			include: [Company, Tag]
 		});
 
 		return service;
@@ -89,7 +86,6 @@ class ServiceController {
 			});
 
 			if (!!isExist) return errorResponse("SERVICE_EXIST");
-			console.log(rest.location);
 
 			const newService = await Service.create({
 				companyId,
