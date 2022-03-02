@@ -57,6 +57,7 @@
   "post-request-name-desc": "Please create name with given formula: “Request - product/service - amount”",
   "min-budget-label": "From",
   "max-budget-label": "To",
+  "postProduct-description-input-placeholder": "Describe what your product is about ...",
   "budget-sign": "₫",
   "quantity-label": "Quantity",
   "unit-label": "Unit",
