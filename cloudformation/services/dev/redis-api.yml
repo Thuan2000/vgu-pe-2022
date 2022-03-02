@@ -25,3 +25,8 @@ Outputs:
     Value: !GetAtt DevSdconnectRedis.RedisEndpoint.Address
     Export:
       Name: !Sub ${AWS::StackName}-Address
+  Port:
+    Description: ElastiCache endpoint port
+    Value: !GetAtt DevSdconnectRedis.RedisEndpoint.Port
+    Export:
+      Name: !Sub ${AWS::StackName}-Port

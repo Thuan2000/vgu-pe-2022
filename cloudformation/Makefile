@@ -29,6 +29,7 @@ create-dev-stack:
 	aws s3 cp ./services/dev/ecs-api.yml s3://sdconnect-assets/cloudformation/dev/ecs-api.yml
 	aws s3 cp ./services/dev/elb-api.yml s3://sdconnect-assets/cloudformation/dev/elb-api.yml
 	aws s3 cp ./services/dev/redis-api.yml s3://sdconnect-assets/cloudformation/dev/redis-api.yml
+	aws s3 cp ./services/dev/open-search-api.yml s3://sdconnect-assets/cloudformation/dev/open-search-api.yml
 	aws cloudformation create-stack \
 	--stack-name dev-sdconnect-stack \
 	--template-body file://./deploy-dev-stacks.yml  \
@@ -41,6 +42,7 @@ update-stack-dev:
 	aws s3 cp ./services/dev/ecs-api.yml s3://sdconnect-assets/cloudformation/dev/ecs-api.yml
 	aws s3 cp ./services/dev/elb-api.yml s3://sdconnect-assets/cloudformation/dev/elb-api.yml
 	aws s3 cp ./services/dev/redis-api.yml s3://sdconnect-assets/cloudformation/dev/redis-api.yml
+	aws s3 cp ./services/dev/open-search-api.yml s3://sdconnect-assets/cloudformation/dev/open-search-api.yml
 	aws cloudformation update-stack \
 	--stack-name dev-sdconnect-stack \
 	--template-body file://./deploy-dev-stacks.yml  \

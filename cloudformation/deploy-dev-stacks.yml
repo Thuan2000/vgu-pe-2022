@@ -128,12 +128,12 @@ Resources:
         SmtpUsername: !Ref SmtpUsername
         SmtpPassword: !Ref SmtpPassword
         SmtpFrom: !Ref SmtpFrom
-        ESEndpoint: !Ref ESEndpoint
+        ESEndpoint: !Join ['', ['https://', !GetAtt DevSdconnectOpenSearch.Outputs.DomainEndpoint]]
         ESUsername: !Ref ESUsername
         ESPassword: !Ref ESPassword
-        RedisUrl: !Join ['', ['//', !GetAtt DevSdconnectRedis.Outputs.Address]]
+        RedisUrl: !Join ['', ['//', !GetAtt DevSdconnectRedis.Outputs.Address, ':', !GetAtt DevSdconnectRedis.Outputs.Port]]
         RedisDatabase: !Ref RedisDatabase
-        RedisPort: !Ref RedisPort
+        RedisPort: !GetAtt DevSdconnectRedis.Outputs.Port
         RedisDialTimeout: !Ref RedisDialTimeout
         RedisReadTimeout: !Ref RedisReadTimeout
         RedisWriteTimeout: !Ref RedisWriteTimeout
@@ -158,3 +158,12 @@ Resources:
     Type: "AWS::CloudFormation::Stack"
     Properties:
       TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/redis-api.yml
+  DevSdconnectOpenSearch:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/open-search-api.yml
+      Parameters:
+        VpcId: !Ref Vpc
+        SubnetID: !Ref SubnetID
+        MasterUserName: !Ref ESUsername
+        MasterUserPassword: !Ref ESPassword
