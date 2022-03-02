@@ -87,6 +87,15 @@ Parameters:
   AdminEmail:
     Type: String
 Resources:
+  DevSdconnectRds:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/rds-api.yml
+      Parameters:
+        DBUsername: !Ref DBUsername
+        DBPassword: !Ref DBPassword
+        DBName: !Ref DBDatabase
+        VpcId: !Ref Vpc
   DevSdconnectEcs:
     Type: "AWS::CloudFormation::Stack"
     Properties:
@@ -104,7 +113,7 @@ Resources:
         JwtSecret: !Ref JwtSecret
         ShopUrl: !Ref ShopUrl
         DBDialect: !Ref DBDialect
-        DBHost: !Ref DBHost
+        DBHost: !GetAtt DevSdconnectRds.Outputs.InstanceId
         DBDatabase: !Ref DBDatabase
         DBPort: !Ref DBPort
         DBUsername: !Ref DBUsername
@@ -122,7 +131,7 @@ Resources:
         ESEndpoint: !Ref ESEndpoint
         ESUsername: !Ref ESUsername
         ESPassword: !Ref ESPassword
-        RedisUrl: !Ref RedisUrl
+        RedisUrl: !Join ['', ['//', !GetAtt DevSdconnectRedis.Outputs.Address]]
         RedisDatabase: !Ref RedisDatabase
         RedisPort: !Ref RedisPort
         RedisDialTimeout: !Ref RedisDialTimeout
@@ -145,3 +154,7 @@ Resources:
         SubnetID: !Ref SubnetID
         SubnetID2: !Ref SubnetID2
         SubnetID3: !Ref SubnetID3
+  DevSdconnectRedis:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/redis-api.yml

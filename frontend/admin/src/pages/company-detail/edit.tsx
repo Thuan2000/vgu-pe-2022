@@ -13,17 +13,17 @@ import Head from "next/head";
 import React from "react";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { locale, params } = ctx;
+  const { locale } = ctx;
+  const companySlug = getMeData(ctx).company?.slug;
 
   const apollo = initApollo();
 
   const { data } = await apollo.query({
     query: CompanyDocument,
-    variables: { slug: params!["company-slug"] },
+    variables: { slug: companySlug },
   });
 
   const company = data.company;
-
   return {
     props: {
       company,

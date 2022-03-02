@@ -6,38 +6,33 @@ import Head from "next/head";
 import React from "react";
 import { useTranslation } from "next-i18next";
 import { initApollo, spreadApolloToState } from "@utils/apollo";
-import { CompanyDocument } from "@graphql/company.graphql";
+import { CompanyDocument, useCompanyQuery } from "@graphql/company.graphql";
 import { ICompany } from "@graphql/types.graphql";
 import CDUpperRow from "@components/ui/company-details/upper-row";
 import CDCertificates from "@components/ui/company-details/cd-certificates";
 import CDDetails from "@components/ui/company-details/cd-details";
 import CDBfw from "@components/ui/company-details/cd-bfw";
-import { ROUTES } from "@utils/routes";
+import { getCompanySlug } from "@utils/functions";
+import { useRouter } from "next/router";
+import { getMeData, parseSSRCookie } from "@utils/auth-utils";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { locale, params } = ctx;
+  const { locale } = ctx;
+  const companySlug = getMeData(ctx).company?.slug;
 
   const apollo = initApollo();
 
   const { data } = await apollo.query({
     query: CompanyDocument,
-    variables: { slug: params!["company-slug"] },
+    variables: { slug: companySlug },
   });
 
   const company = data.company;
 
-  if (!company)
-    return {
-      redirect: {
-        destination: ROUTES.HOMEPAGE,
-        permanent: false,
-      },
-    };
-
   return {
     props: {
-      ...spreadApolloToState(apollo),
       company,
+      ...spreadApolloToState(apollo),
       ...(await serverSideTranslations(locale!, [
         "common",
         "form",
@@ -55,7 +50,9 @@ interface ICompanyDetailProps {
 
 const CompanyDetail: React.FC<ICompanyDetailProps> = ({ company }) => {
   const { t } = useTranslation();
+
   const { settings } = company || {};
+
   return (
     <>
       <Head>

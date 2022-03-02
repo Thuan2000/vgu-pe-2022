@@ -52,7 +52,7 @@ const UserProfile = () => {
         <NewChat />
       </div>
       {!NO_POST_ROUTES.includes(activePage) ? (
-        <div>
+        <div style={{ marginLeft: "1rem" }}>
           <Link target="_blank" href={`${adminLink}${POST_ROUTES[activePage]}`}>
             <Button
               className={`px-3 h-9`}

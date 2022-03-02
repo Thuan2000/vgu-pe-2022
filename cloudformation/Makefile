@@ -25,8 +25,10 @@ prod-build-and-deploy-api-image:
 # --------- API STACK COMMANDS ---------
 # Run this command if you've deleted the stack (for whatever reason) and want to create anew.
 create-dev-stack:
+	aws s3 cp ./services/dev/rds-api.yml s3://sdconnect-assets/cloudformation/dev/rds-api.yml
 	aws s3 cp ./services/dev/ecs-api.yml s3://sdconnect-assets/cloudformation/dev/ecs-api.yml
 	aws s3 cp ./services/dev/elb-api.yml s3://sdconnect-assets/cloudformation/dev/elb-api.yml
+	aws s3 cp ./services/dev/redis-api.yml s3://sdconnect-assets/cloudformation/dev/redis-api.yml
 	aws cloudformation create-stack \
 	--stack-name dev-sdconnect-stack \
 	--template-body file://./deploy-dev-stacks.yml  \
@@ -35,20 +37,10 @@ create-dev-stack:
 
 # Run this command if want to update stack.
 update-stack-dev:
+	aws s3 cp ./services/dev/rds-api.yml s3://sdconnect-assets/cloudformation/dev/rds-api.yml
 	aws s3 cp ./services/dev/ecs-api.yml s3://sdconnect-assets/cloudformation/dev/ecs-api.yml
 	aws s3 cp ./services/dev/elb-api.yml s3://sdconnect-assets/cloudformation/dev/elb-api.yml
-	aws cloudformation update-stack \
-	--stack-name dev-sdconnect-stack \
-	--template-body file://./deploy-dev-stacks.yml  \
-	--capabilities CAPABILITY_NAMED_IAM \
-  --parameters file://./env-dev.json
-
-# Run this command to update resources on AWS (if any).
-# aws s3 cp ./databases/dev/rds.yml s3://sdconnect/cloudformation/dev/rds.yml
-# aws s3 cp ./services/dev/elb-api.yml s3://sdconnect/cloudformation/dev/elb-api.yml
-update-stack-dev:
-	aws s3 cp ./services/dev/ecs-api.yml s3://sdconnect-assets/cloudformation/dev/ecs-api.yml
-	aws s3 cp ./services/dev/elb-api.yml s3://sdconnect-assets/cloudformation/dev/elb-api.yml
+	aws s3 cp ./services/dev/redis-api.yml s3://sdconnect-assets/cloudformation/dev/redis-api.yml
 	aws cloudformation update-stack \
 	--stack-name dev-sdconnect-stack \
 	--template-body file://./deploy-dev-stacks.yml  \

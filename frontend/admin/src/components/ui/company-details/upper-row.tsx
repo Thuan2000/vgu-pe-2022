@@ -7,6 +7,7 @@ import React from "react";
 import Button from "../storybook/button";
 import Typography from "../storybook/typography";
 import Image from "next/image";
+import { ROUTES } from "@utils/routes";
 
 interface ICDUpperRowProps {
   company: ICompany;
@@ -20,8 +21,11 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
   return (
     <div className={`border relative rounded-md pb-5`}>
       <div className="relative">
-        <div style={{background: "#f4f4f4"}} className="relative rounded-t-md overflow-hidden w-full h-56">
-          <Link href={`/${company?.slug}/edit`}>
+        <div
+          style={{ background: "#f4f4f4" }}
+          className="relative rounded-t-md overflow-hidden w-full h-56"
+        >
+          <Link href={`/${ROUTES.COMPANY_DETAIL}/edit`}>
             <Button
               className={`z-20 top-5 right-10 absolute px-10`}
               size="small"
@@ -37,7 +41,10 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
             objectFit="contain"
           />
         </div>
-        <div style={{background: "#f4f4f4"}} className="-bottom-20 left-12 absolute w-44 h-44 rounded-full overflow-hidden">
+        <div
+          style={{ background: "#f4f4f4" }}
+          className="-bottom-20 left-12 absolute w-44 h-44 rounded-full overflow-hidden"
+        >
           <Image
             alt={settings?.coverImage?.fileName + "image-preview"}
             src={settings?.profileImage?.url || siteSettings.placeholderImage}

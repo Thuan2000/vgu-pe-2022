@@ -4,6 +4,7 @@ export function getChatUrl(chatId: string) {
 
 export const ROUTES = {
   TO_LOGIN: (locale: string) => `${locale}/login`,
+  ADMIN_COMPANY_DETAIL: "/company-detail",
   LOGIN: `/login`,
   SETTINGS: "/settings",
   HOMEPAGE: "/",

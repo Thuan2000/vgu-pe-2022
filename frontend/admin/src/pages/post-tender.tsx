@@ -1,7 +1,10 @@
 import PageLayout from "@components/layouts/page-layout";
 import PostPageWrapper from "@components/post-page-wrapper";
 import PostTenderForm from "@components/post-tender-form";
-import { firePleaseLoginSwal, getIsCompanyFullInfo } from "@utils/functions";
+import {
+  firePleaseFillCompanySwal,
+  getIsCompanyFullInfo,
+} from "@utils/functions";
 import { generateHeadTitle, generatePageDescription } from "@utils/seo-utils";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";

@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  DBUsername:
+    Type: String
+  DBName:
+    Type: String
+  DBPassword:
+    Type: String
+  VpcId:
+    Type: String
+Resources:
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: devRdsSecurityGroup
+      GroupDescription: Security group for NGINX container
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          CidrIp: 0.0.0.0/0
+  DevDbInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: !Ref DBName
+      DBInstanceClass: db.t2.micro
+      AllocatedStorage: 20
+      Engine: MySQL
+      EngineVersion: 8.0.16
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      VPCSecurityGroups:
+        - !GetAtt RDSSecurityGroup.GroupId
+Outputs:
+  InstanceId:
+    Value: !Join ['.', [!Ref DevDbInstance, 'ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com']]
+    Description: InstanceId of the newly created RDS Instance

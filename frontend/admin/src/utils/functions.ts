@@ -304,7 +304,7 @@ export function generateUsername(email: string) {
 }
 
 // The cancel button and confirm button is swapped
-export async function firePleaseLoginSwal(
+export async function firePleaseFillCompanySwal(
   t: TFunction,
   Swal: any,
   texts?: {
@@ -316,12 +316,12 @@ export async function firePleaseLoginSwal(
     icon: "info",
     title: t("common:you-need-to-fill-company-detail-to-access-title"),
     text: t("common:you-need-to-fill-company-detail-to-access-text"),
-    // denyButtonText: texts?.denyButton || t("common:to-login-page-button-label"),
-    // denyButtonColor: COLORS.PRIMARY.DEFAULT,
-    // showDenyButton: true,
-    // focusDeny: true,
-    confirmButtonColor: COLORS.PRIMARY.DEFAULT,
-    confirmButtonText:
+    confirmButtonText: texts?.denyButton || t("common:stay-button-label"),
+    confirmButtonColor: COLORS.GRAY[400],
+    showDenyButton: true,
+    focusDeny: true,
+    denyButtonColor: COLORS.PRIMARY.DEFAULT,
+    denyButtonText:
       texts?.confirmButton || t("common:to-edit-company-page-button-label"),
     allowOutsideClick: false,
   } as SweetAlertOptions);
