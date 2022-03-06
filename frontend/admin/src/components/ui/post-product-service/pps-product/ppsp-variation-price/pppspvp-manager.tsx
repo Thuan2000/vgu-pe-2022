@@ -50,6 +50,7 @@ const PPSPVPManager: React.FC<IPPSPVPManagerProps> = ({
   useEffect(() => {
     if (firstRun.current) firstRun.current = false;
     else synchronizeValueAndVDs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groups]);
 
   function synchronizeValueAndVDs() {
@@ -120,6 +121,7 @@ const PPSPVPManager: React.FC<IPPSPVPManagerProps> = ({
               <VariationPriceInputItem
                 isLast={idx === value.length - 1}
                 title={title}
+                key={title + price + "ppvsvp-manager"}
                 onChange={(e) => handleVariationPriceChange(id, e)}
                 value={price}
               />

@@ -57,6 +57,7 @@
   "post-request-name-desc": "Please create name with given formula: “Request - product/service - amount”",
   "min-budget-label": "From",
   "max-budget-label": "To",
+  "postProduct-description-input-placeholder": "Describe what your product is about ...",
   "budget-sign": "₫",
   "quantity-label": "Quantity",
   "unit-label": "Unit",
@@ -297,15 +298,15 @@
   "million-suffix": "m",
   "billion-suffix": "b",
   "companyAddress-input-label": "Company Address",
-
+  "companyAddress-input-placeholder": "The address of your head office",
   "search-Placeholder": "Search",
-
+  "description-input-placeholder": "description ....",
   "productName-input-label": "Product Name",
   "productName-input-placeholder": "Product Name",
   "error-productName-required": "Please input product name",
-
+  "companyName-input-placeholder": "The business' full name",
   "productIndustryCategory-label": "Product Industry & Category",
-
+  "variationItemPrice-input-placeholder": "Unit price (đ)",
   "postProduct-description-input-label": "Product Description",
   "error-productDescription-too-short": "Description should be more than 200 letters",
   "post-product-location-input-label": "Product Location",
@@ -329,10 +330,11 @@
   "pps-productFaqs-review-label": "FAQs",
   "pps-product-singlePrice-label": "Single Price",
   "pps-review-note": "Check all the information carefully before posting",
-
+  "productCreated-text": "Please wait 5 - 10 minutes for it to appear on search",
   "post-product-button-label": "Post",
   "group-price-groupClassification-input-label": "Classifications",
-
+  "productCreated-title": "Product is created",
+  "productCreated-button-label": "OK",
   "single-price-input-label": "Price",
   "variation-price-input-label": "Variation Price",
   "product-price-input-label": "Product Price",
@@ -393,5 +395,6 @@
   "ok-button": "Confirm",
   "COMPANY_OWNER": "Company Owner",
 
-  "location-text": "Location"
+  "location-text": "Location",
+  "post-request-endDate-label": "Deadline"
 }

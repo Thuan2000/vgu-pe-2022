@@ -36,12 +36,6 @@ const SidebarNavigations = () => {
             let isActive = !!children
               ? checkIsActiveChildren(children)
               : checkIsActive([href, ...managedLinks]);
-
-            if (href === "company-slug") {
-              href = getMeData().company?.slug!;
-              isActive = getActivePath(pathname) === "/[company-slug]";
-            }
-
             return (
               <div
                 className={`overflow-hidden max-h-12 ${

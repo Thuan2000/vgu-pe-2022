@@ -62,20 +62,22 @@
   "totalEmployees-text": "Số lượng nhân viên",
   "businessType-text": "Loại doanh nghiệp",
   "mainProducts-text": "Sản phẩm chính",
-
+  "settings-page-name": "Cài đặt",
+  "settings-general-page-title": "Thông tin chung",
+  "settings-security-page-title": "An ninh",
+  "setting-subcription-plan-label": "Gói dịch vụ",
   "singularCompanybranch-title": "Chi nhánh",
+  "invert-CLOSE-request": "Mở lại",
   "pluralCompanybranch-title": "Chi nhánh",
   "singularCompanyfactory-title": "Xưởng sản xuất",
   "pluralCompanyfactory-title": "Xưởng sản xuất",
   "singularCompanywarehouse-title": "Kho hàng",
   "pluralCompanywarehouse-title": "kho hàng",
-
   "noFactory-message": "Chưa có nhà máy",
   "noBranch-message": "Chưa có nhánh",
   "noWarehouse-message": "Chưa có kho hàng",
   "edit-button-label": "Chỉnh sửa",
   "delete-button-label": "Xóa",
-
   "create-service-button-label": "Tạo dịch vụ mới",
   "item-selected-text": "dịch vụ đã chọn",
   "total-label": "Tổng cộng",
@@ -104,7 +106,7 @@
 
   "logout-button": "Đăng xuất",
   "setting-button": "Cài đặt",
-
+  "unread-singular-label": "chưa đọc",
   "text-loading": "Đang tải",
   "loading-text": "Đang tải",
   "no-type": "Không",
@@ -155,10 +157,19 @@
   "approve-company-message": "Bạn có chắc sẽ xác thực doanh nghiệp này?",
   "companyApproved-success-message": "Xác thực thành công",
   "no-unapproved-companies": "Không có doanh nghiệp chưa được xác thực",
-
+  "invert-OPEN-request": "Đóng NCTM",
   "no-products-yet-text-info": "Chưa có sản phẩm",
   "create-product-button-label": "Thêm sản phẩm",
   "deleteProject-button-label": "Xóa dự án",
   "create-project-title": "Tạo dự án",
-  "products-label": "sản phẩm"
+  "products-label": "sản phẩm",
+  "messages-label": "Hộp thư",
+  "no-new-message-text": "0 tin nhắn mới",
+  "open-chat-text": "Mở chat",
+  "no-projects-yet-text-info": "Chưa tạo dự án",
+  "posted-button-label": "Đến NCTM",
+  "you-need-to-fill-company-detail-to-access-title": "Doanh nghiệp còn thiếu thông tin",
+  "you-need-to-fill-company-detail-to-access-text": "Vui lòng điền đầy đủ thông tin để có thể đăng tin",
+  "to-edit-company-page-button-label": "Đến \"Công ty\"",
+  "change-will-discarded-title": "Mọi thay đổi sẽ bị xoá, bạn chắc chắn?"
 }

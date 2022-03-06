@@ -202,7 +202,12 @@ const Search = ({
                 onFocus={handleInputFocus}
                 onChange={handleInputChange}
                 inputClassName="border-none sm:w-[350px]"
-                placeholder={t(searchInputPlaceholder)}
+                placeholder={
+                  searchInputPlaceholder !==
+                  "search-nha-cung-cap-input-placeholder"
+                    ? t(searchInputPlaceholder)
+                    : "v.d: Công ty ABC"
+                }
               />
 
               {inputValue && (

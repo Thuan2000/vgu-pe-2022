@@ -160,7 +160,7 @@ const PostedServices: React.FC<IPostedServicesProps> = ({}) => {
   return (
     <div className={`space-y-5 select-none`}>
       <div className="fic justify-between px-5">
-        <SearchInput className="w-1/3" />
+        {/* <SearchInput className="w-1/3" /> */}
         <div className={`fic space-x-3`}>
           {!!selectedServices.length ? (
             <Button

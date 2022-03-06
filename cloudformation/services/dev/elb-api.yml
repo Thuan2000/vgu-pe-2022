@@ -2,13 +2,10 @@ AWSTemplateFormatVersion: 2010-09-09
 Parameters:
   SubnetID:
     Type: String
-    Default: 'subnet-9920bcc0'
   SubnetID2:
     Type: String
-    Default: 'subnet-55bb1b33'
   SubnetID3:
     Type: String
-    Default: 'subnet-a86fbee0'
   Vpc:
     Type: String
   Certificate:
@@ -27,11 +24,23 @@ Resources:
           FromPort: 80
           ToPort: !Ref PORT
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: !Ref PORT
+          CidrIp: 0.0.0.0/0
+  ELBTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: dev-sdconnect-tg
+      Port: 80
+      Protocol: HTTP
+      TargetType: ip
+      VpcId: !Ref Vpc
   ELB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
+      Name: dev-sdconnect-elb
       IpAddressType: ipv4
-      Name: sdconnect-api-elb
       Scheme: internet-facing
       SecurityGroups:
         - !Ref SecurityGroup
@@ -40,17 +49,6 @@ Resources:
         - !Ref SubnetID2
         - !Ref SubnetID3
       Type: application
-  ELBTargetGroup:
-    Type: AWS::ElasticLoadBalancingV2::TargetGroup
-    Properties: 
-      Name: sdconnect-api-dev-elb-tg
-      VpcId: !Ref Vpc
-      HealthCheckEnabled: 'true'
-      HealthCheckPath: /login
-      HealthCheckProtocol: HTTP
-      Protocol: HTTP
-      Port: 80
-      TargetType: ip
   ELBHTTPListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties: 

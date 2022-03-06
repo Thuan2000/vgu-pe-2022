@@ -57,6 +57,7 @@
   "budgetRange-filter-label": "Budget Range",
   "min": "Min",
   "max": "Max",
+  "please-login-to-comment": "Please login to comment",
   "askQuestion-input-label": "Ask A Question",
   "askQuestion-input-placeholder": "Write message",
   "ask-question-button-label": "Ask Question",
@@ -99,5 +100,8 @@
   "search-nha-cung-cap-input-placeholder": "e.g: company A",
   "password-resetted-success-title": "Reset password successfully",
 	"password-resetted-success-message": "Please login using newly-created password",
-	"password-resetted-success-button": "OK"
+	"password-resetted-success-button": "OK",
+  "error-WRONG_PASSWORD-title": "Wrong Password",
+	"error-WRONG_PASSWORD-message": "The password you typed in was incorrect",
+	"error-WRONG_PASSWORD-button": "Yes, I understand"
 }

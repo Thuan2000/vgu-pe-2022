@@ -168,7 +168,6 @@ export function setCharAt(str: string, index: number, chr: string) {
   return str.substring(0, index) + chr + str.substring(index + 1);
 }
 
-// @TODO: Check this since it's from stackoverflow
 export function generateUUID() {
   let d = new Date().getTime(); //Timestamp
   let d2 =
@@ -237,9 +236,25 @@ export function getCompanyExperience(date: string) {
   const companyYear = new Date(date).getFullYear();
   const nowYear = new Date().getFullYear();
 
+  const companyMonth = new Date(date).getMonth();
+  const nowMonth = new Date().getMonth();
+
+  const yearAmount = Math.max(companyYear - nowYear, 0);
+
+  const deltaMonth = nowMonth - companyMonth;
+  const monthAmount =
+    deltaMonth < 0 ? 12 - companyMonth + 1 + nowMonth : deltaMonth;
+
+  if (yearAmount === 0) {
+    return {
+      amount: monthAmount,
+      timeUnit: "month-establishment-label",
+    };
+  }
+
   return {
-    amount: companyYear - nowYear,
-    timeUnit: "YEAR",
+    amount: yearAmount,
+    timeUnit: "year-establishment-label",
   };
 }
 

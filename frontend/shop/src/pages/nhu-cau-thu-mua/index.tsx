@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import useIsPhone from "src/hooks/isPhone.hook";
+import useLoginChecker from "src/hooks/useLoginChecker";
 import Swal from "sweetalert2";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -36,20 +37,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const BuyingRequests: React.FC = () => {
   const isPhone = useIsPhone();
   const { t } = useTranslation();
-  const router = useRouter();
+  const checkLogin = useLoginChecker();
 
   useEffect(() => {
-    async function fireSwal() {
-      const isLoggedIn = isLogin();
-      if (isLoggedIn) return;
-
-      // The cancel button and confirm button is swapped
-      const { isDenied } = await firePleaseLoginSwal(t, Swal);
-      if (isDenied) router.replace(ROUTES.LOGIN);
-      else router.replace(ROUTES.HOMEPAGE);
-    }
-
-    fireSwal();
+    checkLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

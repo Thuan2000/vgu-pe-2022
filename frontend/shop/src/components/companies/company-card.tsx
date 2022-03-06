@@ -78,13 +78,13 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
                 icon={LocationIcon}
                 text={location ? `${location}` : noInfoText}
               />
-              <Chip
+              {/* <Chip
                 text={
                   branchAmount
                     ? `${branchAmount} ${t("branches-text")}`
                     : noInfoText
                 }
-              />
+              /> */}
               <Chip
                 text={
                   establishmentDate

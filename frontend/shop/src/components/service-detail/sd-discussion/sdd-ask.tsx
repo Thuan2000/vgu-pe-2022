@@ -7,10 +7,17 @@ import {
   CreateServiceDiscussionQuestionMutation,
   useCreateServiceDiscussionQuestionMutation,
 } from "@graphql/service-discussion.graphql";
-import { getCompanyName, getLoggedInUser } from "@utils/functions";
+import { isLogin as checkIsLogin } from "@utils/auth-utils";
+import {
+  firePleaseLoginSwal,
+  getCompanyName,
+  getLoggedInUser,
+} from "@utils/functions";
+import { ROUTES } from "@utils/routes";
 
 import { useTranslation } from "next-i18next";
-import React, { useState, ChangeEvent } from "react";
+import { useRouter } from "next/router";
+import React, { useState, ChangeEvent, useRef } from "react";
 import Swal from "sweetalert2";
 
 interface ISDDAskQuestionProps {
@@ -23,15 +30,20 @@ const SDDAskQuestion: React.FC<ISDDAskQuestionProps> = ({
   refetchDiscussions,
 }) => {
   const ICON_SIZE = 5;
+  const router = useRouter();
   const iconClass = `w-${ICON_SIZE} h-${ICON_SIZE}`;
+  const textAreaRef = useRef<any>();
 
   const { t } = useTranslation("form");
   const [createQuestion] = useCreateServiceDiscussionQuestionMutation({
     onCompleted: handleQuestionCreated,
   });
+  const isLogin = checkIsLogin();
+
   const [question, setQuestion] = useState("");
 
   function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
+    if (!isLogin) return;
     setQuestion(e.target.value);
   }
 
@@ -54,6 +66,17 @@ const SDDAskQuestion: React.FC<ISDDAskQuestionProps> = ({
     }
   }
 
+  async function handleFocus() {
+    if (!isLogin) {
+      textAreaRef.current.blur();
+      // Reverted deny === right, confirm === left
+      const { isDenied, ...rest } = await firePleaseLoginSwal(t, Swal, {
+        confirmButton: t("stay-button-label"),
+      });
+      if (isDenied) router.push(ROUTES.LOGIN);
+    }
+  }
+
   function submit() {
     const input = {
       userId: getLoggedInUser()?.id,
@@ -70,9 +93,11 @@ const SDDAskQuestion: React.FC<ISDDAskQuestionProps> = ({
   return (
     <div>
       <TextArea
+        ref={textAreaRef}
         label={t("askQuestion-input-label")}
         placeholder={t("askQuestion-input-placeholder")}
         onChange={handleChange}
+        onClick={handleFocus}
         value={question}
       />
 

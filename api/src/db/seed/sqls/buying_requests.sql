@@ -1,6 +1,4 @@
-INSERT INTO `buying_requests` (`id`, `name`, `slug`, `endDate`, `location`, `industryId`, `categoryId`, `minBudget`, `maxBudget`, `minOrder`, `unit`, `companyId`, `createdById`, `status`, `description`, `isDeleted`) VALUES
-(1, "Gaming Mouse", "request-gaming-mouse", 1636819200000, "Bắc Giang", 1, 1, 2000000, 500000000, 500, "Unit", 2, 2, "OPEN", "Testing BR", 0),
-(2, "VGA NVIDIA RTX 3090TI", "request-vga-nvidia-rtx-3090ti", 1636819200000, "Bắc Giang", 1, 1, 500000000, 500000000, 500, "Unit", 1, 1, "OPEN", "Need 500 Units of VGA to make a mining station and buy tesla model S, X, Y, with it", 0),
-(3, "Acer Monitor", "request-vga-monitor", 1636819200000, "Bắc Giang", 1, 1,500000000, 500000000, 500, "Unit", 1, 1, "OPEN", "Testing BR", 0),
-(4, "Asus Monitor", "request-acer-monitor", 1636819200000, "Bắc Giang", 1, 1,500000000, 500000000, 500, "Unit", 1, 1, "CLOSE", "Testing BR", 0),
-(5, "Speaker", "request-speaker", 1636819200000, "Bắc Giang", 1, 1, 2000000, 500000000, 500, "Unit", 2, 2, "CLOSE", "Testing BR", 0);
+INSERT INTO `buying_requests` (`id`, `isSeedData`, `name`, `slug`, `endDate`, `location`, `industryId`, `categoryId`, `minBudget`, `maxBudget`, `minOrder`, `unit`, `companyId`, `createdById`, `status`, `description`, `isDeleted`) VALUES
+(1, 1, "Gaming Mouse", "request-gaming-mouse", 1636819200000, "Bắc Giang", 1, 1, 2000000, 500000000, 500, "Unit", 2, 2, "OPEN", "Testing BR", 0),
+(2, 1, "VGA NVIDIA RTX 3090TI", "request-vga-nvidia-rtx-3090ti", 1636819200000, "Bắc Giang", 1, 1, 500000000, 500000000, 500, "Unit", 1, 1, "OPEN", "Need 500 Units of VGA to make a mining station and buy tesla model S, X, Y, with it", 0),
+(3, 1, "Acer Monitor", "request-vga-monitor", 1636819200000, "Bắc Giang", 1, 1,500000000, 500000000, 500, "Unit", 1, 1, "OPEN", "Testing BR", 0);

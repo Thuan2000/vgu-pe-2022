@@ -51,6 +51,7 @@ import { getCategory } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
 import { getLocationByName } from "@utils/vietnam-cities";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
+import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
 
 interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {
   initValue?: IService;
@@ -164,6 +165,12 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
     handleSubmit,
   } = methods;
 
+  const { startListen, stopListen } = useIsEditedFormHandler();
+  useEffect(() => {
+    startListen(!!dirtyFields.category);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!dirtyFields.category]);
+
   // Changing section if there's an error and user submitting
   useEffect(() => {
     if (errors && errors.category && formPosition > PPS_CATEGORY_FORM_INDEX)
@@ -189,6 +196,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
   useEffect(() => {
     if (formPosition > PPS_CATEGORY_FORM_INDEX && !isDirtyCategory())
       changeSection(PPS_CATEGORY_FORM_INDEX);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleNextClick() {
@@ -358,7 +366,7 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       price: price || null,
       location,
     };
-
+    stopListen();
     if (!!initValue) {
       updateService({ variables: { input: { id: initValue.id, ...value } } });
     } else {

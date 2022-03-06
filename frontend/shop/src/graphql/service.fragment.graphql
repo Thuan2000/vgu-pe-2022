@@ -1,3 +1,5 @@
+# import CompanyFragment from "./company.fragment.graphql"
+
 fragment ServiceParts on Service {
   id
   name
@@ -12,8 +14,7 @@ fragment ServiceParts on Service {
     url
   }
   company {
-    id
-    name
+    ...CompanyFragment
     chatId
   }
   packages {

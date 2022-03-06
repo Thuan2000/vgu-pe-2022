@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import {
   removeAuthCredentials,
   removeChatAuthToken,
+  removeIsFullInfoTrue,
   removeMeData,
 } from "../utils/auth-utils";
 import { ROUTES } from "../utils/routes";
@@ -29,6 +30,7 @@ const Logout = () => {
     removeAuthCredentials();
     removeChatAuthToken();
     removeMeData();
+    removeIsFullInfoTrue();
     replace(ROUTES.TO_LOGIN(locale!));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

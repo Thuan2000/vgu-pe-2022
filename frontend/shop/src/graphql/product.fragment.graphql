@@ -1,11 +1,11 @@
+# import CompanyFragment from "./company.fragment.graphql"
 #import FileFragment from "./file.fragment.graphql"
 
 fragment ProductFragment on Product {
   id
   name
   company {
-    id
-    name
+    ...CompanyFragment
     chatId
   }
   coverImage {

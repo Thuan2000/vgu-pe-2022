@@ -45,7 +45,6 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
   function Item({
     label,
     isLast,
-    isChevron,
   }: {
     label: string;
     isLast?: boolean;
@@ -71,7 +70,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
             {/* <HomeIcon fill={COLORS.PRIMARY.DEFAULT} className="w-6 h-6" /> */}
           </Link>
         ) : (
-          <div className="flex items-baseline">
+          <div className="flex items-baseline space-x-2">
             <HomeIcon className="w-5 h-5 mr-2" />
             <Item label={t("homepage-breadcrumb")} isLast />
           </div>
@@ -79,7 +78,10 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
         {links.map((p, idx) => {
           const isLast = idx === paths.length - 1;
           return (
-            <div key={p.href + p.label} className={`flex items-baseline`}>
+            <div
+              key={p.href + p.label}
+              className={`flex items-baseline space-x-2`}
+            >
               <UpVIcon
                 className="rotate-90 w-3 h-3"
                 fill={COLORS.PRIMARY.DEFAULT}

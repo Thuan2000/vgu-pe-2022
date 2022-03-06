@@ -60,7 +60,7 @@ export const navigations: INavigation[] = [
   },
   {
     label: "companyPage-nav-label",
-    href: "company-slug",
+    href: ROUTES.COMPANY_DETAIL,
     icon: AvatarIcon,
   },
 ];

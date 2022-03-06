@@ -31,6 +31,7 @@
 	"drop-zone": "Kéo thả files vào đây",
 	"license-label": "Giấy phép ĐKKD",
 	"upload-file": "Tải File",
+  "please-login-to-comment": "Đăng nhập để bình luận",
 	"license-subLabel": "Vui lòng gửi kèm giấy phép ĐKKD để chúng tôi xác minh",
 	"signup": "Đăng Ký",
 	"already-have-account": "Bạn đã có tài khoản?",
@@ -89,5 +90,11 @@
   "forgetPasswordEmail-button-label": "Gửi link khôi phục",
   "passwordChange-isNotExist-title": "Tài khoản không tồn tại",
   "passwordChange-isNotExist-message": "Vui lòng kiểm tra email hoặc đăng ký tài khoản và chờ được kiểm duyệt",
-  "email-not-valid-error": "Email chưa hợp lệ"
+  "email-not-valid-error": "Email chưa hợp lệ",
+	"error-WRONG_PASSWORD-title": "Mật khẩu sai",
+	"error-WRONG_PASSWORD-message": "Vui lòng nhập đúng mật khẩu",
+	"error-WRONG_PASSWORD-button": "OK",
+  "estimated-price": "Giá ước tính",
+	"location-title": "Tỉnh/thành",
+  "industry-title": "Lĩnh vực, ngành nghề"
 }

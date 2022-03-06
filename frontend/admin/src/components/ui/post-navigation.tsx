@@ -1,5 +1,5 @@
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import PostNavigationItem from "./post-navigation-item";
 
 export interface INav {
@@ -15,11 +15,18 @@ interface IPostNavigation {
 
 const PostNavigation: React.FC<IPostNavigation> = ({ navs }) => {
   const { query, ...router } = useRouter();
+  const isReached = useRef(0);
 
   const currentFormPosition = parseInt(query.formPosition as string) || 1;
 
+  useEffect(() => {
+    if (isReached.current < currentFormPosition)
+      isReached.current = currentFormPosition;
+  }, [currentFormPosition]);
+
   function setFormPosition(formPosition: number) {
-    if (formPosition >= currentFormPosition) return;
+    if (formPosition >= currentFormPosition && isReached.current < formPosition)
+      return;
 
     const { pathname } = router;
     router.push({
@@ -47,7 +54,7 @@ const PostNavigation: React.FC<IPostNavigation> = ({ navs }) => {
         onClick={() => (onClick ? onClick(label) : setFormPosition(idx + 1))}
         currentFormPosition={currentFormPosition}
         idx={idx}
-        navigateAble={!!onClick}
+        navigateAble={!!onClick || isReached.current >= idx + 1}
         label={label}
         isFilled={isFilled}
         isActive={isActive}

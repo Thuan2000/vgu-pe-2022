@@ -21,6 +21,7 @@ import { firePleaseLoginSwal } from "@utils/functions";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import useLoginChecker from "src/hooks/useLoginChecker";
 
 interface IBuyingRequestDetailProps {
   br: IBuyingRequest;
@@ -83,24 +84,11 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 };
 
 const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
-  const { t } = useTranslation("common");
-
   const isPhone = useIsPhone();
-
-  const router = useRouter();
+  const checkLogin = useLoginChecker();
 
   useEffect(() => {
-    const isLoggedIn = isLogin();
-    async function fireSwal() {
-      if (isLoggedIn) return;
-
-      // The cancel button and confirm button is swapped
-      const { isDenied } = await firePleaseLoginSwal(t, Swal);
-      if (isDenied) router.replace(ROUTES.LOGIN);
-      else router.replace(ROUTES.HOMEPAGE);
-    }
-
-    fireSwal();
+    checkLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

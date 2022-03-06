@@ -137,6 +137,7 @@ Product.init(
 		gallery: DataTypes.JSON,
 		videos: DataTypes.JSON,
 		variations: DataTypes.JSON,
+		// TODO: minPrice and maxPrice here does not make sense.
 		minPrice: DataTypes.BIGINT,
 		maxPrice: DataTypes.BIGINT,
 		price: DataTypes.BIGINT,
@@ -146,7 +147,8 @@ Product.init(
 		isPreorder: DataTypes.BOOLEAN,
 		baseDimension: DataTypes.JSON,
 		packagedDimension: DataTypes.JSON,
-		warranty: DataTypes.JSON
+		warranty: DataTypes.JSON,
+		isSeedData: DataTypes.BOOLEAN
 	},
 	{
 		sequelize: Database.sequelize,

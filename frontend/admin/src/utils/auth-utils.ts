@@ -45,6 +45,10 @@ export function getAuthCredentials(context?: any): {
   return { token: null };
 }
 
+export function getCompanyFromCtx(context: any) {
+  SSRCookie.parse(context.req.headers.cookie ?? "");
+}
+
 export function parseSSRCookie(context: any) {
   return SSRCookie.parse(context.req.headers.cookie ?? "");
 }
@@ -86,7 +90,10 @@ export function setMeData({ user }: { user: IUser; company: ICompany }) {
   );
 }
 
-export function getMeData(): IMeInfoResponse | { company: null; user: null } {
+export function getMeData(
+  ctx?: any
+): IMeInfoResponse | { company: null; user: null } {
+  if (!!ctx) return JSON.parse(parseSSRCookie(ctx).LOGGED_IN_USER);
   const rawUser = Cookie.get(LOGGED_IN_USER);
   if (!rawUser) return { company: null, user: null };
   const { company, ...user } = JSON.parse(rawUser);
@@ -98,16 +105,20 @@ export function removeMeData() {
   Cookie.remove(LOGGED_IN_USER, !isDevelopment ? { ...cookieDomain } : {});
 }
 
+export function setIsFullInfoTrue() {
+  Cookie.set(IS_FULL_INFO_COMP, JSON.stringify(true), getDomain());
+}
+
+export function removeIsFullInfoTrue() {
+  Cookie.remove(IS_FULL_INFO_COMP, getDomain());
+}
+
 export function getMeDataFromCookie(cookie: any): {
   user: IUser;
   company: ICompany;
 } {
   if (!cookie?.LOGGED_IN_USER) return {} as any;
   return JSON.parse(cookie?.LOGGED_IN_USER || "");
-}
-
-export function setIsCompanyFullInfoCookie(value: boolean) {
-  Cookies.set(IS_FULL_INFO_COMP, JSON.stringify(`${value}`), getDomain());
 }
 
 export function getDomain() {

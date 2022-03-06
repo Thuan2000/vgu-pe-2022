@@ -1,5 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
+  Refresher:
+    Type: String
   SubnetID:
     Type: String
   SubnetID2:
@@ -10,31 +12,36 @@ Parameters:
     Type: String
   PORT:
     Type: Number
+  TargetGroupArn:
+    Type: String
+  LoadBalancerName:
+    Type: String
+  # SDConnect API Env
   NodeEnv:
     Type: String
   JwtSecret:
     Type: String
-  DevDBDialect:
+  ShopUrl:
     Type: String
-  DevDBHost:
+  DBDialect:
     Type: String
-  DevDBDatabase:
+  DBHost:
     Type: String
-  DevDBPort:
+  DBDatabase:
     Type: String
-  DevDBUsername:
+  DBPort:
     Type: String
-  DevDBPassword:
+  DBUsername:
+    Type: String
+  DBPassword:
     Type: String
   AwsRegion:
     Type: String
-  DevAWSAccessKey:
+  AWSAccessKey:
     Type: String
-  DevAWSSecretKey:
+  AWSSecretKey:
     Type: String
-  DevS3BucketName:
-    Type: String
-  TargetGroupArn:
+  S3BucketName:
     Type: String
   SmtpHost:
     Type: String
@@ -48,11 +55,35 @@ Parameters:
     Type: String
   SmtpFrom:
     Type: String
-  EsEndpoint:
+  ESEndpoint:
     Type: String
-  EsUsername:
+  ESUsername:
     Type: String
-  EsPassword:
+  ESPassword:
+    Type: String
+  RedisUrl:
+    Type: String
+  RedisDatabase:
+    Type: String
+  RedisPort:
+    Type: Number
+  RedisDialTimeout:
+    Type: Number
+  RedisReadTimeout:
+    Type: Number
+  RedisWriteTimeout:
+    Type: Number
+  RedisUsername:
+    Type: String
+  RedisPassword:
+    Type: String
+  QueueUrl:
+    Type: String
+  ChatApiUrl:
+    Type: String
+  ChatApiKey:
+    Type: String
+  AdminEmail:
     Type: String
 Resources:
   Cluster:
@@ -85,46 +116,54 @@ Resources:
           FromPort: 80
           ToPort: 80
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: sdconnect-dev-api-task
+      Family: dev-sdconnect-api-task
       Cpu: 256
       Memory: 512
       NetworkMode: awsvpc
       ExecutionRoleArn: !Ref ExecutionRole
       ContainerDefinitions:
-        - Name: sdconnect-dev-api
+        - Name: dev-sdconnect-api-task
           Image: !Ref DockerImageURI
           PortMappings:
             - ContainerPort: !Ref PORT
           Environment:
+            - Name: Refresher
+              Value: !Ref Refresher
             - Name: PORT
               Value: !Ref PORT
             - Name: NODE_ENV
               Value: !Ref NodeEnv
             - Name: JWT_SECRET
               Value: !Ref JwtSecret
-            - Name: DEV_DB_DIALECT
-              Value: !Ref DevDBDialect
-            - Name: DEV_DB_HOST
-              Value: !Ref DevDBHost
-            - Name: DEV_DB_DATABASE
-              Value: !Ref DevDBDatabase
-            - Name: DEV_DB_PORT
-              Value: !Ref DevDBPort
-            - Name: DEV_DB_USERNAME
-              Value: !Ref DevDBUsername
-            - Name: DEV_DB_PASSWORD
-              Value: !Ref DevDBPassword
+            - Name: SHOP_URL
+              Value: !Ref ShopUrl
+            - Name: DB_DIALECT
+              Value: !Ref DBDialect
+            - Name: DB_HOST
+              Value: !Ref DBHost
+            - Name: DB_DATABASE
+              Value: !Ref DBDatabase
+            - Name: DB_PORT
+              Value: !Ref DBPort
+            - Name: DB_USERNAME
+              Value: !Ref DBUsername
+            - Name: DB_PASSWORD
+              Value: !Ref DBPassword
             - Name: AWS_REGION
               Value: !Ref AwsRegion
-            - Name: DEV_AWS_ACCESS_KEY
-              Value: !Ref DevAWSAccessKey
-            - Name: DEV_AWS_SECRET_KEY
-              Value: !Ref DevAWSSecretKey
-            - Name: DEV_S3_BUCKET_NAME
-              Value: !Ref DevS3BucketName
+            - Name: AWS_ACCESS_KEY
+              Value: !Ref AWSAccessKey
+            - Name: AWS_SECRET_KEY
+              Value: !Ref AWSSecretKey
+            - Name: S3_BUCKET_NAME
+              Value: !Ref S3BucketName
             - Name: SMTP_HOST
               Value: !Ref SmtpHost
             - Name: SMTP_PORT
@@ -138,11 +177,35 @@ Resources:
             - Name: SMTP_FROM
               Value: !Ref SmtpFrom
             - Name: ES_ENDPOINT
-              Value: !Ref EsEndpoint
+              Value: !Ref ESEndpoint
             - Name: ES_USERNAME
-              Value: !Ref EsUsername
+              Value: !Ref ESUsername
             - Name: ES_PASSWORD
-              Value: !Ref EsPassword
+              Value: !Ref ESPassword
+            - Name: REDIS_URL
+              Value: !Ref RedisUrl
+            - Name: REDIS_DATABASE
+              Value: !Ref RedisDatabase
+            - Name: REDIS_PORT
+              Value: !Ref RedisPort
+            - Name: REDIS_DIAL_TIMEOUT
+              Value: !Ref RedisDialTimeout
+            - Name: REDIS_READ_TIMEOUT
+              Value: !Ref RedisReadTimeout
+            - Name: REDIS_WRITE_TIMEOUT
+              Value: !Ref RedisWriteTimeout
+            - Name: REDIS_USERNAME
+              Value: !Ref RedisUsername
+            - Name: REDIS_PASSWORD
+              Value: !Ref RedisPassword
+            - Name: QUEUE_URL
+              Value: !Ref QueueUrl
+            - Name: CHAT_API_URL
+              Value: !Ref ChatApiUrl
+            - Name: CHAT_API_KEY
+              Value: !Ref ChatApiKey
+            - Name: ADMIN_EMAIL
+              Value: !Ref AdminEmail
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -151,24 +214,23 @@ Resources:
               awslogs-stream-prefix: ecs
       RequiresCompatibilities:
         - FARGATE
+  
   Service:
     Type: AWS::ECS::Service
     Properties:
-      ServiceName: sdconnect-dev-api-ecs
+      ServiceName: dev-sdconnect-api-service
       Cluster: !Ref Cluster
       TaskDefinition: !Ref TaskDefinition
       DesiredCount: 1
       LaunchType: FARGATE
       LoadBalancers:
         - TargetGroupArn: !Ref TargetGroupArn
-          ContainerName: sdconnect-dev-api
+          ContainerName: dev-sdconnect-api-task
           ContainerPort: !Ref PORT
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
           Subnets:
             - !Ref SubnetID
-            - !Ref SubnetID2
-            - !Ref SubnetID3
           SecurityGroups:
             - !GetAtt ContainerSecurityGroup.GroupId

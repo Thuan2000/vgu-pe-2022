@@ -6,15 +6,18 @@ export interface IBusinessType {
 export const businessTypes = [
   {
     id: 1,
-    label: "SERVICE",
+    // old name: SERVICE
+    label: "Dịch vụ",
   },
   {
     id: 2,
-    label: "TRADING_COMPANY",
+    // old name: TRADING_COMPANY
+    label: "Thương Mại",
   },
   {
     id: 3,
-    label: "MANUFACTURER",
+    // old name: MANUFACTURER
+    label: "Sản Xuất",
   },
 ];
 

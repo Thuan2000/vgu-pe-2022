@@ -1,0 +1,170 @@
+[
+  {
+    "ParameterKey": "Refresher",
+    "ParameterValue": "refresher-value-23"
+  },
+  {
+    "ParameterKey": "Vpc",
+    "ParameterValue": "vpc-b86894de"
+  },
+  {
+    "ParameterKey": "Certificate",
+    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/2e90b17d-e730-410d-861b-170b31a2627d"
+  },
+  {
+    "ParameterKey": "SubnetID",
+    "ParameterValue": "subnet-0b517a74dea417994"
+  },
+  {
+    "ParameterKey": "SubnetID2",
+    "ParameterValue": "subnet-55bb1b33"
+  },
+  {
+    "ParameterKey": "SubnetID3",
+    "ParameterValue": "subnet-a86fbee0"
+  },
+  {
+    "ParameterKey": "DockerImageURI",
+    "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect-ecr:latest"
+  },
+  {
+    "ParameterKey": "PORT",
+    "ParameterValue": "8080"
+  },
+  {
+    "ParameterKey": "NodeEnv",
+    "ParameterValue": "development"
+  },
+  {
+    "ParameterKey": "JwtSecret",
+    "ParameterValue": "e9f5a189eaf62edd5562a43f967811e89535c515c771723b6a5v4ae93d882cacc3b"
+  },
+  {
+    "ParameterKey": "ShopUrl",
+    "ParameterValue": "https://dev.sdconnect.vn"
+  },
+  {
+    "ParameterKey": "DBDialect",
+    "ParameterValue": "mysql"
+  },
+  {
+    "ParameterKey": "DBHost",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "DBDatabase",
+    "ParameterValue": "devsdconnect"
+  },
+  {
+    "ParameterKey": "DBPort",
+    "ParameterValue": "3306"
+  },
+  {
+    "ParameterKey": "DBUsername",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "DBPassword",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "AwsRegion",
+    "ParameterValue": "ap-southeast-1"
+  },
+  {
+    "ParameterKey": "AWSAccessKey",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "AWSSecretKey",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "S3BucketName",
+    "ParameterValue": "dev-sdconnect-s3"
+  },
+  {
+    "ParameterKey": "SmtpHost",
+    "ParameterValue": "smtp.gmail.com"
+  },
+  {
+    "ParameterKey": "SmtpPort",
+    "ParameterValue": "465"
+  },
+  {
+    "ParameterKey": "SmtpSecure",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "SmtpUsername",
+    "ParameterValue": "fatwaanugerah01@gmail.com"
+  },
+  {
+    "ParameterKey": "SmtpPassword",
+    "ParameterValue": "fatwaanugrah123"
+  },
+  {
+    "ParameterKey": "SmtpFrom",
+    "ParameterValue": "<no-reply>@sdconnect.dev"
+  },
+  {
+    "ParameterKey": "ESEndpoint",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "ESUsername",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "ESPassword",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "RedisUrl",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "RedisDatabase",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "RedisPort",
+    "ParameterValue": "6379"
+  },
+  {
+    "ParameterKey": "RedisDialTimeout",
+    "ParameterValue": "0"
+  },
+  {
+    "ParameterKey": "RedisReadTimeout",
+    "ParameterValue": "0"
+  },
+  {
+    "ParameterKey": "RedisWriteTimeout",
+    "ParameterValue": "0"
+  },
+  {
+    "ParameterKey": "RedisUsername",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "RedisPassword",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "QueueUrl",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "ChatApiUrl",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "ChatApiKey",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "AdminEmail",
+    "ParameterValue": ""
+  }
+]

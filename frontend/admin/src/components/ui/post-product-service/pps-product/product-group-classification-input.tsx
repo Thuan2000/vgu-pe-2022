@@ -89,6 +89,7 @@ function ClassificationInput({
 
         return (
           <div
+            key={c.name + c.id + "classification"}
             className={`flex items-${
               !!error ? "start" : "center"
             } w-full space-x-3`}

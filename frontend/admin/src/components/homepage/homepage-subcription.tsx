@@ -16,6 +16,7 @@ const HomepageSubcription: React.FC<IHomepageSubcriptionProps> = ({
           <div className="mr-4 text-left hidden md:block col-span-2">
             <p className=" text-lg my-4">{t("company-subcription-label")}: </p>
             <p className="font-semibold text-semibold text-3xl mb-4">{t("next-payment-date-label")}: </p>
+            <p className=" text-lg my-4">Ưu đãi vĩnh viễn</p>
           </div>
       </div>
     </div>

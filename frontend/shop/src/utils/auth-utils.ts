@@ -4,6 +4,7 @@ import {
   AUTH_CRED,
   CHAT_AUTH_COOKIE_NAME,
   CHAT_KEEP_LOGIN_COOKIE_NAME,
+  IS_FULL_INFO_COMP,
   LOGGED_IN_USER,
   REDIRECT_AFTER_LOGIN,
 } from "./constants";
@@ -22,6 +23,14 @@ function getDomain() {
 export function setAuthCredentials(token: string) {
   const authCred = { token };
   Cookie.set(AUTH_CRED, JSON.stringify({ ...authCred }), getDomain());
+}
+
+export function setIsFullInfoTrue() {
+  Cookie.set(IS_FULL_INFO_COMP, JSON.stringify(true), getDomain());
+}
+
+export function removeIsFullInfoTrue() {
+  Cookie.remove(IS_FULL_INFO_COMP, getDomain());
 }
 
 export function removeAuthCredentials() {

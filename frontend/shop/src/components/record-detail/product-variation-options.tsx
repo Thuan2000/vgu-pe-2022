@@ -17,11 +17,12 @@ const ProductVariationOptions: React.FC<IProductVariationOptionProps> = ({
   selectedOption,
 }) => {
   return (
-    <div className={`grid grid-cols-5 space-x-3 items-center`}>
+    <div className={`grid space-x-2 items-center`}>
       <Typography
         text={`${name} (${options.length})`}
         weight="light"
-        size="md"
+        size="sm"
+        className="pb-2"
       />
       <div className={`fic col-auto space-x-3`}>
         {options.map(({ name, value }) => {

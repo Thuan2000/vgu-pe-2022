@@ -19,7 +19,8 @@ User.init(
 		email: DataTypes.STRING,
 		password: DataTypes.STRING,
 		phoneNumber: DataTypes.STRING,
-		role: DataTypes.STRING
+		role: DataTypes.STRING,
+		isSeedData: DataTypes.BOOLEAN
 	},
 	{
 		tableName: "users",

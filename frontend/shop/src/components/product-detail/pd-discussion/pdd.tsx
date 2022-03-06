@@ -36,7 +36,7 @@ const PDDiscussion: React.FC<IPDDiscussionProps> = ({ reload, productId }) => {
           size="md"
         />
         <Typography
-          text={`${discussions?.length} ${t("product-questions-text")}`}
+          text={`${discussions?.length} ${t("product-question-text")}`}
           variant="description"
           size="md"
         />

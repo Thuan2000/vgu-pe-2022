@@ -12,7 +12,7 @@ const ProductVariationOptionItem: React.FC<
 > = ({ value, isActive, onClick }) => {
   return (
     <button
-      className={`border px-3 p-1 rounded-sm text-gray-300 ${
+      className={`text-sm border px-3 p-1 rounded-sm text-gray-300 ${
         isActive && "border-primary !text-primary"
       }`}
       onClick={onClick}

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { siteSettings } from "@settings/site.settings";
 import { IChatSubPublic } from "@utils/interfaces";
+import { trimText } from "@utils/functions";
 
 interface IChatMessageItemProps {
   message: IChatSubPublic;
@@ -29,7 +30,7 @@ const ChatMessageItem: React.FC<IChatMessageItemProps> = ({
       target="_blank"
     >
       <div
-        className={`fic !px-3 !py-3 relative space-x-3 border-b 
+        className={`fic !px-3 !py-3 relative overflow-hidden space-x-3 border-b 
         ${isLast && "border-b-0"}
       `}
       >
@@ -41,12 +42,12 @@ const ChatMessageItem: React.FC<IChatMessageItemProps> = ({
           />
         </div>
         <div>
-          <div className="grid grid-cols-4 gap-x-2">
+          <div className="grid grid-cols-3 gap-x-2">
             <Typography
-              text={fn}
+              text={trimText(fn, 20)}
               weight="bold"
               truncate
-              className={`text-md col-span-3`}
+              className={`text-md col-span-2`}
             />
             <ReactTimeAgo
               className={`text-gray justify-end text-xs col-span-1 truncate`}
@@ -59,6 +60,7 @@ const ChatMessageItem: React.FC<IChatMessageItemProps> = ({
             truncate
             text={lastMessage}
             weight="normal"
+            className={`min-w-full w-[320px]`}
           />
         </div>
       </div>

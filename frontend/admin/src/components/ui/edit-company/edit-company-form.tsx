@@ -8,7 +8,7 @@ import {
 import { ICompany, IUpdateCompanyDetailsInput } from "@graphql/types.graphql";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
-import { getMeData, setMeData } from "@utils/auth-utils";
+import { getMeData, setIsFullInfoTrue, setMeData } from "@utils/auth-utils";
 import {
   generateBlobs,
   generateUUID,
@@ -17,12 +17,14 @@ import {
   removeTypename,
   removeTypenameOfChildrens,
 } from "@utils/functions";
+import { ROUTES } from "@utils/routes";
 import { getLocationByName } from "@utils/vietnam-cities";
 import { isEmpty, method } from "lodash";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
 import Swal from "sweetalert2";
 import Button from "../storybook/button";
 import { IDUFile } from "../storybook/document-uploader/document-uploader";
@@ -153,6 +155,13 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     setValue,
     formState: { errors, dirtyFields },
   } = methods;
+
+  const { startListen, stopListen } = useIsEditedFormHandler();
+  useEffect(() => {
+    startListen(!!dirtyFields.general);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!dirtyFields.general]);
+
   const { query, ...router } = useRouter();
   const [updateCompany, { loading: updatingCompany }] =
     useUpdateCompanyDetailMutation({ onCompleted: handleCompanyUpdated });
@@ -163,6 +172,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   useEffect(() => {
     if (formPosition > EC_GENERAL_FORM_INDEX && isEmpty(dirtyFields.general))
       changeSection(EC_GENERAL_FORM_INDEX);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function changeSection(newPosition: number) {
@@ -178,13 +188,12 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   }: UpdateCompanyDetailMutation) {
     const { payload, success } = updateCompany ?? {};
     if (success && !!payload) {
-      const { company: oldCompany } = getMeData();
-
+      setIsFullInfoTrue();
       Swal.fire({
         icon: "success",
         title: t("companyEdited-success-message"),
       });
-      router.replace(`/${oldCompany?.slug}` as string);
+      router.replace(`/${ROUTES.COMPANY_DETAIL}`);
     } else {
       Swal.fire({
         icon: "error",
@@ -269,7 +278,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     }
 
     if (uploadedProfileImg?.[0].isNew) {
-      const blobProfile = await generateBlobs(general.coverImage);
+      const blobProfile = await generateBlobs(general.profileImage);
       uploadedProfileImg = await getUploadedFiles(uploadFiles, blobProfile);
     }
 
@@ -301,6 +310,8 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     let warehouses = await getBfws(rawWarehouses);
 
     const businessTypeIds = general.businessTypes.map((bt) => bt.id);
+    stopListen();
+
     const input: IUpdateCompanyDetailsInput | any = {
       establishmentDate: general.establishmentDate,
       name: general.name,
@@ -357,8 +368,9 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
             getValues={getValues}
           />
         )}
-        <div className="fic justify-between">
-          <Button variant="cancel">{t("previewCompany-button-label")}</Button>
+        <div className="fic justify-end">
+          {/* TODO: Re-enable this after it has a functioning Preview feature */}
+          {/* <Button variant="cancel">{t("previewCompany-button-label")}</Button> */}
           <div className="flex flex-col md:flex-row justify-between md:w-1/3">
             <Button
               type="button"

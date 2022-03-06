@@ -58,6 +58,7 @@ import { getLocationByName, vietnamProvinces } from "@utils/vietnam-cities";
 import { groupBy } from "lodash";
 import { IGroupFormValues } from "./product-group-form";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
+import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
 
 interface IPPSProductFormProps {
   initValues?: IProduct;
@@ -173,6 +174,12 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     handleSubmit,
   } = methods;
 
+  const { startListen, stopListen } = useIsEditedFormHandler();
+  useEffect(() => {
+    startListen(!!dirtyFields.category);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!dirtyFields.category]);
+
   const [uploadFiles, { loading: uploadingFiles }] = useUploadFilesMutation();
 
   const [updateProduct, { loading: updating }] = useUpdateProductMutation({
@@ -217,6 +224,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   useEffect(() => {
     if (formPosition > PPS_PRODUCT_CATEGORY_FORM_INDEX && !dirtyFields.category)
       changeSection(PPS_PRODUCT_CATEGORY_FORM_INDEX);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleCompleteCreated({
@@ -371,7 +379,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       status,
       gallery: [...oldImages, ...uploadedImages],
     };
-
+    stopListen();
     if (initValues) {
       updateProduct({
         variables: {

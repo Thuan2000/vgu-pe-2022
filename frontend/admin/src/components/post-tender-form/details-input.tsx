@@ -66,7 +66,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         minDate={new Date()}
         placeholder={t("post-request-endDate-placeholder")}
         error={t(errors?.details?.endDate?.message || "")}
-        label={`${t("post-request-categorization-label")}`}
+        label={`${t("post-request-endDate-label")}`}
         numberQueue={3}
       />
 

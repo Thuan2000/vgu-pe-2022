@@ -50,7 +50,7 @@ const NumberInput: React.FC<INumberInputProps> = ({
                 name={name}
               />
             )}
-            <div className={`${!!label && "ml-8"}`}>
+            <div className={`${!!numberQueue && "ml-8"}`}>
               <NumInput
                 onChange={(e) => {
                   onChange(e);

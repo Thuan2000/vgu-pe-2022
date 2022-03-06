@@ -73,7 +73,6 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           {...register("general.name")}
           error={t(errors?.general?.name?.message || "")}
           required
-          disabled
           onChange={(e) => {
             register("general.name").onChange(e);
             trigger("general.name");
@@ -124,6 +123,7 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
             onChange={() => {
               trigger("general.establishmentDate");
             }}
+            maxDate={new Date()}
             label={t("establishmentDate-input-label")}
             placeholder={t("establishmentDate-input-placeholder")}
             error={t(errors?.general?.establishmentDate?.message || "")}
