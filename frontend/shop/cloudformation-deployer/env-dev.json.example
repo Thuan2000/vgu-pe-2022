@@ -57,10 +57,6 @@
     "ParameterValue" : "wZ67rNrHm1HyNwMD3PSotUAh"
   },
   {
-    "ParameterKey" : "NextPublicDiscoveryEndpoint",
-    "ParameterValue" : "https://dev.sdconnect.vn"
-  },
-  {
     "ParameterKey" : "NextPublicChatUrl",
     "ParameterValue" : "https://chat.dev.sdconnect.vn"
   },

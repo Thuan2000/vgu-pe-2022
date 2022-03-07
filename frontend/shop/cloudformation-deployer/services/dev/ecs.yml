@@ -16,7 +16,7 @@ Parameters:
     Type: String
   LoadBalancerName:
     Type: String
-  
+
   # Shop env
   NextPublicGraphqlEndpoint:
     Type: String
@@ -65,7 +65,7 @@ Resources:
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
-          ToPort: ! PORT
+          ToPort: !Ref PORT
           CidrIp: 0.0.0.0/0
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
