@@ -1,0 +1,130 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  Refresher:
+    Type: String
+  SubnetID:
+    Type: String
+  SubnetID2:
+    Type: String
+  SubnetID3:
+    Type: String
+  DockerImageURI:
+    Type: String
+  PORT:
+    Type: Number
+  TargetGroupArn:
+    Type: String
+  LoadBalancerName:
+    Type: String
+  
+  # Shop env
+  NextPublicGraphqlEndpoint:
+    Type: String
+  NextPublicDomain:
+    Type: String
+  NextauthUrl:
+    Type: String
+  AuthSecret:
+    Type: String
+  GoogleClientId:
+    Type: String
+  GoogleClientSecret:
+    Type: String
+  NextPublicChatUrl:
+    Type: String
+  NextPublicChatServerUrl:
+    Type: String
+  NextPublicChatServerApiKey:
+    Type: String
+Resources:
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: dev-sdconnect-shop-cluster
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: dev-sdconnect-shop-logs
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: dev-sdconnect-shop-cf-role
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: dev-sdconnect-shop-security-group
+      GroupDescription: Security group for NGINX container
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: ! PORT
+          CidrIp: 0.0.0.0/0
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: dev-sdconnect-shop-task
+      Cpu: 256
+      Memory: 512
+      NetworkMode: awsvpc
+      ExecutionRoleArn: !Ref ExecutionRole
+      ContainerDefinitions:
+        - Name: dev-sdconnect-shop-task
+          Image: !Ref DockerImageURI
+          PortMappings:
+            - ContainerPort: !Ref PORT
+          Environment:
+            - Name: Refresher
+              Value: !Ref Refresher
+            - Name: NEXT_PUBLIC_GRAPHQL_ENDPOINT
+              Value: !Ref NextPublicGraphqlEndpoint
+            - Name: NEXT_PUBLIC_DOMAIN
+              Value: !Ref NextPublicDomain
+            - Name: NEXTAUTH_URL
+              Value: !Ref NextauthUrl
+            - Name: AUTH_SECRET
+              Value: !Ref AuthSecret
+            - Name: GOOGLE_CLIENT_ID
+              Value: !Ref GoogleClientId
+            - Name: GOOGLE_CLIENT_SECRET
+              Value: !Ref GoogleClientSecret
+            - Name: NEXT_PUBLIC_CHAT_URL
+              Value: !Ref NextPublicChatUrl
+            - Name: NEXT_PUBLIC_CHAT_SERVER_URL
+              Value: !Ref NextPublicChatServerUrl
+            - Name: NEXT_PUBLIC_CHAT_SERVER_API_KEY
+              Value: !Ref NextPublicChatServerApiKey
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-region: !Ref AWS::Region
+              awslogs-group: !Ref LogGroup
+              awslogs-stream-prefix: ecs
+      RequiresCompatibilities:
+        - FARGATE
+  Service:
+    Type: AWS::ECS::Service
+    Properties:
+      ServiceName: dev-sdconnect-shop-service
+      Cluster: !Ref Cluster
+      TaskDefinition: !Ref TaskDefinition
+      DesiredCount: 1
+      LaunchType: FARGATE
+      LoadBalancers:
+        - TargetGroupArn: !Ref TargetGroupArn
+          ContainerName: dev-sdconnect-shop-task
+          ContainerPort: !Ref PORT
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets:
+            - !Ref SubnetID
+          SecurityGroups:
+            - !GetAtt SecurityGroup.GroupId
