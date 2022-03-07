@@ -53,14 +53,14 @@ export const teamMembers: ITeamMember[] = [
     imgUrl:
       "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/thuan-nguyen.jpg",
   },
-  {
-    name: "Nguyễn Lương Bảo Châu",
-    position: "Giám đốc Sáng tạo",
-    description:
-      "Có hơn 4 năm kinh nghiệm trong lĩnh vực thiết kế đồ họa, đặc biệt là trong lĩnh vực thiết kế giao diện phần mềm và thiết kế trải nghiệm người dùng",
-    imgUrl:
-      "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/chau-nguyen.jpg",
-  },
+  // {
+  //   name: "Nguyễn Lương Bảo Châu",
+  //   position: "Giám đốc Sáng tạo",
+  //   description:
+  //     "Có hơn 4 năm kinh nghiệm trong lĩnh vực thiết kế đồ họa, đặc biệt là trong lĩnh vực thiết kế giao diện phần mềm và thiết kế trải nghiệm người dùng",
+  //   imgUrl:
+  //     "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/chau-nguyen.jpg",
+  // },
 ];
 
 export const benefitMembers = [
