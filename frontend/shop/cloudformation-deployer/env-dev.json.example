@@ -1,0 +1,71 @@
+[
+  {
+    "ParameterKey": "Refresher",
+    "ParameterValue": "refresher"
+  },
+  {
+    "ParameterKey": "Vpc",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "Certificate",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "SubnetID",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "SubnetID2",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "SubnetID3",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "DockerImageURI",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "PORT",
+    "ParameterValue": "3000"
+  },
+  
+  {
+    "ParameterKey" : "NextPublicGraphqlEndpoint",
+    "ParameterValue" : "https://api.dev.sdconnect.vn/graphql"
+  },
+  {
+    "ParameterKey" : "NextPublicDomain",
+    "ParameterValue" : "sdconnect.vn"
+  },
+  {
+    "ParameterKey" : "NextauthUrl",
+    "ParameterValue" : "https://dev.sdconnect.vn"
+  },
+  {
+    "ParameterKey" : "AuthSecret",
+    "ParameterValue" : ""
+  },
+  {
+    "ParameterKey" : "GoogleClientId",
+    "ParameterValue" : ""
+  },
+  {
+    "ParameterKey" : "GoogleClientSecret",
+    "ParameterValue" : "wZ67rNrHm1HyNwMD3PSotUAh"
+  },
+  {
+    "ParameterKey" : "NextPublicChatUrl",
+    "ParameterValue" : "https://chat.dev.sdconnect.vn"
+  },
+  {
+    "ParameterKey" : "NextPublicChatServerUrl",
+    "ParameterValue" : ""
+  },
+  {
+    "ParameterKey" : "NextPublicChatServerApiKey",
+    "ParameterValue" : ""
+  }
+]

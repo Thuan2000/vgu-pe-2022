@@ -121,7 +121,7 @@ Resources:
         AwsRegion: !Ref AwsRegion
         AWSAccessKey: !Ref AWSAccessKey
         AWSSecretKey: !Ref AWSSecretKey
-        S3BucketName: !Ref S3BucketName
+        S3BucketName: !GetAtt DevSdconnectS3Bucket.Outputs.S3BucketName
         SmtpHost: !Ref SmtpHost
         SmtpPort: !Ref SmtpPort
         SmtpSecure: !Ref SmtpSecure
@@ -167,3 +167,7 @@ Resources:
         SubnetID: !Ref SubnetID
         MasterUserName: !Ref ESUsername
         MasterUserPassword: !Ref ESPassword
+  DevSdconnectS3Bucket:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/s3-api.yml

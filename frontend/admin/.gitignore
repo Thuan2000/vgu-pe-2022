@@ -40,3 +40,6 @@ graphql.schema.json
 
 
 tsconfig.tsbuildinfo
+
+make.env
+env-dev.json
