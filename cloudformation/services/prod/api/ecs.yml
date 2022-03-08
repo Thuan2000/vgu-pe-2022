@@ -89,7 +89,7 @@ Resources:
   Cluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: prod-sdconnect-cluster
+      ClusterName: prod-sdconnect-api-cluster
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
@@ -109,7 +109,7 @@ Resources:
   ContainerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: ProdContainerSecurityGroup
+      GroupName: prod-container-ecs-api-sg
       GroupDescription: Security group for NGINX container
       SecurityGroupIngress:
         - IpProtocol: tcp

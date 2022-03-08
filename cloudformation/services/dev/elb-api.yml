@@ -17,7 +17,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref Vpc
-      GroupName: SDConnectAPIDevSG
+      GroupName: dev-sdconnect-api-elb-sg
       GroupDescription: Attached to the load balancer of the SDConnect api on DEV
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -31,7 +31,7 @@ Resources:
   ELBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: dev-sdconnect-tg
+      Name: dev-sdconnect-api-tg
       Port: 80
       Protocol: HTTP
       TargetType: ip
@@ -39,7 +39,7 @@ Resources:
   ELB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: dev-sdconnect-elb
+      Name: dev-sdconnect-api-elb
       IpAddressType: ipv4
       Scheme: internet-facing
       SecurityGroups:
