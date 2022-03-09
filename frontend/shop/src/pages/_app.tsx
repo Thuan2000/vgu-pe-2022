@@ -25,8 +25,8 @@ import TimeAgo from "javascript-time-ago";
 
 import en from "javascript-time-ago/locale/en.json";
 import vi from "javascript-time-ago/locale/vi.json";
-import { useEffect, useRef } from "react";
-import { rfw } from "@utils/functions";
+import { useEffect } from "react";
+import { rfw, printServerInfo } from "@utils/functions";
 
 TimeAgo.addLocale(vi);
 TimeAgo.addLocale(en);
@@ -39,6 +39,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   const Layout = (Component as any).Layout ?? NoLayout;
 
   const { replace, locale, pathname } = useRouter();
+
+  useEffect(() => {
+    // To Print server info because right now it's a bit harder to maintain environment variables
+    printServerInfo();
+  }, []);
 
   function fireToast() {
     toast.error(t("you-need-to-login"));

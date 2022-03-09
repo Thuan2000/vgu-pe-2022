@@ -2,6 +2,29 @@
 include make.env
 export $(shell sed 's/=.*//' make.env)
 
+#  ----------- PROD ---------- #
+
+# Create prod cloudformation stack for admin
+create-prod-stack:
+	aws s3 cp ./services/prod/ecs.yml s3://sdconnect-assets/cloudformation/prod/admin/ecs.yml
+	aws s3 cp ./services/prod/elb.yml s3://sdconnect-assets/cloudformation/prod/admin/elb.yml
+	aws cloudformation create-stack \
+	--stack-name prod-sdconnect-admin-stack \
+	--template-body file://./deploy-prod-stack.yml  \
+	--capabilities CAPABILITY_NAMED_IAM \
+  --parameters file://./env-prod.json
+
+update-stack-prod:
+	aws s3 cp ./services/prod/ecs.yml s3://sdconnect-assets/cloudformation/prod/admin/ecs.yml
+	aws s3 cp ./services/prod/elb.yml s3://sdconnect-assets/cloudformation/prod/admin/elb.yml
+	aws cloudformation update-stack \
+	--stack-name prod-sdconnect-admin-stack \
+	--template-body file://./deploy-prod-stack.yml  \
+	--capabilities CAPABILITY_NAMED_IAM \
+  --parameters file://./env-prod.json
+
+
+
 # Create dev cloudformation stack for admin
 create-dev-stack:
 	aws s3 cp ./services/dev/ecs.yml s3://sdconnect-assets/cloudformation/dev/admin/ecs.yml

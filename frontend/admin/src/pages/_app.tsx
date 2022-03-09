@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { AppProps } from "next/app";
 import { appWithTranslation } from "next-i18next";
 import { ApolloProvider } from "@apollo/client";
@@ -16,7 +16,7 @@ import { ToastContainer } from "react-toastify";
 import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "@utils/routes";
 import { isLogin, setRedirectLinkAfterLogin } from "@utils/auth-utils";
-import { getLoggedInUser } from "@utils/functions";
+import { getLoggedInUser, printServerInfo } from "@utils/functions";
 import ChatwootWidget from "@components/chatwoot-widget";
 import { WSChatProvider } from "src/contexts/ws-chat.context";
 import TimeAgo from "javascript-time-ago";
@@ -32,6 +32,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);
   const Layout = (Component as any).Layout ?? NoLayout;
   const { replace, locale, pathname } = useRouter();
+
+  // To Print server info because right now it's a bit harder to maintain environment variables
+  useEffect(() => {
+    printServerInfo();
+  }, []);
 
   if (
     !isLogin() &&
