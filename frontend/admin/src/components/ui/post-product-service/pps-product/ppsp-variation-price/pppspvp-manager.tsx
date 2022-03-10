@@ -36,6 +36,7 @@ const PPSPVPManager: React.FC<IPPSPVPManagerProps> = ({
 }) => {
   const { t } = useTranslation("form");
   const { control, trigger } = useFormContext<IPostProductFormValues>();
+  const [focusedPriceIdx, setFocusedPriceIdx] = useState(-1);
 
   const groups: IGroupFormValues[] = useWatch<IPostProductFormValues>({
     control,
@@ -72,21 +73,26 @@ const PPSPVPManager: React.FC<IPPSPVPManagerProps> = ({
     onChange(synchronized);
   }
 
-  function handleAllPriceChange() {
-    const valuesWithNewPrice: IProductVariation[] = value?.map(
-      ({ price, ...rest }) =>
-        ({
-          price: allPrice,
-          ...rest,
-        } as any)
-    );
+  useEffect(() => {
+    function handleAllPriceChange() {
+      if (!allPrice) return;
 
-    onChange(valuesWithNewPrice);
-  }
+      const valuesWithNewPrice: IProductVariation[] = value?.map(
+        ({ price, ...rest }) => ({
+          ...rest,
+          price: allPrice,
+        })
+      );
+      onChange(valuesWithNewPrice);
+    }
+
+    handleAllPriceChange();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allPrice]);
 
   function handleSetAllPrice(e: number) {
     setAllPrice(e);
-    handleAllPriceChange();
   }
 
   function handleVariationPriceChange(id: string, newPrice: number) {
@@ -121,6 +127,8 @@ const PPSPVPManager: React.FC<IPPSPVPManagerProps> = ({
               <VariationPriceInputItem
                 isLast={idx === value.length - 1}
                 title={title}
+                onFocus={() => setFocusedPriceIdx(idx)}
+                isFocus={idx === focusedPriceIdx}
                 key={title + price + "ppvsvp-manager"}
                 onChange={(e) => handleVariationPriceChange(id, e)}
                 value={price}

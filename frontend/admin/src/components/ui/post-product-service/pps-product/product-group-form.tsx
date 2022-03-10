@@ -31,6 +31,7 @@ const ProductGroupForm: React.FC<IProductPriceInputProps> = ({
 }) => {
   const labelWidth = "100px";
   const { t } = useTranslation("form");
+  const [isFocusedGNI, setIsFocusedGNI] = useState(true);
   const {
     register,
     control,
@@ -99,6 +100,7 @@ const ProductGroupForm: React.FC<IProductPriceInputProps> = ({
           {...register("name")}
           autoFocus
           error={nameInputError}
+          onBlur={() => setIsFocusedGNI(false)}
           onChange={(e) => {
             register("name").onChange(e);
             handleNameChange(e);
@@ -119,6 +121,7 @@ const ProductGroupForm: React.FC<IProductPriceInputProps> = ({
           disabled={isDisabledClassifactionIput}
           control={control}
           name="classifications"
+          isFocusedGNI={isFocusedGNI}
         />
       </Wrapper>
     </div>
