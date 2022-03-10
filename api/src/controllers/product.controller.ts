@@ -75,12 +75,17 @@ class ProductController {
 	}
 
 	static async getProduct(slug: string) {
-		const product = await Product.findOne({
-			where: { slug },
-			include: [Company, Tag]
-		});
+		try {
+			const product = await Product.findOne({
+				where: { slug },
+				include: [Company, Tag]
+			});
+			console.log("Get Product : ", product);
 
-		return product;
+			return product;
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	static async getProducts({

@@ -23,6 +23,14 @@ Resources:
           FromPort: 5432
           ToPort: 5432
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
   ProdDbInstance:
     Type: AWS::RDS::DBInstance
     Properties:
@@ -34,8 +42,13 @@ Resources:
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
       VPCSecurityGroups:
-        - !GetAtt RDSSecurityGroup.GroupId
+        - "sg-04b96fc32bc97ea4f"
+        # - !GetAtt RDSSecurityGroup.GroupId
 Outputs:
   InstanceId:
-    Value: !Join ['.', [!Ref ProdDbInstance, 'ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com']]
+    Value:
+      !Join [
+        ".",
+        [!Ref ProdDbInstance, "ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com"],
+      ]
     Description: InstanceId of the newly created RDS Instance
