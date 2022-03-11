@@ -12,6 +12,7 @@ interface IProductGroupClassificationInputProps
   extends Partial<IClassInputProps> {
   control: Control<any>;
   name: string;
+  isFocusedGNI: boolean;
 }
 
 const ProductGroupClassificationInput: React.FC<
@@ -36,6 +37,7 @@ const ProductGroupClassificationInput: React.FC<
 };
 
 interface IClassInputProps {
+  isFocusedGNI: boolean;
   disabled: boolean;
   value: IGroupClassification[];
   onChange: (e: IGroupClassification[]) => void;
@@ -52,6 +54,7 @@ function ClassificationInput({
   onChange,
   disabled,
   value: classifications = defaultClassificationValue(),
+  isFocusedGNI,
 }: IClassInputProps) {
   const { t } = useTranslation("form");
 
@@ -81,6 +84,7 @@ function ClassificationInput({
     classifications[idx].name = name;
     onChange([...classifications]);
   }
+
   return (
     <div className={`w-full space-y-4`}>
       {classifications.map((c, idx) => {
@@ -99,7 +103,7 @@ function ClassificationInput({
               onChange={(e) =>
                 handleClassificationChange({ id: c.id, name: e.target.value })
               }
-              autoFocus={idx === classifications.length - 1}
+              autoFocus={idx === classifications.length - 1 && !isFocusedGNI}
               value={c.name}
               error={error}
               className={`w-full`}

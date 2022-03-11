@@ -131,7 +131,8 @@ Resources:
         ESEndpoint: !Join ['', ['https://', !GetAtt DevSdconnectOpenSearch.Outputs.DomainEndpoint]]
         ESUsername: !Ref ESUsername
         ESPassword: !Ref ESPassword
-        RedisUrl: !Join ['', ['//', !GetAtt DevSdconnectRedis.Outputs.Address, ':', !GetAtt DevSdconnectRedis.Outputs.Port]]
+        # RedisUrl: !Join ['', ['//', !GetAtt DevSdconnectRedis.Outputs.Address]]
+        RedisUrl: !Ref RedisUrl
         RedisDatabase: !Ref RedisDatabase
         RedisPort: !GetAtt DevSdconnectRedis.Outputs.Port
         RedisDialTimeout: !Ref RedisDialTimeout

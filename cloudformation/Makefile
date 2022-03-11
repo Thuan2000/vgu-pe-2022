@@ -6,10 +6,28 @@ export $(shell sed 's/=.*//' .env)
 
 # --------- API STACK COMMANDS ---------
 create-prod-stack:
-	aws s3 cp ./services/prod/api/ecs.yml s3://sdconnect-assets/cloudformation/prod/ecs-api.yml
-	aws s3 cp ./services/prod/api/elb.yml s3://sdconnect-assets/cloudformation/prod/elb-api.yml
+	aws s3 cp ./services/prod/api/rds.yml s3://sdconnect-assets/cloudformation/prod/rds.yml
+	aws s3 cp ./services/prod/api/ecs.yml s3://sdconnect-assets/cloudformation/prod/ecs.yml
+	aws s3 cp ./services/prod/api/elb.yml s3://sdconnect-assets/cloudformation/prod/elb.yml
+	aws s3 cp ./services/prod/api/redis.yml s3://sdconnect-assets/cloudformation/prod/redis.yml
+	aws s3 cp ./services/prod/api/open-search.yml s3://sdconnect-assets/cloudformation/prod/open-search.yml
+	aws s3 cp ./services/prod/redis.yml s3://sdconnect-assets/cloudformation/prod/redis.yml
+	aws s3 cp ./services/prod/api/s3.yml s3://sdconnect-assets/cloudformation/prod/s3.yml
 	aws cloudformation create-stack \
-	--stack-name prod-sdconnect-stack \
+	--stack-name prod-sdconnect-api-stack \
+	--template-body file://./deploy-prod-stacks.yml  \
+	--capabilities CAPABILITY_NAMED_IAM \
+  --parameters file://./env-prod.json
+
+update-stack-prod:
+	aws s3 cp ./services/prod/api/rds.yml s3://sdconnect-assets/cloudformation/prod/rds.yml
+	aws s3 cp ./services/prod/api/ecs.yml s3://sdconnect-assets/cloudformation/prod/ecs.yml
+	aws s3 cp ./services/prod/api/elb.yml s3://sdconnect-assets/cloudformation/prod/elb.yml
+	aws s3 cp ./services/prod/api/open-search.yml s3://sdconnect-assets/cloudformation/prod/open-search.yml
+	aws s3 cp ./services/prod/api/redis.yml s3://sdconnect-assets/cloudformation/prod/redis.yml
+	aws s3 cp ./services/prod/api/s3.yml s3://sdconnect-assets/cloudformation/prod/s3.yml
+	aws cloudformation update-stack \
+	--stack-name prod-sdconnect-api-stack \
 	--template-body file://./deploy-prod-stacks.yml  \
 	--capabilities CAPABILITY_NAMED_IAM \
   --parameters file://./env-prod.json

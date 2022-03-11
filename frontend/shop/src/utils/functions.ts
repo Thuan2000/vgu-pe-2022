@@ -362,3 +362,17 @@ export async function firePleaseLoginSwal(
 
   return data;
 }
+
+// Print server info because currently it's a bit harder to see all the info
+export function printServerInfo() {
+  console.log(`Server endpoints info`);
+  console.log(
+    `API server endpoint : `,
+    process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT
+  );
+  console.log(`Chat web endpoint : `, process.env.NEXT_PUBLIC_CHAT_URL);
+  console.log(
+    `Chat server endpoint : `,
+    process.env.NEXT_PUBLIC_CHAT_SERVER_URL
+  );
+}

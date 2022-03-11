@@ -1,21 +1,30 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Resources:
   ElasticacheSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
+    Type: "AWS::EC2::SecurityGroup"
     Properties:
       GroupDescription: Elasticache Security Group
       SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: 6379
-          ToPort: 6379
+        # - IpProtocol: tcp
+        #   FromPort: 6379
+        #   ToPort: 6379
+        #   CidrIp: 0.0.0.0/0
+        # - IpProtocol: tcp
+        #   FromPort: 11211
+        #   ToPort: 11211
+        #   CidrIp: 0.0.0.0/0
+        - IpProtocol: "-1"
+          CidrIp: 0.0.0.0/0
   DevSdconnectRedis:
-    Type: 'AWS::ElastiCache::CacheCluster'
+    Type: "AWS::ElastiCache::CacheCluster"
     Properties:
       Engine: redis
       CacheNodeType: cache.t2.micro
-      NumCacheNodes: '1'
+      NumCacheNodes: "1"
       VpcSecurityGroupIds:
         - !GetAtt ElasticacheSecurityGroup.GroupId
+        - sg-04b96fc32bc97ea4f
+        - sg-0f206547
 Outputs:
   InstanceId:
     Description: Instance of the newly created redis

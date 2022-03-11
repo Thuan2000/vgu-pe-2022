@@ -12,7 +12,7 @@ Resources:
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: devRdsSecurityGroup
+      GroupName: prod-sdconnect-rds-tg
       GroupDescription: Security group for NGINX container
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -23,7 +23,15 @@ Resources:
           FromPort: 5432
           ToPort: 5432
           CidrIp: 0.0.0.0/0
-  DevDbInstance:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+  ProdDbInstance:
     Type: AWS::RDS::DBInstance
     Properties:
       DBName: !Ref DBName
@@ -35,12 +43,12 @@ Resources:
       MasterUserPassword: !Ref DBPassword
       VPCSecurityGroups:
         - "sg-04b96fc32bc97ea4f"
-        - !GetAtt RDSSecurityGroup.GroupId
+        # - !GetAtt RDSSecurityGroup.GroupId
 Outputs:
   InstanceId:
     Value:
       !Join [
         ".",
-        [!Ref DevDbInstance, "ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com"],
+        [!Ref ProdDbInstance, "ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com"],
       ]
     Description: InstanceId of the newly created RDS Instance

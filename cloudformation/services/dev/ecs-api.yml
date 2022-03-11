@@ -89,15 +89,15 @@ Resources:
   Cluster:
     Type: AWS::ECS::Cluster
     Properties:
-      ClusterName: sdconnect-cluster
+      ClusterName: dev-sdconnect-api-cluster
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: sdconnect-logs
+      LogGroupName: dev-sdconnect-api-logs
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: sdconnect-cf-role
+      RoleName: dev-sdconnect-api-cf-role
       AssumeRolePolicyDocument:
         Statement:
           - Effect: Allow
@@ -109,7 +109,7 @@ Resources:
   ContainerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: ContainerSecurityGroup
+      GroupName: dev-sdconnect-api-sg
       GroupDescription: Security group for NGINX container
       SecurityGroupIngress:
         - IpProtocol: tcp

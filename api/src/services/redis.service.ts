@@ -1,10 +1,10 @@
 import redis from "async-redis";
-import { RedisClient } from "redis";
+import { RedisClient, ClientOpts, createClient } from "redis";
 
 class RedisService {
 	private static client: RedisClient = (redis as any).createClient({
 		url: process.env.REDIS_URL
-	});
+	} as ClientOpts);
 
 	/**
 	 *

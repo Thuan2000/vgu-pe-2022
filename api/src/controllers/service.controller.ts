@@ -18,12 +18,18 @@ import {
 
 class ServiceController {
 	static async getService(slug) {
-		const service = await Service.findOne({
-			where: { slug },
-			include: [Company, Tag]
-		});
+		try {
+			const service = await Service.findOne({
+				where: { slug },
+				include: [Company, Tag]
+			});
 
-		return service;
+			console.log("Get Product : ", service);
+
+			return service;
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	static async getServices({

@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  Refresher:
+    Type: String
+  Vpc:
+    Type: String
+  Certificate:
+    Type: String
+  SubnetID:
+    Type: String
+  SubnetID2:
+    Type: String
+  SubnetID3:
+    Type: String
+  DockerImageURI:
+    Type: String
+  PORT:
+    Type: Number
+
+  # SDConnect API Env
+  NextPublicGraphqlEndpoint:
+    Type: String
+  NextPublicDomain:
+    Type: String
+  NextauthUrl:
+    Type: String
+  AuthSecret:
+    Type: String
+  GoogleClientId:
+    Type: String
+  GoogleClientSecret:
+    Type: String
+  NextPublicChatUrl:
+    Type: String
+  NextPublicChatServerUrl:
+    Type: String
+  NextPublicChatServerApiKey:
+    Type: String
+Resources:
+  ProdSdconnectShopEcs:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/prod/shop/ecs.yml
+      Parameters:
+        TargetGroupArn: !GetAtt ProdSDconnectShopElb.Outputs.TargetGroup
+        LoadBalancerName: !GetAtt ProdSDconnectShopElb.Outputs.LoadBalancer
+        Refresher: !Ref Refresher
+        SubnetID: !Ref SubnetID
+        SubnetID2: !Ref SubnetID2
+        SubnetID3: !Ref SubnetID3
+        PORT: !Ref PORT
+        DockerImageURI: !Ref DockerImageURI
+        NextPublicGraphqlEndpoint: !Ref NextPublicGraphqlEndpoint
+        NextPublicDomain: !Ref NextPublicDomain
+        NextauthUrl: !Ref NextauthUrl
+        AuthSecret: !Ref AuthSecret
+        GoogleClientId: !Ref GoogleClientId
+        GoogleClientSecret: !Ref GoogleClientSecret
+        NextPublicChatUrl: !Ref NextPublicChatUrl
+        NextPublicChatServerUrl: !Ref NextPublicChatServerUrl
+        NextPublicChatServerApiKey: !Ref NextPublicChatServerApiKey
+  ProdSDconnectShopElb:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/prod/shop/elb.yml
+      Parameters:
+        Vpc: !Ref Vpc
+        Certificate: !Ref Certificate
+        PORT: !Ref PORT
+        SubnetID: !Ref SubnetID
+        SubnetID2: !Ref SubnetID2
+        SubnetID3: !Ref SubnetID3

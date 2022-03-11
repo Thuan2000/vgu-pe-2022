@@ -14,24 +14,24 @@ Parameters:
     Type: Number
 Resources:
   SecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
+    Type: "AWS::EC2::SecurityGroup"
     Properties:
       VpcId: !Ref Vpc
-      GroupName: dev-sdconnect-api-elb-sg
-      GroupDescription: Attached to the load balancer of the SDConnect api on DEV
+      GroupName: prod-sdconnnect-shop-security-group
+      GroupDescription: Attached to the load balancer of the SDConnect shop on production
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
           ToPort: !Ref PORT
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
-          FromPort: 8080
+          FromPort: !Ref PORT
           ToPort: !Ref PORT
           CidrIp: 0.0.0.0/0
   ELBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      Name: dev-sdconnect-api-tg
+      Name: prod-sdconnect-shop-tg
       Port: 80
       Protocol: HTTP
       TargetType: ip
@@ -39,7 +39,7 @@ Resources:
   ELB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: dev-sdconnect-api-elb
+      Name: prod-sdconnect-shop-elb
       IpAddressType: ipv4
       Scheme: internet-facing
       SecurityGroups:
@@ -51,7 +51,7 @@ Resources:
       Type: application
   ELBHTTPListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties: 
+    Properties:
       DefaultActions:
         - Type: forward
           ForwardConfig:
@@ -63,7 +63,7 @@ Resources:
       Protocol: HTTP
   ELBHTTPSListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
-    Properties: 
+    Properties:
       SslPolicy: ELBSecurityPolicy-2016-08
       Certificates:
         - CertificateArn: !Ref Certificate
@@ -78,12 +78,12 @@ Resources:
       Protocol: HTTPS
 Outputs:
   LoadBalancer:
-    Description: 'The ELB name for the load balancer'
+    Description: "The ELB name for the load balancer"
     Value: !Ref ELB
     Export:
-      Name: !Sub '${AWS::StackName}-ELB'
+      Name: !Sub "${AWS::StackName}-ELB"
   TargetGroup:
-    Description: 'The ELB Target Group'
+    Description: "The ELB Target Group"
     Value: !Ref ELBTargetGroup
     Export:
-      Name: !Sub '${AWS::StackName}-ELBTargetGroup'
+      Name: !Sub "${AWS::StackName}-ELBTargetGroup"

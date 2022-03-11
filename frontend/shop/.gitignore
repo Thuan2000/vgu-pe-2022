@@ -44,4 +44,5 @@ yarn-error.log*
 tsconfig.tsbuildinfo
 
 env-dev.json
+env-prod.json
 make.env
