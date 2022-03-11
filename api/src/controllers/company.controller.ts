@@ -76,6 +76,16 @@ class CompanyController {
 				where: { slug },
 				include: [
 					{
+						model: User,
+						as: "owner",
+						attributes: [
+							"firstName",
+							"lastName",
+							"email",
+							"phoneNumber"
+						]
+					},
+					{
 						model: CompanySubscription,
 						as: "subscription",
 						attributes: ["startAt", "endAt"],
@@ -89,6 +99,7 @@ class CompanyController {
 					}
 				]
 			});
+			console.log(company);
 
 			return company;
 		} catch (e) {

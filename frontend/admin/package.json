@@ -14,7 +14,8 @@
     "type:codegen": "graphql-codegen --config codegen.yml",
     "pretype-check": "rm -rf src/graphql/*.d.ts && yarn codegen",
     "type-check": "tsc --skipLibCheck --noEmit",
-    "pre-commit": "npm-run-all build"
+    "pre-commit": "npm-run-all build",
+    "build-deploy-image": ""
   },
   "dependencies": {
     "@apollo/client": "^3.4.11",

@@ -1,0 +1,89 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  SubnetID:
+    Type: String
+  SubnetID2:
+    Type: String
+  SubnetID3:
+    Type: String
+  Vpc:
+    Type: String
+  Certificate:
+    Type: String
+  PORT:
+    Type: Number
+Resources:
+  SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref Vpc
+      GroupName: dev-sdconnect-api-elb-sg
+      GroupDescription: Attached to the load balancer of the SDConnect api on DEV
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: !Ref PORT
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: !Ref PORT
+          CidrIp: 0.0.0.0/0
+  ELBTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: dev-sdconnect-api-tg
+      Port: 80
+      Protocol: HTTP
+      TargetType: ip
+      VpcId: !Ref Vpc
+  ELB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: dev-sdconnect-api-elb
+      IpAddressType: ipv4
+      Scheme: internet-facing
+      SecurityGroups:
+        - !Ref SecurityGroup
+      Subnets:
+        - !Ref SubnetID
+        - !Ref SubnetID2
+        - !Ref SubnetID3
+      Type: application
+  ELBHTTPListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties: 
+      DefaultActions:
+        - Type: forward
+          ForwardConfig:
+            TargetGroups:
+              - TargetGroupArn: !Ref ELBTargetGroup
+                Weight: 1
+      LoadBalancerArn: !Ref ELB
+      Port: 80
+      Protocol: HTTP
+  ELBHTTPSListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties: 
+      SslPolicy: ELBSecurityPolicy-2016-08
+      Certificates:
+        - CertificateArn: !Ref Certificate
+      DefaultActions:
+        - Type: forward
+          ForwardConfig:
+            TargetGroups:
+              - TargetGroupArn: !Ref ELBTargetGroup
+                Weight: 1
+      LoadBalancerArn: !Ref ELB
+      Port: 443
+      Protocol: HTTPS
+Outputs:
+  LoadBalancer:
+    Description: 'The ELB name for the load balancer'
+    Value: !Ref ELB
+    Export:
+      Name: !Sub '${AWS::StackName}-ELB'
+  TargetGroup:
+    Description: 'The ELB Target Group'
+    Value: !Ref ELBTargetGroup
+    Export:
+      Name: !Sub '${AWS::StackName}-ELBTargetGroup'

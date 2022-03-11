@@ -86,6 +86,13 @@ type CompaniesResponse {
 	pagination: Pagination
 }
 
+type CompanyOwner {
+	firstName: String!
+	lastName: String!
+	email: String!
+	phoneNumber: String!
+}
+
 type Company {
 	id: Int!
 	name: String!
@@ -93,9 +100,8 @@ type Company {
 	licenseNumber: String!
 	businessTypeIds: [Int]
 	location: String
-	ownerId: Int!
 	approved: Boolean!
-	owner: User
+	owner: CompanyOwner!
 	approver: User
 	description: String
 	isFullInfo: Boolean

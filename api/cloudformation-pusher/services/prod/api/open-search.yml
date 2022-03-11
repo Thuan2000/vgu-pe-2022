@@ -1,0 +1,77 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: OpenSearchServiceDomain resource
+Parameters:
+  VpcId:
+    Type: String
+  MasterUserName:
+    Type: String
+  MasterUserPassword:
+    Type: String
+  SubnetID:
+    Type: String
+Resources:
+  OpenSearchServiceDomain:
+    Type: 'AWS::OpenSearchService::Domain'
+    Properties:
+      DomainName: prod-sdconnect-opensearch
+      EngineVersion: OpenSearch_1.1
+      ClusterConfig:
+        InstanceCount: '1'
+        InstanceType: t3.small.search
+      DomainEndpointOptions:
+        EnforceHTTPS: true
+      NodeToNodeEncryptionOptions:
+        Enabled: true
+      EncryptionAtRestOptions:
+        Enabled: true
+        KmsKeyId: 39b2b4c7-0eca-4740-a7da-d2aebdfaca35
+      EBSOptions:
+        EBSEnabled: true
+        Iops: '0'
+        VolumeSize: '20'
+        VolumeType: 'gp2'
+      AdvancedSecurityOptions:
+          Enabled: true
+          InternalUserDatabaseEnabled: true
+          MasterUserOptions: 
+            MasterUserName: !Ref MasterUserName
+            MasterUserPassword: !Ref MasterUserPassword
+      AccessPolicies:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: '*'
+            Action: 'es:*'
+            Resource: '*'
+      AdvancedOptions:
+        rest.action.multi.allow_explicit_index: true
+        override_main_response_version: true
+      Tags:
+        - Key: env
+          Value: dev
+      VPCOptions:
+        SubnetIds:
+          - !Ref SubnetID
+        SecurityGroupIds:
+          - !GetAtt OpenSearchSecurityGroup.GroupId
+  OpenSearchSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: For dev sdconnect opensearch sg 
+      VpcId: !Ref VpcId
+      GroupName: prod-sdconnect-opensearch-sg
+      SecurityGroupIngress:
+        - FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - FromPort: 443
+          IpProtocol: tcp
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+Outputs:
+  Arn:
+    Value: !GetAtt OpenSearchServiceDomain.Arn
+  DomainEndpoint:
+    Value: !GetAtt OpenSearchServiceDomain.DomainEndpoint

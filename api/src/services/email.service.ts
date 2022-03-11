@@ -52,6 +52,11 @@ class EmailService {
 		}: IEmailVariable
 	) {
 		try {
+			console.log(
+				"Sending email to : ",
+				typeof targets === "string" ? targets : targets?.[0]
+			);
+
 			const templateVariables = {
 				title: subject,
 				name,
