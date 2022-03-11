@@ -11,6 +11,8 @@ interface IVariationPriceInputItemProps {
   title: string;
   value: number | "";
   onChange: (e: number) => void;
+  onFocus: () => void;
+  isFocus: boolean;
 }
 
 const VariationPriceInputItem: React.FC<IVariationPriceInputItemProps> = ({
@@ -18,6 +20,8 @@ const VariationPriceInputItem: React.FC<IVariationPriceInputItemProps> = ({
   title,
   value,
   onChange,
+  onFocus,
+  isFocus,
 }) => {
   const { t } = useTranslation("form");
 
@@ -32,6 +36,8 @@ const VariationPriceInputItem: React.FC<IVariationPriceInputItemProps> = ({
           min={0}
           allowNegative={false}
           onChange={onChange as any}
+          onFocus={onFocus}
+          autoFocus={isFocus}
           placeholder={t("variationItemPrice-input-placeholder")}
           inputClassName={"!h-full border-0"}
           suffix={` ${t("budget-sign")}`}

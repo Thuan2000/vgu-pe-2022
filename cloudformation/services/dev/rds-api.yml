@@ -34,8 +34,13 @@ Resources:
       MasterUsername: !Ref DBUsername
       MasterUserPassword: !Ref DBPassword
       VPCSecurityGroups:
+        - "sg-04b96fc32bc97ea4f"
         - !GetAtt RDSSecurityGroup.GroupId
 Outputs:
   InstanceId:
-    Value: !Join ['.', [!Ref DevDbInstance, 'ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com']]
+    Value:
+      !Join [
+        ".",
+        [!Ref DevDbInstance, "ctv7foikp0a0.ap-southeast-1.rds.amazonaws.com"],
+      ]
     Description: InstanceId of the newly created RDS Instance
