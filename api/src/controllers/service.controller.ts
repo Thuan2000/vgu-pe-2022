@@ -24,8 +24,6 @@ class ServiceController {
 				include: [Company, Tag]
 			});
 
-			console.log("Get Product : ", service);
-
 			return service;
 		} catch (error) {
 			console.log(error);

@@ -40,7 +40,7 @@ class UserController {
 				password: generateFirstTimePassword()
 			});
 
-			UserRepository.sendRegistrationEmail(newUser);
+			// UserRepository.sendRegistrationEmail(newUser);
 
 			return createSuccessResponse(newUser.getDataValue("id"));
 		} catch (error) {

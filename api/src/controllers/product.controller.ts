@@ -80,7 +80,6 @@ class ProductController {
 				where: { slug },
 				include: [Company, Tag]
 			});
-			console.log("Get Product : ", product);
 
 			return product;
 		} catch (error) {

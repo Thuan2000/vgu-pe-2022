@@ -23,7 +23,12 @@ update-stack-prod:
 	--capabilities CAPABILITY_NAMED_IAM \
   --parameters file://./env-prod.json
 
-
+# Build and push the backend image (update application)
+build-deploy-image-prod:
+	docker build -t $(PROD_DOCKER_IMAGE_NAME) ..
+	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(AWS_ID).dkr.ecr.${AWS_REGION}.amazonaws.com
+	docker tag $(PROD_DOCKER_IMAGE_NAME) $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(PROD_AWS_ECR_REPOSITORY):latest
+	docker push $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(PROD_AWS_ECR_REPOSITORY):latest
 
 # Create dev cloudformation stack for admin
 create-dev-stack:
@@ -45,8 +50,8 @@ update-stack-dev:
   --parameters file://./env-dev.json
 
 # Build and push the backend image (update application)
-build-deploy-image:
-	docker build -t $(DOCKER_IMAGE_NAME) ..
+build-deploy-image-dev:
+	docker build -t $(DEV_DOCKER_IMAGE_NAME) ..
 	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin $(AWS_ID).dkr.ecr.${AWS_REGION}.amazonaws.com
-	docker tag $(DOCKER_IMAGE_NAME) $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(AWS_ECR_REPOSITORY):latest
-	docker push $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(AWS_ECR_REPOSITORY):latest
+	docker tag $(DEV_DOCKER_IMAGE_NAME) $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(DEV_AWS_ECR_REPOSITORY):latest
+	docker push $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(DEV_AWS_ECR_REPOSITORY):latest

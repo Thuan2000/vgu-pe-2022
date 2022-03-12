@@ -7,7 +7,6 @@ type UserCompany {
 	id: Int!
 	name: String!
 	slug: String!
-	chatId: String
 	location: String
 	industryId: Int
 	businessTypeIds: [Int!]
@@ -22,7 +21,6 @@ type User {
 	lastName: String!
 	role: ROLE!
 	email: String!
-	chatId: String
 	company: UserCompany!
 	phoneNumber: String!
 }
