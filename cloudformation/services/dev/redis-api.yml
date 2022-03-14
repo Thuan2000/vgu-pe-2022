@@ -24,7 +24,6 @@ Resources:
       VpcSecurityGroupIds:
         - !GetAtt ElasticacheSecurityGroup.GroupId
         - sg-04b96fc32bc97ea4f
-        - sg-0f206547
 Outputs:
   InstanceId:
     Description: Instance of the newly created redis
