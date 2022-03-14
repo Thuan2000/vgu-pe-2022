@@ -180,7 +180,7 @@ class BuyingRequestController {
 	}
 
 	private async removeGallery(gallery: IFile[]) {
-		gallery.map(img => {
+		gallery?.map(img => {
 			S3.deleteFile(img.location);
 		});
 	}

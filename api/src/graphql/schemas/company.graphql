@@ -101,6 +101,7 @@ type Company {
 	businessTypeIds: [Int]
 	location: String
 	approved: Boolean!
+	ownerId: Int!
 	owner: CompanyOwner!
 	approver: User
 	description: String
