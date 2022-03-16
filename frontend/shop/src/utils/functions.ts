@@ -372,6 +372,6 @@ export function printServerInfo() {
   );
   console.log(`Chat web endpoint : `, process.env.NEXT_PUBLIC_CHAT_URL);
   console.log(
-    `Chat server endpoint : ${process.env.NEXT_PUBLIC_CHAT_SERVER_URL}?apikey=${process.env.NEXT_PUBLIC_CHAT_SERVER_API_KEY}`
+    `Chat server endpoint : ${process.env.NEXT_PUBLIC_CHAT_SERVER_URL}`
   );
 }
