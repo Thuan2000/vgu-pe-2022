@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "Certificate",
-    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/2e90b17d-e730-410d-861b-170b31a2627d"
+    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/fa0abe18-d301-44d0-a4f9-dda881883ee9"
   },
   {
     "ParameterKey": "SubnetID",
@@ -55,10 +55,6 @@
   {
     "ParameterKey" : "GoogleClientSecret",
     "ParameterValue" : "wZ67rNrHm1HyNwMD3PSotUAh"
-  },
-  {
-    "ParameterKey" : "NextPublicDiscoveryEndpoint",
-    "ParameterValue" : "https://dev.sdconnect.vn"
   },
   {
     "ParameterKey" : "NextPublicChatUrl",
