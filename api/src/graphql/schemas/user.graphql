@@ -9,6 +9,7 @@ type UserCompany {
 	slug: String!
 	location: String
 	industryId: Int
+	subscription: Subscription
 	businessTypeIds: [Int!]
 	chatId: String!
 	establishmentDate: Date

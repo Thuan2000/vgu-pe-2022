@@ -9,11 +9,12 @@ import {
 	errorResponse,
 	successResponse,
 	successResponseWithPayload,
-	DEFAULT_SUBSCRIPTION_ID,
+	TRIAL_SUBSCRIPTION_ID,
 	EEMailTemplates,
 	EMAIL_MESSAGES,
 	EMAIL_SUBJECTS,
-	ADMIN_EMAIL_ADDRESS
+	ADMIN_EMAIL_ADDRESS,
+	getCurrentDateInMilis
 } from "@utils";
 import Company from "@models/Company";
 import S3 from "@services/s3.service";
@@ -150,9 +151,10 @@ class CompanyController {
 			// Setting company subscription
 			await CompanySubscription.create({
 				companyId: id,
-				subscriptionId: DEFAULT_SUBSCRIPTION_ID,
-				startAt: new Date().getTime(),
-				endAt: expDate
+				subscriptionId: TRIAL_SUBSCRIPTION_ID,
+				startAt: getCurrentDateInMilis(),
+				endAt: expDate,
+				subscriptionAttempt: 0
 			});
 
 			const owner = company.owner;

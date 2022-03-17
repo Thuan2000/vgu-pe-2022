@@ -119,15 +119,24 @@ export function generateUsername(email: string) {
 }
 
 /**
+ * get the current date of the server when this function is fired and convert it into ms
+ * @returns Current date in miliseconds
+ */
+export function getCurrentDateInMilis() {
+	return new Date().getTime();
+}
+
+/**
  * Generates the 8-character first-time login password.
  * @param length: number - 8 by default.
  */
-export function generateFirstTimePassword(length: number = 8) {
-	let result = '';
-	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+export function generateFirstTimePassword(length = 8) {
+	let result = "";
+	const characters =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	const totalLength = characters.length;
 
-	for (let i = 0; i < length; i++ ) {
+	for (let i = 0; i < length; i++) {
 		result += characters.charAt(Math.floor(Math.random() * totalLength));
 	}
 

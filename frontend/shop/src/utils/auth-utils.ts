@@ -97,6 +97,11 @@ export function isLogin() {
   return !!authCred.token;
 }
 
+export function getSubscriptionInfo() {
+  const subscription = getMeData()?.company?.subscription;
+  return subscription;
+}
+
 export function getMeData(): IMeInfoResponse | { company: null; user: null } {
   const rawUser = Cookie.get(LOGGED_IN_USER);
   if (!rawUser) return { company: null, user: null };

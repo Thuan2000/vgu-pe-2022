@@ -1,0 +1,20 @@
+type Subscription {
+	startAt: Date!
+	endAt: Date!
+	subscriptionAttempt: Int!
+	subscriptionDetail: SubscriptionDetail!
+}
+
+type SubscriptionDetail {
+	nameEn: String!
+	nameVn: String!
+	description: String
+}
+
+extend type Query {
+	companySubscription(companyId: Int!): Subscription!
+}
+
+extend type Mutation {
+	subscribe(companyId: Int!, subscriptionId: Int!, expDate: Date!): Response!
+}

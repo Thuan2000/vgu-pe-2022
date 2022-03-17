@@ -18,9 +18,11 @@ CompanySubscription.init(
 	{
 		companyId: DataTypes.INTEGER,
 		subscriptionId: DataTypes.INTEGER,
+		firstTimeSubscribeAt: DataTypes.BIGINT,
+		subscriptionAttempt: DataTypes.INTEGER,
 		startAt: DataTypes.BIGINT,
-		endAt: DataTypes.BIGINT,
-		totalPrice: DataTypes.INTEGER
+		endAt: DataTypes.BIGINT
+		// totalPrice: DataTypes.INTEGER
 	},
 	{
 		tableName: "company_subscriptions",

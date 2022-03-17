@@ -29,15 +29,21 @@ module.exports = {
 				},
 				onDelete: "CASCADE"
 			},
+			firstTimeSubscribeAt: {
+				type: Sequelize.BIGINT
+			},
+			subscriptionAttempt: {
+				type: Sequelize.INTEGER
+			},
 			startAt: {
 				type: Sequelize.BIGINT
 			},
 			endAt: {
 				type: Sequelize.BIGINT
 			},
-			totalPrice: {
-				type: Sequelize.INTEGER
-			},
+			// totalPrice: {
+			// 	type: Sequelize.INTEGER
+			// },
 			createdAt: {
 				type: Sequelize.DATE
 			},

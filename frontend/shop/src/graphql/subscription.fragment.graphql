@@ -1,0 +1,12 @@
+#import SubscriptionFragment from "./subscription.fragment.graphql"
+
+fragment SubscriptionFragment on Subscription {
+  startAt
+  endAt
+  subscriptionAttempt
+  subscriptionDetail {
+    nameEn
+    nameVn
+    description
+  }
+}

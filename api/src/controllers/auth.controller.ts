@@ -22,6 +22,8 @@ import {
 	EMAIL_SUBJECTS
 } from "@utils/email_constants";
 import { JsonWebTokenError } from "jsonwebtoken";
+import Subscription from "@models/Subscription";
+import CompanySubscription from "@models/CompanySubscription";
 
 class AuthController {
 	authRepo = new AuthRepository();
@@ -42,7 +44,7 @@ class AuthController {
 			return successResponse();
 		} catch (err) {
 			console.error(err);
-			return errorResponse();
+			return errorResponse(err.toString());
 		}
 	}
 
@@ -72,10 +74,33 @@ class AuthController {
 							// 	),
 							// 	"contactNumber"
 							// ]
+						],
+						include: [
+							{
+								model: CompanySubscription,
+								as: "subscription",
+								attributes: [
+									"endAt",
+									"startAt",
+									"subscriptionAttempt"
+								],
+								include: [
+									{
+										model: Subscription,
+										as: "subscriptionDetail",
+										attributes: [
+											"nameEn",
+											"nameVn",
+											"description"
+										]
+									}
+								]
+							}
 						]
 					}
 				]
 			});
+
 			if (!user) return errorResponse("USER_NOT_FOUND");
 			let isPasswordMatch = false;
 			// If it's the first time user logs in, do not use bcrypt.
@@ -105,6 +130,7 @@ class AuthController {
 			};
 		} catch (err) {
 			console.log(err);
+			return errorResponse(err.toString());
 		}
 	}
 
