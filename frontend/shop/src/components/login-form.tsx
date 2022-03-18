@@ -107,7 +107,7 @@ const LoginForm = () => {
     const { success, message, token, user } = login;
     if (success && !!user && !!token) {
       setToken(token);
-      setUser(user);
+      setUser(user as any);
       setCompanyChatId(user?.company?.chatId!);
       // Put the compuslory modal here.
       if (user.firstLogin)
@@ -115,7 +115,7 @@ const LoginForm = () => {
           (
             <PasswordReset
               onAbort={handlePasswordFirstResetAbort}
-              user={user}
+              user={user as any}
               onSuccess={handlePasswordResetted}
             />
           ) as any,

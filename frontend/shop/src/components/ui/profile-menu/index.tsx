@@ -58,7 +58,7 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
           <p className="text-heading font-semibold">{company?.name}</p>
           <p className="text-heading font-semibold">
             {
-              currSubs?.subscriptionDetail[
+              (currSubs?.subscriptionDetail as any)[
                 getLocaleName[(locale as string) || "vi"]
               ]
             }
