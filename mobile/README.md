@@ -13,8 +13,9 @@ This is the mobile browser and app of SDConnect project.
 ### With Android Studio (recommended)
 
 1. Open this directory (**mobile**) in **Android Studio**.
-2. Choose a device/browser to run the app on (open any simulator/emulator in advance if needed).
-3. Click on the run button on top right corner.
+2. Open the file [pubspec.yaml](./pubspec.yaml) and click on the text ```Pub get``` on the top right corner to get the dependencies.
+3. Choose a device/browser to run the app on (open any simulator/emulator in advance if needed).
+4. Click on the run button on top right corner.
 
 For more information: [Read this docs](https://docs.flutter.dev/get-started/test-drive?tab=androidstudio)
 
