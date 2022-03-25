@@ -152,6 +152,7 @@ class CompanyController {
 			await CompanySubscription.create({
 				companyId: id,
 				subscriptionId: TRIAL_SUBSCRIPTION_ID,
+				firstTimeSubscribeAt: new Date().getTime(),
 				startAt: getCurrentDateInMilis(),
 				endAt: expDate,
 				subscriptionAttempt: 0

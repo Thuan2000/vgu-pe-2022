@@ -27,6 +27,7 @@ import en from "javascript-time-ago/locale/en.json";
 import vi from "javascript-time-ago/locale/vi.json";
 import { useEffect } from "react";
 import { rfw, printServerInfo } from "@utils/functions";
+import { SubsInfoProvider } from "src/contexts/subs-info.context";
 
 TimeAgo.addLocale(vi);
 TimeAgo.addLocale(en);
@@ -83,14 +84,16 @@ function MyApp({ Component, pageProps }: AppProps) {
             content="width=device-width, initial-scale=0.9, maximum-scale=0.9,user-scalable=0"
           />
         </Head>
-        <ModalProvider>
-          <ModalContainer />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-          <ToastContainer autoClose={2000} theme="colored" />
-          <ChatwootWidget />
-        </ModalProvider>
+        <SubsInfoProvider>
+          <ModalProvider>
+            <ModalContainer />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            <ToastContainer autoClose={2000} theme="colored" />
+            <ChatwootWidget />
+          </ModalProvider>
+        </SubsInfoProvider>
       </WSChatProvider>
     </ApolloProvider>
   );

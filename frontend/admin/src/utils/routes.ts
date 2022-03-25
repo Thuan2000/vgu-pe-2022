@@ -23,4 +23,8 @@ export const ROUTES = {
     `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}${
       locale ? `/${locale}/` : `/`
     }signup`,
+  SUBSCRIPTION: (locale: string) =>
+    `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}${
+      locale ? `/${locale}/` : `/`
+    }subscribe`,
 };

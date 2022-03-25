@@ -1,10 +1,10 @@
 "use strict";
 
-const tableName = "subscriptions";
+const tableName = "already_paid_companies";
 
 module.exports = {
 	tableName,
-	up: async (queryInterface, Sequelize) => {
+	async up(queryInterface, Sequelize) {
 		await queryInterface.createTable(tableName, {
 			id: {
 				allowNull: false,
@@ -12,31 +12,27 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			nameEn: {
-				type: Sequelize.STRING
-			},
-			nameVn: {
-				type: Sequelize.STRING
-			},
-			monthlyPrice: {
+			companyId: {
 				type: Sequelize.INTEGER
 			},
-			description: {
-				type: Sequelize.TEXT
-			},
-			isTrial: {
+			isSubscribed: {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false
 			},
+			transferReceipt: {
+				type: Sequelize.JSON
+			},
 			createdAt: {
+				allowNull: false,
 				type: Sequelize.DATE
 			},
 			updatedAt: {
+				allowNull: false,
 				type: Sequelize.DATE
 			}
 		});
 	},
-	down: async (queryInterface, Sequelize) => {
+	async down(queryInterface, Sequelize) {
 		await queryInterface.dropTable(tableName);
 	}
 };

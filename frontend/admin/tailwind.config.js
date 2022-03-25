@@ -55,6 +55,7 @@ module.exports = {
           DEFAULT: "#00D796",
           hover: "#02BF86",
         },
+        warning: "#FFB12F",
         ["secondary-1"]: {
           DEFAULT: "#349EFF",
           hover: "#218BEC",

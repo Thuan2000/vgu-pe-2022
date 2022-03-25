@@ -6,10 +6,11 @@ export const Query = {
 };
 
 export const Mutation = {
-	subscribe: (_, { companyId, subscriptionId, expDate }) =>
+	subscribe: (_, { companyId, subscriptionId, alreadyPaidId, expDate }) =>
 		CompanySubscriptionController.subscribe(
 			companyId,
 			subscriptionId,
+			alreadyPaidId,
 			expDate
 		)
 };

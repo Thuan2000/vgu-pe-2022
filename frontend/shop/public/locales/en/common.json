@@ -207,5 +207,10 @@
   "month-establishment-label": "Months",
   "no-certificates": "No Certificates",
   "no-services-yet-message": "No services found",
-  "no-discussion-for-service": "no discussions yet"
+  "no-discussion-for-service": "no discussions yet",
+  "plan-text": "plan",
+  "expires-in-text": "Expires in",
+  "days-text": "days",
+  "upgrade-now-text": "Upgrade now",
+  "extend-now-text": "Extend Subscription"
 }

@@ -67,3 +67,5 @@ export interface IChatTopic {
   seq: number;
   ts: Date;
 }
+
+export type TLocale = "en" | "vi";

@@ -1,4 +1,3 @@
-import { TPageName } from "@components/ui/search";
 import { IVariation, IVariationOption } from "@graphql/types.graphql";
 import base64 from "base-64";
 import Cookies from "js-cookie";
@@ -374,4 +373,42 @@ export function printServerInfo() {
   console.log(
     `Chat server endpoint : ${process.env.NEXT_PUBLIC_CHAT_SERVER_URL}`
   );
+}
+
+/**
+ * Get days different
+ * @param date: Date to compare
+ * @param otherDate: Date to compare
+ * @returns days in number
+ */
+export function diffDays(date: Date, otherDate: Date) {
+  return Math.ceil(
+    Math.abs((date as any) - (otherDate as any)) / (1000 * 60 * 60 * 24)
+  );
+}
+
+/**
+ * Returning subscription information
+ * @param t TFunction
+ * @param name Subscription name from context
+ * @param endAt Subscription endTime from context
+ */
+export function getSubscriptionInfoText(
+  t: TFunction,
+  name: string,
+  endAt: Date
+) {
+  const remainDays = diffDays(new Date(endAt), new Date());
+  return `${name} ${t("plan-text")}, ${t("expires-in-text")} ${remainDays} ${t(
+    "days-text"
+  )}`;
+}
+
+export function numberWithDotSeparator(x: number) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export function removeTypename(data: any) {
+  const { __typename, ...dataWithoutTypename } = data || {};
+  return dataWithoutTypename;
 }

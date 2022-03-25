@@ -1,0 +1,7 @@
+# import SubscriptionCompanyFragment from "./subscription-company.fragment.graphql"
+
+query CompanySubscription($companyId: Int!) {
+  companySubscription(companyId: $companyId) {
+    ...SubscriptionCompanyFragment
+  }
+}

@@ -19,7 +19,8 @@ Subscription.init(
 		nameEn: DataTypes.STRING,
 		nameVn: DataTypes.STRING,
 		description: DataTypes.TEXT,
-		monthlyPrice: DataTypes.INTEGER
+		monthlyPrice: DataTypes.INTEGER,
+		isTrial: DataTypes.BOOLEAN
 	},
 	{
 		tableName: "subscriptions",

@@ -1,6 +1,5 @@
 import HomeIcon from "@assets/icons/navigations/home-icon";
 import UpVIcon from "@assets/icons/up-v-icon";
-import { COLORS } from "@utils/colors";
 import { toCamelCaseFromSnakeCase } from "@utils/functions";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
@@ -10,7 +9,6 @@ import Typography from "./typography";
 
 interface IBreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {
   homeHref: string;
-  // paths: IPath[];
 }
 
 const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
@@ -58,7 +56,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
 
   return (
     <div {...props}>
-      <div className="fic space-x-1 w-fit-content px-5 pt-2">
+      <div className="fic space-x-2 w-fit-content px-5 pt-2">
         {links.length >= 1 ? (
           <Link href={homeHref}>
             <Item label={t("homepage-breadcrumb")} />
@@ -73,7 +71,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
         {links.map((p, idx) => {
           const isLast = idx === paths.length - 1;
           return (
-            <div key={p.href + "breadcrumb"} className={`fic space-x-1`}>
+            <div key={p.href + "breadcrumb"} className={`fic space-x-2`}>
               <UpVIcon className="rotate-90 w-3 h-3" />
               {!isLast ? (
                 <Link href={p.href}>

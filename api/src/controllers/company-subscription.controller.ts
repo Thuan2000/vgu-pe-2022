@@ -3,6 +3,7 @@ import Subscription from "@models/Subscription";
 import { MONTH_IN_MS } from "@utils/constants";
 import { getCurrentDateInMilis } from "@utils/functions";
 import { errorResponse, successResponse } from "@utils/responses";
+import AlreadyPaidCompanyController from "./already-paid-company.controller";
 
 class CompanySubscriptionController {
 	static async getSubscription(companyId: number) {
@@ -10,10 +11,23 @@ class CompanySubscriptionController {
 			const sub = await CompanySubscription.findOne({
 				where: { companyId },
 				order: [["id", "DESC"]],
-				include: [{ model: Subscription, as: "subscriptionDetail" }]
+				attributes: ["endAt", "startAt", "subscriptionAttempt"],
+				include: [
+					{
+						model: Subscription,
+						as: "subscriptionDetail",
+						attributes: [
+							"nameEn",
+							"nameVn",
+							"description",
+							"monthlyPrice",
+							"isTrial"
+						]
+					}
+				]
 			});
 
-			const { subscriptionDetail, ...rest } = sub.toJSON() as any;
+			const { subscriptionDetail, ...rest } = sub?.toJSON() as any;
 			const res = { ...subscriptionDetail, ...rest };
 
 			return res;
@@ -25,8 +39,8 @@ class CompanySubscriptionController {
 	static async subscribe(
 		companyId: number,
 		subscriptionId: number,
-		// This function will not be called unless it's a pro subscription (1 month length)
-		expDate = getCurrentDateInMilis() + MONTH_IN_MS
+		alreadyPaidId: number,
+		expDate
 	) {
 		try {
 			const compWithSubAttempt = await CompanySubscription.findOne({
@@ -50,6 +64,10 @@ class CompanySubscriptionController {
 				endAt,
 				subscriptionAttempt
 			});
+
+			await AlreadyPaidCompanyController.seIsSubscribedTrue(
+				alreadyPaidId
+			);
 
 			const respWord = `Company With Id : ${companyId} success subscribe until ${new Date(
 				expDate + currentSubsDurationRest

@@ -70,6 +70,9 @@ module.exports = {
           active: "#107ADB",
           300: "#3C64B1",
         },
+        yellow: {
+          200: "FFB12F",
+        },
         gray: {
           DEFAULT: "#A3ADB4",
           10: "#EEF2F5",

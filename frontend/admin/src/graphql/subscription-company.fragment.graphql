@@ -1,0 +1,9 @@
+fragment SubscriptionCompanyFragment on CompanySubscription {
+  nameEn
+  nameVn
+  monthlyPrice
+  startAt
+  endAt
+  subscriptionAttempt
+  isTrial
+}

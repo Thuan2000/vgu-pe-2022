@@ -1,0 +1,18 @@
+input AddAlreadyPaidCompanyInput {
+	companyId: Int!
+	transferReceipt: FileInput!
+}
+
+type AlreadyPaidCompany {
+	company: Company!
+	transferReceipt: File!
+	createdAt: Date!
+}
+
+extend type Mutation {
+	addAlreadyPaidCompany(input: AddAlreadyPaidCompanyInput!): Response!
+}
+
+extend type Query {
+	getAlreadyPaidCompanies: [AlreadyPaidCompany]!
+}

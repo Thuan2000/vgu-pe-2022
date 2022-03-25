@@ -5,16 +5,33 @@ type Subscription {
 	subscriptionDetail: SubscriptionDetail!
 }
 
+type CompanySubscription {
+	nameEn: String!
+	nameVn: String!
+	description: String
+	monthlyPrice: Int
+	isTrial: Boolean
+	endAt: Date!
+	startAt: Date!
+	subscriptionAttempt: Int
+}
+
 type SubscriptionDetail {
 	nameEn: String!
 	nameVn: String!
 	description: String
+	isTrial: Boolean
 }
 
 extend type Query {
-	companySubscription(companyId: Int!): Subscription!
+	companySubscription(companyId: Int!): CompanySubscription!
 }
 
 extend type Mutation {
-	subscribe(companyId: Int!, subscriptionId: Int!, expDate: Date!): Response!
+	subscribe(
+		companyId: Int!
+		subscriptionId: Int!
+		alreadyPaidId: Int!
+		expDate: Date!
+	): Response!
 }

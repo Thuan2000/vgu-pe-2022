@@ -53,7 +53,7 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
       <Button
         onClick={toggleMessages}
         variant="custom"
-        className={`!w-fit-content !h-fit-content !p-0`}
+        className={`!w-fit-content !h-fit-content !p-0 !mr-4`}
       >
         <MessageIcon className={`w-7 h-7`} />
         {!!messages.length && (

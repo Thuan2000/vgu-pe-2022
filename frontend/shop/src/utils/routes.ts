@@ -23,6 +23,7 @@ export const ROUTES = {
   CHAT_URL: process.env.NEXT_PUBLIC_CHAT_URL,
   ADMIN_LINK: `${process.env.NEXT_PUBLIC_ADMIN_URL}`,
   EMAIL_LINK: `https://gmail.com`,
+  SUBSCRIPTION: "/subscription",
 };
 
 export const ALLOWED_UNAUTHENTICATED_ROUTES = [
@@ -43,6 +44,7 @@ export const NO_POST_ROUTES = [
   ROUTES.HOMEPAGE,
   ROUTES.COMPANIES,
   ROUTES.SUPPORT,
+  ROUTES.SUBSCRIPTION,
 ];
 
 export const MUST_AUTHENTICATED_ROUTES = [];

@@ -74,33 +74,10 @@ class AuthController {
 							// 	),
 							// 	"contactNumber"
 							// ]
-						],
-						include: [
-							{
-								model: CompanySubscription,
-								as: "subscription",
-								attributes: [
-									"endAt",
-									"startAt",
-									"subscriptionAttempt"
-								],
-								include: [
-									{
-										model: Subscription,
-										as: "subscriptionDetail",
-										attributes: [
-											"nameEn",
-											"nameVn",
-											"description"
-										]
-									}
-								]
-							}
 						]
 					}
 				]
 			});
-
 			if (!user) return errorResponse("USER_NOT_FOUND");
 			let isPasswordMatch = false;
 			// If it's the first time user logs in, do not use bcrypt.

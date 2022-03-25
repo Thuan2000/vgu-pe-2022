@@ -8,7 +8,12 @@ import {
   LOGGED_IN_USER,
   REDIRECT_AFTER_LOGIN,
 } from "./constants";
-import { ICompany, IMeInfoResponse, IUser } from "@graphql/types.graphql";
+import {
+  ICompany,
+  IMeInfoResponse,
+  ISubscription,
+  IUser,
+} from "@graphql/types.graphql";
 import Cookies from "js-cookie";
 
 const cookieDomain = { domain: `.${process.env.NEXT_PUBLIC_DOMAIN}` };

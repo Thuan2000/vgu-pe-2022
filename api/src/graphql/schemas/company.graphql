@@ -64,7 +64,6 @@ type CompaniesItem {
 	categoryId: Int
 	businessTypeIds: [Int]
 	responseTime: Int # In minutes
-	subscription: CompanySubscription
 	createdAt: Date
 	updatedAt: Date
 	chatId: String
@@ -110,16 +109,9 @@ type Company {
 	settings: CompanySettings
 	industryId: Int
 	establishmentDate: Date
-	subscription: CompanySubscription
 	createdAt: Date
 	updatedAt: Date
 	chatId: String
-}
-
-type CompanySubscription {
-	startAt: Date!
-	endAt: Date!
-	subscriptionDetail: Subscription!
 }
 
 type Subscription {

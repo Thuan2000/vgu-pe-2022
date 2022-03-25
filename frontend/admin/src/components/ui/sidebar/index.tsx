@@ -1,3 +1,4 @@
+import { Header } from "./header";
 import VerifiedIcon from "@assets/icons/verified-icon";
 import React from "react";
 import { getMeData } from "@utils/auth-utils";
@@ -15,10 +16,7 @@ const Sidebar: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
     >
       <div className="fixed w-[inherit] h-full flex-col">
         <div className={`pl-11`}>
-          <div className="fic justify-between pr-3">
-            <Logo size="big" />
-            <LanguageSelector showText={false} />
-          </div>
+          <Header />
           <h3 className="flex items-center text-dark-blue mb-7 mt-4">
             {company?.name}
             {company?.approved && <VerifiedIcon className="w-4 h-4 ml-2" />}

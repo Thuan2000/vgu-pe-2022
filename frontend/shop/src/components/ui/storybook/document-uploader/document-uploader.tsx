@@ -81,7 +81,9 @@ const DocumentUploader = ({
   }, [files]);
 
   async function handleOnDrop(acceptedFiles: File[]) {
+    if (!multiple) setFiles([]);
     setLoadingThumbs(new Array(acceptedFiles.length).fill(""));
+
     const { data } = await uploadFiles({
       variables: {
         input: {
@@ -97,8 +99,14 @@ const DocumentUploader = ({
       ({ __typename, ...file }: IFileWithTypename) => file
     );
 
-    if (!!files.length) setFiles([...files, ...accFiles!]);
-    else setFiles(accFiles!);
+    if (!accFiles) return;
+
+    if (multiple) {
+      if (!!files.length) setFiles([...files, ...accFiles]);
+      else setFiles(accFiles);
+    }
+
+    setFiles([...accFiles]);
   }
 
   function handleDelete(index: number) {

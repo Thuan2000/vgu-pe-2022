@@ -59,3 +59,14 @@ export const CHAT_KEEP_LOGIN_COOKIE_NAME = "keep-logged-in";
 const CHAT_ENDPOINT = process.env.NEXT_PUBLIC_CHAT_SERVER_URL;
 const CHAT_API_KEY = process.env.NEXT_PUBLIC_CHAT_SERVER_API_KEY;
 export const CHAT_URL = `${CHAT_ENDPOINT}?apikey=${CHAT_API_KEY}`;
+
+export type ILocale = "" | "en" | "vi";
+
+/**
+ * Get database attribute name by locale
+ */
+export const getNameByLocale = {
+  "": "nameVn",
+  en: "nameEn",
+  vi: "nameVn",
+};

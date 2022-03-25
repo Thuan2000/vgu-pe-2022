@@ -9,9 +9,10 @@ type TextColor =
   | "gray-400"
   | "black"
   | "secondary-1"
+  | "yellow-200"
   | "white";
 
-type TFontWeight = "bold" | "semibold" | "light" | "normal";
+type TFontWeight = "extrabold" | "bold" | "semibold" | "light" | "normal";
 
 interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
   variant?:
@@ -38,6 +39,7 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
   readMoreText?: string;
   truncate?: boolean;
   underline?: boolean;
+  isSelectable?: boolean;
   onReadMore?: () => void;
 }
 
@@ -59,6 +61,7 @@ const classesNames = {
 const Typography: React.FC<ITypographyProps> = ({
   className: inputClassname,
   text,
+  isSelectable = true,
   variant,
   weight = "",
   color,
@@ -77,6 +80,7 @@ const Typography: React.FC<ITypographyProps> = ({
     `text-${size}`,
     `text-${color}`,
     `font-${weight}`,
+    !isSelectable && "select-none",
     !!underline && "underline",
     !!truncate && "truncate",
     inputClassname

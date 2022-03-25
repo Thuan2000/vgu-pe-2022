@@ -22,6 +22,7 @@ import { WSChatProvider } from "src/contexts/ws-chat.context";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import vi from "javascript-time-ago/locale/vi.json";
+import { SubsInfoProvider } from "src/contexts/subs-info.context";
 
 TimeAgo.addLocale(vi);
 TimeAgo.addLocale(en);
@@ -52,16 +53,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <ModalProvider>
-        <WSChatProvider>
-          <ModalContainer />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-          <ToastContainer autoClose={2000} theme="colored" />
-          <ChatwootWidget />
-        </WSChatProvider>
-      </ModalProvider>
+      <SubsInfoProvider>
+        <ModalProvider>
+          <WSChatProvider>
+            <ModalContainer />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            <ToastContainer autoClose={2000} theme="colored" />
+            <ChatwootWidget />
+          </WSChatProvider>
+        </ModalProvider>
+      </SubsInfoProvider>
     </ApolloProvider>
   );
 }

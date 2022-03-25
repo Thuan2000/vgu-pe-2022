@@ -8,10 +8,11 @@ import Link from "../link";
 import LogoutIcon from "@assets/icons/navigations/logout-icon";
 import SettingIcon from "@assets/icons/navigations/settings-icon";
 import styles from "./profile-menu.module.css";
-import { getMeData, getSubscriptionInfo, isLogin } from "@utils/auth-utils";
+import { getMeData, isLogin } from "@utils/auth-utils";
 import { getLoginCompanySlug } from "@utils/functions";
 import Button from "../storybook/button";
 import { useRouter } from "next/router";
+import { SubscriptionInfoText } from "../subscription-info-text";
 
 const variants = {
   hidden: { opacity: 1, maxHeight: 0 },
@@ -27,8 +28,6 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
   const { t } = useTranslation("common");
   const { user, company } = getMeData();
   const { locale } = useRouter();
-
-  const currSubs = getSubscriptionInfo();
 
   if (!isLogin())
     return (
@@ -49,21 +48,15 @@ const ProfileMenu = ({ className }: React.HTMLAttributes<HTMLDivElement>) => {
           {user?.firstName} {user?.lastName}
         </p>
       </div>
-      <div className="bg-green-10 p-3 border">
+      <div className="bg-green-10 p-3 border space-y-1">
         <Link
           target="_blank"
           rel="noreferrer"
           href={`${ROUTES.ADMIN_LINK}/${locale}${ROUTES.ADMIN_COMPANY_DETAIL}`}
         >
           <p className="text-heading font-semibold">{company?.name}</p>
-          <p className="text-heading font-semibold">
-            {
-              (currSubs?.subscriptionDetail as any)[
-                getLocaleName[(locale as string) || "vi"]
-              ]
-            }
-          </p>
         </Link>
+        <SubscriptionInfoText stack="column" />
       </div>
       <div className="border border-t-0 rounded-md rounded-t-none">
         <Link

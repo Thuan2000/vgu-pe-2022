@@ -8,7 +8,7 @@ RUN npm run codegen
 RUN npm run build:no-lint
 
 # Expose port
-EXPOSE  8080
+# EXPOSE  8080
 
 # Run app using nodemon
 CMD ["node", "dist/server.js"]

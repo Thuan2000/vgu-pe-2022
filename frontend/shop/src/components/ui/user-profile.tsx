@@ -1,3 +1,4 @@
+import { SubscriptionInfoText } from "./subscription-info-text";
 import { isLogin } from "@utils/auth-utils";
 import { PAGE_NAME_INTO_LABEL } from "@utils/constants";
 import { getActivePageFromPath, getUserFullName } from "@utils/functions";
@@ -22,7 +23,7 @@ const POST_ROUTES: any = {
 
 const UserProfile = () => {
   const { t } = useTranslation("common");
-  const { pathname } = useRouter();
+  const { pathname, locale } = useRouter();
   const activePage: PageName = `/${getActivePageFromPath(
     pathname
   )}` as PageName;
@@ -64,9 +65,12 @@ const UserProfile = () => {
           </Link>
         </div>
       ) : (
-        <div className={`fic space-x-1 flex-shrink-0`}>
-          <Typography text={`${t("greeting")},`} />
-          <Typography text={getUserFullName()} variant="smallTitle" />
+        <div>
+          <div className={`justify-end fic space-x-1 flex-shrink-0`}>
+            <Typography text={`${t("greeting")},`} />
+            <Typography text={getUserFullName()} variant="smallTitle" />
+          </div>
+          <SubscriptionInfoText />
         </div>
       )}
       <ProfileAvatar />

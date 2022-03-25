@@ -1,0 +1,6 @@
+mutation AddAlreadyPaidCompany($input: AddAlreadyPaidCompanyInput!) {
+  addAlreadyPaidCompany(input: $input) {
+    message
+    success
+  }
+}

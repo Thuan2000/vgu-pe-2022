@@ -19,6 +19,8 @@ export const siteSettings = {
   placeholderImage:
     "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/image-placeholder.jpg",
   companyProfileImagePlaceholder: ProfilePlaceholder,
+  accountNumber: "3703009192",
+  bankInfo: "MB Bank (NH Quân đội)",
   author: {
     name: "Emolyze.tech",
     websiteUrl: "https://emolyze.tech",

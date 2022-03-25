@@ -158,5 +158,10 @@
   "settings-general-page-title": "General",
   "settings-security-page-title": "Security",
   "setting-subcription-plan-label": "Pricing plan",
-  "seller-account": "Gói \"PRO\""
+  "seller-account": "Gói \"PRO\"",
+  "plan-text": "plan",
+  "expires-in-text": "Expires in",
+  "days-text": "days",
+  "upgrade-now-text": "Upgrade now",
+  "extend-now-text": "Extend Subscription"
 }
