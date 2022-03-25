@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
   CustomAppBar({
     Key? key,
-  })  : preferredSize = const Size.fromHeight(50.0),
+  })  : preferredSize = const Size.fromHeight(60.0),
         super(key: key);
 
   @override
@@ -16,7 +15,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       title: SvgPicture.asset("assets/sdconnect-logo.svg"),
       actions: [
         Container(
-          margin: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 5.0),
+          margin: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 5.0),
           width: 44.0,
           height: 44.0,
           decoration: BoxDecoration(
@@ -31,7 +30,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
         Container(
           margin: const EdgeInsets.only(
-              left: 5.0, right: 16.0, top: 3.0, bottom: 3.0),
+              left: 5.0, right: 16.0, top: 6.0, bottom: 6.0),
           width: 44.0,
           height: 44.0,
           decoration: BoxDecoration(

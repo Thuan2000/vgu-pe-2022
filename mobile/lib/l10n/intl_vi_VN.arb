@@ -1,18 +1,6 @@
 {
   "@@locale": "vi_VN",
-  "homePageAppBarTitle": "Trang chủ",
-  "homePageMainFormTitle": "Thông tin cá nhân",
-  "formFieldName": "Tên",
-  "formFieldNameHint": "Nhập tên",
-  "formFieldEmail": "Email",
-  "formFieldEmailHint": "Nhập Email",
-  "formFieldDOB": "Ngày sinh",
-  "formFieldRequired": "Bắt buộc",
-  "formFieldSubmitInfo": "Gửi thông tin",
-  "aboutUsPageAppBarTitle": "Giới thiệu",
-  "settingsPageAppBarTitle": "Cài đặt",
   "formFieldChangeLanguage": "Thay đổi ngôn ngữ",
-  "formFieldAbout": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
 
   "discoveryPageTitle" : "Trang chủ",
   "menuPageTitle" : "Danh mục",
