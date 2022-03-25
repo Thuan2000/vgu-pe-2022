@@ -17,6 +17,7 @@ class CustomTheme {
         onSurface: colorConstants.secondaryDarkBlue,
         outline: colorConstants.secondaryGray100,
         shadow: colorConstants.dropShadow,
+        inversePrimary: colorConstants.secondaryGray200,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,

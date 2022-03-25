@@ -12,5 +12,10 @@
   "aboutUsPageAppBarTitle": "Giới thiệu",
   "settingsPageAppBarTitle": "Cài đặt",
   "formFieldChangeLanguage": "Thay đổi ngôn ngữ",
-  "formFieldAbout": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+  "formFieldAbout": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+
+  "discoveryPageTitle" : "Trang chủ",
+  "menuPageTitle" : "Danh mục",
+  "messagesPageTitle" : "Thông báo",
+  "profilePageTitle" : "Hồ sơ"
 }

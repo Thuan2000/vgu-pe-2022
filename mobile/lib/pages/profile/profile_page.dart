@@ -4,14 +4,14 @@ import 'package:sdconnect_mobile/localization/language_constants.dart';
 import 'package:sdconnect_mobile/main.dart';
 import 'package:sdconnect_mobile/generated/l10n.dart';
 
-class SettingsPage extends StatefulWidget {
-  SettingsPage({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  ProfilePage({Key? key}) : super(key: key);
 
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _ProfilePageState extends State<ProfilePage> {
   void _changeLanguage(Language language) async {
     Locale _locale = await setLocale(language.languageCode);
     MyApp.setLocale(context, _locale);
@@ -19,13 +19,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).settingsPageAppBarTitle),
-      ),
-      body: Container(
-        child: Center(
-            child: DropdownButton<Language>(
+    return Container(
+      child: Center(
+        child: DropdownButton<Language>(
           iconSize: 30,
           hint: Text(S.of(context).formFieldChangeLanguage),
           onChanged: (Language? language) {
@@ -48,7 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               )
               .toList(),
-        )),
+        ),
       ),
     );
   }

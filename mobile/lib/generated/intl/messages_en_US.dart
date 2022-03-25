@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "aboutUsPageAppBarTitle":
             MessageLookupByLibrary.simpleMessage("About Us"),
+        "discoveryPageTitle": MessageLookupByLibrary.simpleMessage("Home Page"),
         "formFieldAbout": MessageLookupByLibrary.simpleMessage(
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s."),
         "formFieldChangeLanguage":
@@ -43,6 +44,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Home Page"),
         "homePageMainFormTitle":
             MessageLookupByLibrary.simpleMessage("Personal Information"),
+        "menuPageTitle": MessageLookupByLibrary.simpleMessage("Menu"),
+        "messagesPageTitle": MessageLookupByLibrary.simpleMessage("Messages"),
+        "profilePageTitle": MessageLookupByLibrary.simpleMessage("Profile"),
         "settingsPageAppBarTitle":
             MessageLookupByLibrary.simpleMessage("Settings")
       };

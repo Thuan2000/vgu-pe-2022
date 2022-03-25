@@ -179,6 +179,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Home Page`
+  String get discoveryPageTitle {
+    return Intl.message(
+      'Home Page',
+      name: 'discoveryPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Menu`
+  String get menuPageTitle {
+    return Intl.message(
+      'Menu',
+      name: 'menuPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Messages`
+  String get messagesPageTitle {
+    return Intl.message(
+      'Messages',
+      name: 'messagesPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get profilePageTitle {
+    return Intl.message(
+      'Profile',
+      name: 'profilePageTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

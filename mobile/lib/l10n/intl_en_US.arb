@@ -12,5 +12,10 @@
   "aboutUsPageAppBarTitle": "About Us",
   "settingsPageAppBarTitle": "Settings",
   "formFieldChangeLanguage": "Change Language",
-  "formFieldAbout": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+  "formFieldAbout": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+
+  "discoveryPageTitle" : "Home Page",
+  "menuPageTitle" : "Menu",
+  "messagesPageTitle" : "Messages",
+  "profilePageTitle" : "Profile"
 }

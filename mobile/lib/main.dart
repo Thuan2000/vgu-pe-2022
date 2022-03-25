@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sdconnect_mobile/generated/l10n.dart';
-import 'package:sdconnect_mobile/router/custom_router.dart';
-import 'package:sdconnect_mobile/router/route_constants.dart';
+import 'package:sdconnect_mobile/pages/home_page.dart';
 import 'package:sdconnect_mobile/theme/custom_theme.dart';
 
 import 'localization/language_constants.dart';
@@ -84,8 +83,7 @@ class _MyAppState extends State<MyApp> {
         }
         return supportedLocales.first;
       },
-      onGenerateRoute: CustomRouter.generatedRoute,
-      initialRoute: homeRoute,
+      home: HomePage(),
     );
   }
 }
