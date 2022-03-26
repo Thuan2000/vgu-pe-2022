@@ -9,16 +9,24 @@ import {
   removeMeData,
 } from "../utils/auth-utils";
 import { ROUTES } from "../utils/routes";
+
 const Logout = () => {
-  const { replace, locale } = useRouter();
+  const { replace, locale, reload } = useRouter();
   const { t } = useTranslation("common");
 
   useEffect(() => {
+    // Removing credentials
     removeAuthCredentials();
     removeChatAuthToken();
     removeMeData();
     removeIsFullInfoTrue();
-    replace(ROUTES.LOGIN(locale));
+
+    // Replacing to login with the same locale
+    replace(ROUTES.LOGIN(locale!));
+
+    // To refresh the chat instance
+    return reload;
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

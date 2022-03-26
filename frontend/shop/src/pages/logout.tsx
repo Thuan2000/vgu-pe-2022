@@ -23,15 +23,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Logout = () => {
-  const { replace, locale } = useRouter();
+  const { replace, locale, reload } = useRouter();
   const { t } = useTranslation("common");
 
   useEffect(() => {
+    // Removing credentials
     removeAuthCredentials();
     removeChatAuthToken();
     removeMeData();
     removeIsFullInfoTrue();
+
+    // Replacing to login with the same locale
     replace(ROUTES.TO_LOGIN(locale!));
+
+    // To refresh the chat instance
+    return reload;
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

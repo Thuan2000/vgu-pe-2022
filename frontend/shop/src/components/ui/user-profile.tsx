@@ -32,7 +32,7 @@ const UserProfile = () => {
   if (!isLogin()) {
     return (
       <div className={`flex-center`}>
-        <Link target="_blank" href={`${ROUTES.LOGIN}`}>
+        <Link href={`${ROUTES.LOGIN}`}>
           <Button
             className={`px-3 h-9`}
             size="extraSmall"
