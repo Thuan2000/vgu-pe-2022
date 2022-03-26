@@ -1,7 +1,7 @@
 [
 	{
 		"ParameterKey": "Refresher",
-		"ParameterValue": "refresher-value-6"
+		"ParameterValue": "refresher-value-11"
 	},
 	{
 		"ParameterKey": "Vpc",
@@ -9,7 +9,7 @@
 	},
 	{
 		"ParameterKey": "Certificate",
-		"ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/2e90b17d-e730-410d-861b-170b31a2627d"
+		"ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/fa0abe18-d301-44d0-a4f9-dda881883ee9"
 	},
 	{
 		"ParameterKey": "SubnetID",
@@ -25,7 +25,7 @@
 	},
 	{
 		"ParameterKey": "DockerImageURI",
-		"ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect-ecr:latest"
+		"ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/prod-sdconnect-ecr:latest"
 	},
 	{
 		"ParameterKey": "PORT",
@@ -41,7 +41,7 @@
 	},
 	{
 		"ParameterKey": "ShopUrl",
-		"ParameterValue": "https://dev.sdconnect.vn"
+		"ParameterValue": "https://tmdt.sdconnect.vn"
 	},
 	{
 		"ParameterKey": "DBDialect",
@@ -53,7 +53,7 @@
 	},
 	{
 		"ParameterKey": "DBDatabase",
-		"ParameterValue": "devsdconnect"
+		"ParameterValue": "sdconnect"
 	},
 	{
 		"ParameterKey": "DBPort",
@@ -73,15 +73,15 @@
 	},
 	{
 		"ParameterKey": "AWSAccessKey",
-		"ParameterValue": "AKIA6I6YYFBME2EML5M5"
+		"ParameterValue": ""
 	},
 	{
 		"ParameterKey": "AWSSecretKey",
-		"ParameterValue": "rxAWTP4BsZdCIreeOEjPQV26iVzTDZqoouwVjj4I"
+		"ParameterValue": ""
 	},
 	{
 		"ParameterKey": "S3BucketName",
-		"ParameterValue": "dev-sdconnect-s3"
+		"ParameterValue": ""
 	},
 	{
 		"ParameterKey": "SmtpHost",
@@ -97,19 +97,19 @@
 	},
 	{
 		"ParameterKey": "SmtpUsername",
-		"ParameterValue": "fatwaanugerah01@gmail.com"
+		"ParameterValue": ""
 	},
 	{
 		"ParameterKey": "SmtpPassword",
-		"ParameterValue": "fatwaanugrah123"
+		"ParameterValue": ""
 	},
 	{
 		"ParameterKey": "SmtpFrom",
-		"ParameterValue": "admin@sdconnect.dev"
+		"ParameterValue": "no-reply@sdconnect.vn"
 	},
 	{
 		"ParameterKey": "ESEndpoint",
-		"ParameterValue": "https://search-es-sdconnectdev-ci4ohii2ymclhtjl64x467slsq.ap-southeast-1.es.amazonaws.com/"
+		"ParameterValue": "https://search-sdconnect-prod-f7ptacyabv2uojsjbdea7ltqty.ap-southeast-1.es.amazonaws.com/"
 	},
 	{
 		"ParameterKey": "ESUsername",
@@ -153,11 +153,11 @@
 	},
 	{
 		"ParameterKey": "QueueUrl",
-		"ParameterValue": ""
+		"ParameterValue": "https://sqs.ap-southeast-1.amazonaws.com/981317724248/sdconnect-sqs-dev.fifo"
 	},
 	{
 		"ParameterKey": "ChatApiUrl",
-		"ParameterValue": "wss://chat.dev.sdconnect.vn/v0/channels"
+		"ParameterValue": "wss://chat.sdconnect.vn/v0/channels"
 	},
 	{
 		"ParameterKey": "ChatApiKey",

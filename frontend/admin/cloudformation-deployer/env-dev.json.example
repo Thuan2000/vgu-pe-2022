@@ -5,7 +5,7 @@
   },
   {
     "ParameterKey": "Vpc",
-    "ParameterValue": ""
+    "ParameterValue": "vpc-b86894de"
   },
   {
     "ParameterKey": "Certificate",
@@ -13,19 +13,19 @@
   },
   {
     "ParameterKey": "SubnetID",
-    "ParameterValue": ""
+    "ParameterValue": "subnet-0b517a74dea417994"
   },
   {
     "ParameterKey": "SubnetID2",
-    "ParameterValue": ""
+    "ParameterValue": "subnet-55bb1b33"
   },
   {
     "ParameterKey": "SubnetID3",
-    "ParameterValue": ""
+    "ParameterValue": "subnet-a86fbee0"
   },
   {
     "ParameterKey": "DockerImageURI",
-    "ParameterValue": ""
+    "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect-admin-ecr:latest"
   },
   {
     "ParameterKey": "PORT",
@@ -33,43 +33,43 @@
   },
   
   {
-    "ParameterKey" : "NextPublicGraphqlEndpoint",
-    "ParameterValue" : "https://api.dev.sdconnect.vn/graphql"
+    "ParameterKey": "NextPublicGraphqlEndpoint",
+    "ParameterValue": "https://api.dev.sdconnect.vn/graphql"
   },
   {
-    "ParameterKey" : "NextPublicDomain",
-    "ParameterValue" : "sdconnect.vn"
+    "ParameterKey": "NextPublicDomain",
+    "ParameterValue": "sdconnect.vn"
   },
   {
-    "ParameterKey" : "NextauthUrl",
-    "ParameterValue" : "https://dev.sdconnect.vn"
+    "ParameterKey": "NextauthUrl",
+    "ParameterValue": "https://dev.sdconnect.vn"
   },
   {
-    "ParameterKey" : "AuthSecret",
-    "ParameterValue" : ""
+    "ParameterKey": "AuthSecret",
+    "ParameterValue": ""
   },
   {
-    "ParameterKey" : "GoogleClientId",
-    "ParameterValue" : ""
+    "ParameterKey": "GoogleClientId",
+    "ParameterValue": ""
   },
   {
-    "ParameterKey" : "GoogleClientSecret",
-    "ParameterValue" : "wZ67rNrHm1HyNwMD3PSotUAh"
+    "ParameterKey": "GoogleClientSecret",
+    "ParameterValue": ""
   },
   {
-    "ParameterKey" : "NextPublicDiscoveryEndpoint",
-    "ParameterValue" : "https://dev.sdconnect.vn"
+    "ParameterKey": "NextPublicDiscoveryEndpoint",
+    "ParameterValue": "https://dev.sdconnect.vn"
   },
   {
-    "ParameterKey" : "NextPublicChatUrl",
-    "ParameterValue" : "https://chat.dev.sdconnect.vn"
+    "ParameterKey": "NextPublicChatUrl",
+    "ParameterValue": "https://chat.dev.sdconnect.vn"
   },
   {
-    "ParameterKey" : "NextPublicChatServerUrl",
-    "ParameterValue" : ""
+    "ParameterKey": "NextPublicChatServerUrl",
+    "ParameterValue": "https://chat.sdconnect.vn/v0/channels"
   },
   {
-    "ParameterKey" : "NextPublicChatServerApiKey",
-    "ParameterValue" : ""
+    "ParameterKey": "NextPublicChatServerApiKey",
+    "ParameterValue": ""
   }
 ]
