@@ -30,7 +30,7 @@ class _BannerSliderState extends State<BannerSlider> {
           itemBuilder: _buildBanners,
           options: CarouselOptions(
             autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 3),
+            autoPlayInterval: const Duration(seconds: 4),
             viewportFraction: 1,
             height: 360.0,
             onPageChanged: _handleSliderAutoToggle,

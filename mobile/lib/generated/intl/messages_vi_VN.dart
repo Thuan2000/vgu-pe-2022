@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "discoveryPageOurPartnersTitle":
+            MessageLookupByLibrary.simpleMessage("Các đối tác của chúng tôi"),
         "discoveryPageTitle": MessageLookupByLibrary.simpleMessage("Trang chủ"),
         "formFieldChangeLanguage":
             MessageLookupByLibrary.simpleMessage("Thay đổi ngôn ngữ"),

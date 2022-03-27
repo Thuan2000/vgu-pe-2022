@@ -70,6 +70,16 @@ class S {
     );
   }
 
+  /// `Các đối tác của chúng tôi`
+  String get discoveryPageOurPartnersTitle {
+    return Intl.message(
+      'Các đối tác của chúng tôi',
+      name: 'discoveryPageOurPartnersTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Menu`
   String get menuPageTitle {
     return Intl.message(

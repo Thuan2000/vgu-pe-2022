@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             duration: Duration(milliseconds: 200),
           ),
           navBarStyle: NavBarStyle
-              .style8, // Choose the nav bar style with this property.
+              .style3, // Choose the nav bar style with this property.
         ));
   }
 
@@ -73,25 +73,25 @@ class _HomePageState extends State<HomePage> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(MonoIcons.home),
+        icon: Icon(MonoIcons.home, size: 24.0),
         title: (S.of(context).discoveryPageTitle),
         activeColorPrimary: Theme.of(context).primaryColor,
         inactiveColorPrimary: Theme.of(context).colorScheme.inversePrimary,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(MonoIcons.list),
+        icon: Icon(MonoIcons.list, size: 24.0),
         title: (S.of(context).menuPageTitle),
         activeColorPrimary: Theme.of(context).primaryColor,
         inactiveColorPrimary: Theme.of(context).colorScheme.inversePrimary,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(MonoIcons.message),
+        icon: Icon(MonoIcons.message, size: 24.0),
         title: (S.of(context).messagesPageTitle),
         activeColorPrimary: Theme.of(context).primaryColor,
         inactiveColorPrimary: Theme.of(context).colorScheme.inversePrimary,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(MonoIcons.user),
+        icon: Icon(MonoIcons.user, size: 24.0),
         title: (S.of(context).profilePageTitle),
         activeColorPrimary: Theme.of(context).primaryColor,
         inactiveColorPrimary: Theme.of(context).colorScheme.inversePrimary,
