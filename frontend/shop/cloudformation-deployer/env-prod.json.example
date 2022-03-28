@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "Certificate",
-    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/fa0abe18-d301-44d0-a4f9-dda881883ee9"
+    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/3b1759d3-e722-4b9a-a641-6dc487d1ebde"
   },
   {
     "ParameterKey": "SubnetID",

@@ -1,0 +1,127 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  Refresher:
+    Type: String
+  SubnetID:
+    Type: String
+  SubnetID2:
+    Type: String
+  SubnetID3:
+    Type: String
+  DockerImageURI:
+    Type: String
+  PORT:
+    Type: Number
+  TargetGroupArn:
+    Type: String
+  LoadBalancerName:
+    Type: String
+
+  #Chat Env
+  MysqlDSN:
+    Type: String
+  AWSRegion:
+    Type: String
+  AWSAccessID:
+    Type: String
+  AWSSecretKey:
+    Type: String
+  AWSS3Bucket:
+    Type: String
+  ExtStaticDir:
+    Type: String
+
+Resources:
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: dev-sdconnect-chat-cluster
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: dev-sdconnect-chat-logs
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: dev-sdconnect-chat-cf-role
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: dev-sdconnect-chat-sg
+      GroupDescription: Security group for NGINX container
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: !Ref PORT
+          CidrIp: 0.0.0.0/0
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: dev-sdconnect-chat-task
+      Cpu: 256
+      Memory: 512
+      NetworkMode: awsvpc
+      TaskRoleArn: !Ref ExecutionRole
+      ExecutionRoleArn: !Ref ExecutionRole
+      ContainerDefinitions:
+        - Name: dev-sdconnect-chat-task
+          Image: !Ref DockerImageURI
+          PortMappings:
+            - ContainerPort: !Ref PORT
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-region: !Ref AWS::Region
+              awslogs-group: !Ref LogGroup
+              awslogs-stream-prefix: ecs
+          Environment:
+            - Name: MYSQL_DSN
+              Value: !Ref MysqlDSN
+            - Name: AWS_REGION
+              Value: !Ref AWSRegion
+            - Name: AWS_ACCESS_KEY_ID
+              Value: !Ref AWSAccessID
+            - Name: AWS_SECRET_ACCESS_KEY
+              Value: !Ref AWSSecretKey
+            - Name: AWS_S3_BUCKET
+              Value: !Ref AWSS3Bucket
+            - Name: EXT_STATIC_DIR
+              Value: !Ref ExtStaticDir
+      RequiresCompatibilities:
+        - FARGATE
+  Service:
+    Type: AWS::ECS::Service
+    Properties:
+      ServiceName: dev-sdconnect-chat-service
+      Cluster: !Ref Cluster
+      TaskDefinition: !Ref TaskDefinition
+      DesiredCount: 1
+      EnableExecuteCommand: true
+      LaunchType: FARGATE
+      LoadBalancers:
+        - TargetGroupArn: !Ref TargetGroupArn
+          ContainerName: dev-sdconnect-chat-task
+          ContainerPort: !Ref PORT
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets:
+            - !Ref SubnetID
+          SecurityGroups:
+            - !GetAtt SecurityGroup.GroupId

@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  Refresher:
+    Type: String
+  Vpc:
+    Type: String
+  Certificate:
+    Type: String
+  SubnetID:
+    Type: String
+  SubnetID2:
+    Type: String
+  SubnetID3:
+    Type: String
+  DockerImageURI:
+    Type: String
+  PORT:
+    Type: Number
+
+  # Chat Env
+  MysqlDSN:
+    Type: String
+  AWSRegion:
+    Type: String
+  AWSAccessID:
+    Type: String
+  AWSSecretKey:
+    Type: String
+  ExtStaticDir:
+    Type: String
+  DBUsername:
+    Type: String
+  DBPassword:
+    Type: String
+
+Resources:
+  ecs:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/prod/chat/ecs.yml
+      Parameters:
+        TargetGroupArn: !GetAtt elb.Outputs.TargetGroup
+        LoadBalancerName: !GetAtt elb.Outputs.LoadBalancer
+        Refresher: !Ref Refresher
+        SubnetID: !Ref SubnetID
+        SubnetID2: !Ref SubnetID2
+        SubnetID3: !Ref SubnetID3
+        PORT: !Ref PORT
+        DockerImageURI: !Ref DockerImageURI
+        MysqlDSN:
+          !Join [
+            "",
+            [
+              !Ref DBUsername,
+              ":",
+              !Ref DBPassword,
+              "@tcp(",
+              !GetAtt rds.Outputs.InstanceId,
+              ")/tinode?parseTime=true&collation=utf8mb4_unicode_ci",
+            ],
+          ]
+        AWSRegion: !Ref AWSRegion
+        AWSAccessID: !Ref AWSAccessID
+        AWSSecretKey: !Ref AWSSecretKey
+        AWSS3Bucket: !GetAtt s3.Outputs.S3BucketName
+        ExtStaticDir: !Ref ExtStaticDir
+
+  elb:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/prod/chat/elb.yml
+      Parameters:
+        Vpc: !Ref Vpc
+        Certificate: !Ref Certificate
+        PORT: !Ref PORT
+        SubnetID: !Ref SubnetID
+        SubnetID2: !Ref SubnetID2
+        SubnetID3: !Ref SubnetID3
+
+  rds:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/prod/chat/rds.yml
+      Parameters:
+        DBUsername: !Ref DBUsername
+        DBPassword: !Ref DBPassword
+        VpcId: !Ref Vpc
+
+  s3:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/prod/chat/s3.yml

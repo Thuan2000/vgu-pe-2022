@@ -1,0 +1,62 @@
+[
+  {
+    "ParameterKey": "Refresher",
+    "ParameterValue": "refresher-509"
+  },
+  {
+    "ParameterKey": "Vpc",
+    "ParameterValue": "vpc-b86894de"
+  },
+  {
+    "ParameterKey": "Certificate",
+    "ParameterValue": "arn:aws:acm:ap-southeast-1:981317724248:certificate/3b1759d3-e722-4b9a-a641-6dc487d1ebde"
+  },
+  {
+    "ParameterKey": "SubnetID",
+    "ParameterValue": "subnet-0b517a74dea417994"
+  },
+  {
+    "ParameterKey": "SubnetID2",
+    "ParameterValue": "subnet-55bb1b33"
+  },
+  {
+    "ParameterKey": "SubnetID3",
+    "ParameterValue": "subnet-a86fbee0"
+  },
+  {
+    "ParameterKey": "DockerImageURI",
+    "ParameterValue": "981317724248.dkr.ecr.ap-southeast-1.amazonaws.com/dev-sdconnect-chat"
+  },
+  {
+    "ParameterKey": "PORT",
+    "ParameterValue": "6060"
+  },
+  {
+    "ParameterKey": "MysqlDSN",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "AWSRegion",
+    "ParameterValue": "ap-southeast-1"
+  },
+  {
+    "ParameterKey": "AWSAccessID",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "AWSSecretKey",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "ExtStaticDir",
+    "ParameterValue": "./static"
+  },
+  {
+    "ParameterKey": "DBUsername",
+    "ParameterValue": ""
+  },
+  {
+    "ParameterKey": "DBPassword",
+    "ParameterValue": ""
+  }
+]
