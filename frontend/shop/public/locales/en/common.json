@@ -212,5 +212,16 @@
   "expires-in-text": "Expires in",
   "days-text": "days",
   "upgrade-now-text": "Upgrade now",
-  "extend-now-text": "Extend Subscription"
+  "extend-now-text": "Extend Subscription",
+  "sent-an-file-message": "Has sent a file",
+  "sent-an-image-message": "Has sent an image",
+  "sent-an-video-message": "Has sent an video",
+  "duration-text": "Duration",
+  "month-text": "month",
+  "free-text": "free",
+  "bank-text": "Bank",
+  "account-number-text": "Account number",
+  "content-text": "content-text-answer",
+  "question-text": "Question",
+  "send-info-button-label": "Send Info"
 }

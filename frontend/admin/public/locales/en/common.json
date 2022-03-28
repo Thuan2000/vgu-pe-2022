@@ -163,5 +163,6 @@
   "expires-in-text": "Expires in",
   "days-text": "days",
   "upgrade-now-text": "Upgrade now",
-  "extend-now-text": "Extend Subscription"
+  "extend-now-text": "Extend Subscription",
+  "stay-button-label": "Stay"
 }

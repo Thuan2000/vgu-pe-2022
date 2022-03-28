@@ -18,7 +18,7 @@ const POST_ROUTES: any = {
   [ROUTES.PRODUCTS]: `${ROUTES.POST_PRODUCT_SERVICE}?target=product`,
   [ROUTES.SERVICES]: `${ROUTES.POST_PRODUCT_SERVICE}?target=service`,
   [ROUTES.TENDERS]: `${ROUTES.POST_TENDER}`,
-  ["/ho-tro"]: `${ROUTES.POST_TENDER}`,
+  [ROUTES.SUPPORT]: `${ROUTES.POST_TENDER}`,
 };
 
 const UserProfile = () => {

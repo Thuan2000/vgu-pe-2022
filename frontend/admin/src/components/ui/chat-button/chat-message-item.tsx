@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { siteSettings } from "@settings/site.settings";
 import { IChatSubPublic } from "@utils/interfaces";
+import { useTranslation } from "next-i18next";
 
 interface IChatMessageItemProps {
   message: IChatSubPublic;
@@ -14,13 +15,25 @@ interface IChatMessageItemProps {
   onClick: () => void;
 }
 
+function getSentAMessageByMime(mime: string) {
+  if (mime.includes("application")) return "sent-an-file-message";
+  if (mime.includes("image")) return "sent-an-image-message";
+  if (mime.includes("video")) return "sent-an-video-message";
+}
+
 const ChatMessageItem: React.FC<IChatMessageItemProps> = ({
   message,
   isLast,
   onClick,
 }) => {
-  const { from, lastMessage, fn, ts } = message;
+  const { t } = useTranslation();
+  let { from, lastMessage, fn, ts } = message;
   const { locale } = useRouter();
+  if (typeof lastMessage === "object") {
+    lastMessage = t(
+      getSentAMessageByMime((lastMessage as any).ent?.[0].data.mime) as any
+    );
+  }
 
   return (
     <Link
@@ -29,7 +42,7 @@ const ChatMessageItem: React.FC<IChatMessageItemProps> = ({
       target="_blank"
     >
       <div
-        className={`fic !px-3 !py-3 relative space-x-3 border-b 
+        className={`fic !px-3 !py-3 relative overflow-hidden space-x-3 border-b 
         ${isLast && "border-b-0"}
       `}
       >
@@ -41,16 +54,18 @@ const ChatMessageItem: React.FC<IChatMessageItemProps> = ({
           />
         </div>
         <div>
-          <div className="grid grid-cols-4 gap-x-2">
+          <div className="flex space-x-2">
             <Typography
+              // text={trimText(fn, 30)}
               text={fn}
               weight="bold"
               truncate
-              className={`text-md col-span-3`}
+              size="xs"
+              className={`col-span-2 w-[250px]`}
             />
             <ReactTimeAgo
-              className={`text-gray justify-end text-xs col-span-1 truncate`}
-              date={ts || new Date().getTime()}
+              className={`text-gray justify-end text-[8pt] w-fit-content col-span-1 truncate flex-center`}
+              date={new Date(ts)}
               locale={locale}
             />
           </div>
@@ -59,6 +74,7 @@ const ChatMessageItem: React.FC<IChatMessageItemProps> = ({
             truncate
             text={lastMessage}
             weight="normal"
+            className={`text-[10pt] min-w-full w-[250px]`}
           />
         </div>
       </div>

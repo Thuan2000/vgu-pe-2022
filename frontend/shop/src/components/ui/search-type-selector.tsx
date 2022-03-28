@@ -16,7 +16,6 @@ const types: PageName[] = [
   ROUTES.COMPANIES as PageName,
   ROUTES.PRODUCTS as PageName,
   ROUTES.SERVICES as PageName,
-  // "ho-tro",
 ];
 
 interface ISearchTypeSelectorProps {}

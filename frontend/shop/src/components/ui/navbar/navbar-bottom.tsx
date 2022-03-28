@@ -6,8 +6,9 @@ import UserProfile from "../user-profile";
 import { useRouter } from "next/dist/client/router";
 import { getActivePageFromPath } from "@utils/functions";
 import { PageName } from "@utils/interfaces";
+import { ROUTES } from "@utils/routes";
 
-const UNSEARCHABLES = ["ho-tro", ""];
+const UNSEARCHABLES = [ROUTES.SUPPORT, ROUTES.SUBSCRIPTION, ROUTES.HOMEPAGE];
 
 const NavbarBottom = () => {
   const { pathname } = useRouter();
@@ -24,7 +25,9 @@ const NavbarBottom = () => {
           <Logo size="medium" />
         </div>
         <div className="fic">
-          {!isDetailedPage && !UNSEARCHABLES.includes(activePage) && <Search />}
+          {!isDetailedPage && !UNSEARCHABLES.includes(`/${activePage}`) && (
+            <Search />
+          )}
         </div>
       </div>
 

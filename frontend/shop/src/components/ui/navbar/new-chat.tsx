@@ -71,9 +71,9 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
         >
           {/* Header */}
           <div className={`border-b fic space-x-2 px-3 py-2`}>
-            <Typography text={t("messages-label")} weight="bold" size="lg" />
+            <Typography text={t("messages-label")} weight="bold" size="sm" />
             <Typography
-              size="sm"
+              size="xs"
               text={`(${messages.length || 0} ${t(
                 messages.length <= 1
                   ? "unread-singular-label"
@@ -99,7 +99,7 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
             <div className={`py-5`}>
               <Typography
                 text={t("no-new-message-text")}
-                size="lg"
+                size="xs"
                 weight="bold"
                 color="gray"
                 align="center"
@@ -114,7 +114,7 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
                 text={t("open-chat-text")}
                 align="center"
                 weight="semibold"
-                size="md"
+                size="xs"
                 color="gray"
               />
             </div>

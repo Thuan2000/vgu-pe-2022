@@ -49,11 +49,11 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
     setIsShowMessages(true);
   }
   return (
-    <div className={`relative !h-fit-content translate-y-1 z-50`} ref={ref}>
+    <div className={`relative !h-fit-content translate-y-1`} ref={ref}>
       <Button
         onClick={toggleMessages}
         variant="custom"
-        className={`!w-fit-content !h-fit-content !p-0`}
+        className={`!w-fit-content !h-fit-content !p-0 !mr-4`}
       >
         <MessageIcon className={`w-7 h-7`} />
         {!!messages.length && (
@@ -67,13 +67,13 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
 
       {!!isShowMessages && (
         <div
-          className={`absolute bg-white border rounded-sm top-full -right-14 w-[400px] space-y-0`}
+          className={`absolute bg-white border rounded-sm top-full -left-14 w-[400px] space-y-0`}
         >
           {/* Header */}
           <div className={`border-b fic space-x-2 px-3 py-2`}>
-            <Typography text={t("messages-label")} weight="bold" size="lg" />
+            <Typography text={t("messages-label")} weight="bold" size="sm" />
             <Typography
-              size="sm"
+              size="xs"
               text={`(${messages.length || 0} ${t(
                 messages.length <= 1
                   ? "unread-singular-label"
@@ -99,7 +99,7 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
             <div className={`py-5`}>
               <Typography
                 text={t("no-new-message-text")}
-                size="lg"
+                size="xs"
                 weight="bold"
                 color="gray"
                 align="center"
@@ -114,7 +114,7 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
                 text={t("open-chat-text")}
                 align="center"
                 weight="semibold"
-                size="md"
+                size="xs"
                 color="gray"
               />
             </div>

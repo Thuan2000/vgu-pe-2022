@@ -6,6 +6,7 @@ import {
   getCompanyId,
   getCompanySlug,
 } from "@utils/functions";
+import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/router";
 import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,7 +29,7 @@ const useCompanyDetailCheck = () => {
     }
 
     const { isDenied } = await firePleaseFillCompanySwal(t, Swal);
-    if (isDenied) replace(`/${getCompanySlug()}/edit`);
+    if (isDenied) replace(`/${ROUTES.COMPANY_DETAIL}/edit`);
   }
 
   return check;
