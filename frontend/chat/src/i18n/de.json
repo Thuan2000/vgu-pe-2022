@@ -58,8 +58,8 @@
   "login_prompt": "Anmelden",
   "password_prompt": "Passwort",
   "stay_logged_in": "Angemeldet bleiben",
-  "forgot_password_link": "Passwort vergessen?",
-  "button_sign_in": "Anmelden",
+  "forgot_password_link": ":!![OBSOLETE]!!:",
+  "button_sign_in": ":!![OBSOLETE]!!:",
   "label_client": "Client:",
   "label_server": "Server:",
   "online_now": "jetzt online",
@@ -82,7 +82,7 @@
   "label_server_to_use": "Server verwenden:",
   "label_wire_transport": "Übertragung per Kabel:",
   "button_update": "Aktualisieren",
-  "sidepanel_title_login": "Anmelden",
+  "sidepanel_title_login": ":!![OBSOLETE]!!:Anmelden",
   "sidepanel_title_register": "Konto erstellen",
   "sidepanel_title_settings": "Einstellungen",
   "sidepanel_title_account_settings": "Konto-Einstellungen",
@@ -178,5 +178,7 @@
   "drafty_image": "Bild",
   "topic_delete": "Chat löschen",
   "password_reset_email_sent": "Eine E-Mail wurde an {email} gesendet. Folgen Sie den Anweisungen in der E-Mail, um Ihr Passwort zurückzusetzen.",
-  "menu_item_restore_topic": "Wiederherstellen"
+  "menu_item_restore_topic": "Wiederherstellen",
+  "loading-title": ":!![MISSING]!!:[object Object]",
+  "logo-view-desc": ":!![MISSING]!!:[object Object]"
 }

@@ -1,3 +1,7 @@
+# NOTE
+
+To run this you need to run tinode server first see here (https://github.com/tinode/chat/)
+
 # Starting sdconnect chat development
 
 ## 1. Copy environment
@@ -15,3 +19,6 @@
 ```
 
 ## 4. Develop the app by editing file inside /src/\*
+
+# sdconnect-chat-public
+# sdconnect-chat-webapp

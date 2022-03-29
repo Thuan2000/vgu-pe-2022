@@ -16,8 +16,8 @@
   "login_prompt": "Логин",
   "password_prompt": "Пароль",
   "stay_logged_in": "Запомнить",
-  "forgot_password_link": "Напомнить пароль",
-  "button_sign_in": "Войти",
+  "forgot_password_link": ":!![OBSOLETE]!!:",
+  "button_sign_in": ":!![OBSOLETE]!!:",
   "label_client": "Клиент:",
   "label_server": "Сервер:",
   "online_now": "онлайн",
@@ -31,7 +31,7 @@
   "label_server_to_use": "Использовать сервер:",
   "label_wire_transport": "Соединение:",
   "button_update": "Применить",
-  "sidepanel_title_login": "Авторизация",
+  "sidepanel_title_login": ":!![OBSOLETE]!!:Авторизация",
   "sidepanel_title_register": "Зарегистрироваться",
   "sidepanel_title_settings": "Настройки",
   "sidepanel_title_account_settings": "Настройки аккаунта",
@@ -178,5 +178,7 @@
   "drafty_image": "Картинка",
   "topic_delete": "Удалить чат",
   "password_reset_email_sent": "Сообщение было отправлено на адрес {email}. Следуйте инструкциям в сообщении, чтобы изменить пароль.",
-  "menu_item_restore_topic": "Восстановить"
+  "menu_item_restore_topic": "Восстановить",
+  "loading-title": ":!![MISSING]!!:[object Object]",
+  "logo-view-desc": ":!![MISSING]!!:[object Object]"
 }

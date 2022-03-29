@@ -170,7 +170,7 @@ class TinodeWeb extends React.Component {
       // Try to re-login on new connection.
       autoLogin: false,
       transport: settings.transport || null,
-      serverAddress: settings.serverAddress || detectServerAddress(),
+      serverAddress: detectServerAddress(),
       serverVersion: "no connection",
       // "On" is the default, so saving the "off" state.
       messageSounds: !settings.messageSoundsOff,
@@ -307,6 +307,7 @@ class TinodeWeb extends React.Component {
         this.tinode.connect().catch((err) => {
           // Socket error
           this.handleError(err.message, "err");
+          alert("Error", err.message);
         });
       }
 

@@ -1,17 +1,17 @@
 /* ContactsView holds all contacts-related stuff */
-import React from 'react';
-import { FormattedMessage, defineMessages } from 'react-intl';
+import React from "react";
+import { FormattedMessage, defineMessages } from "react-intl";
 
-import ContactList from '../widgets/contact-list.jsx';
+import ContactList from "../widgets/contact-list.jsx";
 
-import { updateFavicon } from '../lib/utils.js';
+import { updateFavicon } from "../lib/utils.js";
 
 const messages = defineMessages({
   archived_contacts_title: {
     id: "archived_contacts",
     defaultMessage: "Archived contacts ({count})",
-    description: "Label for archived chats"
-  }
+    description: "Label for archived chats",
+  },
 });
 
 export default class ContactsView extends React.Component {
@@ -28,6 +28,8 @@ export default class ContactsView extends React.Component {
     let unreadThreads = 0;
     let archivedCount = 0;
     props.chatList.map((c) => {
+      if (c?.public?.fn === props.loggedInTitle) return;
+
       const blocked = c.acs && !c.acs.isJoiner();
       // Show only blocked contacts only when props.blocked == true.
       if (blocked && props.blocked) {
@@ -41,7 +43,7 @@ export default class ContactsView extends React.Component {
         if (props.archive) {
           contacts.push(c);
         } else {
-          archivedCount ++;
+          archivedCount++;
         }
       } else if (!props.archive) {
         contacts.push(c);
@@ -55,22 +57,24 @@ export default class ContactsView extends React.Component {
 
     if (archivedCount > 0) {
       contacts.push({
-        action: 'archive',
+        action: "archive",
         title: messages.archived_contacts_title,
-        values: {count: archivedCount}
+        values: { count: archivedCount },
       });
     }
 
     return {
       contactList: contacts,
-      unreadThreads: unreadThreads
+      unreadThreads: unreadThreads,
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.chatList != this.props.chatList ||
-        prevProps.archive != this.props.archive ||
-        prevProps.blocked != this.props.blocked) {
+    if (
+      prevProps.chatList != this.props.chatList ||
+      prevProps.archive != this.props.archive ||
+      prevProps.blocked != this.props.blocked
+    ) {
       const newState = ContactsView.deriveStateFromProps(this.props);
       this.setState(newState);
       if (newState.unreadThreads != prevState.unreadThreads) {
@@ -85,21 +89,26 @@ export default class ContactsView extends React.Component {
 
   render() {
     return (
-      <FormattedMessage id="contacts_not_found"
+      <FormattedMessage
+        id="contacts_not_found"
         defaultMessage="You have no chats<br />¯∖_(ツ)_/¯"
-        description="HTML message shown in ContactList when no contacts are found">{
-        (no_contacts) => <ContactList
-          connected={this.props.connected}
-          contacts={this.state.contactList}
-          emptyListMessage={no_contacts}
-          topicSelected={this.props.topicSelected}
-          myUserId={this.props.myUserId}
-          showOnline={true}
-          showUnread={true}
-          onTopicSelected={this.props.onTopicSelected}
-          showContextMenu={this.props.showContextMenu}
-          onAction={this.handleAction} />
-      }</FormattedMessage>
+        description="HTML message shown in ContactList when no contacts are found"
+      >
+        {(no_contacts) => (
+          <ContactList
+            connected={this.props.connected}
+            contacts={this.state.contactList}
+            emptyListMessage={no_contacts}
+            topicSelected={this.props.topicSelected}
+            myUserId={this.props.myUserId}
+            showOnline={true}
+            showUnread={true}
+            onTopicSelected={this.props.onTopicSelected}
+            showContextMenu={this.props.showContextMenu}
+            onAction={this.handleAction}
+          />
+        )}
+      </FormattedMessage>
     );
   }
-};
+}

@@ -35,8 +35,8 @@
   "login_prompt": "登录",
   "password_prompt": "密码",
   "stay_logged_in": "保持登录",
-  "forgot_password_link": "忘记密码？",
-  "button_sign_in": "登录",
+  "forgot_password_link": ":!![OBSOLETE]!!:",
+  "button_sign_in": ":!![OBSOLETE]!!:",
   "label_client": "客户端：",
   "label_server": "服务器：",
   "online_now": "在线",
@@ -58,7 +58,7 @@
   "label_server_to_use": "使用的服务器：",
   "label_wire_transport": "线路传输：",
   "button_update": "更新",
-  "sidepanel_title_login": "登录",
+  "sidepanel_title_login": ":!![OBSOLETE]!!:登录",
   "sidepanel_title_register": "创建账户",
   "sidepanel_title_settings": "设置",
   "sidepanel_title_account_settings": "帐号设定",
@@ -178,5 +178,7 @@
   "drafty_image": "图像",
   "topic_delete": "删除聊天",
   "password_reset_email_sent": "一封电子邮件已发送至 {email}。按照电子邮件中的说明重置密码。",
-  "menu_item_restore_topic": "从存档中恢复"
+  "menu_item_restore_topic": "从存档中恢复",
+  "loading-title": ":!![MISSING]!!:[object Object]",
+  "logo-view-desc": ":!![MISSING]!!:[object Object]"
 }

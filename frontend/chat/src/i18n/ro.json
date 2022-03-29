@@ -58,8 +58,8 @@
   "login_prompt": "Conectează-te",
   "password_prompt": "Parola",
   "stay_logged_in": "Rămâi conectat",
-  "forgot_password_link": "Ți-ai uitat parola?",
-  "button_sign_in": "Conectează-te",
+  "forgot_password_link": ":!![OBSOLETE]!!:",
+  "button_sign_in": ":!![OBSOLETE]!!:",
   "label_client": "Client:",
   "label_server": "Server:",
   "online_now": "online acum",
@@ -83,7 +83,7 @@
   "label_server_to_use": "Server de utilizat:",
   "label_wire_transport": "Transportul legat:",
   "button_update": "Actualizează",
-  "sidepanel_title_login": "Conectează-te",
+  "sidepanel_title_login": ":!![OBSOLETE]!!:Conectează-te",
   "sidepanel_title_register": "Creează Cont",
   "sidepanel_title_settings": "Setări",
   "sidepanel_title_account_settings": "Setările Contului",
@@ -178,5 +178,7 @@
   "drafty_image": "Imagine",
   "topic_delete": "Ștergeți Chat",
   "password_reset_email_sent": "Un e-mail a fost trimis către {email}. Urmați instrucțiunile din e-mail pentru a vă reseta parola.",
-  "menu_item_restore_topic": "Restabili"
+  "menu_item_restore_topic": "Restabili",
+  "loading-title": ":!![MISSING]!!:[object Object]",
+  "logo-view-desc": ":!![MISSING]!!:[object Object]"
 }

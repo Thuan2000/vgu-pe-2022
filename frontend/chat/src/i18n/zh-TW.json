@@ -22,7 +22,7 @@
   "button_ok": "OK",
   "button_reset": "重設",
   "button_send_request": "傳送要求",
-  "button_sign_in": "登入",
+  "button_sign_in": ":!![OBSOLETE]!!:",
   "button_sign_up": "註冊",
   "button_subscribe": "訂閱",
   "button_update": "更新",
@@ -52,7 +52,7 @@
   "enter_confirmation_code_prompt": "輸入透過 {method} 傳送給您的確認碼：",
   "error_invalid_id": "ID 無效",
   "file_attachment_too_large": "檔案大小 {size} 超出 {limit} 限制。",
-  "forgot_password_link": "忘記密碼？",
+  "forgot_password_link": ":!![OBSOLETE]!!:",
   "full_name_prompt": "全名，例如：王小明",
   "granted_permissions": "已授權",
   "group_has_no_members": "無成員",
@@ -150,7 +150,7 @@
   "sidepanel_title_archive": "已封存的對話",
   "sidepanel_title_blocked": "已封鎖的對話",
   "sidepanel_title_cred": "確認認證",
-  "sidepanel_title_login": "登入",
+  "sidepanel_title_login": ":!![OBSOLETE]!!:登入",
   "sidepanel_title_newtpk": "開始新對話",
   "sidepanel_title_register": "建立帳號",
   "sidepanel_title_reset": "重設密碼",
@@ -178,5 +178,7 @@
   "validate_credential_action": "確認",
   "topic_delete": "刪除聊天",
   "password_reset_email_sent": "一封電子郵件已發送至 {email}。按照電子郵件中的說明重置密碼。",
-  "menu_item_restore_topic": "恢復"
+  "menu_item_restore_topic": "恢復",
+  "loading-title": ":!![MISSING]!!:[object Object]",
+  "logo-view-desc": ":!![MISSING]!!:[object Object]"
 }

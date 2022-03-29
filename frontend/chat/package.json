@@ -1,6 +1,6 @@
 {
   "name": "tinode-webapp",
-  "description": "Tinode messenger for the web",
+  "description": "SDConnect Chat messenger for the web",
   "version": "0.17.10",
   "repository": {
     "type": "git",

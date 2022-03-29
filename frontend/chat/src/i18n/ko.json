@@ -58,8 +58,8 @@
   "login_prompt": "로그인",
   "password_prompt": "비밀번호",
   "stay_logged_in": "로그인상태유지",
-  "forgot_password_link": "비밀번호를잊으셨습니까?",
-  "button_sign_in": "로그인",
+  "forgot_password_link": ":!![OBSOLETE]!!:",
+  "button_sign_in": ":!![OBSOLETE]!!:",
   "label_client": "클라이언트: ",
   "label_server": "서버: ",
   "online_now": "현재접속중",
@@ -82,7 +82,7 @@
   "label_server_to_use": "사용할서버:",
   "label_wire_transport": "와이어수송:",
   "button_update": "업데이트",
-  "sidepanel_title_login": "로그인",
+  "sidepanel_title_login": ":!![OBSOLETE]!!:로그인",
   "sidepanel_title_register": "계정만들기",
   "sidepanel_title_settings": "설정",
   "sidepanel_title_account_settings": "계정설정",
@@ -181,5 +181,7 @@
   "drafty_image": "이미지",
   "topic_delete": "채팅 삭제",
   "password_reset_email_sent": "이메일이 {email}(으)로 전송되었습니다. 이메일의 지침에 따라 비밀번호를 재설정하세요.",
-  "menu_item_restore_topic": "복원"
+  "menu_item_restore_topic": "복원",
+  "loading-title": ":!![MISSING]!!:[object Object]",
+  "logo-view-desc": ":!![MISSING]!!:[object Object]"
 }

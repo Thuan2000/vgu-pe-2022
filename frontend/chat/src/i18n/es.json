@@ -58,8 +58,8 @@
   "login_prompt": "Nombre de usuario",
   "password_prompt": "Contraseña",
   "stay_logged_in": "Permanecer conectado",
-  "forgot_password_link": "¿Olvidaste tu contraseña?",
-  "button_sign_in": "Entrar",
+  "forgot_password_link": ":!![OBSOLETE]!!:",
+  "button_sign_in": ":!![OBSOLETE]!!:",
   "label_client": "Cliente:",
   "label_server": "Servidor:",
   "online_now": "en línea",
@@ -82,7 +82,7 @@
   "label_server_to_use": "Servidor para usar:",
   "label_wire_transport": "Transporte de alambre:",
   "button_update": "Actualizar",
-  "sidepanel_title_login": "Iniciar sesión",
+  "sidepanel_title_login": ":!![OBSOLETE]!!:Iniciar sesión",
   "sidepanel_title_register": "Crear cuenta",
   "sidepanel_title_settings": "Ajustes",
   "sidepanel_title_account_settings": "Ajustes de la cuenta",
@@ -178,5 +178,7 @@
   "drafty_image": "Imagen",
   "topic_delete": "Eliminar chat",
   "password_reset_email_sent": "Se ha enviado un correo electrónico a {email}. Siga las instrucciones del correo electrónico para restablecer su contraseña.",
-  "menu_item_restore_topic": "Restaurar"
+  "menu_item_restore_topic": "Restaurar",
+  "loading-title": ":!![MISSING]!!:[object Object]",
+  "logo-view-desc": ":!![MISSING]!!:[object Object]"
 }

@@ -111,7 +111,6 @@ class SidepanelView extends React.Component {
       title = formatMessage(messages[view]);
       avatar = false;
     }
-
     let onCancel;
     if (["login", "contacts"].indexOf(view) == -1) {
       onCancel = this.props.onCancel;
@@ -208,6 +207,7 @@ class SidepanelView extends React.Component {
             topicSelected={this.props.topicSelected}
             archive={view == "archive"}
             blocked={view == "blocked"}
+            loggedInTitle={title}
             chatList={this.props.chatList}
             showContextMenu={this.props.showContextMenu}
             onTopicSelected={this.props.onTopicSelected}
