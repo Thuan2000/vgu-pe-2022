@@ -19,7 +19,11 @@ export default class SideNavbar extends React.PureComponent {
             />
           </div>
         ) : null}
-        <div id="sidepanel-title" className="panel-title">
+        <div
+          id="sidepanel-title"
+          style={{ fontSize: "13pt" }}
+          className="panel-title"
+        >
           {this.props.title}
         </div>
         {/* {this.props.state === "login" ? (

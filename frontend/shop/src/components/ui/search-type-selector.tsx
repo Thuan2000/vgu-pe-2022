@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useOutsideClickRef } from "src/hooks/useOutsideClickRef";
 import Button from "./storybook/button";
+import Typography from "./storybook/typography";
 
 const types: PageName[] = [
   ROUTES.TENDERS as PageName,
@@ -52,26 +53,26 @@ const SearchTypeSelector: React.FC<ISearchTypeSelectorProps> = ({}) => {
         onClick={toggleTypeSelector}
         className="flex-center rounded-none focus:!ring-0 focus:!shadow-none border-r border-primary"
       >
-        <p className="text-paragraph sm:min-w-[115px] text-dark-blue">
+        <p className="text-sm sm:min-w-[85px] text-dark-blue">
           {t((PAGE_NAME_INTO_LABEL as any)[activePage])}
         </p>
         <ArrowDownIcon className="ml-3" />
       </Button>
 
       {isSelectingType && (
-        <div className="absolute w-full bg-white top-full border rounded-sm border-primary">
+        <div className="absolute w-full bg-white top-full border rounded-b-sm border-primary">
           {types.map((type, idx) => {
             if (type === activePage) return;
             return (
-              <div
-                key={type + "search-type-selector"}
-                onClick={() => handleTypeClick(type)}
+              <Typography
                 className={`p-2 border-b cursor-pointer border-primary ${
                   idx === types.length - 1 && "border-b-0"
                 }`}
-              >
-                {t(PAGE_NAME_INTO_LABEL[type as any])}
-              </div>
+                size="xs"
+                onClick={() => handleTypeClick(type)}
+                key={type + "search-type-selector"}
+                text={t(PAGE_NAME_INTO_LABEL[type as any])}
+              />
             );
           })}
         </div>

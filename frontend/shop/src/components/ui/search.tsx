@@ -201,7 +201,7 @@ const Search = ({
                 onKeyDown={handleKeyDown}
                 onFocus={handleInputFocus}
                 onChange={handleInputChange}
-                inputClassName="border-none sm:w-[350px]"
+                inputClassName="border-none sm:w-[300px]"
                 placeholder={
                   searchInputPlaceholder !==
                   "search-nha-cung-cap-input-placeholder"

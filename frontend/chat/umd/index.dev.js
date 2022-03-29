@@ -10752,6 +10752,9 @@ class SideNavbar extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
       title: this.props.title
     })) : null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       id: "sidepanel-title",
+      style: {
+        fontSize: "13pt"
+      },
       className: "panel-title"
     }, this.props.title));
   }
