@@ -1,5 +1,5 @@
 #!make
-include .env
+include make.env
 export $(shell sed 's/=.*//' .env)
 
 # --------- PROD COMMANDS ---------
