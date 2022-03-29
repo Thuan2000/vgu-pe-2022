@@ -24,14 +24,20 @@ type SubscriptionDetail {
 }
 
 extend type Query {
+	# Query company subscription detail
 	companySubscription(companyId: Int!): CompanySubscription!
 }
 
 extend type Mutation {
 	subscribe(
+		# The company id that want to be subscribed to our platform
 		companyId: Int!
+		# The subscription that he pay, usually now is pro
 		subscriptionId: Int!
+		# His Id on already paid list
 		alreadyPaidId: Int!
+		# The next exp date of the subscription
+		# This is summary of the remaining days + the next subscription days
 		expDate: Date!
 	): Response!
 }
