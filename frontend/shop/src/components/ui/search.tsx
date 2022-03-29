@@ -18,6 +18,7 @@ import { useProductNameSuggestionMutation } from "@graphql/product.graphql";
 
 const TYPING_TIMEOUT = 350;
 const MAX_SUGGESTIONS = 5;
+const HEIGHT = 7;
 
 let timeout: NodeJS.Timeout;
 
@@ -191,8 +192,12 @@ const Search = ({
   return (
     <div ref={outsideClickRef} className={`relative`} {...props}>
       <Form onSubmit={handleSearch}>
-        <div className={`flex items-center rounded-md border border-green `}>
-          <SearchTypeSelector />
+        <div
+          className={`flex items-center rounded-md border border-green 
+            h-${HEIGHT + 1} 
+          `}
+        >
+          <SearchTypeSelector height={HEIGHT} />
           <div className="relative">
             <div>
               <Input
@@ -201,7 +206,7 @@ const Search = ({
                 onKeyDown={handleKeyDown}
                 onFocus={handleInputFocus}
                 onChange={handleInputChange}
-                inputClassName="border-none sm:w-[300px]"
+                inputClassName={`border-none sm:w-[270px] !h-${HEIGHT}`}
                 placeholder={
                   searchInputPlaceholder !==
                   "search-nha-cung-cap-input-placeholder"
@@ -212,7 +217,7 @@ const Search = ({
 
               {inputValue && (
                 <XIcon
-                  className="absolute right-5 top-1/2 -translate-y-1/2 w-3 h-3 cursor-pointer"
+                  className="absolute right-5 top-1/2 -translate-y-1/2 w-2 h-2 cursor-pointer"
                   onClick={clearSearch}
                 />
               )}
@@ -224,7 +229,7 @@ const Search = ({
                   return (
                     <p
                       onClick={() => handleSelectedInput(sug.name)}
-                      className={`px-4 py-3 border-b border-primary z-[99999] cursor-pointer 
+                      className={`px-4 py-2 border-b border-primary z-[99999] cursor-pointer text-sm
                     ${focusedSuggestion === idx && "bg-gray-10"}
                   `}
                       key={sug.highlightedName + "suggestion-key" + idx}
@@ -240,9 +245,9 @@ const Search = ({
             type="button"
             variant="custom"
             onClick={handleSearch}
-            className="flex-center px-2 border-l border-primary rounded-none"
+            className={`flex-center px-2 !h-${HEIGHT} border-l border-primary rounded-none`}
           >
-            <SearchIcon className={`w-4 h-4`} />
+            <SearchIcon className={`w-3 h-3`} />
           </Button>
         </div>
       </Form>

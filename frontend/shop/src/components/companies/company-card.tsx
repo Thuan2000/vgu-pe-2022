@@ -12,6 +12,7 @@ import Image from "next/image";
 import { getBusinessType } from "@datas/businessTypes";
 import LocationIcon from "@assets/icons/location-icon";
 import ChatNowButton from "@components/ui/chat-now-button";
+import RecordCardName from "@components/ui/record-card-name";
 
 interface ICompanyCardProps {
   company: ICompaniesItem;
@@ -58,33 +59,21 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
                 siteSettings.companyProfileImagePlaceholder
               }
               alt="Good"
-              // objectFit={isSdConnectLogo ? "contain" : "cover"}
               layout="fill"
             />
           </div>
           <div className={``}>
-            <Link
-              className="border-b mb-1 !pb-[-1px] w-fit-content border-transparent fic space-x-1 hover:border-black new-tab-link"
-              target="_blank"
+            <RecordCardName
+              title={name}
               href={`${ROUTES.COMPANIES}/${slug}`}
-              rel="noreferrer"
-            >
-              <Typography text={`${name}`} element="h3" size="md" />
-              {/* <VerifiedIcon className={`translate-y-[-1px]`} /> */}
-            </Link>
+              isShouldLogin={false}
+            />
             {/* CHIPS */}
-            <div className="fic space-x-2">
+            <div className="fic mt-1 space-x-2">
               <Chip
                 icon={LocationIcon}
                 text={location ? `${location}` : noInfoText}
               />
-              {/* <Chip
-                text={
-                  branchAmount
-                    ? `${branchAmount} ${t("branches-text")}`
-                    : noInfoText
-                }
-              /> */}
               <Chip
                 text={
                   establishmentDate
@@ -103,7 +92,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
             <div className="fic space-x-1">
               <Typography text={`${t("brd-businessType-title")}:`} />
               <Typography
-                variant="smallTitle"
+                weight="semibold"
                 text={
                   !!businessTypeIds?.length
                     ? getCompanyBusinessTypes()!
@@ -114,7 +103,7 @@ const CompanyCard: React.FC<ICompanyCardProps> = ({ company }) => {
             <div className="fic space-x-1">
               <Typography text={`${t("brd-mainProduct-title")}:`} />
               <Typography
-                variant="smallTitle"
+                weight="semibold"
                 className={`flex-wrap`}
                 text={
                   businessTypeIds

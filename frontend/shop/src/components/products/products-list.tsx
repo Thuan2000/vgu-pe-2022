@@ -1,10 +1,10 @@
 import { NetworkStatus } from "@apollo/client";
 import PSListWrapper from "@components/layouts/ps-list-wrapper";
+import NoRecordAnimation from "@components/ui/no-record-animation";
 import Typography from "@components/ui/storybook/typography";
 import { getCategoryByLabel } from "@datas/categories";
 import { getIndustryByLabel } from "@datas/industries";
 import { useProductsQuery } from "@graphql/product.graphql";
-import { useServicesQuery } from "@graphql/service.graphql";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ const ProductsList: React.FC = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState<number>(0);
 
-  const { query, ...router } = useRouter();
+  const { query } = useRouter();
 
   const searchValue = query.name as string;
   const location = query.location as string;
@@ -92,14 +92,8 @@ const ProductsList: React.FC = () => {
     if (hasMore) setPage((old) => old + 1);
   }
 
-  if (!fetching && !products.length)
-    return (
-      <Typography
-        className={`w-full text-2xl`}
-        align="center"
-        text={t("no-products-yet-message")}
-      />
-    );
+  if (!fetching && !products.length && !hasMore)
+    return <NoRecordAnimation text={t("no-product-found-text")} />;
 
   return (
     <PSListWrapper>

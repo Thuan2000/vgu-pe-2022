@@ -38,6 +38,7 @@ const DateFilter: React.FC<IDateFilterProps> = ({}) => {
           ? { value: viFormatDateToOriginalDate(dateFilter) as any }
           : {})}
         label={t("min-establishmentDate-filter-label")}
+        labelFontSize="sm"
         placeholderText={t("establishmentDate-filter-placeholder")}
         onChange={handleChange}
         isClearable

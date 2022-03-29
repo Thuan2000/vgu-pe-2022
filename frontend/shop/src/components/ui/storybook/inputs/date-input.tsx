@@ -8,6 +8,7 @@ import { inputClasses } from "./input-config";
 import "react-datepicker/dist/react-datepicker.css";
 import { Control, Controller, UseFormTrigger } from "react-hook-form";
 import DateIcon from "@assets/icons/date-icon";
+import { FontSize } from "@utils/interfaces";
 
 interface DateInputProps extends Partial<DatepickerProps> {
   control: Control<any>;
@@ -23,6 +24,7 @@ interface DatepickerProps extends ReactDatePickerProps {
   numberQueue?: string | number;
   queueBackground?: string;
   noBorder?: boolean;
+  labelFontSize?: FontSize;
   inputClassName?: string;
   variant?: "normal" | "solid" | "outline";
   shadow?: boolean;
@@ -80,6 +82,7 @@ export const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
       error,
       shadow,
       inputClassName,
+      labelFontSize,
       ...props
     },
     _
@@ -120,6 +123,7 @@ export const Datepicker: React.FC<DatepickerProps> = React.forwardRef(
             numberQueue={numberQueue}
             queueBackground={queueBackground}
             name={name}
+            labelFontSize={labelFontSize}
           />
         )}
         <div className="relative">

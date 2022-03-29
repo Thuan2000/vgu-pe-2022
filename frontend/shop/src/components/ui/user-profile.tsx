@@ -49,11 +49,11 @@ const UserProfile = () => {
 
   return (
     <div className="flex-center">
-      <div style={{ marginRight: "1rem" }}>
+      <div style={{ marginRight: ".1rem" }}>
         <NewChat />
       </div>
       {!NO_POST_ROUTES.includes(activePage) ? (
-        <div style={{ marginLeft: "1rem" }}>
+        <div style={{ marginLeft: ".4rem" }}>
           <Link target="_blank" href={`${adminLink}${POST_ROUTES[activePage]}`}>
             <Button
               className={`px-3 h-9`}

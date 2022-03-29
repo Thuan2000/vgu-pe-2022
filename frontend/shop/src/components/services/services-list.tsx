@@ -1,5 +1,6 @@
 import { NetworkStatus } from "@apollo/client";
 import PSListWrapper from "@components/layouts/ps-list-wrapper";
+import NoRecordAnimation from "@components/ui/no-record-animation";
 import Typography from "@components/ui/storybook/typography";
 import { getCategoryByLabel } from "@datas/categories";
 import { getIndustryByLabel } from "@datas/industries";
@@ -93,14 +94,8 @@ const ServicesList: React.FC<IServicesListProps> = ({}) => {
     if (hasMore) setPage((old) => old + 1);
   }
 
-  if (!fetching && !services.length)
-    return (
-      <Typography
-        className={`w-full text-2xl`}
-        align="center"
-        text={t("no-services-yet-message")}
-      />
-    );
+  if (!fetching && !services.length && !hasMore)
+    return <NoRecordAnimation text={t("no-service-found-text")} />;
 
   return (
     <PSListWrapper>

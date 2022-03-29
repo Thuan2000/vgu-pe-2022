@@ -10,6 +10,8 @@ import BuyingRequestCard from "./buying-request-card";
 import Loader from "@components/ui/storybook/loader/loader";
 import { getIndustryByLabel } from "@datas/industries";
 import { getCategoryByLabel } from "@datas/categories";
+import NoRecordAnimation from "@components/ui/no-record-animation";
+import { useTranslation } from "next-i18next";
 
 const BRS_LIMIT = 8;
 
@@ -18,8 +20,8 @@ function getOffset(page: number) {
 }
 
 const BuyingRequestsList: React.FC = () => {
+  const { t } = useTranslation();
   const { query } = useRouter();
-
   const searchValue = query.name as string;
   const location = query.location as string;
   const productName = query.productName as string;
@@ -110,6 +112,9 @@ const BuyingRequestsList: React.FC = () => {
     minBudget,
     maxBudget,
   ]);
+
+  if (!fetching && !brs?.length && !hasMore)
+    return <NoRecordAnimation text={t("no-buying-request-found-text")} />;
 
   return (
     <div className="w-full space-y-2">

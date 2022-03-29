@@ -14,6 +14,7 @@ import ImageIllustration from "@assets/login-page-illustration.jpg";
 import Logo from "@components/ui/logo";
 import Link from "@components/ui/link";
 import LanguageSelector from "@components/ui/language-selector";
+import Typography from "@components/ui/storybook/typography";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -60,10 +61,7 @@ const Login = () => {
               <Logo className="mb-5 md:hidden" />
               <div className="w-full">
                 <div className="fic justify-between">
-                  <h1 className="font-bold text-display-2 text-dark-blue">
-                    {t("login-title")}
-                  </h1>
-
+                  <Typography weight="bold" size="xl" text={t("login-title")} />
                   <LanguageSelector textColor="black" />
                 </div>
                 <LoginForm />

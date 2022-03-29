@@ -32,9 +32,9 @@ const RecordCardName: React.FC<IRecordCardNameProps> = ({
     >
       <Typography
         text={!isLogin && isShouldLogin ? "Please Login" : title}
-        element="h3"
+        weight="bold"
         truncate
-        size="sm"
+        size="md"
       />
     </Link>
   );

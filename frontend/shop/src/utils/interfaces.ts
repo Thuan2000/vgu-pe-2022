@@ -1,7 +1,7 @@
 import { ITagInput } from "@graphql/types.graphql";
 import { Control } from "react-hook-form";
 
-export type TSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type TSize = "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 
 export type PageName =
   | "/nha-cung-cap"

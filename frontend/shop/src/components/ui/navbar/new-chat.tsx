@@ -55,7 +55,7 @@ const NewChat: React.FC<INewChatProps> = ({ ...props }) => {
         variant="custom"
         className={`!w-fit-content !h-fit-content !p-0 !mr-4`}
       >
-        <MessageIcon className={`w-7 h-7`} />
+        <MessageIcon className={`w-6 h-6`} />
         {!!messages.length && (
           <div
             className={`absolute w-4 h-4 rounded-full bg-primary flex-center text-white font-semibold top-0 right-0 text-[7pt] translate-x-1/2 -translate-y-1/3`}

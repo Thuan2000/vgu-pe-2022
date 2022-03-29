@@ -93,7 +93,7 @@ const StatusCheckbox: React.FC<IStatusProps> = ({ ...props }) => {
             <Button
               key={s.label + s.status + "key-s"}
               variant="custom"
-              size="extraSmall"
+              size="small"
               onClick={() => filterStatus(s.status)}
               className={`w-1/3 ${SAME_CLASS} ${roundClass} ${extraClass}`}
             >

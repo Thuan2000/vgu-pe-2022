@@ -19,9 +19,11 @@ const types: PageName[] = [
   ROUTES.SERVICES as PageName,
 ];
 
-interface ISearchTypeSelectorProps {}
+interface ISearchTypeSelectorProps {
+  height: number;
+}
 
-const SearchTypeSelector: React.FC<ISearchTypeSelectorProps> = ({}) => {
+const SearchTypeSelector: React.FC<ISearchTypeSelectorProps> = ({ height }) => {
   const { t } = useTranslation("common");
   const { pathname, ...router } = useRouter();
   const activePage = `/${getActivePageFromPath(pathname)}`;
@@ -51,16 +53,16 @@ const SearchTypeSelector: React.FC<ISearchTypeSelectorProps> = ({}) => {
         type="button"
         variant="custom"
         onClick={toggleTypeSelector}
-        className="flex-center rounded-none focus:!ring-0 focus:!shadow-none border-r border-primary"
+        className={`flex-center rounded-none focus:!ring-0 focus:!shadow-none border-r border-primary !h-${height}`}
       >
-        <p className="text-sm sm:min-w-[85px] text-dark-blue">
+        <p className="text-xs sm:min-w-[70px] sm:w-fit-content text-dark-blue">
           {t((PAGE_NAME_INTO_LABEL as any)[activePage])}
         </p>
-        <ArrowDownIcon className="ml-3" />
+        <ArrowDownIcon className="ml-3 w-3 h-3" />
       </Button>
 
       {isSelectingType && (
-        <div className="absolute w-full bg-white top-full border rounded-b-sm border-primary">
+        <div className="absolute w-full bg-white top-full mt-[1px] border rounded-b-sm border-primary">
           {types.map((type, idx) => {
             if (type === activePage) return;
             return (

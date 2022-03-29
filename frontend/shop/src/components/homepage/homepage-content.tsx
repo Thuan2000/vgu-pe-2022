@@ -27,7 +27,7 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
       <ContentWrapper className={`space-y-3`}>
         <Typography
           text={t("searchFor-text")}
-          variant="bigTitle"
+          weight="bold"
           size="xl"
           align="center"
         />
@@ -40,13 +40,13 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
             <Typography
               text={t("homepage-title")}
               weight="bold"
-              className={`text-[40px]`}
+              size="xxl"
               color="dark-blue"
             />
             <Typography
               color="dark-blue"
               text={t("homepage-subtitle")}
-              size="lg"
+              size="md"
             />
             <Button>{t("homepage-title-button")}</Button>
           </div>

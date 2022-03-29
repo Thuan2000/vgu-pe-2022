@@ -9,16 +9,16 @@ interface ILogoProps extends React.AnchorHTMLAttributes<{}> {
 
 const sizes = {
   big: {
-    width: 175,
-    height: 40,
-  },
-  medium: {
     width: 160,
     height: 37,
   },
+  medium: {
+    width: 130,
+    height: 30,
+  },
   small: {
     width: 100,
-    height: 50,
+    height: 28,
   },
 };
 

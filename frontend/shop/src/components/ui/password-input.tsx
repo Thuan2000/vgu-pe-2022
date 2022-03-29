@@ -61,9 +61,11 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
 
     return (
       <div className={className}>
-        <div className="flex items-center justify-between mb-3">
-          {!!label && <InputLabel required={required} label={label} />}
-        </div>
+        {!!label && (
+          <div className="flex items-center justify-between">
+            <InputLabel required={required} label={label} />
+          </div>
+        )}
         <div className="relative">
           <input
             id={name}

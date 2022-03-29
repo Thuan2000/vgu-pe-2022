@@ -8,6 +8,7 @@ import { NetworkStatus } from "@apollo/client";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import Loader from "@components/ui/storybook/loader/loader";
 import { viFormatDateToOriginalDate } from "@utils/functions";
+import NoRecordAnimation from "@components/ui/no-record-animation";
 
 interface ICompanyListProps {}
 
@@ -91,6 +92,9 @@ const CompanyList: React.FC<ICompanyListProps> = ({}) => {
   function onLoadMore() {
     if (hasMore) setPage((old) => old + 1);
   }
+
+  if (!fetching && !companies?.length && !hasMore)
+    return <NoRecordAnimation text={t("no-buying-request-found-text")} />;
 
   return (
     <main className={`mt-4 w-full space-y-4`}>
