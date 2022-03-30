@@ -21,22 +21,11 @@ export default class SideNavbar extends React.PureComponent {
         ) : null}
         <div
           id="sidepanel-title"
-          style={{ fontSize: "13pt" }}
+          style={{ fontSize: "12pt" }}
           className="panel-title"
         >
           {this.props.title}
         </div>
-        {/* {this.props.state === "login" ? (
-          <MenuStart
-            onSignUp={this.props.onSignUp}
-            onSettings={this.props.onSettings}
-          />
-        ) : this.props.state === "contacts" ? (
-          <MenuContacts
-            onNewTopic={this.props.onNewTopic}
-            onSettings={this.props.onSettings}
-          />
-        ) : null} */}
       </div>
     );
   }
