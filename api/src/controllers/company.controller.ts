@@ -100,7 +100,6 @@ class CompanyController {
 					}
 				]
 			});
-			console.log(company);
 
 			return company;
 		} catch (e) {
@@ -296,7 +295,8 @@ class CompanyController {
 
 			company.set("chatId", chatId);
 			await company.save();
-
+			
+			Company.updateEsCompany(approvedCompId, company.toJSON())
 			return successResponse();
 		} catch (e) {
 			console.error(e);
