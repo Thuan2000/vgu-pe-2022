@@ -28,7 +28,7 @@ class CompanySubscriptionController {
 			});
 
 			const { subscriptionDetail, ...rest } = sub?.toJSON() as any;
-			const res = { ...subscriptionDetail, ...rest };
+			const res = { ...subscriptionDetail || {}, ...rest || {} };
 
 			return res;
 		} catch (error) {

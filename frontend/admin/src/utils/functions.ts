@@ -363,10 +363,25 @@ export function printServerInfo() {
  * @param otherDate: Date to compare
  * @returns days in number
  */
-export function diffDays(date: Date, otherDate: Date) {
-  return Math.ceil(
+ export function diffDays(
+  date: Date,
+  otherDate: Date
+): { days?: number; months?: number; years?: number } {
+  const daysDiff = Math.ceil(
     Math.abs((date as any) - (otherDate as any)) / (1000 * 60 * 60 * 24)
   );
+  const monthsDiff = Math.max(Math.ceil(daysDiff / 30), 0);
+  const yearsDiff = Math.max(Math.ceil(monthsDiff / 12), 0);
+
+  if (!!yearsDiff)
+    return {
+      years: yearsDiff,
+    };
+  if (!!monthsDiff)
+    return {
+      months: monthsDiff,
+    };
+  return { days: daysDiff };
 }
 
 /**
@@ -375,13 +390,19 @@ export function diffDays(date: Date, otherDate: Date) {
  * @param name Subscription name from context
  * @param endAt Subscription endTime from context
  */
-export function getSubscriptionInfoText(
+ export function getSubscriptionInfoText(
   t: TFunction,
   name: string,
   endAt: Date
 ) {
-  const remainDays = diffDays(new Date(endAt), new Date());
-  return `${name} ${t("plan-text")}, ${t("expires-in-text")} ${remainDays} ${t(
-    "days-text"
+  const remainDate = diffDays(new Date(endAt), new Date());
+  return `${name} ${t("plan-text")}, ${t("expires-in-text")} ${
+    remainDate.years || remainDate.months || remainDate.days
+  } ${t(
+    !!remainDate.years
+      ? "years-text"
+      : remainDate.months
+      ? "month-text"
+      : "days-text"
   )}`;
 }
