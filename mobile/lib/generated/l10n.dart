@@ -50,116 +50,6 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Home Page`
-  String get homePageAppBarTitle {
-    return Intl.message(
-      'Home Page',
-      name: 'homePageAppBarTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Personal Information`
-  String get homePageMainFormTitle {
-    return Intl.message(
-      'Personal Information',
-      name: 'homePageMainFormTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Name`
-  String get formFieldName {
-    return Intl.message(
-      'Name',
-      name: 'formFieldName',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter your name`
-  String get formFieldNameHint {
-    return Intl.message(
-      'Enter your name',
-      name: 'formFieldNameHint',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Email`
-  String get formFieldEmail {
-    return Intl.message(
-      'Email',
-      name: 'formFieldEmail',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter your email`
-  String get formFieldEmailHint {
-    return Intl.message(
-      'Enter your email',
-      name: 'formFieldEmailHint',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Date of Birth`
-  String get formFieldDOB {
-    return Intl.message(
-      'Date of Birth',
-      name: 'formFieldDOB',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Required Field`
-  String get formFieldRequired {
-    return Intl.message(
-      'Required Field',
-      name: 'formFieldRequired',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Submit Info`
-  String get formFieldSubmitInfo {
-    return Intl.message(
-      'Submit Info',
-      name: 'formFieldSubmitInfo',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `About Us`
-  String get aboutUsPageAppBarTitle {
-    return Intl.message(
-      'About Us',
-      name: 'aboutUsPageAppBarTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Settings`
-  String get settingsPageAppBarTitle {
-    return Intl.message(
-      'Settings',
-      name: 'settingsPageAppBarTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Change Language`
   String get formFieldChangeLanguage {
     return Intl.message(
@@ -170,11 +60,91 @@ class S {
     );
   }
 
-  /// `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.`
-  String get formFieldAbout {
+  /// `Home Page`
+  String get discoveryPageTitle {
     return Intl.message(
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.',
-      name: 'formFieldAbout',
+      'Home Page',
+      name: 'discoveryPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Our partners`
+  String get discoveryPageOurPartnersTitle {
+    return Intl.message(
+      'Our partners',
+      name: 'discoveryPageOurPartnersTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Menu`
+  String get menuPageTitle {
+    return Intl.message(
+      'Menu',
+      name: 'menuPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Companies`
+  String get menuPageCompanyTitle {
+    return Intl.message(
+      'Companies',
+      name: 'menuPageCompanyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tenders`
+  String get menuPageTenderTitle {
+    return Intl.message(
+      'Tenders',
+      name: 'menuPageTenderTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products`
+  String get menuPageProductTitle {
+    return Intl.message(
+      'Products',
+      name: 'menuPageProductTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Services`
+  String get menuPageServiceTitle {
+    return Intl.message(
+      'Services',
+      name: 'menuPageServiceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Messages`
+  String get messagesPageTitle {
+    return Intl.message(
+      'Messages',
+      name: 'messagesPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get profilePageTitle {
+    return Intl.message(
+      'Profile',
+      name: 'profilePageTitle',
       desc: '',
       args: [],
     );

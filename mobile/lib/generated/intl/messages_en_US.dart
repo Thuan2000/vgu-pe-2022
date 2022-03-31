@@ -22,28 +22,20 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "aboutUsPageAppBarTitle":
-            MessageLookupByLibrary.simpleMessage("About Us"),
-        "formFieldAbout": MessageLookupByLibrary.simpleMessage(
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s."),
+        "discoveryPageOurPartnersTitle":
+            MessageLookupByLibrary.simpleMessage("Our partners"),
+        "discoveryPageTitle": MessageLookupByLibrary.simpleMessage("Home Page"),
         "formFieldChangeLanguage":
             MessageLookupByLibrary.simpleMessage("Change Language"),
-        "formFieldDOB": MessageLookupByLibrary.simpleMessage("Date of Birth"),
-        "formFieldEmail": MessageLookupByLibrary.simpleMessage("Email"),
-        "formFieldEmailHint":
-            MessageLookupByLibrary.simpleMessage("Enter your email"),
-        "formFieldName": MessageLookupByLibrary.simpleMessage("Name"),
-        "formFieldNameHint":
-            MessageLookupByLibrary.simpleMessage("Enter your name"),
-        "formFieldRequired":
-            MessageLookupByLibrary.simpleMessage("Required Field"),
-        "formFieldSubmitInfo":
-            MessageLookupByLibrary.simpleMessage("Submit Info"),
-        "homePageAppBarTitle":
-            MessageLookupByLibrary.simpleMessage("Home Page"),
-        "homePageMainFormTitle":
-            MessageLookupByLibrary.simpleMessage("Personal Information"),
-        "settingsPageAppBarTitle":
-            MessageLookupByLibrary.simpleMessage("Settings")
+        "menuPageCompanyTitle":
+            MessageLookupByLibrary.simpleMessage("Companies"),
+        "menuPageProductTitle":
+            MessageLookupByLibrary.simpleMessage("Products"),
+        "menuPageServiceTitle":
+            MessageLookupByLibrary.simpleMessage("Services"),
+        "menuPageTenderTitle": MessageLookupByLibrary.simpleMessage("Tenders"),
+        "menuPageTitle": MessageLookupByLibrary.simpleMessage("Menu"),
+        "messagesPageTitle": MessageLookupByLibrary.simpleMessage("Messages"),
+        "profilePageTitle": MessageLookupByLibrary.simpleMessage("Profile")
       };
 }

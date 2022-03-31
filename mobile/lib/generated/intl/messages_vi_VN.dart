@@ -22,26 +22,20 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "aboutUsPageAppBarTitle":
-            MessageLookupByLibrary.simpleMessage("Giới thiệu"),
-        "formFieldAbout": MessageLookupByLibrary.simpleMessage(
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s."),
+        "discoveryPageOurPartnersTitle":
+            MessageLookupByLibrary.simpleMessage("Các đối tác của chúng tôi"),
+        "discoveryPageTitle": MessageLookupByLibrary.simpleMessage("Trang chủ"),
         "formFieldChangeLanguage":
             MessageLookupByLibrary.simpleMessage("Thay đổi ngôn ngữ"),
-        "formFieldDOB": MessageLookupByLibrary.simpleMessage("Ngày sinh"),
-        "formFieldEmail": MessageLookupByLibrary.simpleMessage("Email"),
-        "formFieldEmailHint":
-            MessageLookupByLibrary.simpleMessage("Nhập Email"),
-        "formFieldName": MessageLookupByLibrary.simpleMessage("Tên"),
-        "formFieldNameHint": MessageLookupByLibrary.simpleMessage("Nhập tên"),
-        "formFieldRequired": MessageLookupByLibrary.simpleMessage("Bắt buộc"),
-        "formFieldSubmitInfo":
-            MessageLookupByLibrary.simpleMessage("Gửi thông tin"),
-        "homePageAppBarTitle":
-            MessageLookupByLibrary.simpleMessage("Trang chủ"),
-        "homePageMainFormTitle":
-            MessageLookupByLibrary.simpleMessage("Thông tin cá nhân"),
-        "settingsPageAppBarTitle":
-            MessageLookupByLibrary.simpleMessage("Cài đặt")
+        "menuPageCompanyTitle":
+            MessageLookupByLibrary.simpleMessage("Nhà cung cấp"),
+        "menuPageProductTitle":
+            MessageLookupByLibrary.simpleMessage("Sản phẩm"),
+        "menuPageServiceTitle": MessageLookupByLibrary.simpleMessage("Dịch vụ"),
+        "menuPageTenderTitle":
+            MessageLookupByLibrary.simpleMessage("Nhu cầu thu mua"),
+        "menuPageTitle": MessageLookupByLibrary.simpleMessage("Danh mục"),
+        "messagesPageTitle": MessageLookupByLibrary.simpleMessage("Thông báo"),
+        "profilePageTitle": MessageLookupByLibrary.simpleMessage("Hồ sơ")
       };
 }

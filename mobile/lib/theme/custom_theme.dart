@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'color_constants.dart' as colorConstants;
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomTheme {
   static ThemeData get themeData {
@@ -17,7 +16,10 @@ class CustomTheme {
         onSurface: colorConstants.secondaryDarkBlue,
         outline: colorConstants.secondaryGray100,
         shadow: colorConstants.dropShadow,
+        inversePrimary: colorConstants.secondaryGray200,
       ),
+      backgroundColor: Colors.white,
+      dividerColor: Color.fromRGBO(0, 0, 0, 0.1),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         centerTitle: false,
@@ -27,9 +29,21 @@ class CustomTheme {
       iconTheme: const IconThemeData(
           color: colorConstants.secondaryGray200, size: 24.0),
       scaffoldBackgroundColor: Colors.white,
-      textTheme: GoogleFonts.openSansTextTheme().copyWith(
-        button: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
-      ),
+      fontFamily: "OpenSans",
+      textTheme: const TextTheme(
+        button: TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.w600,
+        ),
+        headline6: TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.w600,
+        ),
+        bodyText1: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.w100,
+        ),
+      ).apply(bodyColor: colorConstants.secondaryDarkBlue),
       buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
         height: 40.0,
@@ -37,3 +51,8 @@ class CustomTheme {
     );
   }
 }
+
+// GoogleFonts.openSansTextTheme().copyWith(
+// button: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
+// headline6: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+// )
