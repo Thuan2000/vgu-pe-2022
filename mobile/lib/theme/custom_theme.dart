@@ -18,6 +18,8 @@ class CustomTheme {
         shadow: colorConstants.dropShadow,
         inversePrimary: colorConstants.secondaryGray200,
       ),
+      backgroundColor: Colors.white,
+      dividerColor: Color.fromRGBO(0, 0, 0, 0.1),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         centerTitle: false,
@@ -38,8 +40,8 @@ class CustomTheme {
           fontWeight: FontWeight.w600,
         ),
         bodyText1: TextStyle(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w400,
+          fontSize: 16.0,
+          fontWeight: FontWeight.w100,
         ),
       ).apply(bodyColor: colorConstants.secondaryDarkBlue),
       buttonTheme: ButtonThemeData(

@@ -27,6 +27,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "discoveryPageTitle": MessageLookupByLibrary.simpleMessage("Trang chủ"),
         "formFieldChangeLanguage":
             MessageLookupByLibrary.simpleMessage("Thay đổi ngôn ngữ"),
+        "menuPageCompanyTitle":
+            MessageLookupByLibrary.simpleMessage("Nhà cung cấp"),
+        "menuPageProductTitle":
+            MessageLookupByLibrary.simpleMessage("Sản phẩm"),
+        "menuPageServiceTitle": MessageLookupByLibrary.simpleMessage("Dịch vụ"),
+        "menuPageTenderTitle":
+            MessageLookupByLibrary.simpleMessage("Nhu cầu thu mua"),
         "menuPageTitle": MessageLookupByLibrary.simpleMessage("Danh mục"),
         "messagesPageTitle": MessageLookupByLibrary.simpleMessage("Thông báo"),
         "profilePageTitle": MessageLookupByLibrary.simpleMessage("Hồ sơ")

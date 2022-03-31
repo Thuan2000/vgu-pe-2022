@@ -70,10 +70,10 @@ class S {
     );
   }
 
-  /// `Các đối tác của chúng tôi`
+  /// `Our partners`
   String get discoveryPageOurPartnersTitle {
     return Intl.message(
-      'Các đối tác của chúng tôi',
+      'Our partners',
       name: 'discoveryPageOurPartnersTitle',
       desc: '',
       args: [],
@@ -85,6 +85,46 @@ class S {
     return Intl.message(
       'Menu',
       name: 'menuPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Companies`
+  String get menuPageCompanyTitle {
+    return Intl.message(
+      'Companies',
+      name: 'menuPageCompanyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tenders`
+  String get menuPageTenderTitle {
+    return Intl.message(
+      'Tenders',
+      name: 'menuPageTenderTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products`
+  String get menuPageProductTitle {
+    return Intl.message(
+      'Products',
+      name: 'menuPageProductTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Services`
+  String get menuPageServiceTitle {
+    return Intl.message(
+      'Services',
+      name: 'menuPageServiceTitle',
       desc: '',
       args: [],
     );

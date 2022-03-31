@@ -3,9 +3,15 @@
   "formFieldChangeLanguage": "Change Language",
 
   "discoveryPageTitle" : "Home Page",
-  "discoveryPageOurPartnersTitle" : "Các đối tác của chúng tôi",
+  "discoveryPageOurPartnersTitle" : "Our partners",
 
   "menuPageTitle" : "Menu",
+  "menuPageCompanyTitle" : "Companies",
+  "menuPageTenderTitle" : "Tenders",
+  "menuPageProductTitle" : "Products",
+  "menuPageServiceTitle" : "Services",
+
   "messagesPageTitle" : "Messages",
+
   "profilePageTitle" : "Profile"
 }

@@ -6,6 +6,12 @@
   "discoveryPageOurPartnersTitle" : "Các đối tác của chúng tôi",
 
   "menuPageTitle" : "Danh mục",
+  "menuPageCompanyTitle" : "Nhà cung cấp",
+  "menuPageTenderTitle" : "Nhu cầu thu mua",
+  "menuPageProductTitle" : "Sản phẩm",
+  "menuPageServiceTitle" : "Dịch vụ",
+
   "messagesPageTitle" : "Thông báo",
+
   "profilePageTitle" : "Hồ sơ"
 }

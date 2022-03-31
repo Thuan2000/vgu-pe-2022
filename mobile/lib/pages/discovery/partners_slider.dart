@@ -36,7 +36,6 @@ class PartnersSlider extends StatelessWidget {
         }
 
         List? partners = result.data?['partners'];
-        print(partners);
 
         if (partners == null) {
           return const Text('No repositories');

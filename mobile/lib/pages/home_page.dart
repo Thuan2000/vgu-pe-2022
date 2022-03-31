@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sdconnect_mobile/components/custom_app_bar.dart';
 import 'package:sdconnect_mobile/components/mono_icons.dart';
+import 'package:sdconnect_mobile/pages/company/companies_page.dart';
 import 'package:sdconnect_mobile/pages/discovery/discovery_page.dart';
 import 'package:sdconnect_mobile/pages/menu/menu_page.dart';
 import 'package:sdconnect_mobile/pages/messages/messages_page.dart';
+import 'package:sdconnect_mobile/pages/product/products_page.dart';
 import 'package:sdconnect_mobile/pages/profile/profile_page.dart';
 import 'package:sdconnect_mobile/generated/l10n.dart';
+import 'package:sdconnect_mobile/pages/service/services_page.dart';
+import 'package:sdconnect_mobile/pages/tender/tenders_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -79,11 +83,19 @@ class _HomePageState extends State<HomePage> {
         inactiveColorPrimary: Theme.of(context).colorScheme.inversePrimary,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(MonoIcons.list, size: 24.0),
-        title: (S.of(context).menuPageTitle),
-        activeColorPrimary: Theme.of(context).primaryColor,
-        inactiveColorPrimary: Theme.of(context).colorScheme.inversePrimary,
-      ),
+          icon: Icon(MonoIcons.list, size: 24.0),
+          title: (S.of(context).menuPageTitle),
+          activeColorPrimary: Theme.of(context).primaryColor,
+          inactiveColorPrimary: Theme.of(context).colorScheme.inversePrimary,
+          routeAndNavigatorSettings: RouteAndNavigatorSettings(
+            initialRoute: '/',
+            routes: {
+              '/companies': (context) => CompaniesPage(),
+              '/products': (context) => ProductsPage(),
+              '/tenders': (context) => TendersPage(),
+              '/services': (context) => ServicesPage(),
+            },
+          )),
       PersistentBottomNavBarItem(
         icon: Icon(MonoIcons.message, size: 24.0),
         title: (S.of(context).messagesPageTitle),
