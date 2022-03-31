@@ -1,9 +1,11 @@
+import Company from "@models/Company";
 import CompanySubscription from "@models/CompanySubscription";
 import Subscription from "@models/Subscription";
 import { MONTH_IN_MS } from "@utils/constants";
 import { getCurrentDateInMilis } from "@utils/functions";
 import { errorResponse, successResponse } from "@utils/responses";
 import AlreadyPaidCompanyController from "./already-paid-company.controller";
+import CompanyController from "./company.controller";
 
 class CompanySubscriptionController {
 	static async getSubscription(companyId: number) {
@@ -28,7 +30,7 @@ class CompanySubscriptionController {
 			});
 
 			const { subscriptionDetail, ...rest } = sub?.toJSON() as any;
-			const res = { ...subscriptionDetail || {}, ...rest || {} };
+			const res = { ...(subscriptionDetail || {}), ...(rest || {}) };
 
 			return res;
 		} catch (error) {
@@ -45,15 +47,13 @@ class CompanySubscriptionController {
 		try {
 			const compWithSubAttempt = await CompanySubscription.findOne({
 				where: { companyId },
-				attributes: ["subscriptionAttempt", "endAt"],
+				attributes: ["subscriptionAttempt"],
 				order: [["id", "DESC"]]
 			});
 
-			const compSubAttempt = (compWithSubAttempt?.toJSON() as any)
-				?.subscriptionAttempt;
-			const currentSubsDurationRest =
-				(compWithSubAttempt?.toJSON() as any)?.endAt -
-				getCurrentDateInMilis();
+			const compSubAttempt = compWithSubAttempt?.getDataValue(
+				"subscriptionAttempt"
+			);
 			const subscriptionAttempt = compSubAttempt + 1;
 			const endAt = expDate;
 
@@ -65,12 +65,17 @@ class CompanySubscriptionController {
 				subscriptionAttempt
 			});
 
+			// Update company on es
+			const company = await CompanyController.getCompany(companyId);
+			Company.updateEsCompany(companyId, company);
+
+			// Set the is subscribed for paid company
 			await AlreadyPaidCompanyController.seIsSubscribedTrue(
 				alreadyPaidId
 			);
 
 			const respWord = `Company With Id : ${companyId} success subscribe until ${new Date(
-				expDate + currentSubsDurationRest
+				endAt
 			)} as the ${subscriptionAttempt} attempt`;
 			console.log(respWord);
 			return successResponse(respWord);

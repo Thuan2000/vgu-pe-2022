@@ -71,10 +71,12 @@ class CompanyController {
 		}
 	}
 
-	static async getCompany(slug: string) {
+	static async getCompany(slugOrId: string | number) {
 		try {
 			const company = await Company.findOne({
-				where: { slug },
+				where: {
+					[typeof slugOrId === "string" ? "slug" : "id"]: slugOrId
+				},
 				include: [
 					{
 						model: User,
@@ -89,7 +91,7 @@ class CompanyController {
 					{
 						model: CompanySubscription,
 						as: "subscription",
-						attributes: ["startAt", "endAt"],
+						attributes: ["startAt", "endAt", "subscriptionAttempt"],
 						include: [
 							{
 								model: Subscription,
@@ -145,16 +147,34 @@ class CompanyController {
 			if (!data) return errorResponse("");
 			const company: any = data.toJSON();
 
-			Company.updateEsCompany(id, company);
-
-			// Setting company subscription
-			await CompanySubscription.create({
+			const firstSubscription = {
 				companyId: id,
 				subscriptionId: TRIAL_SUBSCRIPTION_ID,
 				firstTimeSubscribeAt: new Date().getTime(),
 				startAt: getCurrentDateInMilis(),
 				endAt: expDate,
 				subscriptionAttempt: 0
+			};
+
+			// Setting company subscription
+			const newSubs = await CompanySubscription.create(firstSubscription);
+			const subscription = await CompanySubscription.findByPk(
+				newSubs.getDataValue("id"),
+				{
+					attributes: ["startAt", "endAt", "subscriptionAttempt"],
+					include: [
+						{
+							model: Subscription,
+							as: "subscriptionDetail",
+							attributes: ["nameEn", "nameVn", "monthlyPrice"]
+						}
+					]
+				}
+			);
+
+			Company.updateEsCompany(id, {
+				...company,
+				subscription
 			});
 
 			const owner = company.owner;
@@ -295,8 +315,8 @@ class CompanyController {
 
 			company.set("chatId", chatId);
 			await company.save();
-			
-			Company.updateEsCompany(approvedCompId, company.toJSON())
+
+			Company.updateEsCompany(approvedCompId, company.toJSON());
 			return successResponse();
 		} catch (e) {
 			console.error(e);

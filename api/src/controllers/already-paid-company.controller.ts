@@ -24,7 +24,6 @@ class AlreadyPaidCompanyController {
 				},
 				include: [{ model: Company, as: "company" }]
 			});
-			console.log(alreadyPaidCompanies);
 
 			return alreadyPaidCompanies;
 		} catch (error) {

@@ -67,6 +67,7 @@ type CompaniesItem {
 	createdAt: Date
 	updatedAt: Date
 	chatId: String
+	subscription: Subscription
 }
 
 input FetchCompanyInput {
@@ -112,9 +113,10 @@ type Company {
 	createdAt: Date
 	updatedAt: Date
 	chatId: String
+	subscription: Subscription
 }
 
-type Subscription {
+type CompSubscription {
 	nameEn: String!
 	nameVn: String!
 	monthlyPrice: Date!

@@ -4,6 +4,7 @@ import CompanySubscription from "./CompanySubscription";
 import OpenSearch from "@services/open-search.service";
 import { successResponse, errorResponse } from "@utils/responses";
 import User from "./User";
+import Subscription from "./Subscription";
 
 class Company extends Model {
 	static associate() {
@@ -46,7 +47,22 @@ class Company extends Model {
 
 	static async firstBulkElasticSearch() {
 		try {
-			const companies = await Company.findAll();
+			const companies = await Company.findAll({
+				include: [
+					{
+						model: CompanySubscription,
+						as: "subscription",
+						attributes: ["startAt", "endAt", "subscriptionAttempt"],
+						include: [
+							{
+								model: Subscription,
+								as: "subscriptionDetail",
+								attributes: ["nameEn", "nameVn", "monthlyPrice"]
+							}
+						]
+					}
+				]
+			});
 
 			const comps = companies.map(br => br.toJSON());
 			if (!comps.length) return errorResponse("No companies yet");
