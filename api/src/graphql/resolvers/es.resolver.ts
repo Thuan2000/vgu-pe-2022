@@ -46,7 +46,7 @@ export const Query = {
 			setTimeout(async () => {
 				await esQueries.createEsIndexes();
 				await esQueries.firstBulkEsIndexes();
-			}, 500);
+			}, 3000);
 
 			return successResponse();
 		} catch (e) {
