@@ -49,13 +49,19 @@ class ChatService {
 	}
 
 	static createAccount(props: IAccProps) {
-		approvedCompanyId = props.compId;
+		try {
+			// So we can add the chat id later
+			approvedCompanyId = props.compId;
 
-		setTimeout(() => {
-			this.connection?.send(
-				JSON.stringify(ChatFunction.generateAccMessage(props))
-			);
-		}, 10);
+			const accMessage = ChatFunction.generateAccMessage(props);
+
+			// Call this asynchronously
+			setTimeout(() => {
+				this.connection?.send(JSON.stringify(accMessage));
+			}, 10);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 }
 

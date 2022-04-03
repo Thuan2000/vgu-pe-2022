@@ -1,4 +1,4 @@
-import { setChatAuthToken } from "@utils/auth-utils";
+import { generateChatCredUnique, setChatAuthToken } from "@utils/auth-utils";
 import {
   chatGetHiMessage,
   chatGetLoginMessage,
@@ -72,15 +72,12 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
 
       wsChatInstance?.send(chatGetHiMessage());
 
-      const email = getLoggedInUser()?.email;
-      if (!email) return;
+      const comp = getLoggedInUser()?.company;
+      if (!comp) return;
 
-      wsChatInstance?.send(
-        chatGetLoginMessage(
-          generateUsername(email),
-          `${generateChatPassword(email)}123`
-        )
-      );
+      const unique = generateChatCredUnique(comp.name, comp.id);
+
+      wsChatInstance?.send(chatGetLoginMessage(unique));
     }
 
     sendFirstMessage();

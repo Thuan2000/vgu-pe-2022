@@ -1,3 +1,4 @@
+import { unescape } from "lodash";
 import { encodeString, generateUUID } from "./functions";
 
 export function chatGetSubsMessage() {
@@ -55,12 +56,12 @@ export function chatGetDescMessages(chatId: string) {
   });
 }
 
-export function chatGetLoginMessage(username: string, password: string) {
+export function chatGetLoginMessage(unique: string) {
   return JSON.stringify({
     login: {
       id: generateUUID(),
       scheme: "basic",
-      secret: encodeString(`${username}:${password}`),
+      secret: encodeString(unescape(`${unique}:${unique}`)),
     },
   });
 }

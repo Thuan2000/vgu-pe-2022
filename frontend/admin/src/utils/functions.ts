@@ -238,9 +238,15 @@ export function isEmptyObject(obj: any) {
   return empty;
 }
 
+/**
+ * Normalize the string with special anotation
+ * @param str
+ * @returns normalized string
+ */
 export function normalizeString(str: string) {
   if (!str) return "";
-  return str.normalize("NFD")?.replace(/[\u0300-\u036f]/g, "");
+  const normalized = str.normalize("NFD")?.replace(/[\u0300-\u037f]/g, "");
+  return normalized.replace(/[^a-zA-Z0-9]/g, "");
 }
 
 export async function getBlob(file: IFile) {
@@ -363,7 +369,7 @@ export function printServerInfo() {
  * @param otherDate: Date to compare
  * @returns days in number
  */
- export function diffDays(
+export function diffDays(
   date: Date,
   otherDate: Date
 ): { days?: number; months?: number; years?: number } {
@@ -390,7 +396,7 @@ export function printServerInfo() {
  * @param name Subscription name from context
  * @param endAt Subscription endTime from context
  */
- export function getSubscriptionInfoText(
+export function getSubscriptionInfoText(
   t: TFunction,
   name: string,
   endAt: Date

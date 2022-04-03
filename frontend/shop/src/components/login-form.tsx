@@ -17,6 +17,7 @@ import Link from "./ui/link";
 import Checkbox from "./ui/storybook/checkbox";
 import { LoginMutation, useLoginMutation } from "../graphql/auth.graphql";
 import {
+  generateChatCredUnique,
   getRedirectLinkAfterLogin,
   removeRedirectLinkAfterLogin,
   setAuthCredentials,
@@ -106,6 +107,11 @@ const LoginForm = () => {
   async function onLoginComplete({ login }: LoginMutation) {
     const { success, message, token, user } = login;
     if (success && !!user && !!token) {
+      const comp = user?.company;
+
+      // Login to tinode chat server using company name and company id
+      chatLogin(comp.name, comp.id);
+
       setToken(token);
       setUser(user as any);
       setCompanyChatId(user?.company?.chatId!);
@@ -146,22 +152,17 @@ const LoginForm = () => {
     removeRedirectLinkAfterLogin();
   }
 
-  function chatLogin(email: string) {
+  function chatLogin(compName: string, compId: number) {
+    const unique = generateChatCredUnique(compName, compId);
+
     if (!isReady) {
-      setTimeout(() => chatLogin(email), 1000);
+      setTimeout(() => chatLogin(compName, compId), 10);
       return;
     }
-    wsChatInstance?.send(
-      chatGetLoginMessage(
-        generateUsername(email),
-        `${generateChatPassword(email)}123`
-      )
-    );
+    wsChatInstance?.send(chatGetLoginMessage(unique));
   }
 
   async function onSubmit({ email, password }: FormValues) {
-    chatLogin(email);
-
     login({
       variables: {
         input: {

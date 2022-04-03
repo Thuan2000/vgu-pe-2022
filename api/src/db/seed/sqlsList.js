@@ -10,10 +10,10 @@ function getFilePath(fileName) {
 }
 
 const sqls = [
-	{
-		name: "Role",
-		path: getFilePath("roles.sql")
-	},
+	// {
+	// 	name: "Role",
+	// 	path: getFilePath("roles.sql")
+	// },
 	{
 		name: "Companies",
 		path: getFilePath("companies.sql")
@@ -22,18 +22,18 @@ const sqls = [
 		name: "User",
 		path: getFilePath("users.sql")
 	},
-	{
-		name: "Buying Request",
-		path: getFilePath("buying_requests.sql")
-	},
-	{
-		name: "Project",
-		path: getFilePath("project.sql")
-	},
-	{
-		name: "BR Project",
-		path: getFilePath("br_project.sql")
-	},
+	// {
+	// 	name: "Buying Request",
+	// 	path: getFilePath("buying_requests.sql")
+	// },
+	// {
+	// 	name: "Project",
+	// 	path: getFilePath("project.sql")
+	// },
+	// {
+	// 	name: "BR Project",
+	// 	path: getFilePath("br_project.sql")
+	// },
 	{
 		name: "Subscription",
 		path: getFilePath("subscriptions.sql")
@@ -42,14 +42,14 @@ const sqls = [
 		name: "Company Subscription",
 		path: getFilePath("company_subscriptions.sql")
 	},
-	{
-		name: "Product",
-		path: getFilePath("products.sql")
-	},
-	{
-		name: "Service",
-		path: getFilePath("services.sql")
-	},
+	// {
+	// 	name: "Product",
+	// 	path: getFilePath("products.sql")
+	// },
+	// {
+	// 	name: "Service",
+	// 	path: getFilePath("services.sql")
+	// },
 	{
 		name: "Banner",
 		path: getFilePath("banners.sql")

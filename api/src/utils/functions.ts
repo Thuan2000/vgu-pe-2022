@@ -142,3 +142,28 @@ export function generateFirstTimePassword(length = 8) {
 
 	return result;
 }
+
+/**
+ * Normalize the string with special anotation
+ * @param str
+ * @returns normalized string
+ */
+export function normalizeString(str: string) {
+	if (!str) return "";
+	const normalized = str.normalize("NFD")?.replace(/[\u0300-\u037f]/g, "");
+	return normalized.replace(/[^a-zA-Z0-9]/g, "");
+}
+
+// NOTE!!! If you edit this please edit on shop, mobile, as well same name function
+/**
+ * Using the company name and company Id on the database to have a chat credential
+ * No more idea yet
+ * @param compName company name
+ * @param compId company id
+ * @returns
+ */
+export function generateChatCredUnique(compName: string, compId: number) {
+	return normalizeString(`${compName}${compId}`)
+		.replace(/[ ]/g, "")
+		.slice(-25);
+}

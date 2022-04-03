@@ -15,6 +15,7 @@ import {
   IUser,
 } from "@graphql/types.graphql";
 import Cookies from "js-cookie";
+import { normalizeString } from "./functions";
 
 const cookieDomain = { domain: `.${process.env.NEXT_PUBLIC_DOMAIN}` };
 
@@ -146,4 +147,16 @@ export function setChatAuthToken(token: string, expires: string) {
   );
 
   Cookie.set(CHAT_KEEP_LOGIN_COOKIE_NAME, "true", getDomain());
+}
+
+// NOTE!!! If you edit this please edit on shop, mobile, as well same name function
+/**
+ * Using the company name and company Id on the database to have a chat credential
+ * No more idea yet
+ * @param compName company name
+ * @param compId company id
+ * @returns
+ */
+export function generateChatCredUnique(compName: string, compId: number) {
+  return normalizeString(`${compName}${compId}`).replace(/[ ]/g, "").slice(-25);
 }

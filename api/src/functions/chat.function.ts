@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 import {
 	encodeString,
+	generateChatCredUnique,
 	generateChatPassword,
 	generateUsername,
 	generateUUID
 } from "@utils/functions";
+import { unescape } from "lodash";
 
 export interface IAccProps {
 	compId: number;
 	compName: string;
 	email: string;
 	phoneNumber: string;
-	password: string;
 }
 
 class ChatFunction {
@@ -23,14 +24,15 @@ class ChatFunction {
 	});
 
 	static generateAccMessage = ({
+		compId,
 		compName,
 		email,
-		phoneNumber,
-		password
+		phoneNumber
 	}: IAccProps) => {
-		const secret = encodeString(
-			`${generateUsername(email)}:${generateChatPassword(password)}123`
-		);
+		// Using company name and company id as unique this will be same with in
+		const unique = generateChatCredUnique(compName, compId);
+
+		const secret = encodeString(unescape(`${unique}:${unique}`));
 
 		return {
 			acc: {

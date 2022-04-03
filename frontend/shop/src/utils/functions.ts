@@ -433,3 +433,14 @@ export function removeTypename(data: any) {
   const { __typename, ...dataWithoutTypename } = data || {};
   return dataWithoutTypename;
 }
+
+/**
+ * Normalize the string with special anotation
+ * @param str
+ * @returns normalized string
+ */
+export function normalizeString(str: string) {
+  if (!str) return "";
+  const normalized = str.normalize("NFD")?.replace(/[\u0300-\u037f]/g, "");
+  return normalized.replace(/[^a-zA-Z0-9]/g, "");
+}

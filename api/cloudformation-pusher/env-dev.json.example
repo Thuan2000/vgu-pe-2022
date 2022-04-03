@@ -105,7 +105,7 @@
 	},
 	{
 		"ParameterKey": "SmtpFrom",
-		"ParameterValue": "admin@sdconnect.dev"
+		"ParameterValue": "no-reply@sdconnect.vn"
 	},
 	{
 		"ParameterKey": "ESEndpoint",

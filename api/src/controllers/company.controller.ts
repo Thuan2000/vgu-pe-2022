@@ -180,11 +180,13 @@ class CompanyController {
 			const owner = company.owner;
 
 			ChatService.createAccount({
+				// For credential
 				compId: company.id,
+				// For credential and ui info
 				compName: company.name,
+				// For ui info
 				email: owner.email,
-				phoneNumber: owner.phoneNumber,
-				password: owner.email
+				phoneNumber: owner.phoneNumber
 			});
 
 			EmailService.sendEmail(company.owner.email, {
@@ -259,7 +261,8 @@ class CompanyController {
 				where: {
 					name: companyName,
 					licenseNumber
-				}
+				},
+				attributes: ["id"]
 			});
 
 			if (duplicateCompany) {

@@ -12,12 +12,12 @@ module.exports = {
 		 */
 		return Promise.all([
 			queryInterface.addColumn(targetTableName, "companyId", {
-				type: Sequelize.INTEGER,
-				references: {
-					model: require("./20210922045758-create-company").tableName,
-					key: "id"
-				},
-				onDelete: "CASCADE"
+				type: Sequelize.INTEGER
+				// references: {
+				// 	model: require("./20210922045758-create-company").tableName,
+				// 	key: "id"
+				// },
+				// onDelete: "CASCADE"
 			})
 		]);
 	},
