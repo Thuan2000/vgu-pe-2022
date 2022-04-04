@@ -1,4 +1,4 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Op, Sequelize } from "sequelize";
 import Database from "@services/database.service";
 import CompanySubscription from "./CompanySubscription";
 import OpenSearch from "@services/open-search.service";
@@ -48,6 +48,12 @@ class Company extends Model {
 	static async firstBulkElasticSearch() {
 		try {
 			const companies = await Company.findAll({
+				where: {
+					// Because we must seed 1 company to have 1 user then we just not put it on elasticsearch
+					id: {
+						[Op.ne]: 1
+					}
+				},
 				include: [
 					{
 						model: CompanySubscription,
