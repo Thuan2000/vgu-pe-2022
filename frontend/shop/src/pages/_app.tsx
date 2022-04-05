@@ -28,6 +28,7 @@ import vi from "javascript-time-ago/locale/vi.json";
 import { useEffect } from "react";
 import { rfw, printServerInfo } from "@utils/functions";
 import { SubsInfoProvider } from "src/contexts/subs-info.context";
+import ShopChat from "@components/ui/chat/shop-chat";
 
 TimeAgo.addLocale(vi);
 TimeAgo.addLocale(en);
@@ -86,6 +87,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Head>
         <SubsInfoProvider>
           <ModalProvider>
+            <ShopChat />
             <ModalContainer />
             <Layout>
               <Component {...pageProps} />

@@ -6,6 +6,7 @@ import { getChatUrl, ROUTES } from "@utils/routes";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import React from "react";
+import { useWSChat } from "src/contexts/ws-chat.context";
 import Swal from "sweetalert2";
 import Link from "./link";
 import PleaseLoginButton from "./please-login-button";
@@ -25,8 +26,12 @@ const ChatNowButton: React.FC<IChatNowButtonProps> = ({
   isOnTender,
 }) => {
   const { t } = useTranslation();
+  const { subscribeTopic, setFocusTopic } = useWSChat();
+
   async function handleClick() {
-    if (isLogin()) window.open(getChatUrl(company?.chatId!), "_blank");
+    if (!company.chatId) return;
+
+    if (isLogin()) subscribeTopic(company.chatId);
     else {
       const texts = {
         confirmButton: t("common:stay-button-label"),

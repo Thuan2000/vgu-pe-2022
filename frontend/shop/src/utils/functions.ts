@@ -1,8 +1,9 @@
 import { IVariation, IVariationOption } from "@graphql/types.graphql";
 import base64 from "base-64";
 import Cookies from "js-cookie";
-import { findIndex, groupBy, isEqual } from "lodash";
+import { findIndex, groupBy, indexOf, isEqual } from "lodash";
 import { TFunction } from "next-i18next";
+import { TTopic } from "src/contexts/ws-chat.context";
 import { SweetAlertOptions, SweetAlertResult } from "sweetalert2";
 import { getMeData } from "./auth-utils";
 import { COLORS } from "./colors";
@@ -144,6 +145,11 @@ export function getCompanyName() {
 export function getLoggedInUser() {
   const { user } = getMeData();
   return user;
+}
+
+export function getLoggedInCompany() {
+  const { company } = getMeData();
+  return company;
 }
 
 export function isString(value: any) {
@@ -443,4 +449,29 @@ export function normalizeString(str: string) {
   if (!str) return "";
   const normalized = str.normalize("NFD")?.replace(/[\u0300-\u037f]/g, "");
   return normalized.replace(/[^a-zA-Z0-9]/g, "");
+}
+
+/**
+ * Find duplicate of object in an array using function of it
+ * @param arr array to check
+ * @param duplicateCheck function that have item of the arr object and check the value
+ * @returns if it has duplicate or not
+ */
+export function isHaveDuplicate(
+  arr: TTopic[],
+  duplicateCheck: (i: any) => boolean
+) {
+  const isHaveDuplicate = arr.some((item) => duplicateCheck(item));
+  return isHaveDuplicate;
+}
+
+export function getObjectFromArray(
+  arr: any[],
+  itemChecker: (i: any) => boolean
+) {
+  const idx = arr.findIndex((i) => {
+    return itemChecker(i);
+  });
+
+  return { obj: arr[idx], idx };
 }

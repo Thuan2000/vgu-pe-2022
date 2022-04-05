@@ -56,7 +56,6 @@ const ChatMessageItem: React.FC<IChatMessageItemProps> = ({
         <div>
           <div className="flex space-x-2">
             <Typography
-              // text={trimText(fn, 30)}
               text={fn}
               weight="bold"
               truncate

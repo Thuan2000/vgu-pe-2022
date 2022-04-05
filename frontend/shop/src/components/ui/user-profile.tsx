@@ -8,7 +8,6 @@ import { useRouter } from "next/dist/client/router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Link from "./link";
-import NewChat from "./navbar/new-chat";
 
 import ProfileAvatar from "./profile-avatar";
 import Button from "./storybook/button";
@@ -49,21 +48,16 @@ const UserProfile = () => {
 
   return (
     <div className="flex-center">
-      <div style={{ marginRight: ".1rem" }}>
-        <NewChat />
-      </div>
       {!NO_POST_ROUTES.includes(activePage) ? (
-        <div style={{ marginLeft: ".4rem" }}>
-          <Link target="_blank" href={`${adminLink}${POST_ROUTES[activePage]}`}>
-            <Button
-              className={`px-3 h-9`}
-              size="extraSmall"
-              style={{ fontSize: 12 }}
-            >
-              {t(`post-${PAGE_NAME_INTO_LABEL[activePage]}-link-button-label`)}
-            </Button>
-          </Link>
-        </div>
+        <Link target="_blank" href={`${adminLink}${POST_ROUTES[activePage]}`}>
+          <Button
+            className={`px-3 h-9`}
+            size="extraSmall"
+            style={{ fontSize: 12 }}
+          >
+            {t(`post-${PAGE_NAME_INTO_LABEL[activePage]}-link-button-label`)}
+          </Button>
+        </Link>
       ) : (
         <div>
           <div className={`justify-end fic space-x-1 flex-shrink-0`}>

@@ -33,8 +33,8 @@ import { useWSChat } from "src/contexts/ws-chat.context";
 import { generateChatPassword, generateUsername } from "@utils/functions";
 import { useModal } from "src/contexts/modal.context";
 import PasswordReset from "./ui/password-reset";
-import { IUser } from "@graphql/types.graphql";
-import { chatGetLoginMessage } from "@utils/chat-utils";
+import { ICompany, IUser } from "@graphql/types.graphql";
+import { chatGetLoginMessage } from "@utils/chat-messages";
 
 type FormValues = {
   email: string;
@@ -53,7 +53,7 @@ const loginSchema = yup.object().shape({
 const LoginForm = () => {
   const router = useRouter();
   const { query } = router;
-  const { wsChatInstance, isReady, setCompanyChatId } = useWSChat() || {};
+  const { loginChat } = useWSChat() || {};
   const [isAbleToPass, setIsAbleToPass] = useState(false);
   const [user, setUser] = useState<IUser>();
   const [token, setToken] = useState<string>();
@@ -109,12 +109,8 @@ const LoginForm = () => {
     if (success && !!user && !!token) {
       const comp = user?.company;
 
-      // Login to tinode chat server using company name and company id
-      chatLogin(comp.name, comp.id);
-
       setToken(token);
       setUser(user as any);
-      setCompanyChatId(user?.company?.chatId!);
       // Put the compuslory modal here.
       if (user.firstLogin)
         openModal(
@@ -144,22 +140,16 @@ const LoginForm = () => {
   }
 
   async function postLogin() {
+    // Set the logged in user first so we can use it to login on chat
     setAuthCredentials(token!);
     setMeData(user!);
+
+    // Login to tinode chat server using company name and company id
+    loginChat();
 
     toast.success(`${t("form:welcomeBack-message")} ${user?.firstName}`);
     router.replace(getRedirectLinkAfterLogin() || ROUTES.HOMEPAGE);
     removeRedirectLinkAfterLogin();
-  }
-
-  function chatLogin(compName: string, compId: number) {
-    const unique = generateChatCredUnique(compName, compId);
-
-    if (!isReady) {
-      setTimeout(() => chatLogin(compName, compId), 10);
-      return;
-    }
-    wsChatInstance?.send(chatGetLoginMessage(unique));
   }
 
   async function onSubmit({ email, password }: FormValues) {
