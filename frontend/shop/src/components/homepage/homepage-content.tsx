@@ -114,7 +114,7 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
           /> */}
         </div>
 
-        <div className={`flex justify-between items-center mt-10`}>
+        <div className={`flex justify-evenly items-center mt-10`}>
           {teamMembers.map((t) => (
             <TeamMember {...t} key={t.name} />
           ))}

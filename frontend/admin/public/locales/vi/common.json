@@ -171,5 +171,21 @@
   "you-need-to-fill-company-detail-to-access-title": "Doanh nghiệp còn thiếu thông tin",
   "you-need-to-fill-company-detail-to-access-text": "Vui lòng điền đầy đủ thông tin để có thể đăng tin",
   "to-edit-company-page-button-label": "Đến \"Công ty\"",
-  "change-will-discarded-title": "Mọi thay đổi sẽ bị xoá, bạn chắc chắn?"
+  "change-will-discarded-title": "Mọi thay đổi sẽ bị xoá, bạn chắc chắn?",
+  "seller-account": "Gói \"PRO\"",
+  "setting-trancation-id-label": "ID giao dịch",
+  "renew-sub-button": "Gia hạn đăng ký",
+  "year-label": "năm",
+  "setting-billing-history-label": "Lịch sử Thanh toán",
+  "setting-billing-date-label": "NGÀY THÁNG",
+  "setting-billing-subcription-label": "GÓI ĐĂNG KÝ",
+  "setting-billing-transaction-label": "ID giao dịch",
+  "setting-billing-price-label": "GIÁ",
+  "setting-lang-label": "Cài đặt ngôn ngữ",
+  "setting-lang-title": "Ngôn ngữ",
+  "cancel-button": "Hủy",
+  "save-button": "Lưu",
+  "setting-this-plan-was-bought-on": "Gói này đã được mua vào",
+  "setting-remaining-end": "ngày còn lại, gói dịch vụ sẽ kết thúc vào",
+  "setting-changePass-label": "Mật khẩu"
 }

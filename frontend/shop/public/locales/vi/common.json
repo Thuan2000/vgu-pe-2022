@@ -202,5 +202,8 @@
   "service-sortBy-title": "Sắp xếp theo",
   "no-discussion-for-service": "chưa có bình luận",
   "service-updateKey-sort-button-label": "câu hỏi của bạn trước",
-  "service-date-sort-button-label": "mới nhất trước"
+  "service-date-sort-button-label": "mới nhất trước",
+  "no-product-found-text": "Không tìm thấy sản phẩm",
+  "no-service-found-text": "Không tìm thấy dịch vụ",
+  "no-buying-request-found-text": "Không tìm thấy"
 }
