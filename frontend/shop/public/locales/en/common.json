@@ -223,5 +223,8 @@
   "account-number-text": "Account number",
   "content-text": "content-text-answer",
   "question-text": "Question",
-  "send-info-button-label": "Send Info"
+  "send-info-button-label": "Send Info",
+  "no-product-found-text": "No products found",
+  "no-service-found-text": "Service not found",
+  "no-buying-request-found-text": "Not found"
 }

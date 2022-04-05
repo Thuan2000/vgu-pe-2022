@@ -9,15 +9,20 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import SettingSecurityForm from "@components/ui/setting-form/setting-security";
+import { useTranslation } from "next-i18next";
 
-const generalLabel = "settings-general-page-title";
-const securityLabel = "settings-security-page-title";
+// const generalLabel = "settings-general-page-title";
+// const securityLabel = "settings-security-page-title";
+const generalLabel = "Thông tin chung";
+const securityLabel = "An ninh";
 const generalTarget = "general";
 const securityTarget = "security";
 
 interface ISettingsProps {}
 
 const Settings: React.FC<ISettingsProps> = ({}) => {
+  const { t } = useTranslation();
+
   const { query, ...router } = useRouter();
   const target = query.target;
   function getIsActiveGeneralNav(label: string) {
