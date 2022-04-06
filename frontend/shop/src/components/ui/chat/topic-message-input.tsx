@@ -3,10 +3,11 @@ import ImageIcon from "@assets/icons/image-icon";
 import SendMessageIcon from "@assets/icons/send-message-icon";
 import Form from "@components/form";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
-import { TChatFileParam } from "@utils/chat-interface";
+import { TChatFileParam, TChatImageInput } from "@utils/chat-interface";
 import { COLORS } from "@utils/colors";
 import { formatByte, getCompanyName } from "@utils/functions";
 import { useTranslation } from "next-i18next";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useWSChat } from "src/contexts/ws-chat.context";
@@ -40,8 +41,14 @@ const TopicMessageInput: React.FC<ITopicMessageInputProps> = ({ ...props }) => {
     getInputProps: getAttachmentInputProps,
     getRootProps: getAttachmentRootProps,
   } = useDropzone({
-    onDrop: handleAttachmentDrop,
+    onDrop: handleFileDrop,
   });
+
+  const { getInputProps: getImageInputProps, getRootProps: getImageRootProps } =
+    useDropzone({
+      accept: "image/*",
+      onDrop: handleFileDrop,
+    });
 
   useEffect(() => {
     isNotifiedTimeout.current = setTimeout(() => setIsNotified(false), 3000);
@@ -62,6 +69,8 @@ const TopicMessageInput: React.FC<ITopicMessageInputProps> = ({ ...props }) => {
       },
     });
 
+    // const image: TChatImageInput = {};
+
     const attachment: TChatFileParam = {
       mime: file.type,
       name: file.name,
@@ -71,7 +80,7 @@ const TopicMessageInput: React.FC<ITopicMessageInputProps> = ({ ...props }) => {
     sendAttachment(openedTopic?.topic!, newMessage, attachment);
   }
 
-  async function handleAttachmentDrop(files: File[]) {
+  async function handleFileDrop(files: File[]) {
     const file = files[0];
     const url = URL.createObjectURL(file);
     setFile(Object.assign(file, { url }));
@@ -86,7 +95,9 @@ const TopicMessageInput: React.FC<ITopicMessageInputProps> = ({ ...props }) => {
 
   function handleSubmit() {
     if (!newMessage && !file) return;
-    if (file && attachmentType.current === "file") {
+    if (!!file && attachmentType.current === "file") {
+      handleSendWithAttachment();
+    } else if (!!file && attachmentType.current === "file") {
       handleSendWithAttachment();
     } else sendChatMessage(openedTopic?.topic!, newMessage);
 
@@ -105,6 +116,10 @@ const TopicMessageInput: React.FC<ITopicMessageInputProps> = ({ ...props }) => {
     attachmentType.current = "file";
   }
 
+  function handleImageIconClick() {
+    attachmentType.current = "image";
+  }
+
   function removeFile() {
     if (!file) return;
     setFile(undefined);
@@ -116,10 +131,25 @@ const TopicMessageInput: React.FC<ITopicMessageInputProps> = ({ ...props }) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <TopicMessageAttachmentPreview
-        onRemoveAttachment={handleRemoveAttachment}
-        file={file}
-      />
+      {!!file && attachmentType.current === "file" && (
+        <TopicMessageAttachmentPreview
+          onRemoveAttachment={handleRemoveAttachment}
+          file={file}
+        />
+      )}
+
+      {!!file && attachmentType.current === "image" && (
+        <div className={`relative bg-gray-20 p-2 flex-center`}>
+          <div className="relative w-20 h-20">
+            <Image
+              src={file?.url!}
+              layout="fill"
+              objectFit="cover"
+              alt={file?.name}
+            />
+          </div>
+        </div>
+      )}
       <div className={`p-4 bg-gray-10 fic space-x-4`}>
         <div className={`fic space-x-2`}>
           <div
@@ -131,7 +161,16 @@ const TopicMessageInput: React.FC<ITopicMessageInputProps> = ({ ...props }) => {
             <AttachmentIcon />
             <input {...getAttachmentInputProps()} />
           </div>
-          {/* <ImageIcon /> */}
+
+          <div
+            {...getImageRootProps({
+              className: "cursor-pointer",
+              onClick: handleImageIconClick,
+            })}
+          >
+            <ImageIcon />
+            <input {...getImageInputProps()} />
+          </div>
         </div>
         <Input
           autoFocus

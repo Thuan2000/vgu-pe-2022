@@ -20,11 +20,7 @@ const TopicMessageAttachmentPreview: React.FC<
   if (!file) return <></>;
 
   return (
-    <div
-      className={`${
-        !file && "max-h-0 overflow-hidden p-0"
-      } bg-gray-20 p-2 px-4 flex justify-between fic`}
-    >
+    <div className={` bg-gray-20 p-2 px-4 flex justify-between fic`}>
       <div className={`relative fic space-x-2`}>
         <FilePreviewIcon
           onClick={() => window.open(file.url)}
