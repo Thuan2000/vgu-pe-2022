@@ -14,7 +14,7 @@ interface INewChatProps {}
 
 const ShopChat: React.FC<INewChatProps> = ({ ...props }) => {
   const { t } = useTranslation();
-  const { topics, openedTopic, closeFocusTopic } = useWSChat();
+  const { topics = {}, openedTopic, closeFocusTopic } = useWSChat();
 
   const ref = useOutsideClickRef(hideMessages);
   const [isShowMessages, setIsShowMessages] = useState(false);
@@ -45,7 +45,7 @@ const ShopChat: React.FC<INewChatProps> = ({ ...props }) => {
         className={`relative rounded-t-sm overflow-hidden w-96 border border-gray-20`}
       >
         <ChatButtonToggler
-          unreadTopicsLength={topics?.length}
+          unreadTopicsLength={Object.keys(topics).length}
           toggleMessages={toggleMessages}
         />
 

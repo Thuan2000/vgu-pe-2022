@@ -1,5 +1,6 @@
+import { AttachmentMsg } from "@components/ui/chat/topic-message-item";
 import { generateChatCredUnique, setChatAuthToken } from "@utils/auth-utils";
-import { TDataResp } from "@utils/chat-interface";
+import { TChatDataResp, TChatFileParam } from "@utils/chat-interface";
 import {
   chatGetFirstSubMessage,
   chatGetHiMessage,
@@ -7,15 +8,12 @@ import {
   chatGetLoginMessage,
   chatGetMeMessage,
   chatGetNotifyTypingMessage,
+  chatGetSendFileMessage,
   chatGetSendMessageMessage,
   chatGetTopicMessagesMessage,
-} from "@utils/chat-messages";
+} from "@utils/chat-to-server-messages";
 import { CHAT_URL } from "@utils/constants";
-import {
-  isHaveDuplicate,
-  getLoggedInCompany,
-  getObjectFromArray,
-} from "@utils/functions";
+import { getLoggedInCompany } from "@utils/functions";
 import {
   createContext,
   useContext,
@@ -38,16 +36,20 @@ type TUserSeen = {
 
 export type TTopic = {
   online?: boolean;
-  public: TUserPublic;
   seen?: TUserSeen;
+  public: TUserPublic;
   topic: string;
   touched: Date;
   updated: Date;
-  messages: { [any: number]: TDataResp };
+  messages: { [any: number]: TChatDataResp };
+};
+
+export type TTopics = {
+  [topic: string]: TTopic;
 };
 
 type TWSChatContext = {
-  topics: TTopic[];
+  topics: TTopics;
   openedTopic?: TTopic;
   loginChat: () => void;
   closeFocusTopic: () => void;
@@ -55,6 +57,11 @@ type TWSChatContext = {
   setFocusTopic: (topic: string) => void;
   subscribeTopic: (topic: string) => void;
   sendChatMessage: (topic: string, message: string) => void;
+  sendAttachment: (
+    topic: string,
+    caption: string,
+    file: TChatFileParam
+  ) => void;
 };
 
 const WSChatStateContext = createContext<TWSChatContext | {}>({});
@@ -65,7 +72,7 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
     []
   );
 
-  const [topics, setTopics] = useState([]);
+  const [topics, setTopics] = useState<TTopics>({});
   const [isReady, setIsReady] = useState(false);
   const [currentOpenedTopicId, setCurrentOpenedTopicId] = useState("");
   const [openedTopic, setOpenedTopic] = useState<TTopic>();
@@ -103,7 +110,8 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
    * @param topic The topic id to subscribe into
    */
   function subscribeTopic(topic: string) {
-    const obj = getObjectFromArray(topics, (t: TTopic) => t.topic === topic);
+    // const obj = getObjectFromArray(topics, (t: TTopic) => t.topic === topic);
+    const obj = topics[topic];
     if (!!obj) setFocusTopic(topic);
     else sendChatMessageToServer(chatGetFirstSubMessage(topic));
   }
@@ -122,7 +130,30 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
    * @param topic the topic wanted to leave
    */
   function leaveTopic(topic: string) {
+    if (!topic) return;
     sendChatMessageToServer(chatGetLeaveMessage(topic));
+  }
+
+  function generateNewData(topic: string, content: string | AttachmentMsg) {
+    const openedTopicKeys = Object.keys(openedTopic?.messages || {});
+
+    const newData: TChatDataResp = {
+      topic,
+      from: getLoggedInCompany()?.chatId!,
+      content,
+      seq: (parseInt(openedTopicKeys[openedTopicKeys.length - 1]) || 0) + 1,
+      ts: new Date(),
+    };
+    return newData;
+  }
+
+  /**
+   * Because when we sent message the new message update is not automatically show up
+   * Then we refetch it programatically
+   */
+  function refetchData() {
+    const sameTopicIdDifferentMem = currentOpenedTopicId;
+    setTimeout(() => setFocusTopic(sameTopicIdDifferentMem), 50);
   }
 
   /**
@@ -131,19 +162,13 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
    * @param content
    */
   function sendChatMessage(topic: string, content: string) {
-    const openedTopicKeys = Object.keys(openedTopic?.messages || {});
-    const newData: TDataResp = {
-      topic,
-      from: getLoggedInCompany()?.chatId!,
-      content,
-      seq: parseInt(openedTopicKeys[openedTopicKeys.length - 1]) + 1,
-      ts: new Date(),
-    };
+    // const newData = generateNewData(topic, content);
     // Because chat server not support to get the new message if we are the one who sent it
     // Then we make it like this
-    handleData(newData);
+    // handleData(newData);
 
     sendChatMessageToServer(chatGetSendMessageMessage(topic, content));
+    refetchData();
   }
 
   /**
@@ -160,11 +185,25 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
   function setFocusTopic(topic: string) {
     if (currentOpenedTopicId) leaveTopic(topic);
 
+    setOpenedTopic(topics[topic]);
     setCurrentOpenedTopicId(topic);
-    setOpenedTopic(
-      getObjectFromArray(topics, (i: TTopic) => i.topic === topic).obj
-    );
     sendChatMessageToServer(chatGetTopicMessagesMessage(topic));
+  }
+
+  /**
+   * Handling sending file only to certain topic
+   * @param topic
+   * @param capt
+   * @param file
+   */
+  function sendAttachment(topic: string, capt: string, file: TChatFileParam) {
+    // const newData = generateNewData(topic, {
+    //   txt: capt,
+    //   ent: [{ data: file }],
+    // });
+
+    sendChatMessageToServer(chatGetSendFileMessage(topic, capt, file));
+    refetchData();
   }
 
   /**
@@ -185,15 +224,23 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
    */
   function handleMeta(meta: any) {
     if (!meta) return;
-    // console.log(meta);
-    if (meta.sub && !topics.length) {
-      const newTopics = meta.sub.flatMap((s: TTopic) => {
-        if (isHaveDuplicate(topics, (i: TTopic) => i.topic === s.topic))
-          return [];
-        return Object.assign({ messages: {} }, s);
+
+    if (meta.desc && !topics[meta.topic]) {
+      if ([currentOpenedTopicId, "me"].includes(meta.topic)) return;
+      const newTopic = Object.assign(
+        { messages: {}, topic: meta.topic },
+        meta.desc
+      );
+      topics[meta.topic] = newTopic;
+      setTopics({ ...topics });
+      setFocusTopic(meta.topic);
+    } else if (meta.sub) {
+      meta.sub.forEach((s: TTopic) => {
+        if (s.topic === "me" || !s.topic || !!topics[s.topic]) return;
+        topics[s.topic] = Object.assign({ messages: {} }, s);
       });
 
-      setTopics(newTopics);
+      setTopics({ ...topics });
     }
   }
 
@@ -213,17 +260,13 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
     }
   }
 
-  function handleData(data: TDataResp) {
+  function handleData(data: TChatDataResp) {
     if (!data) return;
+    const topic = topics[data.topic];
 
-    const { obj: topic, idx } = getObjectFromArray(
-      topics,
-      (i: TTopic) => i.topic === data.topic
-    );
     topic.messages[data.seq] = data;
 
-    (topics as any)[idx] = topic;
-    setTopics([...topics]);
+    setTopics({ ...topics });
   }
 
   /**
@@ -250,6 +293,7 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
         setFocusTopic,
         notifyTyping,
         closeFocusTopic,
+        sendAttachment,
       }}
     >
       {children}

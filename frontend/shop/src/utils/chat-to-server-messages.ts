@@ -1,4 +1,5 @@
 import { unescape } from "lodash";
+import { TChatFileParam, TChatImageInput } from "./chat-interface";
 import { encodeString, generateUUID } from "./functions";
 
 /**
@@ -76,6 +77,12 @@ export function chatGetNotifyTypingMessage(topic: string) {
   });
 }
 
+/**
+ * To get `send message` message to server
+ * @param topic Topic to send the message
+ * @param content the content
+ * @returns
+ */
 export function chatGetSendMessageMessage(topic: string, content: string) {
   return JSON.stringify({
     pub: {
@@ -83,6 +90,68 @@ export function chatGetSendMessageMessage(topic: string, content: string) {
       noecho: true,
       topic,
       content,
+    },
+  });
+}
+
+/**
+ * To send image file to topic
+ * @param topic Topic to send the message
+ * @param caption the caption of the image
+ * @param image the image, see ${TImageInput}
+ */
+export function chatGetSendImageMessage(
+  topic: string,
+  caption: string,
+  image: TChatImageInput
+) {
+  return JSON.stringify({
+    pub: {
+      id: generateUUID(),
+      topic,
+      noecho: true,
+      head: { mime: "text/x-drafty" },
+      content: {
+        txt: caption,
+        ent: [
+          {
+            tp: "IM",
+            data: image,
+          },
+        ],
+        fmt: [{ len: 1 }, { at: 1, len: 1, tp: "BR" }],
+      },
+    },
+  });
+}
+
+/**
+ * To send file to certain topic
+ * @param topic Topic to send the message
+ * @param caption the caption of the file
+ * @param image the image, see ${TChatFileParam}
+ */
+export function chatGetSendFileMessage(
+  topic: string,
+  caption: string,
+  file: TChatFileParam
+) {
+  return JSON.stringify({
+    pub: {
+      id: generateUUID(),
+      topic,
+      noecho: true,
+      head: { mime: "text/x-drafty" },
+      content: {
+        txt: caption,
+        ent: [
+          {
+            tp: "EX",
+            data: file,
+          },
+        ],
+        fmt: [{ at: -1 }],
+      },
     },
   });
 }

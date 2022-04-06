@@ -8,21 +8,22 @@ interface IChatTopicListProps {}
 
 const ChatTopicList: React.FC<IChatTopicListProps> = ({ ...props }) => {
   const { t } = useTranslation();
-  const { topics } = useWSChat();
+  const { topics = {} } = useWSChat();
 
   return (
     <div className={`bg-white space-y-0 h-fit-content`}>
-      {topics.map((tpc, idx) => {
+      {Object.keys(topics).map((key, idx) => {
+        const tpc = topics[key];
         return (
           <TopicItem
-            isLast={topics.length === idx + 1}
+            isLast={Object.keys(topics).length === idx + 1}
             topic={tpc}
             key={tpc.public?.fn + "topic-item"}
           />
         );
       })}
 
-      {!topics.length && (
+      {!Object.keys(topics).length && (
         <div className={`py-5`}>
           <Typography
             text={t("please-chat-to-a-company-message")}

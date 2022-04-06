@@ -475,3 +475,29 @@ export function getObjectFromArray(
 
   return { obj: arr[idx], idx };
 }
+
+/**
+ * We get only certain amount of digit after "," decimal value
+ * @param value
+ * @param digit default is 2 because it's international standard
+ */
+function toFixedFloat(value: number, digit: number = 2) {
+  return parseFloat(value.toFixed(digit));
+}
+
+/**
+ * This function is meant to convert byto into kb | mb | gb word
+ * @param byte
+ * @returns
+ */
+export function formatByte(byte: number) {
+  let kb = toFixedFloat(byte / 1000);
+  let mb;
+  let gb;
+
+  if (kb > 1000) mb = toFixedFloat(kb / 1000);
+  if (!mb) return `${kb} KB`;
+  if (mb > 1000) gb = toFixedFloat(mb / 1000);
+  if (!gb) return `${mb} MB`;
+  return `${gb} GB`;
+}

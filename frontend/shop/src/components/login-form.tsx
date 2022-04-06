@@ -17,7 +17,6 @@ import Link from "./ui/link";
 import Checkbox from "./ui/storybook/checkbox";
 import { LoginMutation, useLoginMutation } from "../graphql/auth.graphql";
 import {
-  generateChatCredUnique,
   getRedirectLinkAfterLogin,
   removeRedirectLinkAfterLogin,
   setAuthCredentials,
@@ -30,11 +29,9 @@ import EmailOutlineIcon from "@assets/icons/email-outline-icon";
 import { AUTH_ERRORS, CHAT_URL } from "@utils/constants";
 import { COLORS } from "@utils/colors";
 import { useWSChat } from "src/contexts/ws-chat.context";
-import { generateChatPassword, generateUsername } from "@utils/functions";
 import { useModal } from "src/contexts/modal.context";
 import PasswordReset from "./ui/password-reset";
 import { ICompany, IUser } from "@graphql/types.graphql";
-import { chatGetLoginMessage } from "@utils/chat-messages";
 
 type FormValues = {
   email: string;
