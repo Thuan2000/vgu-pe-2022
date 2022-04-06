@@ -43,7 +43,7 @@ const Subscription: React.FC<ISubscribeProps> = ({ ...props }) => {
         <ProPlans />
       </div>
       <Instruction />
-      <Typography text={t("subs-note")} color="gray-400" />
+      <Typography text={t("subs-note")} align="center" color="gray-400" />
 
       <TransferReceiptInput />
     </div>

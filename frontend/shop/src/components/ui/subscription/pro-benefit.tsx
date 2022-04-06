@@ -9,18 +9,30 @@ interface IProBenefitProps {}
 
 const ProBenefit: React.FC<IProBenefitProps> = ({ ...props }) => {
   const { t } = useTranslation();
+  // const benefits = [
+  //   "benefit-admin-access",
+  //   "benefit-search-request",
+  //   "benefit-search-request",
+  //   "benefit-chat-access",
+  // ];
 
   const benefits = [
-    "benefit-admin-access",
-    "benefit-search-request",
-    "benefit-search-request",
+    "benefit-search-product-service",
+    "benefit-search-tenders",
     "benefit-chat-access",
   ];
+
+  function goToUpgrade() {
+    window.scrollTo({
+      top: 400,
+      behavior: "smooth",
+    });
+  }
 
   return (
     <div className="fic rounded-sm border-gray-200 overflow-hidden border">
       <div className={`sm:w-[470px]`}>
-        <div className="bg-primary py-4">
+        <div id="content" className="bg-primary py-4">
           <Typography
             text={t("pro-benefit-title")}
             weight="semibold"
@@ -42,7 +54,9 @@ const ProBenefit: React.FC<IProBenefitProps> = ({ ...props }) => {
             })}
           </div>
           <div className="w-full text-center">
-            <Button className={``}>{t("subscribe-now-button-label")}</Button>
+            <Button onClick={goToUpgrade} className={``}>
+              {t("subscribe-now-button-label")}
+            </Button>
           </div>
         </div>
       </div>
