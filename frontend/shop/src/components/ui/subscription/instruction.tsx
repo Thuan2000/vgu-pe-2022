@@ -21,7 +21,7 @@ export function Instruction({}) {
         color="gray"
         size="md"
       />
-      <div className="fic space-x-2">
+      <div className="fic space-x-3 justify-center">
         <div className={`relative w-40 h-36`}>
           <Image src={BankLogo} layout="fill" alt="bank-logo" />
         </div>

@@ -99,9 +99,10 @@
   "search-dich-vu-input-placeholder": "e.g: household design",
   "search-nha-cung-cap-input-placeholder": "e.g: company A",
   "password-resetted-success-title": "Reset password successfully",
-	"password-resetted-success-message": "Please login using newly-created password",
-	"password-resetted-success-button": "OK",
+  "password-resetted-success-message": "Please login using newly-created password",
+  "password-resetted-success-button": "OK",
   "error-WRONG_PASSWORD-title": "Wrong Password",
-	"error-WRONG_PASSWORD-message": "The password you typed in was incorrect",
-	"error-WRONG_PASSWORD-button": "Yes, I understand"
+  "error-WRONG_PASSWORD-message": "The password you typed in was incorrect",
+  "error-WRONG_PASSWORD-button": "Yes, I understand",
+  "stay-button-label": "Continue"
 }
