@@ -2,6 +2,7 @@ import AttachmentIcon from "@assets/icons/attachment-icon";
 import ImageIcon from "@assets/icons/image-icon";
 import SendMessageIcon from "@assets/icons/send-message-icon";
 import Form from "@components/form";
+import { IFileType } from "@graphql/types.graphql";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import { TChatFileParam, TChatImageInput } from "@utils/chat-interface";
 import { COLORS } from "@utils/colors";
@@ -63,13 +64,18 @@ const TopicMessageInput: React.FC<ITopicMessageInputProps> = ({ ...props }) => {
         input: {
           companyName: openedTopic?.topic!,
           files: [file],
-          uploadsFileInputType: file.type.split("/")[0] as any,
+          uploadsFileInputType: getFileType(file.type) as any,
           fileAccessControl: "PUBLIC_READ" as any,
         },
       },
     });
 
-    // const image: TChatImageInput = {};
+    const image: TChatImageInput = {
+      mime: file.type,
+      name: file.name,
+      val: data?.uploadFiles[0].url!,
+      size: file.size,
+    };
 
     const attachment: TChatFileParam = {
       mime: file.type,
@@ -77,7 +83,18 @@ const TopicMessageInput: React.FC<ITopicMessageInputProps> = ({ ...props }) => {
       val: data?.uploadFiles[0].url!,
     };
 
-    sendAttachment(openedTopic?.topic!, newMessage, attachment);
+    sendAttachment(
+      openedTopic?.topic!,
+      newMessage,
+      attachmentType.current === "image" ? image : attachment
+    );
+  }
+
+  function getFileType(fileType: string): IFileType {
+    const acceptedTypes: IFileType[] = ["application", "image", "video"];
+    const actualType = fileType.split("/")?.[0] as IFileType;
+
+    return acceptedTypes.includes(actualType) ? actualType : "application";
   }
 
   async function handleFileDrop(files: File[]) {
@@ -95,11 +112,8 @@ const TopicMessageInput: React.FC<ITopicMessageInputProps> = ({ ...props }) => {
 
   function handleSubmit() {
     if (!newMessage && !file) return;
-    if (!!file && attachmentType.current === "file") {
-      handleSendWithAttachment();
-    } else if (!!file && attachmentType.current === "file") {
-      handleSendWithAttachment();
-    } else sendChatMessage(openedTopic?.topic!, newMessage);
+    if (!!file && !!attachmentType.current) handleSendWithAttachment();
+    else sendChatMessage(openedTopic?.topic!, newMessage);
 
     removeFile();
     setNewMessage("");

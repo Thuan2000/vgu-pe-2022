@@ -1,6 +1,5 @@
-import { AttachmentMsg } from "@components/ui/chat/topic-message-item";
 import { generateChatCredUnique, setChatAuthToken } from "@utils/auth-utils";
-import { TChatDataResp, TChatFileParam } from "@utils/chat-interface";
+import { AttachmentMsg, TChatDataResp, TChatFileParam } from "@utils/chat-interface";
 import {
   chatGetFirstSubMessage,
   chatGetHiMessage,

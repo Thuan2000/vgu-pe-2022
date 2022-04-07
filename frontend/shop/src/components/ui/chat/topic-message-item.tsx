@@ -1,29 +1,15 @@
-import FilePreviewIcon from "@assets/icons/files/file-preview-icon";
-import PdfIcon from "@assets/icons/files/pdf-icon";
-import { TChatDataResp } from "@utils/chat-interface";
-import { COLORS } from "@utils/colors";
+import { getFileMsg } from "@utils/chat-function";
+import { AttachmentMsg, TChatDataResp } from "@utils/chat-interface";
 import { generateUUID, getLoggedInCompany } from "@utils/functions";
+import Image from "next/image";
 import React, { useEffect } from "react";
 import Typography from "../storybook/typography";
+import MessageDocumentPreview from "./message-document-preview";
+import MessageImagePreview from "./message-image-preview";
 
 interface ITopicMessageItemProps {
   msg: TChatDataResp;
   isLast: boolean;
-}
-
-export type ChatAttachmentRecv = {
-  mime: string;
-  name: string;
-  val: string;
-};
-
-export type AttachmentMsg = {
-  ent: [{ data: ChatAttachmentRecv }];
-  txt?: string;
-};
-
-function getFileMsg(file: AttachmentMsg) {
-  return file.ent[0].data;
 }
 
 const TopicMessageItem: React.FC<ITopicMessageItemProps> = ({
@@ -35,7 +21,6 @@ const TopicMessageItem: React.FC<ITopicMessageItemProps> = ({
   const id = generateUUID();
 
   const isSent = loggedCompChatId === msg.from;
-
   useEffect(() => {
     const el = document.getElementById(id);
     if (isLast && el) {
@@ -43,6 +28,8 @@ const TopicMessageItem: React.FC<ITopicMessageItemProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  const fileMsg = getFileMsg(msg.content as AttachmentMsg);
 
   return (
     <div
@@ -54,20 +41,17 @@ const TopicMessageItem: React.FC<ITopicMessageItemProps> = ({
       {typeof msg.content === "object" ? (
         <div className={`space-y-2`}>
           <div className={`flex-center`}>
-            <FilePreviewIcon
-              className={`w-20 h-20 cursor-pointer`}
-              fill={COLORS.WHITE}
-              onClick={() =>
-                window.open(getFileMsg(msg.content as AttachmentMsg).val)
-              }
-            />
+            {fileMsg.mime.includes("image") ? (
+              <MessageImagePreview msg={msg} />
+            ) : (
+              <MessageDocumentPreview msg={msg} />
+            )}
           </div>
+
           <Typography
             color={isSent ? "white" : "black"}
             truncate
-            text={
-              msg.content.txt || getFileMsg(msg.content as AttachmentMsg).name
-            }
+            text={(msg.content as AttachmentMsg).txt || fileMsg.name}
           />
         </div>
       ) : (

@@ -12,11 +12,15 @@ import { findIndex } from "lodash";
 interface IImagePreviewProps {
   defaultActiveUrl: string;
   images: IFile[];
+  isOriginalSize?: boolean;
+  isWithThumb?: boolean;
 }
 
 const ImagePreview: React.FC<IImagePreviewProps> = ({
   defaultActiveUrl,
   images,
+  isOriginalSize,
+  isWithThumb = true,
 }) => {
   const { closeModal } = useModal();
   const [activeImageUrl, setActiveImageUrl] = useState(defaultActiveUrl);
@@ -46,19 +50,29 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
         className={`animation-hover-scale absolute top-10 right-32 w-5 h-5`}
       />
       <div className={`relative`} onClick={(e) => e.preventDefault()}>
-        <div
-          className={`relative bg-black bg-opacity-70 h-[400px] w-[400px] aspect-square -translate-y-24`}
-        >
-          <Image
-            src={activeImageUrl}
-            layout="fill"
-            objectFit="fill"
-            alt="image-preview"
-          />
-        </div>
+        {!isOriginalSize && (
+          <div
+            className={`relative bg-black bg-opacity-70 h-[400px] w-[400px] aspect-square -translate-y-24`}
+          >
+            <Image
+              src={activeImageUrl}
+              layout="fill"
+              objectFit="fill"
+              alt="image-preview"
+            />
+          </div>
+        )}
+
+        {isOriginalSize && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img alt={images[activeImageIdx].fileName} src={activeImageUrl} />
+        )}
+
         <div
           onClick={(e) => e.preventDefault()}
-          className={`flex absolute top-[100] translate-y-10 left-0 right-0 justify-center`}
+          className={`flex absolute top-[100] translate-y-10 left-0 right-0 justify-center ${
+            !isWithThumb && "hidden"
+          }`}
         >
           {images.map((img, idx) => {
             const isActive = idx === activeImageIdx;
