@@ -157,25 +157,7 @@ class CompanyController {
 			};
 
 			// Setting company subscription
-			const newSubs = await CompanySubscription.create(firstSubscription);
-			const subscription = await CompanySubscription.findByPk(
-				newSubs.getDataValue("id"),
-				{
-					attributes: ["startAt", "endAt", "subscriptionAttempt"],
-					include: [
-						{
-							model: Subscription,
-							as: "subscriptionDetail",
-							attributes: ["nameEn", "nameVn", "monthlyPrice"]
-						}
-					]
-				}
-			);
-
-			Company.updateEsCompany(id, {
-				...company,
-				subscription
-			});
+			await CompanySubscription.create(firstSubscription);
 
 			const owner = company.owner;
 
@@ -211,7 +193,32 @@ class CompanyController {
 				where: { id }
 			});
 
-			const company = (await Company.findByPk(id)).toJSON();
+			const company = (
+				await Company.findByPk(id, {
+					include: [
+						{
+							model: CompanySubscription,
+							as: "subscription",
+							attributes: [
+								"startAt",
+								"endAt",
+								"subscriptionAttempt"
+							],
+							include: [
+								{
+									model: Subscription,
+									as: "subscriptionDetail",
+									attributes: [
+										"nameEn",
+										"nameVn",
+										"monthlyPrice"
+									]
+								}
+							]
+						}
+					]
+				})
+			).toJSON();
 
 			Company.updateEsCompany(id, company);
 
@@ -314,12 +321,28 @@ class CompanyController {
 
 	static async addChatId(approvedCompId: number, chatId: string) {
 		try {
-			const company = await Company.findByPk(approvedCompId);
+			const company = await Company.findByPk(approvedCompId, {
+				include: [
+					{
+						model: CompanySubscription,
+						as: "subscription",
+						attributes: ["startAt", "endAt", "subscriptionAttempt"],
+						include: [
+							{
+								model: Subscription,
+								as: "subscriptionDetail",
+								attributes: ["nameEn", "nameVn", "monthlyPrice"]
+							}
+						]
+					}
+				]
+			});
 
 			company.set("chatId", chatId);
 			await company.save();
 
 			Company.updateEsCompany(approvedCompId, company.toJSON());
+
 			return successResponse();
 		} catch (e) {
 			console.error(e);

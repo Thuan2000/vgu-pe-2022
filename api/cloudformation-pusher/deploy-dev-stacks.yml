@@ -1,174 +1,179 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
-  Refresher:
-    Type: String
-  Vpc:
-    Type: String
-  Certificate:
-    Type: String
-  SubnetID:
-    Type: String
-  SubnetID2:
-    Type: String
-  SubnetID3:
-    Type: String
-  DockerImageURI:
-    Type: String
-  PORT:
-    Type: Number
-    
-  # SDConnect API Env
-  NodeEnv:
-    Type: String
-  JwtSecret:
-    Type: String
-  ShopUrl:
-    Type: String
-  DBDialect:
-    Type: String
-  DBHost:
-    Type: String
-  DBDatabase:
-    Type: String
-  DBPort:
-    Type: String
-  DBUsername:
-    Type: String
-  DBPassword:
-    Type: String
-  AwsRegion:
-    Type: String
-  AWSAccessKey:
-    Type: String
-  AWSSecretKey:
-    Type: String
-  S3BucketName:
-    Type: String
-  SmtpHost:
-    Type: String
-  SmtpPort:
-    Type: String
-  SmtpSecure:
-    Type: String
-  SmtpUsername:
-    Type: String
-  SmtpPassword:
-    Type: String
-  SmtpFrom:
-    Type: String
-  ESEndpoint:
-    Type: String
-  ESUsername:
-    Type: String
-  ESPassword:
-    Type: String
-  RedisUrl:
-    Type: String
-  RedisDatabase:
-    Type: String
-  RedisPort:
-    Type: Number
-  RedisDialTimeout:
-    Type: Number
-  RedisReadTimeout:
-    Type: Number
-  RedisWriteTimeout:
-    Type: Number
-  RedisUsername:
-    Type: String
-  RedisPassword:
-    Type: String
-  QueueUrl:
-    Type: String
-  ChatApiUrl:
-    Type: String
-  ChatApiKey:
-    Type: String
-  AdminEmail:
-    Type: String
+    Refresher:
+        Type: String
+    Vpc:
+        Type: String
+    Certificate:
+        Type: String
+    SubnetID:
+        Type: String
+    SubnetID2:
+        Type: String
+    SubnetID3:
+        Type: String
+    DockerImageURI:
+        Type: String
+    PORT:
+        Type: Number
+
+    # SDConnect API Env
+    NodeEnv:
+        Type: String
+    JwtSecret:
+        Type: String
+    ShopUrl:
+        Type: String
+    DBDialect:
+        Type: String
+    DBHost:
+        Type: String
+    DBDatabase:
+        Type: String
+    DBPort:
+        Type: String
+    DBUsername:
+        Type: String
+    DBPassword:
+        Type: String
+    AwsRegion:
+        Type: String
+    AWSAccessKey:
+        Type: String
+    AWSSecretKey:
+        Type: String
+    S3BucketName:
+        Type: String
+    SmtpHost:
+        Type: String
+    SmtpPort:
+        Type: String
+    SmtpSecure:
+        Type: String
+    SmtpUsername:
+        Type: String
+    SmtpPassword:
+        Type: String
+    SmtpFrom:
+        Type: String
+    ESUsername:
+        Type: String
+    ESPassword:
+        Type: String
+    RedisUrl:
+        Type: String
+    RedisDatabase:
+        Type: String
+    RedisPort:
+        Type: Number
+    RedisDialTimeout:
+        Type: Number
+    RedisReadTimeout:
+        Type: Number
+    RedisWriteTimeout:
+        Type: Number
+    RedisUsername:
+        Type: String
+    RedisPassword:
+        Type: String
+    QueueUrl:
+        Type: String
+    ChatApiUrl:
+        Type: String
+    ChatApiKey:
+        Type: String
+    AdminEmail:
+        Type: String
 Resources:
-  DevSdconnectRds:
-    Type: "AWS::CloudFormation::Stack"
-    Properties:
-      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/rds-api.yml
-      Parameters:
-        DBUsername: !Ref DBUsername
-        DBPassword: !Ref DBPassword
-        DBName: !Ref DBDatabase
-        VpcId: !Ref Vpc
-  DevSdconnectEcs:
-    Type: "AWS::CloudFormation::Stack"
-    Properties:
-      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/ecs-api.yml
-      Parameters:
-        TargetGroupArn: !GetAtt elb.Outputs.TargetGroup
-        LoadBalancerName: !GetAtt elb.Outputs.LoadBalancer
-        Refresher: !Ref Refresher
-        SubnetID: !Ref SubnetID
-        SubnetID2: !Ref SubnetID2
-        SubnetID3: !Ref SubnetID3
-        PORT: !Ref PORT
-        DockerImageURI: !Ref DockerImageURI
-        NodeEnv: !Ref NodeEnv
-        JwtSecret: !Ref JwtSecret
-        ShopUrl: !Ref ShopUrl
-        DBDialect: !Ref DBDialect
-        DBHost: !GetAtt DevSdconnectRds.Outputs.InstanceId
-        DBDatabase: !Ref DBDatabase
-        DBPort: !Ref DBPort
-        DBUsername: !Ref DBUsername
-        DBPassword: !Ref DBPassword
-        AwsRegion: !Ref AwsRegion
-        AWSAccessKey: !Ref AWSAccessKey
-        AWSSecretKey: !Ref AWSSecretKey
-        S3BucketName: !GetAtt DevSdconnectS3Bucket.Outputs.S3BucketName
-        SmtpHost: !Ref SmtpHost
-        SmtpPort: !Ref SmtpPort
-        SmtpSecure: !Ref SmtpSecure
-        SmtpUsername: !Ref SmtpUsername
-        SmtpPassword: !Ref SmtpPassword
-        SmtpFrom: !Ref SmtpFrom
-        ESEndpoint: !Join ['', ['https://', !GetAtt DevSdconnectOpenSearch.Outputs.DomainEndpoint]]
-        ESUsername: !Ref ESUsername
-        ESPassword: !Ref ESPassword
-        # RedisUrl: !Join ['', ['//', !GetAtt DevSdconnectRedis.Outputs.Address]]
-        RedisUrl: !Ref RedisUrl
-        RedisDatabase: !Ref RedisDatabase
-        RedisPort: !GetAtt DevSdconnectRedis.Outputs.Port
-        RedisDialTimeout: !Ref RedisDialTimeout
-        RedisReadTimeout: !Ref RedisReadTimeout
-        RedisWriteTimeout: !Ref RedisWriteTimeout
-        RedisUsername: !Ref RedisUsername
-        RedisPassword: !Ref RedisPassword
-        QueueUrl: !Ref QueueUrl
-        ChatApiUrl: !Ref ChatApiUrl
-        ChatApiKey: !Ref ChatApiKey
-        AdminEmail: !Ref AdminEmail
-  elb:
-    Type: "AWS::CloudFormation::Stack"
-    Properties:
-      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/elb-api.yml
-      Parameters:
-        Vpc: !Ref Vpc
-        Certificate: !Ref Certificate
-        PORT: !Ref PORT
-        SubnetID: !Ref SubnetID
-        SubnetID2: !Ref SubnetID2
-        SubnetID3: !Ref SubnetID3
-  DevSdconnectRedis:
-    Type: "AWS::CloudFormation::Stack"
-    Properties:
-      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/redis-api.yml
-  DevSdconnectOpenSearch:
-    Type: "AWS::CloudFormation::Stack"
-    Properties:
-      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/open-search-api.yml
-      Parameters:
-        VpcId: !Ref Vpc
-        SubnetID: !Ref SubnetID
-        MasterUserName: !Ref ESUsername
-        MasterUserPassword: !Ref ESPassword
-  DevSdconnectS3Bucket:
-    Type: "AWS::CloudFormation::Stack"
-    Properties:
-      TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/s3-api.yml
+    DevSdconnectRds:
+        Type: "AWS::CloudFormation::Stack"
+        Properties:
+            TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/rds-api.yml
+            Parameters:
+                DBUsername: !Ref DBUsername
+                DBPassword: !Ref DBPassword
+                DBName: !Ref DBDatabase
+                VpcId: !Ref Vpc
+    DevSdconnectEcs:
+        Type: "AWS::CloudFormation::Stack"
+        Properties:
+            TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/ecs-api.yml
+            Parameters:
+                TargetGroupArn: !GetAtt elb.Outputs.TargetGroup
+                LoadBalancerName: !GetAtt elb.Outputs.LoadBalancer
+                Refresher: !Ref Refresher
+                SubnetID: !Ref SubnetID
+                SubnetID2: !Ref SubnetID2
+                SubnetID3: !Ref SubnetID3
+                PORT: !Ref PORT
+                DockerImageURI: !Ref DockerImageURI
+                NodeEnv: !Ref NodeEnv
+                JwtSecret: !Ref JwtSecret
+                ShopUrl: !Ref ShopUrl
+                DBDialect: !Ref DBDialect
+                DBHost: !GetAtt DevSdconnectRds.Outputs.InstanceId
+                DBDatabase: !Ref DBDatabase
+                DBPort: !Ref DBPort
+                DBUsername: !Ref DBUsername
+                DBPassword: !Ref DBPassword
+                AwsRegion: !Ref AwsRegion
+                AWSAccessKey: !Ref AWSAccessKey
+                AWSSecretKey: !Ref AWSSecretKey
+                S3BucketName: !GetAtt DevSdconnectS3Bucket.Outputs.S3BucketName
+                SmtpHost: !Ref SmtpHost
+                SmtpPort: !Ref SmtpPort
+                SmtpSecure: !Ref SmtpSecure
+                SmtpUsername: !Ref SmtpUsername
+                SmtpPassword: !Ref SmtpPassword
+                SmtpFrom: !Ref SmtpFrom
+                ESEndpoint:
+                    !Join [
+                        "",
+                        [
+                            "https://",
+                            !GetAtt DevSdconnectOpenSearch.Outputs.DomainEndpoint,
+                        ],
+                    ]
+                ESUsername: !Ref ESUsername
+                ESPassword: !Ref ESPassword
+                # RedisUrl: !Join ['', ['//', !GetAtt DevSdconnectRedis.Outputs.Address]]
+                RedisUrl: !Ref RedisUrl
+                RedisDatabase: !Ref RedisDatabase
+                RedisPort: !GetAtt DevSdconnectRedis.Outputs.Port
+                RedisDialTimeout: !Ref RedisDialTimeout
+                RedisReadTimeout: !Ref RedisReadTimeout
+                RedisWriteTimeout: !Ref RedisWriteTimeout
+                RedisUsername: !Ref RedisUsername
+                RedisPassword: !Ref RedisPassword
+                QueueUrl: !Ref QueueUrl
+                ChatApiUrl: !Ref ChatApiUrl
+                ChatApiKey: !Ref ChatApiKey
+                AdminEmail: !Ref AdminEmail
+    elb:
+        Type: "AWS::CloudFormation::Stack"
+        Properties:
+            TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/elb-api.yml
+            Parameters:
+                Vpc: !Ref Vpc
+                Certificate: !Ref Certificate
+                PORT: !Ref PORT
+                SubnetID: !Ref SubnetID
+                SubnetID2: !Ref SubnetID2
+                SubnetID3: !Ref SubnetID3
+    DevSdconnectRedis:
+        Type: "AWS::CloudFormation::Stack"
+        Properties:
+            TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/redis-api.yml
+    DevSdconnectOpenSearch:
+        Type: "AWS::CloudFormation::Stack"
+        Properties:
+            TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/open-search-api.yml
+            Parameters:
+                VpcId: !Ref Vpc
+                SubnetID: !Ref SubnetID
+                MasterUserName: !Ref ESUsername
+                MasterUserPassword: !Ref ESPassword
+    DevSdconnectS3Bucket:
+        Type: "AWS::CloudFormation::Stack"
+        Properties:
+            TemplateURL: https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/cloudformation/dev/s3-api.yml

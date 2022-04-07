@@ -49,7 +49,7 @@ class Company extends Model {
 		try {
 			const companies = await Company.findAll({
 				where: {
-					// Because we must seed 1 company to have 1 user then we just not put it on elasticsearch
+					// Because this is super admin company
 					id: {
 						[Op.ne]: 1
 					}

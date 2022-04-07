@@ -53,7 +53,7 @@
 	},
 	{
 		"ParameterKey": "DBDatabase",
-		"ParameterValue": "devsdconnect"
+		"ParameterValue": "sdconnect"
 	},
 	{
 		"ParameterKey": "DBPort",
@@ -106,10 +106,6 @@
 	{
 		"ParameterKey": "SmtpFrom",
 		"ParameterValue": "no-reply@sdconnect.vn"
-	},
-	{
-		"ParameterKey": "ESEndpoint",
-		"ParameterValue": "https://search-es-sdconnectdev-ci4ohii2ymclhtjl64x467slsq.ap-southeast-1.es.amazonaws.com/"
 	},
 	{
 		"ParameterKey": "ESUsername",
