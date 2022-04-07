@@ -26,8 +26,8 @@ export const Mutation = {
 	getCompanyNameSuggestion: (_, { name, limit }) =>
 		CompanyController.getNameSuggestion(name, limit),
 	// @NOTES URGENT : Follow this
-	approveCompany: (_, { id, approverId, expDate }) =>
-		CompanyController.approveCompany(id, approverId, expDate),
+	approveCompany: (_, { id, approverId, expDate, isSeedData }) =>
+		CompanyController.approveCompany(id, approverId, expDate, isSeedData),
 	updateCompany: (_, { id, input }) =>
 		CompanyController.updateCompany(id, input),
 	/**

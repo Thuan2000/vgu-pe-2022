@@ -131,12 +131,12 @@ class CompanyController {
 	static async approveCompany(
 		id: number,
 		approverId: number,
-		expDate: number
+		expDate: number,
+		isSeedData = false
 	) {
 		try {
-			// const company = Company.findByPk(id);
 			const resp = await Company.update(
-				{ approved: 1, approverId },
+				{ approved: 1, approverId, isSeedData },
 				{ where: { id } }
 			);
 

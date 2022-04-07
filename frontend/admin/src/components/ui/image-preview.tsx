@@ -1,25 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-
 import { IFile } from "@graphql/types.graphql";
+import React, { useEffect, useState } from "react";
 import { useModal } from "src/contexts/modal.context";
+import Image from "next/image";
 import XIcon from "@assets/icons/x-icon";
 import { COLORS } from "@utils/colors";
+import ArrowLeftIcon from "@assets/icons/arrow-left-icon";
 import ArrowPrevIcon from "@assets/icons/arrow-prev-icon";
 import { findIndex } from "lodash";
-
-const ACTIVE_IMAGE_SIZE = 550;
-const THUMB_IMAGE_SIZE = 80;
 
 interface IImagePreviewProps {
   defaultActiveUrl: string;
   images: IFile[];
+  isOriginalSize?: boolean;
+  isWithThumb?: boolean;
 }
 
 const ImagePreview: React.FC<IImagePreviewProps> = ({
   defaultActiveUrl,
   images,
+  isOriginalSize,
+  isWithThumb = true,
 }) => {
   const { closeModal } = useModal();
   const [activeImageUrl, setActiveImageUrl] = useState(defaultActiveUrl);
@@ -49,23 +50,29 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
         className={`animation-hover-scale absolute top-10 right-32 w-5 h-5`}
       />
       <div className={`relative`} onClick={(e) => e.preventDefault()}>
-        <div
-          className={`relative bg-black bg-opacity-70 aspect-square -translate-y-24`}
-          style={{
-            width: ACTIVE_IMAGE_SIZE,
-            height: ACTIVE_IMAGE_SIZE,
-          }}
-        >
-          <Image
-            src={activeImageUrl}
-            layout="fill"
-            objectFit="fill"
-            alt="image-preview"
-          />
-        </div>
+        {!isOriginalSize && (
+          <div
+            className={`relative bg-black bg-opacity-70 h-[400px] w-[400px] aspect-square -translate-y-24`}
+          >
+            <Image
+              src={activeImageUrl}
+              layout="fill"
+              objectFit="fill"
+              alt="image-preview"
+            />
+          </div>
+        )}
+
+        {isOriginalSize && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img alt={images[activeImageIdx].fileName} src={activeImageUrl} />
+        )}
+
         <div
           onClick={(e) => e.preventDefault()}
-          className={`flex absolute top-[100] translate-y-2 left-0 right-0 justify-center`}
+          className={`flex absolute top-[100] translate-y-10 left-0 right-0 justify-center ${
+            !isWithThumb && "hidden"
+          }`}
         >
           {images.map((img, idx) => {
             const isActive = idx === activeImageIdx;
@@ -73,11 +80,7 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
               <div
                 key={img.fileName + img.url}
                 onClick={() => setActiveImageUrl(img.url)}
-                style={{
-                  width: THUMB_IMAGE_SIZE,
-                  height: THUMB_IMAGE_SIZE,
-                }}
-                className={`animation-hover-scale mr-5 rounded-sm overflow-hidden relative bg-black bg-opacity-70 -translate-y-10
+                className={`animation-hover-scale mr-5 rounded-sm overflow-hidden relative bg-black bg-opacity-70 h-[80px] w-[80px] -translate-y-10 
                   ${isActive && activeThumbClass}
                 `}
               >

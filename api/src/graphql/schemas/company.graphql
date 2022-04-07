@@ -167,7 +167,12 @@ type UnapprovedCompany {
 extend type Mutation {
 	getCompanyNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	companySignup(input: CompanyRegisterInput!): AuthResponse!
-	approveCompany(id: Int!, approverId: Int!, expDate: Date!): Response!
+	approveCompany(
+		id: Int!
+		approverId: Int!
+		expDate: Date!
+		isSeedData: Boolean
+	): Response!
 	updateCompany(
 		id: Int!
 		input: UpdateCompanyDetailsInput!

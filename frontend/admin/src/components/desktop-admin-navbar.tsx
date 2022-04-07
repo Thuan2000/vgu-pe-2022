@@ -1,11 +1,8 @@
 import React from "react";
 
-import NotificationIcon from "@assets/icons/notification-icon";
 import { useTranslation } from "react-i18next";
-import { COLORS } from "@utils/colors";
 import Breadcrumb from "./breadcrumb";
 import { ROUTES } from "@utils/routes";
-import NewChat from "./ui/chat-button/new-chat";
 import UserProfile from "./user-profile";
 
 interface IAdminNavbarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -50,7 +47,6 @@ const DesktopAdminNavbar: React.FC<IAdminNavbarProps> = ({
         <div className="user-info flex items-center space-x-5">
           {/* TODO: Re-enable when the help content is ready */}
           {/* <HelpIcon fill={COLORS.BOLDER} /> */}
-          <NewChat />
           <div className="flex items-center">
             <div className="mr-4 text-right hidden md:block">
               <p className="font-semibold text-semibold">{userName}</p>

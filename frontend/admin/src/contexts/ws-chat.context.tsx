@@ -1,18 +1,23 @@
 import { generateChatCredUnique, setChatAuthToken } from "@utils/auth-utils";
 import {
-  chatGetHiMessage,
-  chatGetLoginMessage,
-  chatGetTopicMessage,
-  chatGetTopicWithDescMessages,
-} from "@utils/chat-utils";
-import { CHAT_URL } from "@utils/constants";
+  AttachmentMsg,
+  TChatDataResp,
+  TChatFileParam,
+} from "@utils/chat-interface";
 import {
-  generateChatPassword,
-  generateUsername,
-  getCompanyChatId,
-  getLoggedInUser,
-} from "@utils/functions";
-import { IChatSub, IChatSubPublic, IChatTopic } from "@utils/interfaces";
+  chatGetFirstSubMessage,
+  chatGetHiMessage,
+  chatGetLeaveMessage,
+  chatGetLoginMessage,
+  chatGetMeMessage,
+  chatGetNotifyTypingMessage,
+  chatGetSendFileMessage,
+  chatGetSendMessageMessage,
+  chatGetTopicMessagesMessage,
+} from "@utils/chat-to-server-messages";
+import { chatGetTopicLastMessage } from "@utils/chat-to-server-messages";
+import { CHAT_URL } from "@utils/constants";
+import { getLoggedInCompany } from "@utils/functions";
 import {
   createContext,
   useContext,
@@ -20,175 +25,290 @@ import {
   ReactNode,
   useEffect,
   useState,
-  useRef,
 } from "react";
 
 type WSProviderProps = { children: ReactNode };
 
-type TWSChatContext = {
-  wsChatInstance?: WebSocket;
-  companyChatId?: string;
-  isReady: boolean;
-  setCompanyChatId: (data: string) => void;
-  unreadedMessages: any;
+type TUserPublic = {
+  fn: string;
 };
 
-const WSChatStateContext = createContext<TWSChatContext | null>(null);
+type TUserSeen = {
+  ua: string;
+  when: Date;
+};
 
-interface ITopicDetail {
-  /**
-   * key === Topic
-   * value === IChatSubPublic
-   *  */
-  [topic: string]: IChatSubPublic;
-}
+export type TTopic = {
+  online?: boolean;
+  seen?: TUserSeen;
+  public: TUserPublic;
+  topic: string;
+  touched: Date;
+  updated: Date;
+  messages: { [any: number]: TChatDataResp };
+};
+
+export type TTopics = {
+  [topic: string]: TTopic;
+};
+
+type TWSChatContext = {
+  topics: TTopics;
+  openedTopic?: TTopic;
+  loginChat: () => void;
+  closeFocusTopic: () => void;
+  notifyTyping: (topic: string) => void;
+  setFocusTopic: (topic: string) => void;
+  subscribeTopic: (topic: string) => void;
+  sendChatMessage: (topic: string, message: string) => void;
+  sendAttachment: (
+    topic: string,
+    caption: string,
+    file: TChatFileParam
+  ) => void;
+};
+
+const WSChatStateContext = createContext<TWSChatContext | {}>({});
 
 export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
   const wsChatInstance = useMemo(
     () => (typeof window != "undefined" ? new WebSocket(CHAT_URL) : null),
     []
   );
-  const [isOpen, setIsOpen] = useState(false);
-  const [companyChatId, setCompanyChatId] = useState(getCompanyChatId());
+
+  const [topics, setTopics] = useState<TTopics>({});
   const [isReady, setIsReady] = useState(false);
-  const [unreadedMessages, setUnreadedMessages] = useState<ITopicDetail>({});
-  const readedMessages = useRef<ITopicDetail>({});
+  const [currentOpenedTopicId, setCurrentOpenedTopicId] = useState("");
+  const [openedTopic, setOpenedTopic] = useState<TTopic>();
+
+  function sendChatMessageToServer(message: string) {
+    console.log("Sending : ", message);
+    wsChatInstance?.send(message);
+  }
 
   useEffect(() => {
     if (!!wsChatInstance)
       wsChatInstance.onopen = () => {
-        setIsOpen(true);
         setIsReady(true);
       };
 
-    return () => {
-      setIsReady(false);
-    };
+    return () => setIsReady(false);
   }, [wsChatInstance]);
 
   useEffect(() => {
     function sendFirstMessage() {
-      if (!isOpenWS()) return;
-
-      wsChatInstance?.send(chatGetHiMessage());
-
-      const comp = getLoggedInUser()?.company;
-      if (!comp) return;
-
-      const unique = generateChatCredUnique(comp.name, comp.id);
-
-      wsChatInstance?.send(chatGetLoginMessage(unique));
+      if (!isReady) return;
+      sendChatMessageToServer(chatGetHiMessage());
+      loginChat();
     }
 
     sendFirstMessage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
-
-  function isOpenWS() {
-    return ![
-      WebSocket.CONNECTING,
-      WebSocket.CLOSED,
-      WebSocket.CLOSING,
-    ].includes(wsChatInstance?.readyState || 0);
-  }
+  }, [isReady]);
 
   if (wsChatInstance === null) return <>{children}</>;
   wsChatInstance.onmessage = handleWsChatMessage;
 
-  function handleData(data: IChatTopic) {
-    const { topic, content, from, ts } = data;
-    if (from !== topic) return;
-    const currentFrom =
-      unreadedMessages[topic] || readedMessages.current[topic];
+  /**
+   * We subscribe a user chat called topic
+   * @param topic The topic id to subscribe into
+   */
+  function subscribeTopic(topic: string) {
+    // const obj = getObjectFromArray(topics, (t: TTopic) => t.topic === topic);
+    const obj = topics[topic];
+    if (!!obj) setFocusTopic(topic);
+    else sendChatMessageToServer(chatGetFirstSubMessage(topic));
+  }
 
-    unreadedMessages[topic] = {
-      ...currentFrom,
-      from,
-      lastMessage: content,
-      ts,
+  /**
+   * To close focus from a topic
+   */
+  function closeFocusTopic() {
+    leaveTopic(currentOpenedTopicId);
+    setCurrentOpenedTopicId("");
+    setOpenedTopic(undefined);
+  }
+
+  /**
+   * Leaving topic topic but keep subscribe for it's message
+   * @param topic the topic wanted to leave
+   */
+  function leaveTopic(topic: string) {
+    if (!topic) return;
+    sendChatMessageToServer(chatGetLeaveMessage(topic));
+  }
+
+  function generateNewData(topic: string, content: string | AttachmentMsg) {
+    const openedTopicKeys = Object.keys(openedTopic?.messages || {});
+
+    const newData: TChatDataResp = {
+      topic,
+      from: getLoggedInCompany()?.chatId!,
+      content,
+      seq: (parseInt(openedTopicKeys[openedTopicKeys.length - 1]) || 0) + 1,
+      ts: new Date(),
     };
-
-    setUnreadedMessages(Object.assign({}, unreadedMessages));
+    return newData;
   }
 
-  function handlePres(pres: {
-    src: string;
-    from: string;
-    what: string;
-    topic: string;
-  }) {
-    wsChatInstance?.send(chatGetTopicWithDescMessages(pres.src));
+  /**
+   * Because when we sent message the new message update is not automatically show up
+   * Then we refetch it programatically
+   */
+  function refetchData() {
+    const sameTopicIdDifferentMem = currentOpenedTopicId;
+    setTimeout(() => setFocusTopic(sameTopicIdDifferentMem), 50);
   }
 
-  function handleInfo(info: {
-    src: string;
-    from: string;
-    what: string;
-    topic: string;
-  }) {
-    if (info.what === "read") {
-      unreadedMessages[info.topic].isReaded = true;
-      setUnreadedMessages(Object.assign({}, unreadedMessages));
+  /**
+   * To send a message to other user
+   * @param topic
+   * @param content
+   */
+  function sendChatMessage(topic: string, content: string) {
+    // const newData = generateNewData(topic, content);
+    // Because chat server not support to get the new message if we are the one who sent it
+    // Then we make it like this
+    // handleData(newData);
+
+    sendChatMessageToServer(chatGetSendMessageMessage(topic, content));
+    refetchData();
+  }
+
+  /**
+   * To notify the other user that we are typing
+   * @param topic
+   */
+  function notifyTyping(topic: string) {
+    sendChatMessageToServer(chatGetNotifyTypingMessage(topic));
+  }
+
+  /**
+   * Opening the topic and get the messages
+   */
+  function setFocusTopic(topic: string) {
+    if (currentOpenedTopicId) leaveTopic(topic);
+
+    setOpenedTopic(topics[topic]);
+    setCurrentOpenedTopicId(topic);
+    sendChatMessageToServer(chatGetTopicMessagesMessage(topic));
+  }
+
+  /**
+   * Handling sending file only to certain topic
+   * @param topic
+   * @param capt
+   * @param file
+   */
+  function sendAttachment(topic: string, capt: string, file: TChatFileParam) {
+    // const newData = generateNewData(topic, {
+    //   txt: capt,
+    //   ent: [{ data: file }],
+    // });
+
+    sendChatMessageToServer(chatGetSendFileMessage(topic, capt, file));
+    refetchData();
+  }
+
+  /**
+   * This using the cookie data to login to chat server
+   * we login using company.name and company.id with certain format
+   */
+  function loginChat() {
+    const comp = getLoggedInCompany();
+    if (!comp) return;
+    const unique = generateChatCredUnique(comp.name, comp.id);
+    sendChatMessageToServer(chatGetLoginMessage(unique));
+  }
+
+  /**
+   * Getting topic last message
+   * @param topic
+   */
+  function getTopicLastMessage(topic: string) {
+    sendChatMessageToServer(chatGetTopicLastMessage(topic));
+  }
+
+  /**
+   * Handling meta from chat server
+   * @param meta from server
+   *
+   */
+  function handleMeta(meta: any) {
+    if (!meta) return;
+
+    // This used to handling new topic
+    if (meta.desc && !topics[meta.topic]) {
+      if ([currentOpenedTopicId, "me"].includes(meta.topic)) return;
+      const newTopic = Object.assign(
+        { messages: {}, topic: meta.topic },
+        meta.desc
+      );
+      topics[meta.topic] = newTopic;
+      setTopics({ ...topics });
+      setFocusTopic(meta.topic);
+      // This used to handling subcribed chat
+    } else if (meta.sub) {
+      meta.sub.forEach((s: TTopic) => {
+        if (s.topic === "me" || !s.topic || !!topics[s.topic]) return;
+        getTopicLastMessage(s.topic);
+        topics[s.topic] = Object.assign({ messages: {} }, s);
+      });
+
+      setTopics({ ...topics });
     }
-
-    if (
-      info.what === "recv" &&
-      info.topic !== "me" &&
-      unreadedMessages[info.topic].isReaded
-    ) {
-      wsChatInstance?.send(chatGetTopicMessage(info.topic));
-      unreadedMessages[info.topic].isReaded = false;
-      setUnreadedMessages(Object.assign({}, unreadedMessages));
-    }
-
-    if (info.what === "recv" && info.from !== info.src && !!info.src)
-      wsChatInstance?.send(chatGetTopicWithDescMessages(info.src));
   }
 
-  function handleMeta(meta: {
-    sub: IChatSub[];
-    topic: string;
-    desc: { public: IChatSubPublic };
-  }) {
-    const { sub = [], topic, desc } = meta;
-    if (!!topic && topic !== "me") {
-      unreadedMessages[topic] = {
-        ...desc?.public,
-        ...unreadedMessages[topic],
-      };
-      setUnreadedMessages(Object.assign({}, unreadedMessages));
+  /**
+   * To handle all ctrl message from chat server
+   * @param ctrl
+   * @returns
+   */
+  function handleCtrl(ctrl: any) {
+    if (!ctrl) return;
+    // const paramsWhat = getCtrlParamsWhat(ctrl);
+
+    const params = ctrl?.params;
+    if (params?.authlvl === "auth") {
+      setChatAuthToken(params?.token, params.expires);
+      sendChatMessageToServer(chatGetMeMessage());
     }
-
-    sub.forEach((s) => {
-      const { read, seq, topic, public: pub } = s;
-      if (!seq || seq <= (read || 0) || topic?.substring(0, 3) === "grp")
-        return;
-
-      unreadedMessages[topic] = pub;
-      wsChatInstance?.send(chatGetTopicMessage(topic));
-    });
   }
 
+  function handleData(data: TChatDataResp) {
+    if (!data) return;
+    const topic = topics[data.topic];
+
+    topic.messages[data.seq] = data;
+
+    setTopics({ ...topics });
+  }
+
+  /**
+   * We handle all websocket message here
+   * @param e
+   */
   function handleWsChatMessage(e: MessageEvent<any>) {
     const data = JSON.parse(e.data);
     console.log(data);
-    if (!!data.meta) handleMeta(data.meta);
-    if (!!data.data) handleData(data.data);
-    if (!!data.info) handleInfo(data.info);
-    if (!!data.pres) handlePres(data.pres);
-    const params = data?.ctrl?.params;
-    if (params?.authlvl === "auth")
-      setChatAuthToken(params?.token, params.expires);
+
+    handleMeta(data.meta);
+    handleCtrl(data.ctrl);
+    handleData(data.data);
   }
 
   return (
     <WSChatStateContext.Provider
       value={{
-        wsChatInstance: wsChatInstance!,
-        companyChatId: companyChatId!,
-        isReady,
-        setCompanyChatId,
-        unreadedMessages,
+        topics,
+        openedTopic,
+        sendChatMessage,
+        subscribeTopic,
+        loginChat,
+        setFocusTopic,
+        notifyTyping,
+        closeFocusTopic,
+        sendAttachment,
       }}
     >
       {children}

@@ -21,9 +21,10 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
   const lastPath = paths[paths.length - 1];
 
   if (lastPath === "edit") {
-    paths[paths.length - 2] = query[
+    const recordName = query[
       paths[paths.length - 2].replace("[", "").replace("]", "")
     ] as string;
+    if (!!recordName) paths[paths.length - 2] = recordName;
   }
 
   if (lastPath[0] === "[" && lastPath[lastPath.length - 1] === "]") {

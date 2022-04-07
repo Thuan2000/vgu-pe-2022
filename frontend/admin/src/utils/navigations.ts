@@ -1,6 +1,7 @@
 import AvatarIcon from "@assets/icons/avatar-icon";
 import HomeIcon from "@assets/icons/navigations/home-icon";
 import LogoutIcon from "@assets/icons/navigations/logout-icon";
+import MessageIcon from "@assets/icons/message-icon";
 import ProductIcon from "@assets/icons/navigations/product-icon";
 import RequestIcon from "@assets/icons/navigations/request-icon";
 import SettingsIcon from "@assets/icons/navigations/settings-icon";
@@ -62,6 +63,11 @@ export const navigations: INavigation[] = [
     label: "companyPage-nav-label",
     href: ROUTES.COMPANY_DETAIL,
     icon: AvatarIcon,
+  },
+  {
+    label: "message-nav-label",
+    href: ROUTES.MESSAGES,
+    icon: MessageIcon,
   },
 ];
 

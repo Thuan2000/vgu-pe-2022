@@ -1,0 +1,46 @@
+import { isEmpty } from "lodash";
+import { useTranslation } from "next-i18next";
+import React from "react";
+import { useWSChat } from "src/contexts/ws-chat.context";
+import Typography from "../storybook/typography";
+import TopicMessageItem from "./topic-message-item";
+
+interface ITopicMessagesProps {}
+
+const TopicMessages: React.FC<ITopicMessagesProps> = ({ ...props }) => {
+  const { t } = useTranslation();
+  const { openedTopic } = useWSChat();
+
+  const messageKeys = Object.keys(openedTopic?.messages || {});
+
+  const messages = messageKeys.map((k, idx) => {
+    const isLast = messageKeys.length === idx + 1;
+    const msg = (openedTopic?.messages as any)[k];
+    return (
+      <TopicMessageItem
+        isLast={isLast}
+        key={msg.topic + msg.seq + "message"}
+        msg={msg}
+      />
+    );
+  });
+
+  return (
+    <div
+      className={`absolute bottom-20 top-0 right-0 left-0 flex flex-col pt-3 px-2 overflow-auto`}
+    >
+      {isEmpty(openedTopic!.messages) ? (
+        <Typography
+          text={t("no-message-yet-text")}
+          align="center"
+          weight="semibold"
+          size="md"
+          className={`mt-2`}
+        />
+      ) : (
+        messages
+      )}
+    </div>
+  );
+};
+export default TopicMessages;

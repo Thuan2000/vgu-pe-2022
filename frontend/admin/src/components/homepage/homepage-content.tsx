@@ -1,8 +1,6 @@
-import ArrowLeftIcon from "@assets/icons/arrow-left-icon";
 import PostProductIcon from "@assets/icons/post-product-icon";
 import PostRequestAnimationIcon from "@assets/icons/post-request-animation-icon";
 import PostServiceIcon from "@assets/icons/post-service-icon";
-import UnderDevelopment from "@components/under-development";
 import { getLoggedInUser } from "@utils/functions";
 import { ROUTES } from "@utils/routes";
 import React from "react";
@@ -48,21 +46,17 @@ const HomepageContent: React.FC<IHomepageContentProps> = ({}) => {
               userEmail={t(getLoggedInUser()?.email || "")}
               userRole={t(getLoggedInUser()?.role || "")}
             />
-            <HomepageSubcription
-              label={t("subcription")}
-            />
+            <HomepageSubcription label={t("subcription")} />
           </div>
         </div>
-        
       </div>
       <div className={`space-y-4 mt-5`}>
-          <HomepageChat
-            label={t("chat-now-label")}
-            url=""
-            icon={PostRequestAnimationIcon}
-          />
-          
-        </div>
+        <HomepageChat
+          label={t("chat-now-label")}
+          url=""
+          icon={PostRequestAnimationIcon}
+        />
+      </div>
     </div>
   );
 };

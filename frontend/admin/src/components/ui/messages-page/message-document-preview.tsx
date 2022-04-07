@@ -1,4 +1,4 @@
-import FilePreviewIcon from "@assets/icons/files/file-preview-icon";
+import FilePreviewIcon from "@assets/icons/file-preview-icon";
 import { getFileMsg } from "@utils/chat-functions";
 import { AttachmentMsg, TChatDataResp } from "@utils/chat-interface";
 import { COLORS } from "@utils/colors";

@@ -7,6 +7,7 @@ type TextColor =
   | "dark-blue"
   | "gray"
   | "gray-400"
+  | "gray-30"
   | "black"
   | "secondary-1"
   | "white";

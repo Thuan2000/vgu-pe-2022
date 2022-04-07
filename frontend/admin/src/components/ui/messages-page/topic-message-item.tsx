@@ -1,6 +1,7 @@
 import { getChatTime, getFileMsg } from "@utils/chat-functions";
 import { AttachmentMsg, TChatDataResp } from "@utils/chat-interface";
 import { generateUUID, getLoggedInCompany } from "@utils/functions";
+import Image from "next/image";
 import React, { useEffect } from "react";
 import Typography from "../storybook/typography";
 import MessageDocumentPreview from "./message-document-preview";

@@ -1,5 +1,6 @@
 export const ROUTES = {
   HOMEPAGE: "/",
+  MESSAGES: "/messages",
   FORGET_PASSWORD: "/forget-password",
   LOGOUT: "/logout",
   SETTINGS: "/settings",

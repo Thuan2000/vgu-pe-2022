@@ -29,7 +29,7 @@ const PageLayout: React.FC = ({ children }) => {
     <div className="flex bg-light-300 min-h-full">
       {<BottomNavigation />}
       {!isPhone && <Sidebar />}
-      <main className="md:mx-8 w-full mb-16 sm:mb-0">
+      <main className="md:mx-8 w-full mb-16 sm:mb-0 flex flex-col flex-1">
         <PhoneAdminNavbar
           showBackArrow={!isHomepage}
           pageName={t(pageName)}
