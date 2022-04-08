@@ -123,6 +123,7 @@ class Company extends Model {
 Company.init(
 	{
 		name: DataTypes.STRING,
+		shortName: DataTypes.STRING,
 		description: DataTypes.TEXT,
 		industryId: DataTypes.INTEGER,
 		businessTypeIds: DataTypes.JSON,
@@ -138,8 +139,8 @@ Company.init(
 		certificates: DataTypes.JSON,
 		approved: DataTypes.BOOLEAN,
 		approverId: DataTypes.INTEGER,
-		ownerId: DataTypes.INTEGER,
 		isFullInfo: DataTypes.BOOLEAN,
+		// ownerId: DataTypes.INTEGER,
 		isSeedData: DataTypes.BOOLEAN
 	},
 	{
@@ -151,7 +152,7 @@ Company.init(
 
 Company.hasOne(CompanySubscription, { as: "subscription" });
 User.belongsTo(Company, { as: "company", foreignKey: "companyId" });
-Company.belongsTo(User, { as: "owner", foreignKey: "ownerId" });
+// Company.belongsTo(User, { as: "owner", foreignKey: "ownerId" });
 Company.belongsTo(User, { as: "approver", foreignKey: "approverId" });
 
 export default Company;

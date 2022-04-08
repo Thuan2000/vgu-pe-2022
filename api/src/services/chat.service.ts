@@ -2,7 +2,7 @@ import ChatFunction, { IAccProps } from "@/functions/chat.function";
 import CompanyController from "@controllers/company.controller";
 import { client as WebSocketClient, connection } from "websocket";
 
-export let approvedCompanyId = null;
+export const approvedCompanyIds: number[] = [];
 
 class ChatService {
 	private static client = new WebSocketClient();
@@ -24,11 +24,9 @@ class ChatService {
 					const data = JSON.parse(message.utf8Data).ctrl;
 					if (data?.params?.authlvl === "auth") {
 						const { success } = await CompanyController.addChatId(
-							approvedCompanyId,
+							approvedCompanyIds.shift(),
 							data?.params?.user
 						);
-
-						approvedCompanyId = null;
 					}
 					console.log(data);
 				}
@@ -51,7 +49,7 @@ class ChatService {
 	static createAccount(props: IAccProps) {
 		try {
 			// So we can add the chat id later
-			approvedCompanyId = props.compId;
+			approvedCompanyIds.push(props.compId);
 
 			const accMessage = ChatFunction.generateAccMessage(props);
 

@@ -29,6 +29,7 @@ import { useEffect } from "react";
 import { rfw, printServerInfo } from "@utils/functions";
 import { SubsInfoProvider } from "src/contexts/subs-info.context";
 import ShopChat from "@components/ui/chat/shop-chat";
+import { SiteSettingsProvider } from "src/contexts/site-settings.context";
 
 TimeAgo.addLocale(vi);
 TimeAgo.addLocale(en);
@@ -85,17 +86,19 @@ function MyApp({ Component, pageProps }: AppProps) {
             content="width=device-width, initial-scale=0.9, maximum-scale=0.9,user-scalable=0"
           />
         </Head>
-        <SubsInfoProvider>
-          <ModalProvider>
-            <ShopChat />
-            <ModalContainer />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-            <ToastContainer autoClose={2000} theme="colored" />
-            <ChatwootWidget />
-          </ModalProvider>
-        </SubsInfoProvider>
+        <SiteSettingsProvider>
+          <SubsInfoProvider>
+            <ModalProvider>
+              <ShopChat />
+              <ModalContainer />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+              <ToastContainer autoClose={2000} theme="colored" />
+              <ChatwootWidget />
+            </ModalProvider>
+          </SubsInfoProvider>
+        </SiteSettingsProvider>
       </WSChatProvider>
     </ApolloProvider>
   );

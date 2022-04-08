@@ -10,6 +10,8 @@ validateEnv();
 
 const server = new App();
 
-console.log(`🚀 Server listening on : http://localhost:${process.env.PORT}`);
+console.log(
+	`🚀 Server listening on : http://localhost:${process.env.PORT}/graphql`
+);
 
 server.start();

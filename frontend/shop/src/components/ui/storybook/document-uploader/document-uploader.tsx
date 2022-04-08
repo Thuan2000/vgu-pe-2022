@@ -142,6 +142,7 @@ const DocumentUploader = ({
           note={note}
           labelFontSize={labelFontSize}
           numberQueue={numberQueue}
+          className={`mb-0`}
         />
       )}
 

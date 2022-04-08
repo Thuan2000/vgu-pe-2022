@@ -4,9 +4,10 @@
  */
 
 import jwt from "jsonwebtoken";
-import utf8 from "utf8";
+import bcrypt from "bcrypt";
 import base64 from "base-64";
 import { SLUG_UNIQUE_SEPARATOR } from ".";
+import { MONTH_IN_MS, TRIAL_SUBSCRIPTION_ID } from "./constants";
 
 export function generateDate(): string {
 	const date = new Date();
@@ -166,4 +167,29 @@ export function generateChatCredUnique(compName: string, compId: number) {
 	return normalizeString(`${compName}${compId}`)
 		.replace(/[ ]/g, "")
 		.slice(-25);
+}
+
+/**
+ * Get the trial company subscription configuration to be used for CompanySubscription.create
+ * @param id
+ * @param expDate
+ * @returns
+ */
+export function getFirstTrialSubscriptionConfig(id: number, expDate: Date) {
+	return {
+		companyId: id,
+		subscriptionId: TRIAL_SUBSCRIPTION_ID,
+		firstTimeSubscribeAt: new Date().getTime(),
+		startAt: getCurrentDateInMilis(),
+		endAt: expDate,
+		subscriptionAttempt: 0
+	};
+}
+
+/**
+ * Get the next month in milisecond
+ * @returns Month later in ms
+ */
+export function getNextMonthInMs() {
+	return new Date().getTime() + MONTH_IN_MS;
 }

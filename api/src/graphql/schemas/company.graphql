@@ -123,12 +123,22 @@ type CompSubscription {
 	monthlyPrice: Date!
 }
 
+input SeedCompanyInput {
+	firstName: String!
+	lastName: String!
+	email: String!
+	companyName: String!
+	companyShortName: String!
+	licenseNumber: String!
+}
+
 input CompanyRegisterInput {
 	firstName: String!
 	lastName: String!
 	email: String!
 	phoneNumber: String!
 	companyName: String!
+	companyShortName: String!
 	licenseNumber: String!
 	licenseFiles: [FileInput!]!
 	isSubscribeEmail: Boolean!
@@ -168,6 +178,7 @@ type UnapprovedCompany {
 extend type Mutation {
 	getCompanyNameSuggestion(name: String!, limit: Int!): [NameSuggestion!]
 	companySignup(input: CompanyRegisterInput!): AuthResponse!
+	seedCompany(input: SeedCompanyInput!): Response!
 	approveCompany(
 		id: Int!
 		approverId: Int!

@@ -32,7 +32,7 @@ class UserController {
 	 * @param user UserInput
 	 * @returns {...CreateResponse}
 	 */
-	async register(user): Promise<RegisterResp> {
+	static async register(user): Promise<RegisterResp> {
 		try {
 			// First login is set to true as default value on migration
 			const newUser = await User.create({

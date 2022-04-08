@@ -14,7 +14,9 @@ import {
 	EMAIL_MESSAGES,
 	EMAIL_SUBJECTS,
 	ADMIN_EMAIL_ADDRESS,
-	getCurrentDateInMilis
+	getCurrentDateInMilis,
+	getFirstTrialSubscriptionConfig,
+	getNextMonthInMs
 } from "@utils";
 import Company from "@models/Company";
 import S3 from "@services/s3.service";
@@ -23,6 +25,8 @@ import UserRepository from "@repositories/user.repository";
 import User from "@models/User";
 import {
 	IFetchUnapprovedCompaniesInput,
+	IRole,
+	ISeedCompanyInput,
 	IUpdateCompanyDetailsInput
 } from "@graphql/types";
 import CompanyRepository from "@repositories/company.repository";
@@ -37,6 +41,70 @@ type IRegisterResp = {
 };
 
 class CompanyController {
+	static async seedCompany({
+		firstName,
+		lastName,
+		email,
+		companyName,
+		companyShortName,
+		licenseNumber
+	}: ISeedCompanyInput) {
+		try {
+			/**
+			 * Create company first
+			 */
+			const company = await Company.create({
+				name: companyName,
+				shortName: companyShortName,
+				licenseNumber,
+				approved: true,
+				isSeedData: true
+			});
+			const companyId = company.getDataValue("id");
+			company.setDataValue(
+				"slug",
+				generateSlug(companyName, company.getDataValue("id"))
+			);
+
+			company.save();
+
+			const firstSubscription = getFirstTrialSubscriptionConfig(
+				companyId,
+				getNextMonthInMs() as any
+			);
+			// Setting company subscription
+			await CompanySubscription.create(firstSubscription);
+
+			ChatService.createAccount({
+				compId: companyId,
+				compName: companyName,
+				email: email,
+				phoneNumber: ""
+			});
+
+			/**
+			 * Create user data
+			 */
+			const user = await User.create({
+				isSeedData: true,
+				firstName,
+				lastName,
+				firstLogin: false,
+				password: UserRepository.encodePassword(
+					"PasswordIsPassword-123"
+				),
+				role: "COMPANY_OWNER" as IRole,
+				email,
+				phoneNumber: "",
+				companyId
+			});
+
+			return successResponse();
+		} catch (error) {
+			console.error(error);
+			return errorResponse(error.toString());
+		}
+	}
 	static async getCompanies({ offset, limit, searchValue, ...input }) {
 		const queryBody = {
 			query: CompanyRepository.getSearchQuery(searchValue, input)
@@ -131,7 +199,7 @@ class CompanyController {
 	static async approveCompany(
 		id: number,
 		approverId: number,
-		expDate: number,
+		expDate: Date,
 		isSeedData = false
 	) {
 		try {
@@ -147,15 +215,10 @@ class CompanyController {
 			if (!data) return errorResponse("");
 			const company: any = data.toJSON();
 
-			const firstSubscription = {
-				companyId: id,
-				subscriptionId: TRIAL_SUBSCRIPTION_ID,
-				firstTimeSubscribeAt: new Date().getTime(),
-				startAt: getCurrentDateInMilis(),
-				endAt: expDate,
-				subscriptionAttempt: 0
-			};
-
+			const firstSubscription = getFirstTrialSubscriptionConfig(
+				company.id,
+				expDate
+			);
 			// Setting company subscription
 			await CompanySubscription.create(firstSubscription);
 
@@ -261,7 +324,8 @@ class CompanyController {
 		licenseFiles,
 		licenseNumber,
 		isSubscribeEmail,
-		companyName
+		companyName,
+		companyShortName
 	}): Promise<IRegisterResp> {
 		try {
 			const duplicateCompany = await Company.findOne({
@@ -283,11 +347,11 @@ class CompanyController {
 				return errorResponse("COMPANY_EXIST");
 			}
 			const newComp = await Company.create({
-				ownerId,
 				licenseNumber,
 				licenseFiles,
 				isSubscribeEmail,
-				name: companyName
+				name: companyName,
+				shortName: companyShortName
 			});
 			newComp.setDataValue(
 				"slug",

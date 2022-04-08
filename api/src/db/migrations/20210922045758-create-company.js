@@ -20,15 +20,19 @@ module.exports = {
 				allowNull: false,
 				unique: true
 			},
+			shortName: {
+				type: Sequelize.STRING,
+				allowNull: false
+			},
 			slug: {
 				type: Sequelize.STRING
 			},
 			chatId: {
 				type: Sequelize.STRING
 			},
-			ownerId: {
-				type: Sequelize.INTEGER
-			},
+			// ownerId: {
+			// 	type: Sequelize.INTEGER
+			// },
 			approverId: {
 				type: Sequelize.INTEGER
 			},

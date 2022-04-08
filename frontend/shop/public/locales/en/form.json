@@ -104,5 +104,7 @@
   "error-WRONG_PASSWORD-title": "Wrong Password",
   "error-WRONG_PASSWORD-message": "The password you typed in was incorrect",
   "error-WRONG_PASSWORD-button": "Yes, I understand",
-  "stay-button-label": "Continue"
+  "stay-button-label": "Continue",
+  "companyShortName-label": "Company Short Name",
+  "companyShortName-placeholder": "SDConnect"
 }

@@ -22,6 +22,7 @@ export const Query = {
 };
 
 export const Mutation = {
+	seedCompany: (_, { input }) => CompanyController.seedCompany(input),
 	isCompanyFullInfo: (_, { id }) => CompanyController.checkIsFullInfo(id),
 	getCompanyNameSuggestion: (_, { name, limit }) =>
 		CompanyController.getNameSuggestion(name, limit),
@@ -42,15 +43,15 @@ export const Mutation = {
 			input: {
 				licenseFiles,
 				licenseNumber,
-				companyName,
 				isSubscribeEmail,
+				companyName,
+				companyShortName,
 				...owner
 			}
 		}
 	) => {
 		// @NOTES URGENT : This is wrong flow need to refactor
 		const companyController = new CompanyController();
-		const userController = new UserController();
 		const role = EUserRole.COMPANY_OWNER;
 
 		/* 
@@ -62,7 +63,7 @@ export const Mutation = {
 		// TODO: check if the user and company exist first before create the user and company
 
 		// Creating the owner
-		const { id: ownerId, success, message } = await userController.register(
+		const { id: ownerId, success, message } = await UserController.register(
 			{
 				role,
 				...owner
@@ -74,14 +75,15 @@ export const Mutation = {
 
 		// Creating company
 		const newCompanyResp = await companyController.register({
+			// Used to be deleted if company is duplicate
 			ownerId,
 			licenseFiles,
 			licenseNumber,
 			isSubscribeEmail,
-			companyName
+			companyName,
+			companyShortName
 		});
 
-		// TODO: create the password mechanism here:
 		// Send email to new user
 		EmailService.sendEmail(owner?.email, {
 			message: EMAIL_MESSAGES.REGISTERED,

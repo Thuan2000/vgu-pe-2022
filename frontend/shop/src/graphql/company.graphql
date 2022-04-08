@@ -53,3 +53,10 @@ mutation GetCompanyNameSuggestion($name: String!, $limit: Int!) {
 mutation IsCompanyFullInfo($id: Int!) {
   isCompanyFullInfo(id: $id)
 }
+
+mutation SeedCompany($input: SeedCompanyInput!) {
+  seedCompany(input: $input) {
+    message
+    success
+  }
+}
