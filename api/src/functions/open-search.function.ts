@@ -48,7 +48,7 @@ class OpenSearchFunction {
 	}
 
 	static getTermFilter(key: string, value: string | number) {
-		return { term: { [key]: value } };
+		return { term: { [key]: value.toString() } };
 	}
 }
 

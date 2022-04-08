@@ -82,7 +82,7 @@ export function generateUUID() {
 function __undefinedPropertiesObj(obj) {
 	let isAllUndefined = true;
 	Object.keys(obj).forEach(k => {
-		if (!!obj[k]) isAllUndefined = false;
+		if (typeof obj[k] !== "undefined") isAllUndefined = false;
 	});
 	return isAllUndefined;
 }

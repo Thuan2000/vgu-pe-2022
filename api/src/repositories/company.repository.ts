@@ -4,12 +4,13 @@ import { isEmptyObject } from "@utils/functions";
 
 const filterKeyFunction = {
 	industryId: OpenSearchFunction.getMatchFilter,
-	location: OpenSearchFunction.getTermFilter
+	location: OpenSearchFunction.getTermFilter,
+	isSeedData: OpenSearchFunction.getTermFilter
 };
 
 function getFilter(f) {
 	const filter = Object.keys(f).flatMap(k => {
-		if (!f[k]) return [];
+		if (typeof f[k] !== "boolean" && !f[k]) return [];
 
 		return filterKeyFunction[k](k, f[k]);
 	});

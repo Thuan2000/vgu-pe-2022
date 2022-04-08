@@ -73,6 +73,7 @@ type CompaniesItem {
 input FetchCompanyInput {
 	limit: Int!
 	offset: Int!
+	isSeedData: Boolean
 	searchValue: String
 	location: String
 	establishmentDate: Date
