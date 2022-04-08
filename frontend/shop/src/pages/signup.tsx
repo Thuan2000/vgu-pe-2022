@@ -13,6 +13,7 @@ import { ROUTES } from "@utils/routes";
 import Link from "@components/ui/link";
 import Logo from "@components/ui/logo";
 import LanguageSelector from "@components/ui/language-selector";
+import Typography from "@components/ui/storybook/typography";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
@@ -59,9 +60,7 @@ const SignUp = () => {
         <div className="bg-white min-h-screen px-10 pt-4 pb-3 absolute x-center w-full position-normal sm:top-0 md:relative md:w-full md:px-28">
           <Logo className="sm:hidden" />
           <div className="fic justify-between">
-            <h1 className="font-semibold text-display-2 text-dark-blue mb-5">
-              {t("signup-title")}
-            </h1>
+            <Typography text={t("signup-title")} weight="semibold" size="xl" />
             <LanguageSelector textColor="black" />
           </div>
           {/* <SocialRegister /> */}

@@ -1,11 +1,14 @@
+import { FontSize } from "@utils/interfaces";
 import cn from "classnames";
 import React, { InputHTMLAttributes } from "react";
+import InputLabel from "./inputs/input-label";
 import NumberLabel from "./number";
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   inputClassName?: string;
   label?: string;
+  labelFontSize?: FontSize;
   note?: string;
   error?: string;
   type?: string;
@@ -40,6 +43,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
       type = "text",
       inputClassName,
       numberQueue,
+      labelFontSize,
       prefix,
       suffix,
       noBorder,
@@ -62,20 +66,12 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
 
     return (
       <div className={className}>
-        {label && (
-          <div className="mb-3">
-            <label
-              htmlFor={name}
-              className="flex items-center text-body-dark font-semibold text-sm leading-none"
-            >
-              {numberQueue && (
-                <NumberLabel className="mr-2" number={numberQueue} />
-              )}
-              <p className="min-h-5">{label}</p>
-            </label>
-            {note && <p className="ml-8 text-xs text-gray-400">{note}</p>}
-          </div>
-        )}
+        <InputLabel
+          numberQueue={numberQueue}
+          label={label}
+          labelFontSize={labelFontSize}
+          note={note}
+        />
         <div className="flex items-center align-middle relative">
           <input
             id={name}

@@ -11,11 +11,8 @@ import { ROUTES } from "@utils/routes";
 const UNSEARCHABLES = [ROUTES.SUPPORT, ROUTES.SUBSCRIPTION, ROUTES.HOMEPAGE];
 
 const NavbarBottom = () => {
-  const { pathname } = useRouter();
-
-  const { query } = useRouter();
+  const { pathname, query } = useRouter();
   const isDetailedPage = !!query.slug;
-
   const activePage = getActivePageFromPath(pathname) as PageName;
 
   return (

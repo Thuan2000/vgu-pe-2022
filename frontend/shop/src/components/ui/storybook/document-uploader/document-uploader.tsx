@@ -12,6 +12,7 @@ import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import { generateUUID, getCompanyName } from "@utils/functions";
 import { IFile, IFileAccessControl, IFileType } from "@graphql/types.graphql";
 import DUThumb from "./du-thumb";
+import { FontSize } from "@utils/interfaces";
 
 export interface IFileWithTypename extends IFile {
   __typename?: string;
@@ -20,6 +21,7 @@ export interface IFileWithTypename extends IFile {
 export interface IDocumentUploaderProps {
   label?: string;
   note?: string;
+  labelFontSize?: FontSize;
   numberQueue?: number;
   accept: string;
   defaultValue?: any;
@@ -55,6 +57,7 @@ const DocumentUploader = ({
   onChange,
   value,
   maxFiles,
+  labelFontSize,
   accessControl = "PUBLIC_READ",
 }: IDocumentUploaderProps) => {
   const { t } = useTranslation("form");
@@ -137,6 +140,7 @@ const DocumentUploader = ({
           required={required}
           label={label}
           note={note}
+          labelFontSize={labelFontSize}
           numberQueue={numberQueue}
         />
       )}

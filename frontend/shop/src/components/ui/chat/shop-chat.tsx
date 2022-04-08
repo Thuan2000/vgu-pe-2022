@@ -8,22 +8,38 @@ import ChatTopicList from "./topic-list";
 import { motion } from "framer-motion";
 import { isLogin } from "@utils/auth-utils";
 import Swal from "sweetalert2";
-import { firePleaseLoginSwal } from "@utils/functions";
+import { firePleaseLoginSwal, getActivePageFromPath } from "@utils/functions";
+import router, { useRouter } from "next/router";
+import { ROUTES } from "@utils/routes";
+import { PageName } from "@utils/interfaces";
 
 interface INewChatProps {}
+
+const UNMESSAGEABLE = [ROUTES.LOGIN, ROUTES.LOGOUT, ROUTES.SIGNUP];
 
 const ShopChat: React.FC<INewChatProps> = ({ ...props }) => {
   const { t } = useTranslation();
   const { topics = {}, openedTopic, closeFocusTopic } = useWSChat();
 
+  const { pathname, push } = useRouter();
+  const activePage = getActivePageFromPath(pathname) as PageName;
+
   const ref = useOutsideClickRef(hideMessages);
   const [isShowMessages, setIsShowMessages] = useState(false);
 
-  function toggleMessages() {
+  if (UNMESSAGEABLE.includes(`/${activePage}`)) {
+    return <></>;
+  }
+
+  async function toggleMessages() {
     if (!isLogin()) {
-      firePleaseLoginSwal(t, Swal);
+      const { isDenied } = await firePleaseLoginSwal(t, Swal, {
+        confirmButton: t("common:stay-button-label"),
+      });
+      if (isDenied) push(ROUTES.LOGIN);
       return;
     }
+
     if (isShowMessages) hideMessages();
     if (!isShowMessages) showMessages();
   }

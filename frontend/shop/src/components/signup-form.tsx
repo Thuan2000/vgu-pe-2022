@@ -112,7 +112,6 @@ const SignupForm = () => {
 
   async function onSubmit({
     companyLicenses,
-    // confirmPassword,
     agreement,
     isSubscribeEmail = false,
     ...values
@@ -179,24 +178,6 @@ const SignupForm = () => {
           error={t(errors?.email?.message || "")}
         />
 
-        {/* <Input
-          className="my-3 md:my-0 md:mr-16"
-          {...register("password")}
-          label={t("password-label")}
-          type="password"
-          placeholder={t("password-placeholder")}
-          error={t(errors?.password?.message || "")}
-        />
-
-        <Input
-          className="my-3 md:my-0"
-          {...register("confirmPassword")}
-          label={t("confirmPassword-label")}
-          type="password"
-          placeholder={t("confirmPassword-label")}
-          error={t(errors?.confirmPassword?.message || "")}
-        /> */}
-
         <Input
           className="my-3 md:my-0 md:mr-16"
           {...register("companyName")}
@@ -213,12 +194,10 @@ const SignupForm = () => {
           error={t(errors?.licenseNumber?.message || "")}
         />
       </div>
-      <div className="mt-1">
+      <div className="mt-3">
         <DocumentInput
           accept=".pdf, .docx, .doc, .ppt, .pptx, .xls, .xlsx"
           inputFileType="application"
-          // Make this thing work later
-          // accessControl="BUCKET_OWNER_FULL_CONTROL"
           control={control}
           name="companyLicenses"
           label={t("license-label")}

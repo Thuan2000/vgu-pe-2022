@@ -1,4 +1,5 @@
 import NoServiceFoundIcon from "@assets/icons/no-service-found-icon";
+import { ROUTES } from "@utils/routes";
 import { isEmpty } from "lodash";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
@@ -13,7 +14,7 @@ interface INoRecordAnimationProps {
 const NoRecordAnimation: React.FC<INoRecordAnimationProps> = ({ text }) => {
   const { t } = useTranslation();
 
-  const { pathname, query, replace } = useRouter();
+  const { pathname, query, replace, push } = useRouter();
 
   const isHasQuery = !isEmpty(query);
 
@@ -22,6 +23,10 @@ const NoRecordAnimation: React.FC<INoRecordAnimationProps> = ({ text }) => {
       pathname,
       query: {},
     });
+  }
+
+  function handleToHomepage() {
+    push(ROUTES.HOMEPAGE);
   }
 
   return (
@@ -35,7 +40,7 @@ const NoRecordAnimation: React.FC<INoRecordAnimationProps> = ({ text }) => {
             {t("clear-query")}
           </Button>
         )}
-        <Button>{t("to-homepage")}</Button>
+        <Button onClick={handleToHomepage}>{t("to-homepage")}</Button>
       </div>
     </div>
   );
