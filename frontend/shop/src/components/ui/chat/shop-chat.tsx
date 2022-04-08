@@ -1,7 +1,7 @@
 import { TopicDetail } from "./topic-detail";
 import { ChatButtonToggler } from "./chat-button-toggler";
 import { useTranslation } from "next-i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useWSChat } from "src/contexts/ws-chat.context";
 import { useOutsideClickRef } from "src/hooks/useOutsideClickRef";
 import ChatTopicList from "./topic-list";
@@ -27,6 +27,10 @@ const ShopChat: React.FC<INewChatProps> = ({ ...props }) => {
 
   const ref = useOutsideClickRef(hideMessages);
   const [isShowMessages, setIsShowMessages] = useState(!!openedTopic);
+
+  useEffect(() => {
+    setIsShowMessages(!!openedTopic);
+  }, [openedTopic]);
 
   if (UNMESSAGEABLE.includes(`/${activePage}`)) {
     return <></>;
@@ -55,7 +59,7 @@ const ShopChat: React.FC<INewChatProps> = ({ ...props }) => {
   }
 
   function getHeight() {
-    return isShowMessages || !!openedTopic ? "500px" : "0px";
+    return isShowMessages ? "500px" : "0px";
   }
 
   return (

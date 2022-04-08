@@ -49,7 +49,10 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
         onClick={closeModal}
         className={`animation-hover-scale absolute top-10 right-32 w-5 h-5`}
       />
-      <div className={`relative`} onClick={(e) => e.preventDefault()}>
+      <div
+        className={`relative ${isOriginalSize && "flex-center"}`}
+        onClick={(e) => e.preventDefault()}
+      >
         {!isOriginalSize && (
           <div
             className={`relative bg-black bg-opacity-70 h-[400px] w-[400px] aspect-square -translate-y-24`}
@@ -65,7 +68,11 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
 
         {isOriginalSize && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img alt={images[activeImageIdx].fileName} src={activeImageUrl} />
+          <img
+            className={`max-h-[70%] max-w-[70%] object-cover`}
+            alt={images[activeImageIdx].fileName}
+            src={activeImageUrl}
+          />
         )}
 
         <div
