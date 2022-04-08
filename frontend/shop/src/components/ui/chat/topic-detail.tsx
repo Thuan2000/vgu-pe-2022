@@ -1,5 +1,7 @@
 import XIcon from "@assets/icons/x-icon";
 import { siteSettings } from "@settings/site.settings";
+import { fromoHeightAnimation } from "@utils/fromo-animations";
+import { motion } from "framer-motion";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import React from "react";
@@ -18,9 +20,14 @@ export const TopicDetail: React.FC<ITopicDetailProps> = ({}) => {
     closeFocusTopic();
   }
 
+  function getHeight() {
+    return !!openedTopic ? "100vh" : "0px";
+  }
+
   return (
-    <div
+    <motion.div
       className={`relative bg-white border border-gray-20 w-96 rounded-t-sm overflow-hidden`}
+      {...fromoHeightAnimation(getHeight())}
     >
       <div className={`fic p-3 space-x-5 border-b border-gray-20`}>
         <div className={`relative w-10 h-10 flex-shrink-0`}>
@@ -32,7 +39,7 @@ export const TopicDetail: React.FC<ITopicDetailProps> = ({}) => {
         </div>
         <div>
           <Typography
-            text={openedTopic!.public?.fn}
+            text={openedTopic?.public?.fn || ""}
             weight="semibold"
             size="md"
           />
@@ -51,6 +58,6 @@ export const TopicDetail: React.FC<ITopicDetailProps> = ({}) => {
         <TopicMessages />
       </div>
       <TopicMessageInput />
-    </div>
+    </motion.div>
   );
 };

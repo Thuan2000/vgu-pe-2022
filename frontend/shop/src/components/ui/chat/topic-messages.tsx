@@ -27,7 +27,7 @@ const TopicMessages: React.FC<ITopicMessagesProps> = ({ ...props }) => {
 
   return (
     <div className={`flex flex-col`}>
-      {isEmpty(openedTopic!.messages) ? (
+      {isEmpty(openedTopic?.messages) ? (
         <Typography
           text={t("no-message-yet-text")}
           align="center"

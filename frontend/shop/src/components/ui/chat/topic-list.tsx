@@ -9,9 +9,8 @@ interface IChatTopicListProps {}
 const ChatTopicList: React.FC<IChatTopicListProps> = ({ ...props }) => {
   const { t } = useTranslation();
   const { topics = {} } = useWSChat();
-
   return (
-    <div className={`bg-white space-y-0 h-fit-content`}>
+    <div className={`bg-white space-y-0 h-fit-content w-full`}>
       {Object.keys(topics).map((key, idx) => {
         const tpc = topics[key];
         return (
@@ -24,7 +23,7 @@ const ChatTopicList: React.FC<IChatTopicListProps> = ({ ...props }) => {
       })}
 
       {!Object.keys(topics).length && (
-        <div className={`py-5`}>
+        <div className={`py-5 w-full bg-white`}>
           <Typography
             text={t("please-chat-to-a-company-message")}
             size="xs"

@@ -179,5 +179,7 @@
   "save-button": "Save",
   "setting-this-plan-was-bought-on": "This plan was bought on",
   "setting-remaining-end": "days remaining, plan will end on",
-  "setting-changePass-label": "Password"
+  "setting-changePass-label": "Password",
+  "sent-file-text": "Sent you a file",
+  "sent-image-text": "Sent you a image"
 }

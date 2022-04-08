@@ -1,20 +1,26 @@
 import ChevronRightIcon from "@assets/icons/chevron-right-icon";
-import MessageIcon from "@assets/icons/message-icon";
+import { fromoRotationAnimation } from "@utils/fromo-animations";
+import { motion } from "framer-motion";
 import { useTranslation } from "next-i18next";
 import React from "react";
-import Button from "../storybook/button";
 import Typography from "../storybook/typography";
 
 interface IChatButtonTogglerProps {
   toggleMessages: () => void;
   unreadTopicsLength: number;
+  isShowMessages: boolean;
 }
 
 export const ChatButtonToggler: React.FC<IChatButtonTogglerProps> = ({
   toggleMessages,
+  isShowMessages,
   unreadTopicsLength,
 }) => {
   const { t } = useTranslation();
+
+  function getRotation() {
+    return isShowMessages ? "90deg" : "0deg";
+  }
 
   return (
     <div
@@ -35,9 +41,12 @@ export const ChatButtonToggler: React.FC<IChatButtonTogglerProps> = ({
         />
       </div>
 
-      <div className="ml-auto mr-2">
+      <motion.div
+        {...fromoRotationAnimation(getRotation())}
+        className="ml-auto mr-2"
+      >
         <ChevronRightIcon />
-      </div>
+      </motion.div>
     </div>
   );
 };

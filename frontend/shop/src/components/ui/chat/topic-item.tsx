@@ -1,4 +1,9 @@
 import { siteSettings } from "@settings/site.settings";
+import {
+  getChatTime,
+  getFileMsg,
+  getTopicLastMessage,
+} from "@utils/chat-functions";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import React from "react";
@@ -22,44 +27,49 @@ export const TopicItem: React.FC<ITopicItemProps> = ({ topic, isLast }) => {
   const isOnline = topic.online;
   const lastSeen = topic.seen?.when;
   const topicId = topic.topic;
+  const lastMessage = getTopicLastMessage(topic);
+
   function handleClick() {
     setFocusTopic(topicId);
   }
+
+  function getFormattedLastMessage() {
+    const content = lastMessage?.content;
+    if (!content) return "";
+    if (typeof content === "object") {
+      return t(
+        getFileMsg(content).mime.includes("image")
+          ? "sent-image-text"
+          : "sent-file-text"
+      );
+    } else return content;
+  }
+
   return (
     <div
-      className={`fic !px-3 cursor-pointer !py-3 !min-w-[384px] relative overflow-hidden space-x-3 !h-fit-content !justify-start`}
+      className={`fic justify-between w-full pr-4 cursor-pointer `}
       onClick={handleClick}
     >
-      <div className={`relative w-10 h-10 flex-shrink-0`}>
-        <Image
-          src={siteSettings.companyProfileImagePlaceholder}
-          layout="fill"
-          alt="company-profile"
-        />
-      </div>
-      <div>
-        <Typography text={topicUserName} weight="semibold" align="left" />
-        {isOnline && (
-          <Typography
-            text={t("user-is-online-text")}
-            align="left"
-            color="primary"
-            weight="semibold"
+      <div className={`fic p-3 relative overflow-hidden space-x-3`}>
+        <div className={`relative w-10 h-10 flex-shrink-0`}>
+          <Image
+            src={siteSettings.companyProfileImagePlaceholder}
+            layout="fill"
+            alt={topicUserName}
           />
-        )}
-        {!isOnline && !!lastSeen && (
+        </div>
+        <div>
+          <Typography text={topicUserName} weight="semibold" align="left" />
           <div className={`fic space-x-1`}>
-            <Typography
-              align="left"
-              text={`${t("last-seen-text")}`}
-              color="gray-400"
-            />
-            {/* <ReactTimeAgo
-              locale={locale}
-              className={`text-sm text-gray-400`}
-              date={new Date(lastSeen)}
-            /> */}
+            {!!lastMessage && (
+              <Typography text={getFormattedLastMessage()} color="gray-400" />
+            )}
           </div>
+        </div>
+      </div>
+      <div className={`flex-shrink-0`}>
+        {lastMessage?.ts && (
+          <Typography text={getChatTime(lastMessage.ts)} weight="bold" />
         )}
       </div>
     </div>

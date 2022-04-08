@@ -1,5 +1,9 @@
 import { generateChatCredUnique, setChatAuthToken } from "@utils/auth-utils";
-import { AttachmentMsg, TChatDataResp, TChatFileParam } from "@utils/chat-interface";
+import {
+  AttachmentMsg,
+  TChatDataResp,
+  TChatFileParam,
+} from "@utils/chat-interface";
 import {
   chatGetFirstSubMessage,
   chatGetHiMessage,
@@ -9,6 +13,7 @@ import {
   chatGetNotifyTypingMessage,
   chatGetSendFileMessage,
   chatGetSendMessageMessage,
+  chatGetTopicLastMessage,
   chatGetTopicMessagesMessage,
 } from "@utils/chat-to-server-messages";
 import { CHAT_URL } from "@utils/constants";
@@ -133,19 +138,6 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
     sendChatMessageToServer(chatGetLeaveMessage(topic));
   }
 
-  function generateNewData(topic: string, content: string | AttachmentMsg) {
-    const openedTopicKeys = Object.keys(openedTopic?.messages || {});
-
-    const newData: TChatDataResp = {
-      topic,
-      from: getLoggedInCompany()?.chatId!,
-      content,
-      seq: (parseInt(openedTopicKeys[openedTopicKeys.length - 1]) || 0) + 1,
-      ts: new Date(),
-    };
-    return newData;
-  }
-
   /**
    * Because when we sent message the new message update is not automatically show up
    * Then we refetch it programatically
@@ -161,11 +153,6 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
    * @param content
    */
   function sendChatMessage(topic: string, content: string) {
-    // const newData = generateNewData(topic, content);
-    // Because chat server not support to get the new message if we are the one who sent it
-    // Then we make it like this
-    // handleData(newData);
-
     sendChatMessageToServer(chatGetSendMessageMessage(topic, content));
     refetchData();
   }
@@ -196,11 +183,6 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
    * @param file
    */
   function sendAttachment(topic: string, capt: string, file: TChatFileParam) {
-    // const newData = generateNewData(topic, {
-    //   txt: capt,
-    //   ent: [{ data: file }],
-    // });
-
     sendChatMessageToServer(chatGetSendFileMessage(topic, capt, file));
     refetchData();
   }
@@ -214,6 +196,14 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
     if (!comp) return;
     const unique = generateChatCredUnique(comp.name, comp.id);
     sendChatMessageToServer(chatGetLoginMessage(unique));
+  }
+
+  /**
+   * Getting topic last message
+   * @param topic
+   */
+  function getTopicLastMessage(topic: string) {
+    sendChatMessageToServer(chatGetTopicLastMessage(topic));
   }
 
   /**
@@ -236,6 +226,7 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
     } else if (meta.sub) {
       meta.sub.forEach((s: TTopic) => {
         if (s.topic === "me" || !s.topic || !!topics[s.topic]) return;
+        getTopicLastMessage(s.topic);
         topics[s.topic] = Object.assign({ messages: {} }, s);
       });
 

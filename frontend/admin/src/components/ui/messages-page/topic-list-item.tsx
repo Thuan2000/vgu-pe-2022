@@ -20,7 +20,6 @@ const TopicListItem: React.FC<ITopicListItemProps> = ({ tpc, ...props }) => {
   const { t } = useTranslation();
   const { setFocusTopic } = useWSChat();
   const lastMessage = getTopicLastMessage(tpc);
-  const { locale } = useRouter();
 
   function handleClick() {
     setFocusTopic(tpc.topic);
@@ -29,7 +28,6 @@ const TopicListItem: React.FC<ITopicListItemProps> = ({ tpc, ...props }) => {
   function getFormattedLastMessage() {
     const content = lastMessage?.content;
     if (!content) return "";
-    console.log(content);
     if (typeof content === "object") {
       return t(
         getFileMsg(content).mime.includes("image")
