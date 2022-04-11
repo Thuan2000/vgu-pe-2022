@@ -9,7 +9,6 @@ fragment CompanyFragment on Company {
   description
   approved
   industryId
-  ownerId
   establishmentDate
   businessTypeIds
   licenseFiles {

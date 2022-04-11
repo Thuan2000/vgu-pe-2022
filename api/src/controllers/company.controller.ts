@@ -244,9 +244,8 @@ class CompanyController {
 
 			return successResponse();
 		} catch (e) {
-			console.log(e);
-
-			return errorResponse();
+			console.error(e);
+			return errorResponse(e.toString());
 		}
 	}
 

@@ -152,7 +152,7 @@ Company.init(
 
 Company.hasOne(CompanySubscription, { as: "subscription" });
 User.belongsTo(Company, { as: "company", foreignKey: "companyId" });
-// Company.belongsTo(User, { as: "owner", foreignKey: "ownerId" });
+Company.hasOne(User, { as: "owner", foreignKey: "companyId" });
 Company.belongsTo(User, { as: "approver", foreignKey: "approverId" });
 
 export default Company;
