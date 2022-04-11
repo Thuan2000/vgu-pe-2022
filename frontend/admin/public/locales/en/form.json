@@ -30,6 +30,7 @@
   "companyName-required-error": "Please provide company name",
   "drop-zone": "Drop files here to upload",
   "license-label": "License",
+  "pleaseInputProductName-message": "Please input product/service names",
   "upload-file": "Upload File",
   "companyEdited-success-message": "Info Updated Succesfully",
   "license-subLabel": "Please attach business registration legality, so we can verify your account",

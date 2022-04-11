@@ -181,5 +181,8 @@
   "setting-remaining-end": "days remaining, plan will end on",
   "setting-changePass-label": "Password",
   "sent-file-text": "Sent you a file",
-  "sent-image-text": "Sent you a image"
+  "sent-image-text": "Sent you a image",
+  "message-nav-label": "Messages",
+  "years-text": "year(s)",
+  "year-text": "year"
 }

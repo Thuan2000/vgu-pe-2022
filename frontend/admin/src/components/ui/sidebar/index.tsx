@@ -17,7 +17,7 @@ const Sidebar: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => {
       <div className="fixed w-[inherit] h-full flex-col">
         <div className={`pl-11`}>
           <Header />
-          <h3 className="flex items-center text-dark-blue mb-7 mt-4">
+          <h3 className="flex items-center text-dark-blue mb-7 mt-4 mr-4">
             {company?.name}
             {company?.approved && <VerifiedIcon className="w-4 h-4 ml-2" />}
           </h3>

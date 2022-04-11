@@ -29,6 +29,7 @@
   "createProject-button-label": "Tạo dự án",
   "select-all-label": "Chọn hết",
   "million-suffix": "tr",
+  "expires-in-text": "hết hạn sau",
   "billion-suffix": "tỷ",
   "add-to-project-button-label": "Thêm vào dự án",
   "create-post-button-label": "Đăng tin NCTM",
@@ -187,5 +188,10 @@
   "save-button": "Lưu",
   "setting-this-plan-was-bought-on": "Gói này đã được mua vào",
   "setting-remaining-end": "ngày còn lại, gói dịch vụ sẽ kết thúc vào",
-  "setting-changePass-label": "Mật khẩu"
+  "setting-changePass-label": "Mật khẩu",
+  "message-nav-label": "Tin nhắn",
+  "upgrade-now-text": "Nâng cấp ngay",
+  "years-text": "năm",
+  "year-text": "năm",
+  "plan-text": "plan"
 }

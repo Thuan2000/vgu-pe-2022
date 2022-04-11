@@ -83,6 +83,7 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
 
   function sendChatMessageToServer(message: string) {
     console.log("Sending : ", message);
+    // TODO: Disable this to run local successfully without needing the message.
     wsChatInstance?.send(message);
   }
 
