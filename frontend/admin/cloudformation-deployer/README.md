@@ -2,9 +2,10 @@
 
 1. Copy make.env.example into make.env and fill only id information
 2. Make sure to use latest api
+3. Build the image run `make build-deploy-image-${env}`
 
-3. To create stack run `make create-${env}`
-4. To update stack run `make create-${env}`
+4. To create stack run `make create-${env}`
+5. To update stack run `make create-${env}`
 
 # Note
 
