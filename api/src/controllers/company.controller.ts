@@ -107,6 +107,8 @@ class CompanyController {
 	}
 	static async getCompanies({ offset, limit, searchValue, ...input }) {
 		const queryBody = {
+			size: limit,
+			from: offset,
 			query: CompanyRepository.getSearchQuery(searchValue, input)
 		};
 

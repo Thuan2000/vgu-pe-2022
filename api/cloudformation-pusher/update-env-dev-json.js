@@ -19,7 +19,7 @@ function getUpdatedRefresherValue(c) {
 	if (isNaN(currentParameterValue)) {
 		currentParameterValue = 0;
 	}
-	return currentParameterValue + 1;
+	return currentParameterValue + 1 + "";
 }
 
 const updatedContent = content.map(c => {
@@ -29,7 +29,5 @@ const updatedContent = content.map(c => {
 
 	return c;
 });
-
-console.log(updatedContent);
 
 fs.writeFileSync(filePath, JSON.stringify(updatedContent, null, 2));
