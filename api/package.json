@@ -33,7 +33,11 @@
 		"tsc": "tsc",
 		"shop:pre-commit": "npm --prefix ../frontend/shop run type-check",
 		"admin:pre-commit": "npm --prefix ../frontend/admin run type-check",
-		"precommit": "npm-run-all shop:pre-commit admin:pre-commit tsc"
+		"precommit": "npm-run-all shop:pre-commit admin:pre-commit tsc",
+		"dev-build-ecr-image": "make dev-build-and-deploy-api-image",
+		"dev-update-ecs": "node cloudformation-pusher/update-env-dev-json && make update-stack-dev",
+		"predeploy-dev": "git pull && cd cloudformation-pusher",
+		"deploy-dev": "npm run dev-build-ecr-image && npm run dev-update-ecs"
 	},
 	"husky": {
 		"hooks": {

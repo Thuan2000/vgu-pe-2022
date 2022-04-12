@@ -186,8 +186,8 @@ class CompanyController {
 			include: [
 				{
 					model: User,
-					association: Company.belongsTo(User, {
-						foreignKey: "ownerId"
+					association: Company.hasOne(User, {
+						foreignKey: "companyId"
 					})
 				}
 			]
