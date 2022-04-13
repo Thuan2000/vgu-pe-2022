@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import PPSProductCategoryInput from "./pps-product-category-input";
@@ -34,6 +34,7 @@ import {
   IVariationInput,
   IVariationOption,
 } from "@graphql/types.graphql";
+
 import {
   CreateProductMutation,
   UpdateProductMutation,
@@ -62,6 +63,8 @@ import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
 import { useModal } from "src/contexts/modal.context";
 import Typography from "@components/ui/storybook/typography";
 import { useRef } from "react";
+
+import { useOnScreen } from "src/hooks/useIsOnScreen";
 
 interface IPPSProductFormProps {
   initValues?: IProduct;
@@ -160,11 +163,13 @@ function generateDefaultValues(initValues: IProduct) {
   return defaultInput;
 }
 
+type TVisible = "GENERAL" | "PRICING" | "DETAILS" | "REVIEW";
+
 const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   const { t } = useTranslation("form");
   const { locale, query, ...router } = useRouter();
   const formPosition = parseInt(query.formPosition as string) || 1;
-  const { openModal, closeModal } = useModal();
+  const { openModal } = useModal();
 
   const methods = useForm<IPostProductFormValues>({
     reValidateMode: "onSubmit",
@@ -218,6 +223,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
 
   useEffect(() => {
     openModalCategory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Changing section if there's an error and user submitting
@@ -253,13 +259,13 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   function handleCompleteCreated({
     createProduct: { message, success },
   }: CreateProductMutation) {
-    fireSuccessErrorMessage(success, message);
+    fireRespMessage(success, message);
   }
 
   function handleCompleteUpdated({
     updateProduct: { message, success },
   }: UpdateProductMutation) {
-    fireSuccessErrorMessage(success, message);
+    fireRespMessage(success, message);
   }
 
   async function handleNextClick() {
@@ -272,8 +278,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       return scrollToSection(general, 2);
     }
     const dataPricing = await trigger("pricing");
-    console.log(dataPricing);
-
     if (!dataPricing) {
       return scrollToSection(pricing, 2);
     }
@@ -281,22 +285,9 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     if (!dataDetails) {
       return scrollToSection(details, 2);
     }
-    // if (formPosition === PPS_PRODUCT_CATEGORY_FORM_INDEX) {
-    // }
-    // if (formPosition === PPS_PRODUCT_GENERAL_FORM_INDEX) {
-    // }
-    // if (formPosition === PPS_PRODUCT_PRICING_FORM_INDEX) {
-
-    // }
-    // if (formPosition === PPS_PRODUCT_DETAILS_FORM_INDEX) {
-
-    // }
-    if (formPosition >= PPS_PRODUCT_REVIEW_FORM_INDEX) return;
-
-    // changeSection(formPosition + 1);
   }
 
-  function fireSuccessErrorMessage(success: boolean, message: string) {
+  function fireRespMessage(success: boolean, message: string) {
     if (success) {
       Swal.fire({
         icon: "success",
@@ -447,23 +438,36 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   const general = useRef(null);
   const pricing = useRef(null);
   const details = useRef(null);
+  const review = useRef(null);
+
+  // To know if they are visible
+  const isGeneralVisible = useOnScreen(general as any);
+  const isPricingVisible = useOnScreen(pricing as any);
+  const isDetailsVisible = useOnScreen(details as any, "-300px");
+  const isReviewsVisible = useOnScreen(review as any, "-300px");
+
+  // General is default
+  const [focusedSection, setFocusedSection] = useState<TVisible>("GENERAL");
+
+  useEffect(() => {
+    let visible: TVisible = "GENERAL";
+    if (isPricingVisible) visible = "PRICING";
+    if (isDetailsVisible) visible = "DETAILS";
+    if (isReviewsVisible) visible = "REVIEW";
+
+    if (focusedSection !== visible) setFocusedSection(visible);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isGeneralVisible, isPricingVisible, isDetailsVisible]);
 
   const scrollToSection = (
     elementRef: React.RefObject<HTMLDivElement>,
     idx: number
   ) => {
-    // changeSection(idx);
-    window.scrollTo({
-      top: elementRef.current?.offsetTop,
+    elementRef.current?.scrollIntoView({
       behavior: "smooth",
+      inline: "end",
     });
   };
-
-  // useEffect(() => {
-  //   const ref = useRef<HTMLDivElement>(null);
-  //   const offsetTop = ref.current?.offsetTop;
-  //   console.log(offsetTop);
-  // });
 
   return (
     <FormProvider {...methods}>
@@ -489,7 +493,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
                 className="mb-5"
               />
               <PPSProductGeneralInput />
-              <div></div>
             </section>
             <section
               ref={pricing}
@@ -515,18 +518,12 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
               />
               <PPSProductDetailsInput />
             </section>
-            <section className="bg-white shadow-md md:rounded-sm translate-y-[-2px] mb-5 mt-px-15 px-10 py-6">
+            <section
+              ref={review}
+              className="bg-white shadow-md md:rounded-sm translate-y-[-2px] mb-5 mt-px-15 px-10 py-6"
+            >
               <PPSProductReview changeSection={changeSection} />
             </section>
-
-            {/* {formPosition === PPS_PRODUCT_GENERAL_FORM_INDEX && (
-          )}
-          {formPosition === PPS_PRODUCT_PRICING_FORM_INDEX && (
-          )}
-          {formPosition === PPS_PRODUCT_DETAILS_FORM_INDEX && (
-          )} */}
-            {/* {formPosition === PPS_PRODUCT_REVIEW_FORM_INDEX && (
-          )} */}
           </div>
           <div className="product-selected-fix" z-index="999">
             <div className="fix-container fixed-bottom">
@@ -544,9 +541,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
             <ul className="flex justify-between flex-col side-nav-list">
               <li
                 className={`side-nav-item ${
-                  formPosition === PPS_PRODUCT_GENERAL_FORM_INDEX
-                    ? "active"
-                    : " "
+                  focusedSection === "GENERAL" ? "active" : " "
                 }`}
               >
                 <a
@@ -558,9 +553,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
               </li>
               <li
                 className={`side-nav-item ${
-                  formPosition === PPS_PRODUCT_PRICING_FORM_INDEX
-                    ? "active"
-                    : " "
+                  focusedSection === "PRICING" ? "active" : " "
                 }`}
               >
                 <a
@@ -572,9 +565,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
               </li>
               <li
                 className={`side-nav-item ${
-                  formPosition === PPS_PRODUCT_DETAILS_FORM_INDEX
-                    ? "active"
-                    : " "
+                  focusedSection === "DETAILS" ? "active" : " "
                 }`}
               >
                 <a
@@ -582,6 +573,18 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
                   href="javascript:void(0)"
                 >
                   {t("details-nav-label")}
+                </a>
+              </li>
+              <li
+                className={`side-nav-item ${
+                  focusedSection === "REVIEW" ? "active" : " "
+                }`}
+              >
+                <a
+                  onClick={() => scrollToSection(details, 4)}
+                  href="javascript:void(0)"
+                >
+                  {t("reviews-nav-label")}
                 </a>
               </li>
             </ul>
