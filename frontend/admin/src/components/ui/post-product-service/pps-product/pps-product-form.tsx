@@ -59,6 +59,9 @@ import { groupBy } from "lodash";
 import { IGroupFormValues } from "./product-group-form";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
+import { useModal } from "src/contexts/modal.context";
+import Typography from "@components/ui/storybook/typography";
+import { useRef } from "react";
 
 interface IPPSProductFormProps {
   initValues?: IProduct;
@@ -161,6 +164,8 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   const { t } = useTranslation("form");
   const { locale, query, ...router } = useRouter();
   const formPosition = parseInt(query.formPosition as string) || 1;
+  const { openModal, closeModal } = useModal();
+
   const methods = useForm<IPostProductFormValues>({
     reValidateMode: "onSubmit",
     resolver: yupResolver(ppsProductSchema),
@@ -196,6 +201,24 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       query: { ...query, formPosition: newPosition },
     });
   }
+
+  function openModalCategory() {
+    changeSection(PPS_PRODUCT_GENERAL_FORM_INDEX);
+    openModal(
+      (
+        <PPSProductCategoryInput
+          errors={errors}
+          trigger={trigger}
+          control={control}
+          register={register}
+        />
+      ) as any
+    );
+  }
+
+  useEffect(() => {
+    openModalCategory();
+  }, []);
 
   // Changing section if there's an error and user submitting
   useEffect(() => {
@@ -240,25 +263,37 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   }
 
   async function handleNextClick() {
-    if (formPosition === PPS_PRODUCT_CATEGORY_FORM_INDEX) {
-      const data = await trigger("category");
-      if (!data) return;
+    const dataCategory = await trigger("category");
+    if (!dataCategory) {
+      return openModalCategory();
     }
-    if (formPosition === PPS_PRODUCT_GENERAL_FORM_INDEX) {
-      const data = await trigger("general");
-      if (!data) return;
+    const dataGeneral = await trigger("general");
+    if (!dataGeneral) {
+      return scrollToSection(general, 2);
     }
-    if (formPosition === PPS_PRODUCT_PRICING_FORM_INDEX) {
-      const data = await trigger("pricing");
-      if (!data) return;
+    const dataPricing = await trigger("pricing");
+    console.log(dataPricing);
+
+    if (!dataPricing) {
+      return scrollToSection(pricing, 2);
     }
-    if (formPosition === PPS_PRODUCT_DETAILS_FORM_INDEX) {
-      const data = await trigger("details");
-      if (!data) return;
+    const dataDetails = await trigger("details");
+    if (!dataDetails) {
+      return scrollToSection(details, 2);
     }
+    // if (formPosition === PPS_PRODUCT_CATEGORY_FORM_INDEX) {
+    // }
+    // if (formPosition === PPS_PRODUCT_GENERAL_FORM_INDEX) {
+    // }
+    // if (formPosition === PPS_PRODUCT_PRICING_FORM_INDEX) {
+
+    // }
+    // if (formPosition === PPS_PRODUCT_DETAILS_FORM_INDEX) {
+
+    // }
     if (formPosition >= PPS_PRODUCT_REVIEW_FORM_INDEX) return;
 
-    changeSection(formPosition + 1);
+    // changeSection(formPosition + 1);
   }
 
   function fireSuccessErrorMessage(success: boolean, message: string) {
@@ -409,43 +444,149 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     changeSection(formPosition - 1);
   }
 
+  const general = useRef(null);
+  const pricing = useRef(null);
+  const details = useRef(null);
+
+  const scrollToSection = (
+    elementRef: React.RefObject<HTMLDivElement>,
+    idx: number
+  ) => {
+    // changeSection(idx);
+    window.scrollTo({
+      top: elementRef.current?.offsetTop,
+      behavior: "smooth",
+    });
+  };
+
+  // useEffect(() => {
+  //   const ref = useRef<HTMLDivElement>(null);
+  //   const offsetTop = ref.current?.offsetTop;
+  //   console.log(offsetTop);
+  // });
+
   return (
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(onSubmit)} className="pt-2 space-y-2">
-        <div
-          className={
-            formPosition === PPS_PRODUCT_REVIEW_FORM_INDEX
-              ? "sm:w-full"
-              : "sm:w-2/3"
-          }
-        >
-          {formPosition === PPS_PRODUCT_CATEGORY_FORM_INDEX && (
+        <div className="product-edit__container">
+          <div className="product-edit__main">
+            {/* {formPosition === PPS_PRODUCT_CATEGORY_FORM_INDEX && (
             <PPSProductCategoryInput
               errors={errors}
               trigger={trigger}
               control={control}
               register={register}
             />
-          )}
-          {formPosition === PPS_PRODUCT_GENERAL_FORM_INDEX && (
-            <PPSProductGeneralInput />
+          )} */}
+            <section
+              ref={general}
+              className="bg-white shadow-md md:rounded-sm translate-y-[-2px] mb-5 mt-px-15 px-10 py-6 min-w-[65vh]"
+            >
+              <Typography
+                text={t("general-nav-label")}
+                variant="smallTitle"
+                size="lg"
+                className="mb-5"
+              />
+              <PPSProductGeneralInput />
+              <div></div>
+            </section>
+            <section
+              ref={pricing}
+              className="bg-white shadow-md md:rounded-sm translate-y-[-2px] mb-5 mt-px-15 px-10 py-6"
+            >
+              <Typography
+                text={t("pricing-nav-label")}
+                variant="smallTitle"
+                size="lg"
+                className="mb-5"
+              />
+              <PPSServicePricingInput />
+            </section>
+            <section
+              ref={details}
+              className="bg-white shadow-md md:rounded-sm translate-y-[-2px] mb-5 mt-px-15 px-10 py-6"
+            >
+              <Typography
+                text={t("details-nav-label")}
+                variant="smallTitle"
+                size="lg"
+                className="mb-5"
+              />
+              <PPSProductDetailsInput />
+            </section>
+            <section className="bg-white shadow-md md:rounded-sm translate-y-[-2px] mb-5 mt-px-15 px-10 py-6">
+              <PPSProductReview changeSection={changeSection} />
+            </section>
+
+            {/* {formPosition === PPS_PRODUCT_GENERAL_FORM_INDEX && (
           )}
           {formPosition === PPS_PRODUCT_PRICING_FORM_INDEX && (
-            <PPSServicePricingInput />
           )}
           {formPosition === PPS_PRODUCT_DETAILS_FORM_INDEX && (
-            <PPSProductDetailsInput />
-          )}
-          {formPosition === PPS_PRODUCT_REVIEW_FORM_INDEX && (
-            <PPSProductReview changeSection={changeSection} />
-          )}
+          )} */}
+            {/* {formPosition === PPS_PRODUCT_REVIEW_FORM_INDEX && (
+          )} */}
+          </div>
+          <div className="product-selected-fix" z-index="999">
+            <div className="fix-container fixed-bottom">
+              <div className="container">
+                <PPSProductFooterButton
+                  loading={creating || uploadingFiles || updating}
+                  onNextClick={handleNextClick}
+                  onBackClick={handleBackClick}
+                  formPosition={formPosition}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="product-edit__side">
+            <ul className="flex justify-between flex-col side-nav-list">
+              <li
+                className={`side-nav-item ${
+                  formPosition === PPS_PRODUCT_GENERAL_FORM_INDEX
+                    ? "active"
+                    : " "
+                }`}
+              >
+                <a
+                  onClick={() => scrollToSection(general, 2)}
+                  href="javascript:void(0)"
+                >
+                  {t("general-nav-label")}
+                </a>
+              </li>
+              <li
+                className={`side-nav-item ${
+                  formPosition === PPS_PRODUCT_PRICING_FORM_INDEX
+                    ? "active"
+                    : " "
+                }`}
+              >
+                <a
+                  onClick={() => scrollToSection(pricing, 3)}
+                  href="javascript:void(0)"
+                >
+                  {t("pricing-nav-label")}
+                </a>
+              </li>
+              <li
+                className={`side-nav-item ${
+                  formPosition === PPS_PRODUCT_DETAILS_FORM_INDEX
+                    ? "active"
+                    : " "
+                }`}
+              >
+                <a
+                  onClick={() => scrollToSection(details, 4)}
+                  href="javascript:void(0)"
+                >
+                  {t("details-nav-label")}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <PPSProductFooterButton
-          loading={creating || uploadingFiles || updating}
-          onNextClick={handleNextClick}
-          onBackClick={handleBackClick}
-          formPosition={formPosition}
-        />
       </Form>
     </FormProvider>
   );

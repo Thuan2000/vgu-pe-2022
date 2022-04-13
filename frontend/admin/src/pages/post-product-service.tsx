@@ -16,6 +16,7 @@ import {
 } from "@components/ui/post-product-service/pps-contstants";
 import { useRouter } from "next/dist/client/router";
 import useCompanyDetailCheck from "src/hooks/useCompanyDetailCheck";
+import PPSPageWrapper from "@components/ui/post-product-service/pps-page-wrapper";
 
 interface IPostProductProps {}
 // interface IPostProductProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -53,11 +54,12 @@ const PostProduct: React.FC<IPostProductProps> = () => {
         <title>{generateHeadTitle(t(PAGE_TITLE.POST_PRODUCT))}</title>
         <meta name="description" content={PAGE_DESCRIPTION.POST_PRODUCT} />
       </Head>
-      <PostPageWrapper
+      {/* <PostPageWrapper
         navs={target === "product" ? postProductNavs : postServiceNavs}
       >
         <PostProductServiceForm />
-      </PostPageWrapper>
+      </PostPageWrapper> */}
+      <PostProductServiceForm />
     </div>
   );
 };
