@@ -55,7 +55,7 @@ const PPSProductPricingInput: React.FC<IPPSProductPricingInputProps> = ({}) => {
   }
 
   return (
-    <div className="space-y-5 min-h-[65vh]">
+    <div className="space-y-5">
       <div className="space-y-2">
         <InputLabel
           label={t("product-price-input-label")}

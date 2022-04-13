@@ -35,26 +35,25 @@ const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
 
   return (
     <div className="space-y-3">
-      <TextArea
-        {...register("general.description")}
-        required
-        onChange={(e) => {
-          register("general.description").onChange(e);
-          trigger("general.description");
-        }}
-        numberQueue={1}
-        label={t("postProduct-description-input-label")}
-        placeholder={t("postProduct-description-input-placeholder")}
-        error={
-          !!descriptionError
-            ? `${t(descriptionError)}: ${MINIMUM_PRODUCT_DESC}`
-            : ""
-        }
-      />
-
+      <div>
+        <TextArea
+          {...register("general.description")}
+          required
+          onChange={(e) => {
+            register("general.description").onChange(e);
+            trigger("general.description");
+          }}
+          label={t("postProduct-description-input-label")}
+          placeholder={t("postProduct-description-input-placeholder")}
+          error={
+            !!descriptionError
+              ? `${t(descriptionError)}: ${MINIMUM_PRODUCT_DESC}`
+              : ""
+          }
+        />
+      </div>
       <NumberInput
         label={t("minOrder-input-label")}
-        numberQueue={2}
         control={control}
         onChange={() => {
           trigger("general.minOrder");
@@ -69,7 +68,6 @@ const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
         required
         inputFileType="image"
         control={control}
-        numberQueue={4}
         multiple
         name="general.images"
         onChange={(_) => trigger("general.images")}
@@ -81,7 +79,6 @@ const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
       <DocumentInput
         inputFileType="video"
         control={control}
-        numberQueue={5}
         multiple
         name="general.videos"
         onChange={(_) => trigger("general.videos")}
@@ -94,7 +91,6 @@ const PPSProductGeneralInput: React.FC<IPPSProductDetailsInputProps> = ({}) => {
         control={control}
         inputFileType="application"
         multiple
-        numberQueue={6}
         name="general.certificates"
         onChange={(_) => trigger("general.certificates")}
         accept={getDocumentAccept()}
