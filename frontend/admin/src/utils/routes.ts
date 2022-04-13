@@ -14,7 +14,6 @@ export const ROUTES = {
   SERVICES: "/services",
   PRODUCTS: "/products",
   EDIT_COMPANY: "/company-details",
-  CHAT_URL: process.env.NEXT_PUBLIC_CHAT_URL,
   COMPANY_DETAIL: "/company-detail",
   LOGIN: (locale?: string) =>
     `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}${
@@ -27,5 +26,5 @@ export const ROUTES = {
   SUBSCRIPTION: (locale: string) =>
     `${process.env.NEXT_PUBLIC_DISCOVERY_ENDPOINT}${
       locale ? `/${locale}/` : `/`
-    }subscribe`,
+    }subscription`,
 };

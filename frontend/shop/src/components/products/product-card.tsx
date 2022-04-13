@@ -10,7 +10,7 @@ import {
   getMoneySuffix,
   trimText,
 } from "@utils/functions";
-import { getChatUrl, ROUTES } from "@utils/routes";
+import { ROUTES } from "@utils/routes";
 import Link from "../ui/link";
 import MessageIcon from "@assets/icons/message-icon";
 import Button from "@components/ui/storybook/button";

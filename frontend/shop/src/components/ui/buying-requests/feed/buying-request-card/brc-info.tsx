@@ -14,7 +14,7 @@ import { getIndustry } from "@datas/industries";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import { isLogin } from "@utils/auth-utils";
 import { viDateFormat, trimText, getCompanyId } from "@utils/functions";
-import { getChatUrl, ROUTES } from "@utils/routes";
+import { ROUTES } from "@utils/routes";
 import React from "react";
 import { useTranslation } from "react-i18next";
 

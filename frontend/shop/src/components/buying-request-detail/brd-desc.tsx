@@ -7,7 +7,6 @@ import { getCategory } from "@datas/categories";
 import { getIndustry } from "@datas/industries";
 import { ICompany, IProject } from "@graphql/types.graphql";
 import { trimText, getCompanyId } from "@utils/functions";
-import { getChatUrl, ROUTES } from "@utils/routes";
 import { useTranslation } from "next-i18next";
 import React from "react";
 

@@ -2,7 +2,7 @@ import MessageIcon from "@assets/icons/message-icon";
 import { ICompany } from "@graphql/types.graphql";
 import { isLogin } from "@utils/auth-utils";
 import { firePleaseLoginSwal, getCompanyId } from "@utils/functions";
-import { getChatUrl, ROUTES } from "@utils/routes";
+import { ROUTES } from "@utils/routes";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import React from "react";

@@ -184,5 +184,8 @@
   "sent-image-text": "Sent you a image",
   "message-nav-label": "Messages",
   "years-text": "year(s)",
-  "year-text": "year"
+  "year-text": "year",
+  "please-subscribe-title": "Please Subscribe To Access Admin Page",
+  "please-subscribe-text": "Your subscription has ended, that mean you need to resubscribe before you can access all of our feature",
+  "please-subscribe-button-label": "Subscribe Now"
 }

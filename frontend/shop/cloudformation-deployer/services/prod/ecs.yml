@@ -30,8 +30,6 @@ Parameters:
     Type: String
   GoogleClientSecret:
     Type: String
-  NextPublicChatUrl:
-    Type: String
   NextPublicChatServerUrl:
     Type: String
   NextPublicChatServerApiKey:
@@ -95,8 +93,6 @@ Resources:
               Value: !Ref GoogleClientId
             - Name: GOOGLE_CLIENT_SECRET
               Value: !Ref GoogleClientSecret
-            - Name: NEXT_PUBLIC_CHAT_URL
-              Value: !Ref NextPublicChatUrl
             - Name: NEXT_PUBLIC_CHAT_SERVER_URL
               Value: !Ref NextPublicChatServerUrl
             - Name: NEXT_PUBLIC_CHAT_SERVER_API_KEY

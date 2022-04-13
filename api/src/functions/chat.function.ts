@@ -10,6 +10,7 @@ import { unescape } from "lodash";
 
 export interface IAccProps {
 	compId: number;
+	compShortName: string;
 	compName: string;
 	email: string;
 	phoneNumber: string;
@@ -26,6 +27,7 @@ class ChatFunction {
 	static generateAccMessage = ({
 		compId,
 		compName,
+		compShortName,
 		email,
 		phoneNumber
 	}: IAccProps) => {
@@ -41,7 +43,7 @@ class ChatFunction {
 				scheme: "basic",
 				secret,
 				login: false,
-				desc: { public: { fn: compName } },
+				desc: { public: { fn: compShortName } },
 				cred: [
 					{ meth: "email", val: email },
 					{ meth: "tel", val: phoneNumber }

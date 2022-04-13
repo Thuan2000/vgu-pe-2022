@@ -11,7 +11,6 @@ import FacebookIcon from "@assets/icons/socials/facebook-icon";
 import MessangerIcon from "@assets/icons/socials/messanger-icon";
 import TelegramIcon from "@assets/icons/socials/telegram-icon";
 import LinkIcon from "@assets/icons/socials/link-icon";
-import { getChatUrl } from "@utils/routes";
 import Link from "../link";
 import ChatNowButton from "../chat-now-button";
 
@@ -27,7 +26,10 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
   return (
     <div className={`border relative rounded-md pb-5`}>
       <div className="relative">
-        <div style={{background: "#f4f4f4"}} className="relative rounded-t-md overflow-hidden w-full h-56">
+        <div
+          style={{ background: "#f4f4f4" }}
+          className="relative rounded-t-md overflow-hidden w-full h-56"
+        >
           <Image
             alt={settings?.coverImage?.fileName + "image-preview"}
             src={settings?.coverImage?.url || siteSettings.placeholderImage}
@@ -35,7 +37,10 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
             objectFit="contain"
           />
         </div>
-        <div style={{background: "#f4f4f4"}} className="-bottom-20 left-12 absolute w-44 h-44 rounded-full overflow-hidden">
+        <div
+          style={{ background: "#f4f4f4" }}
+          className="-bottom-20 left-12 absolute w-44 h-44 rounded-full overflow-hidden"
+        >
           <Image
             alt={settings?.coverImage?.fileName + "image-preview"}
             src={settings?.profileImage?.url || siteSettings.placeholderImage}

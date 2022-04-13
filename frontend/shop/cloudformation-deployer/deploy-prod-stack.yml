@@ -30,8 +30,6 @@ Parameters:
     Type: String
   GoogleClientSecret:
     Type: String
-  NextPublicChatUrl:
-    Type: String
   NextPublicChatServerUrl:
     Type: String
   NextPublicChatServerApiKey:
@@ -56,7 +54,6 @@ Resources:
         AuthSecret: !Ref AuthSecret
         GoogleClientId: !Ref GoogleClientId
         GoogleClientSecret: !Ref GoogleClientSecret
-        NextPublicChatUrl: !Ref NextPublicChatUrl
         NextPublicChatServerUrl: !Ref NextPublicChatServerUrl
         NextPublicChatServerApiKey: !Ref NextPublicChatServerApiKey
   ProdSDconnectShopElb:

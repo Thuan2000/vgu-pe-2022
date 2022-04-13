@@ -78,6 +78,7 @@ class CompanyController {
 			ChatService.createAccount({
 				compId: companyId,
 				compName: companyName,
+				compShortName: companyShortName,
 				email: email,
 				phoneNumber: ""
 			});
@@ -230,6 +231,7 @@ class CompanyController {
 				// For credential
 				compId: company.id,
 				// For credential and ui info
+				compShortName: company.shortName,
 				compName: company.name,
 				// For ui info
 				email: owner.email,

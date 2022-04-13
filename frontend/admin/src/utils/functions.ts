@@ -356,7 +356,6 @@ export function printServerInfo() {
     `API server endpoint : `,
     process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT
   );
-  console.log(`Chat web endpoint : `, process.env.NEXT_PUBLIC_CHAT_URL);
   console.log(
     `Chat server endpoint : `,
     process.env.NEXT_PUBLIC_CHAT_SERVER_URL
@@ -365,19 +364,33 @@ export function printServerInfo() {
 
 /**
  * Get days different
- * @param date: Date to compare
- * @param otherDate: Date to compare
+ * @param nextDate: Date to compare
+ * @param currentDate: Date to compare
  * @returns days in number
  */
-export function diffDays(
-  date: Date,
-  otherDate: Date
-): { days?: number; months?: number; years?: number } {
-  const daysDiff = Math.ceil(
-    Math.abs((date as any) - (otherDate as any)) / (1000 * 60 * 60 * 24)
+export function nextDateDiffDays(nextDate: Date): {
+  days?: number;
+  months?: number;
+  years?: number;
+  isExpired?: boolean;
+} {
+  let daysDiff;
+  let monthsDiff;
+  let yearsDiff;
+
+  const currentDate = new Date();
+
+  if (nextDate.getTime() - currentDate.getTime() < 0)
+    return {
+      isExpired: true,
+    };
+
+  daysDiff = Math.ceil(
+    Math.abs((nextDate as any) - (currentDate as any)) / (1000 * 60 * 60 * 24)
   );
-  const monthsDiff = Math.max(Math.ceil(daysDiff / 30), 0);
-  const yearsDiff = Math.max(Math.ceil(monthsDiff / 12), 0);
+  if (daysDiff >= 31) monthsDiff = Math.max(Math.floor(daysDiff / 30), 0);
+  if (!!monthsDiff && monthsDiff >= 12)
+    yearsDiff = Math.max(Math.ceil(monthsDiff / 12), 0);
 
   if (!!yearsDiff)
     return {
@@ -401,13 +414,18 @@ export function getSubscriptionInfoText(
   name: string,
   endAt: Date
 ) {
-  const remainDate = diffDays(new Date(endAt), new Date());
+  const subscription = nextDateDiffDays(new Date(endAt));
+
+  if (subscription.isExpired) {
+    return `${name} ${t("plan-text")}, ${t("subscription-is-expired")}`;
+  }
+
   return `${name} ${t("plan-text")}, ${t("expires-in-text")} ${
-    remainDate.years || remainDate.months || remainDate.days
+    subscription.years || subscription.months || subscription.days
   } ${t(
-    !!remainDate.years
+    !!subscription.years
       ? "years-text"
-      : remainDate.months
+      : !!subscription.months
       ? "month-text"
       : "days-text"
   )}`;

@@ -12,7 +12,7 @@ import NoRecordAnimation from "@components/ui/no-record-animation";
 
 interface ICompanyListProps {}
 
-const COMPANIES_LIMIT = 1;
+const COMPANIES_LIMIT = 10;
 
 const CompanyList: React.FC<ICompanyListProps> = ({}) => {
   const { t } = useTranslation();
