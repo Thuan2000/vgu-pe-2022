@@ -5,6 +5,14 @@ const path = require("path");
 const envExampleFilePath = path.resolve(__dirname, "env.example");
 const envFilePath = path.resolve(__dirname, ".env");
 
+const localUrlValues = {
+  NEXT_PUBLIC_GRAPHQL_ENDPOINT: "http://localhost:8080/graphql",
+  NEXT_PUBLIC_ADMIN_URL: "http://localhost:3001",
+  NEXT_PUBLIC_CHAT_SERVER_URL: "ws://localhost:6060/v0/channels",
+  NEXT_PUBLIC_CHAT_SERVER_API_KEY: "AQEAAAABAAD_rAp4DJh05a1HAwFT3A6K",
+  NEXTAUTH_URL: "dev.sdconnect.vn",
+};
+
 const devUrlValues = {
   NEXT_PUBLIC_GRAPHQL_ENDPOINT: "https://api.dev.sdconnect.vn/graphql",
   NEXT_PUBLIC_ADMIN_URL: "https://admin.dev.sdconnect.vn",
@@ -65,9 +73,15 @@ const setEnvValue = (key, value) => {
 
 const NODE_ENV = process.env.NODE_ENV;
 const isProd = NODE_ENV === "prod";
+const isLocal = NODE_ENV === "local";
 
 Object.keys(devUrlValues).forEach((k, idx) => {
-  const value = isProd ? prodUrlValues[k] : devUrlValues[k];
+  const keyValue = isProd
+    ? prodUrlValues
+    : isLocal
+    ? localUrlValues
+    : devUrlValues;
+  const value = keyValue[k];
 
   // setTimeout(() => setEnvValue(k, value), 1000 * idx);
   setEnvValue(k, value);
