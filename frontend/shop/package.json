@@ -15,6 +15,7 @@
     "type-check": "tsc --skipLibCheck --noEmit",
     "pre-commit": "npm-run-all lint build",
     "update-dotenv-prod": "NODE_ENV=prod node env-setter.js",
+    "update-dotenv-local": "NODE_ENV=local node env-setter.js",
     "update-dotenv-dev": "NODE_ENV=dev node env-setter.js",
     "build-ecr-image-dev": "cd cloudformation-deployer && make build-deploy-image-dev",
     "update-ecs-dev": "cd cloudformation-deployer && node update-env-dev-json && make update-stack-dev",
