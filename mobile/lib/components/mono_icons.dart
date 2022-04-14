@@ -39,4 +39,14 @@ class MonoIcons {
       IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData chevron_right =
       IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData round_verified =
+      IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData search =
+      IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData close =
+      IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData sort =
+      IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData filter =
+      IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

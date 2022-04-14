@@ -19,3 +19,6 @@ const secondaryDarkBlue = Color(0xFF15114E);
 const titleGray = Color(0xFF555F6F);
 const secondaryTitleGray = Color(0xFFA3ADB4);
 const dropShadow = Color.fromRGBO(4, 19, 48, 0.18);
+
+//Special Colors from UI Components
+const appBarLightGreen = Color(0xFFE0FAF2);
