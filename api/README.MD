@@ -44,3 +44,11 @@ Please make sure to have all the packages installed, and have all the environmen
 ### NOTES
 
 -   ES will be refactored completely to use aws opensearch
+
+### Deploying
+
+1. cd to cloudformation-pusher `cd-cloudformation-pusher`
+2. copy the make.env.exampe file `make.env.example make.env`
+3. Fill in _AWS_ID_ and only _AWS_ID_
+4. cp env-${stage}.json.example to env-${stage}.json and fill the information please be carefull
+5. run `yarn deploy`
