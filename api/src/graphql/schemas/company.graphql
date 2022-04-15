@@ -97,6 +97,7 @@ type CompanyOwner {
 type Company {
 	id: Int!
 	name: String!
+	shortName: String!
 	slug: String!
 	licenseNumber: String!
 	businessTypeIds: [Int]
