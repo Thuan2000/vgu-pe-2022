@@ -35,10 +35,13 @@
 		"admin:pre-commit": "npm --prefix ../frontend/admin run type-check",
 		"precommit": "npm-run-all shop:pre-commit admin:pre-commit tsc",
 		"to-cfpusher": "cd cloudformation-pusher",
+		"prod-build-ecr-image": "cd cloudformation-pusher && make prod-build-and-deploy-api-image",
 		"dev-build-ecr-image": "cd cloudformation-pusher && make dev-build-and-deploy-api-image",
 		"dev-update-ecs": "cd cloudformation-pusher && node update-env-dev-json && make update-stack-dev",
+		"prod-update-ecs": "cd cloudformation-pusher && node update-env-prod-json && make update-stack-prod",
 		"predeploy-dev": "git pull && cd cloudformation-pusher",
-		"deploy-dev": "npm run dev-build-ecr-image && npm run dev-update-ecs"
+		"deploy-dev": "npm run dev-build-ecr-image && npm run dev-update-ecs",
+		"deploy-prod": "npm run prod-build-ecr-image && npm run prod-update-ecs"
 	},
 	"husky": {
 		"hooks": {
