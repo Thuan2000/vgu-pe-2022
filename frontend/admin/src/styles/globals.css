@@ -70,6 +70,11 @@ li {
   color: var(--color-dark-blue);
 }
 
+.text-emerald-500 {
+  --tw-text-opacity: 1;
+  color: rgb(16 185 129 / var(--tw-text-opacity));
+}
+
 input::placeholder,
 textarea::placeholder {
   color: var(--color-gray-200);
@@ -151,5 +156,6 @@ body {
   @apply flex flex-col;
 }
 
+@tailwind base;
 @tailwind components;
 @tailwind utilities;

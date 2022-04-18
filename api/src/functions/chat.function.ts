@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
+import { ICompany } from "@graphql/types";
 import {
 	encodeString,
 	generateChatCredUnique,
@@ -12,8 +13,8 @@ export interface IAccProps {
 	compId: number;
 	compShortName: string;
 	compName: string;
-	email: string;
-	phoneNumber: string;
+	// email: string;
+	// phoneNumber: string;
 }
 
 class ChatFunction {
@@ -27,10 +28,10 @@ class ChatFunction {
 	static generateAccMessage = ({
 		compId,
 		compName,
-		compShortName,
-		email,
-		phoneNumber
-	}: IAccProps) => {
+		compShortName
+	}: // email,
+	// phoneNumber
+	IAccProps) => {
 		// Using company name and company id as unique this will be same with in
 		const unique = generateChatCredUnique(compName, compId);
 
@@ -43,13 +44,21 @@ class ChatFunction {
 				scheme: "basic",
 				secret,
 				login: false,
-				desc: { public: { fn: compShortName } },
-				cred: [
-					{ meth: "email", val: email },
-					{ meth: "tel", val: phoneNumber }
-				]
+				desc: { public: { fn: compShortName } }
+				// cred: [
+				// 	{ meth: "email", val: email },
+				// 	{ meth: "tel", val: phoneNumber }
+				// ]
 			}
 		};
+	};
+}
+
+export function getChatCreationParam(comp: ICompany | any) {
+	return {
+		compId: comp.id,
+		compName: comp.name,
+		compShortName: comp.shortName
 	};
 }
 

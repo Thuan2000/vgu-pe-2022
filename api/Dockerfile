@@ -11,7 +11,6 @@ FROM node:16-alpine AS runner
 WORKDIR /app
 COPY --from=deps /app .
 COPY . .
-RUN ls
 RUN yarn build
 
 # Expose port

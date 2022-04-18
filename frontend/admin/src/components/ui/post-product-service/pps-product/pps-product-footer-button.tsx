@@ -1,4 +1,6 @@
+import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
+import { ROUTES } from "@utils/routes";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import { PPS_PRODUCT_REVIEW_FORM_INDEX } from "./pps-product-constants";
@@ -30,18 +32,21 @@ const PPSProductFooterButton: React.FC<IPPSProductFooterButtonProps> = ({
     {t("saveDraft-button-label")}
   </Button> */}
 
-      <div className="flex flex-col md:flex-row justify-between md:w-1/3 md:absolute md:right-0">
-        <Button
-          type="button"
-          variant="outline"
-          size="small"
-          onClick={onBackClick}
-          className={`${
-            formPosition <= 1 && "invisible hidden md:block"
-          } md:w-1/2.5 my-2 md:my-0 text-primary`}
+      <div className="flex flex-col md:flex-row justify-between md:w-1/3 md:absolute md:right-10">
+        <Link
+          className="md:w-1/2.5 md:my-0 text-primary"
+          href={`${ROUTES.POST_PRODUCT_SERVICE}`}
         >
-          {t("back-button-label")}
-        </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="small"
+            onClick={onBackClick}
+            className="w-full"
+          >
+            {t("back-button-label")}
+          </Button>
+        </Link>
         <Button
           type={
             formPosition < PPS_PRODUCT_REVIEW_FORM_INDEX ? "button" : "submit"

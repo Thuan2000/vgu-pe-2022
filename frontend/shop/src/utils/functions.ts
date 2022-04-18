@@ -233,33 +233,23 @@ export function getUserLastName() {
 }
 
 /**
- *
+ * Get the company experience
  * @param date stringDate
  *
  */
-export function getCompanyExperience(date: string) {
-  const companyYear = new Date(date).getFullYear();
-  const nowYear = new Date().getFullYear();
-
-  const companyMonth = new Date(date).getMonth();
-  const nowMonth = new Date().getMonth();
-
-  const yearAmount = Math.max(companyYear - nowYear, 0);
-
-  const deltaMonth = nowMonth - companyMonth;
-  const monthAmount =
-    deltaMonth < 0 ? 12 - companyMonth + 1 + nowMonth : deltaMonth;
-
-  if (yearAmount === 0) {
-    return {
-      amount: monthAmount,
-      timeUnit: "month-establishment-label",
-    };
-  }
-
+export function getCompanyExperience(date: string): {
+  amount: number;
+  timeUnit: string;
+} {
+  // Given date is the previous because it's company establishment date
+  const { years, months, days } = nextDateDiffDays(new Date(date), new Date());
   return {
-    amount: yearAmount,
-    timeUnit: "year-establishment-label",
+    amount: years || months || days || 0,
+    timeUnit: !!years
+      ? `year-establishment-label`
+      : !!months
+      ? `month-establishment-label`
+      : `day-establishment-label`,
   };
 }
 
@@ -383,10 +373,13 @@ export function printServerInfo() {
 /**
  * Get days different
  * @param nextDate: Date to compare
- * @param currentDate: Date to compare
+ * @param previousDate: Date to compare
  * @returns days in number
  */
-export function nextDateDiffDays(nextDate: Date): {
+export function nextDateDiffDays(
+  previousDate: Date,
+  nextDate: Date
+): {
   days?: number;
   months?: number;
   years?: number;
@@ -396,15 +389,13 @@ export function nextDateDiffDays(nextDate: Date): {
   let monthsDiff;
   let yearsDiff;
 
-  const currentDate = new Date();
-
-  if (nextDate.getTime() - currentDate.getTime() < 0)
+  if (nextDate.getTime() - previousDate.getTime() < 0)
     return {
       isExpired: true,
     };
 
   daysDiff = Math.ceil(
-    Math.abs((nextDate as any) - (currentDate as any)) / (1000 * 60 * 60 * 24)
+    Math.abs((nextDate as any) - (previousDate as any)) / (1000 * 60 * 60 * 24)
   );
   if (daysDiff >= 31) monthsDiff = Math.max(Math.floor(daysDiff / 30), 0);
   if (!!monthsDiff && monthsDiff >= 12)
@@ -432,7 +423,7 @@ export function getSubscriptionInfoText(
   name: string,
   endAt: Date
 ) {
-  const subscription = nextDateDiffDays(new Date(endAt));
+  const subscription = nextDateDiffDays(new Date(), new Date(endAt));
 
   if (subscription.isExpired) {
     return `${name} ${t("plan-text")}, ${t("subscription-is-expired")}`;

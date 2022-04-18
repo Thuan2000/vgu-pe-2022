@@ -17,21 +17,29 @@ const PostProductServiceForm: React.FC<IPostProductServiceFormProps> = () => {
   const formPosition = parseInt(query.formPosition as string);
 
   return (
-    <div className="space-y-2">
-      {(!target || !formPosition || formPosition <= 1) && <PPSDescription />}
-      {(!target || !formPosition || formPosition <= 1) && <PPSTargetSelector />}
+    <div>
+      <div
+        className={`space-y-2 ${
+          !target
+            ? "bg-white shadow-md md:rounded-sm border-t-2 translate-y-[-2px] border-primary py-6 mb-5 px-5"
+            : ""
+        }`}
+      >
+        {!target && <PPSDescription />}
+        {!target && <PPSTargetSelector />}
 
-      {!target && (
-        <div className="py-5">
-          <Typography
-            text={t("pleaseChoose-pps-target")}
-            align="center"
-            variant="bigTitle"
-          />
-        </div>
-      )}
-      {target === "product" && <PPSProductForm />}
-      {target === "service" && <PPSServiceForm />}
+        {!target && (
+          <div className="py-5">
+            <Typography
+              text={t("pleaseChoose-pps-target")}
+              align="center"
+              variant="bigTitle"
+            />
+          </div>
+        )}
+        {target === "product" && <PPSProductForm />}
+        {target === "service" && <PPSServiceForm />}
+      </div>
     </div>
   );
 };

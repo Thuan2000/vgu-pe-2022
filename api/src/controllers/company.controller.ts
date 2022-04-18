@@ -33,6 +33,7 @@ import CompanyRepository from "@repositories/company.repository";
 import CompanySubscription from "../models/CompanySubscription";
 import ChatService from "@services/chat.service";
 import Subscription from "@models/Subscription";
+import { getChatCreationParam } from "@/functions/chat.function";
 
 type IRegisterResp = {
 	success: boolean;
@@ -75,13 +76,7 @@ class CompanyController {
 			// Setting company subscription
 			await CompanySubscription.create(firstSubscription);
 
-			ChatService.createAccount({
-				compId: companyId,
-				compName: companyName,
-				compShortName: companyShortName,
-				email: email,
-				phoneNumber: ""
-			});
+			ChatService.createAccount(getChatCreationParam(company.toJSON()));
 
 			/**
 			 * Create user data
@@ -232,10 +227,10 @@ class CompanyController {
 				compId: company.id,
 				// For credential and ui info
 				compShortName: company.shortName,
-				compName: company.name,
-				// For ui info
-				email: owner.email,
-				phoneNumber: owner.phoneNumber
+				compName: company.name
+				// // For ui info
+				// email: owner.email,
+				// phoneNumber: owner.phoneNumber
 			});
 
 			EmailService.sendEmail(company.owner.email, {
