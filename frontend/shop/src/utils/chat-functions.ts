@@ -14,10 +14,14 @@ export function getTopicLastMessage(tpc: TTopic) {
 export function getChatTime(ts: Date) {
   const date = new Date(ts);
   const localeTime = date.toLocaleTimeString().split(" ")[0];
-  const timeMeridiem = date.toLocaleTimeString().split(" ")[1];
+  let timeMeridiem = date.toLocaleTimeString().split(" ")[1];
 
   const hours = parseInt(localeTime.split(":")[0]);
   const minutes = parseInt(localeTime.split(":")[1]);
+
+  if (timeMeridiem === undefined) { 
+    timeMeridiem = '';
+  }
 
   return `${hours >= 10 ? hours : "0" + hours}:${
     minutes >= 10 ? minutes : "0" + minutes

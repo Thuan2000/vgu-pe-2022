@@ -232,5 +232,9 @@
   "subs-note": "* Hóa đơn chỉ được phát hành vào ngày SDConnect nhận được thanh toán. Quý khách sau khi thanh toán có nhu cầu xuất hóa đơn vui lòng gửi thông tin qua livechat hoặc hotline để được hỗ trợ.",
   "subs-receipt-input-title": "Đính kèm biên lai",
   "subs-receipt-input-subtitle": "Đính kèm biên lai thanh toán và người quản lý của chúng tôi sẽ liên hệ với bạn",
-  "content-text-answer": "Số điện thoại - email đăng ký SDConnect"
+  "content-text-answer": "Số điện thoại - email đăng ký SDConnect",
+  "chat-message-title": "Tin nhắn",
+  "sent-file-text": "Gửi bạn 1 file",
+  "sent-image-text": "Gửi bạn 1 hình",
+  "no-message-yet-text": "Chưa có tin nhắn"
 }

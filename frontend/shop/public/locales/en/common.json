@@ -244,5 +244,6 @@
   "sent-file-text": "Sent you a file",
   "sent-image-text": "Sent you a image",
   "please-chat-to-a-company-message": "Please start a chat to some company",
-  "chat-message-title": "Messages"
+  "chat-message-title": "Messages",
+  "no-message-yet-text": "No messages yet"
 }

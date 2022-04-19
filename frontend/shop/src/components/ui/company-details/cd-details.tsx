@@ -75,7 +75,7 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
               answer={settings?.contactNumber as unknown as number}
             />
           </div>
-          <div className="col-start-3">
+          <div className="col-start-2 col-span-2">
             <CDDetailQuestion
               question={t("address-text")}
               answer={settings?.address as string}

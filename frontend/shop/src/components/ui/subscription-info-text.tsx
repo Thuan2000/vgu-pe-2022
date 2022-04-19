@@ -20,7 +20,12 @@ export function SubscriptionInfoText({
   const { locale = "" } = useRouter();
   const { isTrial, endAt, ...rest } = useSubsInfo();
 
-  const name = (rest as any)[getNameByLocale[locale as ILocale]];
+  let name = (rest as any)[getNameByLocale[locale as ILocale]];
+
+  // Hacky fix, fix it later if you can:
+  if (name === 'Vietnam (Trial)') {
+    name = "Trial"
+  }
 
   return (
     <div className={`${stack === "column" ? "space-y-1" : "fic space-x-1"}`}>
