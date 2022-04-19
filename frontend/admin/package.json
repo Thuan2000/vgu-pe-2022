@@ -18,10 +18,14 @@
     "type-check": "tsc --skipLibCheck --noEmit",
     "pre-commit": "npm-run-all build",
     "update-dotenv-local": "NODE_ENV=local node env-setter.js",
+    "update-dotenv-prod": "NODE_ENV=prod node env-setter.js",
     "update-dotenv-dev": "NODE_ENV=dev node env-setter.js",
+    "build-ecr-image-prod": "cd cloudformation-deployer && make build-deploy-image-prod",
     "build-ecr-image-dev": "cd cloudformation-deployer && make build-deploy-image-dev",
+    "update-ecs-prod": "cd cloudformation-deployer && node update-env-prod-json && make update-stack-prod",
     "update-ecs-dev": "cd cloudformation-deployer && node update-env-dev-json && make update-stack-dev",
     "predeploy-dev": "git pull",
+    "deploy-prod": "npm run update-dotenv-prod && npm run build-ecr-image-prod && npm run update-ecs-prod",
     "deploy-dev": "npm run update-dotenv-dev && npm run build-ecr-image-dev && npm run update-ecs-dev"
   },
   "dependencies": {

@@ -17,6 +17,10 @@ export interface IAccProps {
 	// phoneNumber: string;
 }
 
+interface IAccMessageProps extends IAccProps {
+	messageId: string;
+}
+
 class ChatFunction {
 	static getHiMessage = () => ({
 		hi: {
@@ -26,12 +30,13 @@ class ChatFunction {
 	});
 
 	static generateAccMessage = ({
+		messageId,
 		compId,
 		compName,
 		compShortName
-	}: // email,
-	// phoneNumber
-	IAccProps) => {
+	}: // phoneNumber
+	// email,
+	IAccMessageProps) => {
 		// Using company name and company id as unique this will be same with in
 		const unique = generateChatCredUnique(compName, compId);
 
@@ -39,7 +44,7 @@ class ChatFunction {
 
 		return {
 			acc: {
-				id: generateUUID(),
+				id: messageId,
 				user: "new",
 				scheme: "basic",
 				secret,
