@@ -38,7 +38,7 @@ const CompanyDirectory = () => {
         />
       </Head>
       <PageWithFilterWrapper>
-        <div className={`flex-shrink-0`}>
+        <div className="flex-shrink-0 sticky top-40 h-fit-content">
           <CompanySideFilter />
         </div>
         <div className={`w-full bg-white`}>
