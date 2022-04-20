@@ -69,7 +69,11 @@ const BRDDescription: React.FC<IBRDDescriptionProps> = ({
           />
         </div>
       </div>
-      <div>
+      <div
+        dangerouslySetInnerHTML={{ __html: description || "" }}
+        className={`overflow-hidden h-24 w-96 children-text-sm`}
+      />
+      {/* <div>
         <Typography
           variant="description"
           isHaveReadMore={description?.length! > 220}
@@ -79,7 +83,7 @@ const BRDDescription: React.FC<IBRDDescriptionProps> = ({
             trimText(description as string, 220) || t("brd-noDescription-text")
           }
         />
-      </div>
+      </div> */}
       <ChatNowButton
         ownStuffMessage={t("yourRequest-message-label")}
         company={company}

@@ -77,7 +77,7 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ br }) => {
       </div>
 
       <div className="relative">
-        <Typography
+        {/* <Typography
           {...(!isShowMore
             ? {
                 className:
@@ -86,6 +86,10 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ br }) => {
             : {})}
           variant="description"
           text={getDesc()}
+        /> */}
+        <div
+          dangerouslySetInnerHTML={{ __html: br.description || "" }}
+          className={`children-text-sm`}
         />
       </div>
 

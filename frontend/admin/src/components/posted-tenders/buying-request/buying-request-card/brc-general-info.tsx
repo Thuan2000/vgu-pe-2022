@@ -1,5 +1,6 @@
 import Chip from "@components/ui/chip";
 import Link from "@components/ui/link";
+import Typography from "@components/ui/storybook/typography";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/dist/client/router";
@@ -27,9 +28,11 @@ const BRCGeneralInfo: React.FC<IBRCGeneralInfoProps> = ({
   return (
     <div {...props}>
       <Link href={`${ROUTES.BUYING_REQUESTS}/${slug}`}>
-        <h5 className="text-dark-blue md:text-md cursor-pointer">{`${t(
-          "form:requestNamePrefix-value"
-        )} - ${name}`}</h5>
+        <Typography
+          text={`${t("form:requestNamePrefix-value")} - ${name}`}
+          size="md"
+          weight="semibold"
+        />
       </Link>
       <p className="text-xs md:text-sm text-gray-300 md:my-1">
         {minOrder} {unit}

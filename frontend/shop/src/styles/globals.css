@@ -166,5 +166,9 @@ em[class^="hlt"] {
   @apply hover:scale-110 cursor-pointer duration-150 transition-transform delay-100;
 }
 
+.children-text-sm * {
+  @apply text-md;
+}
+
 @tailwind components;
 @tailwind utilities;

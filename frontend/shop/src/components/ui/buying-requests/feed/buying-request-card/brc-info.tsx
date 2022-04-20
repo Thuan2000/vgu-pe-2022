@@ -115,10 +115,15 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
 
       {/* Desc */}
       <div className="flex items-center justify-between space-x-2 sm:min-w-[520px]">
-        <Typography
+        {/* <Typography
           size="xs"
           variant="description"
           text={trimText(br.description || "", 140) || t("NO_DESCRIPTION")}
+        /> */}
+
+        <div
+          dangerouslySetInnerHTML={{ __html: br.description || "" }}
+          className={`overflow-hidden h-6 w-96 children-text-sm`}
         />
 
         <ChatNowButton company={company!} isOnTender />
