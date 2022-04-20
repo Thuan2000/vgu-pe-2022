@@ -40,12 +40,14 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
 
   function handleCoverClick() {
     if (!settings?.coverImage?.url) return;
-    openImage(settings?.coverImage?.url, [], { isOriginalSize: true });
+    openImage(settings?.coverImage?.url, [], {
+      isOriginalSize: true,
+    });
   }
 
   function handleProfileClick() {
     if (!settings?.profileImage?.url) return;
-    openImage(settings?.profileImage?.url);
+    openImage(settings?.profileImage?.url, [settings?.profileImage]);
   }
 
   function handleGalleryItemClick(defaultActiveUrl: string) {

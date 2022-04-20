@@ -1,18 +1,13 @@
-import { ICompany } from "@graphql/types.graphql";
+import { ICompany, IFile } from "@graphql/types.graphql";
 import { siteSettings } from "@settings/site.settings";
 import { useTranslation } from "next-i18next";
 
 import React from "react";
-import Button from "../storybook/button";
 import Typography from "../storybook/typography";
 import Image from "next/image";
-import MessageIcon from "@assets/icons/message-icon";
-import FacebookIcon from "@assets/icons/socials/facebook-icon";
-import MessangerIcon from "@assets/icons/socials/messanger-icon";
-import TelegramIcon from "@assets/icons/socials/telegram-icon";
-import LinkIcon from "@assets/icons/socials/link-icon";
-import Link from "../link";
 import ChatNowButton from "../chat-now-button";
+import ImagePreview from "../image-preview";
+import { useModal } from "src/contexts/modal.context";
 
 interface ICDUpperRowProps {
   company: ICompany;
@@ -23,12 +18,47 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
   const { settings } = company;
   const imageAmount = 4;
 
+  const { openModal } = useModal();
+
+  function openImage(
+    defaultActiveUrl: string,
+    images?: IFile[],
+    settings?: { isOriginalSize: boolean }
+  ) {
+    openModal(
+      (
+        <ImagePreview
+          defaultActiveUrl={defaultActiveUrl}
+          images={images || []}
+          isOriginalSize={settings?.isOriginalSize}
+        />
+      ) as any
+    );
+  }
+
+  function handleCoverClick() {
+    if (!settings?.coverImage?.url) return;
+    openImage(settings?.coverImage?.url, [], {
+      isOriginalSize: true,
+    });
+  }
+
+  function handleProfileClick() {
+    if (!settings?.profileImage?.url) return;
+    openImage(settings?.profileImage?.url, [settings?.profileImage]);
+  }
+
+  function handleGalleryItemClick(defaultActiveUrl: string) {
+    openImage(defaultActiveUrl, settings?.gallery || []);
+  }
+
   return (
     <div className={`border relative rounded-md pb-5`}>
       <div className="relative">
         <div
           style={{ background: "#f4f4f4" }}
-          className="relative rounded-t-md overflow-hidden w-full h-56"
+          className="relative rounded-t-md overflow-hidden w-full h-56 cursor-pointer"
+          onClick={handleCoverClick}
         >
           <Image
             alt={settings?.coverImage?.fileName + "image-preview"}
@@ -39,7 +69,8 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
         </div>
         <div
           style={{ background: "#f4f4f4" }}
-          className="-bottom-20 left-12 absolute w-44 h-44 rounded-full overflow-hidden"
+          className="-bottom-20 left-12 absolute w-44 h-44 rounded-full overflow-hidden cursor-pointer"
+          onClick={handleProfileClick}
         >
           <Image
             alt={settings?.coverImage?.fileName + "image-preview"}
@@ -50,32 +81,6 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
         </div>
       </div>
       <div className="flex flex-row justify-end mt-4">
-        {/* <Typography
-          text={`${t("TotalPD-text")}: `}
-          variant="title"
-          color="gray-400"
-          size="sm"
-          className="mr-2 mt-2"
-        />
-        <Typography
-          text={t("CTPD")}
-          variant="BRTitle"
-          size="sm"
-          className="mr-5 mt-2"
-        />
-        <Typography
-          text={`${t("RpTime-text")}: `}
-          variant="title"
-          color="gray-400"
-          size="sm"
-          className="mr-2 mt-2"
-        />
-        <Typography
-          text={t("RT")}
-          variant="BRTitle"
-          size="sm"
-          className="mr-5 mt-2"
-        /> */}
         <div className="mr-3">
           <ChatNowButton company={company as any} />
         </div>
@@ -95,27 +100,18 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
             color="gray-400"
             className="mb-3"
           />
-          {/* <div className="flex">
-            <Typography
-              text={t("share-label")}
-              variant="BRTitle"
-              size="md"
-              className="mt-0.5"
-            />
-            <FacebookIcon className="ml-2" />
-            <MessangerIcon className="ml-2" />
-            <TelegramIcon className="ml-2" />
-            <LinkIcon className="ml-2" />
-          </div> */}
         </div>
 
         {settings?.gallery && settings?.gallery?.length > 0 && (
-          <div className="grid col-span-2 grid-cols-5 gap-x-5">
+          <div className="flex space-x-5 justify-end items-center w-full col-span-2">
             {settings?.gallery?.slice(0, imageAmount).map((g) => {
               return (
                 <div
                   key={g.url}
-                  className={`relative flex-shrink-0 w-28 h-28 rounded-md overflow-hidden`}
+                  className={`relative flex-shrink-0 w-28 h-28 rounded-md overflow-hidden cursor-pointer`}
+                  onClick={() => {
+                    handleGalleryItemClick(g.url);
+                  }}
                 >
                   <Image
                     src={g.url}

@@ -5,7 +5,6 @@ import { useModal } from "src/contexts/modal.context";
 import Image from "next/image";
 import XIcon from "@assets/icons/x-icon";
 import { COLORS } from "@utils/colors";
-import ArrowLeftIcon from "@assets/icons/arrow-left-icon";
 import ArrowPrevIcon from "@assets/icons/arrow-prev-icon";
 import { findIndex } from "lodash";
 
@@ -70,7 +69,7 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             className={`max-h-[70%] max-w-[70%] object-cover`}
-            alt={images[activeImageIdx].fileName}
+            alt={images[activeImageIdx]?.fileName || activeImageUrl}
             src={activeImageUrl}
           />
         )}
