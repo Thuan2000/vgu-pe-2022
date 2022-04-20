@@ -144,14 +144,10 @@ const BuyingRequestDetails = ({ br }: any) => {
                 {br?.minOrder} {br?.unit}
               </p>
             </div>
-            <p className="text-gray-400 mt-1 md:mt-2">{br?.description}</p>
-            {/* <div className="mt-1 flex items-start">
-              <p className="mr-1">{t("participants-text")}:</p>
-              <Typography
-                text={getParticipantFilter(br?.allowedCompany as IAllowedCompany)}
-                className="font-semibold"
-              />
-            </div> */}
+            <div
+              dangerouslySetInnerHTML={{ __html: br?.description || "" }}
+              className={`text-gray-400 mt-1 md:mt-2`}
+            />
             <div className="mt-1 flex items-start">
               <p className="mr-1">{t("application")}:</p>
               <p className="font-semibold fic">

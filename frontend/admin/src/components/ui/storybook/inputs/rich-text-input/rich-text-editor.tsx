@@ -5,7 +5,7 @@ import ValidationError from "../../validation-error";
 import InputLabel, { IInputLabelProps } from "../input-label";
 
 export interface IRichTextEditorProps {
-  value: string;
+  value?: string;
   labelProps?: IInputLabelProps;
   onChange?: (e: string) => void;
   error?: string;
@@ -31,8 +31,9 @@ const RichTextEditor: React.FC<IRichTextEditorProps> = ({
         <ReactQuill
           placeholder={placeholder}
           theme="snow"
-          value={value}
+          value={value || ""}
           onChange={handleChange}
+          style={{}}
         />
 
         {!!error && <ValidationError message={error} />}

@@ -1,0 +1,7 @@
+.quill {
+  position: relative;
+}
+
+.ql-editor {
+  height: 200px !important;
+}

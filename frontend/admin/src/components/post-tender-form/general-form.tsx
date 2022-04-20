@@ -8,7 +8,6 @@ import {
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
-import TextArea from "@components/ui/storybook/inputs/text-area";
 
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 
@@ -19,8 +18,15 @@ import Input from "@components/ui/storybook/inputs/input";
 import DocumentInput from "@components/ui/storybook/document-input";
 import IndustryCategorySelect from "@components/ui/storybook/inputs/industry-category-input/industry-category-select";
 import { getIsCompanyFullInfo } from "@utils/functions";
+import dynamic from "next/dynamic";
+
 registerLocale("vi", vi);
 setDefaultLocale("vi");
+
+const RichTextInput = dynamic(
+  import("@components/ui/storybook/inputs/rich-text-input"),
+  { ssr: false }
+);
 
 interface IGeneralInputProps {
   register: UseFormRegister<PostRequestFormValue>;
@@ -66,10 +72,8 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         error={t(errors?.general?.name?.message || "")}
       />
 
-      <TextArea
-        // disabled={!isCompanyFullInfo}
+      {/* <TextArea
         label={t("post-request-description-label")}
-        // className="w-full"
         numberQueue={2}
         required
         placeholder={t("post-request-description-placeholder")}
@@ -77,6 +81,21 @@ const GeneralForm: React.FC<IGeneralInputProps> = ({
         {...register("general.description")}
         onChange={(e) => {
           register("general.description").onChange(e);
+          trigger("general.description");
+        }}
+      /> */}
+
+      <RichTextInput
+        control={control}
+        labelProps={{
+          label: t("post-request-description-label"),
+          numberQueue: 2,
+          required: true,
+        }}
+        name="general.description"
+        placeholder={t("post-request-description-placeholder")}
+        error={t(errors?.general?.description?.message || "")}
+        onChange={() => {
           trigger("general.description");
         }}
       />

@@ -6,7 +6,7 @@ export const ROUTES = {
   SETTINGS: "/settings",
   NOTIFICATIONS: "/notifications",
   POST_REQUEST: "/post-tender",
-  POSTED_REQUESTS: "/posted-tenders",
+  POSTED_REQUESTS: "/tenders",
   BUYING_REQUESTS: "/tenders",
   PROJECTS: "/projects",
   POST_PRODUCT_SERVICE: "/post-product-service",

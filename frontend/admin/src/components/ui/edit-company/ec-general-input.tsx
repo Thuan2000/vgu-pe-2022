@@ -101,13 +101,16 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
 
         <RichTextInput
           labelProps={{
+            required: true,
             label: t("description-input-label"),
           }}
           error={t(errors?.general?.description?.message || "")}
           placeholder={t("description-input-placeholder")}
           control={control}
           name={"general.description"}
-          value={""}
+          onChange={() => {
+            trigger("general.description");
+          }}
         />
 
         {/* <TextArea

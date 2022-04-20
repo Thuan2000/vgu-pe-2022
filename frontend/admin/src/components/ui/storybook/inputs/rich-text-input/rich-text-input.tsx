@@ -11,14 +11,24 @@ interface IRichTextInputProps extends IRichTextEditorProps {
 const RichTextInput: React.FC<IRichTextInputProps> = ({
   name,
   control,
+  onChange: parentOnChange,
   ...props
 }) => {
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field }) => {
-        return <RichTextEditor {...props} {...field} />;
+      render={({ field: { onChange, ...restField } }) => {
+        return (
+          <RichTextEditor
+            {...props}
+            {...restField}
+            onChange={(e) => {
+              onChange(e);
+              if (!!parentOnChange) parentOnChange(e);
+            }}
+          />
+        );
       }}
     />
   );

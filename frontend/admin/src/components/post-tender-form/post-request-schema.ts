@@ -12,6 +12,7 @@ export const PostRequestSchema = yup.object({
     name: yup.string().required("post-request-name-is-required-error"),
     description: yup
       .string()
+      .min(100, "post-request-description-is-too-short-error")
       .required("post-request-description-is-required-error"),
     industry: yup.object().required("industry-required-error"),
     category: yup.object().required("category-required-error"),
