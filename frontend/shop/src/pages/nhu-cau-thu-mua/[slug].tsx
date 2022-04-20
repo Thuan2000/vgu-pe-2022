@@ -101,13 +101,7 @@ const BuyingRequestDetail: React.FC<IBuyingRequestDetailProps> = ({ br }) => {
         <meta name="description" content={br.description || ""} />
       </Head>
 
-      {/* {!isLogin() ? (
-        <NeedToLoginWrapper> */}
       <TenderDetail br={br} />
-      {/* </NeedToLoginWrapper> */}
-      {/* ) : (
-        <TenderDetail br={br} />
-      )} */}
     </>
   );
 };

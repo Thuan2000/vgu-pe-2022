@@ -24,7 +24,6 @@ interface ITypographyProps extends React.HTMLAttributes<HTMLParagraphElement> {
     | "description"
     | "BRTitle"
     | "relatedCompanyName"
-    | "special-heading"
     | "title"
     | "bigTitle"
     | "homepageSectionTitle"
@@ -54,7 +53,6 @@ const classesNames = {
   bigTitle: "text-xl font-semibold text-dark-blue",
   pageTitle: "text-xl font-semibold",
   postedDate: "text-sm text-gray font-light",
-  ["special-heading"]: "font-semibold text-xl text-dark-blue",
 };
 
 const Typography: React.FC<ITypographyProps> = ({

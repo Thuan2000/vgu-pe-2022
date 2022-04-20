@@ -18,11 +18,7 @@ const CompanySideFilter: React.FC<ICompanySideFilterProps> = ({}) => {
     <div className="hidden sm:block space-y-2 bg-white px-2 flex-shrink-0">
       <div className="flex items-center w-[250px]">
         <FilterIcon fill={COLORS.PRIMARY.DEFAULT} className="mr-4" />
-        <Typography
-          className="text-lg"
-          text={t("filter-label")}
-          variant="special-heading"
-        />
+        <Typography text={t("filter-label")} weight="semibold" size="lg" />
       </div>
       <LocationSearch />
       <IndustrySelect />

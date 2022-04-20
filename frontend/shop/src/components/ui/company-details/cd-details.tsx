@@ -47,12 +47,8 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
           text={t("companyInformation-title")}
           className="mb-2"
         />
-        <Typography
-          variant="description"
-          element="p"
-          size="md"
-          text={company?.description || " "}
-        />
+
+        <div dangerouslySetInnerHTML={{ __html: company.description || "" }} />
       </div>
 
       <div>
