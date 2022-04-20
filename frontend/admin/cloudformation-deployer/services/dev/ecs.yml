@@ -16,7 +16,7 @@ Parameters:
     Type: String
   LoadBalancerName:
     Type: String
-  
+
   # Admin env
   NextPublicGraphqlEndpoint:
     Type: String
@@ -31,8 +31,6 @@ Parameters:
   GoogleClientSecret:
     Type: String
   NextPublicDiscoveryEndpoint:
-    Type: String
-  NextPublicChatUrl:
     Type: String
   NextPublicChatServerUrl:
     Type: String
@@ -103,8 +101,6 @@ Resources:
               Value: !Ref GoogleClientSecret
             - Name: NEXT_PUBLIC_DISCOVERY_ENDPOINT
               Value: !Ref NextPublicDiscoveryEndpoint
-            - Name: NEXT_PUBLIC_CHAT_URL
-              Value: !Ref NextPublicChatUrl
             - Name: NEXT_PUBLIC_CHAT_SERVER_URL
               Value: !Ref NextPublicChatServerUrl
             - Name: NEXT_PUBLIC_CHAT_SERVER_API_KEY

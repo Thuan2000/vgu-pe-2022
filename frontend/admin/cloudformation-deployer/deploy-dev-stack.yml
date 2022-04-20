@@ -16,7 +16,7 @@ Parameters:
     Type: String
   PORT:
     Type: Number
-    
+
   # SDConnect API Env
   NextPublicGraphqlEndpoint:
     Type: String
@@ -31,8 +31,6 @@ Parameters:
   GoogleClientSecret:
     Type: String
   NextPublicDiscoveryEndpoint:
-    Type: String
-  NextPublicChatUrl:
     Type: String
   NextPublicChatServerUrl:
     Type: String
@@ -59,7 +57,6 @@ Resources:
         GoogleClientId: !Ref GoogleClientId
         GoogleClientSecret: !Ref GoogleClientSecret
         NextPublicDiscoveryEndpoint: !Ref NextPublicDiscoveryEndpoint
-        NextPublicChatUrl: !Ref NextPublicChatUrl
         NextPublicChatServerUrl: !Ref NextPublicChatServerUrl
         NextPublicChatServerApiKey: !Ref NextPublicChatServerApiKey
   elb:

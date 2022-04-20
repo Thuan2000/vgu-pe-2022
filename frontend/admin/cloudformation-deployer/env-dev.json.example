@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "Refresher",
-    "ParameterValue": "refresher"
+    "ParameterValue": "please-change-nowww"
   },
   {
     "ParameterKey": "Vpc",
@@ -31,7 +31,7 @@
     "ParameterKey": "PORT",
     "ParameterValue": "3000"
   },
-  
+
   {
     "ParameterKey": "NextPublicGraphqlEndpoint",
     "ParameterValue": "https://api.dev.sdconnect.vn/graphql"
@@ -54,15 +54,11 @@
   },
   {
     "ParameterKey": "GoogleClientSecret",
-    "ParameterValue": ""
+    "ParameterValue": "wZ67rNrHm1HyNwMD3PSotUAh"
   },
   {
     "ParameterKey": "NextPublicDiscoveryEndpoint",
     "ParameterValue": "https://dev.sdconnect.vn"
-  },
-  {
-    "ParameterKey": "NextPublicChatUrl",
-    "ParameterValue": "https://chat.dev.sdconnect.vn"
   },
   {
     "ParameterKey": "NextPublicChatServerUrl",
