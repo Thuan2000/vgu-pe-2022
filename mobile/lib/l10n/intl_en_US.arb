@@ -11,7 +11,18 @@
   "menuPageProductTitle" : "Products",
   "menuPageServiceTitle" : "Services",
 
+  "companyCardBusinessTypeLabel" : "Business type",
+  "companyCardMainProductsLabel" : "Main products",
+
   "messagesPageTitle" : "Messages",
 
-  "profilePageTitle" : "Profile"
+  "profilePageTitle" : "Profile",
+
+  "businessTypeService" : "Service",
+  "businessTypeTrading" : "Trading company",
+  "businessTypeManufacturer" : "Manufacturer",
+
+  "noInformationLabel" : "No information",
+  "noMoreResultLabel" : "-End-"
+
 }

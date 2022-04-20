@@ -21,7 +21,7 @@ class CCRichText extends StatelessWidget {
             fontSize: 12.0,
           ),
           children: [
-            TextSpan(text: title),
+            TextSpan(text: title + ": "),
             TextSpan(
                 text: content,
                 style: const TextStyle(fontWeight: FontWeight.w600))

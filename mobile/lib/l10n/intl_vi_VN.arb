@@ -11,7 +11,17 @@
   "menuPageProductTitle" : "Sản phẩm",
   "menuPageServiceTitle" : "Dịch vụ",
 
+  "companyCardBusinessTypeLabel" : "Loại doanh nghiệp",
+  "companyCardMainProductsLabel" : "Sản phẩm chính",
+
   "messagesPageTitle" : "Thông báo",
 
-  "profilePageTitle" : "Hồ sơ"
+  "profilePageTitle" : "Hồ sơ",
+
+  "businessTypeService" : "Dịch vụ",
+  "businessTypeTrading" : "Thương mại",
+  "businessTypeManufacturer" : "Sản xuất",
+
+  "noInformationLabel" : "Chưa có thông tin",
+  "noMoreResultLabel" : "-Hết-"
 }

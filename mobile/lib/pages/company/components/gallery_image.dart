@@ -8,7 +8,6 @@ class GalleryImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (imageURL.isEmpty) {
-      print("Empty image");
       return Container();
     }
     return Padding(

@@ -44,17 +44,17 @@ class CompaniesPage extends StatelessWidget {
             onPressed: () {
               print("filter");
             },
-            icon: Icon(
+            icon: const Icon(
               MonoIcons.filter,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 5.0,
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(
+      body: const Padding(
+        padding: EdgeInsets.only(
           left: 16.0,
           right: 16.0,
           top: 16.0,

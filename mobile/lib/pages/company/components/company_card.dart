@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:sdconnect_mobile/components/business_types.dart';
 import 'package:sdconnect_mobile/components/mono_icons.dart';
+import 'package:sdconnect_mobile/generated/l10n.dart';
 import 'package:sdconnect_mobile/pages/company/components/company_card_rich_text.dart';
 import 'package:sdconnect_mobile/pages/company/components/company_pin.dart';
 import 'package:sdconnect_mobile/pages/company/components/gallery_image.dart';
 
 class CompanyCard extends StatelessWidget {
-  const CompanyCard(
-      {Key? key,
-      required this.companyName,
-      required this.companySlug,
-      required this.businessTypes,
-      required this.mainProducts,
-      required this.location})
-      : super(key: key);
+  const CompanyCard(this.companyItem, {Key? key}) : super(key: key);
 
-  final String companyName;
-  final String companySlug;
-  final String location;
-  final String businessTypes;
-  final String mainProducts;
+  final dynamic companyItem;
 
   @override
   Widget build(BuildContext context) {
+    final String companyName = companyItem['name'];
+    final String companySlug = companyItem['slug'];
+    final String location = companyItem['location'] ?? '';
+    final List<int> businessTypeIds =
+        companyItem['businessTypeIds']?.cast<int>() ?? [];
+    final mainProductsList = companyItem['settings']?['mainProducts'] ?? [];
+    final String avatarUrl = companyItem['settings']?['profileImage']?['url'] ??
+        'https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/mobile/company-logo-placeholder.png';
+    final galleryImages = companyItem['settings']?['gallery'] ?? [];
+
+    final businessTypesString =
+        getBusinessTypesString(context, businessTypeIds);
+    final String mainProductsString = mainProductsList.join(", ");
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
@@ -41,10 +45,9 @@ class CompanyCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 20,
-                  backgroundImage: NetworkImage(
-                      "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/Group+17.png"),
+                  backgroundImage: NetworkImage(avatarUrl),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 45.0,
                   width: 8.0,
                 ),
@@ -58,7 +61,7 @@ class CompanyCard extends StatelessWidget {
                             child: Container(
                               child: Text(
                                 companyName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.w600),
                                 overflow: TextOverflow.ellipsis,
@@ -82,7 +85,7 @@ class CompanyCard extends StatelessWidget {
                             color: Theme.of(context).primaryColor,
                             content: location,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5.0,
                           ),
                           CompanyPin(
@@ -96,31 +99,40 @@ class CompanyCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8.0,
             ),
             Row(
               children: [
                 GalleryImage(
-                    imageURL:
-                        "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/sdc_banners-01.png"),
+                    imageURL: galleryImages.length > 0
+                        ? galleryImages[0]['url']
+                        : ''),
                 GalleryImage(
-                    imageURL:
-                        "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/sdc_banners-02.png"),
+                    imageURL: galleryImages.length > 1
+                        ? galleryImages[1]['url']
+                        : ''),
                 GalleryImage(
-                    imageURL:
-                        "https://sdconnect-assets.s3.ap-southeast-1.amazonaws.com/sdc_banners-03.png"),
+                    imageURL: galleryImages.length > 2
+                        ? galleryImages[2]['url']
+                        : ''),
                 Flexible(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CCRichText(
-                          title: "Business Type: ", content: businessTypes),
+                          title: S.of(context).companyCardBusinessTypeLabel,
+                          content: businessTypesString.isNotEmpty
+                              ? businessTypesString
+                              : S.of(context).noInformationLabel),
                       const SizedBox(
                         height: 4.0,
                       ),
                       CCRichText(
-                          title: "Main Products: ", content: mainProducts),
+                          title: S.of(context).companyCardMainProductsLabel,
+                          content: mainProductsString.isNotEmpty
+                              ? mainProductsString
+                              : S.of(context).noInformationLabel),
                     ],
                   ),
                 ),
