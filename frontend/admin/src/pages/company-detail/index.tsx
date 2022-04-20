@@ -6,22 +6,27 @@ import Head from "next/head";
 import React from "react";
 import { useTranslation } from "next-i18next";
 import { initApollo, spreadApolloToState } from "@utils/apollo";
-import { CompanyDocument, useCompanyQuery } from "@graphql/company.graphql";
+import { CompanyDocument } from "@graphql/company.graphql";
 import { ICompany } from "@graphql/types.graphql";
 import CDUpperRow from "@components/ui/company-details/upper-row";
 import CDCertificates from "@components/ui/company-details/cd-certificates";
 import CDDetails from "@components/ui/company-details/cd-details";
 import CDBfw from "@components/ui/company-details/cd-bfw";
-import { getCompanySlug } from "@utils/functions";
-import { useRouter } from "next/router";
-import { getMeData, parseSSRCookie } from "@utils/auth-utils";
+import { getMeData } from "@utils/auth-utils";
+import { ROUTES } from "@utils/routes";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
   const companySlug = getMeData(ctx).company?.slug;
+  if (!companySlug)
+    return {
+      redirect: {
+        destination: ROUTES.LOGIN(),
+        permanent: false,
+      },
+    };
 
   const apollo = initApollo();
-
   const { data } = await apollo.query({
     query: CompanyDocument,
     variables: { slug: companySlug },
@@ -65,8 +70,7 @@ const CompanyDetail: React.FC<ICompanyDetailProps> = ({ company }) => {
         {/* Company desc */}
 
         {/* Certificates & details */}
-        <div className={`grid grid-cols-3 gap-x-5`}>
-          <CDCertificates certificates={settings?.certificates || []} />
+        <div className={`grid`}>
           <CDDetails company={company} />
         </div>
 

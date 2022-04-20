@@ -99,7 +99,9 @@ export function setMeData({ user }: { user: IUser; company: ICompany }) {
 export function getMeData(
   ctx?: any
 ): IMeInfoResponse | { company: null; user: null } {
-  if (!!ctx) return JSON.parse(parseSSRCookie(ctx).LOGGED_IN_USER);
+  if (!!ctx && ctx.req.headers.cookie)
+    return JSON.parse(parseSSRCookie(ctx).LOGGED_IN_USER);
+
   const rawUser = Cookie.get(LOGGED_IN_USER);
   if (!rawUser) return { company: null, user: null };
   const { company, ...user } = JSON.parse(rawUser);

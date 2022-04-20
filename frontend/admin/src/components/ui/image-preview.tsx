@@ -70,7 +70,7 @@ const ImagePreview: React.FC<IImagePreviewProps> = ({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             className={`max-h-[70%] max-w-[70%] object-cover`}
-            alt={images[activeImageIdx].fileName}
+            alt={activeImageUrl}
             src={activeImageUrl}
           />
         )}

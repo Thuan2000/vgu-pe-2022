@@ -36,30 +36,41 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
         text={t("companyDetails-title")}
       />
 
-      <CDDetailQuestion
-        question={t("location-text")}
-        answer={company.location || ""}
+      <div
+        dangerouslySetInnerHTML={{ __html: company.description || "" }}
+        className={`text-gray`}
       />
-      <CDDetailQuestion
-        question={t("yearOfEstablished-text")}
-        answer={getYear(company.establishmentDate) + ""}
-      />
-      <CDDetailQuestion
-        question={t("totalEmployees-text")}
-        answer={settings?.employeeAmount as number}
-      />
-      <CDDetailQuestion
-        question={t("businessType-text")}
-        answer={
-          !!company.businessTypeIds
-            ? getBusinessTypesText()
-            : (t("common:not-setup") as string)
-        }
-      />
-      <CDDetailQuestion
-        question={t("mainProducts-text")}
-        answer={settings?.mainProducts?.join(", ") as string}
-      />
+
+      <div className={`grid grid-cols-2 gap-x-2`}>
+        <div>
+          <CDDetailQuestion
+            question={t("location-text")}
+            answer={company.location || ""}
+          />
+          <CDDetailQuestion
+            question={t("yearOfEstablished-text")}
+            answer={getYear(company.establishmentDate) + ""}
+          />
+          <CDDetailQuestion
+            question={t("totalEmployees-text")}
+            answer={settings?.employeeAmount as number}
+          />
+        </div>
+        <div>
+          <CDDetailQuestion
+            question={t("businessType-text")}
+            answer={
+              !!company.businessTypeIds
+                ? getBusinessTypesText()
+                : (t("common:not-setup") as string)
+            }
+          />
+          <CDDetailQuestion
+            question={t("mainProducts-text")}
+            answer={settings?.mainProducts?.join(", ") as string}
+          />
+        </div>
+      </div>
     </div>
   );
 };

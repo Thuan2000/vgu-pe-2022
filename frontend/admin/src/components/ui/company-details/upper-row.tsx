@@ -1,13 +1,15 @@
 import PencilIcon from "@assets/icons/pencil-icon";
-import { ICompany } from "@graphql/types.graphql";
+import { ICompany, IFile } from "@graphql/types.graphql";
 import { siteSettings } from "@settings/site.settings";
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
 import React from "react";
 import Button from "../storybook/button";
 import Typography from "../storybook/typography";
 import Image from "next/image";
 import { ROUTES } from "@utils/routes";
+import Link from "../link";
+import { useModal } from "src/contexts/modal.context";
+import ImagePreview from "../image-preview";
 
 interface ICDUpperRowProps {
   company: ICompany;
@@ -18,8 +20,40 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
   const { settings } = company;
   const imageAmount = 4;
 
+  const { openModal } = useModal();
+
+  function openImage(
+    defaultActiveUrl: string,
+    images?: IFile[],
+    settings?: { isOriginalSize: boolean }
+  ) {
+    openModal(
+      (
+        <ImagePreview
+          defaultActiveUrl={defaultActiveUrl}
+          images={images || []}
+          isOriginalSize={settings?.isOriginalSize}
+        />
+      ) as any
+    );
+  }
+
+  function handleCoverClick() {
+    if (!settings?.coverImage?.url) return;
+    openImage(settings?.coverImage?.url, [], { isOriginalSize: true });
+  }
+
+  function handleProfileClick() {
+    if (!settings?.profileImage?.url) return;
+    openImage(settings?.profileImage?.url);
+  }
+
+  function handleGalleryItemClick(defaultActiveUrl: string) {
+    openImage(defaultActiveUrl, settings?.gallery || []);
+  }
+
   return (
-    <div className={`border relative rounded-md pb-5`}>
+    <div className={`border relative rounded-md pb-5 select-none`}>
       <div className="relative">
         <div
           style={{ background: "#f4f4f4" }}
@@ -34,16 +68,19 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
               {t("edit-button-label")}
             </Button>
           </Link>
-          <Image
-            alt={settings?.coverImage?.fileName + "image-preview"}
-            src={settings?.coverImage?.url || siteSettings.placeholderImage}
-            layout="fill"
-            objectFit="contain"
-          />
+          <div onClick={handleCoverClick} className={`cursor-pointer`}>
+            <Image
+              alt={settings?.coverImage?.fileName + "image-preview"}
+              src={settings?.coverImage?.url || siteSettings.placeholderImage}
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
         </div>
         <div
           style={{ background: "#f4f4f4" }}
-          className="-bottom-20 left-12 absolute w-44 h-44 rounded-full overflow-hidden"
+          className="-bottom-20 left-12 absolute w-44 h-44 rounded-full overflow-hidden cursor-pointer"
+          onClick={handleProfileClick}
         >
           <Image
             alt={settings?.coverImage?.fileName + "image-preview"}
@@ -72,6 +109,7 @@ const CDUpperRow: React.FC<ICDUpperRowProps> = ({ company }) => {
                 <div
                   key={g.url}
                   className={`relative flex-shrink-0 w-28 h-28 rounded-md overflow-hidden`}
+                  onClick={() => handleGalleryItemClick(g.url)}
                 >
                   <Image
                     src={g.url}

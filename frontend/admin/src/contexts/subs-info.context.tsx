@@ -1,5 +1,6 @@
 import { useCompanySubscriptionQuery } from "@graphql/subscription-company.graphql";
 import { ICompanySubscription } from "@graphql/types.graphql";
+import { isLogin } from "@utils/auth-utils";
 import { getCompanyId, removeTypename } from "@utils/functions";
 import { ROUTES } from "@utils/routes";
 import { useRouter } from "next/router";
@@ -18,7 +19,7 @@ export const SubsInfoProvider: React.FC<any> = ({ children }) => {
   const { replace, locale } = useRouter();
   const { data: raw } = useCompanySubscriptionQuery({
     variables: { companyId: getCompanyId() },
-    skip: !getCompanyId(),
+    skip: !getCompanyId() || !isLogin(),
   });
 
   const companySubscription: ICompanySubscription =

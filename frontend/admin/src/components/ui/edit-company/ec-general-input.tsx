@@ -17,10 +17,15 @@ import DocumentInput from "../storybook/document-input";
 import DateInput from "../storybook/inputs/date-input";
 import Input from "../storybook/inputs/input";
 import NumberInput from "../storybook/inputs/number-input";
+import dynamic from "next/dynamic";
 import TextArea from "../storybook/inputs/text-area";
 import SelectInput from "../storybook/select-input";
 import ECMainProductInput from "./ec-main-product-input";
 import { ECFormValues } from "./ec-schema";
+
+const RichTextInput = dynamic(import("../storybook/inputs/rich-text-input"), {
+  ssr: false,
+});
 
 interface IECGeneralInputProps {
   register: UseFormRegister<ECFormValues>;
@@ -94,17 +99,26 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
           error={t(errors?.general?.contactNumber?.message || "")}
         />
 
-        <TextArea
-          {...register("general.description")}
+        <RichTextInput
+          labelProps={{
+            label: t("description-input-label"),
+          }}
           error={t(errors?.general?.description?.message || "")}
+          placeholder={t("description-input-placeholder")}
+          control={control}
+          name={"general.description"}
+          value={""}
+        />
+
+        {/* <TextArea
+          {...register("general.description")}
           required
           onChange={(e) => {
             register("general.description").onChange(e);
             trigger("general.description");
           }}
-          label={t("description-input-label")}
-          placeholder={t("description-input-placeholder")}
-        />
+        /> */}
+
         <div className="space-y-2">
           <NumberInput
             name="general.employeeAmount"
@@ -129,28 +143,28 @@ const ECGeneralInput: React.FC<IECGeneralInputProps> = ({
             error={t(errors?.general?.establishmentDate?.message || "")}
             control={control}
           />
-        </div>
 
-        <SelectInput
-          name="general.location"
-          {...(initValue?.settings?.location
-            ? {
-                getInitialValue: (opt) =>
-                  opt?.name === initValue?.settings?.location,
-              }
-            : {})}
-          label={t("check-location-label")}
-          onChange={() => {
-            trigger("general.location");
-          }}
-          required
-          placeholder={t("check-location-label")}
-          control={control}
-          options={vietnamProvinces}
-          getOptionLabel={(opt) => opt?.name}
-          error={t((errors?.general?.location as any)?.message || "")}
-          getOptionValue={(opt) => opt?.name}
-        />
+          <SelectInput
+            name="general.location"
+            {...(initValue?.settings?.location
+              ? {
+                  getInitialValue: (opt) =>
+                    opt?.name === initValue?.settings?.location,
+                }
+              : {})}
+            label={t("check-location-label")}
+            onChange={() => {
+              trigger("general.location");
+            }}
+            required
+            placeholder={t("check-location-label")}
+            control={control}
+            options={vietnamProvinces}
+            getOptionLabel={(opt) => opt?.name}
+            error={t((errors?.general?.location as any)?.message || "")}
+            getOptionValue={(opt) => opt?.name}
+          />
+        </div>
 
         <Input
           required
