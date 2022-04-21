@@ -130,6 +130,26 @@ class S {
     );
   }
 
+  /// `Business type`
+  String get companyCardBusinessTypeLabel {
+    return Intl.message(
+      'Business type',
+      name: 'companyCardBusinessTypeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Main products`
+  String get companyCardMainProductsLabel {
+    return Intl.message(
+      'Main products',
+      name: 'companyCardMainProductsLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Messages`
   String get messagesPageTitle {
     return Intl.message(
@@ -145,6 +165,56 @@ class S {
     return Intl.message(
       'Profile',
       name: 'profilePageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service`
+  String get businessTypeService {
+    return Intl.message(
+      'Service',
+      name: 'businessTypeService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trading company`
+  String get businessTypeTrading {
+    return Intl.message(
+      'Trading company',
+      name: 'businessTypeTrading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manufacturer`
+  String get businessTypeManufacturer {
+    return Intl.message(
+      'Manufacturer',
+      name: 'businessTypeManufacturer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No information`
+  String get noInformationLabel {
+    return Intl.message(
+      'No information',
+      name: 'noInformationLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `-End-`
+  String get noMoreResultLabel {
+    return Intl.message(
+      '-End-',
+      name: 'noMoreResultLabel',
       desc: '',
       args: [],
     );

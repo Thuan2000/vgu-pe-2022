@@ -19,7 +19,7 @@ class CustomTheme {
         inversePrimary: colorConstants.secondaryGray200,
       ),
       backgroundColor: Colors.white,
-      dividerColor: Color.fromRGBO(0, 0, 0, 0.1),
+      dividerColor: const Color.fromRGBO(0, 0, 0, 0.1),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         centerTitle: false,
@@ -41,6 +41,10 @@ class CustomTheme {
         ),
         bodyText1: TextStyle(
           fontSize: 16.0,
+          fontWeight: FontWeight.w100,
+        ),
+        bodyText2: TextStyle(
+          fontSize: 14.0,
           fontWeight: FontWeight.w100,
         ),
       ).apply(bodyColor: colorConstants.secondaryDarkBlue),

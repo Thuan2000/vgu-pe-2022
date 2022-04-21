@@ -22,6 +22,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "businessTypeManufacturer":
+            MessageLookupByLibrary.simpleMessage("Manufacturer"),
+        "businessTypeService": MessageLookupByLibrary.simpleMessage("Service"),
+        "businessTypeTrading":
+            MessageLookupByLibrary.simpleMessage("Trading company"),
+        "companyCardBusinessTypeLabel":
+            MessageLookupByLibrary.simpleMessage("Business type"),
+        "companyCardMainProductsLabel":
+            MessageLookupByLibrary.simpleMessage("Main products"),
         "discoveryPageOurPartnersTitle":
             MessageLookupByLibrary.simpleMessage("Our partners"),
         "discoveryPageTitle": MessageLookupByLibrary.simpleMessage("Home Page"),
@@ -36,6 +45,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "menuPageTenderTitle": MessageLookupByLibrary.simpleMessage("Tenders"),
         "menuPageTitle": MessageLookupByLibrary.simpleMessage("Menu"),
         "messagesPageTitle": MessageLookupByLibrary.simpleMessage("Messages"),
+        "noInformationLabel":
+            MessageLookupByLibrary.simpleMessage("No information"),
+        "noMoreResultLabel": MessageLookupByLibrary.simpleMessage("-End-"),
         "profilePageTitle": MessageLookupByLibrary.simpleMessage("Profile")
       };
 }

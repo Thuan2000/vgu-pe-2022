@@ -22,6 +22,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "businessTypeManufacturer":
+            MessageLookupByLibrary.simpleMessage("Sản xuất"),
+        "businessTypeService": MessageLookupByLibrary.simpleMessage("Dịch vụ"),
+        "businessTypeTrading":
+            MessageLookupByLibrary.simpleMessage("Thương mại"),
+        "companyCardBusinessTypeLabel":
+            MessageLookupByLibrary.simpleMessage("Loại doanh nghiệp"),
+        "companyCardMainProductsLabel":
+            MessageLookupByLibrary.simpleMessage("Sản phẩm chính"),
         "discoveryPageOurPartnersTitle":
             MessageLookupByLibrary.simpleMessage("Các đối tác của chúng tôi"),
         "discoveryPageTitle": MessageLookupByLibrary.simpleMessage("Trang chủ"),
@@ -36,6 +45,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Nhu cầu thu mua"),
         "menuPageTitle": MessageLookupByLibrary.simpleMessage("Danh mục"),
         "messagesPageTitle": MessageLookupByLibrary.simpleMessage("Thông báo"),
+        "noInformationLabel":
+            MessageLookupByLibrary.simpleMessage("Chưa có thông tin"),
+        "noMoreResultLabel": MessageLookupByLibrary.simpleMessage("-Hết-"),
         "profilePageTitle": MessageLookupByLibrary.simpleMessage("Hồ sơ")
       };
 }

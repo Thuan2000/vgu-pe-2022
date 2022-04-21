@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sdconnect_mobile/components/mono_icons.dart';
 import 'package:sdconnect_mobile/generated/l10n.dart';
+import 'package:sdconnect_mobile/pages/company/components/list_companies.dart';
+import 'package:sdconnect_mobile/theme/color_constants.dart' as colorConstant;
 
 class CompaniesPage extends StatelessWidget {
   const CompaniesPage({Key? key}) : super(key: key);
@@ -9,12 +11,15 @@ class CompaniesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.12),
+        backgroundColor: colorConstant.appBarLightGreen,
         titleSpacing: 0.0,
+        iconTheme: IconThemeData(
+          color: Theme.of(context).primaryColor,
+          size: 24,
+        ),
         leading: GestureDetector(
           child: Icon(
             MonoIcons.chevron_left,
-            color: Theme.of(context).primaryColor,
           ),
           onTap: () {
             Navigator.of(context).pop();
@@ -28,14 +33,33 @@ class CompaniesPage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                print("hahaha");
-              },
-              icon: Icon(Icons.filter_alt_outlined))
+            onPressed: () {
+              print("sort");
+            },
+            icon: Icon(
+              MonoIcons.sort,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              print("filter");
+            },
+            icon: const Icon(
+              MonoIcons.filter,
+            ),
+          ),
+          const SizedBox(
+            width: 5.0,
+          )
         ],
       ),
-      body: Column(
-        children: [],
+      body: const Padding(
+        padding: EdgeInsets.only(
+          left: 16.0,
+          right: 16.0,
+          top: 16.0,
+        ),
+        child: ListCompanies(),
       ),
     );
   }
