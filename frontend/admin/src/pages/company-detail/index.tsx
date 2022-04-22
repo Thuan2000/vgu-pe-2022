@@ -12,13 +12,13 @@ import CDUpperRow from "@components/ui/company-details/upper-row";
 import CDCertificates from "@components/ui/company-details/cd-certificates";
 import CDDetails from "@components/ui/company-details/cd-details";
 import CDBfw from "@components/ui/company-details/cd-bfw";
-import { getMeData } from "@utils/auth-utils";
+import { getMeData, isLogin } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
   const companySlug = getMeData(ctx).company?.slug;
-  if (!companySlug)
+  if (!companySlug || !isLogin())
     return {
       redirect: {
         destination: ROUTES.LOGIN(),
