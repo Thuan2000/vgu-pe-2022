@@ -48,7 +48,10 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
           className="mb-2"
         />
 
-        <div dangerouslySetInnerHTML={{ __html: company.description || "" }} />
+        <div
+          className={`wysiwyg`}
+          dangerouslySetInnerHTML={{ __html: company.description || "" }}
+        />
       </div>
 
       <div>

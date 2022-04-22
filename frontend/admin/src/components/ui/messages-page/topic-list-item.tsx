@@ -1,6 +1,6 @@
 import { siteSettings } from "@settings/site.settings";
 import React from "react";
-import { TTopic, useWSChat } from "src/contexts/ws-chat.context";
+import { useWSChat } from "src/contexts/ws-chat.context";
 import Typography from "../storybook/typography";
 import Image from "next/image";
 import {
@@ -10,6 +10,7 @@ import {
 } from "@utils/chat-functions";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
+import { TTopic } from "@utils/chat-interface";
 
 interface ITopicListItemProps {
   tpc: TTopic;
@@ -17,10 +18,13 @@ interface ITopicListItemProps {
 
 const TopicListItem: React.FC<ITopicListItemProps> = ({ tpc, ...props }) => {
   const topicName = tpc.public?.fn;
+  const topicImg = tpc.public.photo?.ref;
   const { t } = useTranslation();
   const { setFocusTopic } = useWSChat();
   const lastMessage = getTopicLastMessage(tpc);
-
+  const lastMsgTs = new Date(lastMessage?.ts).getTime();
+  const lastOpenedTs = new Date(tpc.updated).getTime();
+  const isHaveUnreaded = lastMsgTs > lastOpenedTs;
   function handleClick() {
     setFocusTopic(tpc.topic);
   }
@@ -44,8 +48,9 @@ const TopicListItem: React.FC<ITopicListItemProps> = ({ tpc, ...props }) => {
     >
       <div className={`relative w-13 h-13`}>
         <Image
-          src={siteSettings.companyProfileImagePlaceholder}
+          src={topicImg || siteSettings.companyProfileImagePlaceholder}
           alt={topicName}
+          layout="fill"
         />
       </div>
       <div className={`w-full`}>
@@ -59,6 +64,7 @@ const TopicListItem: React.FC<ITopicListItemProps> = ({ tpc, ...props }) => {
           <Typography
             className={`flex-shrink-0`}
             text={getChatTime(lastMessage.ts)}
+            color={isHaveUnreaded ? "primary" : "gray-400"}
             weight="bold"
           />
         )}

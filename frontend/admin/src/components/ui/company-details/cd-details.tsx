@@ -38,7 +38,7 @@ const CDDetails: React.FC<ICDDetailsProps> = ({ company }) => {
 
       <div
         dangerouslySetInnerHTML={{ __html: company.description || "" }}
-        className={`text-gray`}
+        className={`text-gray wysiwyg`}
       />
 
       <div className={`grid grid-cols-2 gap-x-2`}>

@@ -24,6 +24,7 @@ import { useRouter } from "next/dist/client/router";
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useWSChat } from "src/contexts/ws-chat.context";
 import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
 import Swal from "sweetalert2";
 import Button from "../storybook/button";
@@ -53,7 +54,7 @@ function generateMainProducts(mainProducts: string[]) {
   return mainProducts.map((mp) => ({ label: mp, id: generateUUID() }));
 }
 
-// @URGENT Check this again
+// TODO: update code to be more beautifull
 function getDefaultValue(initValue: ICompany) {
   const { settings } = initValue || {};
 
@@ -142,6 +143,7 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   initValue,
 }) => {
   const { t } = useTranslation("form");
+  const { updateCompProfile } = useWSChat();
   const methods = useForm<ECFormValues>({
     resolver: yupResolver(ECFormResolver),
     ...(!!initValue ? { defaultValues: getDefaultValue(initValue) } : {}),
@@ -334,6 +336,10 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
         warehouses: warehouses as any,
       },
     };
+
+    if (!!uploadedProfileImg?.[0].url) {
+      updateCompProfile(uploadedProfileImg?.[0].url, general.contactNumber);
+    }
     updateCompany({ variables: { id: getCompanyId()!, input } });
   }
 

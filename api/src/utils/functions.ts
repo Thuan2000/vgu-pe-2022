@@ -4,7 +4,7 @@
  */
 
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import { unescape } from "lodash";
 import base64 from "base-64";
 import { SLUG_UNIQUE_SEPARATOR } from ".";
 import { MONTH_IN_MS, TRIAL_SUBSCRIPTION_ID } from "./constants";
@@ -167,6 +167,10 @@ export function generateChatCredUnique(compName: string, compId: number) {
 	return normalizeString(`${compName}${compId}`)
 		.replace(/[ ]/g, "")
 		.slice(-25);
+}
+
+export function generateChatSecret(unique: string) {
+	return encodeString(unescape(`${unique}:${unique}`));
 }
 
 /**

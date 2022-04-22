@@ -221,3 +221,23 @@ export function chatGetTopicLastMessage(topic: string) {
     },
   });
 }
+
+export function chatGetUpdateProfileMessage(imgUrl: string, tel: string) {
+  return JSON.stringify({
+    set: {
+      id: generateUUID(),
+      topic: "me",
+      cred: { meth: "tel", val: tel },
+      desc: {
+        public: {
+          photo: {
+            data: "␡",
+            ref: imgUrl,
+            type: "jpeg",
+          },
+        },
+      },
+    },
+    // extra: { attachments: [imgUrl] }
+  });
+}

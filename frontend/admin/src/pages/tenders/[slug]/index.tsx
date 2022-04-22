@@ -146,7 +146,7 @@ const BuyingRequestDetails = ({ br }: any) => {
             </div>
             <div
               dangerouslySetInnerHTML={{ __html: br?.description || "" }}
-              className={`text-gray-400 mt-1 md:mt-2`}
+              className={`text-gray-400 mt-1 md:mt-2 wysiwyg `}
             />
             <div className="mt-1 flex items-start">
               <p className="mr-1">{t("application")}:</p>

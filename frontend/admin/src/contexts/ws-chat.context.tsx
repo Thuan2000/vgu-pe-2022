@@ -3,6 +3,8 @@ import {
   AttachmentMsg,
   TChatDataResp,
   TChatFileParam,
+  TTopic,
+  TTopics,
 } from "@utils/chat-interface";
 import {
   chatGetFirstSubMessage,
@@ -14,6 +16,7 @@ import {
   chatGetSendFileMessage,
   chatGetSendMessageMessage,
   chatGetTopicMessagesMessage,
+  chatGetUpdateProfileMessage,
 } from "@utils/chat-to-server-messages";
 import { chatGetTopicLastMessage } from "@utils/chat-to-server-messages";
 import { CHAT_URL } from "@utils/constants";
@@ -29,29 +32,6 @@ import {
 
 type WSProviderProps = { children: ReactNode };
 
-type TUserPublic = {
-  fn: string;
-};
-
-type TUserSeen = {
-  ua: string;
-  when: Date;
-};
-
-export type TTopic = {
-  online?: boolean;
-  seen?: TUserSeen;
-  public: TUserPublic;
-  topic: string;
-  touched: Date;
-  updated: Date;
-  messages: { [any: number]: TChatDataResp };
-};
-
-export type TTopics = {
-  [topic: string]: TTopic;
-};
-
 type TWSChatContext = {
   topics: TTopics;
   openedTopic?: TTopic;
@@ -66,6 +46,7 @@ type TWSChatContext = {
     caption: string,
     file: TChatFileParam
   ) => void;
+  updateCompProfile: (imgUrl: string, tel: string) => {};
 };
 
 const WSChatStateContext = createContext<TWSChatContext | {}>({});
@@ -182,6 +163,14 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
    */
   function notifyTyping(topic: string) {
     sendChatMessageToServer(chatGetNotifyTypingMessage(topic));
+  }
+
+  /**
+   * To update company image url and tel
+   * @param topic
+   */
+  function updateCompProfile(imgUrl: string, tel: string) {
+    sendChatMessageToServer(chatGetUpdateProfileMessage(imgUrl, tel));
   }
 
   /**
@@ -310,6 +299,7 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
         notifyTyping,
         closeFocusTopic,
         sendAttachment,
+        updateCompProfile,
       }}
     >
       {children}

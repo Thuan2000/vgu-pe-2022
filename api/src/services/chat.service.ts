@@ -1,4 +1,4 @@
-import ChatFunction, { IAccProps } from "@/functions/chat.function";
+import ChatMessages, { IAccProps } from "@/functions/chat.message";
 import CompanyController from "@controllers/company.controller";
 import { generateUUID } from "@utils/functions";
 import { client as WebSocketClient, connection } from "websocket";
@@ -23,7 +23,11 @@ class ChatService {
 			connection.on("message", async message => {
 				if (message.type === "utf8") {
 					const data = JSON.parse(message.utf8Data).ctrl;
-					if (data?.params?.authlvl === "auth") {
+
+					if (
+						data?.params?.authlvl === "auth" &&
+						!data.params.token
+					) {
 						const { success } = await CompanyController.addChatId(
 							approvedCompanyIds[data?.id],
 							data?.params?.user
@@ -40,7 +44,7 @@ class ChatService {
 
 	private static hi() {
 		if (!connection) return;
-		this.connection?.send(JSON.stringify(ChatFunction.getHiMessage()));
+		this.connection?.send(ChatMessages.getHiMessage());
 	}
 
 	static connect() {
@@ -54,14 +58,14 @@ class ChatService {
 			// So we can add the chat id later
 			approvedCompanyIds[messageId] = props.compId;
 
-			const accMessage = ChatFunction.generateAccMessage({
+			const accMessage = ChatMessages.generateCreateChatAccountMessage({
 				messageId,
 				...props
 			});
 
 			// Call this asynchronously
 			setTimeout(() => {
-				this.connection?.send(JSON.stringify(accMessage));
+				this.connection?.send(accMessage);
 			}, 10);
 		} catch (error) {
 			console.error(error);

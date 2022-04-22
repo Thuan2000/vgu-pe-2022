@@ -156,6 +156,14 @@ body {
   @apply flex flex-col;
 }
 
+.wysiwyg * {
+  @apply !text-md list-disc;
+}
+
+.wysiwyg li {
+  @apply !ml-5;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -3,6 +3,8 @@ import {
   AttachmentMsg,
   TChatDataResp,
   TChatFileParam,
+  TTopic,
+  TTopics,
 } from "@utils/chat-interface";
 import {
   chatGetFirstSubMessage,
@@ -27,30 +29,7 @@ import {
   useState,
 } from "react";
 
-type WSProviderProps = { children: ReactNode };
-
-type TUserPublic = {
-  fn: string;
-};
-
-type TUserSeen = {
-  ua: string;
-  when: Date;
-};
-
-export type TTopic = {
-  online?: boolean;
-  seen?: TUserSeen;
-  public: TUserPublic;
-  topic: string;
-  touched: Date;
-  updated: Date;
-  messages: { [any: number]: TChatDataResp };
-};
-
-export type TTopics = {
-  [topic: string]: TTopic;
-};
+export type WSProviderProps = { children: ReactNode };
 
 type TWSChatContext = {
   topics: TTopics;
@@ -115,7 +94,6 @@ export const WSChatProvider = ({ children }: WSProviderProps): JSX.Element => {
    * @param topic The topic id to subscribe into
    */
   function subscribeTopic(topic: string) {
-    // const obj = getObjectFromArray(topics, (t: TTopic) => t.topic === topic);
     const obj = topics[topic];
     if (!!obj) setFocusTopic(topic);
     else sendChatMessageToServer(chatGetFirstSubMessage(topic));

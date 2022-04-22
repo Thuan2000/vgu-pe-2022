@@ -166,8 +166,12 @@ em[class^="hlt"] {
   @apply hover:scale-110 cursor-pointer duration-150 transition-transform delay-100;
 }
 
-.children-text-sm * {
-  @apply text-md;
+.wysiwyg * {
+  @apply !text-md list-disc;
+}
+
+.wysiwyg li {
+  @apply !ml-5;
 }
 
 @tailwind components;

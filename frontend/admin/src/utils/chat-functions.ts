@@ -1,5 +1,4 @@
-import { TTopic } from "src/contexts/ws-chat.context";
-import { AttachmentMsg } from "./chat-interface";
+import { AttachmentMsg, TTopic } from "./chat-interface";
 
 export function getFileMsg(file: AttachmentMsg) {
   return file.ent?.[0].data;

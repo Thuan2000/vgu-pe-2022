@@ -4,13 +4,11 @@ import {
   getFileMsg,
   getTopicLastMessage,
 } from "@utils/chat-functions";
+import { TTopic } from "@utils/chat-interface";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import React from "react";
-import ReactTimeAgo from "react-time-ago";
-import { TTopic, useWSChat } from "src/contexts/ws-chat.context";
-import locale from "yup/lib/locale";
-import Button from "../storybook/button";
+import { useWSChat } from "src/contexts/ws-chat.context";
 import Typography from "../storybook/typography";
 
 interface ITopicItemProps {
@@ -53,7 +51,10 @@ export const TopicItem: React.FC<ITopicItemProps> = ({ topic, isLast }) => {
       <div className={`fic p-3 relative overflow-hidden space-x-3`}>
         <div className={`relative w-10 h-10 flex-shrink-0`}>
           <Image
-            src={siteSettings.companyProfileImagePlaceholder}
+            src={
+              topic.public.photo?.ref ||
+              siteSettings.companyProfileImagePlaceholder
+            }
             layout="fill"
             alt={topicUserName}
           />

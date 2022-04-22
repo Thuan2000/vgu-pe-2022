@@ -17,8 +17,6 @@ export type TChatImageInput = {
 
 export type TChatFileParam = {
   mime: string;
-  // The byte of the image
-  // Example: <57428, bytes: PCFET0NUWVBF...eT48L2h0bWw+>
   val: string;
   name: string;
 };
@@ -32,4 +30,32 @@ export type ChatAttachmentRecv = {
 export type AttachmentMsg = {
   ent: [{ data: ChatAttachmentRecv }];
   txt?: string;
+};
+
+export type TTopicPhoto = {
+  ref: string;
+};
+
+export type TUserPublic = {
+  fn: string;
+  photo?: TTopicPhoto;
+};
+
+export type TUserSeen = {
+  ua: string;
+  when: Date;
+};
+
+export type TTopic = {
+  online?: boolean;
+  seen?: TUserSeen;
+  public: TUserPublic;
+  topic: string;
+  touched: Date;
+  updated: Date;
+  messages: { [any: number]: TChatDataResp };
+};
+
+export type TTopics = {
+  [topic: string]: TTopic;
 };

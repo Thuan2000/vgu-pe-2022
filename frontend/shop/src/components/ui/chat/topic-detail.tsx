@@ -32,7 +32,10 @@ export const TopicDetail: React.FC<ITopicDetailProps> = ({}) => {
       <div className={`fic p-3 space-x-5 border-b border-gray-20`}>
         <div className={`relative w-10 h-10 flex-shrink-0`}>
           <Image
-            src={siteSettings.companyProfileImagePlaceholder}
+            src={
+              openedTopic?.public.photo?.ref ||
+              siteSettings.companyProfileImagePlaceholder
+            }
             layout="fill"
             alt="company-profile"
           />
@@ -46,10 +49,6 @@ export const TopicDetail: React.FC<ITopicDetailProps> = ({}) => {
           {openedTopic?.online && (
             <Typography text={t("online-text")} color="primary" />
           )}
-          {/* TODO: Enable once more when it's working */}
-          {/* {!openedTopic?.online && (
-            <Typography text={t("last-seen-text")} color="gray-400" />
-          )} */}
         </div>
         <div className={`!ml-auto !mr-3 cursor-pointer`}>
           <XIcon onClick={handleXClick} />

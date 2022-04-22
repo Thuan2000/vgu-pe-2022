@@ -89,7 +89,7 @@ const BRDDetail: React.FC<IBRDDetailProps> = ({ br }) => {
         /> */}
         <div
           dangerouslySetInnerHTML={{ __html: br.description || "" }}
-          className={`children-text-sm`}
+          className={`wysiwyg`}
         />
       </div>
 

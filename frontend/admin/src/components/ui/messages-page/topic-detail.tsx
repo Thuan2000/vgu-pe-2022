@@ -19,7 +19,11 @@ const TopicDetail: React.FC<ITopicDetailProps> = ({ ...props }) => {
       <div className={`fic space-x-2 p-2 pb-4 px-4 border-b`}>
         <div className={`relative w-13 h-13`}>
           <Image
-            src={siteSettings.companyProfileImagePlaceholder}
+            src={
+              openedTopic?.public.photo?.ref ||
+              siteSettings.companyProfileImagePlaceholder
+            }
+            layout="fill"
             alt={openedTopic?.public.fn}
           />
         </div>

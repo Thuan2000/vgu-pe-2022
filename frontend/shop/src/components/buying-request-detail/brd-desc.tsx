@@ -71,7 +71,7 @@ const BRDDescription: React.FC<IBRDDescriptionProps> = ({
       </div>
       <div
         dangerouslySetInnerHTML={{ __html: description || "" }}
-        className={`overflow-hidden h-24 w-96 children-text-sm`}
+        className={`overflow-hidden h-24 w-96 wysiwyg`}
       />
       {/* <div>
         <Typography

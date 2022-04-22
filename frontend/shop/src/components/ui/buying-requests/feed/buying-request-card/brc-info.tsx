@@ -123,7 +123,7 @@ const BrcInfo: React.FC<IBrcInfoProps> = ({ br, className, ...props }) => {
 
         <div
           dangerouslySetInnerHTML={{ __html: br.description || "" }}
-          className={`overflow-hidden h-6 w-96 children-text-sm`}
+          className={`overflow-hidden h-6 w-96 wysiwyg`}
         />
 
         <ChatNowButton company={company!} isOnTender />
