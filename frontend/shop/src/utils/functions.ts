@@ -3,9 +3,9 @@ import base64 from "base-64";
 import Cookies from "js-cookie";
 import { findIndex, groupBy, indexOf, isEqual } from "lodash";
 import { TFunction } from "next-i18next";
-import { TTopic } from "src/contexts/ws-chat.context";
 import { SweetAlertOptions, SweetAlertResult } from "sweetalert2";
 import { getMeData } from "./auth-utils";
+import { TTopic } from "./chat-interface";
 import { COLORS } from "./colors";
 import {
   BILLION,

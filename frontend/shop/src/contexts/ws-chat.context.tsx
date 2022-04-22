@@ -1,6 +1,5 @@
 import { generateChatCredUnique, setChatAuthToken } from "@utils/auth-utils";
 import {
-  AttachmentMsg,
   TChatDataResp,
   TChatFileParam,
   TTopic,

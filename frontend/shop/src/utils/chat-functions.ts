@@ -1,5 +1,4 @@
-import { TTopic } from "src/contexts/ws-chat.context";
-import { AttachmentMsg } from "./chat-interface";
+import { AttachmentMsg, TTopic } from "./chat-interface";
 
 export function getFileMsg(file: AttachmentMsg) {
   return file.ent?.[0].data;
@@ -19,8 +18,8 @@ export function getChatTime(ts: Date) {
   const hours = parseInt(localeTime.split(":")[0]);
   const minutes = parseInt(localeTime.split(":")[1]);
 
-  if (timeMeridiem === undefined) { 
-    timeMeridiem = '';
+  if (timeMeridiem === undefined) {
+    timeMeridiem = "";
   }
 
   return `${hours >= 10 ? hours : "0" + hours}:${
