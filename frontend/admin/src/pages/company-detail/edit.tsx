@@ -16,7 +16,7 @@ import React from "react";
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { locale } = ctx;
   const companySlug = getMeData(ctx).company?.slug;
-  if (!companySlug || !isLogin())
+  if (!companySlug)
     return {
       redirect: {
         destination: ROUTES.LOGIN(),
