@@ -45,9 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const EditService: React.FC<IEditServiceProps> = ({ service }) => {
   return (
     <div>
-      <PostPageWrapper navs={postProductNavs}>
-        <PPSServiceForm initValue={service as any} />
-      </PostPageWrapper>
+      <PPSServiceForm initValue={service as any} />
     </div>
   );
 };

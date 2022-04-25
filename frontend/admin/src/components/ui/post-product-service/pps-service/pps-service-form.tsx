@@ -1,131 +1,62 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { IPostServiceFormValues } from "./pps-service-interface";
-import PPSServiceCategoryInput from "./pps-service-category-input";
 import { useRouter } from "next/dist/client/router";
 import {
-  PPS_CATEGORY_FORM_INDEX,
+  PPS_INPUT_FORM_INDEX,
   PPS_REVIEW_FORM_INDEX,
-  PPS_DETAILS_FORM_INDEX,
-  PPS_ATTACHMENT_FORM_INDEX,
-  PPS_PRICING_FORM_INDEX,
 } from "./pps-service-constants";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { ppsServiceSchema } from "./pps-service-schema";
-import PPSServiceAttachmentInput from "./pps-service-attachment-input";
-import PPSServiceDetailsInput from "./pps-service-details-input";
 import Form from "@components/form";
-import PPSServiceFooterButton from "./pps-service-footer-button";
-import PPSServicePricingInput from "./pps-service-pricing-input";
-import PPSServiceReview from "./pps-service-review";
-import { PPI_PACKAGE_PRICE_NAME } from "@components/ui/storybook/inputs/package-pricing-input/ppi-package-manager";
-import { findIndex } from "lodash";
 import {
   useCreateServiceMutation,
   useUpdateServiceMutation,
   CreateServiceMutation,
   UpdateServiceMutation,
 } from "@graphql/service.graphql";
-import { ICreateServiceInput, IService } from "@graphql/types.graphql";
+import { IService } from "@graphql/types.graphql";
 import {
-  addIdAndRemoveTypenameFromArray,
   generateBlobs,
   getCompanyChatId,
   getCompanyId,
   getCompanyName,
   getLoggedInUser,
   getUploadedFiles,
-  removeTypenameFromArray,
 } from "@utils/functions";
 import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
 import { ROUTES } from "@utils/routes";
 import { ITagInput } from "@graphql/types.graphql";
 
-import {
-  IPPIPackage,
-  IPPIRow,
-} from "@components/ui/storybook/inputs/package-pricing-input/ppi-interfaces";
-import { getCategory } from "@datas/categories";
-import { getIndustry } from "@datas/industries";
-import { getLocationByName } from "@utils/vietnam-cities";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
+import {
+  generateDefaultValues,
+  processRawPackages,
+} from "./pps-service-form-functions";
+import { useOnScreen } from "src/hooks/useIsOnScreen";
+import { scrollToSection } from "@components/ui/record-navigations/post-record-nav-functions";
+import SectionNavItem from "@components/ui/record-navigations/section-nav-item";
+import SectionWrapper from "@components/ui/record-navigations/section-wrapper";
+import PPSServiceAttachmentInput from "./pps-service-attachment-input";
+import PPSServiceGeneralInput from "./pps-service-general-input";
+import PPSServiceDetailsInput from "./pps-service-details-input";
+import PPSServiceFooterButton from "./pps-service-footer-button";
+import PPSServicePricingInput from "./pps-service-pricing-input";
+import PPSServiceReview from "./pps-service-review";
+
+export type TVisible = "GENERAL" | "ATTACHMENT" | "DETAILS" | "PRICING";
+
+export type TSectionNav = {
+  label: string;
+  sectionName: TVisible;
+  reference: React.MutableRefObject<null | HTMLDivElement>;
+};
 
 interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {
   initValue?: IService;
-}
-
-function processPackages(packages: IPPIPackage[]) {
-  const processed = packages.map(
-    ({ __typename, id, price, packageRows }: any) => {
-      const processedPRs = packageRows?.map(
-        ({ __typename, rowId, value }: any) => ({
-          rowId,
-          value: JSON.parse(value),
-        })
-      );
-
-      return { id, price, packageRows: processedPRs };
-    }
-  );
-
-  return processed;
-}
-
-function generateDefaultValues(initValue: IService) {
-  const {
-    description,
-    name,
-    location,
-    categoryId,
-    industryId,
-    certificates,
-    images,
-    videos,
-    faqs,
-    tags,
-    price,
-    coverImage,
-    packages,
-    packageRows,
-  } = initValue;
-
-  let getImages = !!images?.length ? images : [];
-
-  const defaultValue: IPostServiceFormValues = {
-    attachment: {
-      certificates: removeTypenameFromArray(certificates || []),
-      images: removeTypenameFromArray(getImages || []),
-      videos: removeTypenameFromArray(videos || []),
-    },
-    category: {
-      name,
-      category: getCategory(categoryId),
-      industry: getIndustry(industryId),
-    },
-    details: {
-      description,
-      faqs: addIdAndRemoveTypenameFromArray(faqs || []),
-      tags: addIdAndRemoveTypenameFromArray(tags || []),
-      location: getLocationByName(location),
-    },
-    pricing: {
-      isSinglePrice: !!price,
-      price,
-      ...(!!packageRows?.length && !!packages?.length
-        ? {
-            packages: {
-              rows: removeTypenameFromArray(packageRows || []),
-              packages: processPackages((packages as any) || []),
-            },
-          }
-        : ({} as any)),
-    },
-  };
-
-  return defaultValue;
 }
 
 const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
@@ -157,65 +88,57 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
   });
 
   const {
-    control,
-    register,
     formState: { errors, dirtyFields },
     trigger,
-    getValues,
     handleSubmit,
   } = methods;
-
   const { startListen, stopListen } = useIsEditedFormHandler();
   useEffect(() => {
-    startListen(!!dirtyFields.category);
+    startListen(!!dirtyFields.general);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!!dirtyFields.category]);
+  }, [!!dirtyFields.general]);
 
   // Changing section if there's an error and user submitting
   useEffect(() => {
-    if (errors && errors.category && formPosition > PPS_CATEGORY_FORM_INDEX)
-      changeSection(PPS_CATEGORY_FORM_INDEX);
-    else if (
-      errors &&
-      errors.attachment &&
-      formPosition > PPS_ATTACHMENT_FORM_INDEX
-    )
-      changeSection(PPS_ATTACHMENT_FORM_INDEX);
-    else if (errors && errors.details && formPosition > PPS_DETAILS_FORM_INDEX)
-      changeSection(PPS_DETAILS_FORM_INDEX);
-    else if (errors && errors.pricing && formPosition > PPS_PRICING_FORM_INDEX)
-      changeSection(PPS_PRICING_FORM_INDEX);
+    if (errors && errors.general && formPosition > PPS_INPUT_FORM_INDEX)
+      changeSection(PPS_INPUT_FORM_INDEX);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  function isDirtyCategory() {
-    return !!dirtyFields.category;
+  function isDirtyGeneral() {
+    return !!dirtyFields.general;
   }
 
   // Redirect to first section if user jump using query
   useEffect(() => {
-    if (formPosition > PPS_CATEGORY_FORM_INDEX && !isDirtyCategory())
-      changeSection(PPS_CATEGORY_FORM_INDEX);
+    if (formPosition > PPS_INPUT_FORM_INDEX && !isDirtyGeneral())
+      changeSection(PPS_INPUT_FORM_INDEX);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   async function handleNextClick() {
-    if (formPosition === PPS_CATEGORY_FORM_INDEX) {
-      const data = await trigger("category");
-      if (!data) return;
+    const generalTrigger = await trigger("general");
+    const attachmentTrigger = await trigger("attachment");
+    const detailsTrigger = await trigger("details");
+    const pricingTrigger = await trigger("pricing");
+
+    if (!generalTrigger) {
+      scrollToSection(generalRef);
+      return;
     }
-    if (formPosition === PPS_ATTACHMENT_FORM_INDEX) {
-      const data = await trigger("attachment");
-      if (!data) return;
+    if (!attachmentTrigger) {
+      scrollToSection(attachmentRef);
+      return;
     }
-    if (formPosition === PPS_DETAILS_FORM_INDEX) {
-      const data = await trigger("details");
-      if (!data) return;
+    if (!detailsTrigger) {
+      scrollToSection(detailsRef);
+      return;
     }
-    if (formPosition === PPS_PRICING_FORM_INDEX) {
-      const data = await trigger("pricing");
-      if (!data) return;
+    if (!pricingTrigger) {
+      scrollToSection(pricingRef);
+      return;
     }
+
     if (formPosition >= PPS_REVIEW_FORM_INDEX) return;
     changeSection(formPosition + 1);
   }
@@ -245,59 +168,19 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
     fireSuccessErrorMessage(success, message);
   }
 
-  /**
-   *
-   * @param rawPackages All the packages and the rows
-   * @returns {formattedPackages[], lowestPrice, maximumPrice}
-   */
-  function processRawPackages(
-    packages: IPPIPackage[] = [],
-    rows: IPPIRow[] = []
-  ) {
-    let minPrice = Number.MAX_VALUE;
-    let maxPrice = Number.MIN_VALUE;
-    if (!packages?.length) return;
-    const formatedPackages = packages.map((pkg) => {
-      const newPackage = Object.assign({}, pkg);
-      delete newPackage.packageRows;
-
-      const newPrs = pkg?.packageRows?.flatMap((pr) => {
-        const idx = findIndex(rows, (r) => r.id === pr.rowId);
-
-        if (idx === -1) return [];
-        const row = rows[idx];
-
-        // Getting the price
-        if (row.name === PPI_PACKAGE_PRICE_NAME && pr.value <= minPrice)
-          minPrice = pr.value;
-        if (row.name === PPI_PACKAGE_PRICE_NAME && pr.value >= maxPrice)
-          maxPrice = pr.value;
-
-        return {
-          ...pr,
-          value: JSON.stringify(pr?.value),
-        };
-      });
-      newPackage.packageRows = newPrs as any;
-
-      return newPackage;
-    });
-
-    return { formatedPackages, minPrice, maxPrice };
-  }
-
   async function onSubmit(values: IPostServiceFormValues) {
-    const { attachment, category: categorySection, details, pricing } = values;
+    const { attachment, general, details, pricing } = values;
 
-    const { industry, category, name } = categorySection;
-    const industryId = industry.id;
-    const categoryId = category.id;
     const {
-      faqs: rawFaqs,
-      tags: rawTags,
+      industry,
+      category,
+      name,
       location: locationRaw,
       description,
-    } = details;
+    } = general;
+    const industryId = industry.id;
+    const categoryId = category.id;
+    const { faqs: rawFaqs, tags: rawTags } = details;
     const faqs = rawFaqs?.map((rf) => ({
       question: rf.question,
       answer: rf.answer,
@@ -337,7 +220,6 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
       blobCertificates
     );
     const uploadedVideos = await getUploadedFiles(uploadFiles, blobVideos);
-    console.log(uploadedVideos);
     const coverImage = oldImages?.[0] || uploadedImages?.[0];
 
     const { price, packages: rawPackages } = pricing;
@@ -388,54 +270,132 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
     changeSection(formPosition - 1);
   }
 
+  const generalRef = useRef(null);
+  const attachmentRef = useRef(null);
+  const detailsRef = useRef(null);
+  const pricingRef = useRef(null);
+
+  const sectionNavs: TSectionNav[] = [
+    {
+      label: "general-nav-label",
+      sectionName: "GENERAL",
+      reference: generalRef,
+    },
+    {
+      label: "attachments-nav-label",
+      sectionName: "ATTACHMENT",
+      reference: attachmentRef,
+    },
+    {
+      label: "details-nav-label",
+      sectionName: "DETAILS",
+      reference: detailsRef,
+    },
+
+    {
+      label: "pricing-nav-label",
+      sectionName: "PRICING",
+      reference: pricingRef,
+    },
+  ];
+
+  // General is default
+  const [focusedSection, setFocusedSection] = useState<TVisible>("GENERAL");
+  // To know if they are visible
+  const isGeneralVisible = useOnScreen(generalRef as any);
+  const isAttachmentVisible = useOnScreen(attachmentRef as any, "-300px");
+  const isDetailsVisible = useOnScreen(detailsRef as any, "-300px");
+  const isPricingVisible = useOnScreen(pricingRef as any, "-300px");
+
+  useEffect(() => {
+    let visible: TVisible = "GENERAL";
+    if (isAttachmentVisible) visible = "ATTACHMENT";
+    if (isDetailsVisible) visible = "DETAILS";
+    if (isPricingVisible) visible = "PRICING";
+
+    if (focusedSection !== visible) setFocusedSection(visible);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    isGeneralVisible,
+    isAttachmentVisible,
+    isPricingVisible,
+    isDetailsVisible,
+  ]);
+
   return (
     <FormProvider {...methods}>
-      <Form onSubmit={handleSubmit(onSubmit)} className="pt-2 space-y-2">
-        <div
-          className={
-            formPosition === PPS_REVIEW_FORM_INDEX ? "sm:w-full" : "sm:w-2/3"
-          }
-        >
-          {formPosition === PPS_CATEGORY_FORM_INDEX && (
-            <PPSServiceCategoryInput
-              errors={errors}
-              trigger={trigger}
-              control={control}
-              register={register}
+      <Form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-5">
+        {formPosition === PPS_REVIEW_FORM_INDEX && (
+          <div
+            className={`col-span-5 bg-white rounded-md border border-gray-100 p-5 mb-7`}
+          >
+            <PPSServiceReview changeSection={changeSection} />
+            <PPSServiceFooterButton
+              loading={loading || uploadingFiles || updating}
+              onBackClick={handleBackClick}
+              onNextClick={handleNextClick}
+              formPosition={formPosition}
             />
-          )}
-          {formPosition === PPS_ATTACHMENT_FORM_INDEX && (
-            <PPSServiceAttachmentInput
-              errors={errors}
-              trigger={trigger}
-              control={control}
-              register={register}
-            />
-          )}
-          {formPosition === PPS_DETAILS_FORM_INDEX && (
-            <PPSServiceDetailsInput
-              errors={errors}
-              trigger={trigger}
-              control={control}
-              register={register}
-            />
-          )}
-          {formPosition === PPS_PRICING_FORM_INDEX && (
-            <PPSServicePricingInput />
-          )}
-          {formPosition === PPS_REVIEW_FORM_INDEX && (
-            <PPSServiceReview
-              changeSection={changeSection}
-              getValues={getValues}
-            />
-          )}
-        </div>
-        <PPSServiceFooterButton
-          loading={loading || updating || uploadingFiles}
-          onNextClick={handleNextClick}
-          onBackClick={handleBackClick}
-          formPosition={formPosition}
-        />
+          </div>
+        )}
+
+        {formPosition < PPS_REVIEW_FORM_INDEX && (
+          <div className={`col-span-4 space-y-3`}>
+            <SectionWrapper
+              ref={generalRef}
+              sectionTitle={t("general-nav-label")}
+            >
+              <PPSServiceGeneralInput />
+            </SectionWrapper>
+
+            <SectionWrapper
+              ref={attachmentRef}
+              sectionTitle={t("attachment-nav-label")}
+            >
+              <PPSServiceAttachmentInput />
+            </SectionWrapper>
+
+            <SectionWrapper
+              ref={detailsRef}
+              sectionTitle={t("details-nav-label")}
+            >
+              <PPSServiceDetailsInput />
+            </SectionWrapper>
+            <SectionWrapper
+              ref={pricingRef}
+              sectionTitle={t("pricing-nav-label")}
+            >
+              <PPSServicePricingInput />
+            </SectionWrapper>
+
+            {formPosition === PPS_REVIEW_FORM_INDEX && (
+              <PPSServiceReview changeSection={changeSection} />
+            )}
+
+            <div className="sticky bottom-0 right-0 left-0 bg-white p-4 px-5 border rounded-md border-gray-100 border-b-0 !-mt-2">
+              <PPSServiceFooterButton
+                loading={loading || uploadingFiles || updating}
+                onNextClick={handleNextClick}
+                formPosition={formPosition}
+              />
+            </div>
+
+            <ul className="col-span-1 fixed right-[5%] truncate top-24 ml-5">
+              {sectionNavs.map((sn) => {
+                const onClick = () => scrollToSection(sn.reference);
+                const isActive = focusedSection === sn.sectionName;
+                return (
+                  <SectionNavItem
+                    isActive={isActive}
+                    label={t(sn.label)}
+                    onClick={onClick}
+                    key={sn.label + "sn-post-product"}
+                  />
+                );
+              })}
+            </ul>
+          </div>
+        )}
       </Form>
     </FormProvider>
   );

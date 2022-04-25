@@ -8,28 +8,28 @@ import {
   FieldErrors,
   Control,
   UseFormTrigger,
+  useFormContext,
 } from "react-hook-form";
 import { IPostServiceFormValues } from "./pps-service-interface";
 
-interface IPPSServiceGeneralInputProps {
-  register: UseFormRegister<IPostServiceFormValues>;
-  errors: FieldErrors<IPostServiceFormValues>;
-  control: Control<IPostServiceFormValues>;
-  trigger: UseFormTrigger<IPostServiceFormValues>;
-}
+interface IPPSServiceGeneralInputProps {}
 
-const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
-  errors,
-  control,
-  trigger,
-}) => {
+const PPSServiceAttachmentInput: React.FC<
+  IPPSServiceGeneralInputProps
+> = ({}) => {
   const { t } = useTranslation("form");
+
+  const {
+    formState: { errors },
+    trigger,
+    control,
+  } = useFormContext<IPostServiceFormValues>();
   return (
     <div className="space-y-3">
       <DocumentInput
         inputFileType="image"
         control={control}
-        numberQueue={1}
+        numberQueue={5}
         multiple
         name="attachment.images"
         onChange={(_) => trigger("attachment.images")}
@@ -41,7 +41,7 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
       <DocumentInput
         inputFileType="video"
         control={control}
-        numberQueue={2}
+        numberQueue={6}
         multiple
         name="attachment.videos"
         onChange={(_) => trigger("attachment.videos")}
@@ -55,7 +55,7 @@ const PPSServiceAttachmentInput: React.FC<IPPSServiceGeneralInputProps> = ({
         control={control}
         required
         multiple
-        numberQueue={3}
+        numberQueue={7}
         name="attachment.certificates"
         onChange={(_) => trigger("attachment.certificates")}
         accept={getDocumentAccept()}

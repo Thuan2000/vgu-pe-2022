@@ -47,12 +47,9 @@ const SDDescription: React.FC<ISDDescriptionProps> = ({
         </div>
       </div>
       <div>
-        <Typography
-          variant="description"
-          isHaveReadMore={description?.length! > 1300}
-          readMoreText={t("readMore-text")}
-          onReadMore={scrollToDetail}
-          text={trimText(description, 1300)}
+        <div
+          dangerouslySetInnerHTML={{ __html: description }}
+          className={`wysiwyg`}
         />
       </div>
     </div>

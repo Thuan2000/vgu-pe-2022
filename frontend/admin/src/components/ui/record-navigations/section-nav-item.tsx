@@ -6,22 +6,22 @@ interface ISectionNavProps {
   label: string;
 }
 
-const SectionNav: React.FC<ISectionNavProps> = ({
+const SectionNavItem: React.FC<ISectionNavProps> = ({
   isActive,
   label,
   onClick,
 }) => {
   return (
     <li
-      className={`border-l-2 pl-3
+      className={`border-l-2 pl-3 w-36
       ${isActive && "border-primary text-primary"}
     `}
     >
-      <button type="button" className={`truncate`} onClick={onClick}>
+      <button type="button" className={`truncate text-sm`} onClick={onClick}>
         {label}
       </button>
     </li>
   );
 };
 
-export default SectionNav;
+export default SectionNavItem;

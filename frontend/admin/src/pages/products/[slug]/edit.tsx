@@ -45,9 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const EditProduct: React.FC<IEditProductProps> = ({ product }) => {
   return (
     <div>
-      <PostPageWrapper navs={postProductNavs}>
-        <PPSProductForm initValues={product as any} />
-      </PostPageWrapper>
+      <PPSProductForm initValues={product as any} />
     </div>
   );
 };

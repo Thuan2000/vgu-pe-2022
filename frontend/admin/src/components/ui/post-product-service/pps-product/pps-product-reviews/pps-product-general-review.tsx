@@ -5,7 +5,7 @@ import Typography from "@components/ui/storybook/typography";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { PPS_CATEGORY_FORM_INDEX } from "../../pps-service/pps-service-constants";
+import { PPS_INPUT_FORM_INDEX } from "../../pps-service/pps-service-constants";
 import PPSAttachmentVideosReview from "../../pps-service/pps-service-reviews/pps-service-attachment-videos-review";
 import {
   IPostProductFormValues,
@@ -42,7 +42,7 @@ const PPSGeneralReview: React.FC<IPPSGeneralReviewProps> = ({
     <div className={`fic items-start`}>
       <div className="sm:w-2/3 flex-shrink-0 mr-10">
         <ReviewSectionTitle
-          onClick={() => changeSection(PPS_CATEGORY_FORM_INDEX)}
+          onClick={() => changeSection(PPS_INPUT_FORM_INDEX)}
           title={t("details-nav-label")}
         />
         <div className="space-y-2 mt-2">
@@ -90,7 +90,7 @@ const PPSGeneralReview: React.FC<IPPSGeneralReviewProps> = ({
             getImageSrc={(img) => img.url}
             className="w-[280px]"
             images={images}
-            changeSection={(_) => changeSection(PPS_CATEGORY_FORM_INDEX)}
+            changeSection={(_) => changeSection(PPS_INPUT_FORM_INDEX)}
             imageWrapperClass="h-[190px] w-[280px]"
             isImageFill
           />

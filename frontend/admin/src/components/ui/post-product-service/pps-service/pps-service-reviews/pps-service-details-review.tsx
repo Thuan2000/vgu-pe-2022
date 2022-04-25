@@ -33,14 +33,7 @@ const PPSDetailsReview: React.FC<IPPSDetailsReviewProps> = ({
         title={t("details-nav-label")}
       />
       <div className="space-y-2 mt-2">
-        <ReviewQA
-          label={t("pps-serviceLocation-review-label")}
-          value={details?.location?.name}
-        />
-        <ReviewQA
-          label={t("pps-serviceLocation-review-label")}
-          value={getTags()}
-        />
+        <ReviewQA label={t("pps-serviceTags-review-label")} value={getTags()} />
 
         {details?.faqs?.length > 0 && (
           <>

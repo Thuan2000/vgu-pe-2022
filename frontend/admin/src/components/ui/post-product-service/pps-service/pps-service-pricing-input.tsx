@@ -39,6 +39,8 @@ const PPSServicePricingInput: React.FC<IPPSServicePricingInputProps> = ({}) => {
     !!control._formValues.pricing?.packages
   );
 
+  const isSinglePrice = getValues("pricing.isSinglePrice");
+
   function getErrorMessage() {
     const pricingError = errors?.pricing;
 
@@ -66,10 +68,10 @@ const PPSServicePricingInput: React.FC<IPPSServicePricingInputProps> = ({}) => {
 
   return (
     <div className="space-y-5 min-h-[65vh]">
-      {!isAddingPackages && <PPSServiceSinglePricingInput />}
+      {(!isAddingPackages || isSinglePrice) && <PPSServiceSinglePricingInput />}
       <div className="space-y-2">
         <InputLabel
-          numberQueue={!isAddingPackages ? 9 : 8}
+          numberQueue={!isAddingPackages ? 11 : 10}
           label={t("packagePricing-input-label")}
         />
         {!isAddingPackages && (

@@ -19,7 +19,7 @@ const SDDetail: React.FC<ISDDetailProps> = ({ service }) => {
   const [isShowMore, setIsShowMore] = useState(false);
   function getDesc() {
     if (!description) return t("noDescription-text");
-    return isShowMore ? description : trimText(description as string, 350);
+    return description;
   }
 
   function handleShowMore() {
@@ -63,18 +63,10 @@ const SDDetail: React.FC<ISDDetailProps> = ({ service }) => {
         />
       </div>
 
-      <div className="relative">
-        <Typography
-          {...(!isShowMore
-            ? {
-                className:
-                  "text-transparent bg-clip-text bg-gradient-to-b from-black to-transparent",
-              }
-            : {})}
-          variant="description"
-          text={getDesc()}
-        />
-      </div>
+      <div
+        className="wysiwyg"
+        dangerouslySetInnerHTML={{ __html: getDesc() }}
+      />
 
       {!!service?.description && service?.description?.length > 350 && (
         <div

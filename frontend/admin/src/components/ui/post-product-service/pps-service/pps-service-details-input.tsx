@@ -5,6 +5,7 @@ import {
   FieldErrors,
   Control,
   UseFormTrigger,
+  useFormContext,
 } from "react-hook-form";
 
 import CreateableSelectInput from "@components/ui/storybook/createable-select/createable-select-input";
@@ -19,22 +20,19 @@ import { ILocale, ITagInput } from "@graphql/types.graphql";
 import TextArea from "@components/ui/storybook/inputs/text-area";
 import { ITagWithNewRecord } from "@utils/interfaces";
 
-interface IPPSServiceDetailsInputProps {
-  register: UseFormRegister<IPostServiceFormValues>;
-  errors: FieldErrors<IPostServiceFormValues>;
-  control: Control<IPostServiceFormValues>;
-  trigger: UseFormTrigger<IPostServiceFormValues>;
-}
+interface IPPSServiceDetailsInputProps {}
 
-const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
-  errors,
-  control,
-  trigger,
-  register,
-}) => {
+const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({}) => {
   const { t } = useTranslation("form");
   const { locale } = useRouter();
   const firstRun = useRef(true);
+
+  const {
+    register,
+    formState: { errors },
+    trigger,
+    control,
+  } = useFormContext<IPostServiceFormValues>();
 
   const { data, refetch } = useTagsQuery({
     variables: { locale: locale as any },
@@ -66,38 +64,11 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
 
   return (
     <div className="space-y-3">
-      <TextArea
-        {...register("details.description")}
-        required
-        onChange={(e) => {
-          register("details.description").onChange(e);
-          trigger("details.description");
-        }}
-        numberQueue={1}
-        label={t("postService-description-input-label")}
-        placeholder={t("postService-description-input-placeholder")}
-        error={t(errors.details?.description?.message || "")}
-      />
-
-      <SelectInput
-        label={t("post-service-location-input-label")}
-        placeholder={t("post-service-location-input-placeholder")}
-        numberQueue={2}
-        options={vietnamProvinces}
-        getOptionLabel={(opt) => opt.name}
-        getOptionValue={(opt) => opt.id}
-        control={control}
-        onChange={(_) => trigger("details.location")}
-        name="details.location"
-        required
-        error={t((errors?.details?.location as any)?.message)}
-      />
-
       <CreateableSelectInput
         label={t("post-service-tags-input-label")}
         placeholder={t("post-service-tags-input-placeholder")}
         isMulti
-        numberQueue={3}
+        numberQueue={8}
         control={control}
         onChange={(_) => trigger("details.tags")}
         name="details.tags"
@@ -111,7 +82,7 @@ const PPSServiceDetailsInput: React.FC<IPPSServiceDetailsInputProps> = ({
       <FaqInput
         control={control}
         name="details.faqs"
-        numberQueue={4}
+        numberQueue={9}
         label={t("post-service-faq-input-label")}
       />
     </div>

@@ -8,10 +8,12 @@ import { ITagInput } from "@graphql/types.graphql";
 import { ITagWithNewRecord } from "@utils/interfaces";
 import { IDUFile } from "@components/ui/storybook/document-uploader/document-uploader";
 
-export interface IPPSFCategorySection {
+export interface IPPSFGeneralSection {
   name: string;
-  category: ICategory;
+  description: string;
+  location: IVietnamCity;
   industry: IIndustry;
+  category: ICategory;
 }
 
 export interface IPPSFAttachmentSection {
@@ -27,14 +29,12 @@ export interface IPPSFPricingSection {
 }
 
 export interface IPPSFDetailsSection {
-  description: string;
   tags: ITagWithNewRecord[];
-  location: IVietnamCity;
   faqs: IFaq[];
 }
 
 export interface IPostServiceFormValues {
-  category: IPPSFCategorySection;
+  general: IPPSFGeneralSection;
   attachment: IPPSFAttachmentSection;
   details: IPPSFDetailsSection;
   pricing: IPPSFPricingSection;

@@ -28,6 +28,7 @@ const ReviewQA: React.FC<IReviewQAProps> = ({
       <Typography className="text-semibold" text={label} />
       {isDescription ? (
         <div
+          className={`wysiwyg`}
           dangerouslySetInnerHTML={{
             __html:
               value ||

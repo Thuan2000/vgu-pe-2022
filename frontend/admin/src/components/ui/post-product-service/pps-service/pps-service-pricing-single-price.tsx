@@ -27,7 +27,7 @@ const PPSServiceSinglePricingInput: React.FC<
     <div className="space-y-2">
       {!isSettingSinglePrice ? (
         <>
-          <InputLabel numberQueue={8} label={t("singlePrice-input-label")} />
+          <InputLabel numberQueue={10} label={t("singlePrice-input-label")} />
           <AddButton
             label={t("post-service-addSinglePrice")}
             onClick={handleAddSinglePriceButton}
@@ -35,7 +35,7 @@ const PPSServiceSinglePricingInput: React.FC<
         </>
       ) : (
         <NumberInput
-          numberQueue={8}
+          numberQueue={10}
           autoFocus
           onChange={() => trigger("pricing")}
           label={t("singlePrice-input-label")}

@@ -1,4 +1,4 @@
-import SectionNav from "../../record-navigations/section-nav";
+import SectionNavItem from "../../record-navigations/section-nav-item";
 import React, { MutableRefObject, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -52,6 +52,7 @@ import {
   getMinMaxPrice,
 } from "./pps-product-form-functions";
 import PPSProductReview from "./pps-product-review";
+import { scrollToSection } from "@components/ui/record-navigations/post-record-nav-functions";
 
 interface IPPSProductFormProps {
   initValues?: IProduct;
@@ -297,13 +298,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGeneralVisible, isPricingVisible, isDetailsVisible]);
 
-  const scrollToSection = (elementRef: React.RefObject<HTMLDivElement>) => {
-    elementRef.current?.scrollIntoView({
-      behavior: "smooth",
-      inline: "end",
-    });
-  };
-
   const sectionNavs: TSectionNav[] = [
     {
       label: "general-nav-label",
@@ -319,11 +313,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       label: "details-nav-label",
       sectionName: "DETAILS",
       reference: details,
-    },
-    {
-      label: "reviews-nav-label",
-      sectionName: "REVIEW",
-      reference: review,
     },
   ];
   return (
@@ -358,12 +347,12 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
               </div>
             </div>
 
-            <ul className="col-span-1 fixed right-[5%] w-32 truncate top-24 ml-5">
+            <ul className="col-span-1 fixed right-[5%] truncate top-24 ml-5">
               {sectionNavs.map((sn) => {
                 const onClick = () => scrollToSection(sn.reference);
                 const isActive = focusedSection === sn.sectionName;
                 return (
-                  <SectionNav
+                  <SectionNavItem
                     isActive={isActive}
                     label={t(sn.label)}
                     onClick={onClick}

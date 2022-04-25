@@ -36,6 +36,7 @@ const Breadcrumb: React.FC<IBreadcrumbProps> = ({ homeHref, ...props }) => {
   function generateLinks() {
     return paths.flatMap((p) => {
       if (p === "") return [];
+      if (p === "services" || p === "products") p = "posted-product-service";
       return {
         label: toCamelCaseFromSnakeCase(t(`${p}`)),
         href: `/${p}`,

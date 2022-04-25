@@ -1,25 +1,23 @@
-import Button from "@components/ui/storybook/button";
-import Typography from "@components/ui/storybook/typography";
 import { useTranslation } from "next-i18next";
 import React from "react";
-import { IPPSFCategorySection } from "../pps-service-interface";
+import { IPPSFGeneralSection } from "../pps-service-interface";
 import ReviewQA from "../../../review-qa";
 import ReviewSectionTitle from "../../../review-section-title";
 
-interface IPPSCategoryReviewProps {
-  category: IPPSFCategorySection;
+interface IPPSGeneralReviewProps {
+  general: IPPSFGeneralSection;
   changeSection: (id: number) => void;
 }
 
-const PPSCategoryReview: React.FC<IPPSCategoryReviewProps> = ({
-  category,
+const PPSGeneralReview: React.FC<IPPSGeneralReviewProps> = ({
+  general,
   changeSection,
 }) => {
   const { t } = useTranslation("form");
 
   function getIndustryCategoryValue() {
-    return `${t("industry:" + category?.industry?.label)} > ${t(
-      "category:" + category?.category?.label
+    return `${t("industry:" + general?.industry?.label)} > ${t(
+      "category:" + general?.category?.label
     )}`;
   }
 
@@ -30,7 +28,16 @@ const PPSCategoryReview: React.FC<IPPSCategoryReviewProps> = ({
         title={t("category-nav-label")}
       />
       <div className="space-y-2 mt-2">
-        <ReviewQA label={t("pps-review-service-name")} value={category?.name} />
+        <ReviewQA label={t("pps-review-service-name")} value={general?.name} />
+        <ReviewQA
+          label={t("pps-review-service-description")}
+          isDescription
+          value={general?.description}
+        />
+        <ReviewQA
+          label={t("pps-serviceLocation-review-label")}
+          value={general?.location?.name}
+        />
         <ReviewQA
           label={t("pps-review-service-industryCategory")}
           value={getIndustryCategoryValue()}
@@ -39,4 +46,4 @@ const PPSCategoryReview: React.FC<IPPSCategoryReviewProps> = ({
     </div>
   );
 };
-export default PPSCategoryReview;
+export default PPSGeneralReview;
