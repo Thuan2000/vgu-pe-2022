@@ -13,7 +13,7 @@ const PPSProductInlineLabel: React.FC<IPPSProductInlineLabelProps> = ({
     <Typography
       weight="bold"
       color="black"
-      className={`flex-shrink-0 mt-5`}
+      className={`flex-shrink-0`}
       text={`${label} : `}
     />
   );

@@ -397,5 +397,6 @@
   "COMPANY_OWNER": "Company Owner",
 
   "location-text": "Location",
-  "post-request-endDate-label": "Deadline"
+  "post-request-endDate-label": "Deadline",
+  "reviews-nav-label": "Review"
 }

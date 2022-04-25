@@ -1,7 +1,7 @@
 import SearchInput from "@components/search-input";
 import { IIndustry } from "@datas/industries";
 import { ICategory } from "src/datas/categories";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ICSListComponent from "./ICSListComponent";
 import ICSListWrapper from "./ICSListWrapper";
 import { Control, Controller } from "react-hook-form";
@@ -47,6 +47,8 @@ const ICSList: React.FC<IICSListProps> = ({
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState<string>("");
 
+  const categorySelectChanger = useRef<any>(null);
+
   function isMatchIndustry(ind: IIndustry) {
     return normalizeString(t("industry:" + ind.label).toLowerCase()).includes(
       normalizeString(searchValue?.toLowerCase())
@@ -89,6 +91,8 @@ const ICSList: React.FC<IICSListProps> = ({
                       onChange(industry);
                       if (onIndustryChange) onIndustryChange(industry);
                       onIndustryClick(industry);
+                      if (!!categorySelectChanger.current)
+                        categorySelectChanger.current();
                     }}
                     {...field}
                   />
@@ -113,6 +117,7 @@ const ICSList: React.FC<IICSListProps> = ({
                   onCategoryClick(value);
                 }
                 const isActive = category === selectedCategory;
+                categorySelectChanger.current = onChange;
                 return (
                   <ICSListComponent
                     textSize={optionTextSize || "sm"}

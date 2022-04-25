@@ -8,7 +8,7 @@ import { PPS_PRODUCT_REVIEW_FORM_INDEX } from "./pps-product-constants";
 interface IPPSProductFooterButtonProps {
   onNextClick: () => void;
   formPosition: number;
-  onBackClick: () => void;
+  onBackClick?: () => void;
   loading: boolean;
 }
 
@@ -22,31 +22,18 @@ const PPSProductFooterButton: React.FC<IPPSProductFooterButtonProps> = ({
 
   return (
     <div className="flex flex-col justify-between relative md:h-10 w-full">
-      {/* <Button
-    type="button"
-    variant="cancel"
-    size="small"
-    // onClick={onBackClick}
-    className={`${formPosition <= 1 && "invisible hidden"} md:w-40`}
-  >
-    {t("saveDraft-button-label")}
-  </Button> */}
-
-      <div className="flex flex-col md:flex-row justify-between md:w-1/3 md:absolute md:right-10">
-        <Link
-          className="md:w-1/2.5 md:my-0 text-primary"
-          href={`${ROUTES.POST_PRODUCT_SERVICE}`}
-        >
+      <div className="flex flex-col justify-between md:flex-row md:w-1/3 md:absolute right-0 md:justify-end space-x-4">
+        {!!onBackClick && (
           <Button
             type="button"
             variant="outline"
             size="small"
             onClick={onBackClick}
-            className="w-full"
+            className="w-full md:w-1/2.5 hover:bg-secondary-1-hover border-secondary-1-hover text-secondary-1-hover"
           >
             {t("back-button-label")}
           </Button>
-        </Link>
+        )}
         <Button
           type={
             formPosition < PPS_PRODUCT_REVIEW_FORM_INDEX ? "button" : "submit"

@@ -1,22 +1,15 @@
 import { PlusIcon } from "@assets/icons/plus-icon";
+import SectionWrapper from "@components/ui/record-navigations/section-wrapper";
 import Button from "@components/ui/storybook/button";
 import InputLabel from "@components/ui/storybook/inputs/input-label";
+import Typography from "@components/ui/storybook/typography";
 import ValidationError from "@components/ui/storybook/validation-error";
 import { COLORS } from "@utils/colors";
 import { useTranslation } from "next-i18next";
-import React, { useEffect, useState } from "react";
-import {
-  UseFormRegister,
-  FieldErrors,
-  Control,
-  UseFormTrigger,
-  useWatch,
-  useFormContext,
-} from "react-hook-form";
+import React from "react";
+import { useWatch, useFormContext } from "react-hook-form";
 import { IPostProductFormValues } from "./pps-product-interface";
-import PPSPVIInput from "./ppsp-variation-image/ppspvi-input";
 import PPSPVPInput from "./ppsp-variation-price/pppspvp-input";
-import { IGroupFormValues } from "./product-group-form";
 import ProductGroupInput from "./product-group-input";
 import ProductSinglePriceInput from "./product-single-price-input";
 
@@ -36,7 +29,10 @@ export function AddButton({ onClick, label }: any) {
   );
 }
 
-const PPSProductPricingInput: React.FC<IPPSProductPricingInputProps> = ({}) => {
+const PPSProductPricingInput = React.forwardRef<
+  HTMLTableSectionElement,
+  IPPSProductPricingInputProps
+>(({}, ref) => {
   const {
     control,
     formState: { errors },
@@ -51,40 +47,39 @@ const PPSProductPricingInput: React.FC<IPPSProductPricingInputProps> = ({}) => {
   const pricingError = errors?.pricing;
 
   function hasPricingError() {
-    return pricingError?.price && pricingError?.variations;
+    return pricingError?.price || pricingError?.variations;
   }
 
   return (
-    <div className="space-y-5">
-      <div className="space-y-2">
-        <InputLabel
-          label={t("product-price-input-label")}
-          required={true}
-          labelFontSize={"lg"}
-        />
-
-        {!groups?.length && (
-          <ProductSinglePriceInput control={control} name="pricing.price" />
-        )}
-
-        <ProductGroupInput control={control} name="pricing.groups" />
-
-        <PPSPVPInput control={control} name="pricing.variations" />
-        {/* @TODO: Make this available asap */}
-        {/* <PPSPVIInput control={control} name="pricing.variations" /> */}
+    <SectionWrapper sectionTitle={t("pricing-nav-label")} ref={ref}>
+      <div className="space-y-5">
+        <div className="space-y-2">
+          <InputLabel
+            label={t("product-price-input-label")}
+            required={true}
+            labelFontSize={"md"}
+          />
+          {!groups?.length && (
+            <ProductSinglePriceInput control={control} name="pricing.price" />
+          )}
+          <ProductGroupInput control={control} name="pricing.groups" />
+          <PPSPVPInput control={control} name="pricing.variations" />
+          {/* @TODO: Make this available asap */}
+          {/* <PPSPVIInput control={control} name="pricing.variations" /> */}
+        </div>
+        <div>
+          <ValidationError
+            message={
+              hasPricingError()
+                ? t((pricingError?.variations as any)?.message || "") ||
+                  t((pricingError?.price as any)?.message || "")
+                : ""
+            }
+          />
+        </div>
       </div>
-      <div>
-        <ValidationError
-          message={
-            hasPricingError()
-              ? t((pricingError?.variations as any)?.message || "") ||
-                t((pricingError?.price as any)?.message || "")
-              : ""
-          }
-        />
-      </div>
-    </div>
+    </SectionWrapper>
   );
-};
+});
 
 export default PPSProductPricingInput;

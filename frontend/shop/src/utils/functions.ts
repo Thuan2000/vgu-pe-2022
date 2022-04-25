@@ -3,6 +3,7 @@ import base64 from "base-64";
 import Cookies from "js-cookie";
 import { findIndex, groupBy, indexOf, isEqual } from "lodash";
 import { TFunction } from "next-i18next";
+import router from "next/router";
 import { SweetAlertOptions, SweetAlertResult } from "sweetalert2";
 import { getMeData } from "./auth-utils";
 import { TTopic } from "./chat-interface";
@@ -15,6 +16,7 @@ import {
   MILLION_COUNT,
   MOBILE_SIZE,
 } from "./constants";
+import { ROUTES } from "./routes";
 
 export function getMoneySuffix(amount: number) {
   if (amount >= BILLION) return "billion-suffix";
@@ -503,4 +505,8 @@ export function formatByte(byte: number) {
   if (mb > 1000) gb = toFixedFloat(mb / 1000);
   if (!gb) return `${mb} MB`;
   return `${gb} GB`;
+}
+
+export function replaceToLogout() {
+  router.replace(ROUTES.LOGOUT);
 }

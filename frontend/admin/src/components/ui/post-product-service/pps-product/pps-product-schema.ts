@@ -3,13 +3,10 @@ import * as yup from "yup";
 export const MINIMUM_PRICE_RULE = 1000;
 export const MINIMUM_PRODUCT_DESC = 100;
 
-const categorySchema = yup.object({
+const generalSchema = yup.object({
   name: yup.string().required("error-productName-required"),
   industry: yup.object().required("industry-required-error"),
   category: yup.object().required("category-required-error"),
-});
-
-const generalSchema = yup.object({
   description: yup
     .string()
     .min(MINIMUM_PRODUCT_DESC, "error-productDescription-too-short")
@@ -61,7 +58,6 @@ const detailsSchema = yup.object({
 });
 
 export const ppsProductSchema = yup.object({
-  category: categorySchema,
   general: generalSchema,
   details: detailsSchema,
   pricing: pricingSchema,

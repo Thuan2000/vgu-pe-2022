@@ -11,8 +11,13 @@ import { createUploadLink } from "apollo-upload-client";
 
 import { useMemo } from "react";
 import { getAuthCredentials } from "./auth-utils";
+import { replaceToLogout } from "./functions";
 
 const APOLLO_STATE_NAME = "__APOLLO_STATE__";
+
+const apolloErrorMessage = {
+  jwtSecretError: "invalid signature",
+};
 
 function createApolloClient() {
   // For authorization
@@ -31,9 +36,11 @@ function createApolloClient() {
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach((error) => {
-        console.log(error);
-
-        console.log(error.message);
+        const msg = error.message;
+        console.log(msg);
+        if (msg.includes(apolloErrorMessage.jwtSecretError)) {
+          replaceToLogout();
+        }
       });
     }
   });

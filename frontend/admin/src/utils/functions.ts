@@ -2,7 +2,7 @@ import base64 from "base-64";
 import { IDUFile } from "@components/ui/storybook/document-uploader/document-uploader";
 import { IFile } from "@graphql/types.graphql";
 import { isEmpty } from "lodash";
-import { getMeData } from "./auth-utils";
+import { getMeData, setRedirectLinkAfterLogin } from "./auth-utils";
 import {
   BILLION,
   BILLION_COUNT,
@@ -15,6 +15,8 @@ import Cookies from "js-cookie";
 import { TFunction } from "next-i18next";
 import { SweetAlertResult, SweetAlertOptions } from "sweetalert2";
 import { COLORS } from "./colors";
+import { ROUTES } from "./routes";
+import router from "next/router";
 
 export function checkIsMobile(width: number) {
   return width >= MOBILE_SIZE.min && width <= MOBILE_SIZE.max;
@@ -460,4 +462,13 @@ export function formatByte(byte: number) {
   if (mb > 1000) gb = toFixedFloat(mb / 1000);
   if (!gb) return `${mb} MB`;
   return `${gb} GB`;
+}
+
+export function replaceToLogin(currentRoute?: string) {
+  if (!!currentRoute) setRedirectLinkAfterLogin(currentRoute);
+  router.replace(ROUTES.LOGIN());
+}
+
+export function replaceToLogout() {
+  router.replace(ROUTES.LOGOUT);
 }

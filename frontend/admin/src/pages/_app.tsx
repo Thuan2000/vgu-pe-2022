@@ -16,8 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { useRouter } from "next/dist/client/router";
 import { ROUTES } from "@utils/routes";
-import { isLogin, setRedirectLinkAfterLogin } from "@utils/auth-utils";
-import { printServerInfo } from "@utils/functions";
+import { isLogin } from "@utils/auth-utils";
+import { printServerInfo, replaceToLogin } from "@utils/functions";
 import ChatwootWidget from "@components/chatwoot-widget";
 import { WSChatProvider } from "src/contexts/ws-chat.context";
 import TimeAgo from "javascript-time-ago";
@@ -42,8 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   function handleRedirect() {
     const fullHref = window.location.href;
-    setRedirectLinkAfterLogin(fullHref);
-    replace(ROUTES.LOGIN(locale!));
+    replaceToLogin(fullHref);
   }
 
   if (typeof window !== "undefined" && pathname !== ROUTES.LOGOUT && !isLogin())

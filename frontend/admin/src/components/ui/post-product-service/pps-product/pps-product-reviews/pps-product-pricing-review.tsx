@@ -12,7 +12,7 @@ import {
 import { useTranslation } from "next-i18next";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { PPS_PRODUCT_PRICING_FORM_INDEX } from "../pps-product-constants";
+import { PPS_CATEGORY_FORM_INDEX } from "../../pps-service/pps-service-constants";
 import {
   IPostProductFormValues,
   IPPSFPricingSection,
@@ -40,7 +40,7 @@ const PPSPricingReview: React.FC<IPPSPricingReviewProps> = ({
   return (
     <div className="sm:w-2/3">
       <ReviewSectionTitle
-        onClick={() => changeSection(PPS_PRODUCT_PRICING_FORM_INDEX)}
+        onClick={() => changeSection(PPS_CATEGORY_FORM_INDEX)}
         title={t("pricing-nav-label")}
       />
 

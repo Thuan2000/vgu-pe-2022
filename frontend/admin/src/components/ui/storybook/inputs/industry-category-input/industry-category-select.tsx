@@ -49,8 +49,8 @@ const IndustryCategorySelect: React.FC<IIndustryCategorySelectProps> = ({
   function handleIndustryChange(industry: IIndustry) {
     if (selectedIndustry === industry) return;
 
-    setSelectedCategory(undefined);
     setSelectedIndustry(industry);
+    setSelectedCategory(undefined);
   }
 
   function handleCategoryChange(category: ICategory) {

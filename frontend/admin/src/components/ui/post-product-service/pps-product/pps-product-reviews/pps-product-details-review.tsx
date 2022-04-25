@@ -5,7 +5,7 @@ import { isEmptyObject } from "@utils/functions";
 import { useTranslation } from "next-i18next";
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { PPS_PRODUCT_DETAILS_FORM_INDEX } from "../pps-product-constants";
+import { PPS_PRODUCT_INPUT_FORM_INDEX } from "../pps-product-constants";
 import {
   IPostProductFormValues,
   IPPSFDetailsSection,
@@ -40,7 +40,7 @@ const PPSDetailsReview: React.FC<IPPSDetailsReviewProps> = ({
   return (
     <div className="sm:w-2/3">
       <ReviewSectionTitle
-        onClick={() => changeSection(PPS_PRODUCT_DETAILS_FORM_INDEX)}
+        onClick={() => changeSection(PPS_PRODUCT_INPUT_FORM_INDEX)}
         title={t("details-nav-label")}
       />
       <div className="space-y-2 mt-2">

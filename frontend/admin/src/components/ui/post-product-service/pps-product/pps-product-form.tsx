@@ -1,38 +1,29 @@
-import React, { useEffect, useState } from "react";
+import SectionNav from "../../record-navigations/section-nav";
+import React, { MutableRefObject, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import PPSProductCategoryInput from "./pps-product-category-input";
 import { useRouter } from "next/dist/client/router";
 import {
-  PPS_PRODUCT_CATEGORY_FORM_INDEX,
+  PPS_PRODUCT_INPUT_FORM_INDEX,
   PPS_PRODUCT_REVIEW_FORM_INDEX,
-  PPS_PRODUCT_DETAILS_FORM_INDEX,
-  PPS_PRODUCT_PRICING_FORM_INDEX,
-  PPS_PRODUCT_GENERAL_FORM_INDEX,
 } from "./pps-product-constants";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { ppsProductSchema } from "./pps-product-schema";
 import PPSProductGeneralInput from "./pps-product-general-input";
 import Form from "@components/form";
 import PPSProductFooterButton from "./pps-product-footer-button";
-import PPSServicePricingInput from "./pps-product-pricing-input";
-import PPSProductReview from "./pps-product-review";
+import PPSProductPricingInput from "./pps-product-pricing-input";
 import { useTranslation } from "react-i18next";
 import Swal from "sweetalert2";
 import { ROUTES } from "@utils/routes";
 
-import {
-  IPostProductFormValues,
-  IProductStatus,
-} from "./pps-product-interface";
+import { IPostProductFormValues } from "./pps-product-interface";
 import PPSProductDetailsInput from "./pps-product-details-input";
 import {
   ICreateProductInput,
   IProduct,
   ITagInput,
-  IVariation,
   IVariationInput,
-  IVariationOption,
 } from "@graphql/types.graphql";
 
 import {
@@ -43,127 +34,36 @@ import {
 } from "@graphql/product.graphql";
 import {
   generateBlobs,
-  generateUUID,
   getCompanyChatId,
   getCompanyId,
   getCompanyName,
   getLoggedInUser,
   getUploadedFiles,
-  isEmptyObject,
-  removeTypename,
-  removeTypenameFromArray,
 } from "@utils/functions";
-import { getCategory } from "@datas/categories";
-import { getIndustry } from "@datas/industries";
-import { getLocationByName, vietnamProvinces } from "@utils/vietnam-cities";
-import { groupBy } from "lodash";
-import { IGroupFormValues } from "./product-group-form";
+import { isEmpty } from "lodash";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
 import { useModal } from "src/contexts/modal.context";
-import Typography from "@components/ui/storybook/typography";
 import { useRef } from "react";
 
 import { useOnScreen } from "src/hooks/useIsOnScreen";
+import {
+  generateDefaultValues,
+  getMinMaxPrice,
+} from "./pps-product-form-functions";
+import PPSProductReview from "./pps-product-review";
 
 interface IPPSProductFormProps {
   initValues?: IProduct;
 }
 
-function getStatus(value: string) {
-  if (!value) return null;
-
-  const status: IProductStatus = {
-    id: generateUUID(),
-    value,
-  };
-
-  return status;
-}
-
-function getDefaultGroups(variations: IVariation[]) {
-  if (!variations?.length) return;
-
-  const rawGroups: IVariationOption[] = [];
-
-  variations.forEach((v) => {
-    const removedTypenameOptions = removeTypenameFromArray(v?.options!);
-    rawGroups.push(...removedTypenameOptions);
-  });
-
-  const objClassifications = groupBy(rawGroups, (r) => r.name);
-
-  const groups: IGroupFormValues[] = Object.keys(objClassifications).map(
-    (key) => {
-      const classifications = objClassifications?.[key].map((c) => ({
-        id: generateUUID(),
-        name: c.value,
-      }));
-
-      const group: IGroupFormValues = {
-        id: generateUUID(),
-        name: key,
-        classifications,
-      };
-
-      return group;
-    }
-  );
-  return groups;
-}
-
-function getDefaultVariations(variations: IVariation[]) {
-  const variants = variations.map(({ price, title, image, options }) => ({
-    id: generateUUID(),
-    price,
-    title,
-    image,
-    options: removeTypenameFromArray(options!),
-  }));
-
-  return variants;
-}
-
-function generateDefaultValues(initValues: IProduct) {
-  if (isEmptyObject(initValues)) return;
-
-  const defaultInput: IPostProductFormValues = {
-    category: {
-      name: initValues.name,
-      category: getCategory(initValues.categoryId),
-      industry: getIndustry(initValues.industryId),
-    },
-    general: {
-      description: initValues.description,
-      images: removeTypenameFromArray(initValues.gallery || []),
-      videos: removeTypenameFromArray(initValues.videos || []),
-      certificates: removeTypenameFromArray(initValues.certificates || []),
-      minOrder: initValues.minOrder,
-    },
-    pricing: {
-      price: initValues.price,
-      ...(!!initValues.variations
-        ? {
-            groups: getDefaultGroups(initValues.variations),
-            variations: getDefaultVariations(initValues.variations),
-          }
-        : {}),
-    } as any,
-    details: {
-      brandName: initValues.brandName,
-      baseDimension: removeTypename(initValues.baseDimension || {}),
-      packagedDimension: removeTypename(initValues.packagedDimension || {}),
-      tags: removeTypenameFromArray(initValues.tags),
-      isPreorder: initValues.isPreorder || false,
-      isCustom: initValues.isCustom || false,
-      location: getLocationByName(initValues.warehouseLocation),
-      ...(!!initValues.status ? { status: getStatus(initValues.status) } : {}),
-    } as any,
-  };
-  return defaultInput;
-}
-
 type TVisible = "GENERAL" | "PRICING" | "DETAILS" | "REVIEW";
+
+type TSectionNav = {
+  label: string;
+  sectionName: TVisible;
+  reference: React.MutableRefObject<null | HTMLDivElement>;
+};
 
 const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   const { t } = useTranslation("form");
@@ -177,8 +77,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     defaultValues: generateDefaultValues(initValues || ({} as any)),
   });
   const {
-    control,
-    register,
     formState: { errors, dirtyFields },
     trigger,
     handleSubmit,
@@ -186,9 +84,13 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
 
   const { startListen, stopListen } = useIsEditedFormHandler();
   useEffect(() => {
-    startListen(!!dirtyFields.category);
+    startListen(!isEmpty(dirtyFields));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!!dirtyFields.category]);
+  }, [dirtyFields]);
+
+  useEffect(() => {
+    if (!dirtyFields.general) changeSection(PPS_PRODUCT_INPUT_FORM_INDEX);
+  }, []);
 
   const [uploadFiles, { loading: uploadingFiles }] = useUploadFilesMutation();
 
@@ -207,55 +109,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     });
   }
 
-  function openModalCategory() {
-    changeSection(PPS_PRODUCT_GENERAL_FORM_INDEX);
-    openModal(
-      (
-        <PPSProductCategoryInput
-          errors={errors}
-          trigger={trigger}
-          control={control}
-          register={register}
-        />
-      ) as any
-    );
-  }
-
-  useEffect(() => {
-    openModalCategory();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Changing section if there's an error and user submitting
-  useEffect(() => {
-    if (
-      errors &&
-      errors.category &&
-      formPosition > PPS_PRODUCT_CATEGORY_FORM_INDEX
-    )
-      changeSection(PPS_PRODUCT_CATEGORY_FORM_INDEX);
-    else if (
-      errors &&
-      errors.details &&
-      formPosition > PPS_PRODUCT_DETAILS_FORM_INDEX
-    )
-      changeSection(PPS_PRODUCT_DETAILS_FORM_INDEX);
-    else if (
-      errors &&
-      errors.pricing &&
-      formPosition > PPS_PRODUCT_PRICING_FORM_INDEX
-    )
-      changeSection(PPS_PRODUCT_PRICING_FORM_INDEX);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errors]);
-
-  // Redirect to first section if user jump using query
-  useEffect(() => {
-    if (formPosition > PPS_PRODUCT_CATEGORY_FORM_INDEX && !dirtyFields.category)
-      changeSection(PPS_PRODUCT_CATEGORY_FORM_INDEX);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   function handleCompleteCreated({
     createProduct: { message, success },
   }: CreateProductMutation) {
@@ -269,22 +122,21 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   }
 
   async function handleNextClick() {
-    const dataCategory = await trigger("category");
-    if (!dataCategory) {
-      return openModalCategory();
-    }
     const dataGeneral = await trigger("general");
     if (!dataGeneral) {
-      return scrollToSection(general, 2);
+      return scrollToSection(general);
     }
     const dataPricing = await trigger("pricing");
     if (!dataPricing) {
-      return scrollToSection(pricing, 2);
+      return scrollToSection(pricing);
     }
     const dataDetails = await trigger("details");
     if (!dataDetails) {
-      return scrollToSection(details, 2);
+      return scrollToSection(details);
     }
+
+    if (formPosition < PPS_PRODUCT_REVIEW_FORM_INDEX)
+      changeSection(formPosition + 1);
   }
 
   function fireRespMessage(success: boolean, message: string) {
@@ -300,25 +152,13 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     } else if (!success) alert(t(`CREATE-PRODUCT-${message}-ERROR`));
   }
 
-  function getMinMaxPrice(variations: IVariationInput[] = []) {
-    const pricing = {
-      minPrice: Number.MAX_VALUE,
-      maxPrice: Number.MIN_VALUE,
-    };
-
-    variations.forEach(({ price }) => {
-      if (price < pricing.minPrice) pricing.minPrice = price;
-      else if (price > pricing.maxPrice) pricing.maxPrice = price;
-    });
-
-    return pricing;
-  }
-
   async function onSubmit(values: IPostProductFormValues) {
-    const { category: categoryForm, general, details, pricing } = values;
+    const { general, details, pricing } = values;
 
-    const { name, industry, category } = categoryForm;
     const {
+      name,
+      industry,
+      category,
       images: mixedImages,
       certificates: mixedCertificates,
       minOrder,
@@ -444,7 +284,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   const isGeneralVisible = useOnScreen(general as any);
   const isPricingVisible = useOnScreen(pricing as any);
   const isDetailsVisible = useOnScreen(details as any, "-300px");
-  const isReviewsVisible = useOnScreen(review as any, "-300px");
 
   // General is default
   const [focusedSection, setFocusedSection] = useState<TVisible>("GENERAL");
@@ -453,143 +292,88 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     let visible: TVisible = "GENERAL";
     if (isPricingVisible) visible = "PRICING";
     if (isDetailsVisible) visible = "DETAILS";
-    if (isReviewsVisible) visible = "REVIEW";
 
     if (focusedSection !== visible) setFocusedSection(visible);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGeneralVisible, isPricingVisible, isDetailsVisible]);
 
-  const scrollToSection = (
-    elementRef: React.RefObject<HTMLDivElement>,
-    idx: number
-  ) => {
+  const scrollToSection = (elementRef: React.RefObject<HTMLDivElement>) => {
     elementRef.current?.scrollIntoView({
       behavior: "smooth",
       inline: "end",
     });
   };
 
+  const sectionNavs: TSectionNav[] = [
+    {
+      label: "general-nav-label",
+      sectionName: "GENERAL",
+      reference: general,
+    },
+    {
+      label: "pricing-nav-label",
+      sectionName: "PRICING",
+      reference: pricing,
+    },
+    {
+      label: "details-nav-label",
+      sectionName: "DETAILS",
+      reference: details,
+    },
+    {
+      label: "reviews-nav-label",
+      sectionName: "REVIEW",
+      reference: review,
+    },
+  ];
   return (
     <FormProvider {...methods}>
-      <Form onSubmit={handleSubmit(onSubmit)} className="pt-2 space-y-2">
-        <div className="product-edit__container">
-          <div className="product-edit__main">
-            {/* {formPosition === PPS_PRODUCT_CATEGORY_FORM_INDEX && (
-            <PPSProductCategoryInput
-              errors={errors}
-              trigger={trigger}
-              control={control}
-              register={register}
+      <Form onSubmit={handleSubmit(onSubmit)} className="">
+        {formPosition === PPS_PRODUCT_REVIEW_FORM_INDEX && (
+          <div
+            className={`bg-white rounded-md border border-gray-100 p-5 mb-7`}
+          >
+            <PPSProductReview changeSection={changeSection} />
+            <PPSProductFooterButton
+              loading={creating || uploadingFiles || updating}
+              onNextClick={handleNextClick}
+              onBackClick={handleBackClick}
+              formPosition={formPosition}
             />
-          )} */}
-            <section
-              ref={general}
-              className="bg-white shadow-md md:rounded-sm translate-y-[-2px] mb-5 mt-px-15 px-10 py-6 min-w-[65vh]"
-            >
-              <Typography
-                text={t("general-nav-label")}
-                variant="smallTitle"
-                size="lg"
-                className="mb-5"
-              />
-              <PPSProductGeneralInput />
-            </section>
-            <section
-              ref={pricing}
-              className="bg-white shadow-md md:rounded-sm translate-y-[-2px] mb-5 mt-px-15 px-10 py-6"
-            >
-              <Typography
-                text={t("pricing-nav-label")}
-                variant="smallTitle"
-                size="lg"
-                className="mb-5"
-              />
-              <PPSServicePricingInput />
-            </section>
-            <section
-              ref={details}
-              className="bg-white shadow-md md:rounded-sm translate-y-[-2px] mb-5 mt-px-15 px-10 py-6"
-            >
-              <Typography
-                text={t("details-nav-label")}
-                variant="smallTitle"
-                size="lg"
-                className="mb-5"
-              />
-              <PPSProductDetailsInput />
-            </section>
-            <section
-              ref={review}
-              className="bg-white shadow-md md:rounded-sm translate-y-[-2px] mb-5 mt-px-15 px-10 py-6"
-            >
-              <PPSProductReview changeSection={changeSection} />
-            </section>
           </div>
-          <div className="product-selected-fix" z-index="999">
-            <div className="fix-container fixed-bottom">
-              <div className="container">
+        )}
+        {formPosition < PPS_PRODUCT_REVIEW_FORM_INDEX && (
+          <div className="relative grid grid-cols-5">
+            <div className="col-span-4 relative space-y-4">
+              <PPSProductGeneralInput ref={general} />
+              <PPSProductPricingInput ref={pricing} />
+              <PPSProductDetailsInput ref={details} />
+
+              <div className="sticky bottom-0 right-0 left-0 bg-white p-4 px-5 border rounded-md border-gray-100 border-b-0 !-mt-2">
                 <PPSProductFooterButton
                   loading={creating || uploadingFiles || updating}
                   onNextClick={handleNextClick}
-                  onBackClick={handleBackClick}
                   formPosition={formPosition}
                 />
               </div>
             </div>
-          </div>
-          <div className="product-edit__side">
-            <ul className="flex justify-between flex-col side-nav-list">
-              <li
-                className={`side-nav-item ${
-                  focusedSection === "GENERAL" ? "active" : " "
-                }`}
-              >
-                <a
-                  onClick={() => scrollToSection(general, 2)}
-                  href="javascript:void(0)"
-                >
-                  {t("general-nav-label")}
-                </a>
-              </li>
-              <li
-                className={`side-nav-item ${
-                  focusedSection === "PRICING" ? "active" : " "
-                }`}
-              >
-                <a
-                  onClick={() => scrollToSection(pricing, 3)}
-                  href="javascript:void(0)"
-                >
-                  {t("pricing-nav-label")}
-                </a>
-              </li>
-              <li
-                className={`side-nav-item ${
-                  focusedSection === "DETAILS" ? "active" : " "
-                }`}
-              >
-                <a
-                  onClick={() => scrollToSection(details, 4)}
-                  href="javascript:void(0)"
-                >
-                  {t("details-nav-label")}
-                </a>
-              </li>
-              <li
-                className={`side-nav-item ${
-                  focusedSection === "REVIEW" ? "active" : " "
-                }`}
-              >
-                <a
-                  onClick={() => scrollToSection(details, 4)}
-                  href="javascript:void(0)"
-                >
-                  {t("reviews-nav-label")}
-                </a>
-              </li>
+
+            <ul className="col-span-1 fixed right-[5%] w-32 truncate top-24 ml-5">
+              {sectionNavs.map((sn) => {
+                const onClick = () => scrollToSection(sn.reference);
+                const isActive = focusedSection === sn.sectionName;
+                return (
+                  <SectionNav
+                    isActive={isActive}
+                    label={t(sn.label)}
+                    onClick={onClick}
+                    key={sn.label + "sn-post-product"}
+                  />
+                );
+              })}
             </ul>
           </div>
-        </div>
+        )}
       </Form>
     </FormProvider>
   );

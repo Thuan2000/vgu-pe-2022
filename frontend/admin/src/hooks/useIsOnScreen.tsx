@@ -9,6 +9,7 @@ export function useOnScreen<T extends Element>(
   const [isIntersecting, setIntersecting] = useState<boolean>(false);
   const [currentToUnobserve, setCurrentToUnobserve] = useState<any>(null);
   useEffect(() => {
+    if (!ref.current) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
         // Update our state when observer callback fires

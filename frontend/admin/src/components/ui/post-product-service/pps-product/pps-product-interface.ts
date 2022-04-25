@@ -6,12 +6,6 @@ import { IGroupFormValues } from "./product-group-form";
 import { IProductVariation } from "./ppsp-variation-price/pppspvp-manager";
 import { IDUFile } from "@components/ui/storybook/document-uploader/document-uploader";
 
-export interface IPPSFCategorySection {
-  name: string;
-  category: ICategory;
-  industry: IIndustry;
-}
-
 export interface IPPSFAttachmentSection {}
 
 export interface IPPSFPricingSection {
@@ -21,11 +15,14 @@ export interface IPPSFPricingSection {
 }
 
 export interface IPPSFGeneralSection {
+  name: string;
   description: string;
   minOrder: number;
   images: IDUFile[];
   videos?: IDUFile[];
   certificates?: IDUFile[];
+  category: ICategory;
+  industry: IIndustry;
 }
 
 export interface IProductDimension {
@@ -60,7 +57,6 @@ export interface IPPSFDetailsSection {
 }
 
 export interface IPostProductFormValues {
-  category: IPPSFCategorySection;
   details: IPPSFDetailsSection;
   pricing: IPPSFPricingSection;
   general: IPPSFGeneralSection;

@@ -23,7 +23,7 @@ const InputLabel: React.FC<IInputLabelProps> = ({
   queueBackground,
   label,
   required,
-  labelFontSize,
+  labelFontSize = "sm",
   noteFontSize,
 }) => {
   /* If required is true, append a red (*) to label */
