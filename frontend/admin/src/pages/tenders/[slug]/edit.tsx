@@ -52,12 +52,8 @@ const EditBuyingRequestPage: React.FC<IEditProjectPageProps> = ({ slug }) => {
           content={buyingRequest?.description as string}
         />
       </Head>
-      <PostPageWrapper navs={postRequestNavs}>
-        <p className="text-sm md:text-md text-gray-400 mb-7 pt-4">
-          {t("post-request-paragraph")}
-        </p>
-        <PostTenderForm initValue={buyingRequest as IBuyingRequest} />
-      </PostPageWrapper>
+
+      <PostTenderForm initValue={buyingRequest as IBuyingRequest} />
     </>
   );
 };

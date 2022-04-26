@@ -6,6 +6,7 @@ import { getSourceType } from "src/datas/source-type";
 import { PostRequestFormValue } from "./post-request-schema";
 import { IFileWithTypename } from "@components/ui/storybook/document-uploader/document-uploader";
 import { removeTypenameFromArray } from "@utils/functions";
+import { getLocationByName } from "@utils/vietnam-cities";
 
 export function getDefaultValue(initValue?: IBuyingRequest) {
   if (!initValue)
@@ -44,7 +45,7 @@ export function getDefaultValue(initValue?: IBuyingRequest) {
       minBudget,
       maxBudget,
       minOrder,
-      location: location as any,
+      location: getLocationByName(location),
       unit,
       sourceType: getSourceType(sourceTypeId as number),
       allowedCompany: {
