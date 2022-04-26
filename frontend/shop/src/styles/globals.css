@@ -167,7 +167,7 @@ em[class^="hlt"] {
 }
 
 .wysiwyg * {
-  @apply !text-md list-disc;
+  @apply !text-md list-disc break-words;
 }
 
 .wysiwyg li {

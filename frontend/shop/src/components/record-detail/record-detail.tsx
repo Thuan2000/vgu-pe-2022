@@ -69,33 +69,17 @@ const RecordDetail: React.FC<IRecordDetailProps> = ({ record }) => {
       </div>
 
       <div className="relative">
-        <Typography
-          {...(!isShowMore
-            ? {
-                className:
-                  "text-transparent bg-clip-text bg-gradient-to-b from-black to-transparent",
-              }
-            : {})}
-          variant="description"
-          text={getDesc()}
+        <div
+          dangerouslySetInnerHTML={{ __html: record.description || "" }}
+          className={`wysiwyg`}
         />
       </div>
 
       {!!record?.description && record?.description?.length > 350 && (
         <div
-          className={`${!isShowMore && "absolute bottom-2 w-full px-4 left-0"}`}
-        >
-          <Button
-            className="w-full bg-white text-primary border"
-            variant="custom"
-            size="fluid"
-            onClick={handleShowMore}
-          >
-            {!isShowMore
-              ? t("brd-view-more-button-label")
-              : t("brd-view-less-button-label")}
-          </Button>
-        </div>
+          dangerouslySetInnerHTML={{ __html: record.description || "" }}
+          className={`overflow-hidden h-24 w-96 wysiwyg`}
+        />
       )}
     </div>
   );

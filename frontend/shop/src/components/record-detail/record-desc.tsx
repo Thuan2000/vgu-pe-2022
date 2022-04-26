@@ -56,18 +56,6 @@ const RecordDescription: React.FC<ISDDescriptionProps> = ({
           <Typography text={getIndustryCategory()} variant="smallTitle" />
         </div>
       </div>
-      {/* It is duplicate, not necessary. */}
-      {/* <div>
-        <Typography
-          variant="description"
-          isHaveReadMore={description?.length! > 220}
-          readMoreText={t("brd-readMore-text")}
-          onReadMore={scrollToDetail}
-          text={
-            trimText(description as string, 220) || t("brd-noDescription-text")
-          }
-        />
-      </div> */}
       <ChatNowButton
         ownStuffMessage={t(
           type === "PRODUCT"
