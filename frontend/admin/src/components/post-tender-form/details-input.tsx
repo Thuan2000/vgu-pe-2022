@@ -5,6 +5,7 @@ import {
   FieldErrors,
   UseFormTrigger,
   UseFormGetValues,
+  useFormContext,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
@@ -18,23 +19,17 @@ import { IVietnamCity, vietnamProvinces } from "@utils/vietnam-cities";
 import { ISourceType, sourceTypes } from "src/datas/source-type";
 import { useRouter } from "next/dist/client/router";
 
-interface IGeneralInputProps {
-  register: UseFormRegister<PostRequestFormValue>;
-  control: Control<PostRequestFormValue>;
-  errors: FieldErrors<PostRequestFormValue>;
-  trigger: UseFormTrigger<PostRequestFormValue>;
-  initValue?: IBuyingRequest;
-  getValues: UseFormGetValues<PostRequestFormValue>;
-}
+interface IGeneralInputProps {}
 
-const DetailsInput: React.FC<IGeneralInputProps> = ({
-  register,
-  control,
-  initValue,
-  trigger,
-  errors,
-}) => {
+const DetailsInput: React.FC<IGeneralInputProps> = ({}) => {
   const { t } = useTranslation("form");
+
+  const {
+    register,
+    control,
+    trigger,
+    formState: { errors },
+  } = useFormContext<PostRequestFormValue>();
 
   const { locale } = useRouter();
 
@@ -81,9 +76,6 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         onChange={(_) => {
           trigger("details.location");
         }}
-        getInitialValue={(option?: IVietnamCity) =>
-          option?.name === (initValue?.location as string)
-        }
         error={t((errors?.details?.location as any)?.message || "")}
         getOptionLabel={(option: IVietnamCity) => option.name}
         getOptionValue={(option: IVietnamCity) => option.name}
@@ -91,7 +83,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
 
       <SelectInput
         name="details.sourceType"
-        numberQueue={6}
+        numberQueue={5}
         required
         label={`${t("post-request-sourceType-label")}`}
         placeholder={t("post-request-sourceType-placeholder")}
@@ -100,9 +92,6 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         onChange={(_) => {
           trigger("details.sourceType");
         }}
-        getInitialValue={(option?: ISourceType) =>
-          option?.id === initValue?.sourceTypeId
-        }
         error={t((errors?.details?.sourceType as any)?.message || "")}
         getOptionLabel={(option: ISourceType) =>
           t("source-type:" + option.label)
@@ -112,12 +101,7 @@ const DetailsInput: React.FC<IGeneralInputProps> = ({
         }
       />
 
-      <ParticipantFilterForm
-        initValue={initValue}
-        register={register}
-        control={control}
-        errors={errors}
-      />
+      <ParticipantFilterForm />
     </div>
   );
 };

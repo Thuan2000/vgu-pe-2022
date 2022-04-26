@@ -5,8 +5,10 @@ import Loading from "@components/ui/loading";
 import { useBuyingRequestBySlugQuery } from "@graphql/buying-request.graphql";
 import { IBuyingRequest } from "@graphql/types.graphql";
 import { postRequestNavs } from "@pages/post-tender";
+import { generateHeadTitle } from "@utils/seo-utils";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Head from "next/head";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -42,13 +44,21 @@ const EditBuyingRequestPage: React.FC<IEditProjectPageProps> = ({ slug }) => {
 
   if (loading) return <Loading />;
   return (
-    <PostPageWrapper navs={postRequestNavs}>
-      <p className="text-sm md:text-md text-gray-400 mb-7 pt-4">
-        {t("post-request-paragraph")}
-      </p>
-
-      <PostTenderForm initValue={buyingRequest as IBuyingRequest} />
-    </PostPageWrapper>
+    <>
+      <Head>
+        <title>{generateHeadTitle(buyingRequest?.name as string)}</title>
+        <meta
+          name="description"
+          content={buyingRequest?.description as string}
+        />
+      </Head>
+      <PostPageWrapper navs={postRequestNavs}>
+        <p className="text-sm md:text-md text-gray-400 mb-7 pt-4">
+          {t("post-request-paragraph")}
+        </p>
+        <PostTenderForm initValue={buyingRequest as IBuyingRequest} />
+      </PostPageWrapper>
+    </>
   );
 };
 export default EditBuyingRequestPage;

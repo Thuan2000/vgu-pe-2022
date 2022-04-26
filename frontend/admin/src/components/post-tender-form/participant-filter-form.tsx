@@ -1,24 +1,24 @@
 import React from "react";
 import InputLabel from "@components/ui/storybook/inputs/input-label";
-import { UseFormRegister, Control, FieldErrors } from "react-hook-form";
+import {
+  UseFormRegister,
+  Control,
+  FieldErrors,
+  useFormContext,
+} from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
 import BidParticipantFilterInput from "./bid-participant-filter-input";
-import { IBuyingRequest } from "@graphql/types.graphql";
 
-interface IParticipantFormProps {
-  register: UseFormRegister<PostRequestFormValue>;
-  control: Control<PostRequestFormValue>;
-  errors: FieldErrors<PostRequestFormValue>;
-  initValue?: IBuyingRequest;
-}
+interface IParticipantFormProps {}
 
-const ParticipantFilterForm: React.FC<IParticipantFormProps> = ({
-  control,
-  errors,
-  initValue,
-}) => {
+const ParticipantFilterForm: React.FC<IParticipantFormProps> = ({}) => {
   const { t } = useTranslation("form");
+
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext<PostRequestFormValue>();
 
   return (
     <>
@@ -34,7 +34,6 @@ const ParticipantFilterForm: React.FC<IParticipantFormProps> = ({
           error={t(
             errors.details?.allowedCompany?.minSupplierExperience?.message || ""
           )}
-          defaultValue={initValue?.minSupplierExperience as number}
           allowNegative={false}
           max={40}
         />
@@ -42,7 +41,6 @@ const ParticipantFilterForm: React.FC<IParticipantFormProps> = ({
           control={control}
           name={"details.allowedCompany.minSupplierSells"}
           suffix={` ${t("sells-suffix")}`}
-          defaultValue={initValue?.minSupplierSells as number}
           min={1}
           label={t("minSuplierSells-label")}
           placeholder={t("minSuplierSells-placeholder")}

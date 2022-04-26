@@ -62,9 +62,7 @@ const PostRequest = () => {
         />
       </Head>
 
-      <PostPageWrapper navs={postRequestNavs}>
-        <PostTenderForm />
-      </PostPageWrapper>
+      <PostTenderForm />
     </>
   );
 };

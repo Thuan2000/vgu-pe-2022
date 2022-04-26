@@ -1,13 +1,11 @@
-import Link from "@components/ui/link";
 import Button from "@components/ui/storybook/button";
-import { ROUTES } from "@utils/routes";
 import { useTranslation } from "next-i18next";
 import React from "react";
-import { PPS_PRODUCT_REVIEW_FORM_INDEX } from "./pps-product-constants";
 
-interface IPPSProductFooterButtonProps {
+export interface IPPSProductFooterButtonProps {
   onNextClick: () => void;
   formPosition: number;
+  endPosition: number;
   onBackClick?: () => void;
   loading: boolean;
 }
@@ -15,6 +13,7 @@ interface IPPSProductFooterButtonProps {
 const PPSProductFooterButton: React.FC<IPPSProductFooterButtonProps> = ({
   onNextClick,
   formPosition,
+  endPosition,
   onBackClick,
   loading,
 }) => {
@@ -35,18 +34,16 @@ const PPSProductFooterButton: React.FC<IPPSProductFooterButtonProps> = ({
           </Button>
         )}
         <Button
-          type={
-            formPosition < PPS_PRODUCT_REVIEW_FORM_INDEX ? "button" : "submit"
-          }
+          type={formPosition < endPosition ? "button" : "submit"}
           onClick={onNextClick}
           size="small"
           className="md:w-1/2.5"
           loading={loading}
-          autoFocus={formPosition === PPS_PRODUCT_REVIEW_FORM_INDEX}
+          autoFocus={formPosition === endPosition}
         >
           {t(
-            formPosition === PPS_PRODUCT_REVIEW_FORM_INDEX
-              ? "post-product-button-label"
+            formPosition === endPosition
+              ? "post-record-button-label"
               : "next-section-button-label"
           )}
         </Button>

@@ -51,12 +51,15 @@ const GeneralSection: React.FC<IGeneralSection> = ({
           </p>
         </div>
 
-        {description && (
+        {!!description && (
           <div className="">
             <p className="text-semibold font-semibold">
               {t("check-desctiption-label")}
             </p>
-            <p className="">{description}</p>
+            <div
+              className={`wysiwyg`}
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
           </div>
         )}
       </div>

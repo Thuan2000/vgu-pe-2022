@@ -5,6 +5,7 @@ import {
   UseFormRegister,
   UseFormTrigger,
   UseFormGetValues,
+  useFormContext,
 } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { PostRequestFormValue } from "./post-request-schema";
@@ -28,24 +29,20 @@ const RichTextInput = dynamic(
   { ssr: false }
 );
 
-interface IGeneralInputProps {
-  register: UseFormRegister<PostRequestFormValue>;
-  control: Control<PostRequestFormValue>;
-  initValue?: IBuyingRequest;
-  errors?: FieldErrors<PostRequestFormValue>;
-  trigger: UseFormTrigger<PostRequestFormValue>;
-  getValues: UseFormGetValues<PostRequestFormValue>;
-}
+interface IGeneralInputProps {}
 
-const GeneralForm: React.FC<IGeneralInputProps> = ({
-  register,
-  trigger,
-  control,
-  getValues,
-  errors,
-}) => {
+const GeneralForm: React.FC<IGeneralInputProps> = ({}) => {
   const { t } = useTranslation("form");
   const isCompanyFullInfo = getIsCompanyFullInfo();
+
+  const {
+    register,
+    trigger,
+    control,
+    getValues,
+    formState: { errors },
+  } = useFormContext<PostRequestFormValue>();
+
   return (
     <div className="md:w-2/3 space-y-3 sm:mb-5">
       <Input

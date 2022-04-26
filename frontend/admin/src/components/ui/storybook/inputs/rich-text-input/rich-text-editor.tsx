@@ -33,7 +33,6 @@ const RichTextEditor: React.FC<IRichTextEditorProps> = ({
           theme="snow"
           value={value || ""}
           onChange={handleChange}
-          style={{}}
         />
 
         {!!error && <ValidationError message={error} />}

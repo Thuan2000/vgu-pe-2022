@@ -8,7 +8,7 @@ import {
 import { ICompany, IUpdateCompanyDetailsInput } from "@graphql/types.graphql";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
-import { getMeData, setIsFullInfoTrue, setMeData } from "@utils/auth-utils";
+import { setIsFullInfoTrue } from "@utils/auth-utils";
 import {
   generateBlobs,
   generateUUID,
@@ -21,25 +21,34 @@ import { ROUTES } from "@utils/routes";
 import { getLocationByName } from "@utils/vietnam-cities";
 import { isEmpty, method } from "lodash";
 import { useRouter } from "next/dist/client/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useWSChat } from "src/contexts/ws-chat.context";
 import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
+import { useOnScreen } from "src/hooks/useIsOnScreen";
 import Swal from "sweetalert2";
+import PostNavNextBackButton from "../record-navigations/post-nav-next-back-button";
+import { scrollToSection } from "../record-navigations/post-record-nav-functions";
+import SectionNavItem from "../record-navigations/section-nav-item";
+import SectionWrapper from "../record-navigations/section-wrapper";
 import Button from "../storybook/button";
-import { IDUFile } from "../storybook/document-uploader/document-uploader";
 import { IRawBFW } from "./ec-add-branch/bfw-constants";
 import ECAdditionalInput from "./ec-additional-input";
-import {
-  EC_DETAILS_FORM_INDEX,
-  EC_GENERAL_FORM_INDEX,
-  EC_ADDITIONAL_FORM_INDEX,
-} from "./ec-constants";
+import { EC_INPUT_FORM_INDEX, EC_REVIEW_FORM_INDEX } from "./ec-constants";
 import ECDetailsInput from "./ec-details-input";
+import { getBfws, turnLocationToString } from "./ec-functions";
 import ECGeneralInput from "./ec-general-input";
 import { ECFormResolver } from "./ec-resolver";
 import { ECFormValues } from "./ec-schema";
+
+type TVisible = "GENERAL" | "DETAILS" | "ADDITIONAL";
+
+type TSectionNav = {
+  label: string;
+  sectionName: TVisible;
+  reference: React.MutableRefObject<null | HTMLDivElement>;
+};
 
 interface ICompanyDetailsFormProps {
   initValue: ICompany;
@@ -172,8 +181,8 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
   const formPosition = parseInt(query.formPosition as string) || 1;
 
   useEffect(() => {
-    if (formPosition > EC_GENERAL_FORM_INDEX && isEmpty(dirtyFields.general))
-      changeSection(EC_GENERAL_FORM_INDEX);
+    if (formPosition > EC_INPUT_FORM_INDEX && isEmpty(dirtyFields.general))
+      changeSection(EC_INPUT_FORM_INDEX);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -204,63 +213,37 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     }
   }
 
-  async function handleNextClick() {
-    if (formPosition === EC_GENERAL_FORM_INDEX) {
-      const data = await trigger("general");
-      if (!data) return;
-    }
-    if (formPosition === EC_DETAILS_FORM_INDEX) {
-      const data = await trigger("details");
-      if (!data) return;
-    }
-    if (formPosition >= EC_ADDITIONAL_FORM_INDEX) {
-      const data = await trigger("additional");
-      if (!data) return;
-      return;
-    }
+  const generalRef = useRef(null);
+  const detailsRef = useRef(null);
+  const additionalRef = useRef(null);
 
-    changeSection(formPosition + 1);
+  const isGeneralVisible = useOnScreen(generalRef as any);
+  const isDetailsVisible = useOnScreen(detailsRef as any, "00px");
+  const isAdditionalVisible = useOnScreen(additionalRef as any, "-300px");
+
+  useEffect(() => {
+    let visible: TVisible = "GENERAL";
+    if (isDetailsVisible) visible = "DETAILS";
+    if (isAdditionalVisible) visible = "ADDITIONAL";
+
+    if (focusedSection !== visible) setFocusedSection(visible);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isGeneralVisible, isAdditionalVisible, isDetailsVisible]);
+
+  async function handleNextClick() {
+    const general = await trigger("general");
+    const details = await trigger("details");
+    const additional = await trigger("additional");
+
+    if (!general) scrollToSection(generalRef);
+    else if (!details) scrollToSection(detailsRef);
+    else if (!additional) scrollToSection(additionalRef);
+    else if (formPosition < EC_REVIEW_FORM_INDEX)
+      changeSection(formPosition + 1);
   }
 
   function handleBackClick() {
     changeSection(formPosition - 1);
-  }
-
-  async function turnLocationToString(
-    uploadFiles: any,
-    { location, gallery, ...bfw }: IRawBFW
-  ) {
-    const oldGallery = gallery.filter((img) => !img.isNew);
-    const newGallery: any = gallery.flatMap(({ isNew, ...img }) =>
-      isNew ? img : []
-    );
-    const galleryBlobs = await generateBlobs(newGallery);
-    const uploadedNewGallery = await getUploadedFiles(
-      uploadFiles,
-      galleryBlobs
-    );
-
-    return {
-      ...bfw,
-      location: location?.name || location,
-      ...(gallery.length > 0
-        ? {
-            gallery: [
-              ...removeTypenameOfChildrens(oldGallery || []),
-              ...uploadedNewGallery,
-            ],
-          }
-        : {}),
-    };
-  }
-
-  async function getBfws(bfws?: IRawBFW[]) {
-    if (!bfws || isEmpty(bfws)) return [];
-    return await Promise.all(
-      bfws?.map(
-        async (bfw: any) => await turnLocationToString(uploadFiles, bfw)
-      )
-    );
   }
 
   async function onSubmit(value: ECFormValues) {
@@ -307,9 +290,9 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
 
     const mainProducts = general?.mainProducts?.map((mp: any) => mp.label);
 
-    let branches = await getBfws(rawBranches);
-    let factories = await getBfws(rawFactories);
-    let warehouses = await getBfws(rawWarehouses);
+    let branches = await getBfws(uploadFiles, rawBranches);
+    let factories = await getBfws(uploadFiles, rawFactories);
+    let warehouses = await getBfws(uploadFiles, rawWarehouses);
 
     const businessTypeIds = general.businessTypes.map((bt) => bt.id);
     stopListen();
@@ -343,69 +326,91 @@ const CompanyDetailsForm: React.FC<ICompanyDetailsFormProps> = ({
     updateCompany({ variables: { id: getCompanyId()!, input } });
   }
 
+  const [focusedSection, setFocusedSection] = useState<TVisible>("GENERAL");
+
+  const sectionNavs: TSectionNav[] = [
+    {
+      label: "general-nav-label",
+      sectionName: "GENERAL",
+      reference: generalRef,
+    },
+    {
+      label: "details-nav-label",
+      sectionName: "DETAILS",
+      reference: detailsRef,
+    },
+    {
+      label: "additional-nav-label",
+      sectionName: "ADDITIONAL",
+      reference: additionalRef,
+    },
+  ];
+
   return (
     <FormProvider {...methods}>
       <Form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-        {formPosition === EC_GENERAL_FORM_INDEX && (
-          <ECGeneralInput
-            register={register}
-            control={control}
-            errors={errors}
-            initValue={initValue}
-            trigger={trigger}
-          />
-        )}
-        {formPosition === EC_DETAILS_FORM_INDEX && (
-          <ECDetailsInput
-            setValue={setValue}
-            register={register}
-            control={control}
-            errors={errors}
-            trigger={trigger}
-            getValues={getValues}
-          />
-        )}
-        {formPosition === EC_ADDITIONAL_FORM_INDEX && (
-          <ECAdditionalInput
-            register={register}
-            control={control}
-            errors={errors}
-            trigger={trigger}
-            getValues={getValues}
-          />
-        )}
-        <div className="fic justify-end">
-          {/* TODO: Re-enable this after it has a functioning Preview feature */}
-          {/* <Button variant="cancel">{t("previewCompany-button-label")}</Button> */}
-          <div className="flex flex-col md:flex-row justify-between md:w-1/3">
-            <Button
-              type="button"
-              variant="outline"
-              size="small"
-              onClick={handleBackClick}
-              className={`${
-                formPosition <= 1 && "invisible hidden md:block"
-              } md:w-1/2.5 my-2 md:my-0 text-primary`}
+        <div className={`grid grid-cols-5 relative`}>
+          <div className={`col-span-4 space-y-4`}>
+            <SectionWrapper
+              ref={generalRef}
+              sectionTitle={t("general-nav-label")}
             >
-              {t("back-button-label")}
-            </Button>
-            <Button
-              type={
-                formPosition === EC_ADDITIONAL_FORM_INDEX ? "submit" : "button"
-              }
-              onClick={handleNextClick}
-              size="small"
-              className="md:w-1/2.5"
-              loading={updatingCompany || uploadingFiles}
-              autoFocus={formPosition === EC_ADDITIONAL_FORM_INDEX}
+              <ECGeneralInput
+                register={register}
+                control={control}
+                errors={errors}
+                initValue={initValue}
+                trigger={trigger}
+              />
+            </SectionWrapper>
+            <SectionWrapper
+              ref={detailsRef}
+              sectionTitle={t("details-nav-label")}
             >
-              {t(
-                formPosition === EC_ADDITIONAL_FORM_INDEX
-                  ? "update-company-button-label"
-                  : "next-section-button-label"
-              )}
-            </Button>
+              <ECDetailsInput
+                setValue={setValue}
+                register={register}
+                control={control}
+                errors={errors}
+                trigger={trigger}
+                getValues={getValues}
+              />
+            </SectionWrapper>
+            <SectionWrapper
+              ref={additionalRef}
+              sectionTitle={t("additional-nav-label")}
+            >
+              <ECAdditionalInput
+                register={register}
+                control={control}
+                errors={errors}
+                trigger={trigger}
+                getValues={getValues}
+              />
+            </SectionWrapper>
+            <PostNavNextBackButton
+              endPosition={EC_REVIEW_FORM_INDEX}
+              formPosition={formPosition}
+              onNextClick={handleNextClick}
+              loading={uploadingFiles || updatingCompany}
+              isStatBottom
+            />
           </div>
+
+          <ul className="col-span-1 fixed right-[5%] truncate top-24 ml-5">
+            {sectionNavs.map((sn) => {
+              const onClick = () => scrollToSection(sn.reference);
+              const isActive = focusedSection === sn.sectionName;
+              return (
+                <SectionNavItem
+                  isActive={isActive}
+                  label={t(sn.label)}
+                  onClick={onClick}
+                  key={sn.label + "sn-post-product"}
+                />
+              );
+            })}
+          </ul>
         </div>
       </Form>
     </FormProvider>

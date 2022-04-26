@@ -53,12 +53,13 @@ import {
 } from "./pps-product-form-functions";
 import PPSProductReview from "./pps-product-review";
 import { scrollToSection } from "@components/ui/record-navigations/post-record-nav-functions";
+import PostNavNextBackButton from "@components/ui/record-navigations/post-nav-next-back-button";
 
 interface IPPSProductFormProps {
   initValues?: IProduct;
 }
 
-type TVisible = "GENERAL" | "PRICING" | "DETAILS" | "REVIEW";
+type TVisible = "GENERAL" | "PRICING" | "DETAILS";
 
 type TSectionNav = {
   label: string;
@@ -70,7 +71,6 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   const { t } = useTranslation("form");
   const { locale, query, ...router } = useRouter();
   const formPosition = parseInt(query.formPosition as string) || 1;
-  const { openModal } = useModal();
 
   const methods = useForm<IPostProductFormValues>({
     reValidateMode: "onSubmit",
@@ -78,7 +78,7 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
     defaultValues: generateDefaultValues(initValues || ({} as any)),
   });
   const {
-    formState: { errors, dirtyFields },
+    formState: { dirtyFields },
     trigger,
     handleSubmit,
   } = methods;
@@ -279,12 +279,11 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
   const general = useRef(null);
   const pricing = useRef(null);
   const details = useRef(null);
-  const review = useRef(null);
 
   // To know if they are visible
   const isGeneralVisible = useOnScreen(general as any);
-  const isPricingVisible = useOnScreen(pricing as any);
   const isDetailsVisible = useOnScreen(details as any, "-300px");
+  const isPricingVisible = useOnScreen(pricing as any, "-300px");
 
   // General is default
   const [focusedSection, setFocusedSection] = useState<TVisible>("GENERAL");
@@ -305,14 +304,14 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
       reference: general,
     },
     {
-      label: "pricing-nav-label",
-      sectionName: "PRICING",
-      reference: pricing,
-    },
-    {
       label: "details-nav-label",
       sectionName: "DETAILS",
       reference: details,
+    },
+    {
+      label: "pricing-nav-label",
+      sectionName: "PRICING",
+      reference: pricing,
     },
   ];
   return (
@@ -323,11 +322,12 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
             className={`bg-white rounded-md border border-gray-100 p-5 mb-7`}
           >
             <PPSProductReview changeSection={changeSection} />
-            <PPSProductFooterButton
+            <PostNavNextBackButton
+              endPosition={PPS_PRODUCT_REVIEW_FORM_INDEX}
               loading={creating || uploadingFiles || updating}
               onNextClick={handleNextClick}
-              onBackClick={handleBackClick}
               formPosition={formPosition}
+              onBackClick={handleBackClick}
             />
           </div>
         )}
@@ -335,16 +335,16 @@ const PPSProductForm: React.FC<IPPSProductFormProps> = ({ initValues }) => {
           <div className="relative grid grid-cols-5">
             <div className="col-span-4 relative space-y-4">
               <PPSProductGeneralInput ref={general} />
-              <PPSProductPricingInput ref={pricing} />
               <PPSProductDetailsInput ref={details} />
+              <PPSProductPricingInput ref={pricing} />
 
-              <div className="sticky bottom-0 right-0 left-0 bg-white p-4 px-5 border rounded-md border-gray-100 border-b-0 !-mt-2">
-                <PPSProductFooterButton
-                  loading={creating || uploadingFiles || updating}
-                  onNextClick={handleNextClick}
-                  formPosition={formPosition}
-                />
-              </div>
+              <PostNavNextBackButton
+                endPosition={PPS_PRODUCT_REVIEW_FORM_INDEX}
+                loading={creating || uploadingFiles || updating}
+                onNextClick={handleNextClick}
+                formPosition={formPosition}
+                isStatBottom
+              />
             </div>
 
             <ul className="col-span-1 fixed right-[5%] truncate top-24 ml-5">

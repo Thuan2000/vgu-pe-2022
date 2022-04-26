@@ -10,6 +10,5 @@ export const editCompanyNavs = [
   },
 ];
 
-export const EC_GENERAL_FORM_INDEX = 1;
-export const EC_DETAILS_FORM_INDEX = 2;
-export const EC_ADDITIONAL_FORM_INDEX = 3;
+export const EC_INPUT_FORM_INDEX = 1;
+export const EC_REVIEW_FORM_INDEX = 1;

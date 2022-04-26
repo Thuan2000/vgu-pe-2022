@@ -60,20 +60,6 @@ const BuyingRequestDetails = ({ br }: any) => {
 
   const createdBy = br.createdBy;
 
-  // function getParticipantFilter(allowedCompany: IAllowedCompany) {
-  //   if (!allowedCompany) return t("NO_PARTICIPANT_FILTER_TEXT");
-  //   let text = "";
-  //   Object.keys(allowedCompany)?.map((key: string) => {
-  //     if (key === "__typename") return;
-  //     const fi = (allowedCompany as any)[key];
-  //     if (!fi) return;
-  //     text += `${t("form:company-with-label")} ${thousandSeparator(fi)} ${t(
-  //       "form:" + key + "-filter-key"
-  //     )}, `;
-  //   });
-  //   return text || t("no-filter");
-  // }
-
   function getPrice() {
     return `${formatMoneyAmount(br?.minBudget)}${t(
       getMoneySuffix(br?.minBudget)

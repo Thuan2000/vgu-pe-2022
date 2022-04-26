@@ -58,11 +58,7 @@ const EditCompany: React.FC<IEditCompanyProps> = ({ company }) => {
         <meta name="description" content={company?.description || ""} />
       </Head>
       <div>
-        <PostPageWrapper navs={editCompanyNavs}>
-          <div>
-            <CompanyDetailsForm initValue={company!} />
-          </div>
-        </PostPageWrapper>
+        <CompanyDetailsForm initValue={company!} />
       </div>
     </>
   );

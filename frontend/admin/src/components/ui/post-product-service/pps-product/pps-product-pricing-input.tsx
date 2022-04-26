@@ -52,7 +52,7 @@ const PPSProductPricingInput = React.forwardRef<
 
   return (
     <SectionWrapper sectionTitle={t("pricing-nav-label")} ref={ref}>
-      <div className="space-y-5">
+      <div className={`space-y-5 ${!groups?.length && "pb-48"}`}>
         <div className="space-y-2">
           <InputLabel
             label={t("product-price-input-label")}

@@ -46,6 +46,7 @@ import PPSServiceDetailsInput from "./pps-service-details-input";
 import PPSServiceFooterButton from "./pps-service-footer-button";
 import PPSServicePricingInput from "./pps-service-pricing-input";
 import PPSServiceReview from "./pps-service-review";
+import PostNavNextBackButton from "@components/ui/record-navigations/post-nav-next-back-button";
 
 export type TVisible = "GENERAL" | "ATTACHMENT" | "DETAILS" | "PRICING";
 
@@ -62,7 +63,7 @@ interface IPPSServiceFormProps extends React.HTMLAttributes<HTMLDivElement> {
 const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
   const { t } = useTranslation("form");
   const { locale, query, ...router } = useRouter();
-  const [createService, { loading }] = useCreateServiceMutation({
+  const [createService, { loading: creating }] = useCreateServiceMutation({
     onCompleted: handleCreatedService,
   });
 
@@ -330,10 +331,11 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
             className={`col-span-5 bg-white rounded-md border border-gray-100 p-5 mb-7`}
           >
             <PPSServiceReview changeSection={changeSection} />
-            <PPSServiceFooterButton
-              loading={loading || uploadingFiles || updating}
-              onBackClick={handleBackClick}
+            <PostNavNextBackButton
+              endPosition={PPS_REVIEW_FORM_INDEX}
+              loading={creating || uploadingFiles || updating}
               onNextClick={handleNextClick}
+              onBackClick={handleBackClick}
               formPosition={formPosition}
             />
           </div>
@@ -372,13 +374,13 @@ const PPSServiceForm: React.FC<IPPSServiceFormProps> = ({ initValue }) => {
               <PPSServiceReview changeSection={changeSection} />
             )}
 
-            <div className="sticky bottom-0 right-0 left-0 bg-white p-4 px-5 border rounded-md border-gray-100 border-b-0 !-mt-2">
-              <PPSServiceFooterButton
-                loading={loading || uploadingFiles || updating}
-                onNextClick={handleNextClick}
-                formPosition={formPosition}
-              />
-            </div>
+            <PostNavNextBackButton
+              endPosition={PPS_REVIEW_FORM_INDEX}
+              loading={creating || uploadingFiles || updating}
+              onNextClick={handleNextClick}
+              formPosition={formPosition}
+              isStatBottom
+            />
 
             <ul className="col-span-1 fixed right-[5%] truncate top-24 ml-5">
               {sectionNavs.map((sn) => {

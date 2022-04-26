@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useRef, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup";
 import { useTranslation } from "react-i18next";
 
@@ -11,10 +11,7 @@ import DetailsInput from "./details-input";
 import { PostRequestSchema, PostRequestFormValue } from "./post-request-schema";
 
 import {
-  requiredDetailsInputNames,
-  PR_DETAILS_FORM_INDEX,
-  requiredGeneralInputNames,
-  PR_GENERAL_FORM_INDEX,
+  PR_INPUT_FORM_INDEX,
   PR_CHECK_FORM_INDEX,
 } from "./post-tender-constants";
 import CheckSection from "./check-section";
@@ -23,14 +20,7 @@ import {
   useUpdateBuyingRequestMutation,
 } from "@graphql/buying-request.graphql";
 import { ROUTES } from "@utils/routes";
-import {
-  IBuyingRequest,
-  ICreateBuyingRequestInput,
-  IFileAccessControl,
-  IFileType,
-  IResponse,
-  IUpdateBuyingRequestInput,
-} from "@graphql/types.graphql";
+import { IBuyingRequest, IResponse } from "@graphql/types.graphql";
 import {
   generateBlobs,
   getBlob,
@@ -43,29 +33,46 @@ import {
 import { getDefaultValue } from "./ptf-utils";
 import { useUploadFilesMutation } from "@graphql/upload.graphql";
 import useIsEditedFormHandler from "src/hooks/useEditedFormHandler";
+import {
+  changeSection,
+  scrollToSection,
+} from "@components/ui/record-navigations/post-record-nav-functions";
+import SectionWrapper from "@components/ui/record-navigations/section-wrapper";
+import PPSProductFooterButton from "@components/ui/post-product-service/pps-product/pps-product-footer-button";
+import PostNavNextBackButton from "@components/ui/record-navigations/post-nav-next-back-button";
+import SectionNavItem from "@components/ui/record-navigations/section-nav-item";
+import { useOnScreen } from "src/hooks/useIsOnScreen";
+
+type TVisible = "GENERAL" | "DETAILS";
+
+type TSectionNav = {
+  label: string;
+  sectionName: TVisible;
+  reference: React.MutableRefObject<null | HTMLDivElement>;
+};
 
 interface IPostTenderFormParams {
   initValue?: IBuyingRequest;
 }
 
 const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
-  const {
-    register,
-    control,
-    formState: { errors, dirtyFields },
-    getValues,
-    handleSubmit,
-    trigger,
-  } = useForm<PostRequestFormValue>({
+  const methods = useForm<PostRequestFormValue>({
     resolver: yupResolver(PostRequestSchema),
     defaultValues: getDefaultValue(initValue) as any,
   });
+
+  const {
+    formState: { dirtyFields },
+    getValues,
+    handleSubmit,
+    trigger,
+  } = methods;
 
   const { startListen, stopListen } = useIsEditedFormHandler();
   useEffect(() => {
     startListen(!!dirtyFields.general);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!!dirtyFields.general]);
+  }, [dirtyFields.general]);
 
   const { query, ...router } = useRouter();
   const formPosition = parseInt(query.formPosition as string) || 1;
@@ -88,61 +95,13 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
       return;
     }
   }
-  function changeSection(newPosition: number) {
-    const { pathname } = router;
-    router.replace({
-      pathname,
-      query: { ...query, formPosition: newPosition },
-    });
-  }
-
-  function isValidGeneralForm() {
-    let isValid = true;
-    requiredGeneralInputNames.forEach((name) => {
-      const value = getValues(`general.${name}`);
-      if (!value) {
-        isValid = false;
-        return;
-      }
-    });
-    return isValid;
-  }
-
-  function isValidDetailsForm() {
-    let isValid = true;
-    requiredDetailsInputNames.forEach((name) => {
-      const value = getValues(`details.${name}`);
-      if (!value) {
-        isValid = false;
-        return;
-      }
-    });
-    return isValid;
-  }
 
   // Change section when user come to formSection=2 directly not from 1
   useEffect(() => {
-    if (formPosition > PR_GENERAL_FORM_INDEX && !isValidGeneralForm()) {
-      changeSection(PR_GENERAL_FORM_INDEX);
-      return;
-    } else if (formPosition > PR_DETAILS_FORM_INDEX && !isValidDetailsForm()) {
-      changeSection(PR_GENERAL_FORM_INDEX);
-      return;
-    }
+    if (formPosition > PR_INPUT_FORM_INDEX && !dirtyFields.general)
+      changeSection(PR_INPUT_FORM_INDEX);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Changing section if there's an error
-  useEffect(() => {
-    if (errors && errors.general && formPosition > PR_GENERAL_FORM_INDEX) {
-      changeSection(1);
-      return;
-    } else if (errors.details && formPosition > PR_DETAILS_FORM_INDEX) {
-      changeSection(2);
-      return;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errors]);
 
   async function getUploadedFiles(blobs: Blob[]) {
     const { data } = await uploadFiles({
@@ -227,94 +186,112 @@ const PostTenderForm: React.FC<IPostTenderFormParams> = ({ initValue }) => {
   }
 
   async function handleNextClick() {
-    if (formPosition === PR_GENERAL_FORM_INDEX) {
-      const data = await trigger("general");
-      if (!data) return;
-    }
-    if (formPosition === PR_DETAILS_FORM_INDEX) {
-      const data = await trigger("details");
-      if (!data) return;
-    }
-    if (formPosition >= 3) return;
+    const general = await trigger("general");
+    const details = await trigger("details");
 
-    changeSection(formPosition + 1);
+    if (!general) scrollToSection(generalRef);
+    else if (!details) scrollToSection(detailsRef);
+    else if (formPosition < PR_CHECK_FORM_INDEX)
+      changeSection(formPosition + 1);
   }
+
+  const generalRef = useRef(null);
+  const detailsRef = useRef(null);
+
+  const isGeneralVisible = useOnScreen(generalRef as any);
+  const isDetailsVisible = useOnScreen(detailsRef as any, "-300px");
+
+  // General is default
+  const [focusedSection, setFocusedSection] = useState<TVisible>("GENERAL");
+
+  useEffect(() => {
+    let visible: TVisible = "GENERAL";
+    if (isGeneralVisible) visible = "GENERAL";
+    if (isDetailsVisible) visible = "DETAILS";
+
+    if (focusedSection !== visible) setFocusedSection(visible);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isGeneralVisible, isDetailsVisible]);
 
   function handleBackClick() {
     changeSection(formPosition - 1);
   }
 
+  const sectionNavs: TSectionNav[] = [
+    {
+      label: "general-nav-label",
+      sectionName: "GENERAL",
+      reference: generalRef,
+    },
+    {
+      label: "details-nav-label",
+      sectionName: "DETAILS",
+      reference: detailsRef,
+    },
+  ];
+
   return (
-    <Form
-      onSubmit={handleSubmit(onSubmit)}
-      className="relative pb-5 mb-0 md:w-full"
-    >
-      {formPosition === PR_GENERAL_FORM_INDEX && (
-        <GeneralForm
-          initValue={initValue}
-          trigger={trigger}
-          control={control}
-          getValues={getValues}
-          register={register}
-          errors={errors}
-        />
-      )}
-
-      {formPosition === PR_DETAILS_FORM_INDEX && (
-        <DetailsInput
-          initValue={initValue}
-          control={control}
-          trigger={trigger}
-          register={register}
-          errors={errors}
-          getValues={getValues}
-        />
-      )}
-
-      {formPosition === PR_CHECK_FORM_INDEX && (
-        <CheckSection getValues={getValues} changeSection={changeSection} />
-      )}
-
-      <div className="flex flex-col justify-between relative md:h-10 w-full">
-        {/* <Button
-          type="button"
-          variant="cancel"
-          size="small"
-          // onClick={handleBackClick}
-          className={`${formPosition <= 1 && "invisible hidden"} md:w-40`}
-        >
-          {t("saveDraft-button-label")}
-        </Button> */}
-        <div className="flex flex-col md:flex-row justify-between md:w-1/3 md:absolute md:right-0">
-          <Button
-            type="button"
-            variant="outline"
-            size="small"
-            onClick={handleBackClick}
-            className={`${
-              formPosition <= 1 && "invisible hidden md:block"
-            } md:w-1/2.5 my-2 md:my-0 text-primary`}
+    <FormProvider {...methods}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        {formPosition === PR_CHECK_FORM_INDEX && (
+          <div
+            className={`bg-white rounded-md border border-gray-100 p-5 mb-7`}
           >
-            {t("back-button-label")}
-          </Button>
+            <CheckSection getValues={getValues} changeSection={changeSection} />
 
-          <Button
-            type={formPosition < 3 ? "button" : "submit"}
-            onClick={handleNextClick}
-            size="small"
-            className="md:w-1/2.5"
-            loading={creating || updating || uploadingFiles}
-            autoFocus={formPosition === 3}
-          >
-            {t(
-              formPosition === 3
-                ? "post-request-button-label"
-                : "next-section-button-label"
-            )}
-          </Button>
-        </div>
-      </div>
-    </Form>
+            <PostNavNextBackButton
+              endPosition={PR_CHECK_FORM_INDEX}
+              loading={creating || uploadingFiles || updating}
+              onNextClick={handleNextClick}
+              onBackClick={handleBackClick}
+              formPosition={formPosition}
+            />
+          </div>
+        )}
+
+        {formPosition < PR_CHECK_FORM_INDEX && (
+          <div className="relative grid grid-cols-5">
+            <div className="col-span-4 space-y-4">
+              <SectionWrapper
+                ref={generalRef}
+                sectionTitle={t("general-nav-label")}
+              >
+                <GeneralForm />
+              </SectionWrapper>
+              <SectionWrapper
+                ref={detailsRef}
+                sectionTitle={t("details-nav-label")}
+              >
+                <DetailsInput />
+              </SectionWrapper>
+
+              <PostNavNextBackButton
+                endPosition={PR_CHECK_FORM_INDEX}
+                loading={creating || uploadingFiles || updating}
+                onNextClick={handleNextClick}
+                formPosition={formPosition}
+                isStatBottom
+              />
+
+              <ul className="col-span-1 fixed right-[5%] truncate top-24 ml-5">
+                {sectionNavs.map((sn) => {
+                  const onClick = () => scrollToSection(sn.reference);
+                  const isActive = focusedSection === sn.sectionName;
+                  return (
+                    <SectionNavItem
+                      isActive={isActive}
+                      label={t(sn.label)}
+                      onClick={onClick}
+                      key={sn.label + "sn-post-product"}
+                    />
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        )}
+      </Form>
+    </FormProvider>
   );
 };
 export default PostTenderForm;

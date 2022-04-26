@@ -399,5 +399,6 @@
   "location-text": "Location",
   "post-request-endDate-label": "Deadline",
   "reviews-nav-label": "Review",
-  "pps-review-service-description": "Description"
+  "pps-review-service-description": "Description",
+  "post-record-button-label": "Post"
 }
