@@ -156,12 +156,20 @@ body {
   @apply flex flex-col;
 }
 
+.wysiwyg {
+  max-width: 50vw;
+}
+
 .wysiwyg * {
   @apply !text-md list-disc;
 }
 
 .wysiwyg li {
   @apply !ml-5;
+}
+
+.wysiwyg p {
+  @apply break-words;
 }
 
 @tailwind base;

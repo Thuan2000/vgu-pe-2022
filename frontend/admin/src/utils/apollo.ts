@@ -11,12 +11,13 @@ import { createUploadLink } from "apollo-upload-client";
 
 import { useMemo } from "react";
 import { getAuthCredentials } from "./auth-utils";
-import { replaceToLogout } from "./functions";
+import { replaceToLogout as replaceRouteToLogout } from "./functions";
 
 const APOLLO_STATE_NAME = "__APOLLO_STATE__";
 
 const apolloErrorMessage = {
   jwtSecretError: "invalid signature",
+  noNetworkError: "ERR_NAME_NOT_RESOLVED",
 };
 
 function createApolloClient() {
@@ -39,7 +40,9 @@ function createApolloClient() {
         const msg = error.message;
         console.log(msg);
         if (msg.includes(apolloErrorMessage.jwtSecretError)) {
-          replaceToLogout();
+          replaceRouteToLogout();
+        } else if (msg.includes(apolloErrorMessage.noNetworkError)) {
+          alert("No Network Access");
         }
       });
     }
